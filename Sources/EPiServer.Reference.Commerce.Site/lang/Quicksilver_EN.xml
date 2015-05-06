@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="English" id="en">
+    <PreRelease>
+      <Heading>Pre-release</Heading>
+      <NotificationMessage>Please be advised that this version of the site is a pre-release and that is still under construction.</NotificationMessage>
+    </PreRelease>
+    <Header>
+      <Cookie>
+        <CookieUse>We use cookies</CookieUse>
+        <Ok>Ok</Ok>
+      </Cookie>
+      <Search>
+        <Placeholder>search</Placeholder>
+      </Search>
+      <Account>
+        <SignIn>Sign in</SignIn>
+        <SignOut>Sign out</SignOut>
+      </Account>
+      <MiniCart>
+        <Button>
+          <GoToCheckout>Proceed to checkout</GoToCheckout>
+        </Button>
+      </MiniCart>
+    </Header>
+    <Facet>
+      <Choices>Products:</Choices>
+    </Facet>
+    <Footer>
+      <CompanyInformation>
+        <Header>Company information</Header>
+        <Text>Company information should go here for atleast a few rows, like org number and an address.</Text>
+      </CompanyInformation>
+      <Newsletter>
+        <Header>Sign up for news letter</Header>
+        <Button>Sign me up</Button>
+      </Newsletter>
+      <Social>Be Social</Social>
+    </Footer>
+    <Product>
+      <Specification>See the complete specification</Specification>
+      <Dropdown>
+        <Currency>Show prices in</Currency>
+      </Dropdown>
+      <Button>
+        <AddToCart>Add to cart</AddToCart>
+        <AddToWishList>Add to wish list</AddToWishList>
+      </Button>
+    </Product>
+    <ProductPage>
+      <addedtowishlist>Item added to wish list</addedtowishlist>
+      <Price>Price</Price>
+      <OriginalPrice>Original Price</OriginalPrice>
+      <DiscountPrice>Discount Price</DiscountPrice>
+      <PriceMissing>Not set for this market</PriceMissing>
+      <LargerView>Click the images for a larger view</LargerView>
+      <VariationSelection>
+        <Color>Select Color</Color>
+        <Size>Select Size</Size>
+      </VariationSelection>
+    </ProductPage>
+    <Checkout>
+      <Coupons>
+        <Heading>Coupons and Promotional Codes</Heading>
+        <CouponCode>
+          <Info>Got a Coupon Code? Enter it and we will apply that to your cart as well.</Info>
+          <Button>Apply</Button>
+        </CouponCode>
+      </Coupons>
+      <Continue>
+        <Button>Continue shopping</Button>
+      </Continue>
+      <Payment>
+        <Heading>Payment details</Heading>
+        <Labels>
+          <ChoosePayment>Choose payment</ChoosePayment>
+        </Labels>
+        <Empty>
+          <ChoosePayment>Payment is required</ChoosePayment>
+        </Empty>
+        <Methods>
+          <CreditCard>
+            <Labels>
+              <CreditCardName>Full name on card:</CreditCardName>
+              <CreditCardNumber>Credit card number:</CreditCardNumber>
+              <CreditCardSecurityCode>Security code:</CreditCardSecurityCode>
+              <ExpirationMonth>Expiration month:</ExpirationMonth>
+              <ExpirationYear>Expiration year:</ExpirationYear>
+            </Labels>
+            <Empty>
+              <CreditCardName>Full name is required</CreditCardName>
+              <CreditCardNumber>Credit card number is required</CreditCardNumber>
+              <CreditCardSecurityCode>Security code is required</CreditCardSecurityCode>
+              <ExpirationMonth>Expiration month is required</ExpirationMonth>
+              <ExpirationYear>Expiration Year is required</ExpirationYear>
+            </Empty>
+          </CreditCard>
+        </Methods>
+      </Payment>
+      <Shipment>
+        <Heading>Shipping details</Heading>
+        <Labels>
+          <ChooseDelivery>Choose delivery</ChooseDelivery>
+        </Labels>
+        <Empty>
+          <ChooseDelivery>Delivery is required</ChooseDelivery>
+        </Empty>
+      </Shipment>
+      <OrderSummary>Cart/Order summary</OrderSummary>
+      <SubTotal>Sub Total For Your Items</SubTotal>
+      <OrderLevelDiscounts>Additional Order Level Discounts</OrderLevelDiscounts>
+      <ShippingAndTax>Shipping &amp; Tax</ShippingAndTax>
+      <ShippingSubtotal>Shipping Subtotal</ShippingSubtotal>
+      <ShippingTotal>Shipping Total</ShippingTotal>
+      <ShippingDiscount>Shipping Discount</ShippingDiscount>
+      <TaxTotal>Tax</TaxTotal>
+      <CartTotal>Total for cart</CartTotal>
+      <PlaceOrder>Place order</PlaceOrder>
+      <Address>
+        <Labels>
+          <FirstName>First name:</FirstName>
+          <LastName>Last name:</LastName>
+          <Email>Email address:</Email>
+          <Address>Shipping address:</Address>
+          <Country>Country:</Country>
+          <City>City:</City>
+          <ZipCode>Zip code:</ZipCode>
+          <SaveAddress>Save address</SaveAddress>
+          <AddressId>Selected address</AddressId>
+        </Labels>
+        <Empty>
+          <FirstName>First name is required</FirstName>
+          <LastName>Last name is required</LastName>
+          <Email>Email address is required</Email>
+          <Address>Shipping address is required</Address>
+          <Country>Country is required</Country>
+          <City>City is required</City>
+          <ZipCode>Zip code is required</ZipCode>
+        </Empty>
+      </Address>
+    </Checkout>
+    <OrderConfirmationMail>
+      <OrderDate>Order date:</OrderDate>
+      <DisplayName>Display name</DisplayName>
+      <Quantity>Quantity</Quantity>
+      <Price>Price</Price>
+      <LineItemTotal>Total</LineItemTotal>
+      <ShippingCost>Shipping cost</ShippingCost>
+      <Total>Total</Total>
+      <ShippingDetails>Shipping details</ShippingDetails>
+      <PaymentDetails>Payment details</PaymentDetails>
+      <PaymentInfo>
+        <CardType>Card type</CardType>
+        <Owner>Owner</Owner>
+        <CardNumber>Card number</CardNumber>
+        <ExpirationDate>Expiration date</ExpirationDate>
+        <CVV>CVV</CVV>
+      </PaymentInfo>
+    </OrderConfirmationMail>
+    <OrderConfirmation>
+      <SubTotal>Sub Total For Your Items</SubTotal>
+      <OrderLevelDiscounts>Additional Order Level Discounts</OrderLevelDiscounts>
+      <ShippingAndTax>Shipping &amp; Tax</ShippingAndTax>
+      <ShippingCost>Estimated Shipping Costs</ShippingCost>
+      <TaxTotal>Estimated Tax to Be Collected</TaxTotal>
+      <CartTotal>Total for cart</CartTotal>
+      <ShippingDetails>Shipping details</ShippingDetails>
+      <PaymentDetails>Payment details</PaymentDetails>
+      <NoOrder>Can't show order details in on-page editing mode until at least one order has been created.</NoOrder>
+      <Labels>
+        <Product>Product</Product>
+        <Price>Your price</Price>
+        <Quantity>Quantity</Quantity>
+        <Total>Total</Total>
+        <Remove>Remove item</Remove>
+        <DiscountsApplied>Item level discounts applied</DiscountsApplied>
+        <YouSave>You saved</YouSave>
+        <Placeholder>Password</Placeholder>
+      </Labels>
+      <PaymentInfo>
+        <CardType>Card type</CardType>
+        <Owner>Owner</Owner>
+        <CardNumber>Card number</CardNumber>
+        <ExpirationDate>Expiration date</ExpirationDate>
+        <CVV>CVV</CVV>
+      </PaymentInfo>
+    </OrderConfirmation>
+    <Category>
+      <Sort>
+        <PriceAsc>Price</PriceAsc>
+        <Popularity>Popularity</Popularity>
+        <NewestFirst>Newest first</NewestFirst>
+      </Sort>
+      <SortBy>Sort by</SortBy>
+      <RemoveAll>Remove all</RemoveAll>
+      <YourChoices>Your choices</YourChoices>
+    </Category>
+    <Cart>
+      <Heading>Items In Your Cart/Being Ordered</Heading>
+      <Labels>
+        <Product>Product</Product>
+        <Price>Your price</Price>
+        <Quantity>Quantity</Quantity>
+        <Total>Total</Total>
+        <Remove>Remove item</Remove>
+        <DiscountsApplied>Item level discounts applied</DiscountsApplied>
+        <YouSave>You save</YouSave>
+      </Labels>
+    </Cart>
+    <Registration>
+      <Heading>New customer?</Heading>
+      <RegisterAccountConfirmation>
+        <Heading>Congratulations!</Heading>
+        <ConfirmationMessage>Your account {0} has been created, you can now sign in!</ConfirmationMessage>
+      </RegisterAccountConfirmation>
+      <OrderConfirmation>
+        <Heading>Save your information for next time</Heading>
+        <Heading2>You're already registered, you want to bind the order to your account?</Heading2>
+        <AccountCreatedHeading>Success!</AccountCreatedHeading>
+        <AccountCreated>Your account {0} was successfully created and your order has been added to your account.</AccountCreated>
+        <OrderAddedHeading>Success!</OrderAddedHeading>
+        <OrderAdded>Your order has been added to your account.</OrderAdded>
+        <Assign>Add order to account</Assign>
+      </OrderConfirmation>
+      <Form>
+        <Label>
+          <Email>Email*:</Email>
+          <Password>Password*:</Password>
+          <Password2>Password again*:</Password2>
+          <FirstName>First name:</FirstName>
+          <LastName>Last name:</LastName>
+          <Address>Address:</Address>
+          <Country>Country:</Country>
+          <City>City:</City>
+          <PostalCode>Postal code:</PostalCode>
+          <ZipCode>Zip code:</ZipCode>
+          <Submit>Create an account</Submit>
+          <Newsletter>Send me e-mail updates about the latest products and promotions.</Newsletter>
+        </Label>
+        <Empty>
+          <Address>An address is required</Address>
+          <Country>Country is required</Country>
+          <City>City is required</City>
+          <PostalCode>Postal code is required</PostalCode>
+          <Email>Email is required</Email>
+          <Password>Password is required</Password>
+          <Password2>Password2 is required</Password2>
+        </Empty>
+        <Error>
+          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <UsedEmail>This email is already used</UsedEmail>
+          <PasswordMatch>Your passwords has to match</PasswordMatch>
+          <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
+          <PasswordLength2>Your password has to be between 5 and 100 characters long</PasswordLength2>
+        </Error>
+      </Form>
+    </Registration>
+    <Login>
+      <Form>
+        <Label>
+          <AddressRequirementMessage>In order to finalize your account we need to know your address.</AddressRequirementMessage>
+          <SocialLoginLabel>Log in with {0}</SocialLoginLabel>
+          <Username>Username:</Username>
+          <Heading>Returning customer?</Heading>
+          <LoginMessage>Sign in to your account.</LoginMessage>
+          <Email>Email:</Email>
+          <Password>Password:</Password>
+          <RememberMe>Remember me</RememberMe>
+          <Login>Login</Login>
+        </Label>
+        <Empty>
+          <Username>Username is required</Username>
+          <Email>Email is required</Email>
+          <Password>Password is required</Password>
+        </Empty>
+        <Error>
+          <WrongPasswordOrEmail>You have entered wrong username or password</WrongPasswordOrEmail>
+          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
+        </Error>
+      </Form>
+      <BackendLogin>
+        <Heading>Edit view</Heading>
+        <LoginMessage>
+          Your actions require you to log in using your account.
+        </LoginMessage>
+      </BackendLogin>
+    </Login>
+    <ResetPassword>
+      <Mail>
+        <Text>Here are your</Text>
+        <Link>link</Link>
+      </Mail>
+      <Form>
+        <Label>
+          <Email>Email:</Email>
+          <Password>New password:</Password>
+          <Password2>New password again:</Password2>
+          <Send>Send</Send>
+        </Label>
+        <Empty>
+          <Email>Email is required</Email>
+          <Password>Password is required</Password>
+          <Password2>Password2 is required</Password2>
+        </Empty>
+        <Error>
+          <ExpiredLink>Your link has expired!</ExpiredLink>
+          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <PasswordMatch>Your passwords has to match</PasswordMatch>
+          <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
+          <PasswordLength2>Your password has to be between 5 and 100 characters long</PasswordLength2>
+        </Error>
+      </Form>
+    </ResetPassword>
+    <AddressBook>
+      <AddNew>
+        <Header>Add a new address</Header>
+        <Button>Save</Button>
+        <CancelButton>Cancel</CancelButton>
+      </AddNew>
+      <Edit>
+        <Header>Edit address</Header>
+      </Edit>
+      <Available>Available Addresses</Available>
+      <IncompletAddress>Incomplete address</IncompletAddress>
+      <NotInlogged>You are not inlogged</NotInlogged>
+      <Form>
+        <Label>
+          <ShippingAddress>Default shipping address</ShippingAddress>
+          <BillingAddress>Default billing address</BillingAddress>
+          <SetShippingAddress>Set as default shipping address</SetShippingAddress>
+          <SetBillingAddress>Set as default billing address</SetBillingAddress>
+          <AddressName>Address name *:</AddressName>
+          <Organization>Organization</Organization>
+          <FirstName>First name *:</FirstName>
+          <LastName>Last name *:</LastName>
+          <Line1>Line1 *:</Line1>
+          <Line2>Line2 :</Line2>
+          <City>City *:</City>
+          <Region>Region</Region>
+          <PostalCode>Zip code *:</PostalCode>
+          <CountryName>Country *:</CountryName>
+          <DaytimePhoneNumber>Phone number:</DaytimePhoneNumber>
+          <Email>Email:</Email>
+          <Submit>Save</Submit>
+          <Delete>Delete</Delete>
+          <Cancel>Cancel</Cancel>
+          <EditAddress>Edit</EditAddress>
+          <NewAddress>New</NewAddress>
+          <PrimaryAddress>Primary address</PrimaryAddress>
+          <RemoveAddress>Remove</RemoveAddress>
+          <Address>Address</Address>
+          <Name>Name</Name>
+          <DateModified>Date Modified</DateModified>
+        </Label>
+        <Empty>
+          <Name>Address name is required</Name>
+          <FirstName>First name is required</FirstName>
+          <LastName>Last name is required</LastName>
+          <Line1>Line1 is required</Line1>
+          <City>City is required</City>
+          <Region>Region is required</Region>
+          <PostalCode>Postal code is required</PostalCode>
+          <CountryName>Country name is required</CountryName>
+        </Empty>
+        <Error>
+        </Error>
+      </Form>
+    </AddressBook>
+    <WishList>
+      <NoItems>You don't have any items in you wish list.</NoItems>
+    </WishList>
+    <OrderHistory>
+      <Labels>
+        <ShippedTo>Shipped to</ShippedTo>
+        <ObjectsOrdered>Objects ordered</ObjectsOrdered>
+        <OrderID>Order ID:</OrderID>
+        <OrderDate>Order date:</OrderDate>
+        <Payment>Payment:</Payment>
+        <Status>Status:</Status>
+        <TotalPrice>Total price:</TotalPrice>
+      </Labels>
+    </OrderHistory>
+    <Wishlist>
+      <NoItems>You don't have any items in your wish list.</NoItems>
+      <DeleteButton>Delete entire wishlist</DeleteButton>
+    </Wishlist>
+    <Search>
+      <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>
+    </Search>
+  </language>
+</languages>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Campaign-Edit" controlUrl="marketing/CampaignEdit.ascx" permissions="marketing:campaigns:mng:edit" help="Campaigns" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="marketing/tabs/CampaignEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

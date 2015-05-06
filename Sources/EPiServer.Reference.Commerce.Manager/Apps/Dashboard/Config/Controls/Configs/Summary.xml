@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DynamicControlInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Uid>E49AE893-154A-4c34-BCEC-4D091A8C8415</Uid>
+  <Title>{CommerceManager:SUMMARY}</Title>
+  <Description></Description>
+  <Path>~/Apps/Dashboard/Modules/SummaryModule.ascx</Path>
+  <Category>MediachaseECF</Category>
+</DynamicControlInfo>

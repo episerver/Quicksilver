@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+  <Navigation>
+    <Tabs id="mainTag">
+      <Tab id="navTabCatalogManagement">
+        <add afterId="Catalog_Catalogs">
+          <Link id="Core_ContentSiteTemplates" text="Templates" order="40" type="Templates" iconUrl="" iconCss="treeIcon" commandName="cmdContentTemplates" treeLoaderPath="~/Apps/Content/Tree/TreeSource.aspx" permissions="content:admin:templates:mng:view"/>
+        </add>
+      </Tab>
+    </Tabs>
+    <Commands>
+      <add>
+        <Command id="cmdContentTemplates">
+          <CommandType>ClientAction</CommandType>
+          <ClientScript>CSManagementClient.ChangeView('Content', 'Templates-List')</ClientScript>
+          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        </Command>
+      </add>
+    </Commands>
+  </Navigation>
+</View>

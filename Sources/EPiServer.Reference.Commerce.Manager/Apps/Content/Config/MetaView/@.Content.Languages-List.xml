@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaView>
+  <Toolbar>
+    <add>
+      <Button id="NewLanguage" text="{SharedStrings:New_Language}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdNewLanguage" permissions="content:site:nav:mng:create"/>
+      <Splitter id="ActionsSplitter"/>
+      <Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" >
+        <Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdLanguageDelete" permissions="content:site:nav:mng:delete"/>
+      </Menu>
+    </add>
+  </Toolbar>
+
+  <Commands>
+    <add>
+      <Command id="cmdNewLanguage">
+        <CommandType>ClientAction</CommandType>
+        <ClientScript>CSContentClient.NewLanguage()</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+      <Command id="cmdLanguageDelete">
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+        <BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+        <ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+        <CommandType>ServerAction</CommandType>
+        <Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.LanguageDeleteHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+      </Command>
+
+      <!-- Grid commands -->
+      <Command id="cmdContentGridLanguageEdit">
+        <CommandType>ClientAction</CommandType>
+        <ClientScript>CSContentClient.EditLanguage2(params)</ClientScript>
+      </Command>
+      <Command id="cmdContentGridLanguageDelete">
+        <CommandType>ServerAction</CommandType>
+        <Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.LanguageDeleteHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+      </Command>
+    </add>
+  </Commands>
+</MetaView>

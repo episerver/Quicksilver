@@ -1,0 +1,16 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Campaign.Pages.CampaignPage
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="category-page">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <h2>
+                @Html.PropertyFor(x => x.PageTitle)
+            </h2>
+        </div>
+    </div>
+    @Html.PropertyFor(x => x.MainContentArea, new { CssClass = "row", tag = Constants.ContentAreaTags.FullWidth })
+</div>
+
+

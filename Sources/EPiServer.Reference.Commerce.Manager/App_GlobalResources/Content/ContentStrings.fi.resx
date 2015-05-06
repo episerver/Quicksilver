@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Language_Code" xml:space="preserve">
+    <value>Koodi</value>
+  </data>
+  <data name="Language_Code_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Kielen koodi on pakollinen.</value>
+  </data>
+  <data name="Language_Friendly_Name" xml:space="preserve">
+    <value>Lempinimi</value>
+  </data>
+  <data name="Language_Is_Default" xml:space="preserve">
+    <value>On oletus</value>
+  </data>
+  <data name="Language_Code_Description" xml:space="preserve">
+    <value>Kielen koodi (esimerkiksi en-US)</value>
+  </data>
+  <data name="Language_Code_Exists" xml:space="preserve">
+    <value>Samalla koodilla on jo olemassa kieli.</value>
+  </data>
+  <data name="Folder_Page_Changes_Discarded" xml:space="preserve">
+    <value>Hakemiston/sivun muutokset on hylätty.</value>
+  </data>
+  <data name="Folder_Page_Updated" xml:space="preserve">
+    <value>Hakemisto/sivu on päivitetty onnistuneesti.</value>
+  </data>
+  <data name="Menu_Changes_Discarded" xml:space="preserve">
+    <value>Valikkomuutokset on hylätty.</value>
+  </data>
+  <data name="Menu_Item_Changes_Discarded" xml:space="preserve">
+    <value>Valikon kohdan muutokset on hylätty.</value>
+  </data>
+  <data name="Menu_Item_Name_Instructions" xml:space="preserve">
+    <value>Anna valikon kohdan nimi, yleensä se tulee näkyviin sivustolla valikon vaihtoehtona.</value>
+  </data>
+  <data name="Menu_Item_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Valikon kohdan nimi on pakollinen.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Description" xml:space="preserve">
+    <value>Valikon kohdan lajittelujärjestys.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Invalid" xml:space="preserve">
+    <value>Virheellinen lajittelujärjestyksen arvo.</value>
+  </data>
+  <data name="Menu_Item_Tooltip_Instructions" xml:space="preserve">
+    <value>Anna valikon kohdan näyttövihje, yleensä se tulee näkyviin, kun kohdistin on valikon vaihtoehdon päällä.</value>
+  </data>
+  <data name="Menu_Item_Updated" xml:space="preserve">
+    <value>Valikon kohta on päivitetty onnistuneesti.</value>
+  </data>
+  <data name="Menu_Name_Instructions" xml:space="preserve">
+    <value>Kirjoita valikon nimi. Sitä käytetään etsimistarkoituksiin, eikä se yleensä näy missään päin sivustoa. Hyviä nimiä ovat "OtsikkoValikko", "SivuValikko", "AlatunnisteValikko".</value>
+  </data>
+  <data name="Menu_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Valikon nimi on pakollinen.</value>
+  </data>
+  <data name="Menu_Updated" xml:space="preserve">
+    <value>Valikko on päivitetty onnistuneesti.</value>
+  </data>
+  <data name="Meta_Description_Instructions" xml:space="preserve">
+    <value>Indeksoivat hakukoneet saattavat esittää metakuvaustunnisteesi sisällön hakutuloksena. Metakuvaustunnisteen pitäisi olla 140–200 merkin pituinen.</value>
+  </data>
+  <data name="Meta_Description_Parenthesis" xml:space="preserve">
+    <value>(metakuvaus)</value>
+  </data>
+  <data name="Meta_Keywords_Parenthesis" xml:space="preserve">
+    <value>(meta-avainsanat)</value>
+  </data>
+  <data name="Page_Default_Description" xml:space="preserve">
+    <value>määrittää, käytetäänkö sivua oletussivuna hakemistossa, jossa se sijaitsee</value>
+  </data>
+  <data name="Page_Keywords_Instruction" xml:space="preserve">
+    <value>Luettele asiakirjan avainsanat avainsanan metatunnisteen avulla. Käytä selkeää avainsanojen luetteloa, joka liittyy kyseiseen sivuun sivustollasi, sen sijaan, että käyttäisit yhtä laajaa avainsanaluetteloa joka sivulle.</value>
+  </data>
+  <data name="Page_Name_Instruction" xml:space="preserve">
+    <value>Kirjoita sivun nimi. Tiedostotunniste .aspx tulee automaattisesti nimen perään.</value>
+  </data>
+  <data name="Page_Title_Instruction" xml:space="preserve">
+    <value>Käytä otsikkoelementtiä asiakirjan sisällön merkitsemiseen. Hyvän SEO-otsikon pitäisi sisältää kyseisen sivun ensisijainen avainsanalauseke sekä mahdollisia toissijaisia kohdeavainsanalausekkeita. Yritä pitää se alle 64 merkin mittaisena.</value>
+  </data>
+  <data name="Site_Changes_Discarded" xml:space="preserve">
+    <value>Sivustomuutokset on hylätty.</value>
+  </data>
+  <data name="Site_Updated" xml:space="preserve">
+    <value>Sivusto on päivitetty onnistuneesti.</value>
+  </data>
+  <data name="Site_Overwrite_Existing" xml:space="preserve">
+    <value>Korvaa olemassa oleva sivusto</value>
+  </data>
+  <data name="Site_Import_Warning" xml:space="preserve">
+    <value>On erittäin suositeltavaa tehdä varmuuskopio ECF-tietokannasta ennen tuontia.</value>
+  </data>
+  <data name="Site_Import_Instructions" xml:space="preserve">
+    <value>Tuo sivusto valitsemalla tiedosto alla olevasta ruudukosta tai lataamalla uusi tiedosto. Käynnistä sitten tuonti napsauttamalla painiketta ”Aloita tuonti”.</value>
+  </data>
+  <data name="Site_Template" xml:space="preserve">
+    <value>Sivustomalli</value>
+  </data>
+  <data name="Site_Theme" xml:space="preserve">
+    <value>Sivustoteema</value>
+  </data>
+  <data name="Site_Folder" xml:space="preserve">
+    <value>Sivustohakemisto</value>
+  </data>
+  <data name="Site_Exported_Files_Description" xml:space="preserve">
+    <value>Vietyjen tiedostojen luettelo</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_1" xml:space="preserve">
+    <value>Olet aloittamassa sivuston viennin</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_2" xml:space="preserve">
+    <value>Aloita napsauttamalla painiketta.</value>
+  </data>
+  <data name="Site_Theme_Description" xml:space="preserve">
+    <value>määrittää mallien ja tyylilomakkeiden lähteen</value>
+  </data>
+  <data name="Site_Admin_Url_Description" xml:space="preserve">
+    <value>määritä sivustolle hallinnan URL (jos jätetään tyhjäksi, hallinnan välilehti ei ole käytettävissä)</value>
+  </data>
+  <data name="Site_Domain_List" xml:space="preserve">
+    <value>verkkoalueiden luettelo (yksi riviä kohden)</value>
+  </data>
+  <data name="Site_Languages_Configure" xml:space="preserve">
+    <value>Määritä sivuston kielet</value>
+  </data>
+  <data name="Site_SEO_Parameters" xml:space="preserve">
+    <value>SEO-parametrit</value>
+  </data>
+  <data name="Site_Parameters_Public" xml:space="preserve">
+    <value>Julkisen sivuston parametrit</value>
+  </data>
+  <data name="Site_Parameters_To_Identify" xml:space="preserve">
+    <value>Parametrit sivuston merkitsemiseksi julkisessa osassa</value>
+  </data>
+  <data name="Site_Edit" xml:space="preserve">
+    <value>Muokkaa sivustoa</value>
+  </data>
+  <data name="Folder_With_Name_Exists" xml:space="preserve">
+    <value>Samanniminen hakemisto/sivusto on jo olemassa</value>
+  </data>
+  <data name="Site_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Sivuston nimi on pakollinen.</value>
+  </data>
+  <data name="MenuItem_With_Name_Exists" xml:space="preserve">
+    <value>Samanniminen valikon kohta on jo olemassa.</value>
+  </data>
+  <data name="Menu_With_Name_Exists" xml:space="preserve">
+    <value>Samanniminen valikko on jo olemassa.</value>
+  </data>
+  <data name="Folder_Page_Edit" xml:space="preserve">
+    <value>Muokkaa hakemistoa/sivua</value>
+  </data>
+  <data name="Site_Template_Delete_ReferenceException" xml:space="preserve">
+    <value>Mallia ei voi poistaa, koska sivuston sivut käyttävät sitä.</value>
+  </data>
+  <data name="Site_Template_Delete_TitleException" xml:space="preserve">
+    <value>Kohteen/kohteiden poisto ei onnistunut. Virhe: </value>
+  </data>
+  <data name="Site_Page_Template" xml:space="preserve">
+    <value>Sivumalli</value>
+  </data>
+  <data name="Language_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Kielen nimi on pakollinen.</value>
+  </data>
+  <data name="Language_Code_Invalid" xml:space="preserve">
+    <value>Virheellinen kielen koodi</value>
+  </data>
+  <data name="Folder_Command_Add" xml:space="preserve">
+    <value>Luo uusi komento</value>
+  </data>
+  <data name="Folder_Command_Edit" xml:space="preserve">
+    <value>Muokkaa komentoa</value>
+  </data>
+  <data name="Folder_Page_Create" xml:space="preserve">
+    <value>Luo sivu</value>
+  </data>
+  <data name="Folder_Page_CreateConfirm" xml:space="preserve">
+    <value>Luodaanko sivuversio tälle kielelle?</value>
+  </data>
+  <data name="Folder_Page_View" xml:space="preserve">
+    <value>Katso sivu</value>
+  </data>
+  <data name="Page_Drafts" xml:space="preserve">
+    <value>Luonnokset</value>
+  </data>
+  <data name="Page_Rejected" xml:space="preserve">
+    <value>Hylätty</value>
+  </data>
+  <data name="Page_WaitingApproval" xml:space="preserve">
+    <value>Odottaa hyväksyntää</value>
+  </data>
+  <data name="Folder_Command_QueryString" xml:space="preserve">
+    <value>Hakuketju</value>
+  </data>
+  <data name="Folder_FullAccess" xml:space="preserve">
+    <value>Käyttöoikeus kaikille</value>
+  </data>
+  <data name="Folder_ParentFolder" xml:space="preserve">
+    <value>Ylähakemisto</value>
+  </data>
+  <data name="Folder_TargetFolder" xml:space="preserve">
+    <value>Kohdehakemisto</value>
+  </data>
+  <data name="Menu_Command" xml:space="preserve">
+    <value>Komento</value>
+  </data>
+  <data name="Menu_Command_Link" xml:space="preserve">
+    <value>Linkki</value>
+  </data>
+  <data name="Menu_Command_Navigation" xml:space="preserve">
+    <value>Navigointi</value>
+  </data>
+  <data name="Menu_Command_None" xml:space="preserve">
+    <value>Ei mitään</value>
+  </data>
+  <data name="Menu_Command_Parameters" xml:space="preserve">
+    <value>Parametrit</value>
+  </data>
+  <data name="Menu_Command_Parameters_Description" xml:space="preserve">
+    <value>Parametriarvot erotettu merkillä ';'</value>
+  </data>
+  <data name="Menu_Command_String" xml:space="preserve">
+    <value>Ketju</value>
+  </data>
+  <data name="Menu_Command_Type" xml:space="preserve">
+    <value>Komentotyyppi</value>
+  </data>
+  <data name="Page_DefaultPage" xml:space="preserve">
+    <value>Oletussivu</value>
+  </data>
+  <data name="Page_MasterPage" xml:space="preserve">
+    <value>Pääsivu</value>
+  </data>
+  <data name="Site_Address" xml:space="preserve">
+    <value>Sivuston osoite</value>
+  </data>
+  <data name="Menu_Command_Script" xml:space="preserve">
+    <value>Ohjelmakoodi</value>
+  </data>
+  <data name="DisplayTemplate_With_Name_Exists" xml:space="preserve">
+    <value>Samanniminen malli on jo olemassa.</value>
+  </data>
+  <data name="Site_Folder_AlreadyExists" xml:space="preserve">
+    <value>Samalla nimellä on jo olemassa sivustohakemisto.</value>
+  </data>
+  <data name="Site_Folder_Required" xml:space="preserve">
+    <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Sivustohakemisto on pakollinen.</value>
+  </data>
+  <data name="Site_Name_AlreadyExists" xml:space="preserve">
+    <value>Samalla nimellä on jo olemassa sivusto.</value>
+  </data>
+  <data name="Use_CMS_Languages" xml:space="preserve">
+    <value>Kieliä lisätään ja otetaan käyttöön CMS:n hallintanäkymän kohdassa Hallinta – Sivuston kielten hallinta.</value>
+  </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Varoitus. Tämän kohteen päivittäminen Content Managerin kautta korvaa kaikki aiemmat ja odottavat sisältöversiot. Tällaiset sisältöversiot on voitu luoda muiden käyttöliittymien kautta.</value>
+  </data>
+</root>

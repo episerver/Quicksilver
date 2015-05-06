@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Commands>
+			<add>
+				<Command id="cmdShowRulesEditorDialog">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=RulesEditor&amp;id=[ClientParam:ExpressionId]</Url>
+					<Width>600</Width>
+					<Height>540</Height>
+					<PopupTitle>{MarketingStrings:Condition_Dialog}</PopupTitle>
+					<Drag>False</Drag>
+					<Top>30</Top>
+				</Command>
+				<Command id="cmdShowRulesEditorDialogEdit">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=RulesEditor&amp;id=[ClientParam:ExpressionId]&amp;index=[ClientParam:ExpressionIndex]</Url>
+					<Width>600</Width>
+					<Height>540</Height>
+					<PopupTitle>{MarketingStrings:Condition_Dialog}</PopupTitle>
+					<Drag>False</Drag>
+					<Top>30</Top>
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="RulesEditor" name="Rules Editor" controlUrl="Marketing/Dialogs/RuleEditDialog.ascx" />
+	</ViewConfig>
+</View>

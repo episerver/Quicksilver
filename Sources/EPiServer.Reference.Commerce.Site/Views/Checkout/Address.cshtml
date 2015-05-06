@@ -1,0 +1,53 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+@{
+    Layout = null;
+    var formModel = Model.CheckoutFormModel;
+}
+<div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new {@node = @Model.StartPage.CheckoutPage})">
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        @Html.DropDownListFor(_ => formModel.AddressFormModel.AddressId,
+                              new SelectList(Model.Addresses, "Key", "Value", Model.CheckoutFormModel.AddressFormModel.AddressId), new {@class = "jsChangeAddress"})
+        @Html.LabelFor(_ => formModel.AddressFormModel.AddressId)
+    }
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.FirstName)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.FirstName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.FirstName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.LastName)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.LastName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.LastName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.Email)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Email, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.Address)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Address, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Address)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.Country)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Country, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Country)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.City)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.City, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.City)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(_ => formModel.AddressFormModel.ZipCode)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.ZipCode, new {@class = "form-control"})
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.ZipCode)
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(_ => formModel.AddressFormModel.SaveAddress, new {@type = "checkbox"}) @Html.Translate("/Checkout/Address/Labels/SaveAddress")
+        </label>
+    </div>
+</div>

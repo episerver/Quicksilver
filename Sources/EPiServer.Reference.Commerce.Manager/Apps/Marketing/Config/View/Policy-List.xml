@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column visible="false" width="100" dataField="PolicyId" headingText="{SharedStrings:Policy_Id}" />
+					<Column headingText="{SharedStrings:Name}" id="Name" width="400" columnType="HyperLink" dataNavigateUrlFields="PolicyId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Marketing', 'Policy-Edit','policyid={0}');" dataTextFields="Name" dataTextFormatString="{0}" permissions="marketing:policies:mng:edit" />
+					<Column width="200" allowSorting="true" dataField="Status" headingText="{SharedStrings:Status}" />
+					<Column width="100" allowSorting="true" dataField="IsLocal" headingText="{SharedStrings:IsLocal}" />
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Button id="NewPolicy" text="{SharedStrings:New_Policy}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdMarketingPolicyNew" permissions="marketing:policies:mng:create"/>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="marketing:policies:mng:delete">
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdMarketingPolicyDelete" permissions="marketing:policies:mng:delete" />
+				</Menu>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdMarketingPolicyNew">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSMarketingClient.NewPolicy()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdMarketingPolicyDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Marketing.CommandHandlers.PolicyDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Policy-List" controlUrl="Marketing/PolicyList.ascx" permissions="marketing:policies:mng:view" help="Working+with+Policies" />
+	</ViewConfig>
+</View>

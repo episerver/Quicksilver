@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="WarehouseInventoryDto" targetNamespace="http://tempuri.org/WarehouseInventoryDto.xsd" xmlns:mstns="http://tempuri.org/WarehouseInventoryDto.xsd" xmlns="http://tempuri.org/WarehouseInventoryDto.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="NotPublic" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="WarehouseInventoryDto" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="WarehouseInventoryDto" msprop:Generator_UserDSName="WarehouseInventoryDto">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="WarehouseInventory" msprop:Generator_TableClassName="WarehouseInventoryDataTable" msprop:Generator_TableVarName="tableWarehouseInventory" msprop:Generator_RowChangedName="WarehouseInventoryRowChanged" msprop:Generator_TablePropName="WarehouseInventory" msprop:Generator_RowDeletingName="WarehouseInventoryRowDeleting" msprop:Generator_RowChangingName="WarehouseInventoryRowChanging" msprop:Generator_RowEvHandlerName="WarehouseInventoryRowChangeEventHandler" msprop:Generator_RowDeletedName="WarehouseInventoryRowDeleted" msprop:Generator_RowClassName="WarehouseInventoryRow" msprop:Generator_UserTableName="WarehouseInventory" msprop:Generator_RowEvArgName="WarehouseInventoryRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="WarehouseCode" msprop:Generator_ColumnVarNameInTable="columnWarehouseCode" msprop:Generator_ColumnPropNameInRow="WarehouseCode" msprop:Generator_ColumnPropNameInTable="WarehouseCodeColumn" msprop:Generator_UserColumnName="WarehouseCode" type="xs:string" />
+              <xs:element name="CatalogEntryCode" msprop:Generator_ColumnVarNameInTable="columnCatalogEntryCode" msprop:Generator_ColumnPropNameInRow="CatalogEntryCode" msprop:Generator_ColumnPropNameInTable="CatalogEntryCodeColumn" msprop:Generator_UserColumnName="CatalogEntryCode">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InStockQuantity" msprop:Generator_ColumnVarNameInTable="columnInStockQuantity" msprop:Generator_ColumnPropNameInRow="InStockQuantity" msprop:Generator_ColumnPropNameInTable="InStockQuantityColumn" msprop:Generator_UserColumnName="InStockQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ReservedQuantity" msprop:Generator_ColumnVarNameInTable="columnReservedQuantity" msprop:Generator_ColumnPropNameInRow="ReservedQuantity" msprop:Generator_ColumnPropNameInTable="ReservedQuantityColumn" msprop:Generator_UserColumnName="ReservedQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ReorderMinQuantity" msprop:Generator_ColumnVarNameInTable="columnReorderMinQuantity" msprop:Generator_ColumnPropNameInRow="ReorderMinQuantity" msprop:Generator_ColumnPropNameInTable="ReorderMinQuantityColumn" msprop:Generator_UserColumnName="ReorderMinQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PreorderQuantity" msprop:Generator_ColumnVarNameInTable="columnPreorderQuantity" msprop:Generator_ColumnPropNameInRow="PreorderQuantity" msprop:Generator_ColumnPropNameInTable="PreorderQuantityColumn" msprop:Generator_UserColumnName="PreorderQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BackorderQuantity" msprop:Generator_ColumnVarNameInTable="columnBackorderQuantity" msprop:Generator_ColumnPropNameInRow="BackorderQuantity" msprop:Generator_ColumnPropNameInTable="BackorderQuantityColumn" msprop:Generator_UserColumnName="BackorderQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AllowPreorder" msprop:Generator_ColumnVarNameInTable="columnAllowPreorder" msprop:Generator_ColumnPropNameInRow="AllowPreorder" msprop:Generator_ColumnPropNameInTable="AllowPreorderColumn" msprop:Generator_UserColumnName="AllowPreorder" type="xs:boolean" minOccurs="0" />
+              <xs:element name="AllowBackOrder" msprop:Generator_ColumnVarNameInTable="columnAllowBackOrder" msprop:Generator_ColumnPropNameInRow="AllowBackOrder" msprop:Generator_ColumnPropNameInTable="AllowBackOrderColumn" msprop:Generator_UserColumnName="AllowBackOrder" type="xs:boolean" minOccurs="0" />
+              <xs:element name="InventoryStatus" msprop:Generator_ColumnVarNameInTable="columnInventoryStatus" msprop:Generator_ColumnPropNameInRow="InventoryStatus" msprop:Generator_ColumnPropNameInTable="InventoryStatusColumn" msprop:Generator_UserColumnName="InventoryStatus" type="xs:string" minOccurs="0" />
+              <xs:element name="PreorderAvailabilityDate" msdata:DateTimeMode="Utc" msprop:Generator_ColumnVarNameInTable="columnPreorderAvailabilityDate" msprop:Generator_ColumnPropNameInRow="PreorderAvailabilityDate" msprop:Generator_ColumnPropNameInTable="PreorderAvailabilityDateColumn" msprop:Generator_UserColumnName="PreorderAvailabilityDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BackorderAvailabilityDate" msdata:DateTimeMode="Utc" msprop:Generator_ColumnVarNameInTable="columnBackorderAvailabilityDate" msprop:Generator_ColumnPropNameInRow="BackorderAvailabilityDate" msprop:Generator_ColumnPropNameInTable="BackorderAvailabilityDateColumn" msprop:Generator_UserColumnName="BackorderAvailabilityDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ApplicationId" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnApplicationId" msprop:Generator_ColumnPropNameInRow="ApplicationId" msprop:Generator_ColumnPropNameInTable="ApplicationIdColumn" msprop:Generator_UserColumnName="ApplicationId" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="WarehouseInventoryKey2" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:WarehouseInventory" />
+      <xs:field xpath="mstns:WarehouseCode" />
+      <xs:field xpath="mstns:CatalogEntryCode" />
+      <xs:field xpath="mstns:ApplicationId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

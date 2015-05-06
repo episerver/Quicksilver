@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Commands>
+			<add>
+				<Command id="cmdShowEditorDialog_PromotionCatalogEntrySelect">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=EntrySelector&amp;id=[ClientParam:ExpressionId]&amp;ControlId=[ClientParam:ControlId]&amp;CatalogEntryCodes=[ClientParam:CatalogEntryCodes]</Url>
+					<Top>500</Top>
+					<Width>620</Width>
+					<Height>460</Height>
+					<PopupTitle>{CatalogStrings:Select_Catalog_Entries}</PopupTitle>
+					<Drag>True</Drag>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Promotion-Edit" controlUrl="marketing/PromotionEdit.ascx" permissions="marketing:promotions:mng:edit" help="Promotions" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="marketing/tabs/PromotionEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

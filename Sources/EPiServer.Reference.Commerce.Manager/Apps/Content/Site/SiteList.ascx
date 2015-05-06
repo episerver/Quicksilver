@@ -1,0 +1,3 @@
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Content.Site.SiteList" Codebehind="SiteList.ascx.cs" %>
+<%@ Register Src="~/Apps/Core/Controls/EcfListViewControl.ascx" TagName="EcfListViewControl" TagPrefix="core" %>
+<core:EcfListViewControl id="MyListView" runat="server" DataKey="SiteId" AppId="Content" ViewId="Site-List" ShowTopToolbar="true"></core:EcfListViewControl>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+          <Column width="50" allowSorting="true" dataField="PromotionId" headingText="{SharedStrings:Id}" visible="false" />
+          <Column width="225" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" columnType="CustomTemplate">
+            <Template id="LinkTemplate" controlUrl="GridTemplates/PromotionLinkTemplate.ascx"></Template>
+          </Column>
+					<Column width="50" allowSorting="true" dataField="PromotionGroup" headingText="{SharedStrings:Group}" />
+					<Column width="50" allowSorting="true" dataField="Priority" headingText="{SharedStrings:Priority}" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="StartDate" headingText="{SharedStrings:Starts}" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="EndDate" headingText="{SharedStrings:Ends}" />
+					<Column width="80" allowSorting="true" dataField="Status" headingText="{SharedStrings:Status}" />
+					<Column width="80" allowSorting="false" dataField="TotalUsed" headingText="{MarketingStrings:Promotion_Used_Count}" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="Modified" headingText="{SharedStrings:Last_Modified}" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="Created" headingText="{SharedStrings:Created}" />
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Button id="NewPromotion" text="{SharedStrings:New_Promotion}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdMarketingPromotionNew" permissions="marketing:promotions:mng:create"/>
+				<Splitter id="ActionsSplitter"  permissions="marketing:promotions:mng:delete" />
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="marketing:promotions:mng:delete"  >
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdMarketingPromotionDelete" permissions="marketing:promotions:mng:delete" />
+					<Button id="StatusSelected" text="{SharedStrings:Flip_Status}" imageUrl="" commandName="cmdMarketingPromotionStatus" permissions="marketing:promotions:mng:edit"/>
+				</Menu>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdMarketingPromotionNew">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSMarketingClient.NewPromotion()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdMarketingPromotionDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Marketing.CommandHandlers.PromotionDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdMarketingPromotionStatus">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Marketing.CommandHandlers.PromotionStatusHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Promotion-List" controlUrl="Marketing/PromotionList.ascx" permissions="marketing:promotions:mng:view" help="Promotions" />
+	</ViewConfig>
+</View>

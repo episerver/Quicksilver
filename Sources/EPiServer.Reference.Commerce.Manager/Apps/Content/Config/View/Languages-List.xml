@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Languages-List" controlUrl="Content/Dictionaries/LanguageList.ascx" permissions="content:site:mng:view" help="System+Settings"/>
+	</ViewConfig>
+</View>

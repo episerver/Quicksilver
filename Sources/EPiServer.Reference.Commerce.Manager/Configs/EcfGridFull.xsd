@@ -1,0 +1,694 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EcfGrid"
+		   targetNamespace="http://schemas.mediachase.com/ecf/view"
+		   elementFormDefault="qualified"
+		   xmlns="http://schemas.mediachase.com/ecf/view"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			The schema of ecf config file
+			Copyright (c) Mediachase Corp. All rights reserved.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="add">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Text" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="SplitButton" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Button" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="ButtonSet" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Column" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Columns" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Command" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Splitter" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Tab" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Link" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Block" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Grid" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Placeholder" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Control" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Form" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="ListViewUI" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="BafGrid" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Navigation" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="FormDocument" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="ViewConfig" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CustomParams" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="beforeId" type="xs:string" />
+			<xs:attribute name="afterId" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="remove">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="nodeId" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="clear">
+	</xs:element>
+	<xs:element name="setAttributes">
+	</xs:element>
+
+	<xs:element name="Button">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="text" type="xs:string" />
+			<xs:attribute name="imageUrl" type="xs:string" />
+			<xs:attribute name="commandName" type="xs:string" />
+			<xs:attribute name="align" type="xs:string" />
+			<xs:attribute name="itemSplitter" type="xs:string" />
+			<xs:attribute name="tooltip" type="xs:string" />
+			<xs:attribute name="handler" type="xs:string" />
+			<xs:attribute name="cssClass" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+			<xs:attribute name="width" type="xs:string" />
+			<xs:attribute name="disableMode" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Text">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="text" type="xs:string" />
+			<xs:attribute name="cssClass" type="xs:string" />
+			<xs:attribute name="align" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Menu">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Button" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Text" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="SplitButton" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="text" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SplitButton">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Button" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Text" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="text" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Column">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Template" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string" />
+						<xs:attribute name="controlUrl" type="xs:string" />
+						<xs:attribute name="permissions" type="xs:string" />
+						<xs:attribute name="dateArgument" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Item" minOccurs="0" maxOccurs="unbounded"></xs:element>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="templateUrl" type="xs:string" />
+			<xs:attribute name="type" type="xs:string" />
+			<xs:attribute name="columnType" type="xs:string" />
+			<xs:attribute name="width" type="xs:string" />
+			<xs:attribute name="allowSorting" type="xs:boolean" />
+			<xs:attribute name="dataField" type="xs:string" />
+			<xs:attribute name="headingText" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+			<xs:attribute name="visible" type="xs:boolean" />
+			<xs:attribute name="resizable" type="xs:boolean" />
+			<xs:attribute name="formatString" type="xs:string" />
+			<xs:attribute name="currencyCodeField" type="xs:string" />
+			<xs:attribute name="align" type="xs:string" />
+			<xs:attribute name="columnIndex" type="xs:string" />
+			<xs:attribute name="checkboxEnableField" type="xs:string" />
+			<xs:attribute name="isDefault" type="xs:boolean" />
+			<xs:attribute name="dataNavigateUrlFields" type="xs:string" />
+			<xs:attribute name="dataNavigateUrlFormatString" type="xs:string" />
+			<xs:attribute name="dataTextFields" type="xs:string" />
+			<xs:attribute name="dataTextFormatString" type="xs:string" />
+			<xs:attribute name="dataCellClientTemplateId" type="xs:string" />
+			<xs:attribute name="editControlType" type="xs:string" />
+			<xs:attribute name="sortExpression" type="xs:string" />
+			<xs:attribute name="allowEditing" type="xs:boolean" />
+			<xs:attribute name="isSearchable" type="xs:boolean" />
+			<xs:attribute name="foreignTable" type="xs:string" />
+			<xs:attribute name="foreignDataKeyField" type="xs:string" />
+			<xs:attribute name="foreignDisplayField" type="xs:string" />
+			<xs:attribute name="dataCellServerTemplateId" type="xs:string" />
+			<xs:attribute name="commandParameters" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Item">
+		<xs:complexType>
+			<xs:attribute name="imageUrl" type="xs:string" />
+			<xs:attribute name="commandName" type="xs:string" />
+			<xs:attribute name="commandParameters" type="xs:string" />
+			<xs:attribute name="toolTip" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+			<xs:attribute name="width" type="xs:string" />
+			<xs:attribute name="paddingLeft" type="xs:string" />
+			<xs:attribute name="paddingRight" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Command">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="CommandType" type="xs:string" />
+				<xs:element name="PopupTitle" type="xs:string" />
+				<xs:element name="Url" type="xs:string" />
+				<xs:element name="Width" type="xs:string"  />
+				<xs:element name="Height" type="xs:string"  />
+				<xs:element name="Left" type="xs:string"  />
+				<xs:element name="Top" type="xs:string" />
+				<xs:element name="Drag" type="xs:string" />
+				<xs:element name="Resize" type="xs:string" />
+				<xs:element name="Scroll" type="xs:string" />
+				<xs:element name="RefreshMethod" type="xs:string" />
+				<xs:element name="Target" type="xs:string" />
+				<xs:element name="UpdatePanelIds" type="xs:string" />
+				<xs:element name="BeforeClientScript" type="xs:string" />
+				<xs:element name="ConfirmationText" type="xs:string" />
+				<xs:element name="ClientScript" type="xs:string" />
+				<xs:element name="Params" type="xs:string" />
+				<xs:element name="DependCommand" type="xs:string" />
+				<xs:element name="AutoHeightResize" type="xs:string" />
+				<xs:element name="Handler" >
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Param">
+								<xs:complexType>
+									<xs:attribute name="key" type="xs:string" ></xs:attribute>
+									<xs:attribute name="value" type="xs:string" ></xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="type" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EnableHandler">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Param">
+								<xs:complexType>
+									<xs:attribute name="key" type="xs:string" ></xs:attribute>
+									<xs:attribute name="value" type="xs:string" ></xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="type" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Splitter">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Toolbar">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Button" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Text" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="SplitButton" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Splitter" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="placeName" type="xs:string"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Grid">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Columns" minOccurs="0" maxOccurs="1">
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="placeName" type="xs:string"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Columns">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Column" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Commands">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Command" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ViewConfig">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Tabs">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="Tab">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" />
+									<xs:attribute name="controlUrl" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Transitions" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Transition" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" />
+									<xs:attribute name="viewId" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="CustomParams"></xs:element>
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="name" type="xs:string" />
+			<xs:attribute name="isNameDynamic" type="xs:string" />
+			<xs:attribute name="controlUrl" type="xs:string" />
+			<xs:attribute name="help" type="xs:string" />
+			<xs:attribute name="roles" type="xs:string" />
+			<xs:attribute name="permissions" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ButtonSet">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Button" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="placeName" type="xs:string" />
+			<xs:attribute name="viewName" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Link">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Link" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="text" type="xs:string" use="optional" />
+			<xs:attribute name="order" type="xs:unsignedByte" use="optional" />
+			<xs:attribute name="iconUrl" type="xs:string" use="optional" />
+			<xs:attribute name="iconCss" type="xs:string" use="optional" />
+			<xs:attribute name="command" type="xs:string" use="optional" />
+			<xs:attribute name="permissions" type="xs:string" use="optional" />
+			<xs:attribute name="expanded" type="xs:boolean" use="optional" />
+			<xs:attribute name="type" type="xs:string" use="optional" />
+			<xs:attribute name="treeLoaderPath" type="xs:string" use="optional" />
+			<xs:attribute name="treeLoader" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Tab">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Link"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="text" type="xs:string" use="optional" />
+			<xs:attribute name="imageUrl" type="xs:string" use="optional" />
+			<xs:attribute name="create" type="xs:boolean" use="optional" />
+			<xs:attribute name="enableHandler" type="xs:string" use="optional" />
+			<xs:attribute name="configUrl" type="xs:string" use="optional" />
+			<xs:attribute name="contentType" type="xs:string" use="optional" />
+			<xs:attribute name="enableHandler2" type="xs:string" use="optional" />
+			<xs:attribute name="permissions" type="xs:string" use="optional" />
+			<xs:attribute name="order" type="xs:int" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Control">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element maxOccurs="unbounded" name="Property">
+					<xs:complexType>
+						<xs:attribute name="name" type="xs:string" use="required" />
+						<xs:attribute name="value" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" name="EnableHandler">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Param">
+								<xs:complexType>
+									<xs:attribute name="key" type="xs:string"></xs:attribute>
+									<xs:attribute name="value" type="xs:string"></xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="type" type="xs:string" ></xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="path" type="xs:string" use="optional" />
+			<xs:attribute name="type" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Placeholder">
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Control" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="id" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Block">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Block" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Placeholder" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="CustomParams">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Param" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="key" type="xs:string" />
+						<xs:attribute name="value" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- Root Elements -->
+
+	<xs:element name="ListViewUI">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Grid" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="Toolbar" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="ButtonSet" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="Commands" minOccurs="0" maxOccurs="1"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="BafGrid">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element name="ListViewProfile" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Id" type="xs:string" />
+							<xs:element name="Name" type="xs:string" />
+							<xs:element name="IsSystem" type="xs:boolean" />
+							<xs:element name="IsPublic" type="xs:boolean" />
+							<xs:element name="FieldSetName" type="xs:string" />
+							<xs:element name="FieldSet">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element maxOccurs="unbounded" name="string" type="xs:string" />
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="GroupByFieldName" type="xs:string" />
+							<xs:element name="Filters">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ColumnsUI">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element maxOccurs="unbounded" name="Column">
+											<xs:complexType>
+												<xs:attribute name="field" type="xs:string" use="optional" />
+												<xs:attribute name="width" type="xs:unsignedByte" use="optional" />
+												<xs:attribute name="title" type="xs:string" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Toolbar" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="Commands" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="CustomColumns" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="Column"></xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="FormDocument">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Handlers" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Handler">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required" />
+									<xs:attribute name="type" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Table" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element maxOccurs="unbounded" name="Row">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element maxOccurs="unbounded" name="Cell">
+											<xs:complexType>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element maxOccurs="unbounded" name="Section">
+														<xs:complexType>
+															<xs:choice minOccurs="0" maxOccurs="unbounded">
+																<xs:element name="Labels" minOccurs="0" maxOccurs="1">
+																	<xs:complexType>
+																		<xs:choice minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="Label" minOccurs="0" maxOccurs="unbounded">
+																				<xs:complexType>
+																					<xs:attribute name="title" type="xs:string" use="optional" />
+																					<xs:attribute name="code" type="xs:string" use="optional" />
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:choice>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="Control" minOccurs="0" maxOccurs="1">
+																	<xs:complexType>
+																		<xs:choice minOccurs="0" maxOccurs="unbounded">
+																			<xs:element maxOccurs="unbounded" name="Item">
+																				<xs:complexType>
+																					<xs:choice minOccurs="0" maxOccurs="unbounded">
+																						<xs:element name="Labels" minOccurs="0" maxOccurs="1"/>
+																						<xs:element name="Control" minOccurs="0" maxOccurs="1">
+																							<xs:complexType>
+																								<xs:choice minOccurs="0" maxOccurs="unbounded">
+																									<xs:element name="Prop" minOccurs="0" maxOccurs="unbounded">
+																										<xs:complexType>
+																											<xs:attribute name="data" type="xs:string" use="required" />
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:choice>
+																								<xs:attribute name="controlType" type="xs:string" use="optional" />
+																								<xs:attribute name="uid" type="xs:string" use="required" />
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:choice>
+																					<xs:attribute name="rowIndex" type="xs:unsignedByte" use="optional" />
+																					<xs:attribute name="cellIndex" type="xs:unsignedByte" use="optional" />
+																					<xs:attribute name="rowSpan" type="xs:unsignedByte" use="optional" />
+																					<xs:attribute name="colSpan" type="xs:unsignedByte" use="optional" />
+																					<xs:attribute name="borderType" type="xs:unsignedByte" use="optional" />
+																					<xs:attribute name="showLabel" type="xs:boolean" use="optional" />
+																					<xs:attribute name="labelWidth" type="xs:string" use="optional" />
+																					<xs:attribute name="uid" type="xs:string" use="required" />
+																					<xs:attribute name="tabIndex" type="xs:unsignedByte" use="optional" />
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:choice>
+																		<xs:attribute name="controlType" type="xs:string" use="optional" />
+																		<xs:attribute name="width" type="xs:string" use="optional" />
+																		<xs:attribute name="uid" type="xs:string" use="required" />
+																		<xs:attribute name="cellPadding" type="xs:unsignedByte" use="optional" />
+																		<xs:attribute name="columns" type="xs:string" use="optional" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+															<xs:attribute name="uid" type="xs:string" use="required" />
+															<xs:attribute name="borderType" type="xs:unsignedByte" use="optional" />
+															<xs:attribute name="showLabel" type="xs:boolean" use="optional" />
+															<xs:attribute name="itemIndex" type="xs:unsignedByte" use="optional" />
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+												<xs:attribute name="colSpan" type="xs:unsignedByte" use="optional" />
+												<xs:attribute name="name" type="xs:string" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="width" type="xs:string" use="optional" />
+						<xs:attribute name="columns" type="xs:string" use="optional" />
+						<xs:attribute name="cellPadding" type="xs:unsignedByte" use="optional" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Navigation">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Tabs">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="Tab" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+						</xs:choice>
+						<xs:attribute name="id" type="xs:string" use="optional" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Commands"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Form">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Layout" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="Block" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Grids" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="Grid" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Toolbars" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="Toolbar" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ButtonSets" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="ButtonSet" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Commands" minOccurs="0" maxOccurs="1"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="View">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Form" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="ListViewUI" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="BafGrid" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="Navigation" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="FormDocument" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="ViewConfig" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="add" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="remove" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="clear" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="setAttributes" minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

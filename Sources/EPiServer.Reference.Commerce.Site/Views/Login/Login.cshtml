@@ -1,0 +1,57 @@
+﻿@using Microsoft.Owin.Security
+@model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.InternalLoginViewModel
+
+
+<div class="col-md-6 col-sm-6 jsLoginBlockWrapper">
+    <h3>@Html.Translate("/Login/Form/Label/Heading")</h3>
+    <p>@Html.Translate("/Login/Form/Label/LoginMessage")</p>
+
+    <div class="quicksilver-well">
+        @using (Html.BeginForm("InternalLogin", "Login", FormMethod.Post, new { @class = "jsLoginBlock", @role = "form" }))
+        {
+            @Html.HiddenFor(x => x.ReturnUrl)
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Email)
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Password)
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Password)
+            </div>
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(x => x.RememberMe) @Html.Translate("/Login/Form/Label/RememberMe")
+                </label>
+            </div>
+            <button type="submit" class="btn">@Html.Translate("/Login/Form/Label/Login")</button>
+        }
+    </div>
+
+    @{
+        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+
+        using (Html.BeginForm("ExternalLogin", "Login", new { returnUrl = Model.ReturnUrl }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+
+            <div id="socialLoginList">
+                <p>
+                    @foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        <div>
+                            <button type="submit" class="login-social btn-link" value="@p.AuthenticationType" id="@p.AuthenticationType" name="provider">
+                                <span class="social-icon social-icon--@p.Caption.ToLower()"></span>
+                    <p>@string.Format(Html.Translate("/Login/Form/Label/SocialLoginLabel"), p.Caption)</p>
+                    </button>
+                </div>
+                    }
+                    </p>
+                </div>
+        }
+    }
+    </div>
+

@@ -1,0 +1,742 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Sites version="1.0">
+  <Site id="1ab08b1a-c480-47b5-a98e-3d50b433dcb5" isActive="True" isDefault="True" Folder="">
+    <Name>B2C Sample Site</Name>
+    <Description>Business to Consumer Sample Site</Description>
+    <Domains>
+      <Domain />
+    </Domains>
+    <Languages>
+      <Language>en</Language>
+      <Language>de</Language>
+      <Language>es</Language>
+    </Languages>
+    <DisplayTemplates>
+      <Template name="EverythingTemplate" friendlyname="Default Template" path="~/Templates/{THEME}/LayoutControls/PageTemplates/DefaultTemplate.ascx" type="page" lang="en" />
+      <Template name="NodeInfoTemplate" friendlyname="Node Info Template" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/NodeTemplates/NodeInfo.ascx" type="node" lang="en" />
+      <Template name="NodeEntriesTemplate" friendlyname="Entries Template" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/NodeTemplates/EntriesFiltered.ascx" type="node" lang="en" />
+      <Template name="default" friendlyname="Entry Search Template" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/SearchResultsControl.ascx" type="search" lang="en" />
+      <Template name="default" friendlyname="Menu Default Template" path="~/Templates/{THEME}/LayoutControls/MenuTemplates/Default.ascx" type="menu" lang="en" />
+      <Template name="Hierarchical" friendlyname="Hierarchical Menu Template" path="~/Templates/{THEME}/LayoutControls/MenuTemplates/Hierarchical.ascx" type="menu" lang="en" />
+      <Template name="SideMenuTemplate" friendlyname="Side Menu Template" path="~/Templates/{THEME}/LayoutControls/PageTemplates/SideMenuTemplate.ascx" type="page" lang="en" />
+      <Template name="HomeTemplate" friendlyname="Home Template" path="~/Templates/{THEME}/LayoutControls/PageTemplates/HomeTemplate.ascx" type="page" lang="en" />
+      <Template name="DigitalCameraTemplate" friendlyname="Digital Camera" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/EntryTemplates/DigitalCameraTemplate.ascx" type="entry" lang="en" />
+      <Template name="default" friendlyname="Default Compare Template" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/CompareControl.ascx" type="compare" lang="en" />
+      <Template name="default" friendlyname="Default Template" path="~/Templates/{THEME}/BusinessControls/CatalogBrowseControls/SearchResultsControl.ascx" type="search-index" lang="en" />
+      <Template name="PopupTemplate" friendlyname="Popup Template" path="~/Templates/{THEME}/LayoutControls/PageTemplates/PopupTemplate.ascx" type="page" lang="en" />
+      <Template name="SideBarTemplate" friendlyname="SideBar Template" path="~/Templates/{THEME}/LayoutControls/PageTemplates/SideBarTemplate.ascx" type="page" lang="en" />
+      <Template name="SideMenuTemplate" friendlyname="Side Menu Template" path="~/Templates/{THEME}/LayoutControls/MenuTemplates/SideMenu.ascx" type="menu" lang="en" />
+    </DisplayTemplates>
+    <Attributes>
+      <Attribute name="url"></Attribute>
+      <Attribute name="email">email@yourcompany.com</Attribute>
+      <Attribute name="phone">1234567890</Attribute>
+      <Attribute name="address">1</Attribute>
+      <Attribute name="meta_keywords">keywords</Attribute>
+      <Attribute name="meta_description">Mediachase Business to Consumer Sample Store (eCommerce Framework 5.2)</Attribute>
+      <Attribute name="default_template">EverythingTemplate</Attribute>
+      <Attribute name="title">Business to Consumer Sample Site</Attribute>
+      <Attribute name="cm_url"></Attribute>
+      <Attribute name="page_include"></Attribute>
+      <Attribute name="sitetheme"></Attribute>
+    </Attributes>
+    <Menus>
+      <Menu name="TopMenu">
+        <Items>
+          <Item>
+            <Name>TopMenu</Name>
+            <SortOrder>0</SortOrder>
+            <IsVisible>False</IsVisible>
+            <Command type="None"></Command>
+            <Resources />
+            <Items>
+              <Item>
+                <Name>Cámaras digitales</Name>
+                <SortOrder>1</SortOrder>
+                <IsVisible>True</IsVisible>
+                <Command type="Link">~/Digital-Cameras.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Digital Cameras</Title>
+                    <Tooltip>Digital Cameras</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Digitalkameras</Title>
+                    <Tooltip>Digitalkameras</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Cámaras digitales</Title>
+                    <Tooltip>Cámaras digitales</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Mobile Phones</Name>
+                <SortOrder>2</SortOrder>
+                <IsVisible>True</IsVisible>
+                <Command type="Link">~/Mobile-Phones.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Mobile Phones</Title>
+                    <Tooltip>Mobile Phones</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Handys</Title>
+                    <Tooltip>Handys</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Teléfonos Celulares</Title>
+                    <Tooltip>Teléfonos Celulares</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Accesorios Teléfono</Name>
+                <SortOrder>3</SortOrder>
+                <IsVisible>True</IsVisible>
+                <Command type="Link">~/Phone-Accessories.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Phone Accessories</Title>
+                    <Tooltip>Phone Accessories</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Telefon-Zubehör</Title>
+                    <Tooltip>Telefon-Zubehör</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Accesorios Teléfono</Title>
+                    <Tooltip>Accesorios Teléfono</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Especiales del día</Name>
+                <SortOrder>4</SortOrder>
+                <IsVisible>True</IsVisible>
+                <Command type="Link">~/DailySpecials.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Daily Specials</Title>
+                    <Tooltip>Daily Specials</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Daily Specials</Title>
+                    <Tooltip>Daily Specials</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Especiales del día</Title>
+                    <Tooltip>Especiales del día</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Cesta de la Compra</Name>
+                <SortOrder>5</SortOrder>
+                <IsVisible>False</IsVisible>
+                <Command type="Link">~/cart/shoppingcart.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Shopping Cart</Title>
+                    <Tooltip>Shopping Cart</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Einkaufswagen</Title>
+                    <Tooltip>Einkaufswagen</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Cesta de la Compra</Title>
+                    <Tooltip>Cesta de la Compra</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items>
+                  <Item>
+                    <Name>Checkout</Name>
+                    <SortOrder>5</SortOrder>
+                    <IsVisible>False</IsVisible>
+                    <Command type="Link">~/Checkout/checkout.aspx</Command>
+                    <Resources>
+                      <Resource language="en">
+                        <Title>Checkout</Title>
+                        <Tooltip>Checkout</Tooltip>
+                      </Resource>
+                    </Resources>
+                    <Items />
+                  </Item>
+                </Items>
+              </Item>
+              <Item>
+                <Name>Regalos</Name>
+                <SortOrder>6</SortOrder>
+                <IsVisible>False</IsVisible>
+                <Command type="Link">~/cart/wishlist.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Wish list</Title>
+                    <Tooltip>Wish list</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Wunschliste</Title>
+                    <Tooltip>Wunschliste</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Regalos</Title>
+                    <Tooltip>Regalos</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>los resultados de la búsqueda</Name>
+                <SortOrder>10</SortOrder>
+                <IsVisible>False</IsVisible>
+                <Command type="Link">~/Catalog/SearchResults.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Search Results</Title>
+                    <Tooltip>Search Results</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Suchergebnis</Title>
+                    <Tooltip>Suchergebnis</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>los resultados de la búsqueda</Title>
+                    <Tooltip>los resultados de la búsqueda</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Accesorios de la cámara</Name>
+                <SortOrder>11</SortOrder>
+                <IsVisible>True</IsVisible>
+                <Command type="Link">~/Camera-Accessories.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Camera Accessories</Title>
+                    <Tooltip>Camera Accessories</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Kamera-Zubehör</Title>
+                    <Tooltip>Kamera-Zubehör</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Accesorios de la cámara</Title>
+                    <Tooltip>Accesorios de la cámara</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>Log In to Your Account</Name>
+                <SortOrder>12</SortOrder>
+                <IsVisible>False</IsVisible>
+                <Command type="Link">~/Login.aspx</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>Log In to Your Account</Title>
+                    <Tooltip>Log In to Your Account</Tooltip>
+                  </Resource>
+                  <Resource language="de">
+                    <Title>Log In to Your Account</Title>
+                    <Tooltip>Log In to Your Account</Tooltip>
+                  </Resource>
+                  <Resource language="es">
+                    <Title>Iniciar la sesión en su cuenta</Title>
+                    <Tooltip>Iniciar la sesión en su cuenta</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items />
+              </Item>
+              <Item>
+                <Name>My Account</Name>
+                <SortOrder>0</SortOrder>
+                <IsVisible>False</IsVisible>
+                <Command type="Link">~/Profile/</Command>
+                <Resources>
+                  <Resource language="en">
+                    <Title>My Account</Title>
+                    <Tooltip>My Account</Tooltip>
+                  </Resource>
+                </Resources>
+                <Items>
+                  <Item>
+                    <Name>Account Dashboard</Name>
+                    <SortOrder>0</SortOrder>
+                    <IsVisible>True</IsVisible>
+                    <Command type="Link">~/Profile/Dashboard.aspx</Command>
+                    <Resources>
+                      <Resource language="en">
+                        <Title>Account Dashboard</Title>
+                        <Tooltip>Account Dashboard</Tooltip>
+                      </Resource>
+                      <Resource language="de">
+                        <Title>Mein Konto</Title>
+                        <Tooltip>Mein Konto</Tooltip>
+                      </Resource>
+                      <Resource language="es">
+                        <Title>Administración de cuentas</Title>
+                        <Tooltip>Administración de cuentas</Tooltip>
+                      </Resource>
+                    </Resources>
+                    <Items>
+                      <Item>
+                        <Name>Order History</Name>
+                        <SortOrder>8</SortOrder>
+                        <IsVisible>True</IsVisible>
+                        <Command type="Link">~/Profile/secure/OrderHistory.aspx</Command>
+                        <Resources>
+                          <Resource language="en">
+                            <Title>Order History</Title>
+                            <Tooltip>Order History</Tooltip>
+                          </Resource>
+                        </Resources>
+                        <Items>
+                          <Item>
+                            <Name>Order Details</Name>
+                            <SortOrder>9</SortOrder>
+                            <IsVisible>False</IsVisible>
+                            <Command type="Link">~/Profile/secure/OrderDetail.aspx</Command>
+                            <Resources>
+                              <Resource language="en">
+                                <Title>Order Details</Title>
+                                <Tooltip>Order Details</Tooltip>
+                              </Resource>
+                            </Resources>
+                            <Items />
+                          </Item>
+                        </Items>
+                      </Item>
+                    </Items>
+                  </Item>
+                  <Item>
+                    <Name>Account Information</Name>
+                    <SortOrder>2</SortOrder>
+                    <IsVisible>True</IsVisible>
+                    <Command type="Link">~/Profile/accountedit.aspx</Command>
+                    <Resources>
+                      <Resource language="en">
+                        <Title>Account Information</Title>
+                        <Tooltip>Account Information</Tooltip>
+                      </Resource>
+                    </Resources>
+                    <Items />
+                  </Item>
+                  <Item>
+                    <Name>Address Book</Name>
+                    <SortOrder>3</SortOrder>
+                    <IsVisible>True</IsVisible>
+                    <Command type="Link">~/Profile/AddressBook.aspx</Command>
+                    <Resources>
+                      <Resource language="en">
+                        <Title>Address Book</Title>
+                        <Tooltip>Address Book</Tooltip>
+                      </Resource>
+                    </Resources>
+                    <Items />
+                  </Item>
+                  <Item>
+                    <Name>My Orders</Name>
+                    <SortOrder>4</SortOrder>
+                    <IsVisible>True</IsVisible>
+                    <Command type="Link">~/Profile/OrdersList.aspx</Command>
+                    <Resources>
+                      <Resource language="en">
+                        <Title>My Orders</Title>
+                        <Tooltip>My Orders</Tooltip>
+                      </Resource>
+                    </Resources>
+                    <Items />
+                  </Item>
+                </Items>
+              </Item>
+            </Items>
+          </Item>
+        </Items>
+      </Menu>
+    </Menus>
+    <Folders>
+      <Folder name="Root" isPublic="True">
+        <SortOrder>0</SortOrder>
+        <Roles />
+        <Page isDefault="False" masterpage="masterpage" name="about.aspx" isPublic="False">
+          <SortOrder>1</SortOrder>
+          <Roles />
+          <Title>About</Title>
+          <Keywords />
+          <Description />
+          <PageNavigation />
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-04-02 09:14:35Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-04-02 09:14:35Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAABAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGJkZWM3MTcxLWM3OGItNGE2Mi04ZDRhLTNhMGZlMmI0MDMwNQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAACVBvcHVwQmFzZQAGFQAAACJkdjllNjkxZjBjNzI5MjRhMzQ5M2ViOWYyMjI2YTFiODNlCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY5ZTY5MWYwYzcyOTI0YTM0OTNlYjlmMjIyNmExYjgzZRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJIAAAAAAFIAAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJIwAAAAkkAAAAAgAAABEjAAAAAQAAAAYlAAAACUlubmVyVGV4dBAkAAAAAQAAAAYmAAAAwiU8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIj4NCiAgICA8dGJvZHk+DQogICAgICAgIDx0cj4NCiAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgd2lkdGg9Ijk3NCI+DQogICAgICAgICAgICA8aDE+PHNwYW4gY2xhc3M9IlBhZ2VIZWFkZXJTdWJ0aXRsZSI+VGhpcyBpcyBhIFN0YXJ0ZXIgS2l0IGVDb21tZXJjZSBTb2x1dGlvbiBhbmQgV2ViIFNpdGUgdGhhdCBjb250YWlucyBDIyBTb3VyY2UgQ29kZSBhbmQgRXhhbXBsZSBEYXRhIEJhc2VkIG9uIHRoZSBNZWRpYWNoYXNlIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayAoRUNGKTwvc3Bhbj48L2gxPg0KICAgICAgICAgICAgPHRhYmxlIGNlbGxzcGFjaW5nPSIxMCIgY2VsbHBhZGRpbmc9IjgiIHdpZHRoPSIxMDAlIiBib3JkZXI9IjAiPg0KICAgICAgICAgICAgICAgIDx0Ym9keT4NCiAgICAgICAgICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iNzMlIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMj5XZWxjb21lIHRvIHRoZSBMZWFkaW5nIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayBmb3IgVmlzdWFsIFN0dWRpbyAyMDA4IGFuZCAuTkVUIDMuNTwvaDI+DQogICAgICAgICAgICAgICAgICAgICAgICA8cCBjbGFzcz0iUGFnZUhlYWRlclN1YnRpdGxlIj5UaGlzIGlzIGFuIG9mZmljaWFsIE1lZGlhY2hhc2UgQVNQLk5FVCBlQ29tbWVyY2UgRnJhbWV3b3JrIChFQ0YpIHNhbXBsZSBlQ29tbWVyY2Ugc2l0ZSBhbmQgcmVwcmVzZW50cyBhIGNvbXBsZXRlIHNhbXBsZSBjYXRhbG9nIGFuZCBhc3NvY2lhdGVkIGJ1c2luZXNzIGZ1bmN0aW9uYWxpdHkgdG8gcHJvdmlkZSBhIHN0YXJ0aW5nIHBvaW50IHRvIGxlYXJuIGFuZCBkZXZlbG9wIG9uIHRoZSBFQ0YuPGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGUgRUNGIGlzIGFuIGVuZC10by1lbmQgLk5FVCBkZXZlbG9wbWVudCBmcmFtZXdvcmsgYW5kIGludGVncmF0aW9uIHBsYXRmb3JtIGZvciBidWlsZGluZywgZXh0ZW5kaW5nLCBhbmQgZGVsaXZlcmluZyBwcm9mZXNzaW9uYWwgZWNvbW1lcmNlIHNpdGVzIGNvbXBsZXRlIHdpdGggYmFjayBvZmZpY2Ugc3lzdGVtcyBpbnRlZ3JhdGlvbi4mbmJzcDsgVGhlIEVDRiBpcyBkZXNpZ25lZCBhbmQgZGV2ZWxvcGVkIHVzaW5nIGJlc3QgcHJhY3RpY2VzIGFuZCBhbGxvd3MgZGV2ZWxvcGVycyBhbmQgSVQgb3JnYW5pemF0aW9ucyB1bHRpbWF0ZSBmbGV4aWJpbGl0eSB0byBleHRlbmQgYW5kIGFkYXB0IHRoZSBFQ0YgdG8gdmlydHVhbGx5IGFueSB0eXBlIG9mIGNvbW1lcmNlIGJ1c2luZXNzIHNjZW5hcmlvLiA8L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDI+PHNwYW4gY2xhc3M9IkNvbnRlbnRIZWFkZXIiPkhvdyBDYW4gdGhpcyBTb2Z0d2FyZSBIZWxwIFlvdT88L3NwYW4+PC9oMj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlRoYXQgZGVwZW5kcyBvbiB3aG8gWU9VIGFyZSwgYnV0IGNoYW5jZXMgYXJlIGlmIHlvdSBhcmUgc2VlaW5nIHRoaXMgcGFnZSwgdGhlbiB5b3UgYXJlIGEgLk5FVCBkZXZlbG9wZXIgYW5kIHlvdSBoYXZlIGFscmVhZHkgdGFsa2VkIHRvIE1lZGlhY2hhc2Ugd2hpY2ggaXMgaG93IHlvdSBnb3QgdGhpcyBzb2Z0d2FyZSBpbiB0aGUgZmlyc3QgcGxhY2UuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPi5ORVQgRGV2ZWxvcGVycywgU3lzdGVtcyBpbnRlZ3JhdG9ycywgb3IgSVQgT3JnYW5pemF0aW9uczwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGlzIHNvZnR3YXJlIHByb3ZpZGVzIGEgc29saWQgYmFzZSBvZiBjb2RlLCBBUEkncywgZGF0YSBzdHJ1Y3R1cmVzLCBhbmQgYSBiZXN0IHByYWN0aWNlcyBhcmNoaXRlY3R1cmUgdGhhdCB3aWxsIGFsbG93IHlvdSB0byBkZXZlbG9wLCBpbnRlZ3JhdGUsIGFuZCBkZWxpdmVyIGFueSBudW1iZXIgb2YgdW5pcXVlIGFuZCBkaWZmZXJlbnQgY29tbWVyY2Ugc29sdXRpb25zLiBUaGUgRUNGIGFyY2hpdGVjdHVyZSBhbmQgY29kZSBiYXNlIGluY2x1ZGVzIGV2ZXJ5dGhpbmcgeW91IHdvdWxkIGV4cGVjdCB0byBwcm92aWRlIHlvdSB3aXRoIGEgYmFzZSBwbGF0Zm9ybSBmb3IgcmUtdXNlLCBzY2FsYWJpbGl0eSwgZXh0ZW5zaWJpbGl0eSwgYW5kIHRpbWUgc2F2aW5ncy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDM+RXhlY3V0aXZlcywgQnVzaW5lc3MgT3JnYW5pemF0aW9ucywgb3IgTWVyY2hhbnRzPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlRoaXMgc29mdHdhcmUgY2FuIHBsYXkgYSBzdHJhdGVnaWMgcm9sZSBpbiBpbmNyZWFzaW5nIHlvdXIgb25saW5lIHNhbGVzIGNhcGFiaWxpdHkgYWNyb3NzIG11bHRpcGxlIGNoYW5uZWxzIGFuZCBleHRlbmRpbmcgeW91ciBmbGV4aWJpbGl0eSB0byBhZGFwdCB5b3VyIHVuaXF1ZSBidXNpbmVzcyBuZWVkcy4gVGhlIEVDRiBzb2Z0d2FyZSBlbmFibGVzIHlvdXIgdGVjaG5vbG9neSB0ZWFtcywgYnVzaW5lc3MgdXNlcnMsIGFuZCBleGlzdGluZyBpbnZlc3RtZW50cyBpbiBzeXN0ZW1zLCBwcm9jZXNzIGFuZCBpbmZyYXN0cnVjdHVyZSB0byBzZWFtbGVzc2x5IGNyZWF0ZSBleHBlcmllbmNlcyBmb3IgeW91ciBjdXN0b21lcnMsIHBhcnRuZXJzLCBhbmQgc3VwcGxpZXJzIGFuZCBpbmNyZWFzZSBzYWxlcyBhbmQgcmVkdWNlIGNvc3RzLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz5FdmVyeW9uZSBFbHNlLi4uPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPklmIHlvdSBwbGF5IGEgcm9sZSBpbiB5b3VyIG9yZ2FuaXphdGlvbiBlaXRoZXIgdGVjaG5pY2FsLCBidXNpbmVzcywgb3Igb3BlcmF0aW9uYWwgYW5kIHlvdXIgaW52b2x2ZWQgaW4gZGV2ZWxvcGluZyBhbmQgZGVwbG95aW5nIHdlYiBzaXRlcyByZWxhdGVkIHRvIGVjb21tZXJjZSwgdGhlbiB5b3UgbWF5IHdhbnQgdG8gaW52ZXN0aWdhdGUgRUNGIGFzIGEga2V5IHBsYXRmb3JtIGZvciB5b3VyIGZ1dHVyZS4gVGhlcmUgaXMgbXVjaCB0aGF0IGl0IGNhbiBkbyBmb3IgeW91LCBidXQgYmVzdCBvZiBhbGwgaXMgd2hhdCB5b3UgY2FuIGRvIHdpdGggaXQgc2luY2UgaXQgb2ZmZXJzIGFic29sdXRlIGZsZXhpYmlsaXR5IGFuZCBjb250cm9sIGluIGFjaGlldmluZyByZXN1bHRzLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlZpc2l0IG91ciB3ZWIgc2l0ZSBhdCA8YSBocmVmPSJodHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLyIgdGFyZ2V0PSJuZXciPmh0dHA6Ly93d3cubWVkaWFjaGFzZS5jb20vPC9hPiwgb3IgZmVlbCBmcmVlIHRvIGNvbnRhY3QgdXMgZGlyZWN0bHkgdG8gbGVhcm4gbW9yZSBhdCA8YSBocmVmPSImIzEwOTsmIzk3OyYjMTA1OyYjMTA4OyYjMTE2OyYjMTExOyYjNTg7JiMxMTU7JiM5NzsmIzEwODsmIzEwMTsmIzExNTsmIzY0OyYjMTA5OyYjMTAxOyYjMTAwOyYjMTA1OyYjOTc7JiM5OTsmIzEwNDsmIzk3OyYjMTE1OyYjMTAxOyYjNDY7JiM5OTsmIzExMTsmIzEwOTsiPnNhbGVzQG1lZGlhY2hhc2UuY29tPC9hPiBvciBjYWxsIHVzIGF0IFUuUy4gKzEtMzIzLTk4OC0xMDcxIFBhY2lmaWMgdGltZSBvciArMSAyMDItMzU1LTcxMjUgRWFzdGVybiB0aW1lLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8dGQgdmFsaWduPSJ0b3AiIHdpZHRoPSIyNyUiIGJnY29sb3I9IiNmN2Y1ZWYiPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPjxmb250IGNvbG9yPSIjMDAwMDY2Ij5UaGlzIHNvZnR3YXJlIHByb2R1Y3QgaXMgZGVzaWduZWQgYW5kIGFyY2hpdGVjdGVkIGZvciBwcm9mZXNzaW9uYWwgLk5FVCBkZXZlbG9wZXJzLCBJVCBvcmdhbml6YXRpb25zLCBzeXN0ZW1zIGludGVncmF0b3JzLCBhbmQgYnVzaW5lc3NlcyBmb2N1c2VkIG9uIGRlbGl2ZXJpbmcgc2NhbGFibGUgY29tbWVyY2Ugc3lzdGVtcyB0byBiZXR0ZXIgbWFya2V0LCBzZWxsLCBhbmQgbGV2ZXJhZ2UgdGhlaXIgb25saW5lIHByZXNlbmNlLjwvZm9udD48L2gzPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPkZvciBNb3JlIEluZm9ybWF0aW9uPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlZpc2l0IG91ciB3ZWIgc2l0ZSBhdCA8YSBocmVmPSJodHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLyIgdGFyZ2V0PSJuZXciPmh0dHA6Ly93d3cubWVkaWFjaGFzZS5jb20vPC9hPiwgb3IgZmVlbCBmcmVlIHRvIGNvbnRhY3QgdXMgZGlyZWN0bHkgdG8gbGVhcm4gbW9yZSBhdCA8YSBocmVmPSImIzEwOTsmIzk3OyYjMTA1OyYjMTA4OyYjMTE2OyYjMTExOyYjNTg7JiMxMTU7JiM5NzsmIzEwODsmIzEwMTsmIzExNTsmIzY0OyYjMTA5OyYjMTAxOyYjMTAwOyYjMTA1OyYjOTc7JiM5OTsmIzEwNDsmIzk3OyYjMTE1OyYjMTAxOyYjNDY7JiM5OTsmIzExMTsmIzEwOTsiPnNhbGVzQG1lZGlhY2hhc2UuY29tPC9hPiBvciBjYWxsIHVzIGF0IFUuUy4gKzEgKDMyMykgOTg4LTEwNzEgUGFjaWZpYyB0aW1lIG9yICsxICgyMDIpIDM1NS03MTI1IEVhc3Rlcm4gdGltZS48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgICAgICA8L3RyPg0KICAgICAgICAgICAgICAgIDwvdGJvZHk+DQogICAgICAgICAgICA8L3RhYmxlPg0KICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgPC90cj4NCiAgICA8L3Rib2R5Pg0KPC90YWJsZT4NCgs=</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="accessdenied.aspx" isPublic="False">
+          <SortOrder>2</SortOrder>
+          <Roles />
+          <Title>Access Denied</Title>
+          <Keywords />
+          <Description />
+          <PageNavigation />
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-02-07 11:39:37Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-02-07 11:39:37Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAACAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGQ4ZDAyZTYwLWQyY2UtNDU1Yi1iNzE4LTkxYmNhZjQ0MTcwZQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAACVBvcHVwQmFzZQAGFQAAACJkdjY1N2M1OWE2NmRjMDRjOTU5MDliODk0YjhmYjdhN2M0CQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY2NTdjNTlhNjZkYzA0Yzk1OTA5Yjg5NGI4ZmI3YTdjNBAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJIAAAAAAFIAAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJIwAAAAkkAAAAAgAAABEjAAAAAQAAAAYlAAAACUlubmVyVGV4dBAkAAAAAQAAAAYmAAAA+AM8dGFibGUgc3R5bGU9IldJRFRIOiAxMDAlIiBjZWxsc3BhY2luZz0iNCIgY2VsbHBhZGRpbmc9IjQiPg0KICAgIDx0Ym9keT4NCiAgICAgICAgPHRyPg0KICAgICAgICAgICAgPHRkPg0KICAgICAgICAgICAgPGgxPkFjY2VzcyBEZW5pZWQmbmJzcDs8L2gxPg0KICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgPC90cj4NCiAgICAgICAgPHRyPg0KICAgICAgICAgICAgPHRkPg0KICAgICAgICAgICAgPHA+UGVybWlzc2lvbiB0byB0aGUgcmVxdWVzdGVkIGRvY3VtZW50IHdhcyBkZW5pZWQuPC9wPg0KICAgICAgICAgICAgPHA+Jm5ic3A7TW9zdCBsaWtlbHkgY2F1c2VzOiA8L3A+DQogICAgICAgICAgICA8dWw+DQogICAgICAgICAgICAgICAgPGxpPlRoZSByZXNvdXJjZSB5b3UgaGF2ZSByZXF1ZXN0ZWQgcmVxdWlyZXMgUmVhZCByaWdodHMuIDwvbGk+DQogICAgICAgICAgICA8L3VsPg0KICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgPC90cj4NCiAgICA8L3Rib2R5Pg0KPC90YWJsZT4L</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Folder name="Cart" isPublic="False">
+          <SortOrder>3</SortOrder>
+          <Roles>Everyone</Roles>
+          <Page isDefault="False" masterpage="" name="ShoppingCart.aspx" isPublic="True">
+            <SortOrder>5</SortOrder>
+            <Roles />
+            <Title>My public site</Title>
+            <Keywords />
+            <Description />
+            <PageNavigation>
+              <NavigationCommand item="ShoppingCart" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-01-17 18:02:56Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-01-17 18:02:56Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAADAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGViNDZkMzAyLTgzMjUtNGJlOS05NTgwLTVkNDRkZmQxODdjOQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVh/////wYTAAAAAAYUAAAAJDg3MjEzQ0QzLUQzMEMtNDBmOS1BMTAxLTVBMjcyNENGRkEwQgAGFQAAACJkdjMzMDQxNmYyMDM1YjRmMjE4ODY4YjM4ZWUxZWFjMTA3CQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHYzMzA0MTZmMjAzNWI0ZjIxODg2OGIzOGVlMWVhYzEwNxAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="False" masterpage="" name="WishList.aspx" isPublic="True">
+            <SortOrder>4</SortOrder>
+            <Roles />
+            <Title>Wish List</Title>
+            <Keywords>keywords</Keywords>
+            <Description>mediachase ecf 5.2 sample store</Description>
+            <PageNavigation>
+              <NavigationCommand item="WishList" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2009-10-22 14:07:41Z" createdby="af7b475d-2e19-46a6-a920-b8bfc7f243b8" modified="2009-10-22 14:07:41Z" modifiedby="af7b475d-2e19-46a6-a920-b8bfc7f243b8">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAEAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDljNzJhZjZkLTNiOTktNDg4My1iODA5LTdmMWM2ZTE2NGUwNAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAACAAAABhIAAAAhTWVkaWFjaGFzZS5DTVMuRG9jdW1lbnRQcm9wZXJ0aWVzBhMAAAAIbWVudVNpdGUQDgAAAAIAAAAJFAAAAAkVAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhYAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYXAAAAAAYYAAAAJEJFQTk5QjVFLUVGRjAtNDNlNC1CQUY0LUMyREY4OUVGQUJFMwAGGQAAACJkdmVkMGZlMGY0MTA1ZDQzZDVhNzU3OTIzYWVjMjkwODA3CQEAAAAJGwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhwAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJFwAAAAUUAAAAJE1lZGlhY2hhc2UuQ21zLlBhZ2VzLkNvbnRyb2xTZXR0aW5ncwIAAAAHX3BhcmFtcwtfaXNNb2RpZmllZAQAGk1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhcmFtAgAAAAECAAAACgABFQAAABQAAAAKAAEbAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkgAAAACSEAAAACAAAAESAAAAABAAAABiIAAAAiZHZlZDBmZTBmNDEwNWQ0M2Q1YTc1NzkyM2FlYzI5MDgwNxAhAAAAAQAAAAkjAAAAASMAAAAUAAAACgAL</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+        </Folder>
+        <Folder name="Catalog" isPublic="False">
+          <SortOrder>6</SortOrder>
+          <Roles>Everyone</Roles>
+          <Page isDefault="False" masterpage="" name="CatalogNodeInfo.aspx" isPublic="False">
+            <SortOrder>9</SortOrder>
+            <Roles />
+            <Title>My public site</Title>
+            <Keywords>1</Keywords>
+            <Description>1</Description>
+            <PageNavigation>
+              <NavigationCommand item="NodeView" params="" trigerParam="">
+                <Parameters>
+                  <Parameter name="nc" value="" required="True" />
+                </Parameters>
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="43" language="en" template="SideMenuTemplate" status="Published" state="Page is under review" created="2007-12-14 19:24:51Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-08-22 14:56:09Z" modifiedby="5f767ee8-294b-424e-95b8-9636cfd24ac8">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAFAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDYwYmJhZDZhLWM0ZTYtNGEzNi04YjQ5LWEyZGU1NmQwZDU5ZQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDc0NDE0NjQxLUI0NjMtNDQ3Zi05QUY3LUVDOUQyMEZFODNCRQAGFQAAACJkdjkwZGM0YTQ2NzY0ZjQxMDg4ODk4NGY4OTIxNGUyMzQ3CQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY5MGRjNGE0Njc2NGY0MTA4ODg5ODRmODkyMTRlMjM0NxAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="3" language="de" template="SideMenuTemplate" status="Published" state="Page is under review" created="2008-03-05 22:13:44Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-03-05 22:14:35Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAGAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDQ3YmVmYWRlLTIwYzUtNDdkYS1hYWM5LTE2N2QzMTk2NjMyOAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDc0NDE0NjQxLUI0NjMtNDQ3Zi05QUY3LUVDOUQyMEZFODNCRQAGFQAAACJkdmMzMTY3NDljODU3ZjRjZGNiYWJiYjcwZWFlYWE3MWMzCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHZjMzE2NzQ5Yzg1N2Y0Y2RjYmFiYmI3MGVhZWFhNzFjMxAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="3" language="es" template="SideMenuTemplate" status="Published" state="Page is under review" created="2008-08-22 15:21:23Z" createdby="5f767ee8-294b-424e-95b8-9636cfd24ac8" modified="2008-09-28 22:57:32Z" modifiedby="64b354ec-e7e6-446e-9e60-70c865ba2bae">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAHAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGMyNTA2MzU5LTk0ZDMtNGNkMS1iZmNjLWMxMTQyMzU5MmE1ZgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDc0NDE0NjQxLUI0NjMtNDQ3Zi05QUY3LUVDOUQyMEZFODNCRQAGFQAAACJkdjYxNGVmOWYwNTNmMTRkOGI4NWRlZDg4YWVmZGU5NTRmCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY2MTRlZjlmMDUzZjE0ZDhiODVkZWQ4OGFlZmRlOTU0ZhAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="False" masterpage="" name="EntryInfo.aspx" isPublic="False">
+            <SortOrder>8</SortOrder>
+            <Roles />
+            <Title>My public site</Title>
+            <Keywords>1</Keywords>
+            <Description>1</Description>
+            <PageNavigation>
+              <NavigationCommand item="EntryView" params="" trigerParam="">
+                <Parameters>
+                  <Parameter name="ec" value="" required="True" />
+                </Parameters>
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="1" language="de" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-02-28 18:37:24Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-02-28 18:37:24Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAIAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGE1NzU4NzMzLTk5MjktNDMxMy05MWJmLTQ3ZDE1MzAxZGMzOQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDcyNzc3QTRBLUI0NTMtNDM2Ny1CNUY4LUFCMDhGRkE4NkY3QgAGFQAAACJkdmNhZDNiZDNlNDczMzQzMjNhNmRiNWYzMzUxOWYzOGQyCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHZjYWQzYmQzZTQ3MzM0MzIzYTZkYjVmMzM1MTlmMzhkMhAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="2" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-03-09 13:23:45Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-03-09 13:23:51Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAJAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGM5ZjgzYTdhLTVkZTctNGViNC04MWUxLTljZjA1OTg2NDIyOAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDcyNzc3QTRBLUI0NTMtNDM2Ny1CNUY4LUFCMDhGRkE4NkY3QgAGFQAAACJkdjhjNjdhNmRlODllODQ5YTJhYTIzMDFjOTIxMWY3MWQwCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY4YzY3YTZkZTg5ZTg0OWEyYWEyMzAxYzkyMTFmNzFkMBAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="1" language="es" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-08-22 15:22:37Z" createdby="5f767ee8-294b-424e-95b8-9636cfd24ac8" modified="2008-08-22 15:22:37Z" modifiedby="5f767ee8-294b-424e-95b8-9636cfd24ac8">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAKAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDgwNmY5NWYyLTVlNGQtNDRlZS1iYmY3LWU1ZmE2NmQwMjE5ZgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDcyNzc3QTRBLUI0NTMtNDM2Ny1CNUY4LUFCMDhGRkE4NkY3QgAGFQAAACJkdjg3OGFlNDJiOWJlZDQ0ODlhMWRlZjY5ZTZiNjczNWJlCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY4NzhhZTQyYjliZWQ0NDg5YTFkZWY2OWU2YjY3MzViZRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="False" masterpage="" name="SearchResults.aspx" isPublic="False">
+            <SortOrder>7</SortOrder>
+            <Roles />
+            <Title>Search Results</Title>
+            <Keywords>1</Keywords>
+            <Description>1</Description>
+            <PageNavigation>
+              <NavigationCommand item="SearchResults" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="3" language="en" template="SideMenuTemplate" status="Published" state="Page is under review" created="2008-03-26 12:39:28Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-09-29 00:45:18Z" modifiedby="64b354ec-e7e6-446e-9e60-70c865ba2bae">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAALAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDU3MWE3ZDMwLTRmYzAtNDE2My04NmZmLTkzYWVkOGRlMzE3NgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDZCRTY4OTUwLTNENDYtNGUzYS1CQ0I3LUE4QTZGQ0JBNUVENAAGFQAAACJkdjdiMWZkMWU5Njg4ODQ3MDA4MDJjMjQ3OGZkYzAxODViCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY3YjFmZDFlOTY4ODg0NzAwODAyYzI0NzhmZGMwMTg1YhAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="3" language="es" template="SideMenuTemplate" status="Published" state="Page is under review" created="2008-08-22 15:23:35Z" createdby="5f767ee8-294b-424e-95b8-9636cfd24ac8" modified="2008-09-29 00:47:51Z" modifiedby="64b354ec-e7e6-446e-9e60-70c865ba2bae">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAMAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGU0YzgyZmY0LTA1YzUtNDMyMS1hMzYzLTg2NTMzZjlhNmQyMwkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDZCRTY4OTUwLTNENDYtNGUzYS1CQ0I3LUE4QTZGQ0JBNUVENAAGFQAAACJkdjI4OTkwZmNjNWZkZjQxYmM5MjNmMDEwY2ZhNmUyYjk0CQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHYyODk5MGZjYzVmZGY0MWJjOTIzZjAxMGNmYTZlMmI5NBAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+              <Version version="3" language="de" template="SideMenuTemplate" status="Published" state="Page is under review" created="2008-08-22 15:23:58Z" createdby="5f767ee8-294b-424e-95b8-9636cfd24ac8" modified="2008-09-29 00:46:50Z" modifiedby="64b354ec-e7e6-446e-9e60-70c865ba2bae">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAANAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGZmNWFjNjY0LWNiMDItNGUxNC04YjBhLWVmMTk3OGI5ODlhYgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDZCRTY4OTUwLTNENDYtNGUzYS1CQ0I3LUE4QTZGQ0JBNUVENAAGFQAAACJkdjQyN2M1YTUzZDEwNTRjNTlhNjk1NThiOTdmNTA4NTJhCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY0MjdjNWE1M2QxMDU0YzU5YTY5NTU4Yjk3ZjUwODUyYRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+        </Folder>
+        <Folder name="Checkout" isPublic="False">
+          <SortOrder>10</SortOrder>
+          <Roles>Everyone</Roles>
+          <Page isDefault="False" masterpage="" name="Checkout.aspx" isPublic="True">
+            <SortOrder>11</SortOrder>
+            <Roles />
+            <Title>My public site</Title>
+            <Keywords />
+            <Description />
+            <PageNavigation>
+              <NavigationCommand item="Checkout" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-01-17 18:05:23Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-01-17 18:05:23Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAOAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDRjYjhmZGNhLWU0OTUtNDU2Yi05MTUxLTliZjk1NzU4NDI0MAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDVEMEY3ODkwLTY1QkEtNDQ5Yi1CMzJFLTcwMENCQjhBRENEQgAGFQAAACJkdmZlMjg3NWZiNTZhYjQyZTc4OWZkMDk2ZWYxYWYyYjNmCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHZmZTI4NzVmYjU2YWI0MmU3ODlmZDA5NmVmMWFmMmIzZhAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+        </Folder>
+        <Page isDefault="False" masterpage="" name="compare.aspx" isPublic="True">
+          <SortOrder>12</SortOrder>
+          <Roles />
+          <Title>Compare Products</Title>
+          <Keywords>keywords</Keywords>
+          <Description>mediachase ecf 5.2 sample store</Description>
+          <PageNavigation>
+            <NavigationCommand item="Compare" params="" trigerParam="">
+              <Parameters />
+            </NavigationCommand>
+          </PageNavigation>
+          <Versions>
+            <Version version="2" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2009-10-20 09:31:26Z" createdby="7e15885d-aa1e-4b85-80cb-deeaa6e73d27" modified="2009-10-20 09:31:31Z" modifiedby="7e15885d-aa1e-4b85-80cb-deeaa6e73d27">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAPAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGE5YmM5MmQyLWIyMWMtNDhlNC04OGZiLWI0NTIxMDM1ZDQ3YQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAACAAAABhIAAAAhTWVkaWFjaGFzZS5DTVMuRG9jdW1lbnRQcm9wZXJ0aWVzBhMAAAAIbWVudVNpdGUQDgAAAAIAAAAJFAAAAAkVAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhYAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYXAAAAAAYYAAAAJDAxRTY2RkE5LThEN0YtNDk3ZC05MkIyLUYwRTZGNzQxN0VDQwAGGQAAACJkdmU3MTYzZTY3MDc4MjQwODE4MDJjNjQ0NTNmZDVlZDJmCQEAAAAJGwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhwAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJFwAAAAUUAAAAJE1lZGlhY2hhc2UuQ21zLlBhZ2VzLkNvbnRyb2xTZXR0aW5ncwIAAAAHX3BhcmFtcwtfaXNNb2RpZmllZAQAGk1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhcmFtAgAAAAECAAAACR4AAAAAARUAAAAUAAAACgABGwAAAAkAAAAACQsAAAAJDAAAAAEAAAAJIQAAAAkiAAAAAgAAAAUeAAAAGk1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhcmFtBwAAAAhSZWFkT25seQxIYXNoUHJvdmlkZXIIQ29tcGFyZXIFQ291bnQES2V5cwZWYWx1ZXMHVmVyc2lvbgADAwAGBQABMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyKlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVDb21wYXJlcggIAgAAAAAJCwAAAAkMAAAAAQAAAAklAAAACSYAAAACAAAAESEAAAABAAAABicAAAAiZHZlNzE2M2U2NzA3ODI0MDgxODAyYzY0NDUzZmQ1ZWQyZhAiAAAAAQAAAAkoAAAAESUAAAABAAAABikAAAAJX1RlbXBsYXRlECYAAAABAAAABioAAAABMQEoAAAAFAAAAAoACw==</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="True" masterpage="" name="default.aspx" isPublic="False">
+          <SortOrder>13</SortOrder>
+          <Roles />
+          <Title>ECF 5.2 Everything Demo Store</Title>
+          <Keywords />
+          <Description />
+          <PageNavigation />
+          <Versions>
+            <Version version="7" language="en" template="HomeTemplate" status="Published" state="Page is under review" created="2007-12-14 18:18:34Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-06-14 13:31:05Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAQAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDJjZGUxZjU1LTE4ODEtNDBiNy1hYjY4LTA0ZDRkMzlhY2QxYgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAAAAAAAAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAAAAAAAAQLAAAAMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyAQAAAAZtX3RleHQDHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvCQ8AAAAEDAAAACpTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIBAAAADW1fY29tcGFyZUluZm8DIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvCRAAAAARDQAAAAAAAAAQDgAAAAAAAAAEDwAAAB1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwYAAAAPbV9saXN0U2VwYXJhdG9yDG1faXNSZWFkT25seRFjdXN0b21DdWx0dXJlTmFtZQttX25EYXRhSXRlbRFtX3VzZVVzZXJPdmVycmlkZQ1tX3dpbjMyTGFuZ0lEAQABAAAAAQgBCAYRAAAAASwBCsoAAAAAfwAAAAQQAAAAIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvAwAAAAl3aW4zMkxDSUQHY3VsdHVyZQZtX25hbWUAAAEICH8AAAB/AAAABhIAAAAACw==</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="GeneralQuestions.aspx" isPublic="False">
+          <SortOrder>14</SortOrder>
+          <Roles />
+          <Title>General Questions</Title>
+          <Keywords>general questions</Keywords>
+          <Description>contains answers to general questions</Description>
+          <PageNavigation />
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-04-02 09:21:43Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-04-02 09:21:43Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAARAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDE3YzI4YWQwLWQ0MTAtNDg0Zi1iYjIzLThlODg0M2IwMmZiNgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAACVBvcHVwQmFzZQAGFQAAACJkdjkzMzA2Yjg0ODliNzQyYmJhM2ViYTlkNjE3YTNmNzlhCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY5MzMwNmI4NDg5Yjc0MmJiYTNlYmE5ZDYxN2EzZjc5YRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJIAAAAAAFIAAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJIwAAAAkkAAAAAgAAABEjAAAAAQAAAAYlAAAACUlubmVyVGV4dBAkAAAAAQAAAAYmAAAAhyg8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIj4NCiAgICA8dGJvZHk+DQogICAgICAgIDx0cj4NCiAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgd2lkdGg9Ijk3NCI+DQogICAgICAgICAgICA8aDE+PHNwYW4gY2xhc3M9IlBhZ2VIZWFkZXJTdWJ0aXRsZSI+VGhpcyBpcyBhIFN0YXJ0ZXIgS2l0IGVDb21tZXJjZSBTb2x1dGlvbiBhbmQgV2ViIFNpdGUgdGhhdCBjb250YWlucyBDIyBTb3VyY2UgQ29kZSBhbmQgRXhhbXBsZSBEYXRhIEJhc2VkIG9uIHRoZSBNZWRpYWNoYXNlIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayAoRUNGKTwvc3Bhbj48L2gxPg0KICAgICAgICAgICAgPHRhYmxlIGNlbGxzcGFjaW5nPSIxMCIgY2VsbHBhZGRpbmc9IjgiIHdpZHRoPSIxMDAlIiBib3JkZXI9IjAiPg0KICAgICAgICAgICAgICAgIDx0Ym9keT4NCiAgICAgICAgICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iNzMlIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMj5UaGlzIGlzIGFuIGV4YW1wbGUgIkdlbmVyYWwgUXVlc3Rpb25zIiBQYWdlPC9oMj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlRoaXMgcGFnZSBjYW4gYmUgZGVzaWduZWQgYW5kIHN0cnVjdHVyZWQgaW4gYW55IHdheSB5b3UgbmVlZC4gVG8gZmluZCBpdCBzaW1wbHkgZ28gdG8gdGhlIEVDRiBjb21tZXJjZSBtYW5hZ2VyIChCYWNrIEVuZCBTaXRlIGluIHRoZSBFQ0YpIGFuZCB1c2UgdGhlIGNvbnRlbnQgbWFuYWdlbWVudCBzeXN0ZW0gdG8gZmluZCB0aGlzIHZpcnR1YWwgKGR5bmFtaWNhbGx5IGdlbmVyYXRlZCkgcGFnZSBhbmQgaXQgd2lsbCBvcGVuIHRoZSBlZGl0IHdpbmRvdy4gVGhlbiB5b3UgY2FuIG1ha2Ugc29tZSBjaGFuZ2VzIGFuZCByZS1wdWJsaXNoIHRoZSBwYWdlIHRvIHNlZSBob3cgZWFzeSBpdCBpcyB0byBjb250cm9sIHRoZSBjb250ZW50IG9uIHlvdXIgd2ViIHNpdGUuIEFsbCBwYWdlcyBjcmVhdGVkIGluIHRoZSBFQ0YgQ01TIHN1YnN5c3RlbSBjYW4gYmUgbWFuYWdlZCBieSBlbmQtdXNlcnMgd2hvIGhhdmUgYmVlbiBncmFudGVkIHRoZSBhYmlsaXR5IHRvIGRvIHRoaXMuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgyPjxzcGFuIGNsYXNzPSJDb250ZW50SGVhZGVyIj5XaGF0IGlzIHRoZSBNZWRpYWNoYXNlIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayAoRUNGKT88L3NwYW4+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICA8L2gyPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHA+VGhlIEVDRiBpcyBhbiBlbmQtdG8tZW5kIC5ORVQgZGV2ZWxvcG1lbnQgZnJhbWV3b3JrIGFuZCBpbnRlZ3JhdGlvbiBwbGF0Zm9ybSBmb3IgYnVpbGRpbmcsIGV4dGVuZGluZywgYW5kIGRlbGl2ZXJpbmcgcHJvZmVzc2lvbmFsIGVjb21tZXJjZSBzaXRlcyBjb21wbGV0ZSB3aXRoIGJhY2sgb2ZmaWNlIHN5c3RlbXMgaW50ZWdyYXRpb24uJm5ic3A7IFRoZSBFQ0YgaXMgZGVzaWduZWQgYW5kIGRldmVsb3BlZCB1c2luZyBiZXN0IHByYWN0aWNlcyBhbmQgYWxsb3dzIGRldmVsb3BlcnMgYW5kIElUIG9yZ2FuaXphdGlvbnMgdWx0aW1hdGUgZmxleGliaWxpdHkgdG8gZXh0ZW5kIGFuZCBhZGFwdCB0aGUgRUNGIHRvIHZpcnR1YWxseSBhbnkgdHlwZSBvZiBjb21tZXJjZSBidXNpbmVzcyBzY2VuYXJpby4gPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgyPjxzcGFuIGNsYXNzPSJDb250ZW50SGVhZGVyIj5Ib3cgQ2FuIHRoaXMgU29mdHdhcmUgSGVscCBZb3U/PC9zcGFuPjwvaDI+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGF0IGRlcGVuZHMgb24gd2hvIFlPVSBhcmUsIGJ1dCBjaGFuY2VzIGFyZSBpZiB5b3UgYXJlIHNlZWluZyB0aGlzIHBhZ2UsIHRoZW4geW91IGFyZSBhIC5ORVQgZGV2ZWxvcGVyIGFuZCB5b3UgaGF2ZSBhbHJlYWR5IHRhbGtlZCB0byBNZWRpYWNoYXNlIHdoaWNoIGlzIGhvdyB5b3UgZ290IHRoaXMgc29mdHdhcmUgaW4gdGhlIGZpcnN0IHBsYWNlLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz4uTkVUIERldmVsb3BlcnMsIFN5c3RlbXMgaW50ZWdyYXRvcnMsIG9yIElUIE9yZ2FuaXphdGlvbnM8L2gzPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHA+VGhpcyBzb2Z0d2FyZSBwcm92aWRlcyBhIHNvbGlkIGJhc2Ugb2YgY29kZSwgQVBJJ3MsIGRhdGEgc3RydWN0dXJlcywgYW5kIGEgYmVzdCBwcmFjdGljZXMgYXJjaGl0ZWN0dXJlIHRoYXQgd2lsbCBhbGxvdyB5b3UgdG8gZGV2ZWxvcCwgaW50ZWdyYXRlLCBhbmQgZGVsaXZlciBhbnkgbnVtYmVyIG9mIHVuaXF1ZSBhbmQgZGlmZmVyZW50IGNvbW1lcmNlIHNvbHV0aW9ucy4gVGhlIEVDRiBhcmNoaXRlY3R1cmUgYW5kIGNvZGUgYmFzZSBpbmNsdWRlcyBldmVyeXRoaW5nIHlvdSB3b3VsZCBleHBlY3QgdG8gcHJvdmlkZSB5b3Ugd2l0aCBhIGJhc2UgcGxhdGZvcm0gZm9yIHJlLXVzZSwgc2NhbGFiaWxpdHksIGV4dGVuc2liaWxpdHksIGFuZCB0aW1lIHNhdmluZ3MuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPkV4ZWN1dGl2ZXMsIEJ1c2luZXNzIE9yZ2FuaXphdGlvbnMsIG9yIE1lcmNoYW50czwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGlzIHNvZnR3YXJlIGNhbiBwbGF5IGEgc3RyYXRlZ2ljIHJvbGUgaW4gaW5jcmVhc2luZyB5b3VyIG9ubGluZSBzYWxlcyBjYXBhYmlsaXR5IGFjcm9zcyBtdWx0aXBsZSBjaGFubmVscyBhbmQgZXh0ZW5kaW5nIHlvdXIgZmxleGliaWxpdHkgdG8gYWRhcHQgeW91ciB1bmlxdWUgYnVzaW5lc3MgbmVlZHMuIFRoZSBFQ0Ygc29mdHdhcmUgZW5hYmxlcyB5b3VyIHRlY2hub2xvZ3kgdGVhbXMsIGJ1c2luZXNzIHVzZXJzLCBhbmQgZXhpc3RpbmcgaW52ZXN0bWVudHMgaW4gc3lzdGVtcywgcHJvY2VzcyBhbmQgaW5mcmFzdHJ1Y3R1cmUgdG8gc2VhbWxlc3NseSBjcmVhdGUgZXhwZXJpZW5jZXMgZm9yIHlvdXIgY3VzdG9tZXJzLCBwYXJ0bmVycywgYW5kIHN1cHBsaWVycyBhbmQgaW5jcmVhc2Ugc2FsZXMgYW5kIHJlZHVjZSBjb3N0cy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDM+RXZlcnlvbmUgRWxzZS4uLjwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5JZiB5b3UgcGxheSBhIHJvbGUgaW4geW91ciBvcmdhbml6YXRpb24gZWl0aGVyIHRlY2huaWNhbCwgYnVzaW5lc3MsIG9yIG9wZXJhdGlvbmFsIGFuZCB5b3VyIGludm9sdmVkIGluIGRldmVsb3BpbmcgYW5kIGRlcGxveWluZyB3ZWIgc2l0ZXMgcmVsYXRlZCB0byBlY29tbWVyY2UsIHRoZW4geW91IG1heSB3YW50IHRvIGludmVzdGlnYXRlIEVDRiBhcyBhIGtleSBwbGF0Zm9ybSBmb3IgeW91ciBmdXR1cmUuIFRoZXJlIGlzIG11Y2ggdGhhdCBpdCBjYW4gZG8gZm9yIHlvdSwgYnV0IGJlc3Qgb2YgYWxsIGlzIHdoYXQgeW91IGNhbiBkbyB3aXRoIGl0IHNpbmNlIGl0IG9mZmVycyBhYnNvbHV0ZSBmbGV4aWJpbGl0eSBhbmQgY29udHJvbCBpbiBhY2hpZXZpbmcgcmVzdWx0cy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5WaXNpdCBvdXIgd2ViIHNpdGUgYXQgPGEgaHJlZj0iaHR0cDovL3d3dy5tZWRpYWNoYXNlLmNvbS8iIHRhcmdldD0ibmV3Ij5odHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLzwvYT4sIG9yIGZlZWwgZnJlZSB0byBjb250YWN0IHVzIGRpcmVjdGx5IHRvIGxlYXJuIG1vcmUgYXQgPGEgaHJlZj0iJiMxMDk7JiM5NzsmIzEwNTsmIzEwODsmIzExNjsmIzExMTsmIzU4OyYjMTE1OyYjOTc7JiMxMDg7JiMxMDE7JiMxMTU7JiM2NDsmIzEwOTsmIzEwMTsmIzEwMDsmIzEwNTsmIzk3OyYjOTk7JiMxMDQ7JiM5NzsmIzExNTsmIzEwMTsmIzQ2OyYjOTk7JiMxMTE7JiMxMDk7Ij5zYWxlc0BtZWRpYWNoYXNlLmNvbTwvYT4gb3IgY2FsbCB1cyBhdCBVLlMuICsxLTMyMy05ODgtMTA3MSBQYWNpZmljIHRpbWUgb3IgKzEgMjAyLTM1NS03MTI1IEVhc3Rlcm4gdGltZS48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iMjclIiBiZ2NvbG9yPSIjZjdmNWVmIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz48Zm9udCBjb2xvcj0iIzAwMDA2NiI+VGhpcyBzb2Z0d2FyZSBwcm9kdWN0IGlzIGRlc2lnbmVkIGFuZCBhcmNoaXRlY3RlZCBmb3IgcHJvZmVzc2lvbmFsIC5ORVQgZGV2ZWxvcGVycywgSVQgb3JnYW5pemF0aW9ucywgc3lzdGVtcyBpbnRlZ3JhdG9ycywgYW5kIGJ1c2luZXNzZXMgZm9jdXNlZCBvbiBkZWxpdmVyaW5nIHNjYWxhYmxlIGNvbW1lcmNlIHN5c3RlbXMgdG8gYmV0dGVyIG1hcmtldCwgc2VsbCwgYW5kIGxldmVyYWdlIHRoZWlyIG9ubGluZSBwcmVzZW5jZS48L2ZvbnQ+PC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz5Gb3IgTW9yZSBJbmZvcm1hdGlvbjwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5WaXNpdCBvdXIgd2ViIHNpdGUgYXQgPGEgaHJlZj0iaHR0cDovL3d3dy5tZWRpYWNoYXNlLmNvbS8iIHRhcmdldD0ibmV3Ij5odHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLzwvYT4sIG9yIGZlZWwgZnJlZSB0byBjb250YWN0IHVzIGRpcmVjdGx5IHRvIGxlYXJuIG1vcmUgYXQgPGEgaHJlZj0iJiMxMDk7JiM5NzsmIzEwNTsmIzEwODsmIzExNjsmIzExMTsmIzU4OyYjMTE1OyYjOTc7JiMxMDg7JiMxMDE7JiMxMTU7JiM2NDsmIzEwOTsmIzEwMTsmIzEwMDsmIzEwNTsmIzk3OyYjOTk7JiMxMDQ7JiM5NzsmIzExNTsmIzEwMTsmIzQ2OyYjOTk7JiMxMTE7JiMxMDk7Ij5zYWxlc0BtZWRpYWNoYXNlLmNvbTwvYT4gb3IgY2FsbCB1cyBhdCBVLlMuICsxICgzMjMpIDk4OC0xMDcxIFBhY2lmaWMgdGltZSBvciArMSAoMjAyKSAzNTUtNzEyNSBFYXN0ZXJuIHRpbWUuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICAgICAgPC90cj4NCiAgICAgICAgICAgICAgICA8L3Rib2R5Pg0KICAgICAgICAgICAgPC90YWJsZT4NCiAgICAgICAgICAgIDwvdGQ+DQogICAgICAgIDwvdHI+DQogICAgPC90Ym9keT4NCjwvdGFibGU+DQoL</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="Login.aspx" isPublic="False">
+          <SortOrder>15</SortOrder>
+          <Roles />
+          <Title>Login Page</Title>
+          <Keywords />
+          <Description />
+          <PageNavigation>
+            <NavigationCommand item="Login" params="" trigerParam="">
+              <Parameters />
+            </NavigationCommand>
+          </PageNavigation>
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2007-12-15 18:18:51Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2007-12-15 18:18:51Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAASAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDBmNjg2NzU2LTk4NDUtNGE3Zi04N2ViLWY4ZDMwODU1NzU3MwkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJEI2NUI4OTUyLTlBNDMtNDA1MC04QTZBLUU5QkIzQkNCNjE4MAAGFQAAACJkdmI5ZjBlY2NmNDA2NzQ5OGI5ODAzNTMyMTg0ZDA3OTkyCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHZiOWYwZWNjZjQwNjc0OThiOTgwMzUzMjE4NGQwNzk5MhAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="PasswordRecovery.aspx" isPublic="True">
+          <SortOrder>16</SortOrder>
+          <Roles />
+          <Title>My public site</Title>
+          <Keywords>1</Keywords>
+          <Description>1</Description>
+          <PageNavigation>
+            <NavigationCommand item="RecoverPassword" params="" trigerParam="">
+              <Parameters />
+            </NavigationCommand>
+          </PageNavigation>
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-01-25 15:09:56Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-01-25 15:09:56Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAATAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDQzOGZhOTNhLTMzZTUtNGZjMi05ZGM3LTBjZGZjOWJmNDFjNAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAAJDE3Mzg3ODMwLTU2MzMtNDA1Yy04QjU2LUNBOTIzRkQ0MzlERAAGFQAAACJkdjhiYzlkMDhhZTY5MTRmYTZhN2ZiYjg3NDI3MDI1YTY1CQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY4YmM5ZDA4YWU2OTE0ZmE2YTdmYmI4NzQyNzAyNWE2NRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="Privacy.aspx" isPublic="True">
+          <SortOrder>17</SortOrder>
+          <Roles />
+          <Title>Privacy</Title>
+          <Keywords>keywords</Keywords>
+          <Description>mediachase ecf 5.2 sample store</Description>
+          <PageNavigation />
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-11-08 00:43:56Z" createdby="1a1aaf20-46e5-49de-9636-d505a7c03f0c" modified="2008-11-08 00:43:56Z" modifiedby="1a1aaf20-46e5-49de-9636-d505a7c03f0c">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAUAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDJjYjk0ZTA0LTkyOGQtNDJhNC04YTI2LTAzZTU1YjFjNzhiYQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAACVBvcHVwQmFzZQAGFQAAACJkdjc0YWVkNTZiY2EwZjQzODU4NjU4ODcwZDU0OTEzZmZjCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY3NGFlZDU2YmNhMGY0Mzg1ODY1ODg3MGQ1NDkxM2ZmYxAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJIAAAAAAFIAAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJIwAAAAkkAAAAAgAAABEjAAAAAQAAAAYlAAAACUlubmVyVGV4dBAkAAAAAQAAAAYmAAAAiSQ8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIj4NCiAgICA8dGJvZHk+DQogICAgICAgIDx0cj4NCiAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgd2lkdGg9Ijk3NCI+DQogICAgICAgICAgICA8aDE+UHJpdmFjeSBQb2xpY3k8L2gxPg0KICAgICAgICAgICAgPHRhYmxlIGNlbGxzcGFjaW5nPSIxMCIgY2VsbHBhZGRpbmc9IjgiIHdpZHRoPSIxMDAlIiBib3JkZXI9IjAiPg0KICAgICAgICAgICAgICAgIDx0Ym9keT4NCiAgICAgICAgICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iNzMlIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMj5XZWxjb21lIHRvIHRoZSBMZWFkaW5nIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayBmb3IgVmlzdWFsIFN0dWRpbyAyMDA4IGFuZCAuTkVUIDMuNTwvaDI+DQogICAgICAgICAgICAgICAgICAgICAgICA8cCBjbGFzcz0iUGFnZUhlYWRlclN1YnRpdGxlIj5UaGlzIGlzIGFuIG9mZmljaWFsIE1lZGlhY2hhc2UgQVNQLk5FVCBlQ29tbWVyY2UgRnJhbWV3b3JrIChFQ0YpIHNhbXBsZSBlQ29tbWVyY2Ugc2l0ZSBhbmQgcmVwcmVzZW50cyBhIGNvbXBsZXRlIHNhbXBsZSBjYXRhbG9nIGFuZCBhc3NvY2lhdGVkIGJ1c2luZXNzIGZ1bmN0aW9uYWxpdHkgdG8gcHJvdmlkZSBhIHN0YXJ0aW5nIHBvaW50IHRvIGxlYXJuIGFuZCBkZXZlbG9wIG9uIHRoZSBFQ0YuPGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGUgRUNGIGlzIGFuIGVuZC10by1lbmQgLk5FVCBkZXZlbG9wbWVudCBmcmFtZXdvcmsgYW5kIGludGVncmF0aW9uIHBsYXRmb3JtIGZvciBidWlsZGluZywgZXh0ZW5kaW5nLCBhbmQgZGVsaXZlcmluZyBwcm9mZXNzaW9uYWwgZWNvbW1lcmNlIHNpdGVzIGNvbXBsZXRlIHdpdGggYmFjayBvZmZpY2Ugc3lzdGVtcyBpbnRlZ3JhdGlvbi4mbmJzcDsgVGhlIEVDRiBpcyBkZXNpZ25lZCBhbmQgZGV2ZWxvcGVkIHVzaW5nIGJlc3QgcHJhY3RpY2VzIGFuZCBhbGxvd3MgZGV2ZWxvcGVycyBhbmQgSVQgb3JnYW5pemF0aW9ucyB1bHRpbWF0ZSBmbGV4aWJpbGl0eSB0byBleHRlbmQgYW5kIGFkYXB0IHRoZSBFQ0YgdG8gdmlydHVhbGx5IGFueSB0eXBlIG9mIGNvbW1lcmNlIGJ1c2luZXNzIHNjZW5hcmlvLiA8L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDI+PHNwYW4gY2xhc3M9IkNvbnRlbnRIZWFkZXIiPkhvdyBDYW4gdGhpcyBTb2Z0d2FyZSBIZWxwIFlvdT88L3NwYW4+PC9oMj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlRoYXQgZGVwZW5kcyBvbiB3aG8gWU9VIGFyZSwgYnV0IGNoYW5jZXMgYXJlIGlmIHlvdSBhcmUgc2VlaW5nIHRoaXMgcGFnZSwgdGhlbiB5b3UgYXJlIGEgLk5FVCBkZXZlbG9wZXIgYW5kIHlvdSBoYXZlIGFscmVhZHkgdGFsa2VkIHRvIE1lZGlhY2hhc2Ugd2hpY2ggaXMgaG93IHlvdSBnb3QgdGhpcyBzb2Z0d2FyZSBpbiB0aGUgZmlyc3QgcGxhY2UuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPi5ORVQgRGV2ZWxvcGVycywgU3lzdGVtcyBpbnRlZ3JhdG9ycywgb3IgSVQgT3JnYW5pemF0aW9uczwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGlzIHNvZnR3YXJlIHByb3ZpZGVzIGEgc29saWQgYmFzZSBvZiBjb2RlLCBBUEkncywgZGF0YSBzdHJ1Y3R1cmVzLCBhbmQgYSBiZXN0IHByYWN0aWNlcyBhcmNoaXRlY3R1cmUgdGhhdCB3aWxsIGFsbG93IHlvdSB0byBkZXZlbG9wLCBpbnRlZ3JhdGUsIGFuZCBkZWxpdmVyIGFueSBudW1iZXIgb2YgdW5pcXVlIGFuZCBkaWZmZXJlbnQgY29tbWVyY2Ugc29sdXRpb25zLiBUaGUgRUNGIGFyY2hpdGVjdHVyZSBhbmQgY29kZSBiYXNlIGluY2x1ZGVzIGV2ZXJ5dGhpbmcgeW91IHdvdWxkIGV4cGVjdCB0byBwcm92aWRlIHlvdSB3aXRoIGEgYmFzZSBwbGF0Zm9ybSBmb3IgcmUtdXNlLCBzY2FsYWJpbGl0eSwgZXh0ZW5zaWJpbGl0eSwgYW5kIHRpbWUgc2F2aW5ncy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDM+RXhlY3V0aXZlcywgQnVzaW5lc3MgT3JnYW5pemF0aW9ucywgb3IgTWVyY2hhbnRzPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlRoaXMgc29mdHdhcmUgY2FuIHBsYXkgYSBzdHJhdGVnaWMgcm9sZSBpbiBpbmNyZWFzaW5nIHlvdXIgb25saW5lIHNhbGVzIGNhcGFiaWxpdHkgYWNyb3NzIG11bHRpcGxlIGNoYW5uZWxzIGFuZCBleHRlbmRpbmcgeW91ciBmbGV4aWJpbGl0eSB0byBhZGFwdCB5b3VyIHVuaXF1ZSBidXNpbmVzcyBuZWVkcy4gVGhlIEVDRiBzb2Z0d2FyZSBlbmFibGVzIHlvdXIgdGVjaG5vbG9neSB0ZWFtcywgYnVzaW5lc3MgdXNlcnMsIGFuZCBleGlzdGluZyBpbnZlc3RtZW50cyBpbiBzeXN0ZW1zLCBwcm9jZXNzIGFuZCBpbmZyYXN0cnVjdHVyZSB0byBzZWFtbGVzc2x5IGNyZWF0ZSBleHBlcmllbmNlcyBmb3IgeW91ciBjdXN0b21lcnMsIHBhcnRuZXJzLCBhbmQgc3VwcGxpZXJzIGFuZCBpbmNyZWFzZSBzYWxlcyBhbmQgcmVkdWNlIGNvc3RzLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz5FdmVyeW9uZSBFbHNlLi4uPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPklmIHlvdSBwbGF5IGEgcm9sZSBpbiB5b3VyIG9yZ2FuaXphdGlvbiBlaXRoZXIgdGVjaG5pY2FsLCBidXNpbmVzcywgb3Igb3BlcmF0aW9uYWwgYW5kIHlvdXIgaW52b2x2ZWQgaW4gZGV2ZWxvcGluZyBhbmQgZGVwbG95aW5nIHdlYiBzaXRlcyByZWxhdGVkIHRvIGVjb21tZXJjZSwgdGhlbiB5b3UgbWF5IHdhbnQgdG8gaW52ZXN0aWdhdGUgRUNGIGFzIGEga2V5IHBsYXRmb3JtIGZvciB5b3VyIGZ1dHVyZS4gVGhlcmUgaXMgbXVjaCB0aGF0IGl0IGNhbiBkbyBmb3IgeW91LCBidXQgYmVzdCBvZiBhbGwgaXMgd2hhdCB5b3UgY2FuIGRvIHdpdGggaXQgc2luY2UgaXQgb2ZmZXJzIGFic29sdXRlIGZsZXhpYmlsaXR5IGFuZCBjb250cm9sIGluIGFjaGlldmluZyByZXN1bHRzLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlZpc2l0IG91ciB3ZWIgc2l0ZSBhdCA8YSBocmVmPSJodHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLyIgdGFyZ2V0PSJuZXciPmh0dHA6Ly93d3cubWVkaWFjaGFzZS5jb20vPC9hPiwgb3IgZmVlbCBmcmVlIHRvIGNvbnRhY3QgdXMgZGlyZWN0bHkgdG8gbGVhcm4gbW9yZSBhdCA8YSBocmVmPSImIzEwOTsmIzk3OyYjMTA1OyYjMTA4OyYjMTE2OyYjMTExOyYjNTg7JiMxMTU7JiM5NzsmIzEwODsmIzEwMTsmIzExNTsmIzY0OyYjMTA5OyYjMTAxOyYjMTAwOyYjMTA1OyYjOTc7JiM5OTsmIzEwNDsmIzk3OyYjMTE1OyYjMTAxOyYjNDY7JiM5OTsmIzExMTsmIzEwOTsiPnNhbGVzQG1lZGlhY2hhc2UuY29tPC9hPiBvciBjYWxsIHVzIGF0IFUuUy4gKzEtMzIzLTk4OC0xMDcxIFBhY2lmaWMgdGltZSBvciArMSAyMDItMzU1LTcxMjUgRWFzdGVybiB0aW1lLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8dGQgdmFsaWduPSJ0b3AiIHdpZHRoPSIyNyUiIGJnY29sb3I9IiNmN2Y1ZWYiPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPjxmb250IGNvbG9yPSIjMDAwMDY2Ij5UaGlzIHNvZnR3YXJlIHByb2R1Y3QgaXMgZGVzaWduZWQgYW5kIGFyY2hpdGVjdGVkIGZvciBwcm9mZXNzaW9uYWwgLk5FVCBkZXZlbG9wZXJzLCBJVCBvcmdhbml6YXRpb25zLCBzeXN0ZW1zIGludGVncmF0b3JzLCBhbmQgYnVzaW5lc3NlcyBmb2N1c2VkIG9uIGRlbGl2ZXJpbmcgc2NhbGFibGUgY29tbWVyY2Ugc3lzdGVtcyB0byBiZXR0ZXIgbWFya2V0LCBzZWxsLCBhbmQgbGV2ZXJhZ2UgdGhlaXIgb25saW5lIHByZXNlbmNlLjwvZm9udD48L2gzPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPkZvciBNb3JlIEluZm9ybWF0aW9uPC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxwPlZpc2l0IG91ciB3ZWIgc2l0ZSBhdCA8YSBocmVmPSJodHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLyIgdGFyZ2V0PSJuZXciPmh0dHA6Ly93d3cubWVkaWFjaGFzZS5jb20vPC9hPiwgb3IgZmVlbCBmcmVlIHRvIGNvbnRhY3QgdXMgZGlyZWN0bHkgdG8gbGVhcm4gbW9yZSBhdCA8YSBocmVmPSImIzEwOTsmIzk3OyYjMTA1OyYjMTA4OyYjMTE2OyYjMTExOyYjNTg7JiMxMTU7JiM5NzsmIzEwODsmIzEwMTsmIzExNTsmIzY0OyYjMTA5OyYjMTAxOyYjMTAwOyYjMTA1OyYjOTc7JiM5OTsmIzEwNDsmIzk3OyYjMTE1OyYjMTAxOyYjNDY7JiM5OTsmIzExMTsmIzEwOTsiPnNhbGVzQG1lZGlhY2hhc2UuY29tPC9hPiBvciBjYWxsIHVzIGF0IFUuUy4gKzEgKDMyMykgOTg4LTEwNzEgUGFjaWZpYyB0aW1lIG9yICsxICgyMDIpIDM1NS03MTI1IEVhc3Rlcm4gdGltZS48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgICAgICA8L3RyPg0KICAgICAgICAgICAgICAgIDwvdGJvZHk+DQogICAgICAgICAgICA8L3RhYmxlPg0KICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgPC90cj4NCiAgICA8L3Rib2R5Pg0KPC90YWJsZT4L</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Folder name="Profile" isPublic="False">
+          <SortOrder>19</SortOrder>
+          <Roles>Registered</Roles>
+          <Page isDefault="False" masterpage="" name="AccountEdit.aspx" isPublic="True">
+            <SortOrder>23</SortOrder>
+            <Roles />
+            <Title>Edit Account Information</Title>
+            <Keywords>keywords</Keywords>
+            <Description>mediachase ecf 5.2 sample store</Description>
+            <PageNavigation />
+            <Versions>
+              <Version version="1" language="en" template="SideBarTemplate" status="Published" state="Page is under review" created="2009-10-06 11:20:05Z" createdby="3f9555e5-2a9d-4d62-91f1-bec307e468b9" modified="2009-10-06 11:20:05Z" modifiedby="3f9555e5-2a9d-4d62-91f1-bec307e468b9">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAWAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDgyZjI3ZWM1LWYzZWEtNGI3My04OWEwLWNiNTFlNzEyMWFkOAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAgAAAAIAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAACRAAAAANAgQLAAAAMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyAQAAAAZtX3RleHQDHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvCREAAAAEDAAAACpTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIBAAAADW1fY29tcGFyZUluZm8DIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvCRIAAAARDQAAAAIAAAAGEwAAACFNZWRpYWNoYXNlLkNNUy5Eb2N1bWVudFByb3BlcnRpZXMGFAAAAAhtZW51U2l0ZRAOAAAAAgAAAAkVAAAACRYAAAAFDwAAACBNZWRpYWNoYXNlLkNtcy5QYWdlcy5EeW5hbWljTm9kZQgAAAAPX2NvbnRyb2xQbGFjZUlkEl9jb250cm9sUGxhY2VJbmRleAtfZmFjdG9yeVVJRBJfZmFjdG9yeUNvbnRyb2xVSUQLX2lzTW9kaWZpZWQNTm9kZStfbm9kZVVJRBNOb2RlK19vd25lckRvY3VtZW50Dk5vZGUrX2NvbnRyb2xzAQABAQABBAQIASFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAMk1lZGlhY2hhc2UuQ21zLlBhZ2VzLk5vZGVDb250cm9sU2V0dGluZ3NDb2xsZWN0aW9uAgAAAAIAAAAGFwAAABJTaWRlYmFyQ29udGVudEFyZWEAAAAABhgAAAAABhkAAAAkMDgwNDZGNjUtMUQ2Qy00ZjVlLUI0MDktOTBERDk3ODlCMkRFAAYaAAAAImR2Y2Y3ZmU1OWQzMTFiNDQzMmFlYzYxOTE2OGFmMTk3MjIJAQAAAAkcAAAAARAAAAAPAAAABh0AAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAkYAAAABh8AAAAkMEM4Qjk3ODEtMzcyMS00MGNiLUE4QTEtRjBGNjM1ODE4M0NFAAYgAAAAImR2NTMzZjQ5NWIxNTQ3NGE4ZWE3NTc4MDE5ZjQ2NGJmODQJAQAAAAkiAAAABBEAAAAdU3lzdGVtLkdsb2JhbGl6YXRpb24uVGV4dEluZm8GAAAAD21fbGlzdFNlcGFyYXRvcgxtX2lzUmVhZE9ubHkRY3VzdG9tQ3VsdHVyZU5hbWULbV9uRGF0YUl0ZW0RbV91c2VVc2VyT3ZlcnJpZGUNbV93aW4zMkxhbmdJRAEAAQAAAAEIAQgGIwAAAAEsAQrKAAAAAH8AAAAEEgAAACBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwMAAAAJd2luMzJMQ0lEB2N1bHR1cmUGbV9uYW1lAAABCAh/AAAAfwAAAAkYAAAABRUAAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJJQAAAAABFgAAABUAAAAKAAEcAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkoAAAACSkAAAACAAAAASIAAAAJAAAAAAkLAAAACQwAAAABAAAACSwAAAAJLQAAAAIAAAAFJQAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJMAAAAAkxAAAAAgAAABEoAAAAAQAAAAYyAAAAImR2Y2Y3ZmU1OWQzMTFiNDQzMmFlYzYxOTE2OGFmMTk3MjIQKQAAAAEAAAAJMwAAABEsAAAAAQAAAAY0AAAAImR2NTMzZjQ5NWIxNTQ3NGE4ZWE3NTc4MDE5ZjQ2NGJmODQQLQAAAAEAAAAJNQAAABEwAAAAAQAAAAY2AAAACV9UZW1wbGF0ZRAxAAAAAQAAAAY3AAAAAjE0ATMAAAAVAAAACTgAAAAAATUAAAAVAAAACgABOAAAACUAAAAACQsAAAAJDAAAAAMAAAAJOwAAAAk8AAAABQAAABE7AAAAAwAAAAY9AAAAD0Rpc3BsYXlUZW1wbGF0ZQY+AAAACkRhdGFTb3VyY2UGPwAAAApEYXRhTWVtYmVyEDwAAAADAAAABkAAAAAQU2lkZU1lbnVUZW1wbGF0ZQZBAAAABG1lbnUGQgAAAAdUb3BNZW51Cw==</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="False" masterpage="" name="AddressBook.aspx" isPublic="True">
+            <SortOrder>22</SortOrder>
+            <Roles />
+            <Title>Address Book</Title>
+            <Keywords>keywords</Keywords>
+            <Description>mediachase ecf 5.2 sample store</Description>
+            <PageNavigation />
+            <Versions>
+              <Version version="1" language="en" template="SideBarTemplate" status="Published" state="Page is under review" created="2009-10-07 14:12:41Z" createdby="9d82f614-0683-4254-8cc0-303d1ba5ff27" modified="2009-10-07 14:12:41Z" modifiedby="9d82f614-0683-4254-8cc0-303d1ba5ff27">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAXAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJGJhYTEwN2UyLTJjNWItNDMwYS1iNWIxLTg5ZGUxYmJlNWU0ZgkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAgAAAAIAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAACRAAAAANAgQLAAAAMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyAQAAAAZtX3RleHQDHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvCREAAAAEDAAAACpTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIBAAAADW1fY29tcGFyZUluZm8DIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvCRIAAAARDQAAAAIAAAAGEwAAACFNZWRpYWNoYXNlLkNNUy5Eb2N1bWVudFByb3BlcnRpZXMGFAAAAAhtZW51U2l0ZRAOAAAAAgAAAAkVAAAACRYAAAAFDwAAACBNZWRpYWNoYXNlLkNtcy5QYWdlcy5EeW5hbWljTm9kZQgAAAAPX2NvbnRyb2xQbGFjZUlkEl9jb250cm9sUGxhY2VJbmRleAtfZmFjdG9yeVVJRBJfZmFjdG9yeUNvbnRyb2xVSUQLX2lzTW9kaWZpZWQNTm9kZStfbm9kZVVJRBNOb2RlK19vd25lckRvY3VtZW50Dk5vZGUrX2NvbnRyb2xzAQABAQABBAQIASFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAMk1lZGlhY2hhc2UuQ21zLlBhZ2VzLk5vZGVDb250cm9sU2V0dGluZ3NDb2xsZWN0aW9uAgAAAAIAAAAGFwAAABJTaWRlYmFyQ29udGVudEFyZWEAAAAABhgAAAAABhkAAAAkMDgwNDZGNjUtMUQ2Qy00ZjVlLUI0MDktOTBERDk3ODlCMkRFAAYaAAAAImR2ZTIzMGYzZjliM2NiNDM5ODk1ZmQ0OTQzOWNhNGU5MjEJAQAAAAkcAAAAARAAAAAPAAAABh0AAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAkYAAAABh8AAAAkQkQ2RTk2NDAtQkM3MC00YTg4LTg5NzgtMTUwNkNFREI4QUYxAAYgAAAAImR2NjdlYzM5NWQxNGEyNGIwNmE1NTllN2YyYWYxNzU0MGMJAQAAAAkiAAAABBEAAAAdU3lzdGVtLkdsb2JhbGl6YXRpb24uVGV4dEluZm8GAAAAD21fbGlzdFNlcGFyYXRvcgxtX2lzUmVhZE9ubHkRY3VzdG9tQ3VsdHVyZU5hbWULbV9uRGF0YUl0ZW0RbV91c2VVc2VyT3ZlcnJpZGUNbV93aW4zMkxhbmdJRAEAAQAAAAEIAQgGIwAAAAEsAQrKAAAAAH8AAAAEEgAAACBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwMAAAAJd2luMzJMQ0lEB2N1bHR1cmUGbV9uYW1lAAABCAh/AAAAfwAAAAkYAAAABRUAAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJJQAAAAABFgAAABUAAAAKAAEcAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkoAAAACSkAAAACAAAAASIAAAAJAAAAAAkLAAAACQwAAAABAAAACSwAAAAJLQAAAAIAAAAFJQAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJMAAAAAkxAAAAAgAAABEoAAAAAQAAAAYyAAAAImR2ZTIzMGYzZjliM2NiNDM5ODk1ZmQ0OTQzOWNhNGU5MjEQKQAAAAEAAAAJMwAAABEsAAAAAQAAAAY0AAAAImR2NjdlYzM5NWQxNGEyNGIwNmE1NTllN2YyYWYxNzU0MGMQLQAAAAEAAAAJNQAAABEwAAAAAQAAAAY2AAAACV9UZW1wbGF0ZRAxAAAAAQAAAAY3AAAAAjE0ATMAAAAVAAAACTgAAAAAATUAAAAVAAAACgABOAAAACUAAAAACQsAAAAJDAAAAAMAAAAJOwAAAAk8AAAABQAAABE7AAAAAwAAAAY9AAAAD0Rpc3BsYXlUZW1wbGF0ZQY+AAAACkRhdGFTb3VyY2UGPwAAAApEYXRhTWVtYmVyEDwAAAADAAAABkAAAAAQU2lkZU1lbnVUZW1wbGF0ZQZBAAAABG1lbnUGQgAAAAdUb3BNZW51Cw==</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="True" masterpage="" name="Dashboard.aspx" isPublic="False">
+            <SortOrder>21</SortOrder>
+            <Roles />
+            <Title>Dashboard</Title>
+            <Keywords />
+            <Description />
+            <PageNavigation>
+              <NavigationCommand item="Account" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="2" language="en" template="SideBarTemplate" status="Published" state="Page is under review" created="2009-10-04 21:54:23Z" createdby="a09a8250-cb67-4a75-b0ac-df302daa89d3" modified="2009-10-04 21:54:26Z" modifiedby="a09a8250-cb67-4a75-b0ac-df302daa89d3">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAYAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDZjNDNmM2FmLTJkZWEtNGE5Ni04ZDJhLTAwZThjZjdhZjMzZQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAgAAAAIAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAACRAAAAANAgQLAAAAMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyAQAAAAZtX3RleHQDHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvCREAAAAEDAAAACpTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIBAAAADW1fY29tcGFyZUluZm8DIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvCRIAAAARDQAAAAIAAAAGEwAAACFNZWRpYWNoYXNlLkNNUy5Eb2N1bWVudFByb3BlcnRpZXMGFAAAAAhtZW51U2l0ZRAOAAAAAgAAAAkVAAAACRYAAAAFDwAAACBNZWRpYWNoYXNlLkNtcy5QYWdlcy5EeW5hbWljTm9kZQgAAAAPX2NvbnRyb2xQbGFjZUlkEl9jb250cm9sUGxhY2VJbmRleAtfZmFjdG9yeVVJRBJfZmFjdG9yeUNvbnRyb2xVSUQLX2lzTW9kaWZpZWQNTm9kZStfbm9kZVVJRBNOb2RlK19vd25lckRvY3VtZW50Dk5vZGUrX2NvbnRyb2xzAQABAQABBAQIASFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAMk1lZGlhY2hhc2UuQ21zLlBhZ2VzLk5vZGVDb250cm9sU2V0dGluZ3NDb2xsZWN0aW9uAgAAAAIAAAAGFwAAABJTaWRlYmFyQ29udGVudEFyZWEAAAAABhgAAAAABhkAAAAkMDgwNDZGNjUtMUQ2Qy00ZjVlLUI0MDktOTBERDk3ODlCMkRFAAYaAAAAImR2NWVjNmY3MWU0NzYyNDc2YmFiYTc2ZTMzZTgxMWEyZmUJAQAAAAkcAAAAARAAAAAPAAAABh0AAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAkYAAAABh8AAAAkMkUwOUQ0RjgtMkU4NC00OWEyLUEyNTktMzg4Qzc3QUE5NEYzAAYgAAAAImR2NTMyYWNiZWQ4MzkyNGUwMjgzNmExMzA4ZmEzMmMzNGYJAQAAAAkiAAAABBEAAAAdU3lzdGVtLkdsb2JhbGl6YXRpb24uVGV4dEluZm8GAAAAD21fbGlzdFNlcGFyYXRvcgxtX2lzUmVhZE9ubHkRY3VzdG9tQ3VsdHVyZU5hbWULbV9uRGF0YUl0ZW0RbV91c2VVc2VyT3ZlcnJpZGUNbV93aW4zMkxhbmdJRAEAAQAAAAEIAQgGIwAAAAEsAQrKAAAAAH8AAAAEEgAAACBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwMAAAAJd2luMzJMQ0lEB2N1bHR1cmUGbV9uYW1lAAABCAh/AAAAfwAAAAkYAAAABRUAAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJJQAAAAABFgAAABUAAAAKAAEcAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkoAAAACSkAAAACAAAAASIAAAAJAAAAAAkLAAAACQwAAAABAAAACSwAAAAJLQAAAAIAAAAFJQAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJMAAAAAkxAAAAAgAAABEoAAAAAQAAAAYyAAAAImR2NWVjNmY3MWU0NzYyNDc2YmFiYTc2ZTMzZTgxMWEyZmUQKQAAAAEAAAAJMwAAABEsAAAAAQAAAAY0AAAAImR2NTMyYWNiZWQ4MzkyNGUwMjgzNmExMzA4ZmEzMmMzNGYQLQAAAAEAAAAJNQAAABEwAAAAAQAAAAY2AAAACV9UZW1wbGF0ZRAxAAAAAQAAAAY3AAAAD1NpZGVCYXJUZW1wbGF0ZQEzAAAAFQAAAAk4AAAAAAE1AAAAFQAAAAoAATgAAAAlAAAAAAkLAAAACQwAAAADAAAACTsAAAAJPAAAAAUAAAAROwAAAAMAAAAGPQAAAA9EaXNwbGF5VGVtcGxhdGUGPgAAAApEYXRhU291cmNlBj8AAAAKRGF0YU1lbWJlchA8AAAAAwAAAAZAAAAAEFNpZGVNZW51VGVtcGxhdGUGQQAAAARtZW51BkIAAAAHVG9wTWVudQs=</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+          <Page isDefault="False" masterpage="" name="OrdersList.aspx" isPublic="True">
+            <SortOrder>20</SortOrder>
+            <Roles />
+            <Title>Business to Consumer Sample Site</Title>
+            <Keywords>keywords</Keywords>
+            <Description>mediachase ecf 5.2 sample store</Description>
+            <PageNavigation>
+              <NavigationCommand item="OrderHistory" params="" trigerParam="">
+                <Parameters />
+              </NavigationCommand>
+            </PageNavigation>
+            <Versions>
+              <Version version="1" language="en" template="SideBarTemplate" status="Published" state="Page is under review" created="2009-10-12 21:12:00Z" createdby="7af3d579-1e25-43f8-86a3-dada6f60b537" modified="2009-10-12 21:12:01Z" modifiedby="7af3d579-1e25-43f8-86a3-dada6f60b537">
+                <Comments />
+                <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAZAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDRkYjc5NTE4LTcxZTQtNDI1Ni04NDQ1LWJlOTc5NzYyZDgxNAkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAgAAAAIAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAIAAAAJDQAAAAkOAAAAAwAAABAKAAAABAAAAAkPAAAACRAAAAANAgQLAAAAMlN5c3RlbS5Db2xsZWN0aW9ucy5DYXNlSW5zZW5zaXRpdmVIYXNoQ29kZVByb3ZpZGVyAQAAAAZtX3RleHQDHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvCREAAAAEDAAAACpTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIBAAAADW1fY29tcGFyZUluZm8DIFN5c3RlbS5HbG9iYWxpemF0aW9uLkNvbXBhcmVJbmZvCRIAAAARDQAAAAIAAAAGEwAAACFNZWRpYWNoYXNlLkNNUy5Eb2N1bWVudFByb3BlcnRpZXMGFAAAAAhtZW51U2l0ZRAOAAAAAgAAAAkVAAAACRYAAAAFDwAAACBNZWRpYWNoYXNlLkNtcy5QYWdlcy5EeW5hbWljTm9kZQgAAAAPX2NvbnRyb2xQbGFjZUlkEl9jb250cm9sUGxhY2VJbmRleAtfZmFjdG9yeVVJRBJfZmFjdG9yeUNvbnRyb2xVSUQLX2lzTW9kaWZpZWQNTm9kZStfbm9kZVVJRBNOb2RlK19vd25lckRvY3VtZW50Dk5vZGUrX2NvbnRyb2xzAQABAQABBAQIASFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAMk1lZGlhY2hhc2UuQ21zLlBhZ2VzLk5vZGVDb250cm9sU2V0dGluZ3NDb2xsZWN0aW9uAgAAAAIAAAAGFwAAAA9NYWluQ29udGVudEFyZWEAAAAABhgAAAAABhkAAAAkODM4Q0Q2MEUtMEI1Qi00ODhiLUI4RTQtQzQ3MURGQjk3NTBGAAYaAAAAImR2ZmNhODk5ZjU2YzM1NDM5N2I1OWQyZjQ2NDZhMWMxMjcJAQAAAAkcAAAAARAAAAAPAAAABh0AAAASU2lkZWJhckNvbnRlbnRBcmVhAAAAAAkYAAAABh8AAAAkMDgwNDZGNjUtMUQ2Qy00ZjVlLUI0MDktOTBERDk3ODlCMkRFAAYgAAAAImR2MmI0MTlhOTIwMWYwNGY2OGI1ZDU5NjI1Y2NiOGEzY2EJAQAAAAkiAAAABBEAAAAdU3lzdGVtLkdsb2JhbGl6YXRpb24uVGV4dEluZm8GAAAAD21fbGlzdFNlcGFyYXRvcgxtX2lzUmVhZE9ubHkRY3VzdG9tQ3VsdHVyZU5hbWULbV9uRGF0YUl0ZW0RbV91c2VVc2VyT3ZlcnJpZGUNbV93aW4zMkxhbmdJRAEAAQAAAAEIAQgGIwAAAAEsAQrKAAAAAH8AAAAEEgAAACBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwMAAAAJd2luMzJMQ0lEB2N1bHR1cmUGbV9uYW1lAAABCAh/AAAAfwAAAAkYAAAABRUAAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJJQAAAAABFgAAABUAAAAKAAEcAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkoAAAACSkAAAACAAAAASIAAAAJAAAAAAkLAAAACQwAAAABAAAACSwAAAAJLQAAAAIAAAAFJQAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJMAAAAAkxAAAAAgAAABEoAAAAAQAAAAYyAAAAImR2ZmNhODk5ZjU2YzM1NDM5N2I1OWQyZjQ2NDZhMWMxMjcQKQAAAAEAAAAJMwAAABEsAAAAAQAAAAY0AAAAImR2MmI0MTlhOTIwMWYwNGY2OGI1ZDU5NjI1Y2NiOGEzY2EQLQAAAAEAAAAJNQAAABEwAAAAAQAAAAY2AAAACV9UZW1wbGF0ZRAxAAAAAQAAAAY3AAAAAjE0ATMAAAAVAAAACgABNQAAABUAAAAJOAAAAAABOAAAACUAAAAACQsAAAAJDAAAAAMAAAAJOwAAAAk8AAAABQAAABE7AAAAAwAAAAY9AAAAD0Rpc3BsYXlUZW1wbGF0ZQY+AAAACkRhdGFTb3VyY2UGPwAAAApEYXRhTWVtYmVyEDwAAAADAAAABkAAAAAQU2lkZU1lbnVUZW1wbGF0ZQZBAAAABG1lbnUGQgAAAAdUb3BNZW51Cw==</PageDocument>
+              </Version>
+            </Versions>
+          </Page>
+        </Folder>
+        <Page isDefault="False" masterpage="" name="Register.aspx" isPublic="True">
+          <SortOrder>24</SortOrder>
+          <Roles />
+          <Title>My public site</Title>
+          <Keywords>1</Keywords>
+          <Description>1</Description>
+          <PageNavigation>
+            <NavigationCommand item="Register" params="" trigerParam="">
+              <Parameters />
+            </NavigationCommand>
+          </PageNavigation>
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-01-25 14:29:33Z" createdby="39d88116-d568-4a8a-888b-bbc8b985fbdf" modified="2008-01-25 14:29:33Z" modifiedby="39d88116-d568-4a8a-888b-bbc8b985fbdf">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAaAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDFhZDY0MzA3LWFkNTAtNGMxNi04MWI1LWZlMjVjZjI3Zjc1YwkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVh/////wYTAAAAAAYUAAAAJEQ2MjAxMTJBLTAxQTUtNDkwMC05RDYxLUU4RjEzRTZDNkI1NQAGFQAAACJkdjBmYzBiN2Y5ODI3NjRjNTM4MmUyZDI5NWUxZDdmMzkwCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHYwZmMwYjdmOTgyNzY0YzUzODJlMmQyOTVlMWQ3ZjM5MBAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAKAAs=</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+        <Page isDefault="False" masterpage="" name="Terms.aspx" isPublic="True">
+          <SortOrder>25</SortOrder>
+          <Roles />
+          <Title>Terms</Title>
+          <Keywords>keywords</Keywords>
+          <Description>mediachase ecf 5.2 sample store</Description>
+          <PageNavigation />
+          <Versions>
+            <Version version="1" language="en" template="EverythingTemplate" status="Published" state="Page is under review" created="2008-11-08 00:45:10Z" createdby="1a1aaf20-46e5-49de-9636-d505a7c03f0c" modified="2008-11-08 00:45:10Z" modifiedby="1a1aaf20-46e5-49de-9636-d505a7c03f0c">
+              <Comments />
+              <PageDocument>AAEAAAD/////AQAAAAAAAAAMAgAAAExNZWRpYWNoYXNlLkNtcywgVmVyc2lvbj01LjEuMzU4OS4xMDAyOCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50BQAAAA5fcGFnZVZlcnNpb25JZAtfaXNNb2RpZmllZA1fZHluYW1pY05vZGVzC19zdGF0aWNOb2RlDF9jdXJyZW50Tm9kZQAABAQECAEqTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGVDb2xsZWN0aW9uAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAABlNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlAgAAAAIAAAAbAAAAAAkDAAAACQQAAAAJBAAAAAUDAAAAKk1lZGlhY2hhc2UuQ21zLlBhZ2VzLkR5bmFtaWNOb2RlQ29sbGVjdGlvbgMAAAAOX293bmVyRG9jdW1lbnQLX2lzTW9kaWZpZWQTQ29sbGVjdGlvbkJhc2UrbGlzdAQAAyFNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYWdlRG9jdW1lbnQCAAAAARxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AgAAAAkBAAAAAAkGAAAABQQAAAAZTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZQMAAAAIX25vZGVVSUQOX293bmVyRG9jdW1lbnQJX2NvbnRyb2xzAQQEIU1lZGlhY2hhc2UuQ21zLlBhZ2VzLlBhZ2VEb2N1bWVudAIAAAAyTWVkaWFjaGFzZS5DbXMuUGFnZXMuTm9kZUNvbnRyb2xTZXR0aW5nc0NvbGxlY3Rpb24CAAAAAgAAAAYHAAAAJDljMWRlZmJiLTkxNGYtNGVlYS1iYmJiLTc1MjUxNGFhZTM5OQkBAAAACQkAAAAEBgAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkKAAAAAQAAAAEAAAAFCQAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAAAAAAJDQAAAAkOAAAAAQAAABAKAAAABAAAAAkPAAAADQMECwAAADJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcgEAAAAGbV90ZXh0Ax1TeXN0ZW0uR2xvYmFsaXphdGlvbi5UZXh0SW5mbwkQAAAABAwAAAAqU3lzdGVtLkNvbGxlY3Rpb25zLkNhc2VJbnNlbnNpdGl2ZUNvbXBhcmVyAQAAAA1tX2NvbXBhcmVJbmZvAyBTeXN0ZW0uR2xvYmFsaXphdGlvbi5Db21wYXJlSW5mbwkRAAAAEQ0AAAAAAAAAEA4AAAAAAAAABQ8AAAAgTWVkaWFjaGFzZS5DbXMuUGFnZXMuRHluYW1pY05vZGUIAAAAD19jb250cm9sUGxhY2VJZBJfY29udHJvbFBsYWNlSW5kZXgLX2ZhY3RvcnlVSUQSX2ZhY3RvcnlDb250cm9sVUlEC19pc01vZGlmaWVkDU5vZGUrX25vZGVVSUQTTm9kZStfb3duZXJEb2N1bWVudA5Ob2RlK19jb250cm9scwEAAQEAAQQECAEhTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFnZURvY3VtZW50AgAAADJNZWRpYWNoYXNlLkNtcy5QYWdlcy5Ob2RlQ29udHJvbFNldHRpbmdzQ29sbGVjdGlvbgIAAAACAAAABhIAAAAPTWFpbkNvbnRlbnRBcmVhAAAAAAYTAAAAAAYUAAAACVBvcHVwQmFzZQAGFQAAACJkdjk0YTM3MmE3ZTVmNzQ5ZTg4OTNlZTY2YTYwYzI3NWYxCQEAAAAJFwAAAAQQAAAAHVN5c3RlbS5HbG9iYWxpemF0aW9uLlRleHRJbmZvBgAAAA9tX2xpc3RTZXBhcmF0b3IMbV9pc1JlYWRPbmx5EWN1c3RvbUN1bHR1cmVOYW1lC21fbkRhdGFJdGVtEW1fdXNlVXNlck92ZXJyaWRlDW1fd2luMzJMYW5nSUQBAAEAAAABCAEIBhgAAAABLAEKygAAAAB/AAAABBEAAAAgU3lzdGVtLkdsb2JhbGl6YXRpb24uQ29tcGFyZUluZm8DAAAACXdpbjMyTENJRAdjdWx0dXJlBm1fbmFtZQAAAQgIfwAAAH8AAAAJEwAAAAEXAAAACQAAAAAJCwAAAAkMAAAAAQAAAAkcAAAACR0AAAACAAAAERwAAAABAAAABh4AAAAiZHY5NGEzNzJhN2U1Zjc0OWU4ODkzZWU2NmE2MGMyNzVmMRAdAAAAAQAAAAkfAAAABR8AAAAkTWVkaWFjaGFzZS5DbXMuUGFnZXMuQ29udHJvbFNldHRpbmdzAgAAAAdfcGFyYW1zC19pc01vZGlmaWVkBAAaTWVkaWFjaGFzZS5DbXMuUGFnZXMuUGFyYW0CAAAAAQIAAAAJIAAAAAAFIAAAABpNZWRpYWNoYXNlLkNtcy5QYWdlcy5QYXJhbQcAAAAIUmVhZE9ubHkMSGFzaFByb3ZpZGVyCENvbXBhcmVyBUNvdW50BEtleXMGVmFsdWVzB1ZlcnNpb24AAwMABgUAATJTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlSGFzaENvZGVQcm92aWRlcipTeXN0ZW0uQ29sbGVjdGlvbnMuQ2FzZUluc2Vuc2l0aXZlQ29tcGFyZXIICAIAAAAACQsAAAAJDAAAAAEAAAAJIwAAAAkkAAAAAgAAABEjAAAAAQAAAAYlAAAACUlubmVyVGV4dBAkAAAAAQAAAAYmAAAAhyQ8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIj4NCiAgICA8dGJvZHk+DQogICAgICAgIDx0cj4NCiAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgd2lkdGg9Ijk3NCI+DQogICAgICAgICAgICA8aDE+VGVybXMgT2YgVXNlPC9oMT4NCiAgICAgICAgICAgIDx0YWJsZSBjZWxsc3BhY2luZz0iMTAiIGNlbGxwYWRkaW5nPSI4IiB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIj4NCiAgICAgICAgICAgICAgICA8dGJvZHk+DQogICAgICAgICAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDx0ZCB2YWxpZ249InRvcCIgd2lkdGg9IjczJSI+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDI+V2VsY29tZSB0byB0aGUgTGVhZGluZyBBU1AuTkVUIGVDb21tZXJjZSBGcmFtZXdvcmsgZm9yIFZpc3VhbCBTdHVkaW8gMjAwOCBhbmQgLk5FVCAzLjU8L2gyPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3M9IlBhZ2VIZWFkZXJTdWJ0aXRsZSI+VGhpcyBpcyBhbiBvZmZpY2lhbCBNZWRpYWNoYXNlIEFTUC5ORVQgZUNvbW1lcmNlIEZyYW1ld29yayAoRUNGKSBzYW1wbGUgZUNvbW1lcmNlIHNpdGUgYW5kIHJlcHJlc2VudHMgYSBjb21wbGV0ZSBzYW1wbGUgY2F0YWxvZyBhbmQgYXNzb2NpYXRlZCBidXNpbmVzcyBmdW5jdGlvbmFsaXR5IHRvIHByb3ZpZGUgYSBzdGFydGluZyBwb2ludCB0byBsZWFybiBhbmQgZGV2ZWxvcCBvbiB0aGUgRUNGLjxiciAvPg0KICAgICAgICAgICAgICAgICAgICAgICAgPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHA+VGhlIEVDRiBpcyBhbiBlbmQtdG8tZW5kIC5ORVQgZGV2ZWxvcG1lbnQgZnJhbWV3b3JrIGFuZCBpbnRlZ3JhdGlvbiBwbGF0Zm9ybSBmb3IgYnVpbGRpbmcsIGV4dGVuZGluZywgYW5kIGRlbGl2ZXJpbmcgcHJvZmVzc2lvbmFsIGVjb21tZXJjZSBzaXRlcyBjb21wbGV0ZSB3aXRoIGJhY2sgb2ZmaWNlIHN5c3RlbXMgaW50ZWdyYXRpb24uJm5ic3A7IFRoZSBFQ0YgaXMgZGVzaWduZWQgYW5kIGRldmVsb3BlZCB1c2luZyBiZXN0IHByYWN0aWNlcyBhbmQgYWxsb3dzIGRldmVsb3BlcnMgYW5kIElUIG9yZ2FuaXphdGlvbnMgdWx0aW1hdGUgZmxleGliaWxpdHkgdG8gZXh0ZW5kIGFuZCBhZGFwdCB0aGUgRUNGIHRvIHZpcnR1YWxseSBhbnkgdHlwZSBvZiBjb21tZXJjZSBidXNpbmVzcyBzY2VuYXJpby4gPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgyPjxzcGFuIGNsYXNzPSJDb250ZW50SGVhZGVyIj5Ib3cgQ2FuIHRoaXMgU29mdHdhcmUgSGVscCBZb3U/PC9zcGFuPjwvaDI+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGF0IGRlcGVuZHMgb24gd2hvIFlPVSBhcmUsIGJ1dCBjaGFuY2VzIGFyZSBpZiB5b3UgYXJlIHNlZWluZyB0aGlzIHBhZ2UsIHRoZW4geW91IGFyZSBhIC5ORVQgZGV2ZWxvcGVyIGFuZCB5b3UgaGF2ZSBhbHJlYWR5IHRhbGtlZCB0byBNZWRpYWNoYXNlIHdoaWNoIGlzIGhvdyB5b3UgZ290IHRoaXMgc29mdHdhcmUgaW4gdGhlIGZpcnN0IHBsYWNlLjwvcD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz4uTkVUIERldmVsb3BlcnMsIFN5c3RlbXMgaW50ZWdyYXRvcnMsIG9yIElUIE9yZ2FuaXphdGlvbnM8L2gzPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHA+VGhpcyBzb2Z0d2FyZSBwcm92aWRlcyBhIHNvbGlkIGJhc2Ugb2YgY29kZSwgQVBJJ3MsIGRhdGEgc3RydWN0dXJlcywgYW5kIGEgYmVzdCBwcmFjdGljZXMgYXJjaGl0ZWN0dXJlIHRoYXQgd2lsbCBhbGxvdyB5b3UgdG8gZGV2ZWxvcCwgaW50ZWdyYXRlLCBhbmQgZGVsaXZlciBhbnkgbnVtYmVyIG9mIHVuaXF1ZSBhbmQgZGlmZmVyZW50IGNvbW1lcmNlIHNvbHV0aW9ucy4gVGhlIEVDRiBhcmNoaXRlY3R1cmUgYW5kIGNvZGUgYmFzZSBpbmNsdWRlcyBldmVyeXRoaW5nIHlvdSB3b3VsZCBleHBlY3QgdG8gcHJvdmlkZSB5b3Ugd2l0aCBhIGJhc2UgcGxhdGZvcm0gZm9yIHJlLXVzZSwgc2NhbGFiaWxpdHksIGV4dGVuc2liaWxpdHksIGFuZCB0aW1lIHNhdmluZ3MuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGgzPkV4ZWN1dGl2ZXMsIEJ1c2luZXNzIE9yZ2FuaXphdGlvbnMsIG9yIE1lcmNoYW50czwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5UaGlzIHNvZnR3YXJlIGNhbiBwbGF5IGEgc3RyYXRlZ2ljIHJvbGUgaW4gaW5jcmVhc2luZyB5b3VyIG9ubGluZSBzYWxlcyBjYXBhYmlsaXR5IGFjcm9zcyBtdWx0aXBsZSBjaGFubmVscyBhbmQgZXh0ZW5kaW5nIHlvdXIgZmxleGliaWxpdHkgdG8gYWRhcHQgeW91ciB1bmlxdWUgYnVzaW5lc3MgbmVlZHMuIFRoZSBFQ0Ygc29mdHdhcmUgZW5hYmxlcyB5b3VyIHRlY2hub2xvZ3kgdGVhbXMsIGJ1c2luZXNzIHVzZXJzLCBhbmQgZXhpc3RpbmcgaW52ZXN0bWVudHMgaW4gc3lzdGVtcywgcHJvY2VzcyBhbmQgaW5mcmFzdHJ1Y3R1cmUgdG8gc2VhbWxlc3NseSBjcmVhdGUgZXhwZXJpZW5jZXMgZm9yIHlvdXIgY3VzdG9tZXJzLCBwYXJ0bmVycywgYW5kIHN1cHBsaWVycyBhbmQgaW5jcmVhc2Ugc2FsZXMgYW5kIHJlZHVjZSBjb3N0cy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8aDM+RXZlcnlvbmUgRWxzZS4uLjwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5JZiB5b3UgcGxheSBhIHJvbGUgaW4geW91ciBvcmdhbml6YXRpb24gZWl0aGVyIHRlY2huaWNhbCwgYnVzaW5lc3MsIG9yIG9wZXJhdGlvbmFsIGFuZCB5b3VyIGludm9sdmVkIGluIGRldmVsb3BpbmcgYW5kIGRlcGxveWluZyB3ZWIgc2l0ZXMgcmVsYXRlZCB0byBlY29tbWVyY2UsIHRoZW4geW91IG1heSB3YW50IHRvIGludmVzdGlnYXRlIEVDRiBhcyBhIGtleSBwbGF0Zm9ybSBmb3IgeW91ciBmdXR1cmUuIFRoZXJlIGlzIG11Y2ggdGhhdCBpdCBjYW4gZG8gZm9yIHlvdSwgYnV0IGJlc3Qgb2YgYWxsIGlzIHdoYXQgeW91IGNhbiBkbyB3aXRoIGl0IHNpbmNlIGl0IG9mZmVycyBhYnNvbHV0ZSBmbGV4aWJpbGl0eSBhbmQgY29udHJvbCBpbiBhY2hpZXZpbmcgcmVzdWx0cy48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5WaXNpdCBvdXIgd2ViIHNpdGUgYXQgPGEgaHJlZj0iaHR0cDovL3d3dy5tZWRpYWNoYXNlLmNvbS8iIHRhcmdldD0ibmV3Ij5odHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLzwvYT4sIG9yIGZlZWwgZnJlZSB0byBjb250YWN0IHVzIGRpcmVjdGx5IHRvIGxlYXJuIG1vcmUgYXQgPGEgaHJlZj0iJiMxMDk7JiM5NzsmIzEwNTsmIzEwODsmIzExNjsmIzExMTsmIzU4OyYjMTE1OyYjOTc7JiMxMDg7JiMxMDE7JiMxMTU7JiM2NDsmIzEwOTsmIzEwMTsmIzEwMDsmIzEwNTsmIzk3OyYjOTk7JiMxMDQ7JiM5NzsmIzExNTsmIzEwMTsmIzQ2OyYjOTk7JiMxMTE7JiMxMDk7Ij5zYWxlc0BtZWRpYWNoYXNlLmNvbTwvYT4gb3IgY2FsbCB1cyBhdCBVLlMuICsxLTMyMy05ODgtMTA3MSBQYWNpZmljIHRpbWUgb3IgKzEgMjAyLTM1NS03MTI1IEVhc3Rlcm4gdGltZS48L3A+DQogICAgICAgICAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iMjclIiBiZ2NvbG9yPSIjZjdmNWVmIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz48Zm9udCBjb2xvcj0iIzAwMDA2NiI+VGhpcyBzb2Z0d2FyZSBwcm9kdWN0IGlzIGRlc2lnbmVkIGFuZCBhcmNoaXRlY3RlZCBmb3IgcHJvZmVzc2lvbmFsIC5ORVQgZGV2ZWxvcGVycywgSVQgb3JnYW5pemF0aW9ucywgc3lzdGVtcyBpbnRlZ3JhdG9ycywgYW5kIGJ1c2luZXNzZXMgZm9jdXNlZCBvbiBkZWxpdmVyaW5nIHNjYWxhYmxlIGNvbW1lcmNlIHN5c3RlbXMgdG8gYmV0dGVyIG1hcmtldCwgc2VsbCwgYW5kIGxldmVyYWdlIHRoZWlyIG9ubGluZSBwcmVzZW5jZS48L2ZvbnQ+PC9oMz4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxoMz5Gb3IgTW9yZSBJbmZvcm1hdGlvbjwvaDM+DQogICAgICAgICAgICAgICAgICAgICAgICA8cD5WaXNpdCBvdXIgd2ViIHNpdGUgYXQgPGEgaHJlZj0iaHR0cDovL3d3dy5tZWRpYWNoYXNlLmNvbS8iIHRhcmdldD0ibmV3Ij5odHRwOi8vd3d3Lm1lZGlhY2hhc2UuY29tLzwvYT4sIG9yIGZlZWwgZnJlZSB0byBjb250YWN0IHVzIGRpcmVjdGx5IHRvIGxlYXJuIG1vcmUgYXQgPGEgaHJlZj0iJiMxMDk7JiM5NzsmIzEwNTsmIzEwODsmIzExNjsmIzExMTsmIzU4OyYjMTE1OyYjOTc7JiMxMDg7JiMxMDE7JiMxMTU7JiM2NDsmIzEwOTsmIzEwMTsmIzEwMDsmIzEwNTsmIzk3OyYjOTk7JiMxMDQ7JiM5NzsmIzExNTsmIzEwMTsmIzQ2OyYjOTk7JiMxMTE7JiMxMDk7Ij5zYWxlc0BtZWRpYWNoYXNlLmNvbTwvYT4gb3IgY2FsbCB1cyBhdCBVLlMuICsxICgzMjMpIDk4OC0xMDcxIFBhY2lmaWMgdGltZSBvciArMSAoMjAyKSAzNTUtNzEyNSBFYXN0ZXJuIHRpbWUuPC9wPg0KICAgICAgICAgICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICAgICAgPC90cj4NCiAgICAgICAgICAgICAgICA8L3Rib2R5Pg0KICAgICAgICAgICAgPC90YWJsZT4NCiAgICAgICAgICAgIDwvdGQ+DQogICAgICAgIDwvdHI+DQogICAgPC90Ym9keT4NCjwvdGFibGU+Cw==</PageDocument>
+            </Version>
+          </Versions>
+        </Page>
+      </Folder>
+    </Folders>
+  </Site>
+</Sites>

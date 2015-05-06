@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaView>
+	<Commands>
+		<add>
+			<Command id="cmdShowRulesEditorDialog">
+				<CommandType>OpenFrameModalPopup</CommandType>
+				<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=RulesEditor&amp;id=[ClientParam:ExpressionId]</Url>
+				<Width>600</Width>
+				<Height>540</Height>
+				<PopupTitle>Condition Dialog</PopupTitle>
+				<Drag>False</Drag>
+				<Top>30</Top>
+			</Command>
+			<Command id="cmdShowRulesEditorDialogEdit">
+				<CommandType>OpenFrameModalPopup</CommandType>
+				<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=RulesEditor&amp;id=[ClientParam:ExpressionId]&amp;index=[ClientParam:ExpressionIndex]</Url>
+				<Width>600</Width>
+				<Height>540</Height>
+				<PopupTitle>Condition Dialog</PopupTitle>
+				<Drag>False</Drag>
+				<Top>30</Top>
+			</Command>
+		</add>
+	</Commands>
+</MetaView>

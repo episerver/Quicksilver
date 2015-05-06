@@ -1,0 +1,23 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.Models.ResetPasswordBlockViewModel
+<div class="col-md-6 col-sm-6">
+    @if (Model.Success)
+    {
+        <h1>@Html.PropertyFor(x => x.CurrentBlock.DoneTitle)</h1>
+        <p>@Html.PropertyFor(x => x.CurrentBlock.DoneBody)</p>
+    }
+    else
+    {
+        <h1>@Html.PropertyFor(x => x.CurrentBlock.MainTitle)</h1>
+        <p>@Html.PropertyFor(x => x.CurrentBlock.MainBody)</p>
+        using (Html.BeginForm("Index", null, new {node = Model.CurrentPageLink}, FormMethod.Post))
+        {
+            <div class="form-group">
+                @Html.LabelFor(x => x.FormModel.Email)
+                @Html.TextBoxFor(x => x.FormModel.Email, new {@class = "form-control"})
+                @Html.ValidationMessageFor(x => x.FormModel.Email)
+            </div>
+            @Html.ValidationMessage("FormModel.Error")
+            <button type="submit" class="btn">@Html.Translate("/ResetPassword/Form/Label/Send")</button>
+        }
+    }
+</div>

@@ -1,0 +1,13 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.LoginPageViewModel<EPiServer.Reference.Commerce.Site.Features.Login.Pages.LoginRegistrationPage>
+
+<div class="row">
+
+    @{
+        
+    Html.RenderPartial("RegisterAccount", Model.RegisterAccountViewModel);
+
+    Html.RenderPartial("Login", Model.LoginViewModel);
+    
+    }
+
+</div>

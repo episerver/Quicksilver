@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column visible="false" width="50" allowSorting="true" dataField="TemplateId" headingText="{SharedStrings:ID}" />
+					<Column width="200" allowSorting="true" dataField="FriendlyName" headingText="{SharedStrings:Name}" id="name" columnType="HyperLink" dataNavigateUrlFields="TemplateId,LanguageCode" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Content', 'Template-Edit', 'templateid={0}&amp;lang={1}');" dataTextFields="FriendlyName" dataTextFormatString="{0}" permissions="content:admin:templates:mng:edit" />
+					<Column width="150" allowSorting="true" dataField="TemplateType" headingText="{SharedStrings:Type}" />
+					<Column width="400" allowSorting="true" dataField="Path" headingText="{SharedStrings:Path}" />
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Button id="NewTemplate" text="{SharedStrings:New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdContentNewTemplate" permissions="content:admin:templates:mng:create"/>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="content:admin:templates:mng:delete">
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdContentDeleteTemplate" permissions="content:admin:templates:mng:delete"/>
+				</Menu>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdContentNewTemplate">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.CreateTemplateItem()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<Command id="cmdContentDeleteTemplate">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.TemplateDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Templates-List" controlUrl="Content/Template/TemplateList.ascx" permissions="content:admin:templates:mng:view" help="System+Settings" />
+	</ViewConfig>
+</View>

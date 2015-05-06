@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column isDefault="true" headingText="{SharedStrings:Edit_Command}" dataCellClientTemplateId="EditTemplate" editControlType="EditCommand" width="100" align="Center" />
+					<Column isDefault="true" visible="false" isSearchable="true" width="100" allowSorting="true" dataField="PromotionPolicyId" headingText="{SharedStrings:Policy_Id}" />
+					<Column dataCellServerTemplateId="ExpressionTemplate" isDefault="true" isSearchable="true" allowSorting="true" dataField="PolicyId" headingText="{SharedStrings:Expression}" />
+					<Column dataCellServerTemplateId="PolicyNameTemplate" isDefault="true" width="200" isSearchable="true" allowSorting="true" dataField="PolicyId" headingText="{SharedStrings:Policy_Name}" />
+					<Column dataCellServerTemplateId="PolicyStatusTemplate" isDefault="true" width="200" isSearchable="true" allowSorting="true" dataField="PolicyId" headingText="{SharedStrings:Policy_Status}" />
+				</Columns>
+			</add>
+		</Grid>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="PromotionPolicy-List" controlUrl="" permissions="marketing:promotions:mng:view" help="Working+with+Policies" />
+	</ViewConfig>
+</View>

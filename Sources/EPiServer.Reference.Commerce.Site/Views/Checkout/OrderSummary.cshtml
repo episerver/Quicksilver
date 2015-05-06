@@ -1,0 +1,60 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderSummaryViewModel
+<div class="quicksilver-well">
+    <h4>@Html.Translate("/Checkout/OrderSummary")</h4>
+</div>
+<table class="table jsOrderSummary" data-url="@Url.Action("OrderSummary")">
+    <tbody>
+        <tr>
+            <td>@Html.Translate("/Checkout/SubTotal")</td>
+            <td class="total-price"><span class="pull-right">@Model.SubTotal.ToString()</span></td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Translate("/Checkout/OrderLevelDiscounts") <br />
+                @foreach (var discount in Model.OrderDiscounts)
+                {
+                    <span class="small"><strong>@discount.Displayname</strong></span><br />
+                }
+            <td class="total-price">
+                <span class="pull-right">- @Model.OrderDiscountTotal.ToString()</span><br />
+                @foreach (var discount in Model.OrderDiscounts)
+                {
+                    <span class="pull-right">@discount.Discount.ToString()</span><br />
+                }
+            </td>    
+        </tr>
+        <tr>
+            <td>@Html.Translate("/Checkout/ShippingAndTax")<br />
+                <span class="small">
+                    <strong>@Html.Translate("/Checkout/ShippingSubtotal")</strong>
+                </span>
+                <br />
+                <span class="small">
+                    <strong>@Html.Translate("/Checkout/ShippingDiscount")</strong>
+                </span>
+                <br />
+                <span class="small">
+                    <strong>@Html.Translate("/Checkout/ShippingTotal")</strong>
+                </span>
+                <br />
+                <span class="small">
+                    <strong>@Html.Translate("/Checkout/TaxTotal")</strong>
+                </span> 
+            </td>
+            <td class="total-price">
+                <span class="pull-right">
+                    @Model.ShippingTaxTotal.ToString() <br />
+                    @Model.ShippingSubtotal.ToString() <br />
+                    - @Model.ShippingDiscountTotal.ToString() <br />
+                    @Model.ShippingTotal.ToString() <br />
+                    @Model.TaxTotal.ToString()
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.Translate("/Checkout/CartTotal")</td>
+            <td class="total-price"><span class="pull-right">@Model.CartTotal.ToString()</span></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<Navigation>
+		<Tabs id="mainTag">
+			<add>
+				<Tab id="navTabAssetManagement" text="{AssetStrings:Asset_Management}" order="120" contentType="default" imageUrl="~/Apps/Asset/images/module.png" configUrl="~/Apps/Asset/Tree/TreeSource.aspx" enableHandler="Mediachase.Commerce.Manager.Asset.CommandHandlers.AssetTabEnableHandler, Mediachase.ConsoleManager" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="asset:tabviewpermission"></Tab>
+			</add>
+		</Tabs>
+	</Navigation>
+</View>

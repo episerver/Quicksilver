@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column isDefault="true" headingText="{SharedStrings:Edit_Command}" dataCellClientTemplateId="EditTemplate" editControlType="EditCommand" width="100" align="Center" />
+					<Column isDefault="true" visible="false" isSearchable="true" width="100" allowSorting="true" dataField="PromotionConditionId" headingText="{SharedStrings:Condition_Id}" />
+					<Column isDefault="true" visible="false" isSearchable="true" allowSorting="true" dataField="ExpressionId" headingText="{SharedStrings:ExpressionId}" />
+					<Column isDefault="true" isSearchable="true" allowSorting="true" dataField="ExpressionName" headingText="{SharedStrings:Expression}" />
+					<Column isDefault="true" width="200" isSearchable="true" allowSorting="true" dataField="CatalogName" headingText="{SharedStrings:Catalog}" />
+					<Column isDefault="true" visible="false" isSearchable="true" allowSorting="true" dataField="CatalogNodeId" headingText="{SharedStrings:NodeId}" />
+					<Column isDefault="true" width="200" isSearchable="true" allowSorting="true" dataField="CatalogNodeName" headingText="{SharedStrings:Node}" />
+					<Column isDefault="true" visible="false" isSearchable="true" allowSorting="true" dataField="CatalogEntryId" headingText="{SharedStrings:EntryId}" />
+					<Column isDefault="true" width="200" isSearchable="true" allowSorting="true" dataField="CatalogEntryName" headingText="{SharedStrings:Entry}" />
+				</Columns>
+			</add>
+		</Grid>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="PromotionCond-List" controlUrl="" permissions="marketing:promotions:mng:view" />
+	</ViewConfig>
+</View>

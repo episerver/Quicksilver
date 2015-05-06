@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Commands>
+			<add>
+				<Command id="cmdShowDialogSiteImportConfirm">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Content&amp;_v=SiteImportConfirm&amp;SiteID=[ClientParam:SiteId]</Url>
+					<Width>400</Width>
+					<Height>140</Height>
+					<PopupTitle>Site Import</PopupTitle>
+					<Drag>True</Drag>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+					<DependCommand>cmdDoImport</DependCommand>
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Site-Import" controlUrl="Content/Site/SiteImport.ascx" permissions="content:site:mng:import" help="Content+Management"/>
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Import}" controlUrl="Content/Site/Tabs/SiteImportTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

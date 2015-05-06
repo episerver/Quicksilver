@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="FolderItem-Edit" controlUrl="Asset/FolderItem.ascx" permissions="asset:mng:edit"></setAttributes>
+		<add>
+			<Tabs>
+				<Tab name="{AssetStrings:Folder_Item}" controlUrl="Asset/Tabs/NewFolderTab.ascx"></Tab>
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

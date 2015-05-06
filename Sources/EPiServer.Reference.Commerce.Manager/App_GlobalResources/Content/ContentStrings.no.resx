@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Language_Code" xml:space="preserve">
+    <value>Kode</value>
+  </data>
+  <data name="Language_Code_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves en språkkode.</value>
+  </data>
+  <data name="Language_Friendly_Name" xml:space="preserve">
+    <value>Egendefinert navn</value>
+  </data>
+  <data name="Language_Is_Default" xml:space="preserve">
+    <value>Er standard</value>
+  </data>
+  <data name="Language_Code_Description" xml:space="preserve">
+    <value>Språkkode (for eksempel, en-US)</value>
+  </data>
+  <data name="Language_Code_Exists" xml:space="preserve">
+    <value>Det finnes allerede et språk med den angitte koden.</value>
+  </data>
+  <data name="Folder_Page_Changes_Discarded" xml:space="preserve">
+    <value>Mappe-/sideendringene er forkastet.</value>
+  </data>
+  <data name="Folder_Page_Updated" xml:space="preserve">
+    <value>Mappen/siden er vellykket oppdatert.</value>
+  </data>
+  <data name="Menu_Changes_Discarded" xml:space="preserve">
+    <value>Menyendringene er forkastet.</value>
+  </data>
+  <data name="Menu_Item_Changes_Discarded" xml:space="preserve">
+    <value>Menyelementendringene er forkastet.</value>
+  </data>
+  <data name="Menu_Item_Name_Instructions" xml:space="preserve">
+    <value>Angi menyelementnavnet. Dette vises typisk på området som et menyvalg.</value>
+  </data>
+  <data name="Menu_Item_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et menyelementnavn.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Description" xml:space="preserve">
+    <value>Sorteringsrekkefølge for menyelementet.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Invalid" xml:space="preserve">
+    <value>Ugyldig verdi for sorteringsrekkefølge.</value>
+  </data>
+  <data name="Menu_Item_Tooltip_Instructions" xml:space="preserve">
+    <value>Angi verktøytipset for menyelementet. Dette vises normalt når markøren settes over menyvalget.</value>
+  </data>
+  <data name="Menu_Item_Updated" xml:space="preserve">
+    <value>Menyelementet er vellykket oppdatert.</value>
+  </data>
+  <data name="Menu_Name_Instructions" xml:space="preserve">
+    <value>Angi menynavnet. Det vil brukes til søkeformål og vises vanligvis ikke på området. Gode navn er HeaderMenu, SideMenu, FooterMenu.</value>
+  </data>
+  <data name="Menu_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et menynavn.</value>
+  </data>
+  <data name="Menu_Updated" xml:space="preserve">
+    <value>Menyen er vellykket oppdatert.</value>
+  </data>
+  <data name="Meta_Description_Instructions" xml:space="preserve">
+    <value>Ved å indeksere søkemotorer kan innholdet av metabeskrivelsestaggen vises som et resultat av et søk. Metabeskrivelsestaggen skal være mellom 140 og 200 tegn.</value>
+  </data>
+  <data name="Meta_Description_Parenthesis" xml:space="preserve">
+    <value>(metabeskrivelse)</value>
+  </data>
+  <data name="Meta_Keywords_Parenthesis" xml:space="preserve">
+    <value>(metanøkkelord)</value>
+  </data>
+  <data name="Page_Default_Description" xml:space="preserve">
+    <value>angir om siden brukes som standardside for mappen den ligger i</value>
+  </data>
+  <data name="Page_Keywords_Instruction" xml:space="preserve">
+    <value>Bruk et nøkkelord for metatagg for å liste opp nøkkelordene for dokumentet. Bruk en unik liste av nøkkelord som viser til den spesifikke siden på området i stedet for å bruke et bredt sett av nøkkelord for hver side.</value>
+  </data>
+  <data name="Page_Name_Instruction" xml:space="preserve">
+    <value>Angi sidenavnet. Aspx-formatet legges til automatisk til navnet hvis det ikke spesifiseres.</value>
+  </data>
+  <data name="Page_Title_Instruction" xml:space="preserve">
+    <value>Bruk tittelelementet til å identifisere innholdet i et dokument. En god SEO-tittel skal inneholde primærnøkkelordfrasen for denne siden og sekundærnøkkelordfrasen du også kan sette. Prøv å holde den på mindre enn 64 tegn.</value>
+  </data>
+  <data name="Site_Changes_Discarded" xml:space="preserve">
+    <value>Områdeendringene er forkastet.</value>
+  </data>
+  <data name="Site_Updated" xml:space="preserve">
+    <value>Området er vellykket oppdatert.</value>
+  </data>
+  <data name="Site_Overwrite_Existing" xml:space="preserve">
+    <value>Skriv over eksisterende område</value>
+  </data>
+  <data name="Site_Import_Warning" xml:space="preserve">
+    <value>Det anbefales på det sterkeste at du sikkerhetskopierer ECF-databasen før du utfører importen.</value>
+  </data>
+  <data name="Site_Import_Instructions" xml:space="preserve">
+    <value>Hvis du vil importere et område, hent en eksisterende fil fra rutenettet nedenfor eller last opp en ny. Klikk deretter knappen Start import for å starte import.</value>
+  </data>
+  <data name="Site_Template" xml:space="preserve">
+    <value>Områdemal</value>
+  </data>
+  <data name="Site_Theme" xml:space="preserve">
+    <value>Områdetema</value>
+  </data>
+  <data name="Site_Folder" xml:space="preserve">
+    <value>Områdemappe</value>
+  </data>
+  <data name="Site_Exported_Files_Description" xml:space="preserve">
+    <value>Liste over eksporterte filer</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_1" xml:space="preserve">
+    <value>Du er i ferd med å eksportere området</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_2" xml:space="preserve">
+    <value>Klikk knappen for å starte.</value>
+  </data>
+  <data name="Site_Theme_Description" xml:space="preserve">
+    <value>definerer mal- og stilarkkilden</value>
+  </data>
+  <data name="Site_Admin_Url_Description" xml:space="preserve">
+    <value>angi administrasjons-URL for området (la stå tomt for å deaktivere fanen administrasjon)</value>
+  </data>
+  <data name="Site_Domain_List" xml:space="preserve">
+    <value>liste over domener (ett per linje)</value>
+  </data>
+  <data name="Site_Languages_Configure" xml:space="preserve">
+    <value>Konfigurer områdespråk</value>
+  </data>
+  <data name="Site_SEO_Parameters" xml:space="preserve">
+    <value>SEO-parametre</value>
+  </data>
+  <data name="Site_Parameters_Public" xml:space="preserve">
+    <value>Offentlige områdeparametre</value>
+  </data>
+  <data name="Site_Parameters_To_Identify" xml:space="preserve">
+    <value>Parametre til å identifisere området i den offentlige delen</value>
+  </data>
+  <data name="Site_Edit" xml:space="preserve">
+    <value>Rediger område</value>
+  </data>
+  <data name="Folder_With_Name_Exists" xml:space="preserve">
+    <value>Mappe/side med angitt navn finnes allerede.</value>
+  </data>
+  <data name="Site_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et områdenavn.</value>
+  </data>
+  <data name="MenuItem_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede et menyelement med det angitte navnet.</value>
+  </data>
+  <data name="Menu_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede en meny med det angitte navnet.</value>
+  </data>
+  <data name="Folder_Page_Edit" xml:space="preserve">
+    <value>Rediger mappe/side</value>
+  </data>
+  <data name="Site_Template_Delete_ReferenceException" xml:space="preserve">
+    <value>Kan ikke slette malen fordi den brukes av sider på området.</value>
+  </data>
+  <data name="Site_Template_Delete_TitleException" xml:space="preserve">
+    <value>Kunne ikke slette elementene. Feil: </value>
+  </data>
+  <data name="Site_Page_Template" xml:space="preserve">
+    <value>Sidemal</value>
+  </data>
+  <data name="Language_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et språknavn.</value>
+  </data>
+  <data name="Language_Code_Invalid" xml:space="preserve">
+    <value>Ugyldig språkkode</value>
+  </data>
+  <data name="Folder_Command_Add" xml:space="preserve">
+    <value>Opprett en ny kommando</value>
+  </data>
+  <data name="Folder_Command_Edit" xml:space="preserve">
+    <value>Rediger kommando</value>
+  </data>
+  <data name="Folder_Page_Create" xml:space="preserve">
+    <value>Opprett side</value>
+  </data>
+  <data name="Folder_Page_CreateConfirm" xml:space="preserve">
+    <value>Opprett sideversjon for dette språket?</value>
+  </data>
+  <data name="Folder_Page_View" xml:space="preserve">
+    <value>Vis side</value>
+  </data>
+  <data name="Page_Drafts" xml:space="preserve">
+    <value>Kladder</value>
+  </data>
+  <data name="Page_Rejected" xml:space="preserve">
+    <value>Avvist</value>
+  </data>
+  <data name="Page_WaitingApproval" xml:space="preserve">
+    <value>Venter på godkjenning</value>
+  </data>
+  <data name="Folder_Command_QueryString" xml:space="preserve">
+    <value>Spørrestreng</value>
+  </data>
+  <data name="Folder_FullAccess" xml:space="preserve">
+    <value>Tilgang for alle</value>
+  </data>
+  <data name="Folder_ParentFolder" xml:space="preserve">
+    <value>Overordnet mappe</value>
+  </data>
+  <data name="Folder_TargetFolder" xml:space="preserve">
+    <value>Målkatalog</value>
+  </data>
+  <data name="Menu_Command" xml:space="preserve">
+    <value>Kommando</value>
+  </data>
+  <data name="Menu_Command_Link" xml:space="preserve">
+    <value>Kobling</value>
+  </data>
+  <data name="Menu_Command_Navigation" xml:space="preserve">
+    <value>Navigasjon</value>
+  </data>
+  <data name="Menu_Command_None" xml:space="preserve">
+    <value>Ingen</value>
+  </data>
+  <data name="Menu_Command_Parameters" xml:space="preserve">
+    <value>Parametre</value>
+  </data>
+  <data name="Menu_Command_Parameters_Description" xml:space="preserve">
+    <value>Parameterverdier skilt med ';'</value>
+  </data>
+  <data name="Menu_Command_String" xml:space="preserve">
+    <value>Streng</value>
+  </data>
+  <data name="Menu_Command_Type" xml:space="preserve">
+    <value>Kommandotype</value>
+  </data>
+  <data name="Page_DefaultPage" xml:space="preserve">
+    <value>Standardside</value>
+  </data>
+  <data name="Page_MasterPage" xml:space="preserve">
+    <value>Hovedside</value>
+  </data>
+  <data name="Site_Address" xml:space="preserve">
+    <value>Områdeadresse</value>
+  </data>
+  <data name="Menu_Command_Script" xml:space="preserve">
+    <value>Skript</value>
+  </data>
+  <data name="DisplayTemplate_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede en mal med dette navnet.</value>
+  </data>
+  <data name="Site_Folder_AlreadyExists" xml:space="preserve">
+    <value>En områdemappe med angitt navn finnes allerede.</value>
+  </data>
+  <data name="Site_Folder_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves en områdemappe.</value>
+  </data>
+  <data name="Site_Name_AlreadyExists" xml:space="preserve">
+    <value>Et område med angitt navn finnes allerede.</value>
+  </data>
+  <data name="Use_CMS_Languages" xml:space="preserve">
+    <value>Språk legges til og aktiveres i CMS Admin-visningen under Konfig. og håndter språk på webområder.</value>
+  </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Advarsel! Hvis dette elementet oppdateres via Commerce Manager, vil tidligere og ventende innholdsversjoner bli overskrevet. Slike innholdsversjoner kan ha blitt opprettet via andre grensesnitt.</value>
+  </data>
+</root>

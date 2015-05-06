@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<Navigation>
+		<Tabs id="mainTag">
+			<add>
+				<Tab id="navTabDashboard" text="{DashboardStrings:Dashboard}" order="0" contentType="default" imageUrl="~/Apps/Dashboard/images/module.png" configUrl="">
+					<Link order="10" id="{D0E416E2-DDB4-4122-9AEA-DD5552E2ADF7}" text="{DashboardStrings:Home}" iconUrl="~/Apps/Dashboard/images/Homepage.gif" iconCss="treeIcon" command="cmdDashboardHome"  />
+				</Tab>
+			</add>
+		</Tabs>
+		<Commands>
+			<add>
+				<Command id="cmdDashboardHome">
+					<CommandType>Navigate</CommandType>
+					<Target>right</Target>
+					<Url>~/Apps/Dashboard/Home.aspx</Url>
+				</Command>
+			</add>
+		</Commands>
+	</Navigation>
+</View>

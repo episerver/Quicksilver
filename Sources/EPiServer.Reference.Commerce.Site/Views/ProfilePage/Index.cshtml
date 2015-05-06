@@ -1,0 +1,6 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Profile.Pages.ProfilePage
+<div class="row myPage">
+    @Html.Partial("_CmsNavigation", Model)
+    <h2>@Html.PropertyFor(x => x.Name)</h2>
+    <div>@Html.PropertyFor(x => x.MainBody)</div>
+</div>

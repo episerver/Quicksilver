@@ -1,0 +1,3 @@
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Content.Menu.MenuList" Codebehind="MenuList.ascx.cs" %>
+<%@ Register Src="~/Apps/Core/Controls/EcfListViewControl.ascx" TagName="EcfListViewControl" TagPrefix="core" %>
+<core:EcfListViewControl id="MyListView" runat="server" DataKey="MenuItemId" AppId="Content" ViewId="Menu-List" ShowTopToolbar="true"></core:EcfListViewControl>

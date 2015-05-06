@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+
+<hr />
+<div class="row">
+    <div class="footer">
+        <div class="col-md-4 col-sm-12">
+            <div class="company-image"></div>
+            <div class="company-information">
+                <h3>@Html.Translate("/Footer/CompanyInformation/Header")</h3>
+                <p>@Html.Translate("/Footer/CompanyInformation/Text")</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <h3>@Html.Translate("/Footer/Newsletter/Header")</h3>
+            <div class="newsletter-signup">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="sr-only" for="newsletter">@Html.Translate("/Footer/Newsletter/Header")</label>
+
+                            <input type="text" class="form-control" id="newsletter" name="newsletter" placeholder="name@example.com">
+                            <div class="input-group-addon input-group-addon--newsletter">
+                                @Html.Translate("/Footer/Newsletter/Button") <span class="mail-icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <div class="social">
+                <h3>@Html.Translate("/Footer/Social")</h3>
+                <p>
+                    <span class="social-icon social-icon--linkedin"></span>
+                    <span class="social-icon social-icon--twitter"></span>
+                    <span class="social-icon social-icon--facebook"></span>
+                    <span class="social-icon social-icon--googleplus"></span>
+                    <span class="social-icon social-icon--instagram"></span>
+                    <span class="social-icon social-icon--youtube"></span>
+                    <span class="social-icon social-icon--email"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 text-right">
+        <img src="~/Styles/Images/under-construction.gif" alt="Under construction" />
+    </div>
+    <div class="col-md-6 text-left">
+        <strong>@Html.Translate("/PreRelease/Heading")</strong>
+        <p>
+            @Html.Translate("/PreRelease/NotificationMessage")
+        </p>
+    </div>
+</div>

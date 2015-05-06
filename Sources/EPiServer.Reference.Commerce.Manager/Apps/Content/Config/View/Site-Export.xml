@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Site-Export" controlUrl="Content/Site/SiteExport.ascx" permissions="content:site:mng:export" help="Content+Management" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Export}" controlUrl="Content/Site/Tabs/SiteExportTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

@@ -1,0 +1,26 @@
+using System.ComponentModel.DataAnnotations;
+using EPiServer.Core;
+using EPiServer.DataAbstraction;
+using EPiServer.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Blocks;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
+
+namespace EPiServer.Reference.Commerce.Site.Features.Login.Pages
+{
+    [ContentType(
+        DisplayName = "Login & Registration page", 
+        GUID = "3c045289-8e14-420e-a815-62fdf13e4b16", 
+        Description = "", 
+        AvailableInEditMode = false)]
+    [AvailableContentTypes(Include = new[] { typeof(LoginRegistrationPage), typeof(PasswordResetLinkPage) })]
+    public class LoginRegistrationPage : PageData
+    {
+        [CultureSpecific]
+        [Display(
+            Name = "Main area",
+            Description = "",
+            GroupName = SystemTabNames.Content,
+            Order = 1)]
+        public virtual ContentArea MainArea { get; set; }
+    }
+}

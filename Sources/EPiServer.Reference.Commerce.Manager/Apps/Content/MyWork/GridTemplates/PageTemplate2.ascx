@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PageTemplate2.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Content.MyWork.GridTemplates.PageTemplate2" %>
+<a target="_top" href="<%#GetPreviewUrl((Guid)DataBinder.Eval(DataItem, "SiteId"),(int)DataBinder.Eval(DataItem, "PageId"), (int)DataBinder.Eval(DataItem, "VersionId"), true) %>"><%# GetPageUrl((Guid)DataBinder.Eval(DataItem, "SiteId"), (int)DataBinder.Eval(DataItem, "PageId"), false)%></a>

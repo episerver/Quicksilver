@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DynamicControlInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Uid>F1946D0E-D000-4a0b-A995-AAB83A8209CE</Uid>
+  <Title>{CommerceManager:DEFAULT_NEWS}</Title>
+  <Description></Description>
+  <Path>~/Apps/Dashboard/Modules/NewsModule.ascx</Path>
+  <Category>MediachaseECF</Category>
+</DynamicControlInfo>

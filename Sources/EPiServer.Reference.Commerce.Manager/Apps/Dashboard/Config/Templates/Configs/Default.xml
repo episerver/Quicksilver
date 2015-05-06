@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WorkspaceTemplateInfo>
+	<Uid>1FDECA13-4F00-4282-8688-745A2AFBF6F6</Uid>
+	<Title>2 Columns</Title>
+	<Description>{DashboardStrings:Two_Equal_Columns}</Description>
+	<ColumnInfo><![CDATA[[{id: 'Column1', width: 50}, {id: 'Column2', width: 50}]]]></ColumnInfo>
+  <ImageUrl>/Apps/Dashboard/images/LayoutTypes/1_1.jpg</ImageUrl>
+</WorkspaceTemplateInfo>

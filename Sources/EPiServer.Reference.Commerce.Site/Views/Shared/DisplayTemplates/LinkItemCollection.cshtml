@@ -1,0 +1,32 @@
+﻿@using EPiServer.Core
+@using EPiServer.Reference.Commerce.Site.Features.Navigation.Extensions
+@using EPiServer.SpecializedProperties
+@model LinkItemCollection
+
+<ul class="@ViewData["class"]" style="@ViewData["style"]">
+    @{
+        var additionalLink = ViewData["additionalLink"] as LinkItem;
+        var itemStyle = ViewData["itemStyle"] ?? string.Empty;
+        var currentPage = ViewData["currentPage"] as ContentReference;
+        var selected = ViewData["selected"] as string;
+    }
+
+    @foreach (var linkItem in Model ?? Enumerable.Empty<LinkItem>())
+    {
+        var itemClass = "";
+        if (selected != null)
+        {
+            if (currentPage == linkItem.GetContentReference())
+            {
+                itemClass = selected;
+            }
+        }
+        <li class="@itemClass" style="@itemStyle">@Html.ContentLink(linkItem)</li>
+    }
+
+    @if (additionalLink != null && !String.IsNullOrWhiteSpace(additionalLink.Href))
+    {
+        <li style="@itemStyle"><a href="@additionalLink.Href">@additionalLink.Text</a></li>
+    }
+ </ul>
+

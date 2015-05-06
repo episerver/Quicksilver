@@ -1,0 +1,54 @@
+﻿@using EPiServer.Core
+@model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.HeaderViewModel
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <a href="@Url.ContentUrl(ContentReference.StartPage)">
+            <img src="~/Styles/Images/logotype_quicksilver.svg" alt="Quicksilver" />
+        </a>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12 header-right-side">
+        <div class="row">
+            <div class="col-md-10 col-sm-10 col-xs-10 search-wrapper">
+                <div class="search pull-right">
+                    @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, new {@class ="form-inline", @role="form"}))
+                    {
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="sr-only" for="search">Search</label>
+                                <input type="text" class="form-control jsQuickSearch" id="q" name="q" placeholder="@Html.Translate("/Header/Search/Placeholder")" data-url="@Url.Action("QuickSearch", null, new{ node = Model.StartPage.SearchPage })">
+                                <button type="submit" class="input-group-addon input-group-addon--search"></button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="jsQuickSearchResult" style="display: none;"></div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                @{ Html.RenderAction("MiniCartSummary", "Cart"); }
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <nav role="navigation" class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    @Html.PropertyFor(x => x.StartPage.MainMenu, new { @class = "nav navbar-nav", @selected = "active", @currentPage = Model.CurrentContentLink })
+                    @{ Html.RenderAction("Index", "Currency"); }
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

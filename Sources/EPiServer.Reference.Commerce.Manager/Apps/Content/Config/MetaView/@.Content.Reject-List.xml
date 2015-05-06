@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaView>
+	<Toolbar>
+		<add>
+			<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" >
+				<Button id="ApproveSelected" text="{SharedStrings:Approve_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/approve.png" commandName="cmdContentVersionApprove" permissions="content:admin:workflow:mng:edit"/>
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdContentVersionDelete" permissions="content:admin:workflow:mng:delete"/>
+			</Menu>
+		</add>
+	</Toolbar>
+
+	<Commands>
+		<add>
+			<Command id="cmdContentVersionApprove">
+				<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<ConfirmationText>Are you sure you want to approve selected version(s)?</ConfirmationText>
+				<CommandType>ServerAction</CommandType>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.VersionApproveHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+			</Command>
+			<Command id="cmdContentVersionDelete">
+				<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+				<CommandType>ServerAction</CommandType>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.VersionDeleteHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+			</Command>
+		</add>
+	</Commands>
+</MetaView>

@@ -1,0 +1,49 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.ExternalLoginConfirmationViewModel
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <p>@Html.Translate("/Login/Form/Label/AddressRequirementMessage")</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+
+        @using (Html.BeginForm("ExternalLoginConfirmation", "Login", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Address)
+                @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Country)
+                @Html.TextBoxFor(x => x.Country, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Country)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.City)
+                @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.City)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.PostalCode)
+                @Html.TextBoxFor(x => x.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.PostalCode)
+            </div>
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(x => x.Newsletter, new { @type = "checkbox" }) @Html.Translate("/Registration/Form/Label/Newsletter")
+                </label>
+            </div>
+
+            <input type="submit" class="btn" value="@Html.Translate("/AddressBook/Form/Label/Submit")" />
+        }
+
+    </div>
+    <div class="col-md-6 col-sm-6">
+
+    </div>
+</div>

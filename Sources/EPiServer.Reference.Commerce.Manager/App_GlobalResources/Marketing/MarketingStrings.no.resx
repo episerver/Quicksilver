@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Promotion_Entry_X_Variation" xml:space="preserve">
+    <value>Oppføring av X-variasjon</value>
+  </data>
+  <data name="Campaign_List" xml:space="preserve">
+    <value>Kampanjeliste</value>
+  </data>
+  <data name="Campaign_Edit" xml:space="preserve">
+    <value>Rediger kampanje</value>
+  </data>
+  <data name="Promotion_List" xml:space="preserve">
+    <value>Tilbudsliste</value>
+  </data>
+  <data name="Customer_Segment_List" xml:space="preserve">
+    <value>Kundesegmentliste</value>
+  </data>
+  <data name="Segment_Edit" xml:space="preserve">
+    <value>Rediger segment</value>
+  </data>
+  <data name="Policy_List" xml:space="preserve">
+    <value>Policyliste</value>
+  </data>
+  <data name="Policy_Edit" xml:space="preserve">
+    <value>Rediger policy</value>
+  </data>
+  <data name="Promotion_Edit" xml:space="preserve">
+    <value>Rediger tilbud</value>
+  </data>
+  <data name="Condition_List" xml:space="preserve">
+    <value>Betingelsesliste</value>
+  </data>
+  <data name="Expression_List" xml:space="preserve">
+    <value>Uttrykksliste</value>
+  </data>
+  <data name="Expression_Edit" xml:space="preserve">
+    <value>Rediger uttrykk</value>
+  </data>
+  <data name="Segment_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et segmentnavn.</value>
+  </data>
+  <data name="Segment_Name" xml:space="preserve">
+    <value>Segmentnavn</value>
+  </data>
+  <data name="Segment_Display_Name" xml:space="preserve">
+    <value>Vis navn</value>
+  </data>
+  <data name="Segment_Description" xml:space="preserve">
+    <value>Beskrivelse</value>
+  </data>
+  <data name="Segment_Members" xml:space="preserve">
+    <value>Medlemmer</value>
+  </data>
+  <data name="Segment_Exclude_Member" xml:space="preserve">
+    <value>Ekskluder medlem</value>
+  </data>
+  <data name="Segment_Add_Member" xml:space="preserve">
+    <value>legg til medlem</value>
+  </data>
+  <data name="Segment_Conditions" xml:space="preserve">
+    <value>Betingelser</value>
+  </data>
+  <data name="Segment_Add_Expression" xml:space="preserve">
+    <value>legg til uttrykk</value>
+  </data>
+  <data name="Segment_Enter_Name" xml:space="preserve">
+    <value>angi segmentnavn</value>
+  </data>
+  <data name="Promotion_Policy_Name" xml:space="preserve">
+    <value>Policynavn</value>
+  </data>
+  <data name="Promotion_Policy_Add" xml:space="preserve">
+    <value>Legg til policy</value>
+  </data>
+  <data name="Campaign_Required" xml:space="preserve">
+    <value>Velg en kampanje</value>
+  </data>
+  <data name="Promotion_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et tilbudsnavn.</value>
+  </data>
+  <data name="Promotion_Type" xml:space="preserve">
+    <value>Tilbudstype</value>
+  </data>
+  <data name="Promotion_Name" xml:space="preserve">
+    <value>Tilbudsnavn</value>
+  </data>
+  <data name="Promotion_Group" xml:space="preserve">
+    <value>Tilbudsgruppe</value>
+  </data>
+  <data name="Promotion_Combine_With_Other" xml:space="preserve">
+    <value>Kombiner med andre tilbud</value>
+  </data>
+  <data name="Promotion_Exclusive_Groups_Selected" xml:space="preserve">
+    <value>Eksklusiv innen valgte grupper</value>
+  </data>
+  <data name="Promotion_Exclusive_Groups_All" xml:space="preserve">
+    <value>Eksklusiv innen alle grupper</value>
+  </data>
+  <data name="Promotion_Max_Redemptions_Total" xml:space="preserve">
+    <value>Maks. totale gjenkjøp</value>
+  </data>
+  <data name="Promotion_Max_Redemptions_Per_Order" xml:space="preserve">
+    <value>Maks. gjenkjøp per bestilling</value>
+  </data>
+  <data name="Promotion_Max_Redemptions_Per_Customer" xml:space="preserve">
+    <value>Maks. gjenkjøp per kunde</value>
+  </data>
+  <data name="Promotion_Enter_Name" xml:space="preserve">
+    <value>angi tilbudsnavn</value>
+  </data>
+  <data name="Promotion_Properties" xml:space="preserve">
+    <value>Egenskaper for tilbud</value>
+  </data>
+  <data name="Promotion_Select_Combine_Degree" xml:space="preserve">
+    <value>velg til hvilken grad flere tilbud kan kombineres</value>
+  </data>
+  <data name="Promotion_Priority_Evaluation" xml:space="preserve">
+    <value>tilbud med høyere prioritet evalueres først</value>
+  </data>
+  <data name="Promotion_Will_Require_Code" xml:space="preserve">
+    <value>krever kode hvis det angis</value>
+  </data>
+  <data name="Promotion_Status" xml:space="preserve">
+    <value>tilbudsstatus</value>
+  </data>
+  <data name="Promotion_Purchase_Condition_Reward" xml:space="preserve">
+    <value>Kjøpsbetingelse og belønning</value>
+  </data>
+  <data name="Promotion_Redemption_Limits" xml:space="preserve">
+    <value>Gjenkjøpsbegrensninger</value>
+  </data>
+  <data name="Promotion_Use_All_Customers_0_Unlimited" xml:space="preserve">
+    <value>antall ganger tilbudet kan brukes av alle kundene; angi 0 for ubegrenset</value>
+  </data>
+  <data name="Promotion_Use_Single_Order_0_Unlimited" xml:space="preserve">
+    <value>antall ganger tilbudet kan brukes i én enkel bestilling; angi 0 for ubegrenset</value>
+  </data>
+  <data name="Promotion_Use_Single_Customer_0_Unlimited" xml:space="preserve">
+    <value>antall ganger tilbudet kan brukes av én enkel kunde; angi 0 for ubegrenset</value>
+  </data>
+  <data name="Policy_Is_Local" xml:space="preserve">
+    <value>Er lokal</value>
+  </data>
+  <data name="Policy_Expression" xml:space="preserve">
+    <value>Uttrykk</value>
+  </data>
+  <data name="Policy_Groups" xml:space="preserve">
+    <value>Grupper</value>
+  </data>
+  <data name="Policy_Name" xml:space="preserve">
+    <value>Policynavn</value>
+  </data>
+  <data name="Policy_Name_Enter" xml:space="preserve">
+    <value>angi policynavn</value>
+  </data>
+  <data name="Policy_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Policy_Status_Enter" xml:space="preserve">
+    <value>angi policystatus</value>
+  </data>
+  <data name="Policy_Expression_Select" xml:space="preserve">
+    <value>velg policyuttrykk</value>
+  </data>
+  <data name="Policy_Group_Select" xml:space="preserve">
+    <value>velg policygruppe; gjør det mulig å gruppere policyer logisk</value>
+  </data>
+  <data name="Expression_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et uttrykksnavn.</value>
+  </data>
+  <data name="Policy_Expression_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et policyuttrykk.</value>
+  </data>
+  <data name="Policy_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et policynavn.</value>
+  </data>
+  <data name="Policy_Status_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves en policystatus.</value>
+  </data>
+  <data name="Expression_Name_Enter" xml:space="preserve">
+    <value>angi uttrykksnavn</value>
+  </data>
+  <data name="Expression_Description_Enter" xml:space="preserve">
+    <value>angi uttrykksbeskrivelse</value>
+  </data>
+  <data name="Expression_Xml_Enter" xml:space="preserve">
+    <value>angi Xml-uttrykk</value>
+  </data>
+  <data name="Expression_Category_Select" xml:space="preserve">
+    <value>velg uttrykkskategori</value>
+  </data>
+  <data name="Expression_Name" xml:space="preserve">
+    <value>Uttrykksnavn</value>
+  </data>
+  <data name="Expression_Xml" xml:space="preserve">
+    <value>Xml-uttrykk</value>
+  </data>
+  <data name="Campaign_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves et kampanjenavn.</value>
+  </data>
+  <data name="Campaign_Name" xml:space="preserve">
+    <value>Kampanjenavn</value>
+  </data>
+  <data name="Campaign_Name_Enter" xml:space="preserve">
+    <value>angi kampanjenavn</value>
+  </data>
+  <data name="Campaign_Target_Segments" xml:space="preserve">
+    <value>Målsegmenter</value>
+  </data>
+  <data name="Promotion_Add_Variation" xml:space="preserve">
+    <value>legg til variasjon</value>
+  </data>
+  <data name="Promotion_Select_Catalog_Entry_Y" xml:space="preserve">
+    <value>Velg produktkatalogoppføring Y</value>
+  </data>
+  <data name="Promotion_Max_Quantity_Y" xml:space="preserve">
+    <value>Maks. mengde Y</value>
+  </data>
+  <data name="Promotion_Percentage_Based" xml:space="preserve">
+    <value>Prosentbasert</value>
+  </data>
+  <data name="Promotion_Value_Based" xml:space="preserve">
+    <value>Verdibasert</value>
+  </data>
+  <data name="Promotion_Select_Catalog_Entry_X" xml:space="preserve">
+    <value>Velg produktkatalogoppføring X</value>
+  </data>
+  <data name="Promotion_Select_Target_Catalog_Entry_X" xml:space="preserve">
+    <value>Velg målproduktkatalogoppføring X</value>
+  </data>
+  <data name="Promotion_Minimum_Purchase" xml:space="preserve">
+    <value>Minimumskjøp</value>
+  </data>
+  <data name="Promotion_Fixed_Amount_Off_Total_Of_All_Catalog_Entries" xml:space="preserve">
+    <value>Fast rabattbeløp av summen for alle produktkatalogoppføringene</value>
+  </data>
+  <data name="Promotion_Minimum_Order_Amount" xml:space="preserve">
+    <value>Minimumsbestillingsbeløp</value>
+  </data>
+  <data name="Promotion_Quantity_X_needed_to_qualify" xml:space="preserve">
+    <value>Mengden X må oppfylles for tilbudet</value>
+  </data>
+  <data name="Promotion_Quantity_Y_needed_to_qualify" xml:space="preserve">
+    <value>Mengden Y må oppfylles for tilbudet</value>
+  </data>
+  <data name="Promotion_Combination_With_Other" xml:space="preserve">
+    <value>Kombinasjon med andre tilbud</value>
+  </data>
+  <data name="Segment_Conditions_Description" xml:space="preserve">
+    <value>De ovenstående betingelsene evalueres i kjøretid og hvis noen av disse er sanne, blir kunden en del av dette segmentet.</value>
+  </data>
+  <data name="Promotion_Used_Count" xml:space="preserve">
+    <value>Gjenkjøp</value>
+  </data>
+  <data name="Campaign_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede en kampanje med dette navnet.</value>
+  </data>
+  <data name="Promotion_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede et tilbud med dette navnet.</value>
+  </data>
+  <data name="Segment_With_Name_Exists" xml:space="preserve">
+    <value>Det finnes allerede et segment med dette navnet.</value>
+  </data>
+  <data name="Promotion_Edit_Variation" xml:space="preserve">
+    <value>Endre variasjon</value>
+  </data>
+  <data name="Promotion_Empty_CatalogEntiriesList" xml:space="preserve">
+    <value>Velg katalogoppføringer</value>
+  </data>
+  <data name="Promotion_More_CatalogEntriesListPattern" xml:space="preserve">
+    <value>  ({0}) mer...</value>
+  </data>
+  <data name="Catalog_Entry" xml:space="preserve">
+    <value>Katalogoppføring</value>
+  </data>
+  <data name="Condition_Dialog" xml:space="preserve">
+    <value>Betingelsesdialog</value>
+  </data>
+  <data name="New_Condition" xml:space="preserve">
+    <value>Ny betingelse</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Bestilling</value>
+  </data>
+  <data name="Promotion_Assign_Rewards" xml:space="preserve">
+    <value>Bruk handlingene nedenfor til å gi belønninger.</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_Dollar_Off" xml:space="preserve">
+    <value>Kjøp X Få $ i rabatt</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_Dollar_Off_Description" xml:space="preserve">
+    <value>Denne tilbudstypen gir $ i rabatt per artikkel for minimumsmengde.</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_Y_At_Discount" xml:space="preserve">
+    <value>Kjøp katalogoppføring X, få katalogoppføring Y med rabatt</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_Y_At_Discount_Description" xml:space="preserve">
+    <value>Denne tilbudstypen gjør flere artikkelnumre tilgjengelige med prosentrabatt når en bestilling inkluderer en påkrevet mengde av det spesifiserte artikkelnummeret</value>
+  </data>
+  <data name="Promotion_Custom_Condition" xml:space="preserve">
+    <value>Bruk betingelsen nedenfor til å begrense hvordan tilbudet skal brukes.</value>
+  </data>
+  <data name="Promotion_Custom_Description" xml:space="preserve">
+    <value>Denne tilbudstypen lar deg opprette et egendefinert tilbud.</value>
+  </data>
+  <data name="Promotion_Entry_Custom_Name" xml:space="preserve">
+    <value>Opprett din egen rabatt</value>
+  </data>
+  <data name="Promotion_Group_Entry" xml:space="preserve">
+    <value>oppføring</value>
+  </data>
+  <data name="Promotion_Group_Order" xml:space="preserve">
+    <value>bestilling</value>
+  </data>
+  <data name="Promotion_Group_Shipping" xml:space="preserve">
+    <value>frakt</value>
+  </data>
+  <data name="Promotion_Order_Sub_Total_Description" xml:space="preserve">
+    <value>Denne tilbudstypen gir rabatt på bestillingens delsum hvis minimumsbestillingsbeløpet er oppfylt.</value>
+  </data>
+  <data name="Promotion_Order_Sub_Total_Volume_Discount" xml:space="preserve">
+    <value>Volumrabatt på bestillingens delsum</value>
+  </data>
+  <data name="Purchase_Condition" xml:space="preserve">
+    <value>Kjøpsbetingelse</value>
+  </data>
+  <data name="Rewards" xml:space="preserve">
+    <value>Belønninger</value>
+  </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Frakt</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_N_At_Y_Discount" xml:space="preserve">
+    <value>Kjøp X, få mengde N av Y med rabatt</value>
+  </data>
+  <data name="Promotion_Buy_X_Get_N_At_Y_Discount_Description" xml:space="preserve">
+    <value>Denne tilbudstypen er kvalifisert til å kjøpe angitt antall av artikkel til redusert pris.</value>
+  </data>
+  <data name="Campaign_Target_Markets" xml:space="preserve">
+    <value>Målmarkeder</value>
+  </data>
+  <data name="Coupon_Code_Existed" xml:space="preserve">
+    <value>Kupongkode finnes fra før, skriv inn en annen.</value>
+  </data>
+  <data name="Leave_Unselected" xml:space="preserve">
+    <value>La alle være uvalgt for å bruke kampanjen på alt ovenfor.</value>
+  </data>
+  <data name="Promotion_Target_Markets" xml:space="preserve">
+    <value>Målmarkeder</value>
+  </data>
+  <data name="Segment_Display_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Påkrevet felt mangler&lt;/b&gt;&lt;br/&gt;Et visningsnavn er påkrevet.</value>
+  </data>
+  <data name="Segment_Enter_Display_Name" xml:space="preserve">
+    <value>angi visningsnavn</value>
+  </data>
+</root>

@@ -1,0 +1,12 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Editorial.Blocks
+@model FreeTextBlock
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="product-row">
+        <div class="teaserblock col-md-12">
+            @Html.PropertyFor(x => x.MainBody)
+        </div>
+    </div>
+</div>

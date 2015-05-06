@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PriceValueDto" targetNamespace="http://tempuri.org/PriceValueDto.xsd" xmlns:mstns="http://tempuri.org/PriceValueDto.xsd" xmlns="http://tempuri.org/PriceValueDto.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="NotPublic" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PriceValueDto" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PriceValueDto" msprop:Generator_UserDSName="PriceValueDto">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PriceValue" msprop:Generator_TableClassName="PriceValueDataTable" msprop:Generator_TableVarName="tablePriceValue" msprop:Generator_TablePropName="PriceValue" msprop:Generator_RowDeletingName="PriceValueRowDeleting" msprop:Generator_UserTableName="PriceValue" msprop:Generator_RowChangingName="PriceValueRowChanging" msprop:Generator_RowEvHandlerName="PriceValueRowChangeEventHandler" msprop:Generator_RowDeletedName="PriceValueRowDeleted" msprop:Generator_RowEvArgName="PriceValueRowChangeEvent" msprop:Generator_RowChangedName="PriceValueRowChanged" msprop:Generator_RowClassName="PriceValueRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PriceValueId" msprop:Generator_ColumnVarNameInTable="columnPriceValueId" msprop:Generator_ColumnPropNameInRow="PriceValueId" msprop:Generator_ColumnPropNameInTable="PriceValueIdColumn" msprop:Generator_UserColumnName="PriceValueId" type="xs:int" />
+              <xs:element name="MarketId" msprop:Generator_ColumnVarNameInTable="columnMarketId" msprop:Generator_ColumnPropNameInRow="MarketId" msprop:Generator_ColumnPropNameInTable="MarketIdColumn" msprop:Generator_UserColumnName="MarketId" type="xs:string" />
+              <xs:element name="ApplicationId" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnApplicationId" msprop:Generator_ColumnPropNameInRow="ApplicationId" msprop:Generator_ColumnPropNameInTable="ApplicationIdColumn" msprop:Generator_UserColumnName="ApplicationId" type="xs:string" />
+              <xs:element name="CatalogEntryCode" msprop:Generator_ColumnVarNameInTable="columnCatalogEntryCode" msprop:Generator_ColumnPropNameInRow="CatalogEntryCode" msprop:Generator_ColumnPropNameInTable="CatalogEntryCodeColumn" msprop:Generator_UserColumnName="CatalogEntryCode" type="xs:string" />
+              <xs:element name="PriceTypeId" msprop:Generator_ColumnVarNameInTable="columnPriceTypeId" msprop:Generator_ColumnPropNameInRow="PriceTypeId" msprop:Generator_ColumnPropNameInTable="PriceTypeIdColumn" msprop:Generator_UserColumnName="PriceTypeId" type="xs:int" />
+              <xs:element name="PriceCode" msprop:Generator_ColumnVarNameInTable="columnPriceCode" msprop:Generator_ColumnPropNameInRow="PriceCode" msprop:Generator_ColumnPropNameInTable="PriceCodeColumn" msprop:Generator_UserColumnName="PriceCode" type="xs:string" />
+              <xs:element name="MinQuantity" msprop:Generator_ColumnVarNameInTable="columnMinQuantity" msprop:Generator_ColumnPropNameInRow="MinQuantity" msprop:Generator_ColumnPropNameInTable="MinQuantityColumn" msprop:Generator_UserColumnName="MinQuantity" type="xs:decimal" />
+              <xs:element name="ValidFrom" msdata:DateTimeMode="Utc" msprop:Generator_ColumnVarNameInTable="columnValidFrom" msprop:Generator_ColumnPropNameInRow="ValidFrom" msprop:Generator_ColumnPropNameInTable="ValidFromColumn" msprop:Generator_UserColumnName="ValidFrom" type="xs:dateTime" />
+              <xs:element name="ValidUntil" msdata:DateTimeMode="Utc" msprop:Generator_ColumnVarNameInTable="columnValidUntil" msprop:Generator_ColumnPropNameInRow="ValidUntil" msprop:Generator_ColumnPropNameInTable="ValidUntilColumn" msprop:Generator_UserColumnName="ValidUntil" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Currency" msprop:Generator_ColumnVarNameInTable="columnCurrency" msprop:Generator_ColumnPropNameInRow="Currency" msprop:Generator_ColumnPropNameInTable="CurrencyColumn" msprop:Generator_UserColumnName="Currency" type="xs:string" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

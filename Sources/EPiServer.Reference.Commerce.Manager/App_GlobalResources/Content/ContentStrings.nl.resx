@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Language_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Language_Code_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een taalcode is verplicht.</value>
+  </data>
+  <data name="Language_Friendly_Name" xml:space="preserve">
+    <value>Vriendelijke naam</value>
+  </data>
+  <data name="Language_Is_Default" xml:space="preserve">
+    <value>Is standaard</value>
+  </data>
+  <data name="Language_Code_Description" xml:space="preserve">
+    <value>Taalcode (bijvoorbeeld: en-US)</value>
+  </data>
+  <data name="Language_Code_Exists" xml:space="preserve">
+    <value>Er bestaat reeds een taal met de gespecificeerde code.</value>
+  </data>
+  <data name="Folder_Page_Changes_Discarded" xml:space="preserve">
+    <value>Map/Paginawijzigingen zijn genegeerd.</value>
+  </data>
+  <data name="Folder_Page_Updated" xml:space="preserve">
+    <value>Map/Pagina is succesvol bijgewerkt.</value>
+  </data>
+  <data name="Menu_Changes_Discarded" xml:space="preserve">
+    <value>Menuwijzigingen zijn genegeerd.</value>
+  </data>
+  <data name="Menu_Item_Changes_Discarded" xml:space="preserve">
+    <value>Menu-itemwijzigingen zijn genegeerd.</value>
+  </data>
+  <data name="Menu_Item_Name_Instructions" xml:space="preserve">
+    <value>Voer de naam van het menu-item in, het wordt gewoonlijk weergegeven op de site als een menukeuze.</value>
+  </data>
+  <data name="Menu_Item_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een naam voor het menu-item is verplicht.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Description" xml:space="preserve">
+    <value>Sorteervolgorde voor het menu-item.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Invalid" xml:space="preserve">
+    <value>Ongeldige sorteervolgordewaarde.</value>
+  </data>
+  <data name="Menu_Item_Tooltip_Instructions" xml:space="preserve">
+    <value>Voer de knopinfo voor het menu-item in, het wordt gewoonlijk weergegeven wanneer u met de cursor over de menukeuze beweegt.</value>
+  </data>
+  <data name="Menu_Item_Updated" xml:space="preserve">
+    <value>Menu-item is succesvol bijgewerkt.</value>
+  </data>
+  <data name="Menu_Name_Instructions" xml:space="preserve">
+    <value>Voer de menunaam in. Het zal gebruikt worden om zaken op te zoeken en het wordt gewoonlijk eender waar op de site weergegeven. Goede namen zijn "KopMenu", "ZijMenu", "VoettekstMenu".</value>
+  </data>
+  <data name="Menu_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een menunaam is verplicht.</value>
+  </data>
+  <data name="Menu_Updated" xml:space="preserve">
+    <value>Menu is succesvol bijgewerkt.</value>
+  </data>
+  <data name="Meta_Description_Instructions" xml:space="preserve">
+    <value>Indexeren zoekmachines kan de inhoud van uw metabeschrijvingstag tonen als het resultaat van een zoekopdracht. Uw metabeschrijvingstag mag min. 140 en max. 200 tekens lang zijn.</value>
+  </data>
+  <data name="Meta_Description_Parenthesis" xml:space="preserve">
+    <value>(metabeschrijving)</value>
+  </data>
+  <data name="Meta_Keywords_Parenthesis" xml:space="preserve">
+    <value>(metatrefwoorden)</value>
+  </data>
+  <data name="Page_Default_Description" xml:space="preserve">
+    <value>specificeert of de pagina gebruikt wordt als een standaardpagina voor de map waarin het zit</value>
+  </data>
+  <data name="Page_Keywords_Instruction" xml:space="preserve">
+    <value>Gebruik een "trefwoord"-metatag om trefwoorden voor het document op te nemen in een lijst. Gebruik een afzonderlijke lijst van trefwoorden die verband houden met de specifieke pagina van uw site in plaats van een brede reeks trefwoorden te gebruiken voor elke pagina.</value>
+  </data>
+  <data name="Page_Name_Instruction" xml:space="preserve">
+    <value>Voer de paginanaam in. De extensie .aspx zal automatisch toegevoegd worden aan de naam als de extensie niet gespecificeerd is.</value>
+  </data>
+  <data name="Page_Title_Instruction" xml:space="preserve">
+    <value>Gebruik het titelelement om de inhoud van een document te identificeren. Een goede seo-titel moet uw primaire trefwoordzin voor die pagina bevatten en enige secundaire trefwoordenzinnen die u zoekt. Probeer geen titel van langer dan 64 tekens te maken.</value>
+  </data>
+  <data name="Site_Changes_Discarded" xml:space="preserve">
+    <value>Sitewijzigingen zijn genegeerd.</value>
+  </data>
+  <data name="Site_Updated" xml:space="preserve">
+    <value>Site is succesvol bijgewerkt.</value>
+  </data>
+  <data name="Site_Overwrite_Existing" xml:space="preserve">
+    <value>Bestaande site overschrijven</value>
+  </data>
+  <data name="Site_Import_Warning" xml:space="preserve">
+    <value>Wij raden u ten zeerste aan een back-up te nemen van uw ECF-database alvorens de import uit te voeren.</value>
+  </data>
+  <data name="Site_Import_Instructions" xml:space="preserve">
+    <value>Om een website te importeren, kiest u een bestaand bestand uit het onderstaande rooster of uploadt u een nieuw bestand. Klik vervolgens op de knop 'Import starten' om het importeren te starten.</value>
+  </data>
+  <data name="Site_Template" xml:space="preserve">
+    <value>Sitesjabloon</value>
+  </data>
+  <data name="Site_Theme" xml:space="preserve">
+    <value>Sitethema</value>
+  </data>
+  <data name="Site_Folder" xml:space="preserve">
+    <value>Sitemap</value>
+  </data>
+  <data name="Site_Exported_Files_Description" xml:space="preserve">
+    <value>Geëxporteerde bestandslijst</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_1" xml:space="preserve">
+    <value>U staat op het punt een site te exporteren.</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_2" xml:space="preserve">
+    <value>Klik op de knop om te starten.</value>
+  </data>
+  <data name="Site_Theme_Description" xml:space="preserve">
+    <value>definieert de bron van sjablonen en stijlbladen</value>
+  </data>
+  <data name="Site_Admin_Url_Description" xml:space="preserve">
+    <value>specificeer admin url voor de site (leeg laten om admin tab uit te schakelen)</value>
+  </data>
+  <data name="Site_Domain_List" xml:space="preserve">
+    <value>lijst van domeinen (een per lijn)</value>
+  </data>
+  <data name="Site_Languages_Configure" xml:space="preserve">
+    <value>Sitetalen configureren</value>
+  </data>
+  <data name="Site_SEO_Parameters" xml:space="preserve">
+    <value>SEO-parameters</value>
+  </data>
+  <data name="Site_Parameters_Public" xml:space="preserve">
+    <value>Publieke siteparameters</value>
+  </data>
+  <data name="Site_Parameters_To_Identify" xml:space="preserve">
+    <value>Parameters om de site te identificeren in de publieke sectie</value>
+  </data>
+  <data name="Site_Edit" xml:space="preserve">
+    <value>Site bewerken</value>
+  </data>
+  <data name="Folder_With_Name_Exists" xml:space="preserve">
+    <value>Er bestaat reeds een map/pagina met de gespecificeerde naam.</value>
+  </data>
+  <data name="Site_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een sitenaam is verplicht.</value>
+  </data>
+  <data name="MenuItem_With_Name_Exists" xml:space="preserve">
+    <value>Er bestaat reeds een menu-item met de gespecificeerde naam.</value>
+  </data>
+  <data name="Menu_With_Name_Exists" xml:space="preserve">
+    <value>Er bestaat reeds een menu met de gespecificeerde naam.</value>
+  </data>
+  <data name="Folder_Page_Edit" xml:space="preserve">
+    <value>Map/pagina bewerken</value>
+  </data>
+  <data name="Site_Template_Delete_ReferenceException" xml:space="preserve">
+    <value>Kan sjabloon niet wissen omdat het gebruikt wordt door sitepagina's.</value>
+  </data>
+  <data name="Site_Template_Delete_TitleException" xml:space="preserve">
+    <value>Item(s) wissen mislukt. Fout: </value>
+  </data>
+  <data name="Site_Page_Template" xml:space="preserve">
+    <value>Paginasjabloon</value>
+  </data>
+  <data name="Language_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een taalnaam is veplicht.</value>
+  </data>
+  <data name="Language_Code_Invalid" xml:space="preserve">
+    <value>Ongeldige taalcode</value>
+  </data>
+  <data name="Folder_Command_Add" xml:space="preserve">
+    <value>Nieuwe opdracht maken</value>
+  </data>
+  <data name="Folder_Command_Edit" xml:space="preserve">
+    <value>Opdracht bewerken</value>
+  </data>
+  <data name="Folder_Page_Create" xml:space="preserve">
+    <value>Pagina aanmaken</value>
+  </data>
+  <data name="Folder_Page_CreateConfirm" xml:space="preserve">
+    <value>Paginaversie aanmaken voor deze taal?</value>
+  </data>
+  <data name="Folder_Page_View" xml:space="preserve">
+    <value>Pagina bekijken</value>
+  </data>
+  <data name="Page_Drafts" xml:space="preserve">
+    <value>Kladversies</value>
+  </data>
+  <data name="Page_Rejected" xml:space="preserve">
+    <value>Afgewezen</value>
+  </data>
+  <data name="Page_WaitingApproval" xml:space="preserve">
+    <value>Aan het wachten op goedkeuring</value>
+  </data>
+  <data name="Folder_Command_QueryString" xml:space="preserve">
+    <value>Reeks van zoekopdracht</value>
+  </data>
+  <data name="Folder_FullAccess" xml:space="preserve">
+    <value>Toegang voor alles</value>
+  </data>
+  <data name="Folder_ParentFolder" xml:space="preserve">
+    <value>Bovenliggende map</value>
+  </data>
+  <data name="Folder_TargetFolder" xml:space="preserve">
+    <value>Doelmap</value>
+  </data>
+  <data name="Menu_Command" xml:space="preserve">
+    <value>Opdracht</value>
+  </data>
+  <data name="Menu_Command_Link" xml:space="preserve">
+    <value>Koppeling</value>
+  </data>
+  <data name="Menu_Command_Navigation" xml:space="preserve">
+    <value>Navigatie</value>
+  </data>
+  <data name="Menu_Command_None" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="Menu_Command_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="Menu_Command_Parameters_Description" xml:space="preserve">
+    <value>Parameterwaarden gedeeld door ';'</value>
+  </data>
+  <data name="Menu_Command_String" xml:space="preserve">
+    <value>Reeks</value>
+  </data>
+  <data name="Menu_Command_Type" xml:space="preserve">
+    <value>Opdrachttype</value>
+  </data>
+  <data name="Page_DefaultPage" xml:space="preserve">
+    <value>Standaardpagina</value>
+  </data>
+  <data name="Page_MasterPage" xml:space="preserve">
+    <value>Hoofdpagina</value>
+  </data>
+  <data name="Site_Address" xml:space="preserve">
+    <value>Websiteadres</value>
+  </data>
+  <data name="Menu_Command_Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="DisplayTemplate_With_Name_Exists" xml:space="preserve">
+    <value>Er bestaat reeds een sjabloon met deze naam.</value>
+  </data>
+  <data name="Site_Folder_AlreadyExists" xml:space="preserve">
+    <value>Er bestaat reeds een websitemap met de gespecificeerde naam.</value>
+  </data>
+  <data name="Site_Folder_Required" xml:space="preserve">
+    <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Een websitemap is verplicht.</value>
+  </data>
+  <data name="Site_Name_AlreadyExists" xml:space="preserve">
+    <value>Er bestaat reeds een website met de gespecificeerde naam.</value>
+  </data>
+  <data name="Use_CMS_Languages" xml:space="preserve">
+    <value>Talen worden toegevoegd en ingeschakeld in de CMS Admin-weergave onder Config en Websitetalen beheren.</value>
+  </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Waarschuwing. Als u dit item bijwerkt via Commerce Manager, worden alle vorige en in behandeling zijnde inhoudsversies overschreven. Die inhoudsversies kunnen zijn aangemaakt via andere interfaces.</value>
+  </data>
+</root>

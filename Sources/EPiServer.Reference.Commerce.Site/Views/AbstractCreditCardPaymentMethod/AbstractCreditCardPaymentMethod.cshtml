@@ -1,0 +1,36 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.Models.AbstractCreditCardPaymentMethodViewModel
+@{
+    var formModel = Model.FormModel;
+}
+@Html.HiddenFor(_ => formModel.PaymentViewModel.PaymentMethodId)
+@Html.HiddenFor(_ => formModel.PaymentViewModel.Controller)
+
+<div class="form-group">
+    @Html.LabelFor(_ => formModel.PaymentViewModel.CreditCardName)
+    @Html.TextBoxFor(_ => formModel.PaymentViewModel.CreditCardName, new { @class = "form-control" })
+    @Html.ValidationMessageFor(_ => formModel.PaymentViewModel.CreditCardName)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(_ => formModel.PaymentViewModel.CreditCardNumber)
+    @Html.TextBoxFor(_ => formModel.PaymentViewModel.CreditCardNumber, new { @class = "form-control" })
+    @Html.ValidationMessageFor(_ => formModel.PaymentViewModel.CreditCardNumber)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(_ => formModel.PaymentViewModel.ExpirationMonth)
+    @Html.DropDownListFor(_ => formModel.PaymentViewModel.ExpirationMonth, Model.Months, new { @class = "form-control" })
+    @Html.ValidationMessageFor(_ => formModel.PaymentViewModel.ExpirationMonth)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(_ => formModel.PaymentViewModel.ExpirationYear)
+    @Html.DropDownListFor(_ => formModel.PaymentViewModel.ExpirationYear, Model.Years, new { @class = "form-control" })
+    @Html.ValidationMessageFor(_ => formModel.PaymentViewModel.ExpirationYear)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(_ => formModel.PaymentViewModel.CreditCardSecurityCode)
+    @Html.TextBoxFor(_ => formModel.PaymentViewModel.CreditCardSecurityCode, new { @class = "form-control" })
+    @Html.ValidationMessageFor(_ => formModel.PaymentViewModel.CreditCardSecurityCode)
+</div>

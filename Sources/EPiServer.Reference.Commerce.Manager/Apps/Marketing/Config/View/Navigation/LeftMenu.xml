@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<Navigation>
+		<Tabs id="mainTag">
+			<add>
+				<Tab id="navTabMarketing" text="{SharedStrings:Marketing}" order="100"  contentType="default" imageUrl="~/Apps/Marketing/images/module.png" enableHandler="Mediachase.Commerce.Manager.Marketing.CommandHandlers.MarketingTabEnableHandler, Mediachase.ConsoleManager" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="marketing:tabviewpermission">
+					<Link id="Marketing_Campaigns" text="{SharedStrings:Campaigns}" order="10" iconUrl="~/Apps/Marketing/images/Marketing-Campaign-List.png" iconCss="treeIcon" command="cmdMarketingCampaigns" permissions="marketing:campaigns:mng:view" />
+					<Link id="Marketing_Promotions" text="{SharedStrings:Promotions}" order="20" iconUrl="~/Apps/Marketing/images/Marketing-Promotion-List.png" iconCss="treeIcon" command="cmdMarketingPromotions" permissions="marketing:promotions:mng:view"/>
+					<Link id="Marketing_CustomerSegments" text="{SharedStrings:Customer_Segments}" order="30" iconUrl="~/Apps/Marketing/images/Marketing-Segment-List.png" iconCss="treeIcon" command="cmdMarketingCustomerSegments" permissions="marketing:segments:mng:view" />
+					<Link id="Marketing_Policies" text="{SharedStrings:Policies}" order="40" iconUrl="" iconCss="treeIcon" type="Policies" treeLoaderPath="~/Apps/Marketing/Tree/TreeSource.aspx" command="cmdMarketingPolicies" permissions="marketing:policies:mng:view" />
+					<Link id="Marketing_Expressions" text="{SharedStrings:Expressions}" order="50" iconUrl="" iconCss="treeIcon" type="Expressions" treeLoaderPath="~/Apps/Marketing/Tree/TreeSource.aspx" permissions="marketing:expr:mng:view"/>
+				</Tab>
+			</add>
+		</Tabs>
+		<Commands>
+			<add>
+				<Command id="cmdMarketingCampaigns">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Marketing', 'Campaign-List')</ClientScript>
+				</Command>
+				<Command id="cmdMarketingPromotions">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Marketing', 'Promotion-List')</ClientScript>
+				</Command>
+				<Command id="cmdMarketingCustomerSegments">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Marketing', 'Segment-List')</ClientScript>
+				</Command>
+				<Command id="cmdMarketingPolicies">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Marketing', 'Policy-List')</ClientScript>
+				</Command>
+			</add>
+		</Commands>
+	</Navigation>
+</View>

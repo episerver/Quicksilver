@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column visible="false" width="100" dataField="ExpressionId" headingText="{SharedStrings:Expression_Id}" />
+					<Column headingText="{SharedStrings:Name}" id="name" width="300" columnType="HyperLink" allowSorting="true" dataNavigateUrlFields="ExpressionId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Marketing', 'Expression-Edit','expressionid={0}');" dataTextFields="Name" dataTextFormatString="{0}" dataField="name" permissions="marketing:expr:mng:edit" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="Modified" headingText="{SharedStrings:Modified}" />
+					<Column width="150" columnType="DateTime" allowSorting="true" dataField="Created" headingText="{SharedStrings:Created}" />
+				</Columns>
+			</add>
+		</Grid>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="RulesEditor-List" controlUrl="" />
+	</ViewConfig>
+</View>

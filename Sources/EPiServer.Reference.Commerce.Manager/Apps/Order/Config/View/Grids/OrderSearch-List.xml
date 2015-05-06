@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox"/>
+					<Column width="50" allowSorting="true" dataField="OrderGroupId"  headingText="{SharedStrings:ID}" columnType="CustomTemplate">
+						<Template id="LinkTemplate" controlUrl="GridTemplates/OrderLinkTemplate.ascx"></Template>
+					</Column>
+					<Column width="200" allowSorting="true" dataField="CustomerName" headingText="{SharedStrings:Customer}"></Column>
+					<Column width="100" allowSorting="true" dataField="Total" headingText="{SharedStrings:Total}" columnType="Currency" currencyCodeField="BillingCurrency" align="Right"></Column>
+					<Column width="100" allowSorting="true" dataField="OrderGroupId"  headingText="{SharedStrings:Status}" align="Center" columnType="CustomTemplate">
+						<Template id="OrderStatusTemplate" controlUrl="GridTemplates/OrderStatusTemplate.ascx"></Template>
+					</Column>
+					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderDelete" permissions="order:mng:delete"/>
+			</add>
+		</Toolbar>
+		<Commands>
+			<add>
+				<Command id="cmdOrderNew">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSOrderClient.NewOrder()</ClientScript>
+				</Command>
+				<Command id="cmdOrderDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Order.CommandHandlers.OrderDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="OrderSearch-List" controlUrl="Order/OrderSearch.ascx" permissions="order:mng:view" help="Order+Management"></setAttributes>
+	</ViewConfig>
+</View>

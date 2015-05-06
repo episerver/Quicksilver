@@ -1,0 +1,8 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.Models.ResetPasswordMailModel
+@{
+    Layout = null;
+    var baseUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+    var fullUrl = new Uri(new Uri(baseUrl), Url.Action("Index", null, new {node = Model.StartPage.ResetPasswordLinkPage, hash = Model.Hash}) ?? "/");
+}
+@Html.Translate("/ResetPassword/Mail/Text") <a href="@fullUrl">@Html.Translate("/ResetPassword/Mail/Link")</a>!<br/>
+@fullUrl

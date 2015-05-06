@@ -1,0 +1,4 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="LanguageTemplate.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Content.Folders.GridTemplates.LanguageTemplate" %>
+<%@ Register Src="~/Apps/Content/Folders/LanguageMenu.ascx" TagName="LanguageMenu" TagPrefix="content" %>
+<content:LanguageMenu runat="server" SiteId='<%# DataBinder.Eval(DataItem, "[SiteId]") %>' PageId='<%# DataBinder.Eval(DataItem, "[PageId]") %>' ID="lmPage" Visible='<%# !(bool)(DataBinder.Eval(DataItem, "[IsFolder]")) %>'></content:LanguageMenu>
+<asp:Label runat="server" ID="lblEmpty" Text="&nbsp;" Visible='<%# (bool)(DataBinder.Eval(DataItem, "[IsFolder]")) %>'></asp:Label>

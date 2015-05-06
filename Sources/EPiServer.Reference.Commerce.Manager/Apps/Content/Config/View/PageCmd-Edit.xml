@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="PageCmd-Edit" controlUrl="Content/Folders/CommandEdit.ascx" help="Content+Management"/>
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="Content/Folders/Tabs/CommandEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

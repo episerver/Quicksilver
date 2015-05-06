@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="FileItem-Edit" controlUrl="Asset/FileItem.ascx" help="Asset+Management" permissions="asset:mng:edit"></setAttributes>
+		<add>
+			<Tabs>
+				<Tab name="{AssetStrings:File_Item}" controlUrl="Asset/Tabs/FileAddTab.ascx"></Tab>
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

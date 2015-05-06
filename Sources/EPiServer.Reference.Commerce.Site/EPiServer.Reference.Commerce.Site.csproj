@@ -1,0 +1,935 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9AC1DC21-C56D-49EB-A264-9441D8602F1A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EPiServer.Reference.Commerce.Site</RootNamespace>
+    <AssemblyName>EPiServer.Reference.Commerce.Site</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44301</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AuthorizeNet">
+      <HintPath>..\..\packages\AuthorizeNet.1.8.3\lib\AuthorizeNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.ApplicationModules, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.ApplicationModules.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Azure, Version=7.18.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EPiServer.Azure.7.18.1\lib\net45\EPiServer.Azure.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.BaseLibrary, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.BaseLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Business.Commerce, Version=8.11.4.656, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\EPiServer.Business.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Cms.Shell.UI, Version=8.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.UI.Core.8.2.0\lib\net45\EPiServer.Cms.Shell.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.Internal.Migration, Version=8.11.4.656, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\EPiServer.Commerce.Internal.Migration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.Shell, Version=8.11.4.656, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.8.11.4\lib\net45\EPiServer.Commerce.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.Shell.ManagerIntegration, Version=8.11.4.656, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.ManagerIntegration.8.11.4\lib\net45\EPiServer.Commerce.Shell.ManagerIntegration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.UI, Version=8.11.4.656, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.8.11.4\lib\net45\EPiServer.Commerce.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Configuration, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Data, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Data.Cache, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Data.Cache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Enterprise, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.Enterprise.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Events, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Events.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Framework, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.ImageLibrary, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.ImageLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Implementation, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.Implementation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Licensing, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Licensing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.LinkAnalyzer, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.LinkAnalyzer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EPiServer.Logging.Log4Net.1.0.0\lib\net45\EPiServer.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Packaging, Version=3.2.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EPiServer.Packaging.3.2.2\lib\net45\EPiServer.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Packaging.CmdAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EPiServer.Packaging.3.2.2\lib\net45\EPiServer.Packaging.CmdAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Packaging.UI, Version=3.2.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EPiServer.Packaging.UI.3.2.2\lib\net45\EPiServer.Packaging.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Shell, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.8.5.0\lib\net45\EPiServer.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Shell.UI, Version=8.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.UI.Core.8.2.0\lib\net45\EPiServer.Shell.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.UI, Version=8.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.UI.Core.8.2.0\lib\net45\EPiServer.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Web.WebControls, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.Web.WebControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.WorkflowFoundation, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.WorkflowFoundation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.XForms, Version=8.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.8.5.0\lib\net45\EPiServer.XForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.Store.Azure">
+      <HintPath>..\..\packages\Lucene.Net.Store.Azure.2.0.4849.29611\lib\net40\Lucene.Net.Store.Azure.dll</HintPath>
+    </Reference>
+    <Reference Include="Mediachase.BusinessFoundation, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.BusinessFoundation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.BusinessFoundation.Data, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.BusinessFoundation.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce, Version=8.11.4.656, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Marketing.Validators, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Plugins.Payment, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Plugins.Shipping, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Website, Version=8.11.4.656, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.Website.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Workflow, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Commerce.Workflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.DataProvider, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.DataProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.FileUploader, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.FileUploader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.MetaDataPlus, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.MetaDataPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search, Version=8.11.4.656, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Search.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.Extensions, Version=8.11.4.656, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Search.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.Extensions.Azure, Version=8.11.4.656, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Azure.8.11.4\lib\net45\Mediachase.Search.Extensions.Azure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.LuceneAzureSearchProvider, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Azure.8.11.4\lib\net45\Mediachase.Search.LuceneAzureSearchProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.LuceneSearchProvider, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.SqlDataProvider, Version=8.11.4.656, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.SqlDataProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.WebConsoleLib, Version=8.11.4.656, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\Mediachase.WebConsoleLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm">
+      <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData">
+      <HintPath>..\..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client">
+      <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.ReportViewer.WebForms.10.0.40219.1\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus">
+      <HintPath>..\..\packages\WindowsAzure.ServiceBus.2.6.5\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nsoftware.IBizPay, Version=4.1.3575.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.8.11.4\lib\net45\nsoftware.IBizPay.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Core">
+      <HintPath>..\..\packages\NuGet.Core.2.5.0\lib\net40-Client\NuGet.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial">
+      <HintPath>..\..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Promotions\10_off_shipping_from_Womens_Shoes.xml" />
+    <Content Include="App_Data\Promotions\25_Percent_off_Mens_Shoes.xml" />
+    <Content Include="App_Data\Promotions\50_off_Order_over_500.xml" />
+    <Content Include="lang\Quicksilver_SV.xml" />
+    <Content Include="lang\Display_en.xml" />
+    <Content Include="Scripts\jquery-1.11.1.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\AddressBook.js" />
+    <Content Include="Scripts\js\Cart.js" />
+    <Content Include="Scripts\js\Checkout.js" />
+    <Content Include="Scripts\js\Login.js" />
+    <Content Include="Scripts\js\Market.js" />
+    <Content Include="Scripts\js\Misc.js" />
+    <Content Include="Scripts\js\Product.js" />
+    <Content Include="Scripts\js\Registration.js" />
+    <Content Include="Scripts\js\Search.js" />
+    <Content Include="Styles\Images\logo.PNG" />
+    <Content Include="Styles\Images\logotype_quicksilver.svg" />
+    <Content Include="Styles\Images\BackendLogin\episerver-artwork.png" />
+    <Content Include="Styles\Images\BackendLogin\episerver-logo.png" />
+    <Content Include="Styles\Images\page_type.png" />
+    <Content Include="Styles\backendlogin.css" />
+    <Content Include="Styles\Images\under-construction.gif" />
+    <Content Include="Styles\quicksilver.css" />
+    <Content Include="Styles\bootstrap-theme.css" />
+    <Content Include="Styles\bootstrap-theme.min.css" />
+    <Content Include="Styles\bootstrap.css" />
+    <Content Include="Styles\bootstrap.min.css" />
+    <Content Include="Styles\Images\Loggo.svg" />
+    <Content Include="Styles\media.css" />
+    <Content Include="Styles\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Styles\Images\favicon.ico" />
+    <Content Include="Styles\Images\mini-cart-item-example.png" />
+    <Content Include="Styles\Images\shopping-item.png" />
+    <Content Include="Styles\Images\sprite.png" />
+    <Content Include="Styles\Images\thumbnail-left.png" />
+    <Content Include="Styles\Images\thumbnail-right.png" />
+    <Content Include="Scripts\js\quicksilver.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Global.asax" />
+    <Content Include="lang\Quicksilver_EN.xml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastructure\CurrencySetup.cs" />
+    <Compile Include="Features\AddressBook\AddressBookService.cs" />
+    <Compile Include="Features\AddressBook\Controllers\AddressBookController.cs" />
+    <Compile Include="Features\AddressBook\IAddressBookService.cs" />
+    <Compile Include="Features\AddressBook\Models\AddressBookFormModel.cs" />
+    <Compile Include="Features\AddressBook\Models\AddressBookViewModel.cs" />
+    <Compile Include="Features\AddressBook\Pages\AddressBookPage.cs" />
+    <Compile Include="Features\Campaign\Controllers\CampaignController.cs" />
+    <Compile Include="Features\Campaign\Pages\CampaignPage.cs" />
+    <Compile Include="Features\Cart\CartService.cs" />
+    <Compile Include="Features\Cart\Extensions\CartExtensions.cs" />
+    <Compile Include="Features\Cart\ICartService.cs" />
+    <Compile Include="Features\Cart\Models\CartItem.cs" />
+    <Compile Include="Features\Cart\Models\LargeCartViewModel.cs" />
+    <Compile Include="Features\Cart\Models\MiniCartSummaryViewModel.cs" />
+    <Compile Include="Features\Checkout\CheckoutService.cs" />
+    <Compile Include="Features\Checkout\ConfirmationService.cs" />
+    <Compile Include="Features\Checkout\Controllers\OrderConfirmationMailPageController.cs" />
+    <Compile Include="Features\Checkout\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Features\Checkout\ICheckoutService.cs" />
+    <Compile Include="Features\Checkout\Models\AddressFormModel.cs" />
+    <Compile Include="Features\Checkout\Models\CheckoutFormModel.cs" />
+    <Compile Include="Features\Checkout\Models\OrderConfirmationMailViewModel.cs" />
+    <Compile Include="Features\Checkout\Models\OrderDiscountModel.cs" />
+    <Compile Include="Features\Checkout\Models\OrderSummaryViewModel.cs" />
+    <Compile Include="Features\Checkout\Models\ShippingMethodViewModel.cs" />
+    <Compile Include="Features\Checkout\Pages\CheckoutPage.cs" />
+    <Compile Include="Features\Checkout\Pages\OrderConfirmationMailPage.cs" />
+    <Compile Include="Features\Checkout\Pages\OrderConfirmationPage.cs" />
+    <Compile Include="Features\Editorial\Blocks\FreeTextBlock.cs" />
+    <Compile Include="Features\Editorial\Controllers\FreeTextBlockController.cs" />
+    <Compile Include="Features\Folder\Pages\FolderPage.cs" />
+    <Compile Include="Features\Login\Controllers\LoginController.cs" />
+    <Compile Include="Features\Login\Controllers\BackendLoginController.cs" />
+    <Compile Include="Features\Login\Controllers\LoginControllerBase.cs" />
+    <Compile Include="Features\Login\Models\ApplicationDbContext.cs" />
+    <Compile Include="Features\Login\Models\ApplicationSignInManager.cs" />
+    <Compile Include="Features\Login\Models\ApplicationUser.cs" />
+    <Compile Include="Features\Login\Models\ApplicationUserManager.cs" />
+    <Compile Include="Features\Login\Models\ChallengeResult.cs" />
+    <Compile Include="Features\Login\Models\ContactIdentityResult.cs" />
+    <Compile Include="Features\Login\Services\EmailService.cs" />
+    <Compile Include="Features\Login\Services\SmsService.cs" />
+    <Compile Include="Features\Login\Services\UserService.cs" />
+    <Compile Include="Features\Login\Startup.cs" />
+    <Compile Include="Features\Login\ViewModels\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\ILoginPageViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\BackendLoginViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\InternalLoginViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\LoginViewModelBase.cs" />
+    <Compile Include="Features\Login\ViewModels\RegisterAccountViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\SendCodeViewModel.cs" />
+    <Compile Include="Features\Login\ViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="Features\Market\Controllers\CurrencyController.cs" />
+    <Compile Include="Features\Market\Controllers\LanguageController.cs" />
+    <Compile Include="Features\Login\Pages\LoginRegistrationPage.cs" />
+    <Compile Include="Features\Market\CurrencyService.cs" />
+    <Compile Include="Features\Market\LanguageService.cs" />
+    <Compile Include="Features\Market\Models\CurrencyViewModel.cs" />
+    <Compile Include="Features\Market\Models\LanguageViewModel.cs" />
+    <Compile Include="Features\Media\Controllers\MediaController.cs" />
+    <Compile Include="Features\Media\Models\ImageMediaData.cs" />
+    <Compile Include="Features\Navigation\Extensions\LinkItemExtensions.cs" />
+    <Compile Include="Features\OrderHistory\Controllers\OrderHistoryController.cs" />
+    <Compile Include="Features\OrderHistory\Models\Order.cs" />
+    <Compile Include="Features\OrderHistory\Models\OrderHistoryItem.cs" />
+    <Compile Include="Features\OrderHistory\Models\OrderHistoryViewModel.cs" />
+    <Compile Include="Features\OrderHistory\Page\OrderHistoryPage.cs" />
+    <Compile Include="Features\Payment\Models\AbstractCreditCardPaymentMethodFormModel.cs" />
+    <Compile Include="Features\Payment\Models\PaymentWrapperViewModel.cs" />
+    <Compile Include="Features\Product\Controllers\ProductPartialController.cs" />
+    <Compile Include="Features\Product\Controllers\VariationPartialController.cs" />
+    <Compile Include="Features\Shared\Controllers\PreviewController.cs" />
+    <Compile Include="Features\WishList\IWishListService.cs" />
+    <Compile Include="Features\WishList\WishListService.cs" />
+    <Compile Include="Features\Shared\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Features\Product\IProductService.cs" />
+    <Compile Include="Features\Product\Models\FashionProduct.cs" />
+    <Compile Include="Features\Market\Controllers\MarketController.cs" />
+    <Compile Include="Features\Market\CurrentMarket.cs" />
+    <Compile Include="Features\Market\Models\MarketViewModel.cs" />
+    <Compile Include="Features\Checkout\Extensions\ExecuteActionResult.cs" />
+    <Compile Include="Features\Product\Models\ProductViewModel.cs" />
+    <Compile Include="Features\Product\ProductService.cs" />
+    <Compile Include="Features\Profile\Controllers\ProfilePageController.cs" />
+    <Compile Include="Features\Profile\Pages\ProfilePage.cs" />
+    <Compile Include="Features\Registration\Blocks\OrderConfirmationRegistrationBlock.cs" />
+    <Compile Include="Features\Registration\Controllers\OrderConfirmationRegistrationBlockController.cs" />
+    <Compile Include="Features\Registration\Models\CustomAddress.cs" />
+    <Compile Include="Features\Registration\Models\OrderConfirmationRegistrationFormModelBase.cs" />
+    <Compile Include="Features\Registration\Pages\RegistrationConfirmationPage.cs" />
+    <Compile Include="Features\Registration\Models\OrderConfirmationRegistrationModel.cs" />
+    <Compile Include="Features\Registration\Models\OrderConfirmationRegistrationFormModel.cs" />
+    <Compile Include="Features\ResetPassword\Blocks\ResetPasswordBlock.cs" />
+    <Compile Include="Features\ResetPassword\Controllers\ResetPasswordLinkController.cs" />
+    <Compile Include="Features\ResetPassword\Controllers\ResetPasswordBlockController.cs" />
+    <Compile Include="Features\ResetPassword\Controllers\ResetPasswordMailController.cs" />
+    <Compile Include="Features\ResetPassword\Models\ResetPasswordMailModel.cs" />
+    <Compile Include="Features\ResetPassword\IPasswordHashService.cs" />
+    <Compile Include="Features\ResetPassword\Models\ResetPasswordBlockFormModel.cs" />
+    <Compile Include="Features\ResetPassword\Models\ResetPasswordBlockViewModel.cs" />
+    <Compile Include="Features\ResetPassword\Models\ResetPasswordLinkFormModel.cs" />
+    <Compile Include="Features\ResetPassword\Models\ResetPasswordLinkViewModel.cs" />
+    <Compile Include="Features\ResetPassword\Pages\PasswordResetLinkPage.cs" />
+    <Compile Include="Features\ResetPassword\Pages\ResetPasswordMailPage.cs" />
+    <Compile Include="Features\ResetPassword\PasswordHashService.cs" />
+    <Compile Include="Features\Search\Controllers\CategoryController.cs" />
+    <Compile Include="Features\Search\Controllers\CategoryPartialController.cs" />
+    <Compile Include="Features\Search\Controllers\FullWidthCategoryPartialController.cs" />
+    <Compile Include="Features\Search\Controllers\NarrowWidthCategoryPartialController.cs" />
+    <Compile Include="Features\Search\Controllers\SearchController.cs" />
+    <Compile Include="Features\Search\Controllers\WideWidthCategoryPartialController.cs" />
+    <Compile Include="Features\Search\Extensions\ISearchDocumentExtensions.cs" />
+    <Compile Include="Features\Search\ISearchService.cs" />
+    <Compile Include="Features\Search\Models\CustomSearchResult.cs" />
+    <Compile Include="Features\Search\Models\FacetGroupOption.cs" />
+    <Compile Include="Features\Search\Models\FacetOption.cs" />
+    <Compile Include="Features\Search\Models\FashionNode.cs" />
+    <Compile Include="Features\Search\Models\FilterOptionFormModel.cs" />
+    <Compile Include="Features\Search\Models\FilterOptionFormModelBinder.cs" />
+    <Compile Include="Features\Search\Models\ProductSortOrder.cs" />
+    <Compile Include="Features\Search\Models\SearchViewModel.cs" />
+    <Compile Include="Features\Search\Models\SortOrder.cs" />
+    <Compile Include="Features\Search\Models\SearchViewModelFactory.cs" />
+    <Compile Include="Features\Search\Pages\SearchPage.cs" />
+    <Compile Include="Features\Search\SearchService.cs" />
+    <Compile Include="Features\Shared\Extensions\AssetContainerExtensions.cs" />
+    <Compile Include="Features\Shared\Extensions\ContentExtensions.cs" />
+    <Compile Include="Features\Shared\Extensions\ContentRepositoryExtensions.cs" />
+    <Compile Include="Features\Shared\Extensions\LineItemExtensions.cs" />
+    <Compile Include="Features\Product\Models\FashionVariant.cs" />
+    <Compile Include="Features\Shared\Extensions\OrderGroupExtensions.cs" />
+    <Compile Include="Features\Shared\Models\MailBasePage.cs" />
+    <Compile Include="Features\Start\Controllers\HeadController.cs" />
+    <Compile Include="Features\Start\Extensions\StringExtensions.cs" />
+    <Compile Include="Features\Start\Pages\StartPage.cs" />
+    <Compile Include="Features\WishList\Controllers\WishListController.cs" />
+    <Compile Include="Features\WishList\Models\WishListViewModel.cs" />
+    <Compile Include="Features\WishList\Pages\WishListPage.cs" />
+    <Compile Include="Infrastructure\ImportSiteContent.cs" />
+    <Compile Include="Features\Cart\Models\MiniCartDetailsViewModel.cs" />
+    <Compile Include="Features\Checkout\Controllers\CheckoutController.cs" />
+    <Compile Include="Features\Checkout\Controllers\OrderConfirmationController.cs" />
+    <Compile Include="Features\Checkout\Models\CheckoutViewModel.cs" />
+    <Compile Include="Features\Checkout\Models\OrderConfirmationViewModel.cs" />
+    <Compile Include="Features\Navigation\Models\HeaderViewModel.cs" />
+    <Compile Include="Features\Payment\Controllers\AbstractCreditCardPaymentMethodController.cs" />
+    <Compile Include="Features\Payment\Controllers\BasePaymentController.cs" />
+    <Compile Include="Features\Payment\Models\AbstractCreditCardPaymentMethodViewModel.cs" />
+    <Compile Include="Features\Payment\Models\AbstractCreditCardPaymentViewModel.cs" />
+    <Compile Include="Features\Payment\Models\PaymentMethodViewModel.cs" />
+    <Compile Include="Features\Payment\Models\PaymentBaseViewModel.cs" />
+    <Compile Include="Features\Payment\PaymentMethods\AbstractCreditCardPaymentOption.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedCompareAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedDisplayAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedEmailAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedRegularExpressionAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedRequiredAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedStringLengthAttribute.cs" />
+    <Compile Include="Infrastructure\BundleConfig.cs" />
+    <Compile Include="Features\Market\CookieService.cs" />
+    <Compile Include="Features\Shared\Extensions\ProductSeparatorDiv.cs" />
+    <Compile Include="Features\Shared\Extensions\ColumnContentAreaRenderer.cs" />
+    <Compile Include="Infrastructure\Descriptors\MoveCategoryEditorDescriptor.cs" />
+    <Compile Include="Infrastructure\Constants.cs" />
+    <Compile Include="Features\Shared\Services\HtmlDownloader.cs" />
+    <Compile Include="Features\Shared\Services\IHtmlDownloader.cs" />
+    <Compile Include="Infrastructure\Indexing\CatalogIndexer.cs" />
+    <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
+    <Compile Include="Features\Shared\Services\IMailSender.cs" />
+    <Compile Include="Features\Shared\Services\MailSender.cs" />
+    <Compile Include="Infrastructure\Owin\Startup.cs" />
+    <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
+    <Compile Include="Infrastructure\SiteInitialization.cs" />
+    <Compile Include="Features\Cart\CartRegistry.cs" />
+    <Compile Include="Features\Cart\Controllers\CartController.cs" />
+    <Compile Include="Features\Navigation\Controllers\FooterController.cs" />
+    <Compile Include="Features\Navigation\Controllers\HeaderController.cs" />
+    <Compile Include="Features\Product\Blocks\ProductListBlock.cs" />
+    <Compile Include="Features\Product\Controllers\ProductController.cs" />
+    <Compile Include="Features\Product\Controllers\ProductListBlockController.cs" />
+    <Compile Include="Features\Product\Models\FashionProductViewModel.cs" />
+    <Compile Include="Features\Product\Models\BasicVariationContent.cs" />
+    <Compile Include="Features\Product\Models\ProductListBlockViewModel.cs" />
+    <Compile Include="Features\Start\Controllers\StartController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Shared\Services\IPricingService.cs" />
+    <Compile Include="Features\Shared\Services\PricingService.cs" />
+    <Compile Include="Infrastructure\SiteTabs.cs" />
+    <Compile Include="Infrastructure\StructureMapDependencyResolver.cs" />
+    <Compile Include="Infrastructure\ViewTemplateModelRegistrator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\Search\QuickSearch.cshtml" />
+    <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
+    <Content Include="appsettings.config" />
+    <Content Include="Views\ResetPasswordBlock\Index.cshtml" />
+    <Content Include="Views\ResetPasswordMail\Index.cshtml" />
+    <Content Include="Views\ResetPasswordLink\Index.cshtml" />
+    <Content Include="Views\Language\Index.cshtml" />
+    <Content Include="Views\Cart\MiniCartSummary.cshtml" />
+    <Content Include="Views\Checkout\Partial.cshtml" />
+    <Content Include="Views\Checkout\Payment.cshtml" />
+    <Content Include="Views\Checkout\Address.cshtml" />
+    <Content Include="Views\Currency\Index.cshtml" />
+    <Content Include="Views\Campaign\Index.cshtml" />
+    <Content Include="Views\Media\Index.cshtml" />
+    <Content Include="Views\Preview\Index.cshtml" />
+    <Content Include="App_Data\DefaultSiteContent.episerverdata" />
+    <Content Include="App_Data\Catalog_Fashion.zip" />
+    <Content Include="App_Data\ProductAssets.episerverdata" />
+    <Content Include="Views\FreeTextBlock\Index.cshtml" />
+    <Content Include="modules\_protected\EPiServer.Packaging.UI\web.config" />
+    <Content Include="modules\_protected\EPiServer.Packaging.UI\EPiServer.Packaging.UI.zip" />
+    <Content Include="modules\_protected\Shell\web.config" />
+    <Content Include="modules\_protected\Shell\EPiServer.Shell.UI.zip" />
+    <Content Include="modules\_protected\CMS\web.config" />
+    <Content Include="modules\_protected\CMS\EPiServer.Cms.Shell.UI.zip" />
+    <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
+    <Content Include="modules\_protected\Commerce\Commerce.zip" />
+    <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+    <Content Include="App_Data\GeoLiteCity.dat" />
+    <Content Include="Views\Shared\_ProductViewModel.cshtml" />
+    <Content Include="Views\Shared\_Category.cshtml" />
+    <Content Include="Views\Shared\_Page.cshtml" />
+    <Content Include="Views\Shared\_ProductList.cshtml" />
+    <Content Include="Views\BackendLogin\Index.cshtml" />
+    <Content Include="Views\Login\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Login\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\Lockout.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\RegisterAccount.cshtml" />
+    <Content Include="Views\Login\RegisterAccountConfirmation.cshtml" />
+    <Content Include="Views\Login\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Login\SendCode.cshtml" />
+    <Content Include="Views\OrderConfirmationMailPage\Empty.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="connectionStrings.config" />
+    <Content Include="episerver.config" />
+    <Content Include="EPiServerFramework.config" />
+    <Content Include="EPiServerLog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configs\baf.config" />
+    <Content Include="Configs\baf.data.manager.config" />
+    <Content Include="Configs\baf.data.metaobject.config" />
+    <Content Include="Configs\baf.library.folders.config" />
+    <Content Include="Configs\ecf.app.config" />
+    <Content Include="Configs\ecf.asset.config" />
+    <Content Include="Configs\ecf.catalog.config" />
+    <Content Include="Configs\ecf.cms.config" />
+    <Content Include="Configs\ecf.customer.config" />
+    <Content Include="Configs\ecf.customization.config" />
+    <Content Include="Configs\ecf.marketing.config" />
+    <Content Include="Configs\ecf.order.config" />
+    <Content Include="Configs\ecf.security.config" />
+    <Content Include="Configs\ecf.ssl.config" />
+    <Content Include="Configs\ecf.workflow.config" />
+    <Content Include="Configs\Mediachase.Search.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Configs\Mediachase.Search.Filters.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Start\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_viewstart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Category\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductListBlock\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Header\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Footer\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\MiniCartDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderConfirmation\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Checkout\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AbstractCreditCardPaymentMethod\AbstractCreditCardPaymentMethod.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\DisplayTemplates\LinkItemCollection.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_ProductTile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Market\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Styles\Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Styles\Fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\LargeCart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Checkout\OrderSummary.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderConfirmationRegistrationBlock\NewCustomer.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderConfirmationRegistrationBlock\Complete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Header\RightMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderConfirmationRegistrationBlock\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderConfirmationRegistrationBlock\Complete2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AddressBook\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Product\Extensions\" />
+    <Folder Include="Views\LoginControllerBase\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\WishList\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_CmsNavigation.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AddressBook\EditForm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProfilePage\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrderHistory\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.LuceneSearchProvider\EPiServer.Reference.Commerce.LuceneSearchProvider.csproj">
+      <Project>{ae923fa2-c8bd-49fa-9887-ddafabec8d8e}</Project>
+      <Name>EPiServer.Reference.Commerce.LuceneSearchProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Search\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Facet.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Daily site|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50244</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50244/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

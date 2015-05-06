@@ -1,0 +1,26 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.HeaderViewModel
+@{
+    Layout = null;
+    var additionalLink = new EPiServer.SpecializedProperties.LinkItem();
+}
+
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    additionalLink.Href = Url.Action("SignOut", "Login" );
+    additionalLink.Text = Html.Translate("/Header/Account/SignOut");
+}
+else
+{
+    additionalLink.Href = Url.Action("Index", "Login", new { returnUrl = Model.CurrentContentLink != null ?  Url.ContentUrl(Model.CurrentContentLink) : "/" });
+    additionalLink.Text = Html.Translate("/Header/Account/SignIn");
+}
+
+@Html.PropertyFor(
+    x => x.StartPage.RightMenu, new 
+    {
+        @class = "pull-right", 
+        @style = "padding-top: 5px;margin-bottom: 0px;", 
+        @itemStyle = "float: left;list-style: none;padding-right: 10px;",
+        additionalLink = additionalLink
+    }
+)

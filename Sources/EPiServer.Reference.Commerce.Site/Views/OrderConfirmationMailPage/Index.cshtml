@@ -1,0 +1,74 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using Mediachase.Commerce.Orders
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationMailViewModel
+@{
+    Layout = null;
+    var orderForm = Model.Order.OrderForms.First();
+}
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div>
+            @Html.PropertyFor(x => x.CurrentPage.MainBody)
+            @Html.Translate("/OrderConfirmationMail/OrderDate") @Model.Order.Created<br/>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="2">@Html.Translate("/OrderConfirmationMail/DisplayName")</td>
+                    <td>@Html.Translate("/OrderConfirmationMail/Quantity")</td>
+                    <td>@Html.Translate("/OrderConfirmationMail/Price")</td>
+                    <td>@Html.Translate("/OrderConfirmationMail/LineItemTotal")</td>
+                </tr>
+            </thead>
+            @foreach (LineItem lineItem in orderForm.LineItems)
+            {
+                <tr>
+                    <td colspan="2"><a href="@lineItem.GetFullUrl()">@lineItem.DisplayName</a></td>
+                    <td>@lineItem.Quantity.ToString("0")</td>
+                    <td>@lineItem.ToMoney(lineItem.PlacedPrice).ToString()</td>
+                    <td>@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3"></td>
+                <td>@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
+                <td>@Model.Order.ToMoney(orderForm.ShippingTotal).ToString()</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td>@Html.Translate("/OrderConfirmationMail/Total")</td>
+                <td>@Model.Order.ToMoney(orderForm.Total).ToString()</td>
+            </tr>
+        </table>
+        
+        <div>
+            @{
+                var address = Model.Order.OrderAddresses.First();
+            }
+            <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
+            <p>@address.FirstName @address.LastName
+                <br>@address.Line1
+                <br>@address.PostalCode
+                <br>@address.City
+                <br>@address.CountryName
+            </p>
+        </div>
+
+        <div>
+            @{
+                var payment = Model.Order.OrderForms.First().Payments.First() as CreditCardPayment;
+            }
+            <h4>@Html.Translate("/OrderConfirmationMail/PaymentDetails")</h4>
+            <p>
+                @Html.Translate("/OrderConfirmation/PaymentInfo/CardType"): @payment.CardType
+                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/Owner"): @payment.CustomerName
+                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/CardNumber"): @payment.CreditCardNumber
+                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/ExpirationDate"): @payment.ExpirationMonth/@payment.ExpirationYear
+                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/CVV"): **@payment.CreditCardSecurityCode.Substring(payment.CreditCardSecurityCode.Length - 1)
+            </p>
+        </div>
+    </body>
+</html>

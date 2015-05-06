@@ -1,0 +1,17 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Market.Models.MarketViewModel
+
+        <div class="btn-group region-selector jsMarketSelector">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+
+                
+                @{ string currentMarketName = Model.CurrentMarket != null ? Model.CurrentMarket.MarketName : string.Empty; }
+
+                <span class="flag flag-@currentMarketName.Replace(" ", "").ToLower()"></span> @currentMarketName <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                @foreach (var market in Model.Markets.OrderBy(x => x.MarketName))
+                {
+                    <li><a href="#" data-url="@Url.Action("Set", "Market")" data-marketid="@market.MarketId"><span class="flag flag-@market.MarketName.Replace(" ", "").ToLower()"></span> @market.MarketName</a></li>
+                }
+            </ul>
+        </div>  

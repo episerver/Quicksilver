@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="State-Edit" controlUrl="Content/Workflow/StateEdit.ascx" permissions="content:admin:workflow:mng:edit" help="System+Settings"/>
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="Content/Workflow/Tabs/StateEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

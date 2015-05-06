@@ -1,0 +1,10 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Product.Models
+@model ProductListBlockViewModel
+<div class="product-row">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><span>@Html.PropertyFor(x => x.CurrentBlock.DisplayName)</span></h2>
+        </div>
+    </div>
+    @Html.PropertyFor(x => x.CurrentBlock.Products, new { CssClass = "row", tag = Constants.ContentAreaTags.FullWidth })
+</div>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Toolbar>
+			<add>
+				<Menu id="ActionsSplitButton" text="{SharedStrings:Create_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" permissions="asset:mng:create">
+					<Button id="NewFolder" text="{SharedStrings:New_Folder}" imageUrl="~/Apps/Shell/styles/images/toolbar/newfolder.gif " commandName="cmdAssetNewFolder" permissions="asset:mng:create"/>
+					<Button id="NewFile" text="{SharedStrings:New_File}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdAssetNewFile" permissions="asset:mng:create"/>
+					<Button id="UploadMultipleFiles" text="{AssetStrings:Upload_Multiple_Files}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdAssetUploadMultipleFiles" permissions="asset:mng:create"/>
+				</Menu>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" commandName="cmdAssetMoreActions">
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdAssetDelete" permissions="asset:mng:delete"/>
+					<Button id="MoveCopySelected" text="{SharedStrings:Move_Copy}" imageUrl="~/Apps/Shell/styles/Images/toolbar/movetofolder.gif" commandName="cmdAssetMoveCopy" permissions="asset:mng:edit"/>
+				</Menu>
+			</add>
+		</Toolbar>
+		<Grid>
+			<add>
+				<Columns>
+					<Column width="30" columnType="CheckBox" checkboxEnableField="CheckboxEnabled" />
+					<Column width="20" headingText="" columnType="Action" dataField="ID">
+						<Item imageUrl="~/Apps/Shell/styles/Images/edit.gif" commandName="cmdAssetGridItemEdit" commandParameters="ID,GrandParentId,Type" toolTip="Edit" permissions="asset:mng:edit"></Item>
+					</Column>
+					<Column width="500" columnType="CustomTemplate" allowSorting="true" dataField="FileName" headingText="{SharedStrings:Name}">
+						<Template id="LinkTemplate" controlUrl="GridTemplates/NodeHyperlinkTemplate2.ascx"></Template>
+					</Column>
+					<Column width="90" visible="true" dataField="Size" headingText="{SharedStrings:Size}" allowSorting="true"/>
+					<Column width="150" visible="true" columnType="DateTime" dataField="Created" headingText="{SharedStrings:Created}" allowSorting="true"/>
+					<Column isDefault="true" width="30" visible="false" dataField="ID" />
+					<Column isDefault="true" width="30" visible="false" dataField="OutlineNumber" />
+					<Column isDefault="true" width="30" visible="false" dataField="Type" />
+					<Column isDefault="true" width="30" visible="false" dataField="FileName" />
+					<Column isDefault="true" width="30" visible="false" dataField="Url" />
+					<Column isDefault="true" width="30" visible="false" dataField="Icon" />
+				</Columns>
+			</add>
+		</Grid>
+		<Commands>
+			<add>
+				<Command id="cmdAssetNewFolder">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Asset&amp;_v=Asset-NewFolder&amp;Id={QueryString:Id}</Url>
+					<Width>440</Width>
+					<Height>100</Height>
+					<PopupTitle>{AssetStrings:New_Folder}</PopupTitle>
+					<Drag>True</Drag>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdAssetNewFile">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSAssetClient.NewFile()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdAssetUploadMultipleFiles">
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Asset&amp;_v=Asset-FileUpload&amp;Id={QueryString:Id}</Url>
+					<Width>440</Width>
+					<Height>200</Height>
+					<PopupTitle>{AssetStrings:Add_Files}</PopupTitle>
+					<Drag>True</Drag>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<Command id="cmdAssetMoreActions">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<Command id="cmdAssetDelete">
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Asset.CommandHandlers.DeleteSelectedItemsHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<Command id="cmdAssetMoveCopy">
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<CommandType>OpenFrameModalPopup</CommandType>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Asset&amp;_v=Asset-MoveCopy</Url>
+					<Width>440</Width>
+					<Height>200</Height>
+					<PopupTitle>Move/Copy to Folder</PopupTitle>
+					<Drag>True</Drag>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<!-- Add to allow the right asset view -->
+				<Command id="cmdAssetGridItemEdit">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSAssetClient.OpenItem2(params)</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes  id="Asset-List" controlUrl="Asset/List.ascx" permissions="asset:mng:view" help="Asset+Management"></setAttributes>
+	</ViewConfig>
+</View>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Menu-Edit" controlUrl="Content/Menu/MenuEdit.ascx" permissions="content:site:menu:mng:edit" help="Content+Management" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Menu_Overview}" controlUrl="Content/Menu/Tabs/OverviewEditMenuTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

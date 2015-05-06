@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GatewaySettings>
+	<Gateways>
+		<Gateway id="gwAuthorizeNet">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwITransact">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+		</Gateway>
+		<Gateway id="gwNetBilling">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwUSAePay">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+		</Gateway>
+		<Gateway id="gwPlanetPayment">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>				
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwMPCS">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+        <Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+		</Gateway>
+		<Gateway id="gwRTWare">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwECX">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+        <Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+		</Gateway>
+		<Gateway id="gwMerchantAnywhere">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwTrustCommerce">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+		</Gateway>
+		<Gateway id="gwFastTransact">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+    </Gateway>
+    <Gateway id="gwMerchantPartners">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+		</Gateway>
+		<Gateway id="gwACHPayments">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+		</Gateway>
+		<Gateway id="gwPaymentsGateway">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>	
+		</Gateway>
+	</Gateways>
+</GatewaySettings>

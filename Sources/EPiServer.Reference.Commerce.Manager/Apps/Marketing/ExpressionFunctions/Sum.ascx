@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Sum.ascx.cs" Inherits="Mediachase.Commerce.Manager.Marketing.ExpressionFunctions.Sum" %>
+<asp:DropDownList runat="server" ID="FieldsList" AutoPostBack="true"/>

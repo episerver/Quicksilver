@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column width="50" headingText="" columnType="Action" dataField="SiteId">
+						<Item imageUrl="~/Apps/Shell/styles/images/toolbar/copy.gif" commandName="cmdContentGridSiteCopy" commandParameters="SiteId" toolTip="Copy" permissions="content:site:mng:edit" />
+						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdContentGridSiteExport" commandParameters="SiteId,Name" toolTip="Export" permissions="content:site:mng:export" />
+					</Column>
+					<Column visible="false" width="30" allowSorting="true" dataField="SiteId" headingText="{SharedStrings:SiteId}" />
+					<Column visible="false" width="30" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" />
+					<Column headingText="{SharedStrings:Name}" id="name" width="400" columnType="HyperLink" dataNavigateUrlFields="SiteId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Content', 'Site-Edit','siteid={0}');" dataTextFields="Name" dataTextFormatString="{0}" />
+					<Column headingText="{SharedStrings:Active}" id="active" dataField="IsActive" />
+					<Column headingText="{SharedStrings:Folder}" id="folder" width="200" dataField="Folder" />
+					<Column headingText="{SharedStrings:Default_Site}" id="isdefault" width="200" dataField="IsDefault" />
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Menu id="ActionsSplitButton" text="{SharedStrings:Create_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" permissions="content:site:mng:create">
+					<Button id="NewSite" text="{SharedStrings:New_Site}" imageUrl="~/Apps/Shell/styles/Images/Icons/Node.gif" commandName="cmdNewSite" permissions="content:site:mng:create"/>
+				</Menu>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdSiteDelete" permissions="content:site:mng:delete"/>
+					<Button id="ImportSite" text="{SharedStrings:Import_Site}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdSiteImport" permissions="content:site:mng:import"/>
+					<Button id="ExportSite" text="{SharedStrings:Export_Site}" imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdSiteExport" permissions="content:site:mng:export"/>
+				</Menu>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdNewSite">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.NewSite()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<Command id="cmdSiteDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.SiteDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdSiteImport">
+					<!--<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.SiteImportEnableHandler, Mediachase.ConsoleManager" />-->
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.ImportSite()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdSiteExport">
+					<!--<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.SiteExportEnableHandler, Mediachase.ConsoleManager" />-->
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.ExportSite(params)</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<!-- Grid commands -->
+				<Command id="cmdContentGridSiteCopy">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.CopySite(params)</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdContentGridSiteExport">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.ExportSite2(params)</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Site-List" controlUrl="Content/Site/SiteList.ascx" permissions="content:site:mng:view" help="Content+Management" />
+	</ViewConfig>
+</View>

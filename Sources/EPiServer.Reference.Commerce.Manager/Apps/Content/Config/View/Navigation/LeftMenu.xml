@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<Navigation>
+		<Tabs id="mainTag">
+			<!--
+      <add>
+				<Tab id="navTabContentManagement" text="{SharedStrings:Content_Management}" order="20" contentType="default" imageUrl="~/Apps/Content/images/module.png" configUrl="" enableHandler="Mediachase.Commerce.Manager.Content.CommandHandlers.ContentEnableHandler, Mediachase.ConsoleManager" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="content:tabviewpermission">
+					<Link id="Content_MyWork" text="{SharedStrings:My_Work}" order="10" iconUrl="" iconCss="treeIcon" type="MyWork" treeLoaderPath="~/Apps/Content/Tree/TreeSource.aspx"/>
+					<Link id="Content_Sites" text="{SharedStrings:Sites}" order="20" iconUrl="" iconCss="treeIcon" type="Sites" command="cmdContentSiteList" treeLoaderPath="~/Apps/Content/Tree/TreeSource.aspx" permissions="content:site:mng:view"/>
+				</Tab>
+			</add>
+      -->
+			<!-- Admin tab -->
+			<Tab id="navTabAdmin">
+				<Link id="Core_System">
+          <!--
+					<add>
+						<Link id="Core_ContentSites" text="{SharedStrings:Sites}" iconUrl="" iconCss="treeIcon" order="1" command="cmdContentSitesLink">
+							<Link id="Core_ContentSiteTemplates" text="{SharedStrings:Site_Templates}" order="1" type="Templates" iconUrl="" iconCss="treeIcon" commandName="cmdContentTemplates" treeLoaderPath="~/Apps/Content/Tree/TreeSource.aspx" permissions="content:admin:templates:mng:view"/>
+							<Link id="Core_ContentWorkflow" text="{SharedStrings:Workflow}" iconUrl="" order="2" iconCss="" command="cmdContentWorkflow" permissions="content:admin:workflow:mng:view"/>
+							<Link id="Core_ContentSiteList" text="{SharedStrings:List_Of_Sites}" order="3" iconUrl="" iconCss="" command="cmdContentSiteList" permissions="content:site:mng:view"/>
+						</Link>
+					</add>
+          -->
+				</Link>
+			</Tab>
+		</Tabs>
+		<Commands>
+      <!--
+			<add>
+				<Command id="cmdContentSitesLink">
+					<EnableHandler type="Mediachase.Commerce.Manager.Content.CommandHandlers.ContentEnableHandler, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdContentTemplates">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Content', 'Templates-List')</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdContentWorkflow">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Content', 'Workflow-List')</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdContentSiteList">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSManagementClient.ChangeView('Content', 'Site-List')</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+      -->
+		</Commands>
+	</Navigation>
+</View>

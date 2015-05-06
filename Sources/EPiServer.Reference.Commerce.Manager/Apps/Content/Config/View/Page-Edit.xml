@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Page-Edit" controlUrl="Content/Folders/PageEdit.ascx" permissions="content:site:nav:mng:edit" help="Content+Management" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="Content/Folders/Tabs/PageEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

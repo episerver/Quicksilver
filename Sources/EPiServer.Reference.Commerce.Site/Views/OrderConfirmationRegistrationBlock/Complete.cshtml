@@ -1,0 +1,8 @@
+﻿@model string
+@{
+    Layout = null;
+}
+<div>
+    <h3>@Html.Translate("/Registration/OrderConfirmation/AccountCreatedHeading")</h3>
+    <span>@string.Format(Html.Translate("/Registration/OrderConfirmation/AccountCreated"), Model)</span>
+</div>

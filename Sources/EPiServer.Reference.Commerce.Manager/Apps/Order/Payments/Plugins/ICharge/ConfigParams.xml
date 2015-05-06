@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GatewaySettings>
+	<Gateways>
+    <Gateway id="gwBeanstream">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="true" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+        <Property Required="true" Name="Merchant_id" FriendlyName="{OrderStrings:Payment_Merchant_ID}"></Property>
+      </Properties>
+      <TransactionTypes>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+      </TransactionTypes>
+    </Gateway>
+    <Gateway id="gwAuthorizeNet">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwDPI">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwEprocessing">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwGoRealTime">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwIBill">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwIntellipay">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwIOnGate">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+      <TransactionTypes>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+      </TransactionTypes>
+    </Gateway>
+    <Gateway id="gwITransact">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwNetBilling">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+      <TransactionTypes>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+      </TransactionTypes>
+    </Gateway>
+    <Gateway id="gwPayFlowPro">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPayReady">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwViaKlix">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="ssl_user_id" FriendlyName="{OrderStrings:Payment_SSL_User_Id}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+      </Properties>
+      <TransactionTypes>
+        <TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+      </TransactionTypes>
+    </Gateway>
+    <Gateway id="gwUSAePay">
+      <Properties>
+        <Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+        <Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPlugNPay">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPlanetPayment">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwMPCS">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwRTWare">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwECX">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="x_Trans_Key" FriendlyName="{OrderStrings:Payment_Transaction_Key}"></Property>
+				<Property Required="false" Name="AIMHashSecret" FriendlyName="{OrderStrings:Payment_Secret_Hash}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwBankOfAmerica">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="referer" FriendlyName="{OrderStrings:Payment_Referer}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwInnovative">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="false" Name="test_override_errors" FriendlyName="{OrderStrings:Payment_Test_Mode}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwMerchantAnywhere">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwSkipjack">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwECHOnline">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gw3DSI">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwTrustCommerce">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPSIGate">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPayFuse">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="MerchantAlias" FriendlyName="{OrderStrings:Payment_Merchant_Alias}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPayFlowLink">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwOrbital">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwLinkPoint">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="SSLCertStore" FriendlyName="{OrderStrings:Payment_SSLCert_Store}"></Property>
+				<Property Required="true" Name="SSLCertSubject" FriendlyName="{OrderStrings:Payment_SSLCert_Subject}"></Property>
+				<Property Required="true" Name="SSLCertEncoded" FriendlyName="{OrderStrings:Payment_SSLCert_Encoded}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwMoneris">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwUSight">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwFastTransact">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwNetworkMerchants">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwOgone">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwEFSNet">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPRIGate">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwProtx">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="RelatedSecurityKey" FriendlyName="{OrderStrings:Payment_Related_Security_Key}"></Property>
+				<Property Required="true" Name="RelatedVendorTXCode" FriendlyName="{OrderStrings:Payment_Related_Vendor_TX_Code}"></Property>
+				<Property Required="true" Name="RelatedTXAuthNo" FriendlyName="{OrderStrings:Payment_Related_TX_Auth_No}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwOptimal">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="true" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="account" FriendlyName="{OrderStrings:Payment_Account}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwMerchantPartners">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwCyberCash">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwFirstData">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="SSLCertStore" FriendlyName="{OrderStrings:Payment_SSLCert_Store}"></Property>
+				<Property Required="true" Name="SSLCertSubject" FriendlyName="{OrderStrings:Payment_SSLCert_Subject}"></Property>
+				<Property Required="true" Name="SSLCertEncoded" FriendlyName="{OrderStrings:Payment_SSLCert_Encoded}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwYourPay">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="SSLCertStore" FriendlyName="{OrderStrings:Payment_SSLCert_Store}"></Property>
+				<Property Required="true" Name="SSLCertSubject" FriendlyName="{OrderStrings:Payment_SSLCert_Subject}"></Property>
+				<Property Required="true" Name="SSLCertEncoded" FriendlyName="{OrderStrings:Payment_SSLCert_Encoded}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwACHPayments">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPaymentsGateway">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>	
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwCyberSource">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwEway">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>		
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwGoEMerchant">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwPayStream">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_ID}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="CustomerID" FriendlyName="{OrderStrings:Payment_Customer_ID}"></Property>
+				<Property Required="true" Name="ZoneID" FriendlyName="{OrderStrings:Payment_Zone_ID}"></Property>
+				<Property Required="true" Name="Username" FriendlyName="{OrderStrings:Payment_Username}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>	
+		<Gateway id="gwTransFirst">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>
+		<Gateway id="gwChase">
+			<Properties>
+				<Property Required="true" Name="MerchantLogin" FriendlyName="{OrderStrings:Payment_Merchant_Login}"></Property>
+				<Property Required="false" Name="MerchantPassword" FriendlyName="{OrderStrings:Payment_Merchant_Password}"></Property>
+				<Property Required="true" Name="SSLCertStore" FriendlyName="{OrderStrings:Payment_SSLCert_Store}"></Property>
+				<Property Required="true" Name="SSLCertSubject" FriendlyName="{OrderStrings:Payment_SSLCert_Subject}"></Property>
+				<Property Required="true" Name="SSLCertEncoded" FriendlyName="{OrderStrings:Payment_SSLCert_Encoded}"></Property>
+        <Property Required="false" Name="GatewayURL" FriendlyName="{OrderStrings:Payment_Gateway_URL}"></Property>
+			</Properties>
+			<TransactionTypes>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Sale}" Name="ttSale"></TransactionType>
+				<TransactionType FriendlyName="{OrderStrings:Payment_Authorization_Only}" Name="ttAuthOnly"></TransactionType>
+			</TransactionTypes>
+		</Gateway>		
+	</Gateways>
+</GatewaySettings>

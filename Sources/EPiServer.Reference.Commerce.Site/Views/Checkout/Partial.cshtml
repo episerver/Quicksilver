@@ -1,0 +1,7 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+@{
+    Layout = null;
+}
+@{ Html.RenderAction("LargeCart", "Cart"); }
+@{ Html.RenderAction("OrderSummary"); }
+@{ Html.RenderPartial("Payment", Model); }

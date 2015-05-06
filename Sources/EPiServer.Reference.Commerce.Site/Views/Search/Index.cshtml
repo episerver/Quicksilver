@@ -1,0 +1,24 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Search.Models.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
+@{
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+<div class="row category-page">
+    @if (Model.HasError)
+    {
+        <div class="col-md-12 text-danger">@Model.ErrorMessage</div>
+    }
+    else
+    {
+        using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
+        {
+            @Html.Partial("_Facet", Model.FormModel)
+            <div class="col-md-9">
+                @Html.Partial("_ProductList", Model.ProductViewModels)
+            </div>
+            <input class="jsSearchPage" hidden id="FormModel_Page" name="FormModel.Page" type="text" value="@(Model.FormModel.Page + 1)" />
+        }
+    }
+</div>

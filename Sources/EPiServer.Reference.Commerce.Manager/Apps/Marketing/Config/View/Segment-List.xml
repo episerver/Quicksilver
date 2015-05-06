@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column headingText="{SharedStrings:Name}" id="name" width="300" columnType="HyperLink" allowSorting="true" dataNavigateUrlFields="SegmentId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Marketing', 'Segment-Edit','segmentid={0}');" dataTextFields="Name" dataTextFormatString="{0}" dataField="name" permissions="marketing:segments:mng:edit" />
+				</Columns>
+			</add>
+		</Grid>
+		<Toolbar>
+			<add>
+				<Button id="NewSegment" text="{SharedStrings:New_Segment}" imageUrl="~/Apps/Shell/styles/images/toolbar/newsegment.png" commandName="cmdMarketingSegmentNew" permissions="marketing:segments:mng:create"/>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="marketing:segments:mng:delete" >
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdMarketingSegmentDelete" permissions="marketing:segments:mng:delete" />
+				</Menu>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdMarketingSegmentNew">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSMarketingClient.NewSegment()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdMarketingSegmentDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Marketing.CommandHandlers.SegmentDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+				</Command>
+			</add>
+		</Commands>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Segment-List" controlUrl="Marketing/SegmentList.ascx" permissions="marketing:segments:mng:view" help="Customer+Segments" />
+	</ViewConfig>
+</View>

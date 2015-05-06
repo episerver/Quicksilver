@@ -1,0 +1,75 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using Mediachase.Commerce.Customers
+@using Mediachase.Commerce.Orders
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationViewModel
+
+<div class="row checkout">
+    <div class="col-md-12">
+        <h1>@Html.PropertyFor(x => x.CurrentPage.Title)</h1>
+        <div>
+            @Html.PropertyFor(x => x.CurrentPage.Body)
+        </div>
+        @if (Model.HasOrder)
+        {
+            @Model.Created
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td colspan="2">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
+                        <td>@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
+                        <td>@Html.Translate("/OrderConfirmation/Labels/Total")</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (LineItem lineItem in Model.Items)
+                    {
+                        <tr>
+                            <td><a href="@lineItem.GetUrl()"><img src="@lineItem.GetThumbnailUrl()"/></a></td>
+                            <td><a href="@lineItem.GetUrl()">@lineItem.DisplayName</a></td>
+                            <td>
+                                @Html.TextBox("Quantity", lineItem.Quantity.ToString("0"), new { @class = "form-control quantity", @placeholder = "1", @disabled = "true" })
+                            </td>
+                            <td>@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="total-price">@Model.TotalPrice.ToString()</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-6">
+                <div class="quicksilver-well">
+                    <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
+                    <p>
+                        @Model.Address.FirstName @Model.Address.LastName<br>
+                        @Model.Address.Line1<br>
+                        @Model.Address.PostalCode<br>
+                        @Model.Address.City<br>
+                        @Model.Address.CountryName
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="quicksilver-well">
+                    <h4>@Html.Translate("/OrderConfirmation/PaymentDetails")</h4>
+                    <p>
+                        @Html.Translate("/OrderConfirmation/PaymentInfo/CardType"): @Model.Payment.CardType<br>
+                        @Html.Translate("/OrderConfirmation/PaymentInfo/Owner"): @Model.Payment.CustomerName<br>
+                        @Html.Translate("/OrderConfirmation/PaymentInfo/CardNumber"): @Model.Payment.CreditCardNumber<br>
+                        @Html.Translate("/OrderConfirmation/PaymentInfo/ExpirationDate"): @Model.Payment.ExpirationMonth/@Model.Payment.ExpirationYear<br>
+                        @Html.Translate("/OrderConfirmation/PaymentInfo/CVV"): **@Model.Payment.CreditCardSecurityCode.Substring(Model.Payment.CreditCardSecurityCode.Length - 1)
+                    </p>
+                </div>
+            </div>
+            <hr>
+
+            @Html.PropertyFor(x => x.CurrentPage.RegistrationArea, new { ContactId = Model.ContactId, OrderNumber = Model.GroupId })
+        }
+        else
+        {
+            @Html.Translate("/OrderConfirmation/NoOrder")
+        }
+    </div>
+</div>

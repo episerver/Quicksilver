@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column isDefault="true" headingText="{CatalogStrings:Catalog_Edit_Command}" dataCellClientTemplateId="EditTemplate" editControlType="EditCommand" width="100" align="Center" />
+					<Column isDefault="true" visible="false" allowEditing="false" width="30" isSearchable="true" allowSorting="true" dataField="ID" headingText="{SharedStrings:ID}" />
+					<Column isDefault="true" allowEditing="false" width="50" visible="true" isSearchable="true" allowSorting="true" dataField="AssetType" headingText="{SharedStrings:Type}" />
+					<Column isDefault="true" allowEditing="false" isSearchable="true" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" />
+					<Column isDefault="true" width="80" dataField="GroupName" headingText="{SharedStrings:Group}" />
+					<Column isDefault="true" width="100" dataField="SortOrder" headingText="{SharedStrings:Sort_Order}" />
+				</Columns>
+			</add>
+		</Grid>
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="Assets-List" controlUrl="" />
+	</ViewConfig>
+</View>

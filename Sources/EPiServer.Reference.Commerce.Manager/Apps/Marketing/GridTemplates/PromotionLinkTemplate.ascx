@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PromotionLinkTemplate.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Marketing.GridTemplates.PromotionLinkTemplate" %>
+<span><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# String.Format("javascript:CSManagementClient.ChangeView(\"Marketing\", \"Promotion-Edit\",\"promotionid={0}\");", DataBinder.Eval(DataItem,"PromotionId")) %>'> </asp:HyperLink></span>

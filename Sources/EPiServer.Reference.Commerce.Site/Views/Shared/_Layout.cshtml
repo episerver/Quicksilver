@@ -1,0 +1,64 @@
+﻿@using System.Web.Optimization
+@using EPiServer.Editor
+@using EPiServer.Security
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> @{ Html.RenderAction("Title", "Head"); } (@Html.Translate("/PreRelease/Heading")) </title>
+        @RenderSection("Meta", false)
+
+        <!-- Google fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    
+        @Styles.Render("~/bundles/boostrap")
+        @Styles.Render("~/bundles/css")
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"> </script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"> </script>
+        <![endif]-->
+    
+        <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        @Html.RenderEPiServerQuickNavigator()
+        <div class="container-fluid cookies jsCookies" style="display: none">
+            <div class="container">
+                <p class="pull-right">@Html.Translate("/Header/Cookie/CookieUse") <a class="btn jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</a></p>
+            </div>
+        </div>
+        
+        @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
+        {
+            // Add an empty paragraph to make room for the quick navigator.
+            <p>&nbsp;</p>
+        }
+        
+        <div class="container-fluid pageTop">
+            <div class="container">
+                @{
+                    Html.RenderAction("Index", "Market");
+                    Html.RenderAction("Index", "Language");
+                    Html.RenderAction("RightMenu", "Header");
+                }
+            </div>
+        </div>
+        <div class="container quicksilver">
+            @{ Html.RenderAction("Index", "Header"); }
+
+            @RenderBody()
+
+            @{ Html.RenderAction("Index", "Footer"); }
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/js")
+    </body>
+</html>

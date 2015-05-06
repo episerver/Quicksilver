@@ -1,0 +1,33 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+@{
+    var formModel = Model.CheckoutFormModel;
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="jsPaymentMethod">
+            @if (Model.CheckoutFormModel.SelectedPaymentMethodId != default(Guid))
+            {
+                var controller = string.Format("{0}PaymentMethod", Model.SelectedPaymentMethodSystemName);
+                Html.RenderAction("PaymentMethod", controller, new RouteValueDictionary(new
+                {
+                    paymentMethodId = formModel.SelectedPaymentMethodId,
+                    paymentMethodSystemName = Model.SelectedPaymentMethodSystemName,
+                    paymentModel = formModel.PaymentViewModel
+                }));
+            }
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
+        @foreach (var paymentMethodViewModel in Model.PaymentMethodViewModels)
+        {
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(_ => formModel.SelectedPaymentMethodId, paymentMethodViewModel.Id, new { @id = paymentMethodViewModel.Id, @class = "jsChangePayment" }) @paymentMethodViewModel.FriendlyName
+                </label>
+            </div>
+        }
+        @Html.ValidationMessageFor(_ => formModel.SelectedPaymentMethodId)
+    </div>
+</div>

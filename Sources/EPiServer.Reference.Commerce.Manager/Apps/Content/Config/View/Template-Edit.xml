@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Template-Edit" controlUrl="Content/Template/TemplateEdit.ascx" permissions="content:templates:mng:edit" help="System+Settings"/>
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="Content/Template/Tabs/TemplateEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

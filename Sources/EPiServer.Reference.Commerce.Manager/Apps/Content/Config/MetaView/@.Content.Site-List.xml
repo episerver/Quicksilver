@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MetaView>
+	<Toolbar>
+		<add>
+			<Menu id="ActionsSplitButton" text="{SharedStrings:Create_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" permissions="content:site:mng:create">
+				<Button id="NewSite" text="{SharedStrings:New_Site}" imageUrl="~/Apps/Shell/styles/Images/Icons/Node.gif" commandName="cmdNewSite" permissions="content:site:mng:create"/>
+			</Menu>
+			<Splitter id="ActionsSplitter"/>
+			<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdSiteDelete" permissions="content:site:mng:delete"/>
+				<Button id="ImportSite" text="{SharedStrings:Import_Site}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdSiteImport" permissions="content:site:mng:import"/>
+				<Button id="ExportSite" text="{SharedStrings:Export_Site}" imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdSiteExport" permissions="content:site:mng:export"/>
+			</Menu>
+		</add>
+	</Toolbar>
+
+	<Commands>
+		<add>
+			<Command id="cmdNewSite">
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.NewSite()</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+
+			<Command id="cmdSiteDelete">
+				<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+				<CommandType>ServerAction</CommandType>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.SiteDeleteHandler, Mediachase.ConsoleManager" />
+				<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdSiteImport">
+				<!--<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.SiteImportEnableHandler, Mediachase.ConsoleManager" />-->
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.ImportSite()</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdSiteExport">
+				<!--<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.SiteExportEnableHandler, Mediachase.ConsoleManager" />-->
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.ExportSite(params)</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+      
+      <!-- Grid commands -->
+      <Command id="cmdContentGridSiteCopy">
+        <CommandType>ClientAction</CommandType>
+        <ClientScript>CSContentClient.CopySite(params)</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+      <Command id="cmdContentGridSiteExport">
+        <CommandType>ClientAction</CommandType>
+        <ClientScript>CSContentClient.ExportSite2(params)</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+		</add>
+	</Commands>
+</MetaView>

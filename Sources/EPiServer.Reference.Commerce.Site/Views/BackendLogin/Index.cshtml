@@ -1,0 +1,51 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.BackendLoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@Html.Translate("/Login/Form/Label/Login")</title>
+
+    <link href="~/Styles/bootstrap.css" rel="stylesheet" />
+    <link href="~/Styles/backendlogin.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="backend-login-outer-container">
+        <div class="backend-login-middle-container">
+            <div class="backend-login-form">
+                <div class="backend-login-episerver-logotype"></div>
+
+                <h3>@Model.Heading</h3>
+
+                <p>
+                    @Model.LoginMessage
+                </p>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.ReturnUrl)
+
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            @Html.LabelFor(x => x.Username)
+                            @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Username)
+                        </div>
+                        <div class="form-group  col-md-5">
+                            @Html.LabelFor(x => x.Password)
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Password)
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn">@Html.Translate("/Login/Form/Label/Login")</button>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

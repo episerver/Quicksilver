@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ViewConfig>
+		<setAttributes id="Segment-Edit" controlUrl="marketing/SegmentEdit.ascx" permissions="marketing:segments:mng:edit" help="Customer+Segments" />
+		<add>
+			<Tabs>
+				<Tab name="{SharedStrings:Overview}" controlUrl="marketing/tabs/SegmentEditTab.ascx" />
+			</Tabs>
+		</add>
+	</ViewConfig>
+</View>

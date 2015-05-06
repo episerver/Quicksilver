@@ -1,0 +1,14 @@
+﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel>
+@{
+    Layout = null;
+}
+<div class="quick-search row">
+    <div class="col-md-12">
+        <ul>
+            @foreach (var product in Model)
+            {
+                <li><a href="@product.Url"><img src ="@product.Image" alt="@product.DisplayName" style="max-width: 60px;"/>@product.DisplayName <span class="pull-right strong black-link">@product.Price.ToString()</span></a></li>
+            }
+        </ul>
+    </div>
+</div>

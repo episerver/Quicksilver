@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MetaView>
+	<Commands>
+		<add>
+      <Command id="cmdShowEditorDialog_PromotionCatalogEntrySelect">
+        <CommandType>OpenFrameModalPopup</CommandType>
+        <Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Marketing&amp;_v=EntrySelector&amp;id=[ClientParam:ExpressionId]&amp;ControlId=[ClientParam:ControlId]&amp;CatalogEntryCodes=[ClientParam:CatalogEntryCodes]</Url>
+        <Top>500</Top>
+        <Width>520</Width>
+        <Height>312</Height>
+        <PopupTitle>Select Catalog Entries</PopupTitle>
+        <Drag>True</Drag>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+    </add>
+	</Commands>
+</MetaView>

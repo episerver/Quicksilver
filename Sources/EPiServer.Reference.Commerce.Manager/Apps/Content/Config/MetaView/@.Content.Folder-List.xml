@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MetaView>
+	<Toolbar>
+		<add>
+			<Menu id="ActionsSplitButton" text="{SharedStrings:Create_New}" imageUrl="~/Apps/Shell/styles/Images/new.png">
+				<Button id="NewPage" text="{SharedStrings:New_Page}" imageUrl="~/Apps/Content/images/NewPage.png" commandName="cmdContentNewPage" permissions="content:site:nav:mng:create" />
+				<Button id="NewFolder" text="{SharedStrings:New_Folder}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newfolder.gif" commandName="cmdContentNewFolder" permissions="content:site:nav:mng:create" />
+			</Menu>
+			<Splitter id="ActionsSplitter"/>
+			<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdContentFolderDelete" permissions="content:site:nav:mng:delete"/>
+				<Button id="PageNavigation" text="{SharedStrings:Page_Navigation}" imageUrl="~/Apps/Content/images/url.gif" commandName="cmdContentPageNavigation" permissions="content:site:nav:mng:edit"/>
+				<Button id="MoveFolder" text="{SharedStrings:Move_Folders_Pages}" imageUrl="~/Apps/Shell/styles/Images/toolbar/movetofolder.gif" commandName="cmdContentMoveFoldersPages" permissions="content:site:nav:mng:edit"/>
+				<Button id="CopyLanguages" text="{SharedStrings:Copy_Languages}" imageUrl="~/Apps/Shell/styles/Images/toolbar/copy.gif" commandName="cmdContentCopyLanguages" permissions="content:site:nav:mng:edit"/>
+			</Menu>
+		</add>
+	</Toolbar>
+
+	<Commands>
+		<add>
+			<Command id="cmdContentNewPage">
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.CreatePage()</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdContentNewFolder">
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.CreateFolder()</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdContentCopyLanguages">
+				<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<CommandType>ServerAction</CommandType>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.PageLanguageHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+			</Command>			
+			<Command id="cmdContentFolderDelete">
+				<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+				<CommandType>ServerAction</CommandType>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.PageDeleteHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+			</Command>
+			<Command id="cmdContentPageNavigation">
+				<!--<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.SiteImportEnableHandler, Mediachase.ConsoleManager" />-->
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.ViewPageCmds(params)</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdContentMoveFoldersPages">
+				<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+				<CommandType>OpenFrameModalPopup</CommandType>
+				<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Content&amp;_v=Folder-Move&amp;FolderId={QueryString:FolderId}&amp;SiteId={QueryString:SiteId}</Url>
+				<Width>440</Width>
+				<Height>100</Height>
+				<PopupTitle>Move to Folder</PopupTitle>
+				<Drag>True</Drag>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+
+			<!-- Grid commands -->
+			<Command id="cmdContentGridFolderEdit">
+				<CommandType>ClientAction</CommandType>
+				<ClientScript>CSContentClient.EditPage(params)</ClientScript>
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+      </Command>
+			<Command id="cmdContentGridFolderDelete">
+				<CommandType>ServerAction</CommandType>
+				<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+				<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.PageDeleteHandler, Mediachase.ConsoleManager" />
+        <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        <UpdatePanelIds>panelMainListView</UpdatePanelIds>
+      </Command>
+		</add>
+	</Commands>
+</MetaView>

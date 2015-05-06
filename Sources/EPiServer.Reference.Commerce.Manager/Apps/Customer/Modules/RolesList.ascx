@@ -1,0 +1,3 @@
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Apps.Customer.Modules.RolesList" Codebehind="RolesList.ascx.cs" %>
+<%@ Register Src="~/Apps/Core/Controls/EcfListViewControl.ascx" TagName="EcfListViewControl" TagPrefix="core" %>
+<core:EcfListViewControl id="MyListView" runat="server" AppId="Customer" ViewId="Roles-List" ShowTopToolbar="true"></core:EcfListViewControl>

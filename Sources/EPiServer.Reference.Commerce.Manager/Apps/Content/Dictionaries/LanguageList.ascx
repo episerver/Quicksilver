@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="LanguageList.ascx.cs" Inherits="Mediachase.Commerce.Manager.Content.Dictionaries.LanguageList" %>
+<asp:Label runat="server" Text="<%$ Resources:ContentStrings, Use_CMS_Languages %>" />

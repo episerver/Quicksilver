@@ -1,0 +1,10 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.MiniCartSummaryViewModel
+<div class="cart pull-right jsCart">
+    <div class="btn-group">
+        <button type="button" class="btn btn-cart dropdown-toggle jsCartToggle" data-toggle="dropdown" aria-expanded="false" data-url="@Url.Action("MiniCartDetails")">
+            <span class="cart-items">@Model.ItemCount</span>
+        </button>
+        <ul class="dropdown-menu jsCartDropdown" role="menu">
+        </ul>
+    </div>
+</div>

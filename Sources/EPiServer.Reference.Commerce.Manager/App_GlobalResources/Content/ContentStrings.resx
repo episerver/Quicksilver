@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Language_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Language_Code_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A language Code is required.</value>
+  </data>
+  <data name="Language_Friendly_Name" xml:space="preserve">
+    <value>Friendly Name</value>
+  </data>
+  <data name="Language_Is_Default" xml:space="preserve">
+    <value>Is Default</value>
+  </data>
+  <data name="Language_Code_Description" xml:space="preserve">
+    <value>Language code (for example, en-US)</value>
+  </data>
+  <data name="Language_Code_Exists" xml:space="preserve">
+    <value>A language with the specified code already exists</value>
+  </data>
+  <data name="Folder_Page_Changes_Discarded" xml:space="preserve">
+    <value>Folder/Page changes has been discarded.</value>
+  </data>
+  <data name="Folder_Page_Updated" xml:space="preserve">
+    <value>Folder/Page has been updated successfully.</value>
+  </data>
+  <data name="Menu_Changes_Discarded" xml:space="preserve">
+    <value>Menu changes have been discarded.</value>
+  </data>
+  <data name="Menu_Item_Changes_Discarded" xml:space="preserve">
+    <value>Menu Item changes have been discarded.</value>
+  </data>
+  <data name="Menu_Item_Name_Instructions" xml:space="preserve">
+    <value>Enter the menu item name, it will be typically displayed on the site as a menu choice.</value>
+  </data>
+  <data name="Menu_Item_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A menu item name is required.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Description" xml:space="preserve">
+    <value>Sort order for the menu item.</value>
+  </data>
+  <data name="Menu_Item_Sort_Order_Invalid" xml:space="preserve">
+    <value>Invalid Sort Order value.</value>
+  </data>
+  <data name="Menu_Item_Tooltip_Instructions" xml:space="preserve">
+    <value>Enter the menu item tooltip, it will be usually displayed when cursor is over the menu choice.</value>
+  </data>
+  <data name="Menu_Item_Updated" xml:space="preserve">
+    <value>Menu Item has been updated successfully.</value>
+  </data>
+  <data name="Menu_Name_Instructions" xml:space="preserve">
+    <value>Enter the menu name. It will be used for lookup purposes and typically will not be displayed anywhere on the site. Good names are "HeaderMenu", "SideMenu", "FooterMenu".</value>
+  </data>
+  <data name="Menu_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A menu name is required.</value>
+  </data>
+  <data name="Menu_Updated" xml:space="preserve">
+    <value>Menu has been updated successfully.</value>
+  </data>
+  <data name="Meta_Description_Instructions" xml:space="preserve">
+    <value>Indexing search engines may present the content of your meta description tag as the result of a search query. Your meta description tag should be within 140 and 200 characters.</value>
+  </data>
+  <data name="Meta_Description_Parenthesis" xml:space="preserve">
+    <value>(meta description)</value>
+  </data>
+  <data name="Meta_Keywords_Parenthesis" xml:space="preserve">
+    <value>(meta keywords)</value>
+  </data>
+  <data name="Page_Default_Description" xml:space="preserve">
+    <value>specifies if the page is used as a default page for the folder it is contained in</value>
+  </data>
+  <data name="Page_Keywords_Instruction" xml:space="preserve">
+    <value>Use a "keyword" meta-tag to list key words for the document. Use a distinct list of keywords that relate to the specific page on your site instead of using one broad set of keywords for every page.</value>
+  </data>
+  <data name="Page_Name_Instruction" xml:space="preserve">
+    <value>Enter the page name. The .aspx extention will be auto added to the name if not specified.</value>
+  </data>
+  <data name="Page_Title_Instruction" xml:space="preserve">
+    <value>Use the title element to identify the contents of a document. A good seo title should contain your primary keyword phrase for that page and any secondary keyword phrases that you may be targeting. Try to keep it less than 64 characters.</value>
+  </data>
+  <data name="Site_Changes_Discarded" xml:space="preserve">
+    <value>Site changes has been discarded.</value>
+  </data>
+  <data name="Site_Updated" xml:space="preserve">
+    <value>Site has been updated successfully.</value>
+  </data>
+  <data name="Site_Overwrite_Existing" xml:space="preserve">
+    <value>Overwrite existing site</value>
+  </data>
+  <data name="Site_Import_Warning" xml:space="preserve">
+    <value>It is strongly recommended that you back up your ECF database before performing import.</value>
+  </data>
+  <data name="Site_Import_Instructions" xml:space="preserve">
+    <value>To import site, please pick up an existing file from the grid below or upload a new one. Then click the button 'Start Import' to start importing.</value>
+  </data>
+  <data name="Site_Template" xml:space="preserve">
+    <value>Site Template</value>
+  </data>
+  <data name="Site_Theme" xml:space="preserve">
+    <value>Site Theme</value>
+  </data>
+  <data name="Site_Folder" xml:space="preserve">
+    <value>Site Folder</value>
+  </data>
+  <data name="Site_Exported_Files_Description" xml:space="preserve">
+    <value>Exported Files List</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_1" xml:space="preserve">
+    <value>You're about to export site</value>
+  </data>
+  <data name="Site_Export_Instructions_Partial_2" xml:space="preserve">
+    <value>Click the button to start.</value>
+  </data>
+  <data name="Site_Theme_Description" xml:space="preserve">
+    <value>defines the source of templates and stylesheets</value>
+  </data>
+  <data name="Site_Admin_Url_Description" xml:space="preserve">
+    <value>specify admin url for the site (leave blank to disable admin tab)</value>
+  </data>
+  <data name="Site_Domain_List" xml:space="preserve">
+    <value>list of domains (one per line)</value>
+  </data>
+  <data name="Site_Languages_Configure" xml:space="preserve">
+    <value>Configure Site Languages</value>
+  </data>
+  <data name="Site_SEO_Parameters" xml:space="preserve">
+    <value>SEO Parameters</value>
+  </data>
+  <data name="Site_Parameters_Public" xml:space="preserve">
+    <value>Public Site Parameters</value>
+  </data>
+  <data name="Site_Parameters_To_Identify" xml:space="preserve">
+    <value>Parameters to identify site in the public section</value>
+  </data>
+  <data name="Site_Edit" xml:space="preserve">
+    <value>Site Edit</value>
+  </data>
+  <data name="Folder_With_Name_Exists" xml:space="preserve">
+    <value>Folder/page with the specified name already exists.</value>
+  </data>
+  <data name="Site_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A site name is required.</value>
+  </data>
+  <data name="MenuItem_With_Name_Exists" xml:space="preserve">
+    <value>A menu item with the specified name already exists.</value>
+  </data>
+  <data name="Menu_With_Name_Exists" xml:space="preserve">
+    <value>A menu with the specified name already exists.</value>
+  </data>
+  <data name="Folder_Page_Edit" xml:space="preserve">
+    <value>Folder/Page Edit</value>
+  </data>
+  <data name="Site_Template_Delete_ReferenceException" xml:space="preserve">
+    <value>Cannot delete template because it's being used by site pages.</value>
+  </data>
+  <data name="Site_Template_Delete_TitleException" xml:space="preserve">
+    <value>Failed to delete item(s). Error: </value>
+  </data>
+  <data name="Site_Page_Template" xml:space="preserve">
+    <value>Page template</value>
+  </data>
+  <data name="Language_Name_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A language Name is required.</value>
+  </data>
+  <data name="Language_Code_Invalid" xml:space="preserve">
+    <value>Invalid language code</value>
+  </data>
+  <data name="Folder_Command_Add" xml:space="preserve">
+    <value>Create new command</value>
+  </data>
+  <data name="Folder_Command_Edit" xml:space="preserve">
+    <value>Edit command</value>
+  </data>
+  <data name="Folder_Page_Create" xml:space="preserve">
+    <value>Create Page</value>
+  </data>
+  <data name="Folder_Page_CreateConfirm" xml:space="preserve">
+    <value>Create page version for this language?</value>
+  </data>
+  <data name="Folder_Page_View" xml:space="preserve">
+    <value>View Page</value>
+  </data>
+  <data name="Page_Drafts" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
+  <data name="Page_Rejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="Page_WaitingApproval" xml:space="preserve">
+    <value>Waiting Approval</value>
+  </data>
+  <data name="Folder_Command_QueryString" xml:space="preserve">
+    <value>Query string</value>
+  </data>
+  <data name="Folder_FullAccess" xml:space="preserve">
+    <value>Access for all</value>
+  </data>
+  <data name="Folder_ParentFolder" xml:space="preserve">
+    <value>Parent Folder</value>
+  </data>
+  <data name="Folder_TargetFolder" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="Menu_Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="Menu_Command_Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Menu_Command_Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="Menu_Command_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Menu_Command_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="Menu_Command_Parameters_Description" xml:space="preserve">
+    <value>Parameters values divided with ';'</value>
+  </data>
+  <data name="Menu_Command_String" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="Menu_Command_Type" xml:space="preserve">
+    <value>Command type</value>
+  </data>
+  <data name="Page_DefaultPage" xml:space="preserve">
+    <value>Default page</value>
+  </data>
+  <data name="Page_MasterPage" xml:space="preserve">
+    <value>Master Page</value>
+  </data>
+  <data name="Site_Address" xml:space="preserve">
+    <value>Site Address</value>
+  </data>
+  <data name="Menu_Command_Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="DisplayTemplate_With_Name_Exists" xml:space="preserve">
+    <value>Template with such name already exists.</value>
+  </data>
+  <data name="Site_Folder_AlreadyExists" xml:space="preserve">
+    <value>A site folder with specified name already exists.</value>
+  </data>
+  <data name="Site_Folder_Required" xml:space="preserve">
+    <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;A site folder is required.</value>
+  </data>
+  <data name="Site_Name_AlreadyExists" xml:space="preserve">
+    <value>A site with specified name already exists.</value>
+  </data>
+  <data name="Use_CMS_Languages" xml:space="preserve">
+    <value>Languages are added and enabled in the CMS Admin view under Config and Manage website.</value>
+  </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Warning. Updating this item through Commerce Manager will overwrite any previous and pending content versions. Such content versions may have been created through other interfaces.</value>
+  </data>
+</root>

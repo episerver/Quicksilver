@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns="http://schemas.mediachase.com/ecf/view">
+	<ListViewUI>
+		<Grid>
+			<add>
+				<Columns>
+					<Column columnType="CheckBox" />
+					<Column visible="false" width="30" dataField="Id" headingText="{SharedStrings:ID}" />
+					<Column width="50" headingText="" columnType="Action" dataField="Id">
+						<Item imageUrl="~/Apps/Shell/styles/Images/edit.gif" commandName="cmdContentGridPageCmdEdit" commandParameters="Id,UrlUID" toolTip="Edit" />
+						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdContentGridPageCmdDelete" commandParameters="Id" toolTip="Delete" />
+					</Column>
+					<Column width="350" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" />
+					<Column width="300" allowSorting="false" dataField="Params" headingText="{SharedStrings:Params}" />
+				</Columns>
+			</add>
+		</Grid>
+
+		<Toolbar>
+			<add>
+				<Button id="NewPageCmd" text="{SharedStrings:New_Command}" imageUrl="~/Apps/Shell/styles/Images/new.gif" commandName="cmdContentNewPageCmd" permissions="content:site:nav:mng:create"/>
+				<Splitter id="ActionsSplitter"/>
+				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="content:site:nav:mng:delete">
+					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdContentPageCmdDelete" />
+				</Menu>
+				<Button id="ViewFoldersList" align="Right" text="{SharedStrings:Back_to_Folders_List}" imageUrl="~/Apps/Shell/Styles/Images/back.gif" commandName="cmdContentFoldersList"/>
+			</add>
+		</Toolbar>
+
+		<Commands>
+			<add>
+				<Command id="cmdContentNewPageCmd">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.NewPageCmd()</ClientScript>
+				</Command>
+
+				<Command id="cmdContentPageCmdDelete">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
+					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
+					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.PageCmdDeleteHandler, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+				</Command>
+
+				<Command id="cmdContentFoldersList">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.FolderSaveRedirect()</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+
+				<!-- Grid commands -->
+				<Command id="cmdContentGridPageCmdEdit">
+					<CommandType>ClientAction</CommandType>
+					<ClientScript>CSContentClient.EditPageCmd(params)</ClientScript>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+				<Command id="cmdContentGridPageCmdDelete">
+					<CommandType>ServerAction</CommandType>
+					<Handler type="Mediachase.Commerce.Manager.Content.CommandHandlers.PageCmdDeleteHandler, Mediachase.ConsoleManager" />
+					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+				</Command>
+			</add>
+		</Commands>
+
+	</ListViewUI>
+	<ViewConfig>
+		<setAttributes id="PageCmd-List" controlUrl="Content/Folders/CommandList.ascx" help="Content+Management"/>
+	</ViewConfig>
+</View>
