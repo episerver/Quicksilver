@@ -3,13 +3,13 @@
 @{
     var siblings = Model.GetSiblings();
 }
-<div class="col-md-3">
-    <ul class="nav nav-tabs myPageNav" role="tablist">
+<div class="col-xs-12 col-md-3">
+    <ul class="nav nav-stacked sidebar-nav" role="tablist">
         @{
             foreach (var sibling in siblings)
             {
                 var selected = sibling.ContentLink == Model.ContentLink;
-                <li role="presentation" class="@(selected ? "active" : "")">
+                <li role="presentation" class="@(selected ? "is-active" : "")">
                     <a href="@Url.PageUrl(sibling.LinkURL)" aria-expanded="@Html.Raw(selected)">@sibling.Name</a>
                 </li>
             }

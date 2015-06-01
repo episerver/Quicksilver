@@ -116,7 +116,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 PaymentManager.SavePayment(paymentMethodDto);
 
                 var row = paymentMethodDto.PaymentMethod.AddPaymentMethodRow(Guid.NewGuid(), "Credit card", "Dummy credit card payment", language.TwoLetterISOLanguageName,
-                                "AbstractCreditCard", true, true, "Mediachase.Commerce.Plugins.Payment.AbstractPaymentGateway, Mediachase.Commerce.Plugins.Payment",
+                                "GenericCreditCard", true, true, "EPiServer.Reference.Commerce.Shared.GenericCreditCardPaymentGateway, EPiServer.Reference.Commerce.Shared",
                                 "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce", false, 1, DateTime.Now, DateTime.Now,
                                                  AppContext.Current.ApplicationId);
                 PaymentManager.SavePayment(paymentMethodDto);
@@ -386,7 +386,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var dto = new PromotionDto();
 
-            CreatePromotion(dto, "25 % off shipping from Mens Shoes", 0.00m, PromotionType.Percentage, "EntryCustomDiscount", "entry", campaignId);
+            CreatePromotion(dto, "25 % off Mens Shoes", 0.00m, PromotionType.Percentage, "EntryCustomDiscount", "entry", campaignId);
             CreatePromotion(dto, "$50 off Order over $500", 50.00m, PromotionType.ValueBased, "OrderVolumeDiscount", "order", campaignId);
             CreatePromotion(dto, "$10 off shipping from Women's Shoes", 10.00m, PromotionType.ValueBased, "BuySKUFromCategoryXGetDiscountedShipping", "shipping", campaignId);
             PromotionManager.SavePromotion(dto);
@@ -399,13 +399,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     switch (promotion.PromotionId)
                     {
                         case 1:
-                            name = languageCode.Equals("en") ? "25 % off shipping from Mens Shoes" : "25% av sändnings från Mens skor";
+                            name = languageCode.Equals("en") ? "25 % off Mens Shoes" : "25% rabatt på herrskor";
                             break;
                         case 2:
                             name = languageCode.Equals("en") ? "$50 off Order over $500" : "$50 rabatt på order över $500";
                             break;
                         case 3:
-                            name = languageCode.Equals("en") ? "$10 off shipping from Women's Shoes" : "$ 10 rabatt på frakt från Damskor";
+                            name = languageCode.Equals("en") ? "$10 off shipping from Women's Shoes" : "$10 rabatt på frakt av Damskor";
                             break;
                     }
                     var promoLanguageRow = dto.PromotionLanguage.NewPromotionLanguageRow();
@@ -417,7 +417,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             }
             PromotionManager.SavePromotion(dto);
             UpdatePromotionParams();
-            CreateExpression(1, "25 % off shipping from Mens Shoes");
+            CreateExpression(1, "25 % off Mens Shoes");
             CreateExpression(2, "$50 off Order over $500");
             CreateExpression(3, "$10 off shipping from Women's Shoes");
             
@@ -444,9 +444,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             promotionRow.CustomerLimit = 0;
             promotionRow.Priority = 1;
             promotionRow.CouponCode = "";
-            if (name.Equals("25 % off shipping from Mens Shoes"))
+            if (name.Equals("25 % off Mens Shoes"))
             {
-                promotionRow.OfferAmount = 0m;
+                promotionRow.OfferAmount = 25m;
                 promotionRow.OfferType = 0;
             }
             dto.Promotion.Rows.Add(promotionRow);
@@ -466,7 +466,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private void CreateExpression(int promotionId, string name)
         {
             var xml = String.Empty;
-            if (name.Equals("25 % off shipping from Mens Shoes"))
+            if (name.Equals("25 % off Mens Shoes"))
             {
                 using (var sr = new StreamReader(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Promotions\25_Percent_off_Mens_Shoes.xml")))
                 {
@@ -493,7 +493,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 xml = xml.Replace("fc7c2d53-7c1c-4298-8189-f8b1f8e85439", ShippingManager.GetShippingMethods("en").ShippingMethod.FirstOrDefault(x => x.LanguageId.Equals("en") && x.Name.Contains("Express") && x.Currency.Equals("USD")).ShippingMethodId.ToString().ToLower());
             }
             xml = xml.Replace("'", "''");
-            var sql = String.Format("INSERT INTO [dbo].[Expression] ([ApplicationId], [Name], [Description], [Category], [ExpressionXml], [Created], [Modified], [ModifiedBy]) VALUES (N'{0}', N'{1}', null, N'Promotion', '{2}', N'20150430 09:55:05.570', NULL, N'admin')", AppContext.Current.ApplicationId, name.Replace("'","''"), xml);
+            var sql = String.Format("INSERT INTO [dbo].[Expression] ([ApplicationId], [Name], [Description], [Category], [ExpressionXml], [Created], [Modified], [ModifiedBy]) VALUES (N'{0}', N'{1}', N'{1}', N'Promotion', '{2}', N'20150430 09:55:05.570', NULL, N'admin')", AppContext.Current.ApplicationId, name.Replace("'","''"), xml);
             ExecuteSql(sql);
             sql = String.Format("INSERT INTO [dbo].[PromotionCondition] ([PromotionId], [ExpressionId], [CatalogName], [CatalogNodeId], [CatalogEntryId]) VALUES ({0}, {0}, NULL, NULL, NULL)", promotionId);
             ExecuteSql(sql);

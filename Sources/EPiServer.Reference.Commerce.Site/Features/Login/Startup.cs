@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // To enable using an external provider like Facebook or Google, uncomment the options you want to make available.
-            // Also remember to aaply the correct client id and secret code to each method that you call below.
+            // Also remember to apply the correct client id and secret code to each method that you call below.
             // Uncomment the external login providers you want to enable in your site. Don't forget to change their respective client id and secret.
 
             //EnableMicrosoftAccountLogin(app);
@@ -73,8 +73,8 @@ namespace EPiServer.Reference.Commerce.Site
         {           
             string backendPath = Paths.ProtectedRootPath.TrimEnd('/');
 
-            // We use the method for transfering the user to the backend login pages if she tries to go
-            // to the Edit views wihtout being navigated.
+            // We use the method for transferring the user to the backend login pages if she tries to go
+            // to the Edit views without being navigated.
             if (context.Request.Uri.AbsolutePath.StartsWith(backendPath) && !context.Request.User.Identity.IsAuthenticated)
             {
                 context.RedirectUri = VirtualPathUtility.ToAbsolute("~/BackendLogin") +
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site
         /// <param name="app">The application to associate with the login provider.</param>
         private static void EnableGoogleAccountLogin(IAppBuilder app)
         {
-            // Note that the id and secret code below are fictious and will not work when calling Google.
+            // Note that the id and secret code below are fictitious and will not work when calling Google.
             GoogleOAuth2AuthenticationOptions googleOptions = new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "823672138190-qis91jbrccj3jat5rsmdmeb5k60n4rs9.apps.googleusercontent.com",
@@ -122,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site
         /// <param name="app">The application to associate with the login provider.</param>
         private static void EnableFacebookAccountLogin(IAppBuilder app)
         {
-            // Note that the id and secret code below are fictious and will not work when calling Facebook.
+            // Note that the id and secret code below are fictitious and will not work when calling Facebook.
             FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
             {
                 AppId = "805286916226866",
@@ -145,7 +145,7 @@ namespace EPiServer.Reference.Commerce.Site
         /// <param name="app">The application to associate with the login provider.</param>
         private static void EnableTwitterAccountLogin(IAppBuilder app)
         {
-            // Note that the id and secret code below are fictious and will not work when calling Twitter.
+            // Note that the id and secret code below are fictitious and will not work when calling Twitter.
             TwitterAuthenticationOptions twitterOptions = new TwitterAuthenticationOptions
             {
                 ConsumerKey = "CqbBBscRO1jFbdr4CGRTiQFj",
@@ -167,7 +167,7 @@ namespace EPiServer.Reference.Commerce.Site
         /// <param name="app">The application to associate with the login provider.</param>
         private static void EnableMicrosoftAccountLogin(IAppBuilder app)
         {
-            // Note that the id and secret code below are fictious and will not work when calling Microsoft.
+            // Note that the id and secret code below are fictitious and will not work when calling Microsoft.
             MicrosoftAccountAuthenticationOptions microsoftOptions = new MicrosoftAccountAuthenticationOptions
             {
                 ClientId = "0000000049673D31",

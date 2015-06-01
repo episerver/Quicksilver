@@ -6,9 +6,11 @@
 <div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new {@node = @Model.StartPage.CheckoutPage})">
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
-        @Html.DropDownListFor(_ => formModel.AddressFormModel.AddressId,
-                              new SelectList(Model.Addresses, "Key", "Value", Model.CheckoutFormModel.AddressFormModel.AddressId), new {@class = "jsChangeAddress"})
-        @Html.LabelFor(_ => formModel.AddressFormModel.AddressId)
+        <div class="form-group">
+            @Html.LabelFor(_ => formModel.AddressFormModel.AddressId)
+            @Html.DropDownListFor(_ => formModel.AddressFormModel.AddressId,
+                new SelectList(Model.Addresses, "Key", "Value", Model.CheckoutFormModel.AddressFormModel.AddressId), new { @class = "form-control jsChangeAddress" })
+        </div>
     }
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.FirstName)
@@ -31,9 +33,9 @@
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Address)
     </div>
     <div class="form-group">
-        @Html.LabelFor(_ => formModel.AddressFormModel.Country)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.Country, new {@class = "form-control"})
-        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Country)
+        @Html.LabelFor(_ => formModel.AddressFormModel.ZipCode)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.ZipCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.ZipCode)
     </div>
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.City)
@@ -41,9 +43,9 @@
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.City)
     </div>
     <div class="form-group">
-        @Html.LabelFor(_ => formModel.AddressFormModel.ZipCode)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.ZipCode, new {@class = "form-control"})
-        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.ZipCode)
+        @Html.LabelFor(_ => formModel.AddressFormModel.Country)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Country, new { @class = "form-control" })
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Country)
     </div>
     <div class="checkbox">
         <label>

@@ -12,8 +12,15 @@
             type: "POST",
             url: form[0].action,
             data: form.serialize(),
-            success: function (result) {
-                $(form).parent().replaceWith($(result));
+            success: function (result, status, xhr) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    document.location = result.ReturnUrl;
+                }
+                else
+                {
+                    $(form).parent().replaceWith($(result));
+                }
             }
         });
     },

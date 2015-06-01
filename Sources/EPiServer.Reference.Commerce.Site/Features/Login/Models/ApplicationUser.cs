@@ -32,6 +32,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
         {
             Addresses = new List<CustomerAddress>();
 
+            var firstAddress = purchaseOrder.OrderAddresses.FirstOrDefault();
+
+            if (firstAddress != null)
+            {
+                Email = firstAddress.Email;
+                UserName = firstAddress.Email;
+                FirstName = firstAddress.FirstName;
+                LastName = firstAddress.LastName;
+            }
+
             foreach (OrderAddress orderAddress in purchaseOrder.OrderAddresses)
             {
                 CustomerAddress address = CustomerAddress.CreateInstance();
@@ -52,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
                 address.Name = orderAddress.Name;
                 address.RegionCode = orderAddress.RegionCode;
                 address.RegionName = orderAddress.RegionName;
-                
+
                 Addresses.Add(address);
             }
         }

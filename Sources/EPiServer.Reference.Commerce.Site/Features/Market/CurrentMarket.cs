@@ -1,5 +1,4 @@
-﻿using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Infrastructure;
+﻿using System;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Markets;
@@ -33,7 +32,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market
         {
             var market = GetMarket(marketId);
             SiteContext.Current.Currency = market.DefaultCurrency;
-            ContentLanguage.PreferredCulture = market.DefaultLanguage;
             _cookieService.Set(MarketCookie, marketId.Value);
         }
 

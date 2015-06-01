@@ -20,14 +20,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                         "~/Scripts/js/*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/boostrap").Include(
-                        "~/Styles/bootstrap.css",
-                        "~/Styles/bootstrap-theme.css"
-                ));
-            bundles.Add(new StyleBundle("~/bundles/css").Include(
-                        "~/Styles/quicksilver.css",
-                        "~/Styles/media.css"
+            
+            bundles.Add(new StyleBundle("~/styles/bundled").Include(
+                        "~/Styles/style.css"
                 ));
         }
     }

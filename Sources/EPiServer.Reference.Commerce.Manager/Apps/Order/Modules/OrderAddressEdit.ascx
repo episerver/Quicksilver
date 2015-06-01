@@ -56,6 +56,14 @@
 							        ControlToValidate="LastName" Display="Dynamic" ErrorMessage="*" />
 					        </td>
 				        </tr>
+                        <tr>
+                            <td class="FormLabelCell">
+                                <asp:Label ID="Label1" runat="server" Text="<%$ Resources:SharedStrings, Organization %>"></asp:Label>:
+                            </td>
+                            <td class="FormFieldCell">
+                                <asp:TextBox runat="server" ID="Organization" MaxLength="64" Width="230"></asp:TextBox>
+                            </td>
+                        </tr>
 				        <tr>
 					        <td class="FormLabelCell">
 						        <asp:Label ID="Label6" runat="server" Text="<%$ Resources:SharedStrings, Line_1 %>"></asp:Label>:

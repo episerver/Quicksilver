@@ -1,31 +1,30 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.WishList.Models.WishListViewModel
-<div class="row myPage">
-    @Html.Partial("_CmsNavigation", Model.CurrentPage)
-    <div class="col-md-9">
-        <div class="tab-content">
-            <div class="tab-pane row active" id="wishlist">
-                <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-                @if (!Model.Products.Any())
-                {
-                    <div>
-                        @Html.Translate("/WishList/NoItems")
-                    </div>
-                }
-                <div class="product-row wishlist-row">
+<div class="container-fluid">
+    <div class="row wishlist">
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
+        <div class="col-xs-12 col-md-9">
+            <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
+            @if (!Model.Products.Any())
+            {
+                <div>
+                    @Html.Translate("/WishList/NoItems")
+                </div>
+            }
+            <div class="product-row">
+                <div class="row">
                     @foreach (var product in Model.Products)
                     {
                         @Html.Partial("_ProductTile", product)
                     }
                 </div>
-                <div class="col-md-12 wishlist-footer">
-                    <hr>
-                    <div class="action-buttons">
-                        @using (Html.BeginForm("DeleteWishList", "WishList"))
-                        {
-                            <button role="button" type="submit" class="btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/Wishlist/DeleteButton")</button>
-                        }
-                    </div>
-                </div>
+            </div>
+
+            <hr>
+            <div class="action-buttons">
+                @using (Html.BeginForm("DeleteWishList", "WishList"))
+                {
+                    <button role="button" type="submit" class="btn btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/Wishlist/DeleteButton")</button>
+                }
             </div>
         </div>
     </div>

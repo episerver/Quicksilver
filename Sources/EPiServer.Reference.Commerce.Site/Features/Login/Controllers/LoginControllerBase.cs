@@ -1,13 +1,12 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
-using System.Net;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         /// <summary>
-        /// The SignInManager sued when sigining in users to their existing accounts.
+        /// The SignInManager sued when signing in users to their existing accounts.
         /// </summary>
         public ApplicationSignInManager SignInManager
         {
@@ -43,7 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         /// <summary>
-        /// The ApplicationUserManager used for creating new and retreiving existing users.
+        /// The ApplicationUserManager used for creating new and retrieving existing users.
         /// </summary>
         public ApplicationUserManager UserManager
         {
@@ -51,8 +50,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         /// <summary>
-        /// Initialization method for capturing the neccassary OWIN components needed for
-        /// the ASP.NET Identity authentication functionalites.
+        /// Initialization method for capturing the necessary OWIN components needed for
+        /// the ASP.NET Identity authentication functionalities.
         /// </summary>
         /// <param name="requestContext"></param>
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -94,10 +93,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         /// <summary>
         /// Adds any existing authentication errors to the ModelState.
         /// </summary>
-        /// <param name="result">The IdentityResult containing the errors to be added.</param>
-        public void AddErrors(IdentityResult result)
+        /// <param name="errors">The errors to be added.</param>
+        public void AddErrors(IEnumerable<string> errors)
         {
-            foreach (var error in result.Errors)
+            foreach (var error in errors)
             {
                 ModelState.AddModelError(string.Empty, error);
             }

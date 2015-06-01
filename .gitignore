@@ -1,3 +1,4 @@
+Deployment/GitHubRelease/Output
 Sources/EPiServer.Reference.Commerce.Site/License.config
 Sources/EPiServer.Reference.Commerce.Manager/App_Data/ImportExport/*
 Sources/appdata
@@ -179,3 +180,6 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# VS2015 settings folder
+.vs

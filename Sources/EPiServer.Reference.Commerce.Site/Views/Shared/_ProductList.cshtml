@@ -1,13 +1,9 @@
 ﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel>
-<div class="product-row jsSearch">
-    @foreach (var group in Model.Select((item, index) => new {item, index})
-                                .GroupBy(x => x.index/4)
-                                .Select(g => g.Select(x => x.item)))
-    {
+<div class="product-row jsSearch container-fluid">
     <div class="row">
-        @foreach (var productModel in group) {
+        @foreach (var productModel in Model)
+        {
             Html.RenderPartial("_ProductTile", productModel);
         }
     </div>
-    }
 </div>

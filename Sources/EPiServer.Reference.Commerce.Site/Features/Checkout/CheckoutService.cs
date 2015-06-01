@@ -7,6 +7,7 @@ using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
+using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.Helpers;
 using Mediachase.MetaDataPlus;
 using System;
@@ -32,12 +33,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
 
         public Shipment CreateShipment()
         {
-            if (Cart.ObjectState == MetaObjectState.Added)
+            if (CartHelper.Cart.ObjectState == MetaObjectState.Added)
             {
-                Cart.AcceptChanges();
+                CartHelper.Cart.AcceptChanges();
             }
 
-            var orderForms = Cart.OrderForms;
+            var orderForms = CartHelper.Cart.OrderForms;
             if (orderForms.Count == 0)
             {
                 orderForms.AddNew().AcceptChanges();
@@ -89,7 +90,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
         {
             var methods = ShippingManager.GetShippingMethodsByMarket(CurrentMarketId.Value, false).ShippingMethod;
             var currentLanguage = CurrentLanguageIsoCode;
-            var currencyId = Cart.BillingCurrency;
+            var currencyId = CartHelper.Cart.BillingCurrency;
             return methods.
                 Where(shippingMethodRow =>
                     currentLanguage.Equals(shippingMethodRow.LanguageId, StringComparison.OrdinalIgnoreCase) &&
@@ -98,14 +99,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
                 Select(shippingMethodRow => GetRate(shipment, shippingMethodRow));
         }
 
-        public IEnumerable<PaymentMethodViewModel> GetPaymentMethods()
+        public IEnumerable<PaymentMethodViewModel<IPaymentOption>> GetPaymentMethods()
         {
             var methods = PaymentManager.GetPaymentMethodsByMarket(CurrentMarketId.Value).PaymentMethod.Where(c => c.IsActive);
             var currentLanguage = CurrentLanguageIsoCode;
             return methods.
                 Where(paymentRow => currentLanguage.Equals(paymentRow.LanguageId, StringComparison.OrdinalIgnoreCase)).
                 OrderBy(paymentRow => paymentRow.Ordering).
-                Select(paymentRow => new PaymentMethodViewModel
+                Select(paymentRow => new PaymentMethodViewModel<IPaymentOption>
                 {
                     Id = paymentRow.PaymentMethodId,
                     SystemName = paymentRow.SystemKeyword,
@@ -136,7 +137,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
 
         public void DeleteCart()
         {
-            var cart = Cart;
+            var cart = CartHelper.Cart;
             foreach (OrderForm orderForm in cart.OrderForms)
             {
                 foreach (Shipment shipment in orderForm.Shipments)
@@ -154,9 +155,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
             cart.AcceptChanges();
         }
 
-        private Mediachase.Commerce.Orders.Cart Cart
+        private CartHelper CartHelper
         {
-            get { return _cartHelper().Cart; }
+            get { return _cartHelper(); }
         }
 
         private MarketId CurrentMarketId
@@ -167,6 +168,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
         private string CurrentLanguageIsoCode
         {
             get { return _languageService.GetCurrentLanguage().TwoLetterISOLanguageName; }
+        }
+
+        public OrderAddress AddNewOrderAddress()
+        {
+            return  CartHelper.Cart.OrderAddresses.AddNew();
+        }
+
+        public void ClearOrderAddresses()
+        {
+            CartHelper.Cart.OrderAddresses.Clear();
+        }
+
+        public PurchaseOrder SaveCartAsPurchaseOrder()
+        {
+            return CartHelper.Cart.SaveAsPurchaseOrder();
         }
     }
 }

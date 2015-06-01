@@ -16,6 +16,7 @@
 					<Column columnType="CheckBox" />
 					<Column visible="false" width="30" allowSorting="false" dataField="WarehouseId" headingText="{SharedStrings:ID}"></Column>
 					<Column width="400" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" id="Name" columnType="HyperLink" dataNavigateUrlFields="WarehouseId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Catalog','Warehouse-Edit', 'WarehouseId={0}');" dataTextFields="Name" dataTextFormatString="{0}" permissions="catalog:admin:warehouses:mng:edit"></Column>
+					<Column width="125" allowSorting="true" dataField="Code" headingText="{SharedStrings:Code}"></Column>
           <Column width="50" allowSorting="true" dataField="IsActive" headingText="{SharedStrings:IsActive}"></Column>
           <Column width="125" allowSorting="true" dataField="IsFulfillmentCenter" headingText="{CatalogStrings:Warehouse_IsFulfillmentCenter}"></Column>
 					<Column width="125" allowSorting="true" dataField="IsPickupLocation" headingText="{CatalogStrings:Warehouse_IsPickupLocation}"></Column>

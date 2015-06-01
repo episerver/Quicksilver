@@ -1,20 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel
 
-<div class="col-md-3 col-sm-3 jsProductTile">
-    @{Html.RenderPartial("_ProductViewModel", Model);}
-    @if (Model.IsWishList)
-    {
-        <div class="action-buttons">
-            @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "jsAddToCart" }))
-            {
-                @Html.HiddenFor(x => x.Code)
-                <button type="submit" class="btn btn-cart-icon"><span class="cart-icon"></span></button>
-            }
-            @using (@Html.BeginForm("RemoveFromWishList", "WishList", FormMethod.Post, new { @class = "jsRemoveFromWishList" }))
-            {
-                @Html.HiddenFor(x => x.Code)
-                <button type="submit" class="btn btn-wishlist"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-            }
-        </div>
-    }
+<div class="jsProductTile col-xs-12 col-md-6 col-lg-4">
+    @Html.Partial("_Product", Model)
 </div>

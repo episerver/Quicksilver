@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
@@ -44,11 +45,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 
         [CultureSpecific]
         [Display(
-            Name = "Main area",
+            Name = "Main body",
             Description = "",
             GroupName = SystemTabNames.Content,
             Order = 6)]
-        public virtual ContentArea MainArea { get; set; }
+        public virtual XhtmlString MainBody { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Product area",
+            Description = "",
+            GroupName = SystemTabNames.Content,
+            Order = 7)]
+        [AllowedTypes(typeof(EntryContentBase))]
+        public virtual ContentArea ProductArea { get; set; }
 
         [Display(
             Name = "Checkout page",
@@ -105,5 +115,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.MailTemplates,
             Order = 2)]
         public virtual PageReference ResetPasswordMail { get; set; }
+
+        [Display(
+            Name = "Resource not found page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 10)]
+        public virtual PageReference PageNotFound { get; set; }
+
     }
 }

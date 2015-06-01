@@ -1,7 +1,8 @@
 ﻿var Cart = {
     init: function() {
         $(document)
-            .on('focusout', '.jsQuantity', Cart.changeQuantity)
+            .on('focusout', '.jsQuantity', Cart.changeQuantityOnFocusout)
+            .on('submit', '.jsQuantitySubmit', Cart.changeQuantityOnSubmit)
             .on('click', '.jsRemoveLineItem', Cart.removeLineItem)
             .on('click', '.jsCartToggle', Cart.details)
             .on('change', '.jsMiniCartQuantity', Cart.changeQuantityMiniCart)
@@ -24,18 +25,26 @@
             success: function(result) {
 
                 $('.jsCartDropdown').replaceWith($(result).first());
-                $('.cart-items').text($('.jsCartDropdown').data('item-count'));
+                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
             }
         });
     },
-    changeQuantity: function(e) {
+    changeQuantityOnFocusout: function (e) {
         e.preventDefault();
         var form = $(this).parent();
+        Cart.changeQuantity(form);
+    },
+    changeQuantityOnSubmit: function (e) {
+        e.preventDefault();
+        var form = $(this);
+        Cart.changeQuantity(form);
+    },
+    changeQuantity: function (form) {
         $.ajax({
             type: "POST",
             url: form[0].action,
             data: form.serialize(),
-            success: function(result) {
+            success: function (result) {
                 $('.jsLargeCart').replaceWith($(result).filter('.jsLargeCart'));
                 Checkout.updateOrderSummary();
             }
@@ -44,7 +53,7 @@
     removeLineItem: function(e) {
         e.preventDefault();
         var form = $(this).closest('form');
-        var lineItemRow = $(this).closest('tr');
+        var lineItemRow = $(this).closest('.jsLineItemRow');
         lineItemRow.hide();
         $.ajax({
             type: "POST",
@@ -66,7 +75,7 @@
             url: $('.jsCartToggle').data('url'),
             success: function (result) {
                 $('.jsCartDropdown').replaceWith($(result).first());
-                $('.cart-items').text($('.jsCartDropdown').data('item-count'));
+                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
             }
         });
     },
@@ -77,10 +86,16 @@
             type: "POST",
             url: form[0].action,
             data: form.serialize(),
+            context: this,
             success: function(result) {
                 $('.jsCartDropdown').replaceWith($(result).first());
-                $(".btn.btn-cart.dropdown-toggle").trigger("click");
-                $('.cart-items').text($('.jsCartDropdown').data('item-count'));
+                $('.jsCartToggle').trigger("click");
+                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
+
+                var isWishList = $(this).data('iswishlist');
+                if (isWishList) {
+                    $(this).closest('.jsProductTile').remove();
+                }
             }
         });
     },
@@ -91,8 +106,15 @@
             type: "POST",
             url: form[0].action,
             data: form.serialize(),
-            success: function(result) {
-                $('.wishListResult').show();
+            success: function (result) {
+                $('.jsWishListResult')[0].innerText = result.message;
+                $('.jsWishListResult').show();
+
+                if (result.added) {
+                    $('.jsWishListResult').addClass("alert-info");
+                } else {
+                    $('.jsWishListResult').addClass("alert-warning");
+                }
             }
         });
     },

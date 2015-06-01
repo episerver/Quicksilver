@@ -1,0 +1,37 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel
+
+<div class="product">
+    <a href="@Model.Url" class="product__image">
+        <div class="view-details"></div>
+        <img src="@Model.Image" alt="@Model.DisplayName" class="img-responsive">
+    </a>
+
+    <p class="product__info">
+        @Model.DisplayName
+        @if (Model.Price.Amount < Model.OriginalPrice.Amount)
+        {
+            <strong class="original-price">@Model.OriginalPrice.ToString()</strong>
+            <strong class="discount-price">@Model.Price.ToString()</strong>
+        }
+        else
+        {
+            <strong class="product__price">@Model.Price.ToString()</strong>
+        }
+    </p>
+
+    @if (Model.IsWishList)
+    {
+        <div class="action-buttons">
+            @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline jsAddToCart", data_IsWishList = Model.IsWishList }))
+            {
+                @Html.HiddenFor(x => x.Code)
+                <button type="submit" class="btn btn--blue glyphicon glyphicon-shopping-cart"></button>
+            }
+            @using (@Html.BeginForm("RemoveFromWishList", "WishList", FormMethod.Post, new { @class = "form-inline jsRemoveFromWishList" }))
+            {
+                @Html.HiddenFor(x => x.Code)
+                <button type="submit" class="btn glyphicon glyphicon-remove"></button>
+            }
+        </div>
+    }
+</div>

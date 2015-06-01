@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Net.Mail;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 {

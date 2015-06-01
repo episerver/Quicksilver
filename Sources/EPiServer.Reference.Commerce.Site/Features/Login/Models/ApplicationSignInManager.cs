@@ -1,5 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;

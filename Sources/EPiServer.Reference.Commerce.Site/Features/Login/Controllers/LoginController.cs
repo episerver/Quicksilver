@@ -19,6 +19,7 @@ using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Mediachase.Commerce.Customers;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -76,19 +77,37 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             if (registration.Result.Succeeded)
             {
-                return PartialView("RegisterAccountConfirmation", viewModel);
+                var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
+                return Json(new { ReturnUrl = returnUrl }, JsonRequestBehavior.DenyGet);
             }
 
-            AddErrors(registration.Result);
+            AddErrors(registration.Result.Errors);
 
             return PartialView("RegisterAccount", viewModel);
+        }
+
+        private string GetSafeReturnUrl(Uri referrer)
+        {
+            //Make sure we only return to relative url.
+            var returnUrl = HttpUtility.ParseQueryString(referrer.Query)["returnUrl"];
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return "/";
+            }
+            Uri uri;
+            if(Uri.TryCreate(returnUrl, UriKind.Absolute, out uri))
+            {
+                return uri.PathAndQuery;
+            }
+            return returnUrl;
+
         }
 
         [HttpPost]
         public async Task<ActionResult> InternalLogin(InternalLoginViewModel viewModel)
         {
             bool successfull = false;
-            string returnUrl = !string.IsNullOrEmpty(viewModel.ReturnUrl) ? viewModel.ReturnUrl : "/";
+            string returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
 
             if (!ModelState.IsValid)
             {
@@ -211,7 +230,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     }
                 }
 
-                AddErrors(result);
+                AddErrors(result.Errors);
             }
 
             return View(model);
@@ -329,7 +348,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 return RedirectToAction("ResetPasswordConfirmation");
             }
 
-            AddErrors(result);
+            AddErrors(result.Errors);
 
             return View(model);
         }

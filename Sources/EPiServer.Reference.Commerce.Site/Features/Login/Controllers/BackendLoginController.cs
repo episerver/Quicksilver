@@ -1,13 +1,12 @@
-﻿using EPiServer.Commerce.Internal.Migration;
-using EPiServer.Data.Dynamic;
-using EPiServer.Framework.Localization;
+﻿using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using Microsoft.AspNet.Identity.Owin;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using StructureMap;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -22,6 +21,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
     /// </remarks>
     public class BackendLoginController : Controller
     {
+        private readonly LocalizationService _localizationService;
+        private readonly ApplicationSignInManager _signInManager;
+
+        [DefaultConstructor]
+        public BackendLoginController(LocalizationService localizationService)
+            : this(localizationService, System.Web.HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>())
+        {
+        }
+
+        public BackendLoginController(LocalizationService localizationService, ApplicationSignInManager signInManager)
+        {
+            _localizationService = localizationService;
+            _signInManager = signInManager;
+        }
+
         /// <summary>
         /// The default action method when signing in to the web site EDIT mode.
         /// </summary>
@@ -29,9 +43,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [HttpGet]
         public ActionResult Index(string returnUrl)
         {
-            BackendLoginViewModel viewModel = new BackendLoginViewModel() { ReturnUrl = returnUrl };
-            viewModel.Heading = LocalizationService.Current.GetString("/Login/BackendLogin/Heading");
-            viewModel.LoginMessage = LocalizationService.Current.GetString("/Login/BackendLogin/LoginMessage");
+            var viewModel = new BackendLoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                Heading = _localizationService.GetString("/Login/BackendLogin/Heading"),
+                LoginMessage = _localizationService.GetString("/Login/BackendLogin/LoginMessage")
+            };
 
             return View(viewModel);
         }
@@ -44,39 +61,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(BackendLoginViewModel viewModel)
         {
-            ApplicationSignInManager signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            string returnUrl = !string.IsNullOrEmpty(viewModel.ReturnUrl) ? viewModel.ReturnUrl : "/";
+            var returnUrl = !string.IsNullOrEmpty(viewModel.ReturnUrl) ? viewModel.ReturnUrl : "/";
 
             if (!ModelState.IsValid)
             {
                 // re-apply the messages for the login view.
-                viewModel.Heading = LocalizationService.Current.GetString("/Login/BackendLogin/Heading");
-                viewModel.LoginMessage = LocalizationService.Current.GetString("/Login/BackendLogin/LoginMessage");
+                viewModel.Heading = _localizationService.GetString("/Login/BackendLogin/Heading");
+                viewModel.LoginMessage = _localizationService.GetString("/Login/BackendLogin/LoginMessage");
 
                 return PartialView("Index", viewModel);
             }
 
-            var result = await signInManager.PasswordSignInAsync(viewModel.Username, viewModel.Password, viewModel.RememberMe, shouldLockout: false);
+            var result = await _signInManager.PasswordSignInAsync(viewModel.Username, viewModel.Password, viewModel.RememberMe, false);
 
             switch (result)
             {
                 case SignInStatus.Success:
                     break;
-
-                case SignInStatus.LockedOut:
-                case SignInStatus.RequiresVerification:
-                case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("Password", LocalizationService.Current.GetString("/Login/Form/Error/WrongPasswordOrEmail"));
+                    ModelState.AddModelError("Password", _localizationService.GetString("/Login/Form/Error/WrongPasswordOrEmail"));
                     return PartialView("Index", viewModel);
             }
 
             // As a security concern in order to prevent open re-direct attacks we
             // check the return URL to make sure it is within the own site. The method
-            // Url.IsLocalUrl does not recoqnize localhost as true, so to make this work while
+            // Url.IsLocalUrl does not recognize localhost as true, so to make this work while
             // debugging we should also allow calls coming from within the same server. 
             // We can do this by first checking with Request.IsLocal.
-            if (Request.IsLocal || Url.IsLocalUrl(returnUrl))
+            if (Request.IsLocal || IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
@@ -84,6 +96,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             // If the return URL was set to an external address then make sure the call goes to the
             // start page of the site instead.
             return RedirectToAction("Index", new { node = EPiServer.Core.ContentReference.StartPage });
+        }
+
+        private bool IsLocalUrl(string url)
+        {
+            Uri absoluteUri;
+            return Uri.TryCreate(url, UriKind.Absolute, out absoluteUri) && String.Equals(Request.Url.Host, absoluteUri.Host, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

@@ -2,11 +2,17 @@
     init: function() {
         $(document)
             .on('keyup', '.jsQuickSearch', Search.quickSearch)
-            .on('focus', '.jsQuickSearch, .jsQuickSearchResult', Search.showResults);
+            .on('focus', '.jsQuickSearch, .jsQuickSearchResult', Search.showResults)
+            .on('focusin.jsQuickSearchResult click.jsQuickSearchResult', function (e) {
+                if ($(e.target).closest('.jsQuickSearchResult, .jsQuickSearch').length) return;
+                $('.jsQuickSearchResult').fadeOut('medium');
+            });
         $(window).bind('popstate ', function (event) {
             //this will handle browser back/forward navigation
             Search.updatePage(location.search);
         });
+        $('.js-search-input').on('focusout', function () { $('.search-input').removeClass("is-active"); });
+        $('.js-search-input').on('focusin', function () { $('.search-input').addClass("is-active"); });
         if ($('.jsSearch').length == 1) {
             Search.infinityScroll();
             $(document)
@@ -42,11 +48,6 @@
     },
     showResults: function() {
         $('.jsQuickSearchResult').show();
-        $(document).bind('focusin.jsQuickSearchResult click.jsQuickSearchResult', function(e) {
-            if ($(e.target).closest('.jsQuickSearchResult, .jsQuickSearch').length) return;
-            $(document).unbind('.jsQuickSearchResult');
-            $('.jsQuickSearchResult').fadeOut('medium');
-        });
     },
     infinityScroll: function () {
         $(window).scroll(function () {
@@ -54,7 +55,6 @@
                 return null;
             }
             if ($(window).scrollTop() >= ($(document).height() - $(window).height()) - 1000) {
-                //$('div#loadmoreajaxloader').show();
                 Search.fetchingNewPage = true;
                 var form = $(document).find('.jsSearchForm');
                 $.ajax({
@@ -67,10 +67,8 @@
                             $('.jsSearchPage').replaceWith($(result).find('.jsSearchPage'));
                             $('.jsSearch').append($(result).find('.jsSearch').children());
                             $('.jsSearchFacets').replaceWith($(result).find('.jsSearchFacets'));
-                            //$('div#loadmoreajaxloader').hide();
                         } else {
                             Search.lastPage = true;
-                            //$('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
                         }
                     }
                 });

@@ -9,12 +9,8 @@
             @if (Model.CheckoutFormModel.SelectedPaymentMethodId != default(Guid))
             {
                 var controller = string.Format("{0}PaymentMethod", Model.SelectedPaymentMethodSystemName);
-                Html.RenderAction("PaymentMethod", controller, new RouteValueDictionary(new
-                {
-                    paymentMethodId = formModel.SelectedPaymentMethodId,
-                    paymentMethodSystemName = Model.SelectedPaymentMethodSystemName,
-                    paymentModel = formModel.PaymentViewModel
-                }));
+
+                Html.RenderPartial(controller, formModel.PaymentViewModel); 
             }
         </div>
     </div>

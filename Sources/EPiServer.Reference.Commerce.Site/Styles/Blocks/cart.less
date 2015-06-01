@@ -1,0 +1,21 @@
+.cart-item {
+    border-bottom: 1px solid #ededed;
+    padding: 15px 20px;
+}
+.cart-item__values {
+    .col-xs-12,
+    .col-md-4 { padding: 0; }
+}
+.quantity {
+    &,
+    &.form-control {
+        height:40px;
+        width:40px;
+        text-align:center;
+    }
+}
+
+// Medium and up 
+@media (min-width: @screen-sm-min) {
+    .cart-item .quantity { display: block; }
+}

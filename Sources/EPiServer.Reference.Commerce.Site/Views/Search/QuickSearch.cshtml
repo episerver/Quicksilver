@@ -2,13 +2,22 @@
 @{
     Layout = null;
 }
-<div class="quick-search row">
-    <div class="col-md-12">
-        <ul>
-            @foreach (var product in Model)
-            {
-                <li><a href="@product.Url"><img src ="@product.Image" alt="@product.DisplayName" style="max-width: 60px;"/>@product.DisplayName <span class="pull-right strong black-link">@product.Price.ToString()</span></a></li>
-            }
-        </ul>
-    </div>
+<div class="quick-search">
+    <ul>
+        @foreach (var product in Model)
+        {
+            <li>
+                <a href="@product.Url">
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="@product.Image" alt="@product.DisplayName" class="media-object" />
+                        </div>
+                        <div class="media-body">
+                            <strong class="pull-right link--grey">@product.Price.ToString()</strong> @product.DisplayName 
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
 </div>

@@ -1,0 +1,26 @@
+ .settings-bar {
+    .dropdown-menu {
+        a:hover { 
+            background-color: @grey; 
+            color: #fff;
+        }
+    }
+}
+
+// Larger than handheld
+@media (min-width: @screen-sm-min) {
+    .settings-bar {
+        &,
+        .btn {
+            font-size: 14px;
+        }
+
+        &__nav {
+            > li { 
+                display: inline-block;
+
+                &:first-child { margin-right: 30px; }
+            }
+        }
+    }
+}

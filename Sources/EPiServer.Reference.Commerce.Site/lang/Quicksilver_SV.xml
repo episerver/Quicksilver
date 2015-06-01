@@ -35,7 +35,6 @@
       <Social>Var Social</Social>
     </Footer>
     <Product>
-      <Specification>Se fullständig specifikation</Specification>
       <Dropdown>
         <Currency>Visa priser i</Currency>
       </Dropdown>
@@ -45,12 +44,12 @@
       </Button>
     </Product>
     <ProductPage>
-      <addedtowishlist>Lagd i önskelistan</addedtowishlist>
+      <AddedToWishList>Lagd i önskelistan</AddedToWishList>
+      <NotAddedToWishList>Kunde inte lägga varan i önskelistan</NotAddedToWishList>
       <Price>Pris</Price>
       <OriginalPrice>Ursprungliga Pris</OriginalPrice>
       <DiscountPrice>Rabatterat Pris</DiscountPrice>
       <PriceMissing>Inte tillgänglig för denna marknad</PriceMissing>
-      <LargerView>Klicka på bilderna för en större bild</LargerView>
       <VariationSelection>
         <Color>Välj Färg</Color>
         <Size>Välj Storlek</Size>
@@ -75,6 +74,9 @@
         <Empty>
           <ChoosePayment>Betalning krävs</ChoosePayment>
         </Empty>
+        <Errors>
+          <PreProcessingFailure>Förbehandlingen av betalningen misslyckades.</PreProcessingFailure>
+        </Errors>
         <Methods>
           <CreditCard>
             <Labels>
@@ -91,6 +93,12 @@
               <ExpirationMonth>Utgångsmånad krävs</ExpirationMonth>
               <ExpirationYear>Utgångsår krävs</ExpirationYear>
             </Empty>
+            <ValidationErrors>
+              <CreditCardNumber>Kreditkortsnumret är felaktigt. Numret ska sluta med 4</CreditCardNumber>
+              <CreditCardSecurityCode>CSV-koden måste vara 3 siffror</CreditCardSecurityCode>
+              <ExpirationMonth>Utgångsdatumet kan inte vara äldre än nuvarande månad</ExpirationMonth>
+              <ExpirationYear>Utgångsdatumet kan inte vara äldre än nuvarande år</ExpirationYear>
+            </ValidationErrors>
           </CreditCard>
         </Methods>
       </Payment>
@@ -154,6 +162,9 @@
         <ExpirationDate>Utgångsdatum</ExpirationDate>
         <CVV>CVV</CVV>
       </PaymentInfo>
+      <ErrorMessages>
+        <SmtpFailure>Din order har behandlats men vi kunde inte skicka ditt kvitto till e-postaddressen {0}. Se till att skriva ut denna sida och behåll utskriften som referens istället.</SmtpFailure>
+      </ErrorMessages>
     </OrderConfirmationMail>
     <OrderConfirmation>
       <SubTotal>Delsumma för din beställning</SubTotal>
@@ -353,6 +364,7 @@
           <CountryName>Land krävs</CountryName>
         </Empty>
         <Error>
+          <InvalidEmail>Du måste ange en giltig e-postadress</InvalidEmail>
         </Error>
       </Form>
     </AddressBook>
@@ -370,6 +382,7 @@
     <Wishlist>
       <NoItems>Du har inga artiklar i din önskelista</NoItems>
       <DeleteButton>Radera hela önskelistan</DeleteButton>
+      <RemoveItem>Ta bort från önskelista</RemoveItem>
     </Wishlist>
     <Search>
       <BadFirstCharacter>'*' eller '?' är inte tillåtet som första tecken i en sökning</BadFirstCharacter>

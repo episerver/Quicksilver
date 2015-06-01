@@ -4,75 +4,68 @@
 @{
     Layout = null;
 }
-<div class="quicksilver-well">
+<div class="section-box">
     <h4>@Html.Translate("/Cart/Heading")</h4>
 </div>
-<table class="table jsLargeCart">
-    <thead>
-        <tr>
-            <td> </td>
-            <td colspan="2">@Html.Translate("/Cart/Labels/Product")</td>
-            <td>@Html.Translate("/Cart/Labels/Price") </td>
-            <td>@Html.Translate("/Cart/Labels/Quantity")</td>
-            <td>@Html.Translate("/Cart/Labels/Total")</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cartItem in Model.CartItems)
-        {
-            <tr>
-                <td class="edit">
-                    @using (Html.BeginForm("RemoveLineItem", "Cart"))
-                    {
-                        @Html.Hidden("code", cartItem.Code)
-                        <span class="edit-controll"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="jsRemoveLineItem">@Html.Translate("/Cart/Labels/Remove")</span></span>
-                    }
-                </td>
-                <td><a href="@cartItem.Url"><img src="@cartItem.GetThumbnailUrl()" /></a></td>
-                <td><a href="@cartItem.Url">@cartItem.DisplayName</a>
+
+<div class="checkout-cart jsLargeCart">
+    @foreach (var cartItem in Model.CartItems) { 
+        <div class="media cart-item jsLineItemRow">
+            <div class="media-left">
+                <a href=" @cartItem.Url "><img src=" @cartItem.GetThumbnailUrl() " /></a>
+            </div>
+            <div class="media-body">               
+                 @using (Html.BeginForm("RemoveLineItem", "Cart", FormMethod.Post, new { @class = "pull-right" })) {
+                    @Html.Hidden("code", cartItem.Code)
+                    <button role="button" class="btn btn-sm jsRemoveLineItem"><i class="glyphicon glyphicon-remove"></i></button>
+                }
+                <p><a href="@cartItem.Url">@cartItem.DisplayName</a></p>
+                <ol class="block-list cart-item__values row">
                     @if (cartItem.Discounts.Any())
                     {
-                        <br />
                         foreach (var discount in cartItem.Discounts)
                         {
-                            <br/>
-                            <span>@discount.Displayname</span>
+                            <li class="col-xs-12 col-md-4">
+                                <span>@discount.Displayname</span>
+                            </li>
                         }
                     }
-                </td>
-                <td>
-                    @if (cartItem.Discounts.Any())
-                    {
-                        <span class="discount-price">@cartItem.DiscountPrice.ToString()</span>
-                        <span class="original-price">(@cartItem.PlacedPrice.ToString())</span>
-                    }
-                    else
-                    {
-                        @cartItem.PlacedPrice.ToString()
-                    }
-                    
-                </td>
-                <td>
-                    @using (Html.BeginForm("ChangeQuantity", "Cart", FormMethod.Post))
-                    {
-                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new {@class = "form-control quantity jsQuantity"})
-                        @Html.Hidden("code", cartItem.Code)
-                    }
-                </td>
-                <td class="total-price">@cartItem.ExtendedPrice.ToString()</td>
-            </tr>
-        }
-        @if (Model.TotalDiscount.Amount > 0)
-        { 
-        <tr>
-                <td colspan="5" class="center">
-                    <span class="discount-applied">@Html.Translate("/Cart/Labels/DiscountsApplied")</span>
-                    @Html.Translate("/Cart/Labels/YouSave"): <strong>@Model.TotalDiscount.ToString()</strong>
-                </td>
-                <td class="total-price">
-                    @Model.Total.ToString()
-                </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                    <li class="col-xs-12 col-md-4">
+                        <strong>@Html.Translate("/Cart/Labels/Price")</strong>
+                        @if (cartItem.Discounts.Any())
+                        {
+                            <span class="discount-price">@cartItem.DiscountPrice.ToString()</span>
+                            <span class="original-price">(@cartItem.PlacedPrice.ToString())</span>
+                        }
+                        else
+                        {
+                            @cartItem.PlacedPrice.ToString()
+                        }
+                    </li>
+                    <li class="col-xs-12 col-md-4">
+                        <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
+                        @using (Html.BeginForm("ChangeQuantity", "Cart", FormMethod.Post, new { @class = "form-inline jsQuantitySubmit" }))
+                        {
+                            @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline quantity jsQuantity" })
+                            @Html.Hidden("code", cartItem.Code)
+                        }
+                    </li>
+                    <li class="col-xs-12 col-md-4">
+                        <strong>@Html.Translate("/Cart/Labels/Total")</strong>
+                        @cartItem.ExtendedPrice.ToString()
+                    </li>
+                </ol>
+            </div>
+        </div>
+    }
+    @if (Model.TotalDiscount.Amount > 0)
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="discount-applied">@Html.Translate("/Cart/Labels/DiscountsApplied")</span>
+                @Html.Translate("/Cart/Labels/YouSave"): <strong>@Model.TotalDiscount.ToString()</strong>
+                @Model.Total.ToString()
+            </div>
+        </div>
+    }
+</div>

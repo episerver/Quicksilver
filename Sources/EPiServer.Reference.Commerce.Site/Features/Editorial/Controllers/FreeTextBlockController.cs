@@ -6,7 +6,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Editorial.Controllers
 {
     public class FreeTextBlockController : BlockController<FreeTextBlock>
     {
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public override ActionResult Index(FreeTextBlock currentBlock)
         {
             return PartialView(currentBlock);

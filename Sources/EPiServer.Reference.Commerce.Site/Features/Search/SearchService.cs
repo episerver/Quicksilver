@@ -1,7 +1,11 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Web.Helpers;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.LuceneSearchProvider;
 using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Extensions;
@@ -14,11 +18,6 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Website.Search;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web.Helpers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search
 {
@@ -44,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             {
                 return CreateEmptyResult();
             }
-            var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : 20;
+            var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : 18;
             var criteria = CreateCriteria(pageSize, filterOptions.Sort, filterOptions.Page, filterOptions.FacetGroups);
             var nodeContent = currentContent as NodeContent;
             if (nodeContent != null)
@@ -58,14 +57,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             
             return Search(criteria);
         }
-        
-        private MultiFacetSearchCriteria CreateCriteria(int pageSize, string sort, int page, List<FacetGroupOption> facetGroups)
+
+        private CatalogEntrySearchCriteria CreateCriteria(int pageSize, string sort, int page, List<FacetGroupOption> facetGroups)
         {
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == sort) ?? GetSortOrder().First();
-            var criteria = new MultiFacetSearchCriteria
+            var market = _currentMarket.GetCurrentMarket();
+            var criteria = new CatalogEntrySearchCriteria
             {
                 ClassTypes = new StringCollection { "product" },
                 Locale = ContentLanguage.PreferredCulture.Name,
+                MarketId = market.MarketId,
                 StartingRecord = pageSize * (page - 1),
                 RecordsToRetrieve = pageSize,
                 Sort = new SearchSort(new SearchSortField(sortOrder.Key, sortOrder.SortDirection == SortDirection.Descending))
@@ -75,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             return criteria;
         }
 
-        private static void AddFacets(List<FacetGroupOption> facetGroups, MultiFacetSearchCriteria criteria)
+        private static void AddFacets(List<FacetGroupOption> facetGroups, CatalogEntrySearchCriteria criteria)
         {
             if (facetGroups != null)
             {
@@ -89,7 +90,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
 
                     var facetValues = searchFilter.Values.SimpleValue.Where(x => facetGroupOption.Facets.FirstOrDefault(y => y.Selected && y.Name.ToLower() == x.value.ToLower()) != null);
 
-                    criteria.AddMultiSelectActiveField(searchFilter.field.ToLower(), facetValues);
+                    criteria.Add(searchFilter.field.ToLower(), facetValues);
                 }
             }
         }
@@ -107,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             };
         }
 
-        private CustomSearchResult Search(MultiFacetSearchCriteria criteria)
+        private CustomSearchResult Search(CatalogEntrySearchCriteria criteria)
         {
             SearchFilterHelper.Current.SearchConfig.SearchFilters.ToList().ForEach(criteria.Add);
 
@@ -117,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             foreach (var searchFacetGroup in searchResult.FacetGroups)
             {
                 // Only add facet group if more than one value is available
-                if (searchFacetGroup.Facets.Count <= 1)
+                if (searchFacetGroup.Facets.Count == 0)
                 {
                     continue;
                 }
@@ -125,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                 {
                     GroupName = searchFacetGroup.Name,
                     GroupFieldName = searchFacetGroup.FieldName,
-                    Facets = searchFacetGroup.Facets.OfType<MultiFacet>().Select(y => new FacetOption
+                    Facets = searchFacetGroup.Facets.OfType<Facet>().Select(y => new FacetOption
                     {
                         Name = y.Name,
                         Selected = y.IsSelected,
@@ -150,7 +151,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             }
 
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == sort) ?? GetSortOrder().First();
-            var criteria = new MultiFacetSearchCriteria
+            var criteria = new CatalogEntrySearchCriteria
             {
                 ClassTypes = new StringCollection { "product" },
                 Locale = ContentLanguage.PreferredCulture.Name,

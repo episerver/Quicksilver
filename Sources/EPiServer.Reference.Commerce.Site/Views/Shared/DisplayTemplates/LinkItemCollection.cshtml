@@ -6,6 +6,7 @@
 <ul class="@ViewData["class"]" style="@ViewData["style"]">
     @{
         var additionalLink = ViewData["additionalLink"] as LinkItem;
+        var anchorClass = ViewData["anchorClass"] ?? string.Empty;
         var itemStyle = ViewData["itemStyle"] ?? string.Empty;
         var currentPage = ViewData["currentPage"] as ContentReference;
         var selected = ViewData["selected"] as string;
@@ -21,12 +22,13 @@
                 itemClass = selected;
             }
         }
+        linkItem.Attributes["class"] = (string)anchorClass;
         <li class="@itemClass" style="@itemStyle">@Html.ContentLink(linkItem)</li>
     }
 
     @if (additionalLink != null && !String.IsNullOrWhiteSpace(additionalLink.Href))
     {
-        <li style="@itemStyle"><a href="@additionalLink.Href">@additionalLink.Text</a></li>
+        <li style="@itemStyle"><a href="@additionalLink.Href" class="@anchorClass">@additionalLink.Text</a></li>
     }
  </ul>
 

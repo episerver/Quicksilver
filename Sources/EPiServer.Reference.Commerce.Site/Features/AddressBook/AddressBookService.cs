@@ -30,50 +30,42 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook
         public void Save(AddressBookFormModel model)
         {
             var currentContact = CustomerContext.Current.CurrentContact;
-            var existingAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == model.AddressId);
-            var isNew = false;
-            if (existingAddress == null)
-            {
-                existingAddress = CustomerAddress.CreateInstance();
-                isNew = true;
-            }
 
-            existingAddress.Name = model.Name;
-            existingAddress.FirstName = model.FirstName;
-            existingAddress.LastName = model.LastName;
-            existingAddress.Line1 = model.Line1;
-            existingAddress.Line2 = model.Line2;
-            existingAddress.PostalCode = model.PostalCode;
-            existingAddress.City = model.City;
-            existingAddress.CountryName = model.CountryName;
-            existingAddress.Email = model.Email;
-            existingAddress.DaytimePhoneNumber = model.DaytimePhoneNumber;
-            existingAddress.RegionName = model.Region;
+            var isNew = !currentContact.ContactAddresses.Any(x => x.AddressId == model.AddressId);
+
+            var address = CreateOrUpdateCustomerAddress(model);
+
             if (isNew)
             {
-                currentContact.AddContactAddress(existingAddress);
+                currentContact.AddContactAddress(address);
             }
             else
             {
-                currentContact.UpdateContactAddress(existingAddress);
+                currentContact.UpdateContactAddress(address);
             }
+
+            currentContact.SaveChanges();
+            address.AddressId = currentContact.ContactAddresses
+                .Single(x => x.Name.Equals(address.Name)).AddressId; 
 
             if (model.BillingDefault)
             {
-                currentContact.PreferredBillingAddress = existingAddress;
+                currentContact.PreferredBillingAddress = address;
             }
             else if (currentContact.PreferredBillingAddressId == model.AddressId)
             {
                 currentContact.PreferredBillingAddressId = null;
             }
+
             if (model.ShippingDefault)
             {
-                currentContact.PreferredShippingAddress = existingAddress;
+                currentContact.PreferredShippingAddress = address;
             }
             else if (currentContact.PreferredShippingAddressId == model.AddressId)
             {
                 currentContact.PreferredShippingAddressId = null;
             }
+           
             currentContact.SaveChanges();
         }
 
@@ -117,6 +109,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook
             }
             currentContact.PreferredShippingAddress = address;
             currentContact.SaveChanges();
+        }
+
+        private CustomerAddress CreateOrUpdateCustomerAddress(AddressBookFormModel model)
+        {
+            var address = CustomerContext.Current.CurrentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == model.AddressId) ??
+                          CustomerAddress.CreateInstance();
+
+            address.Name = model.Name;
+            address.FirstName = model.FirstName;
+            address.LastName = model.LastName;
+            address.Line1 = model.Line1;
+            address.Line2 = model.Line2;
+            address.PostalCode = model.PostalCode;
+            address.City = model.City;
+            address.CountryName = model.CountryName;
+            address.Email = model.Email;
+            address.DaytimePhoneNumber = model.DaytimePhoneNumber;
+            address.RegionName = model.Region;
+
+            return address;
         }
 
         private static AddressBookFormModel ConvertAddress(CustomerAddress address, bool defaultShipping, bool defaultBilling, AddressBookPage currentPage)
@@ -189,8 +201,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook
             formModel.Email = existingAddress.Email;
             formModel.DaytimePhoneNumber = existingAddress.DaytimePhoneNumber;
             formModel.Modified = existingAddress.Modified;
-            var selctedCountry = countries.FirstOrDefault(x => x.Name.Equals(formModel.CountryName));
-            formModel.RegionOptions = selctedCountry == null ? new List<CountryDto.StateProvinceRow>() : selctedCountry.GetStateProvinceRows().ToList();
+            var selectedCountry = countries.FirstOrDefault(x => x.Name.Equals(formModel.CountryName));
+            formModel.RegionOptions = selectedCountry == null ? new List<CountryDto.StateProvinceRow>() : selectedCountry.GetStateProvinceRows().ToList();
             if (String.IsNullOrEmpty(formModel.Region) || formModel.Region.Equals(existingAddress.RegionName))
             {
                 formModel.Region = existingAddress.RegionName;

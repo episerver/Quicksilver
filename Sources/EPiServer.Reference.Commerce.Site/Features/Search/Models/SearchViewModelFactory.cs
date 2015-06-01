@@ -14,10 +14,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
 {
     public class SearchViewModelFactory
     {
-        private readonly SearchService _searchService;
+        private readonly ISearchService _searchService;
         private readonly LocalizationService _localizationService;
 
-        public SearchViewModelFactory(LocalizationService localizationService, SearchService searchService)
+        public SearchViewModelFactory(LocalizationService localizationService, ISearchService searchService)
         {
             _searchService = searchService;
             _localizationService = localizationService;

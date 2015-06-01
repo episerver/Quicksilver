@@ -7,59 +7,64 @@
         Layout = null;
     }
 }
-<h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-<div class="row checkout jsCheckout">
-    <div class="col-md-12">
-        <h4>@Html.Translate("/Checkout/Coupons/Heading")</h4>
 
-        <p class="small">@Html.Translate("/Checkout/Coupons/CouponCode/Info")</p>
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <form class="form-inline discount" role="form">
-                    <div class="form-group">
-                        <label class="sr-only" for="exampleInputCode">discount code</label>
-                        <input type="text" class="form-control" id="exampleInputCode" placeholder="">
-                    </div>
-                    <button type="submit" class="btn">@Html.Translate("/Checkout/Coupons/CouponCode/Button")</button>
-                </form>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <a href="@Model.ReferrerUrl" class="btn continue-shopping-btn"><span class="glyphicon glyphicon-arrow-left continue-shopping" aria-hidden="true"></span>@Html.Translate("/Checkout/Continue/Button")</a>
-            </div>
-        </div>
-
-        @{ Html.RenderAction("LargeCart", "Cart"); }
-
-        @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = "Update" }))
-        {
-            <div class="quicksilver-well">
-                <h4>@Html.Translate("/Checkout/Shipment/Heading")</h4>
-            </div>
+<div class="container-fluid">
+    <div class="row checkout jsCheckout">
+        <div class="col-xs-12">
+            <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
+            <h4>@Html.Translate("/Checkout/Coupons/Heading")</h4>
+            <p class="small">@Html.Translate("/Checkout/Coupons/CouponCode/Info")</p>
             <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    @{ Html.RenderPartial("Address", Model); }
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <h3>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h3>
-                    @foreach (var shippingMethodViewModel in Model.ShippingMethodViewModels)
-                    {
-                        <div class="radio">
-                            <label>
-                                @Html.RadioButtonFor(_ => formModel.SelectedShippingMethodId, shippingMethodViewModel.Id, new {@id = shippingMethodViewModel.Id, @class = "jsChangeShipment"}) 
-								@shippingMethodViewModel.DisplayName 
-								@shippingMethodViewModel.Price.ToString()
-                            </label>
+                <div class="col-xs-12 col-md-6">
+                    <form class="form-inline discount" role="form">
+                        <div class="input-group">
+                            <label class="sr-only" for="exampleInputCode">discount code</label>
+                            <input type="text" class="form-control form--blue" id="exampleInputCode" placeholder="">
+
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn--blue">@Html.Translate("/Checkout/Coupons/CouponCode/Button")</button>
+                            </span>
                         </div>
-                    }
-                    @Html.ValidationMessageFor(_ => formModel.SelectedShippingMethodId)
+                    </form>
+                </div>
+                <div class="col-xs-12 col-md-6 keep-shopping-col">
+                    <button role="button" onclick="window.location.href='@Model.ReferrerUrl'" class="btn btn--blue"><i class="glyphicon glyphicon-arrow-left"></i> @Html.Translate("/Checkout/Continue/Button")</button>
                 </div>
             </div>
-            <div class="quicksilver-well">
-                <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
-            </div>
-            { Html.RenderPartial("Payment", Model); }
-            { Html.RenderAction("OrderSummary"); }
-            <button type="submit" class="btn pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-        }
+            @{ Html.RenderAction("LargeCart", "Cart"); }
+            @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = "Update" }))
+            {
+                <div class="section-box">
+                    <h4>@Html.Translate("/Checkout/Shipment/Heading")</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        @{ Html.RenderPartial("Address", Model); }
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <h3>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h3>
+                        @foreach (var shippingMethodViewModel in Model.ShippingMethodViewModels)
+                        {
+                            <div class="radio">
+                                <label>
+                                    @Html.RadioButtonFor(_ => formModel.SelectedShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
+                                    @shippingMethodViewModel.DisplayName
+                                    @shippingMethodViewModel.Price.ToString()
+                                </label>
+                            </div>
+                        }
+                        @Html.ValidationMessageFor(_ => formModel.SelectedShippingMethodId)
+                    </div>
+                </div>
+                <div class="section-box">
+                    <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
+                </div>
+            
+                        { Html.RenderPartial("Payment", Model); }
+                        { Html.RenderAction("OrderSummary"); }
+
+                        <button type="submit" class="btn btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
+            }
+        </div>
     </div>
 </div>

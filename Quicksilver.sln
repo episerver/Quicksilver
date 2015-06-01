@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site", "Sources\EPiServer.Reference.Commerce.Site\EPiServer.Reference.Commerce.Site.csproj", "{9AC1DC21-C56D-49EB-A264-9441D8602F1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Manager", "Sources\EPiServer.Reference.Commerce.Manager\EPiServer.Reference.Commerce.Manager.csproj", "{3DD52DD7-4744-42D1-AE9F-34D441C020B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.LuceneSearchProvider", "Sources\EPiServer.Reference.Commerce.LuceneSearchProvider\EPiServer.Reference.Commerce.LuceneSearchProvider.csproj", "{AE923FA2-C8BD-49FA-9887-DDAFABEC8D8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site.Tests", "EPiServer.Reference.Commerce.Site.Tests\EPiServer.Reference.Commerce.Site.Tests.csproj", "{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Shared", "Sources\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj", "{341C8E14-4EAE-4946-9841-45F9818265A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,14 @@ Global
 		{3DD52DD7-4744-42D1-AE9F-34D441C020B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DD52DD7-4744-42D1-AE9F-34D441C020B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DD52DD7-4744-42D1-AE9F-34D441C020B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE923FA2-C8BD-49FA-9887-DDAFABEC8D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE923FA2-C8BD-49FA-9887-DDAFABEC8D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE923FA2-C8BD-49FA-9887-DDAFABEC8D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE923FA2-C8BD-49FA-9887-DDAFABEC8D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341C8E14-4EAE-4946-9841-45F9818265A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341C8E14-4EAE-4946-9841-45F9818265A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341C8E14-4EAE-4946-9841-45F9818265A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341C8E14-4EAE-4946-9841-45F9818265A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

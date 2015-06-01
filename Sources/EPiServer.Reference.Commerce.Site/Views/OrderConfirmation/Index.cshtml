@@ -6,9 +6,18 @@
 <div class="row checkout">
     <div class="col-md-12">
         <h1>@Html.PropertyFor(x => x.CurrentPage.Title)</h1>
+
+        @if (Model.NotificationMessage != null)
+        {
+            <div class="alert alert-danger">
+                @Model.NotificationMessage
+            </div>
+        }
+
         <div>
             @Html.PropertyFor(x => x.CurrentPage.Body)
         </div>
+
         @if (Model.HasOrder)
         {
             @Model.Created

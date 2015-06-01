@@ -8,11 +8,7 @@
                 <b><asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:CatalogStrings, Catalog_Search_By_Keyword %>" />:</b>
             </td>
             <td class="FormFieldCell" colspan="2">
-                <asp:TextBox ID="tbKeywords" Width="240" runat="server"></asp:TextBox>
-                    <asp:RegularExpressionValidator ID="regexpCatalog" runat="server"     
-                                    ErrorMessage="Please use numbers or letters." 
-                                    ControlToValidate="tbKeywords"     
-                                    ValidationExpression="^[a-zA-Z0-9'.\s]{1,40}$" />
+                <asp:TextBox ID="tbKeywords" Width="240" MaxLength="40" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>

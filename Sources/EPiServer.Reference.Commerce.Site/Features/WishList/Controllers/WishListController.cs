@@ -1,4 +1,8 @@
-﻿using EPiServer.Core;
+﻿using System;
+using EPiServer.Core;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Market;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.WishList.Pages;
 using EPiServer.Web.Mvc;
@@ -11,12 +15,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.WishList.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly IWishListService _wishListService;
+        private readonly LocalizationService _localizationService;
         
-        public WishListController(IContentLoader contentLoader,
-                                 IWishListService wishListService)
+        public WishListController(
+            IContentLoader contentLoader,
+            IWishListService wishListService, 
+            LocalizationService localizationService)
         {
             _contentLoader = contentLoader;
             _wishListService = wishListService;
+            _localizationService = localizationService;
         }
 
         [HttpGet]
@@ -28,8 +36,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.WishList.Controllers
         [HttpPost]
         public ActionResult AddToWishList(string code)
         {
-           _wishListService.AddItem(code);
-            return null;
+            string warningMessage;
+            var added = _wishListService.AddItem(code, out warningMessage);
+            var message = added
+                ? _localizationService.GetString("/ProductPage/AddedToWishList")
+                : String.Concat(_localizationService.GetString("/ProductPage/NotAddedToWishList"), ". ", warningMessage);
+
+            return new JsonResult() { Data = new { added, message } };
         }
 
         [HttpPost]

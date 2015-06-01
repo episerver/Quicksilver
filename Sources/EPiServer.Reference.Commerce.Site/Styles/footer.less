@@ -1,0 +1,52 @@
+footer {
+    padding-top: 1.5em;
+    
+    .row .column:first-child hr { 
+        border-top: 1px solid @grey;
+        margin: 0;
+    }
+    
+    h3 { margin-top: 0; }
+    
+    .column { 
+        padding-bottom: 2em; 
+    }
+
+    // Leading column
+    .footer-logo { 
+        float: left;
+        margin: 0 15px 15px 0;
+    }
+
+    // Middle column
+    .col--center {
+        .form-control {
+            border-color: @grey;
+        }
+        .btn { padding-bottom: 5px; }
+        .mail-icon {
+            margin-left: 5px;
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    // Trailing column
+    .social-icon { 
+        margin-right: 5px;
+
+        &:last-child { margin-right: 0; }
+    }
+}
+
+// Larger than handheld
+@media (min-width: @screen-sm-min) {
+    footer {
+        p { margin: 0; }
+        .column { padding-top: 0; }
+
+        .col--center {
+            .input-group { max-width: 400px; }
+        }
+    }
+}

@@ -1,10 +1,6 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel>
-@{var count = Model.Count();}
+﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel>
+
 @foreach (var productModel in Model)
 {
-    using (Html.BeginProductSeparator(count))
-    {
-        Html.RenderPartial("_ProductViewModel", productModel);        
-    }
+    Html.RenderPartial("_ProductTile", productModel);
 }

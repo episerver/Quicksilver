@@ -1,6 +1,13 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Start.Pages.StartPage
-<div class="row">
-    <div class="col-md-12">
-        @Html.PropertyFor(x => x.MainArea)
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.PropertyFor(x => x.MainBody)
+        </div>
+    </div>
+</div>
+<div class="container-fluid product-row">
+    <div class="row">
+        @Html.PropertyFor(x => x.ProductArea, new { ChildrenCssClass = "jsProductTile col-xs-12 col-md-6 col-lg-4" })
     </div>
 </div>

@@ -118,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         }
 
         /// <summary>
-        /// Gets user login information retreived from an external login provider.
+        /// Gets user login information retrieved from an external login provider.
         /// </summary>
         /// <returns>Gets an ExternalLoginInfo object for the current user.</returns>
         public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
@@ -216,7 +216,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
                 contact.PreferredShippingAddress = defaultAddress;
                 contact.PreferredBillingAddress = defaultAddress;
 
-                // Save the address preferrences also.
+                // Save the address preferences also.
                 contact.SaveChanges();
             }
 

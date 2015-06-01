@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public override ActionResult Index(VariationContent currentContent)
         {
-            return PartialView("_ProductViewModel", _productService.GetProductViewModel(currentContent));
+            return PartialView("_Product", _productService.GetProductViewModel(currentContent));
         }
     }
 }

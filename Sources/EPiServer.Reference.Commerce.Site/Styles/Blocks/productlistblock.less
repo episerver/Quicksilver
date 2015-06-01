@@ -1,0 +1,41 @@
+.product-header {
+    display: block;
+    margin-bottom: 1em;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    
+    &:first-line { background-color: @site-background; }
+
+    &::before {
+        background-color: @grey;
+        content: "";
+        height: 1px;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        z-index: -1;
+    }
+
+    span {
+        display: inline-block;
+        padding: 0 5px;
+    }
+}
+
+
+.product {
+    padding-bottom: 2em;
+    text-align: center;
+}
+.product__link {
+    display: block;
+}
+.product__info {
+    strong { display: block; }
+}
+.product__image {
+
+    img { max-width: 100%; }
+}

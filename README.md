@@ -6,7 +6,7 @@ This repository is the starter site for EPiServer Commerce based on MVC, aka "Qu
 Release Notes
 -------------
 
-**This is a pre-release of Quicksilver** and it lacks a number of features and may contain serious bugs. 
+**This is a pre-release of Quicksilver** and it lacks a number of features and may contain serious bugs.
 The following is a list of known issues with this pre-release:
 
 * Performance testing has not been done. There are a number of areas that will most likely be optimized for speed in a later release.
@@ -31,3 +31,14 @@ Installation
 5.  Start the site (Debug-Start from Visual studio) and browse to http://localhost:50244 to finish installation. Login with admin/store.
 
 Note: SQL scripts are executed using Windows authentication so make sure your user has sufficient permissions
+
+Styling
+-------
+
+The styling of the site is done in [less](http://lesscss.org/). In order to be able to recompile the less files to css you will need to
+install [nodejs](https://nodejs.org/). If you have nodejs the less files will be recompiled into css on every build. From the command line
+you can also execute the following command in folder "Sources\EPiServer.Reference.Commerce.Site\":
+
+```
+msbuild -t:BuildLessFiles
+```

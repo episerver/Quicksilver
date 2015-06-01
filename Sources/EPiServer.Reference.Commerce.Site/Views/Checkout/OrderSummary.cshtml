@@ -7,7 +7,7 @@
     <tbody>
         <tr>
             <td>@Html.Translate("/Checkout/SubTotal")</td>
-            <td class="total-price"><span class="pull-right">@Model.SubTotal.ToString()</span></td>
+            <td class="total-price"><strong class="pull-right">@Model.SubTotal.ToString()</strong></td>
         </tr>
         <tr>
             <td>
@@ -20,7 +20,7 @@
                 <span class="pull-right">- @Model.OrderDiscountTotal.ToString()</span><br />
                 @foreach (var discount in Model.OrderDiscounts)
                 {
-                    <span class="pull-right">@discount.Discount.ToString()</span><br />
+                    <strong class="pull-right">@discount.Discount.ToString()</strong><br />
                 }
             </td>    
         </tr>
@@ -43,18 +43,18 @@
                 </span> 
             </td>
             <td class="total-price">
-                <span class="pull-right">
+                <strong class="pull-right">
                     @Model.ShippingTaxTotal.ToString() <br />
                     @Model.ShippingSubtotal.ToString() <br />
                     - @Model.ShippingDiscountTotal.ToString() <br />
                     @Model.ShippingTotal.ToString() <br />
                     @Model.TaxTotal.ToString()
-                </span>
+                </strong>
             </td>
         </tr>
         <tr>
             <td>@Html.Translate("/Checkout/CartTotal")</td>
-            <td class="total-price"><span class="pull-right">@Model.CartTotal.ToString()</span></td>
+            <td class="total-price"><strong class="pull-right">@Model.CartTotal.ToString()</strong></td>
         </tr>
     </tbody>
 </table>

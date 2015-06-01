@@ -3,69 +3,58 @@
 
 <div class="row">
     <div class="product-details jsProductDetails">
-        <div class="col-md-6 product-item">
+        <div class="col-xs-12 col-md-6 product-details__media">
             <img src="@Model.Images.First()">
-            <p><a href="#">@Html.Translate("/ProductPage/LargerView")</a></p>
-            <ul>
-                <li><img src="~/Styles/Images/thumbnail-left.png"></li>
-                <li><img src="~/Styles/Images/mini-cart-item-example.png"></li>
-                <li><img src="~/Styles/Images/thumbnail-right.png"></li>
-            </ul>
-            <div class="social">
-                <p>
-                    <span class="social-icon social-icon--linkedin"></span>
-                    <span class="social-icon social-icon--twitter"></span>
-                    <span class="social-icon social-icon--facebook"></span>
-                    <span class="social-icon social-icon--googleplus"></span>
-                    <span class="social-icon social-icon--instagram"></span>
-                    <span class="social-icon social-icon--youtube"></span>
-                    <span class="social-icon social-icon--email"></span>
-                </p>
+
             </div>              
-        </div>
             
         <div class="col-md-6 product-info">
-            <h2>@Html.PropertyFor(x => x.Variation.DisplayName)</h2>
+            <h3>@Html.PropertyFor(x => x.Variation.DisplayName)</h3>
             <p>
                 @Html.PropertyFor(x => x.Product.Description)
             </p>
             <p>
-                SKU: @Html.PropertyFor(x => x.Variation.Code)
+                <strong>SKU:</strong> @Html.PropertyFor(x => x.Variation.Code)
             </p>
-            <ul class="usp" style="list-style:none">
+            <ul class="block-list">
                 <li>@Html.PropertyFor(x => x.Product.Brand)</li>
                 <li>@Html.PropertyFor(x => x.Product.LongDescription)</li>
             </ul>
             @using (Html.BeginForm("SelectVariant", "Product"))
             {
-                <p class="select-label">@Html.Translate("/ProductPage/VariationSelection/Color")</p>
-                @Html.DropDownListFor(x => x.Color, Model.Colors, new {@class = "form-control jsVariationSwitch"})
-                <p class="select-label">@Html.Translate("/ProductPage/VariationSelection/Size")</p>
-                @Html.DropDownListFor(x => x.Size, Model.Sizes, new {@class = "form-control jsVariationSwitch"})
+                <div class="form-group">
+                    <label for="Color">@Html.Translate("/ProductPage/VariationSelection/Color")</label>
+                    @Html.DropDownListFor(x => x.Color, Model.Colors, new { @class = "form-control jsVariationSwitch" })
+                </div>
+                <div class="form-group">
+                    <label for="Size">@Html.Translate("/ProductPage/VariationSelection/Size")</label>
+                    @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "form-control jsVariationSwitch" })
+                </div>
             }
-            <p><a href="#">@Html.Translate("/Product/Specification")<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a></p>
                 
-            
             @if (Model.Price < Model.OriginalPrice)
             {
-                <p class="discount-price">@Html.Translate("/ProductPage/DiscountPrice")  <strong>@Model.Price.ToString()</strong></p>
                 <p class="original-price">@Html.Translate("/ProductPage/OriginalPrice")  <strong>@Model.OriginalPrice.ToString()</strong></p>
+                <p class="discount-price">@Html.Translate("/ProductPage/DiscountPrice")  <strong>@Model.Price.ToString()</strong></p>
             }
             else
             {
-                <p> @Html.Translate("/ProductPage/Price")  <strong>@Model.Price.ToString()</strong></p>
+            <p>@Html.Translate("/ProductPage/Price")  <strong>@Model.Price.ToString()</strong></p>
             }    
             <p class="shopping-button">
-                @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "jsAddToCart" }))
+                @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline jsAddToCart" }))
                 {
                     @Html.Hidden("code", Model.Variation.Code)
-                    <button type="submit" role="button" class="btn">@Html.Translate("/Product/Button/AddToCart")<span class="cart-icon"></span></button>
+                    <button type="submit" role="button" class="btn btn--blue">@Html.Translate("/Product/Button/AddToCart")<span class="cart-icon"></span></button>
                 }
-                @using (Html.BeginForm("AddToWishList", "WishList", FormMethod.Post, new {@class = "jsAddToWishList"}))
+                @if (User.Identity.IsAuthenticated)
                 {
+                    using (Html.BeginForm("AddToWishList", "WishList", FormMethod.Post, new {@class = "form-inline jsAddToWishList"}))
+                    {
                     @Html.Hidden("code", Model.Variation.Code)
-                    <button type="submit" role="button" class="btn">@Html.Translate("/Product/Button/AddToWishList")<span class="star-icon"></span></button>
-                    <span style="display: none;" class="wishListResult">@Html.Translate("/ProductPage/addedtowishlist")</span>
+                    <button type="submit" role="button" class="btn btn--blue">@Html.Translate("/Product/Button/AddToWishList")<span class="star-icon"></span></button>
+                    <div style="display: none;" class="jsWishListResult alert"></div>
+                }
                 }
             </p>
                 

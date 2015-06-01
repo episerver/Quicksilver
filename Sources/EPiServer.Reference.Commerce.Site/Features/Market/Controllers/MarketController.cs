@@ -1,13 +1,11 @@
-﻿using EPiServer.Core;
+﻿using System.Linq;
+using System.Web.Mvc;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
-using EPiServer.ServiceLocation;
-using EPiServer.Web;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
-using System;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
@@ -15,45 +13,38 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
     {
         private readonly IMarketService _marketService;
         private readonly ICurrentMarket _currentMarket;
+        private readonly UrlResolver _urlResolver;
+        private readonly LanguageService _languageService;
 
-        public MarketController(IMarketService marketService, ICurrentMarket currentMarket)
+        public MarketController(IMarketService marketService, ICurrentMarket currentMarket, UrlResolver urlResolver, LanguageService languageService)
         {
             _marketService = marketService;
             _currentMarket = currentMarket;
+            _urlResolver = urlResolver;
+            _languageService = languageService;
         }
 
         [ChildActionOnly]
-        public ActionResult Index()
+        public ActionResult Index(ContentReference contentLink)
         {
             var model = new MarketViewModel
             {
                 Markets = _marketService.GetAllMarkets().Where(x => x.IsEnabled).OrderBy(x => x.MarketName),
-                CurrentMarket = _currentMarket.GetCurrentMarket()
+                CurrentMarket = _currentMarket.GetCurrentMarket(),
+                ContentLink = contentLink
             };
             return PartialView(model);
         }
 
         [HttpPost]
-        public ActionResult Set(string marketId)
+        public ActionResult Set(string marketId, ContentReference contentLink)
         {
             _currentMarket.SetCurrentMarket(new MarketId(marketId));
             var currentMarket = _marketService.GetMarket(new MarketId(marketId));
-            var urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
-            var url = Request.UrlReferrer == null ? "/" : Request.UrlReferrer.PathAndQuery;
-            var content = urlResolver.Route(new UrlBuilder(Request.UrlReferrer));
-            if (content != null)
-            {
-                if (content.ContentLink.ID > 0)
-                {
-                    url = urlResolver.GetUrl(content.ContentLink, currentMarket.DefaultLanguage.Name);
-                    if (Request.UrlReferrer != null && !String.IsNullOrEmpty(Request.UrlReferrer.Query))
-                    {
-                        url += Request.UrlReferrer.Query;
-                    }
-                }
-            }
+            _languageService.SetCurrentLanguage(currentMarket.DefaultLanguage.Name);
 
-            return Json(new { returnUrl = url });
+            var returnUrl = _urlResolver.GetUrl(Request, contentLink, currentMarket.DefaultLanguage.Name);       
+            return Json(new { returnUrl });
         }
     }
 }

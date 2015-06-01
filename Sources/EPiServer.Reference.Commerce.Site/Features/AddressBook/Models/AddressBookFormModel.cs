@@ -57,6 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Models
         public string DaytimePhoneNumber { get; set; }
 
         [LocalizedDisplay("/AddressBook/Form/Label/Email")]
+        [LocalizedEmail("/AddressBook/Form/Error/InvalidEmail")]
         public string Email { get; set; }
 
         [LocalizedDisplay("/AddressBook/Form/Label/ShippingAddress")]

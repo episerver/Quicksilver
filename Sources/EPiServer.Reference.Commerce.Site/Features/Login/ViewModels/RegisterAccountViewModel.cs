@@ -74,7 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
         public string PostalCode { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the user whishes to subscribe to newsletters.
+        /// Gets or sets whether the user wishes to subscribe to newsletters.
         /// </summary>
         public bool Newsletter { get; set; }
 

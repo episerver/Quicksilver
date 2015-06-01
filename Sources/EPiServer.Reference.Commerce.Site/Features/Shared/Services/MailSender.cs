@@ -20,8 +20,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         private readonly IContentLoader _contentLoader;
         private readonly IHtmlDownloader _htmlDownloader;
 
-        public MailSender(HttpContextBase httpContextBase, 
-            UrlResolver urlResolver, 
+        public MailSender(HttpContextBase httpContextBase,
+            UrlResolver urlResolver,
             IContentLoader contentLoader,
             IHtmlDownloader htmlDownloader)
         {
@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             MailMessage message = new MailMessage()
             {
                 Subject = subject,
-                Body = body, 
+                Body = body,
                 IsBodyHtml = true
             };
 

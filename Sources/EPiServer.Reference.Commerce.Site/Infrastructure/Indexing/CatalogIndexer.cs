@@ -22,14 +22,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 {
     public class CatalogIndexer : CatalogIndexBuilder
     {
-// ReSharper disable UnassignedField.Local
         private Injected<IPriceService> _priceService;
         private Injected<IPricingService> _pricingService;
         private Injected<IContentLoader> _contentLoader;
         private Injected<ReferenceConverter> _referenceConverter;
-// ReSharper restore UnassignedField.Local
 
-        private readonly ILogger _log = LogManager.GetLogger(typeof (CatalogIndexer));
+        private readonly ILogger _log = LogManager.GetLogger(typeof(CatalogIndexer));
 
         /// <summary>
         ///     Called when a catalog entry is indexed.
@@ -49,6 +47,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                 AddPrices(document, variants);
                 AddColors(document, variants);
                 AddSizes(document, variants);
+                AddCodes(document, variants);
+                document.Add(new SearchField("code", productContent.Code, new string[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
                 document.Add(new SearchField("displayname", productContent.DisplayName));
                 document.Add(new SearchField("image_url", productContent.GetDefaultAsset()));
                 document.Add(new SearchField("content_link", productContent.ContentLink.ToString()));
@@ -65,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         {
             var category = _contentLoader.Service.Get<CatalogContentBase>(nodeContent.ParentLink);
             if (category.ContentType == CatalogContentType.Catalog)
-            { 
+            {
                 return (NodeContent)nodeContent;
             }
             return GetTopCategory(category);
@@ -111,10 +111,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                         continue;
 
                     var variationPrice = new SearchField(IndexingHelper.GetOriginalPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
-                        topPrice.UnitPrice.Amount.ToString(CultureInfo.InvariantCulture));
+                        topPrice.UnitPrice.Amount);
 
                     var discountPrice = new SearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
-                        _pricingService.Service.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture));
+                        _pricingService.Service.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount);
 
                     document.Add(variationPrice);
                     document.Add(discountPrice);
@@ -122,6 +122,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
         }
 
-        
+        private void AddCodes(ISearchDocument document, IEnumerable<FashionVariant> variants)
+        {
+            foreach (var variant in variants)
+            {
+                document.Add(new SearchField("code", variant.Code, new string[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
+            }
+        }
     }
 }

@@ -40,6 +40,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
 
         public IEnumerable<CartItem> GetCartItems()
         {
+            if (CartHelper.IsEmpty)
+            {
+                return Enumerable.Empty<CartItem>();
+            }
+
             CartHelper.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             var lineItems = CartHelper.Cart.GetAllLineItems();
 
@@ -57,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
                 Quantity = lineItem.Quantity,
                 Url = lineItem.GetUrl(),
                 Variant = variants.FirstOrDefault(variant => variant.Code == lineItem.Code),
-                Discounts = lineItem.Discounts.Cast<LineItemDiscount>().Select(x => new OrderDiscountModel 
+                Discounts = lineItem.Discounts.Cast<LineItemDiscount>().Select(x => new OrderDiscountModel
                 {
                     Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)),
                     Displayname = x.DisplayMessage
@@ -67,16 +72,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
 
         public Money GetTotal()
         {
+            if (CartHelper.IsEmpty)
+            {
+                return ConvertToMoney(0);
+            }
+
             CartHelper.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
-            var cart = CartHelper.Cart;
-            return new Money(cart.GetAllLineItems().Sum(x => x.ExtendedPrice + x.OrderLevelDiscountAmount), cart.BillingCurrency);
+
+            return ConvertToMoney(CartHelper.Cart.Total);
         }
 
         public Money GetTotalDiscount()
         {
+            decimal amount = 0;
+
+            if (CartHelper.IsEmpty)
+            {
+                return ConvertToMoney(amount);
+            }
+
             CartHelper.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
-            var cart = CartHelper.Cart;
-            return new Money(cart.GetAllLineItems().Sum(x => x.LineItemDiscountAmount), cart.BillingCurrency);
+
+            amount = CartHelper.Cart.GetAllLineItems().Sum(x => x.LineItemDiscountAmount);
+
+            return ConvertToMoney(amount);
         }
 
         public void AddToCart(string code)
@@ -106,7 +125,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
             var lineItem = CartHelper.Cart.GetLineItem(code);
             if (lineItem != null)
             {
-                lineItem.Delete();
+                PurchaseOrderManager.RemoveLineItemFromOrder(CartHelper.Cart, lineItem.LineItemId);
                 AcceptChanges();
             }
         }
@@ -121,6 +140,76 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
         private CartHelper CartHelper
         {
             get { return _cartHelper(); }
+        }
+
+        /// <summary>
+        /// Converts an amount into a Money struct having the same currency as the current cart.
+        /// </summary>
+        /// <param name="amount">The amount to convert.</param>
+        /// <returns>A Money for the provided amount and in the currency of the current cart.</returns>
+        public Money ConvertToMoney(decimal amount)
+        {
+            return new Money(amount, new Currency(CartHelper.Cart.BillingCurrency));
+        }
+
+        public Money GetSubTotal()
+        {
+            decimal amount = CartHelper.Cart.SubTotal + CartHelper.Cart.OrderForms.SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountAmount);
+
+            return ConvertToMoney(amount);
+        }
+
+        public Money GetShippingSubTotal()
+        {
+            decimal amount = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShipmentTotal) + CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShippingDiscountAmount);
+
+            return ConvertToMoney(amount);
+        }
+
+        public Money GetShippingTotal()
+        {
+            return ConvertToMoney(CartHelper.Cart.ShippingTotal);
+        }
+
+        public Money GetTaxTotal()
+        {
+            return ConvertToMoney(CartHelper.Cart.TaxTotal);
+        }
+
+        public Money GetShippingTaxTotal()
+        {
+            decimal amount = CartHelper.Cart.ShippingTotal + CartHelper.Cart.TaxTotal;
+
+            return ConvertToMoney(amount);
+        }
+
+        public Money GetOrderDiscountTotal()
+        {
+            decimal amount = GetOrderForms().SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountAmount);
+
+            return ConvertToMoney(amount);
+        }
+
+        public Money GetShippingDiscountTotal()
+        {
+            decimal amount = GetOrderForms().SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Sum(x => x.DiscountAmount);
+
+            return ConvertToMoney(amount);
+        }
+
+        public IEnumerable<OrderForm> GetOrderForms()
+        {
+            return CartHelper.Cart.OrderForms.Count == 0 ? new[] { new OrderForm() } : CartHelper.Cart.OrderForms.ToArray();
+        }
+
+        public void RunWorkflow(string workFlowName)
+        {
+            CartHelper.RunWorkflow(workFlowName);
+        }
+
+        public void SaveCart()
+        {
+            AcceptChanges();
         }
     }
 }

@@ -47,6 +47,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         [HttpPost]
         public ActionResult Save(AddressBookFormModel formModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("EditForm", formModel);
+            }
+
             _addressBookService.Save(formModel);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }

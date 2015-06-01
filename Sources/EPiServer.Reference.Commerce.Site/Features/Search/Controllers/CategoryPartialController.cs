@@ -11,11 +11,12 @@ using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 {
-    public abstract class CategoryPartialController : PartialContentController<NodeContent>
+    [TemplateDescriptor(Inherited = true)]
+    public class CategoryPartialController : PartialContentController<NodeContent>
     {
         private readonly SearchViewModelFactory _viewModelFactory;
 
-        protected CategoryPartialController(SearchViewModelFactory viewModelFactory)
+        public CategoryPartialController(SearchViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
         }
@@ -27,7 +28,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
             return PartialView("_Category", productModels);
         }
 
-        protected abstract IEnumerable<ProductViewModel> GetProductModels(NodeContent currentContent);
+        protected IEnumerable<ProductViewModel> GetProductModels(NodeContent currentContent)
+        {
+            return GetSearchModel(currentContent, 3).ProductViewModels;
+        }
 
         protected virtual SearchViewModel<NodeContent> GetSearchModel(NodeContent currentContent, int pageSize)
         {

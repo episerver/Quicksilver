@@ -18,9 +18,8 @@ else
 @Html.PropertyFor(
     x => x.StartPage.RightMenu, new 
     {
-        @class = "pull-right", 
-        @style = "padding-top: 5px;margin-bottom: 0px;", 
-        @itemStyle = "float: left;list-style: none;padding-right: 10px;",
+        @class = "nav settings-bar__nav",
+        @anchorClass = "link--white",
         additionalLink = additionalLink
     }
 )

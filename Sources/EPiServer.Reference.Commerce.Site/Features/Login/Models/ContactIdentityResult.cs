@@ -1,9 +1,6 @@
-﻿using Mediachase.Commerce.Customers;
+﻿using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
 {
@@ -12,9 +9,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
     /// </summary>
     public class ContactIdentityResult
     {
-
-        private CustomerContact _contact;
-        private IdentityResult _result;
+        private readonly CustomerContact _contact;
+        private readonly IdentityResult _result;
 
         /// <summary>
         /// Returns a new instance of a ContactIdentityResult.
@@ -23,18 +19,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
         /// <param name="contact">A CustomerContact entity related to the IdentityResult.</param>
         public ContactIdentityResult(IdentityResult result, CustomerContact contact)
         {
-            _result = result;
             _contact = contact;
+            _result = result;
         }
 
-        /// <summary>
-        /// Gets the result of the Identity action.
-        /// </summary>
-        public IdentityResult Result
-        {
-            get { return _result; }
-        }
-        
         /// <summary>
         /// Gets the CustomerContact involved in the Identity action.
         /// </summary>
@@ -42,6 +30,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
         {
             get { return _contact; }
         }
-        
+
+        /// <summary>
+        /// Gets the outcome of the related identity action.
+        /// </summary>
+        public IdentityResult Result
+        {
+            get { return _result; }
+        }
     }
 }

@@ -1,0 +1,42 @@
+.product-details {
+}
+.product-details__media {
+    border-bottom: 1px solid @light-grey;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+
+    img {
+        max-width: 100%;
+    }
+}
+.product-details__media__thumbnails {
+    margin-bottom: 1em;
+    
+    li {
+        display: inline-block;
+    }
+}
+.original-price {
+    color: @grey;
+    text-decoration: line-through;
+}
+.discount-price {
+    color: @green;
+}
+
+// Medium and up
+@media (min-width: @screen-md-min) {
+    .product-details__media { 
+        border-bottom: 0px;
+        margin-bottom: 0;
+        padding-bottom: 2em;
+    }
+    .product-row .col-md-6:nth-of-type(2n+1) { clear: left; }
+}
+
+// Large and up
+@media (min-width: @screen-lg-min) {
+    .product-row .col-md-6:nth-of-type(2n+1) { clear: none; }
+    .product-row .col-lg-4:nth-of-type(3n+1) { clear: left; }
+}

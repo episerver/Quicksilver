@@ -1,0 +1,15 @@
+{
+  "name": "EPiServer.Reference.Commerce.Site",
+  "version": "0.0.1",
+  "description": "A reference site for EPiServer.Commerce",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildless" :  "lessc Styles/style.less > Styles/style.css"
+  },
+  "author": "EPiServer",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "less": "^2.5.1"
+  }
+}

@@ -5,9 +5,9 @@
 <div class="col-md-3 jsSearchFacets">
     <p class="select-label">@Html.Translate("/Category/SortBy")</p>
     @Html.DropDownList("FormModel.Sort", Model.Sorting, new {@class = "form-control jsSearchSort"})
-    <div class="quicksilver-well product-filtering choices">
+    <div class="section-box product-filtering choices">
         <h3>@Html.Translate("/Category/YourChoices")</h3>
-        <ul>
+        <ul class="nav">
             @for (var i = 0; i < Model.FacetGroups.Count; i++)
             {
                 var facetGroup = Model.FacetGroups[i];
@@ -21,8 +21,7 @@
                     <li>
                         <label style="font-weight: normal; display: block;">
                             @Html.CheckBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Selected", i, j), 
-                                facet.Selected, 
-                                new { @class = "jsSearchFacet", @style = "position: absolute;z-index: -100;", data_facetname = @facet.Name }) 
+                                new { @class = "jsSearchFacet", @style = "position: absolute;z-index: -100;", data_facetname = @facet.Name, @checked = "checked" }) 
                             @facet.Name <span class="remove"></span>
                         </label>
                         @Html.TextBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Name", i, j), facet.Name, new { @hidden = "true" })
@@ -34,15 +33,12 @@
             </li>
         </ul>
         <hr />
-        <ul>
-            @if (Model.FacetGroups.Any(x => x.Facets.Any(y => y.Selected)))
-            {
-                <li class="jsSearchFacetRemoveAll">@Html.Translate("/Category/RemoveAll") <span class="remove"></span></li>
-            }
-        </ul>
+        @if (Model.FacetGroups.Any(x => x.Facets.Any(y => y.Selected))) {
+            <button type="button" class="btn btn--flat btn-sm jsSearchFacetRemoveAll">@Html.Translate("/Category/RemoveAll") <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        }
     </div>
             
-    <div class="quicksilver-well product-filtering">
+    <div class="section-box product-filtering">
         @for (var i = 0; i < Model.FacetGroups.Count; i++)
         {
             var facetGroup = Model.FacetGroups[i];
@@ -52,25 +48,25 @@
             }
             <h3>@facetGroup.GroupName</h3>
             @Html.TextBox(string.Format("FormModel.FacetGroups[{0}].GroupFieldName", i), facetGroup.GroupFieldName, new { @hidden = "true" })
-            <ul>
-                @for (var j = 0; j < facetGroup.Facets.Count; j++)
-                {
-                    var facet = facetGroup.Facets[j];
-                    if (facet.Selected)
-                    {
-                        continue;
-                    }
-                    <li>
-                        <label style="font-weight: normal; display: block;">
-                            @Html.CheckBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Selected", i, j), 
-                                facet.Selected, 
+    <ul class="nav">
+        @for (var j = 0; j < facetGroup.Facets.Count; j++)
+        {
+            var facet = facetGroup.Facets[j];
+            if (facet.Selected)
+            {
+                continue;
+            }
+            <li>
+                <label style="font-weight: normal; display: block;">
+                    @Html.CheckBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Selected", i, j),
+                                facet.Selected,
                                 new { @class = "jsSearchFacet", @style = "position: absolute;z-index: -100;", data_facetname = @facet.Name })
-                            @facet.Name <span>@facet.Count</span>
-                        </label>
-                        @Html.TextBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Name", i, j), facet.Name, new { @hidden = "true" })
-                    </li>
-                }
-            </ul>
+                    @facet.Name <span class="counter counter--medium">@facet.Count</span>
+                </label>
+                @Html.TextBox(string.Format("FormModel.FacetGroups[{0}].Facets[{1}].Name", i, j), facet.Name, new { @hidden = "true" })
+            </li>
+        }
+    </ul>
         }
     </div>
 </div>

@@ -38,7 +38,6 @@
       <Social>Be Social</Social>
     </Footer>
     <Product>
-      <Specification>See the complete specification</Specification>
       <Dropdown>
         <Currency>Show prices in</Currency>
       </Dropdown>
@@ -48,12 +47,12 @@
       </Button>
     </Product>
     <ProductPage>
-      <addedtowishlist>Item added to wish list</addedtowishlist>
+      <AddedToWishList>Item added to wish list</AddedToWishList>
+      <NotAddedToWishList>The item could not be added to wish list</NotAddedToWishList>
       <Price>Price</Price>
       <OriginalPrice>Original Price</OriginalPrice>
       <DiscountPrice>Discount Price</DiscountPrice>
       <PriceMissing>Not set for this market</PriceMissing>
-      <LargerView>Click the images for a larger view</LargerView>
       <VariationSelection>
         <Color>Select Color</Color>
         <Size>Select Size</Size>
@@ -78,6 +77,9 @@
         <Empty>
           <ChoosePayment>Payment is required</ChoosePayment>
         </Empty>
+        <Errors>
+          <PreProcessingFailure>Failed to pre-process the payment.</PreProcessingFailure>
+        </Errors>
         <Methods>
           <CreditCard>
             <Labels>
@@ -94,6 +96,12 @@
               <ExpirationMonth>Expiration month is required</ExpirationMonth>
               <ExpirationYear>Expiration Year is required</ExpirationYear>
             </Empty>
+            <ValidationErrors>
+              <CreditCardNumber>The credit card number is not valid. Last digit should be 4</CreditCardNumber>
+              <CreditCardSecurityCode>The CSV code should be 3 digits</CreditCardSecurityCode>
+              <ExpirationMonth>Expiration month can't be older than the current month</ExpirationMonth>
+              <ExpirationYear>Expiration year can't be older than the current year</ExpirationYear>
+            </ValidationErrors>
           </CreditCard>
         </Methods>
       </Payment>
@@ -156,6 +164,9 @@
         <ExpirationDate>Expiration date</ExpirationDate>
         <CVV>CVV</CVV>
       </PaymentInfo>
+      <ErrorMessages>
+        <SmtpFailure>Your purchase has been processed but the receipt could not be sent to the address {0}. Make sure to print this page and keep it for further reference.</SmtpFailure>
+      </ErrorMessages>
     </OrderConfirmationMail>
     <OrderConfirmation>
       <SubTotal>Sub Total For Your Items</SubTotal>
@@ -364,6 +375,7 @@
           <CountryName>Country name is required</CountryName>
         </Empty>
         <Error>
+          <InvalidEmail>You have to enter a valid email</InvalidEmail>
         </Error>
       </Form>
     </AddressBook>
@@ -384,6 +396,7 @@
     <Wishlist>
       <NoItems>You don't have any items in your wish list.</NoItems>
       <DeleteButton>Delete entire wishlist</DeleteButton>
+      <RemoveItem>Remove from wishlist</RemoveItem>
     </Wishlist>
     <Search>
       <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>

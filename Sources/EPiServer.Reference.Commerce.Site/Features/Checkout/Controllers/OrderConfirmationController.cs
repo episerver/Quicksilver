@@ -23,16 +23,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _currencyService = currencyService;
         }
 
+        /// <summary>
+        /// Renders the order confirmation view to the customer.
+        /// </summary>
+        /// <param name="currentPage">An instance of an OrderConfirmationPage.</param>
+        /// <param name="notificationMessage">Any additional message that is vital to present to the customer.</param>
+        /// <param name="contactId">The id of the contact if available.</param>
+        /// <param name="orderNumber">The id of the related order.</param>
+        /// <returns>The order confirmation view.</returns>
         [HttpGet]
-        public ActionResult Index(OrderConfirmationPage currentPage, Guid? contactId = null, int orderNumber = 0)
+        public ActionResult Index(OrderConfirmationPage currentPage, string notificationMessage, Guid? contactId = null, int orderNumber = 0)
         {
             var order = _confirmationService.GetOrder(orderNumber, PageEditing.PageIsInEditMode);
             if (order == null && !PageEditing.PageIsInEditMode)
             {
                 return HttpNotFound();
             }
+
             var model = CreateViewModel(currentPage, order);
-            
+            model.NotificationMessage = notificationMessage;
+
             return View(model);
         }
 

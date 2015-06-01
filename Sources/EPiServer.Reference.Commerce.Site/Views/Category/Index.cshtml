@@ -1,14 +1,16 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Search.Models.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Models.FashionNode>
-<div class="row category-page">
-    <div class="col-md-12">
-        <h2>@Html.PropertyFor(x => x.CurrentContent.DisplayName)</h2>
-    </div>
-    @using (Html.BeginForm("Index", "Category", FormMethod.Get, new {@class = "jsSearchForm"}))
-    {
-        @Html.Partial("_Facet", Model.FormModel)
-        <div class="col-md-9">
-            @Html.Partial("_ProductList", Model.ProductViewModels)
+<div class="container-fluid">
+    <div class="row category-page">
+        <div class="col-md-12">
+            <h2>@Html.PropertyFor(x => x.CurrentContent.DisplayName)</h2>
         </div>
-        <input class="jsSearchPage" hidden id="FormModel_Page" name="FormModel.Page" type="text" value="@(Model.FormModel.Page + 1)" />
-    }
+        @using (Html.BeginForm("Index", "Category", FormMethod.Get, new { @class = "jsSearchForm" }))
+        {
+            @Html.Partial("_Facet", Model.FormModel)
+            <div class="col-md-9">
+                @Html.Partial("_ProductList", Model.ProductViewModels)
+            </div>
+            <input class="jsSearchPage" hidden id="FormModel_Page" name="FormModel.Page" type="text" value="@(Model.FormModel.Page + 1)" />
+        }
+    </div>
 </div>

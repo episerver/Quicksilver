@@ -4,7 +4,7 @@
 }
 <div>
     <h3>@Html.Translate("/Registration/OrderConfirmation/Heading")</h3>
-    @using (Html.BeginForm("Register", "OrderConfirmationRegistrationBlock", FormMethod.Post, new {@class = "form jsOrderConfirmationRegistration", @role = "form"}))
+    @using (Html.BeginForm("Register", "OrderConfirmationRegistrationBlock", FormMethod.Post, new { @class = "form jsOrderConfirmationRegistration", @role = "form" }))
     {
         <div class="form-group">
             @Html.LabelFor(x => x.FormModel.Password)
@@ -12,12 +12,13 @@
             @Html.ValidationMessageFor(x => x.FormModel.Password)
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => x.FormModel.Password)
+            @Html.LabelFor(x => x.FormModel.Password2)
             @Html.PasswordFor(x => x.FormModel.Password2, new { @class = "form-control", @placeholder = Html.Translate("/OrderConfirmation/Labels/Placeholder") })
             @Html.ValidationMessageFor(x => x.FormModel.Password2)
         </div>
         @Html.HiddenFor(x => x.FormModel.OrderNumber)
         @Html.HiddenFor(x => x.FormModel.ContactId)
+
         <button type="submit" class="btn">@Html.Translate("/Registration/Form/Label/Submit")</button>
     }
 </div>

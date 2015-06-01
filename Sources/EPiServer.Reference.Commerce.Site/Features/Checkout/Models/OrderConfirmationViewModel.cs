@@ -19,5 +19,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         public DateTime Created { get; set; }
         public int GroupId { get; set; }
         public Money TotalPrice { get; set; }
+        public string NotificationMessage { get; set; }
     }
 }
