@@ -1,14 +1,8 @@
-﻿using EPiServer.Core;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
-using Mediachase.Commerce.Website.Search;
-using Mediachase.Search;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Core;
+using EPiServer.Framework.Localization;
+using Mediachase.Search;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
 {
@@ -38,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
 
             var customSearchResult = _searchService.Search(currentContent, formModel);
 
-            formModel.TotalCount = customSearchResult.SearchResult.TotalCount;
+            formModel.TotalCount = customSearchResult.SearchResult != null ? customSearchResult.SearchResult.TotalCount : 0;
             formModel.FacetGroups = customSearchResult.FacetGroups.ToList();
 
             formModel.Sorting = _searchService.GetSortOrder().Select(x => new SelectListItem
@@ -52,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
             {
                 CurrentContent = currentContent,
                 ProductViewModels = customSearchResult.ProductViewModels,
-                Facets = customSearchResult.SearchResult.FacetGroups,
+                Facets = customSearchResult.SearchResult != null ? customSearchResult.SearchResult.FacetGroups : new ISearchFacetGroup[0],
                 FormModel = formModel
             };
         }

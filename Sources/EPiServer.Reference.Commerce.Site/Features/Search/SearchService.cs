@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web.Helpers;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Globalization;
+using EPiServer.Logging.Compatibility;
 using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Extensions;
@@ -13,6 +16,7 @@ using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Indexing;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Lucene.Net.QueryParsers;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Website.Search;
@@ -28,6 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
         private readonly ICurrentMarket _currentMarket;
         private readonly CurrencyService _currencyService;
         private readonly UrlResolver _urlResolver;
+        private static ILog _log = LogManager.GetLogger(typeof(SearchService));
 
         public SearchService(ICurrentMarket currentMarket, CurrencyService currencyService, UrlResolver urlResolver)
         {
@@ -52,7 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
             }
             if (!string.IsNullOrEmpty(filterOptions.Q))
             {
-                criteria.SearchPhrase = filterOptions.Q + "*";
+                criteria.SearchPhrase = GetEscapedSearchPhrase(filterOptions.Q);
             }
             
             return Search(criteria);
@@ -111,8 +116,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
         private CustomSearchResult Search(CatalogEntrySearchCriteria criteria)
         {
             SearchFilterHelper.Current.SearchConfig.SearchFilters.ToList().ForEach(criteria.Add);
+            ISearchResults searchResult;
 
-            var searchResult = _searchManager.Search(criteria);
+            try
+            {
+                searchResult = _searchManager.Search(criteria);
+            }
+            catch (ParseException parseException)
+            {
+                if (_log.IsErrorEnabled)
+                {
+                    _log.Error(String.Format(CultureInfo.InvariantCulture, "Search '{0}' throw an exception.", criteria.SearchPhrase), parseException);
+                }
+
+                return new CustomSearchResult
+                {
+                    FacetGroups = new List<FacetGroupOption>(),
+                    ProductViewModels = new List<ProductViewModel>()
+                };
+            } 
 
             var facetGroups = new List<FacetGroupOption>();
             foreach (var searchFacetGroup in searchResult.FacetGroups)
@@ -158,11 +180,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                 StartingRecord = 0,
                 RecordsToRetrieve = pageSize,
                 Sort = new SearchSort(new SearchSortField(sortOrder.Key, sortOrder.SortDirection == SortDirection.Descending)),
-                SearchPhrase = query
+                SearchPhrase = GetEscapedSearchPhrase(query)
             };
 
-            var searchResult = _searchManager.Search(criteria);
-            return CreateProductViewModels(searchResult);
+            try
+            {
+                var searchResult = _searchManager.Search(criteria);
+                return CreateProductViewModels(searchResult);
+            }
+            catch (ParseException parseException)
+            {
+                if (_log.IsErrorEnabled)
+                {
+                    _log.Error(String.Format(CultureInfo.InvariantCulture, "Quick search '{0}' throw an exception.", criteria.SearchPhrase), parseException);
+                }
+
+                return new ProductViewModel[0];
+            } 
         }
 
         public IEnumerable<SortOrder> GetSortOrder()
@@ -191,6 +225,51 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                     Image = document.GetString("image_url"),
                     Url = _urlResolver.GetUrl(ContentReference.Parse(document.GetString("content_link")))
             });
+        }
+
+        private static string GetEscapedSearchPhrase(string query)
+        {
+            var searchPhrase = RemoveInvalidCharacters(query);
+            if (String.IsNullOrEmpty(searchPhrase))
+            {
+                return string.Empty;
+            }
+
+            return String.Concat(searchPhrase, "*");
+        }
+
+        private static string RemoveInvalidCharacters(string s)
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var ch in s)
+            {
+                switch (ch)
+                {
+                    case '\\':
+                    case '+':
+                    case '-':
+                    case '!':
+                    case '(':
+                    case ')':
+                    case ':':
+                    case '^':
+                    case '[':
+                    case ']':
+                    case '"':
+                    case '{':
+                    case '}':
+                    case '~':
+                    case '*':
+                    case '?':
+                    case '|':
+                    case '&':
+                        continue;
+                }
+
+                stringBuilder.Append(ch);
+            }
+
+            return stringBuilder.ToString().Trim();
         }
     }
 }
