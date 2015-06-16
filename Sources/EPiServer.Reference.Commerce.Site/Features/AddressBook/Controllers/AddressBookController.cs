@@ -5,6 +5,8 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
 using System;
 using System.Web.Mvc;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 {
@@ -13,12 +15,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly IAddressBookService _addressBookService;
+        private readonly LocalizationService _localizationService;
 
         public AddressBookController(IContentLoader contentLoader,
-            IAddressBookService addressBookService)
+            IAddressBookService addressBookService, 
+            LocalizationService localizationService)
         {
             _contentLoader = contentLoader;
             _addressBookService = addressBookService;
+            _localizationService = localizationService;
         }
 
         [HttpGet]
@@ -38,18 +43,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditForm(AddressBookFormModel formModel)
+        public ActionResult GetRegionsForCountry(string countryCode, string region)
         {
-            var model = _addressBookService.LoadFormModel(formModel);
-            return PartialView(model);
+            var viewModel = new AddressModelBase();
+            viewModel.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
+            viewModel.Region = region;
+
+            return PartialView("_AddressRegion", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCountrySelection(AddressBookFormModel formModel)
+        {
+            _addressBookService.UpdateCountrySelection(formModel);
+            return PartialView("EditForm", formModel);
         }
 
         [HttpPost]
         public ActionResult Save(AddressBookFormModel formModel)
         {
+            if (!_addressBookService.CanSave(formModel))
+            {
+                ModelState.AddModelError("Name", _localizationService.GetString("/AddressBook/Form/Error/ExistingAddress"));
+            }
+
             if (!ModelState.IsValid)
             {
-                return View("EditForm", formModel);
+                var model = _addressBookService.LoadFormModel(formModel);
+                return View("EditForm", model);
             }
 
             _addressBookService.Save(formModel);
@@ -64,16 +85,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetPrimaryShippingAddress(Guid addressId)
+        public ActionResult SetPreferredShippingAddress(Guid addressId)
         {
-            _addressBookService.SetPrimaryShippingAddress(addressId);
+            _addressBookService.SetPreferredShippingAddress(addressId);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
 
         [HttpPost]
-        public ActionResult SetPrimaryBillingAddress(Guid addressId)
+        public ActionResult SetPreferredBillingAddress(Guid addressId)
         {
-            _addressBookService.SetPrimaryBillingAddress(addressId);
+            _addressBookService.SetPreferredBillingAddress(addressId);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
 

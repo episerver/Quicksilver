@@ -7,7 +7,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
 {
     public interface ICartService
     {
-        IReadOnlyCollection<LineItem> GetAllLineItems();
+        decimal GetLineItemsTotalQuantity();
         IEnumerable<CartItem> GetCartItems();
         Money GetSubTotal();
         Money GetTotal();

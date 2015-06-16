@@ -20,19 +20,35 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         public static IEnumerable<PageData> GetSiblings(this PageData pageData)
         {
+            return GetSiblings(pageData, _contentLoader.Service);
+        }
+
+        public static IEnumerable<PageData> GetSiblings(this PageData pageData, IContentLoader contentLoader)
+        {
             var filter = new FilterContentForVisitor();
-            return  _contentLoader.Service.GetChildren<PageData>(pageData.ParentLink).Where(page => !filter.ShouldFilter(page));
+            return contentLoader.GetChildren<PageData>(pageData.ParentLink).Where(page => !filter.ShouldFilter(page));
         }
 
         public static string GetUrl(this VariationContent variant)
         {
-            var productLink = variant.GetParentProducts(_linksRepository.Service).FirstOrDefault();
+            return GetUrl(variant, _linksRepository.Service, _urlResolver.Service);
+        }
+
+        public static string GetUrl(this VariationContent variant, ILinksRepository linksRepository, UrlResolver urlResolver)
+        {
+            var productLink = variant.GetParentProducts(linksRepository).FirstOrDefault();
             if (productLink == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
-            var urlBuilder = new UrlBuilder(_urlResolver.Service.GetUrl(productLink));
-            urlBuilder.QueryCollection.Add("variationId", variant.Code);
+
+            var urlBuilder = new UrlBuilder(urlResolver.GetUrl(productLink));
+
+            if (variant.Code != null)
+            {
+                urlBuilder.QueryCollection.Add("variationId", variant.Code);
+            }
+            
             return urlBuilder.ToString();
         }
     }

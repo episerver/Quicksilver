@@ -28,14 +28,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
-                                    <address>
-                                        <p>@Html.Raw(address.ToString())</p>
-                                        <button type="button" class="btn btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })';">Edit</button>
-                                        @using (Html.BeginForm("Remove", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
-                                        {
-                                            <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
-                                        }
-                                    </address>
+                                    @Html.Partial("Address", address)
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <strong class="small">@Html.Translate("/AddressBook/Form/Label/DateModified")</strong>
@@ -47,7 +40,7 @@
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("SetPrimaryBillingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                        using (Html.BeginForm("SetPreferredBillingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
                                         {
                                             <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/SetBillingAddress")</button>
                                             <br />
@@ -59,7 +52,7 @@
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("SetPrimaryShippingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                        using (Html.BeginForm("SetPreferredShippingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
                                         {
                                             <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/SetShippingAddress")</button>
                                             <br />

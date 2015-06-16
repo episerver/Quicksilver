@@ -1,11 +1,10 @@
-﻿using System;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.WishList.Pages;
 using EPiServer.Web.Mvc;
+using System;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.WishList.Controllers

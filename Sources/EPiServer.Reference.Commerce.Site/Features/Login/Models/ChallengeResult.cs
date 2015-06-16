@@ -8,7 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
     /// Result class used for authenticating users against external login providers such as Facebook
     /// and Google+.
     /// </summary>
-    internal class ChallengeResult : HttpUnauthorizedResult
+    public class ChallengeResult : HttpUnauthorizedResult
     {
         private const string _xsrfKey = "XsrfId";
 

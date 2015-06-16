@@ -4,7 +4,6 @@
             .on('focusout', '.jsQuantity', Cart.changeQuantityOnFocusout)
             .on('submit', '.jsQuantitySubmit', Cart.changeQuantityOnSubmit)
             .on('click', '.jsRemoveLineItem', Cart.removeLineItem)
-            .on('click', '.jsCartToggle', Cart.details)
             .on('change', '.jsMiniCartQuantity', Cart.changeQuantityMiniCart)
             .on('submit', '.jsAddToCart', Cart.addToCart)
             .on('submit', '.jsAddToWishList', Cart.addToWishList)
@@ -12,6 +11,7 @@
             .on('click', '.jsCartDropdown', function(e) {
                 return $(e.target).hasClass('btn');
             });
+        $('#miniCartDropdown').on('show.bs.dropdown', Cart.showingMiniCartDropdown);
     },
     changeQuantityMiniCart: function(e) {
         e.preventDefault();
@@ -107,7 +107,7 @@
             url: form[0].action,
             data: form.serialize(),
             success: function (result) {
-                $('.jsWishListResult')[0].innerText = result.message;
+                $('.jsWishListResult').text(result.message);
                 $('.jsWishListResult').show();
 
                 if (result.added) {
@@ -130,16 +130,10 @@
             }
         });
     },
-    details : function(e) {
-        e.preventDefault();
-        if ($('.jsCartDropdown').children().length == 0) {
-            $.ajax({
-                type: "GET",
-                url: $(this).data('url'),
-                success: function(result) {
-                    $('.jsCartDropdown').replaceWith($(result).first());
-                }
-            });
+    showingMiniCartDropdown: function (e) {
+        if ($('.jsCartDropdown').data('item-count') == 0) {
+            //if there are no items in the cart, don't show the dropdown
+            e.preventDefault();
         }
     }
 };

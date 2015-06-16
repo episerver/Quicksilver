@@ -1,5 +1,6 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Login.Services;
-using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.ServiceLocation;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -40,7 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
-
+            
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
@@ -54,8 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
                 BodyFormat = "Your security code is {0}"
             });
 
-            manager.EmailService = new EmailService();
-            manager.SmsService = new SmsService();
+            manager.EmailService = ServiceLocator.Current.GetInstance<IMailService>();
 
             var dataProtectionProvider = options.DataProtectionProvider;
 

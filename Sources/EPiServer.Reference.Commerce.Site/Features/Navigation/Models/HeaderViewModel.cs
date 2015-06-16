@@ -7,5 +7,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Models
     {
         public ContentReference CurrentContentLink { get; set; }
         public StartPage StartPage { get; set; }
+        public string UserDisplayName { get; set; }
     }
 }

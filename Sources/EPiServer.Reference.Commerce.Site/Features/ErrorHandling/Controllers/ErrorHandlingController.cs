@@ -11,20 +11,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Controllers
 {
     public class ErrorHandlingController : PageController<ErrorPage>
     {
-        private readonly IContentRepository _contentRepository;
+        private readonly IContentLoader _contentLoader;
         private readonly UrlResolver _urlResolver;
 
-        public ErrorHandlingController(IContentRepository contentRepository, UrlResolver urlResolver)
+        public ErrorHandlingController(IContentLoader contentLoader, UrlResolver urlResolver)
         {
-            _contentRepository = contentRepository;
+
+            _contentLoader = contentLoader;
             _urlResolver = urlResolver;
         }
 
         [HttpGet]
         public ActionResult Index(ErrorPage currentPage)
         {
-            var model = new ErrorViewModel();
-            model.CurrentPage = currentPage;
+            var model = new ErrorViewModel
+            {
+                CurrentPage = currentPage
+            };
             return View(model);
         }
 
@@ -33,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Controllers
         {
             try
             {
-                var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
+                var startpage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
                 var url = _urlResolver.GetUrl(startpage.PageNotFound);
                 return Redirect(url ?? "~/Features/ErrorHandling/Pages/ErrorFallback.html");
             }

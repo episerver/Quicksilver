@@ -1,22 +1,26 @@
 ﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook;
 using EPiServer.Reference.Commerce.Site.Features.Cart;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Exceptions;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data.Business;
-using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
+using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website;
+using Mediachase.Commerce.Website.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -31,24 +35,31 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly ICartService _cartService;
         private readonly IContentRepository _contentRepository;
         private readonly UrlResolver _urlResolver;
-        private readonly IMailSender _mailSender;
+        private readonly IMailService _mailService;
         private readonly ICheckoutService _checkoutService;
         private readonly IPaymentService _paymentService;
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
+        private readonly Func<CartHelper> _cartHelper;
+        private readonly CurrencyService _currencyService;
+        private readonly AddressBookService _addressBookService;
 
-
-        public CheckoutController(ICartService cartService, IContentRepository contentRepository, UrlResolver urlResolver, IMailSender mailSender,
-                                  ICheckoutService checkoutService, IContentLoader contentLoader, IPaymentService paymentService, LocalizationService localizationService)
+        public CheckoutController(ICartService cartService, IContentRepository contentRepository, UrlResolver urlResolver, IMailService mailService,
+                                  ICheckoutService checkoutService, IContentLoader contentLoader, IPaymentService paymentService,
+                                  LocalizationService localizationService, Func<CartHelper> cartHelper, CurrencyService currencyService,
+                                  AddressBookService addressBookService)
         {
             _cartService = cartService;
             _contentRepository = contentRepository;
             _urlResolver = urlResolver;
-            _mailSender = mailSender;
+            _mailService = mailService;
             _checkoutService = checkoutService;
             _paymentService = paymentService;
             _contentLoader = contentLoader;
             _localizationService = localizationService;
+            _cartHelper = cartHelper;
+            _currencyService = currencyService;
+            _addressBookService = addressBookService;
         }
 
         /// <summary>
@@ -61,6 +72,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [HttpGet]
         public ActionResult Index(CheckoutPage currentPage)
         {
+            var currency = _currencyService.GetCurrentCurrency();
+            if ( currency != _cartHelper().Cart.BillingCurrency)
+            {
+                _cartHelper().Cart.BillingCurrency = currency;
+                _cartService.SaveCart();
+            }
             CheckoutViewModel viewModel = CreateCheckoutViewModel(currentPage, null);
 
             return View(viewModel);
@@ -82,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var selectedPaymentMethod = paymentMethods.First();
             var preferredShippingAddress = customer != null ? customer.PreferredShippingAddress : null;
             _checkoutService.UpdateShipment(shipment, selectedShippingRate);
-
+            
             if (formModel == null)
             {
 
@@ -96,7 +113,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     AddressFormModel = _checkoutService.MapAddressToAddressForm(preferredShippingAddress),
                     PaymentViewModel = new GenericCreditCardPaymentMethodViewModel
                     {
-                        PaymentMethodId = selectedPaymentMethod.Id,
+                        Id = selectedPaymentMethod.Id,
                         PaymentMethod = new Payment.PaymentMethods.GenericCreditCardPaymentMethod
                         {
                             PaymentMethodId = selectedPaymentMethod.Id,
@@ -191,6 +208,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetRegionsForCountry(string countryCode, string region)
+        {
+            var viewModel = new AddressModelBase();
+            viewModel.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
+            viewModel.Region = region;
+
+            return PartialView("_AddressRegion", viewModel);
+        }
+
+        [HttpPost]
         public ActionResult ChangeAddress(CheckoutFormModel formModel)
         {
             var addresses = CustomerContext.Current.CurrentContact.ContactAddresses.ToDictionary<CustomerAddress, Guid, string>(
@@ -255,17 +282,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 CheckoutViewModel viewModel = CreateCheckoutViewModel(currentPage, formModel);
                 return View("Index", viewModel);
             }
-
             _checkoutService.ClearOrderAddresses();
 
             var shippingAddress = _checkoutService.AddNewOrderAddress();
+            shippingAddress.CountryCode = formModel.AddressFormModel.CountryCode;
             shippingAddress.FirstName = formModel.AddressFormModel.FirstName;
             shippingAddress.LastName = formModel.AddressFormModel.LastName;
             shippingAddress.Name = Guid.NewGuid().ToString();
             shippingAddress.Email = formModel.AddressFormModel.Email;
-            shippingAddress.CountryName = formModel.AddressFormModel.Country;
-            shippingAddress.Line1 = formModel.AddressFormModel.Address;
-            shippingAddress.PostalCode = formModel.AddressFormModel.ZipCode;
+            shippingAddress.CountryName = formModel.AddressFormModel.CountryName;
+            shippingAddress.Line1 = formModel.AddressFormModel.Line1;
+            shippingAddress.PostalCode = formModel.AddressFormModel.PostalCode;
             shippingAddress.City = formModel.AddressFormModel.City;
             shippingAddress.AcceptChanges();
 
@@ -278,9 +305,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 address.FirstName = formModel.AddressFormModel.FirstName;
                 address.LastName = formModel.AddressFormModel.LastName;
                 address.Email = formModel.AddressFormModel.Email;
-                address.CountryName = formModel.AddressFormModel.Country;
-                address.Line1 = formModel.AddressFormModel.Address;
-                address.PostalCode = formModel.AddressFormModel.ZipCode;
+                address.CountryName = formModel.AddressFormModel.CountryName;
+                address.Line1 = formModel.AddressFormModel.Line1;
+                address.PostalCode = formModel.AddressFormModel.PostalCode;
                 address.City = formModel.AddressFormModel.City;
                 if (formModel.AddressFormModel.AddressId == Guid.Empty)
                 {
@@ -292,12 +319,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 }
                 currentContact.SaveChanges();
             }
-
+            
             var shipment = _checkoutService.CreateShipment();
             shipment.ShippingAddressId = shippingAddress.Name;
             var shippingRate = _checkoutService.GetShippingRate(shipment, formModel.SelectedShippingMethodId);
             _checkoutService.UpdateShipment(shipment, shippingRate);
-
+            
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
             _cartService.SaveCart();
 
             try
@@ -321,7 +349,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [HttpGet]
         public ActionResult Finish(CheckoutPage currentPage)
         {
-            if (!_cartService.GetAllLineItems().Any())
+            if (!_cartService.GetCartItems().Any())
             {
                 return RedirectToAction("Index");
             }
@@ -338,13 +366,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 throw new InvalidOperationException("Wrong amount");
             }
 
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
             purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();
 
             _checkoutService.DeleteCart();
 
             emailAddress = purchaseOrder.OrderAddresses.First().Email;
 
-            NameValueCollection queryCollection = new NameValueCollection
+            var queryCollection = new NameValueCollection
             {
                 {"contactId", CustomerContext.Current.CurrentContactId.ToString()},
                 {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
@@ -352,7 +381,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             try
             {
-                _mailSender.Send(startpage.OrderConfirmationMail, queryCollection, emailAddress);
+                _mailService.Send(startpage.OrderConfirmationMail, queryCollection, emailAddress, currentPage.Language.Name);
             }
             catch (Exception)
             {

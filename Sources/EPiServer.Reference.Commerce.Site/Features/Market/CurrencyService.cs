@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
+using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market
 {
-    public class CurrencyService
+    [ServiceConfiguration(typeof(ICurrencyService), Lifecycle = ServiceInstanceScope.Singleton)]
+    public class CurrencyService : ICurrencyService
     {
         private const string CurrencyCookie = "Currency";
         private readonly ICurrentMarket _currentMarket;
@@ -22,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market
             return CurrentMarket.Currencies;
         }
 
-        public Currency GetCurrentCurrency()
+        public virtual Currency GetCurrentCurrency()
         {
             return TryGetCurrency(_cookieService.Get(CurrencyCookie)) ?? CurrentMarket.DefaultCurrency;
         }
@@ -31,14 +33,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market
         {
             var currency = TryGetCurrency(currencyCode);
             if (currency == null)
+            {
                 return false;
+            }
+                
             _cookieService.Set(CurrencyCookie, currencyCode);
             return true;
         }
 
         private Currency? TryGetCurrency(string currencyCode)
         {
-            return GetAvailableCurrencies().Where(x => x.CurrencyCode == currencyCode).Cast<Currency?>().FirstOrDefault();
+            return GetAvailableCurrencies()
+                .Where(x => x.CurrencyCode == currencyCode)
+                .Cast<Currency?>()
+                .FirstOrDefault();
         }
 
         private IMarket CurrentMarket

@@ -1,9 +1,9 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.Models.AddressBookFormModel
 <div class="container-fluid">
-    <div class="row myPage jsAddressBook">
+    <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
-        <div class="col-xs-12 col-md-9 ">
-            @using (Html.BeginForm("Save", "AddressBook", FormMethod.Post, new { formModel = Model }))
+        <div class="col-xs-12 col-md-9 jsAddressBook">
+            @using (Html.BeginForm("Save", "AddressBook", FormMethod.Post, new { id = "AddressForm" }))
             {
                 <h2>
                     @if (Model.AddressId.HasValue)
@@ -44,31 +44,18 @@
                     @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.City)
                 </div>
-                if (!Model.RegionOptions.Any())
-                {
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Region)
-                        @Html.TextBoxFor(x => x.Region, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Region)
-                    </div>
-                }
-                else
-                {
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Region)
-                        @Html.DropDownListFor(x => x.Region, new SelectList(Model.RegionOptions, "Name", "Name", Model.RegionOptions.FirstOrDefault(x => x.Name.Equals(Model.Region))), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Region)
-                    </div>
-                }
+                
+                    { Html.RenderPartial("_AddressRegion", Model); }
+
                 <div class="form-group">
                     @Html.LabelFor(x => x.PostalCode)
                     @Html.TextBoxFor(x => x.PostalCode, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.PostalCode)
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.CountryName)
-                    @Html.DropDownListFor(x => x.CountryName, new SelectList(Model.CountryOptions, "Name", "Name", Model.CountryOptions.FirstOrDefault(x => x.Name.Equals(Model.CountryName))), new { @class = "form-control jsCountry" })
-                    @Html.ValidationMessageFor(x => x.CountryName)
+                    @Html.LabelFor(x => x.CountryCode)
+                    @Html.DropDownListFor(x => x.CountryCode, new SelectList(Model.CountryOptions, "Code", "Name", Model.CountryOptions.FirstOrDefault(x => x.Name.Equals(Model.CountryName))), new { @class = "form-control jsCountry" })
+                    @Html.ValidationMessageFor(x => x.CountryCode)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(x => x.DaytimePhoneNumber)
@@ -92,10 +79,10 @@
                 </div>
                 @Html.HiddenFor(x => x.AddressId)
                 <button type="submit" class="btn btn--blue">@Html.Translate("/AddressBook/Form/Label/Submit")</button>
-                if (Model.AddressId.HasValue)
-                {
+                    if (Model.AddressId.HasValue)
+                    {
                     @Html.ActionLink(Html.Translate("/AddressBook/Form/Label/Cancel"), "Index", "AddressBook", new { }, new { @class = "btn" })
-                }
+                    }
                 <hr />
             }
         </div>

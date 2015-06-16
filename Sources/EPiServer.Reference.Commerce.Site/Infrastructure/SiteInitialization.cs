@@ -1,8 +1,16 @@
+using System;
+using System.Globalization;
+using System.Web;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Routing;
+using System.Web.WebPages;
 using EPiServer.Commerce.Routing;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
+using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.Security;
@@ -12,12 +20,10 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Security;
 using Mediachase.Commerce.Website.Helpers;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json;
-using System;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.WebPages;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -54,6 +60,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     .Use<LanguageService>()
                     .Setter<IUpdateCurrentLanguage>()
                     .Is(x => x.GetInstance<UpdateCurrentLanguage>());
+
+                c.For<Func<CultureInfo>>().Use(() => ContentLanguage.PreferredCulture);
+
+                Func<IOwinContext> owinContextFunc = () => HttpContext.Current.GetOwinContext();
+                c.For<ApplicationUserManager>().Use(() => owinContextFunc().GetUserManager<ApplicationUserManager>());
+                c.For<ApplicationSignInManager>().Use(() => owinContextFunc().Get<ApplicationSignInManager>());
+                c.For<IAuthenticationManager>().Use(() => owinContextFunc().Authentication);
+                c.For<IOwinContext>().Use(() => owinContextFunc());
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));

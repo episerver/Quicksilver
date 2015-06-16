@@ -1,18 +1,13 @@
-﻿using System.Linq;
-using System.Web.Security;
-using Mediachase.Commerce.Customers;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
-using Microsoft.AspNet.Identity;
-using System.Web;
-using System.Web.Mvc;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using Mediachase.BusinessFoundation.Data;
+using Mediachase.Commerce.Customers;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
-using Mediachase.Commerce.Orders;
 using Microsoft.Owin.Security;
-using Microsoft.Owin;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 {
@@ -21,30 +16,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
     /// </summary>
     public class UserService
     {
-        private ApplicationUserManager _userManager;
-        private ApplicationSignInManager _signInManager;
-        private IAuthenticationManager _authenticationManager;
-
-        /// <summary>
-        /// Returns a new instance of a UserService. It will use the current HTTP context to
-        /// retrieve the ApplicationUserManager, IAuthenticationManager and the ApplicationSignInManager.
-        /// </summary>
-        public UserService()
-            : this(HttpContext.Current.GetOwinContext())
-        {
-        }
-
-        /// <summary>
-        /// Returns a new instance of a UserService. It will use an provided IOwinContext to
-        /// retrieve the ApplicationUserManager, IAuthenticationManager and the ApplicationSignInManager.
-        /// </summary>
-        public UserService(IOwinContext context)
-            : this(
-            context.GetUserManager<ApplicationUserManager>(),
-            context.Get<ApplicationSignInManager>(),
-            context.Authentication)
-        {
-        }
+        private readonly ApplicationUserManager _userManager;
+        private readonly ApplicationSignInManager _signInManager;
+        private readonly IAuthenticationManager _authenticationManager;
+        private readonly LocalizationService _localizationService;
 
         /// <summary>
         /// Returns a new instance of a UserService. The ApplicationUserManager, IAuthenticationManager and the ApplicationSignInManager
@@ -52,20 +27,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         /// </summary>
         /// <param name="userManager">The ApplicationUserManager for working with user accounts.</param>
         /// <param name="signInManager">The ApplicationSignInManager for signing in an existing user.</param>
-        public UserService(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAuthenticationManager authenticationManager)
+        /// <param name="authenticationManager">The AuthenticationManager</param>
+        /// <param name="localizationService"></param>
+        public UserService(ApplicationUserManager userManager, 
+            ApplicationSignInManager signInManager, 
+            IAuthenticationManager authenticationManager,
+            LocalizationService localizationService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _authenticationManager = authenticationManager;
+            _localizationService = localizationService;
         }
 
         /// <summary>
-        /// Gets a CustomerContact based on her e-mail address.
+        /// Gets the CustomerContact associated with given email address.
         /// </summary>
         /// <param name="email">The e-mail address belonging to the CustomerContact.</param>
         /// <returns>Returns the CustomerContact having the same e-mail address as the one provided. If no contact exist
         /// then null is returned instead.</returns>
-        public CustomerContact GetCustomerContact(string email)
+        public virtual CustomerContact GetCustomerContact(string email)
         {
             if (email == null)
             {
@@ -84,12 +65,42 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         }
 
         /// <summary>
+        /// Gets the CustomerContact by specific PrimaryKeyId.
+        /// </summary>
+        /// <param name="primaryKeyId">The contact primary key id.</param>
+        /// <returns>Returns the CustomerContact having the specified PrimaryKeyId.</returns>
+        public virtual CustomerContact GetCustomerContact(PrimaryKeyId primaryKeyId)
+        {
+            return CustomerContext.Current.GetContactById(primaryKeyId);
+        }
+
+        /// <summary>
+        /// Get the contact PrimaryKeyid associated with given email address.
+        /// </summary>
+        /// <param name="email">The email address.</param>
+        /// <returns>If a customer contact associated with the email address is found, its PrimaryKeyId is returned. Otherwise return null </returns>
+        public virtual PrimaryKeyId? GetCustomerContactPrimaryKeyId(string email)
+        {
+            if (email == null)
+            {
+                throw new ArgumentNullException("email");
+            }
+
+            var contact = GetCustomerContact(email);
+            if(contact == null)
+            {
+                return null;
+            }
+            return contact.PrimaryKeyId;
+        }
+
+        /// <summary>
         /// Gets an existing ApplicationUser based the user's e-mail address.
         /// </summary>
         /// <param name="email">The e-mail address belonging to the ApplicationUser.</param>
         /// <returns>Returns the ApplicationUser having the same e-mail address as the one provided. If no user exist
         /// then null is returned instead.</returns>
-        public ApplicationUser GetUser(string email)
+        public virtual ApplicationUser GetUser(string email)
         {
             if (email == null)
             {
@@ -107,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         /// <param name="email">The e-mail address belonging to the ApplicationUser.</param>
         /// <returns>Returns the ApplicationUser having the same e-mail address as the one provided. If no user exist
         /// then null is returned instead.</returns>
-        public async Task<ApplicationUser> GetUserAsync(string email)
+        public virtual async Task<ApplicationUser> GetUserAsync(string email)
         {
             if (email == null)
             {
@@ -121,7 +132,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         /// Gets user login information retrieved from an external login provider.
         /// </summary>
         /// <returns>Gets an ExternalLoginInfo object for the current user.</returns>
-        public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        public virtual async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
             return await _authenticationManager.GetExternalLoginInfoAsync();
         }
@@ -132,8 +143,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         /// <param name="user">The ApplicationUser to create.</param>
         /// <returns>Returns a ContactIdentityResult holding both the result of creating the user account as well as the
         /// CustomerContact if such was successfully stored.</returns>
-        public async Task<ContactIdentityResult> RegisterAccount(ApplicationUser user)
+        public virtual async Task<ContactIdentityResult> RegisterAccount(ApplicationUser user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
             ContactIdentityResult contactResult = null;
             IdentityResult result = null;
             CustomerContact contact = null;
@@ -150,7 +166,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 
             if (_userManager.FindByEmail(user.Email) != null)
             {
-                result = new IdentityResult(new string[] { LocalizationService.Current.GetString("/Registration/Form/Error/UsedEmail") });
+                result = new IdentityResult(new string[] { _localizationService.GetString("/Registration/Form/Error/UsedEmail") });
             }
             else
             {
@@ -175,6 +191,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         /// <returns>Returns the created CustomerContact.</returns>
         private CustomerContact CreateCustomerContact(ApplicationUser user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
             CustomerContact contact = CustomerContact.CreateInstance();
 
             // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

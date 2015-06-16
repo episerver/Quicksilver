@@ -1,13 +1,7 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 using EPiServer.Web.Mvc;
-using System.Collections.Generic;
-using Mediachase.Commerce.Website.Search;
-using Mediachase.Search;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 {

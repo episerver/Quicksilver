@@ -19,6 +19,7 @@
       </Account>
       <MiniCart>
         <Button>
+          <ContinueShopping>Fortsätt handla</ContinueShopping>
           <GoToCheckout>Fortsätt till utcheckningen</GoToCheckout>
         </Button>
       </MiniCart>
@@ -272,6 +273,7 @@
           <Password>Lösenord:</Password>
           <RememberMe>Kom ihåg mig</RememberMe>
           <Login>Logga in</Login>
+          <ForgotPasswordLink>Glömt ditt lösenord?</ForgotPasswordLink>
         </Label>
         <Empty>
           <Username>Användarnamn krävs</Username>
@@ -284,6 +286,14 @@
           <PasswordLength>Ditt lösenord måste vara mellan 5 och 100 tecken långt</PasswordLength>
         </Error>
       </Form>
+      <ExternalLoginFailure>
+        <Heading>Kunde inte logga in</Heading>
+        <Message>Ett fel uppstod när ditt användarkonto skulle verifieras.</Message>
+      </ExternalLoginFailure>
+      <Lockout>
+        <Heading>Ditt användarkonto är låst</Heading>
+        <Message>Som en säkerhetsåtgärd har ditt konto låsts på grund av för många felaktiga inloggningsförsök. Vänligen återkom och försök igen lite senare.</Message>
+      </Lockout>
       <BackendLogin>
         <Heading>Redigerarvy</Heading>
         <LoginMessage>
@@ -292,17 +302,40 @@
       </BackendLogin>
     </Login>
     <ResetPassword>
+      <Mail>
+        <Text>Återställ ditt lösenord genom att klicka på den här </Text>
+        <Link>länken</Link>
+      </Mail>
+      <ForgotPasswordConfirmation>
+        <Heading>Halvvägs framme...</Heading>
+        <Message>För att återställa ditt lösenord, titta i din e-post inkorg.</Message>
+      </ForgotPasswordConfirmation>
+      <ResetPassword>
+        <Heading>Återställ lösenord</Heading>
+        <Message>Ange din e-postadress och ett nytt lösenord.</Message>
+      </ResetPassword>
+      <ResetPasswordConfirmation>
+        <Heading>Lösenordet har återställts</Heading>
+        <Message>Klar. Ditt lösenord har uppdaterats och du kan nu </Message>
+        <LoginLink>klicka här för att logga in.</LoginLink>
+      </ResetPasswordConfirmation>
       <Form>
+        <Placeholder>
+          <Email>Ange din e-postadress</Email>
+          <Password>Lösenord</Password>
+          <Password2>Upprepa lösenordet</Password2>
+        </Placeholder>
         <Label>
           <Email>E-post:</Email>
           <Password>Nytt lösenord:</Password>
           <Password2>Nytt lösenord igen:</Password2>
-          <Send>Sänd</Send>
+          <Send>Skicka</Send>
+          <Reset>Återställ</Reset>
         </Label>
         <Empty>
           <Email>E-post krävs</Email>
           <Password>Lösenord krävs</Password>
-          <Password2>Lösenord2 krävs</Password2>
+          <Password2>Du måste upprepa ditt lösenord</Password2>
         </Empty>
         <Error>
           <ExpiredLink>Din länk har upphört att gälla!</ExpiredLink>
@@ -334,12 +367,12 @@
           <Organization>Organisation</Organization>
           <FirstName>Förnamn *:</FirstName>
           <LastName>Efternamn *:</LastName>
-          <Line1>Adressrad1 *:</Line1>
-          <Line2>Adressrad2 :</Line2>
+          <Line1>Adressrad 1 *:</Line1>
+          <Line2>Adressrad 2 :</Line2>
           <City>Stad *:</City>
           <Region>Region</Region>
           <PostalCode>Postnummer *:</PostalCode>
-          <CountryName>Land *:</CountryName>
+          <CountryCode>Land *:</CountryCode>
           <DaytimePhoneNumber>Telefonnummer:</DaytimePhoneNumber>
           <Email>E-post:</Email>
           <Submit>Spara</Submit>
@@ -361,10 +394,11 @@
           <City>Stad krävs</City>
           <Region>Region krävs</Region>
           <PostalCode>Postnummer krävs</PostalCode>
-          <CountryName>Land krävs</CountryName>
+          <CountryCode>Land krävs</CountryCode>
         </Empty>
         <Error>
           <InvalidEmail>Du måste ange en giltig e-postadress</InvalidEmail>
+          <ExistingAddress>En adress med samma namn finns redan</ExistingAddress>
         </Error>
       </Form>
     </AddressBook>
@@ -387,5 +421,32 @@
     <Search>
       <BadFirstCharacter>'*' eller '?' är inte tillåtet som första tecken i en sökning</BadFirstCharacter>
     </Search>
+    <Shared>
+      <Address>
+        <Form>
+          <Empty>
+            <FirstName>Förnamn krävs</FirstName>
+            <LastName>Efternamn krävs</LastName>
+            <Line1>Leveransadress krävs</Line1>
+            <CountryCode>Land krävs</CountryCode>
+            <City>Stad krävs</City>
+            <PostalCode>Postnummer krävs</PostalCode>
+          </Empty>
+          <Label>
+            <FirstName>Förnamn *:</FirstName>
+            <LastName>Efternamn *:</LastName>
+            <Line1>Adressrad 1 *:</Line1>
+            <City>Stad *:</City>
+            <Region>Region:</Region>
+            <PostalCode>Postnummer *:</PostalCode>
+            <CountryCode>Land *:</CountryCode>
+            <Address>Address *:</Address>
+            <Name>Namn:</Name>
+            <DateModified>Date Modified</DateModified>
+          </Label>
+        </Form>
+
+      </Address>
+    </Shared>
   </language>
 </languages>

@@ -9974,6 +9974,9 @@ footer .social-icon:last-child {
   width: 40px;
   text-align: center;
 }
+.cart-total-offset {
+  min-width: 48px;
+}
 @media (min-width: 768px) {
   .cart-item .quantity {
     display: block;

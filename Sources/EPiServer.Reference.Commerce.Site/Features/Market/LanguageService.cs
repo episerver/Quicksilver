@@ -24,12 +24,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market
             _requestContext = requestContext;
         }
 
-        public IEnumerable<CultureInfo> GetAvailableLanguages()
+        public virtual IEnumerable<CultureInfo> GetAvailableLanguages()
         {
             return CurrentMarket.Languages;
         }
         
-        public CultureInfo GetCurrentLanguage()
+        public virtual CultureInfo GetCurrentLanguage()
         {
             return TryGetLanguage(_cookieService.Get(LanguageCookie)) ?? CurrentMarket.DefaultLanguage;
         }

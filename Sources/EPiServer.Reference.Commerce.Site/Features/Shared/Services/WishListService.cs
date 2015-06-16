@@ -1,16 +1,16 @@
 ﻿using System;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.WishList.Models;
 using EPiServer.Reference.Commerce.Site.Features.WishList.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Engine;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
@@ -31,17 +31,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         private readonly IPricingService _pricingService;
         private readonly IMarketService _marketService;
         private readonly CultureInfo _preferredCulture;
+        private readonly IPromotionService _promotionService;
+        private readonly AppContextFacade _appContext;
 
         public WishListService(IContentLoader contentLoader,
-                                  ReferenceConverter referenceConverter,
-                                  IPricingService pricingService,
-                                  IMarketService marketService)
+            ReferenceConverter referenceConverter,
+            IPricingService pricingService,
+            IMarketService marketService,
+            IPromotionService promotionService,
+            AppContextFacade appContext)
         {
             _contentLoader = contentLoader;
             _referenceConverter = referenceConverter;
             _pricingService = pricingService;
             _marketService = marketService;
             _preferredCulture = ContentLanguage.PreferredCulture;
+            _promotionService = promotionService;
+            _appContext = appContext;
         }
 
         public WishListViewModel GetViewModel(WishListPage currentPage)
@@ -67,17 +73,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                     continue;
                 }
                 var market = _marketService.GetMarket(wishListCart.MarketId);
-                var prices = _pricingService.GetPriceList(variation.Code, market.MarketId,
-                    new PriceFilter
-                    {
-                        Currencies = new[] { new Currency(wishListCart.BillingCurrency) }
-                    });
-
                 products.Add(new ProductViewModel
                 {
                     DisplayName = lineItem.DisplayName,
-                    Image = variation.GetDefaultAsset(),
-                    Price = prices.Any() ? prices.First().UnitPrice : new Money(0, new Currency(wishListCart.BillingCurrency)),
+                    Image = variation.GetDefaultAsset<IContentImage>(),
+                    OriginalPrice = _pricingService.GetCurrentPrice(variation.Code),
+                    Price = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, new Currency(wishListCart.BillingCurrency)).UnitPrice,
                     Url = variation.GetUrl(),
                     Code = variation.Code,
                     IsWishList = true

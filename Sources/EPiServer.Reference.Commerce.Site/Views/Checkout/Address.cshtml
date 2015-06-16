@@ -9,47 +9,52 @@
         <div class="form-group">
             @Html.LabelFor(_ => formModel.AddressFormModel.AddressId)
             @Html.DropDownListFor(_ => formModel.AddressFormModel.AddressId,
-                new SelectList(Model.Addresses, "Key", "Value", Model.CheckoutFormModel.AddressFormModel.AddressId), new { @class = "form-control jsChangeAddress" })
+                new SelectList(Model.Addresses, "Key", "Value", Model.CheckoutFormModel.AddressFormModel.AddressId),
+                    new { @class = "form-control jsChangeAddress" })
         </div>
     }
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.FirstName)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.FirstName, new {@class = "form-control"})
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.FirstName, new { @class = "form-control jsChangeAddress" })
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.FirstName)
     </div>
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.LastName)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.LastName, new {@class = "form-control"})
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.LastName, new { @class = "form-control" })
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.LastName)
     </div>
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.Email)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.Email, new {@class = "form-control"})
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Email, new { @class = "form-control" })
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Email)
     </div>
     <div class="form-group">
-        @Html.LabelFor(_ => formModel.AddressFormModel.Address)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.Address, new {@class = "form-control"})
-        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Address)
+        @Html.LabelFor(_ => formModel.AddressFormModel.Line1)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.Line1, new { @class = "form-control" })
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Line1)
     </div>
     <div class="form-group">
-        @Html.LabelFor(_ => formModel.AddressFormModel.ZipCode)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.ZipCode, new { @class = "form-control" })
-        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.ZipCode)
+        @Html.LabelFor(_ => formModel.AddressFormModel.PostalCode)
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.PostalCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.PostalCode)
     </div>
     <div class="form-group">
         @Html.LabelFor(_ => formModel.AddressFormModel.City)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.City, new {@class = "form-control"})
+        @Html.TextBoxFor(_ => formModel.AddressFormModel.City, new { @class = "form-control" })
         @Html.ValidationMessageFor(_ => formModel.AddressFormModel.City)
     </div>
+    
+    @{ Html.RenderPartial("_AddressRegion", Model.CheckoutFormModel.AddressFormModel); }
+
     <div class="form-group">
-        @Html.LabelFor(_ => formModel.AddressFormModel.Country)
-        @Html.TextBoxFor(_ => formModel.AddressFormModel.Country, new { @class = "form-control" })
-        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.Country)
+        @Html.LabelFor(_ => formModel.AddressFormModel.CountryCode)
+        @Html.DropDownListFor(_ => formModel.AddressFormModel.CountryCode, new SelectList(formModel.AddressFormModel.CountryOptions, "Code", "Name", formModel.AddressFormModel.CountryOptions.FirstOrDefault(x => x.Name.Equals(formModel.AddressFormModel.CountryName))),
+                new { @class = "form-control jsChangeCountry" })
+        @Html.ValidationMessageFor(_ => formModel.AddressFormModel.CountryCode)
     </div>
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(_ => formModel.AddressFormModel.SaveAddress, new {@type = "checkbox"}) @Html.Translate("/Checkout/Address/Labels/SaveAddress")
+            @Html.CheckBoxFor(_ => formModel.AddressFormModel.SaveAddress, new { @type = "checkbox" }) @Html.Translate("/Checkout/Address/Labels/SaveAddress")
         </label>
     </div>
 </div>

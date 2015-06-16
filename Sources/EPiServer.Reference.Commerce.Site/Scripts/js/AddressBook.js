@@ -1,17 +1,18 @@
 ﻿var AddressBook = {
     init: function () {
         $(document)
-            .on('change', '.jsCountry', AddressBook.setRegion);
+            .on("change", ".jsCountry", AddressBook.setRegion);
     },
     setRegion: function () {
-        var form = $(this).closest('form');
+        var $countryCode = $(this).val();
+        var $region = $("#Region").val();
+        var $url = $("#AddressForm").attr("action").replace("/Save/", "/GetRegionsForCountry/");
         $.ajax({
             type: "POST",
-            url: "/my-pages/address-book/EditForm/",
-            data: form.serialize(),
-            context: form,
+            url: $url,
+            data: { countryCode: $countryCode, region: $region },
             success: function (result) {
-                $('.jsAddressBook').replaceWith(result);
+                $("#AddressRegion").replaceWith($(result));
             }
         });
     }

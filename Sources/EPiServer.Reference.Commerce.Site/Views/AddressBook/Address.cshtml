@@ -1,0 +1,40 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.Models.AddressBookFormModel
+
+<address>
+    <p>
+        @{
+            string[] addressValues = null;
+
+            switch (Model.CountryCode)
+            {
+                case "AUS":
+                case "CAN":
+                case "USA":
+                    addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.City + " " + Model.PostalCode, Model.Region, Model.CountryName };                    
+                    break;
+
+                case "GBR":
+                    addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.City, Model.Region, Model.PostalCode, Model.CountryName };
+                    break;
+                    
+                default:
+                    addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.PostalCode + " " + Model.City, Model.Region, Model.CountryName };
+                    break;
+            }
+            
+            foreach (string value in addressValues)
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                   <span>@value</span><br />
+                }
+            }
+        }
+
+    </p>
+    <button type="button" class="btn btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = Model.AddressId })';">Edit</button>
+    @using (Html.BeginForm("Remove", "AddressBook", new { addressId = Model.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
+    }
+</address>

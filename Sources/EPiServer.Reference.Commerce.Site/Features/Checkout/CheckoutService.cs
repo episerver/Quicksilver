@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout
 {
@@ -23,12 +24,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
         private readonly Func<CartHelper> _cartHelper;
         private readonly ICurrentMarket _currentMarket;
         private readonly LanguageService _languageService;
+        private readonly CountryManagerFacade _countryManager;
 
-        public CheckoutService(Func<CartHelper> cartHelper, ICurrentMarket currentMarket, LanguageService languageService)
+        public CheckoutService(
+            Func<CartHelper> cartHelper, 
+            ICurrentMarket currentMarket, 
+            LanguageService languageService, 
+            CountryManagerFacade countryManager)
         {
             _cartHelper = cartHelper;
             _currentMarket = currentMarket;
             _languageService = languageService;
+            _countryManager = countryManager;
         }
 
         public Shipment CreateShipment()
@@ -42,6 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
             if (orderForms.Count == 0)
             {
                 orderForms.AddNew().AcceptChanges();
+                orderForms.Single().Name = CartHelper.Cart.Name;
             }
 
             var orderForm = orderForms.First();
@@ -119,20 +127,45 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
 
         public AddressFormModel MapAddressToAddressForm(AddressEntity preferredShippingAddress)
         {
-            return preferredShippingAddress != null
-                       ? new AddressFormModel
-                       {
-                           Address = preferredShippingAddress.Line1,
-                           City = preferredShippingAddress.City,
-                           Country = preferredShippingAddress.CountryName,
-                           Email = preferredShippingAddress.Email,
-                           FirstName = preferredShippingAddress.FirstName,
-                           LastName = preferredShippingAddress.LastName,
-                           ZipCode = preferredShippingAddress.PostalCode,
-                           AddressId = preferredShippingAddress.PrimaryKeyId.HasValue ? preferredShippingAddress.PrimaryKeyId.Value : Guid.Empty,
-                           SaveAddress = HttpContext.Current.User.Identity.IsAuthenticated
-                       }
-                       : new AddressFormModel();
+
+            var countries = _countryManager.GetCountries().Country.ToList();
+            var regions = countries.First().GetStateProvinceRows().ToList();
+
+            if (preferredShippingAddress == null)
+            {
+                return new AddressFormModel()
+                {
+                    CountryOptions = countries,
+                    RegionOptions = regions
+                };
+            }
+
+            var selectedCountry = countries.FirstOrDefault(x => x.Name == preferredShippingAddress.CountryName);
+
+            var regionOptions = selectedCountry == null ? 
+                new List<CountryDto.StateProvinceRow>() : 
+                selectedCountry.GetStateProvinceRows().ToList();
+           
+
+            return new AddressFormModel
+            {
+                Line1 = preferredShippingAddress.Line1,
+                City = preferredShippingAddress.City,
+                CountryName = preferredShippingAddress.CountryName,
+                Email = preferredShippingAddress.Email,
+                FirstName = preferredShippingAddress.FirstName,
+                LastName = preferredShippingAddress.LastName,
+                PostalCode = preferredShippingAddress.PostalCode,
+                AddressId =
+                    preferredShippingAddress.PrimaryKeyId.HasValue
+                        ? preferredShippingAddress.PrimaryKeyId.Value
+                        : Guid.Empty,
+                SaveAddress = HttpContext.Current.User.Identity.IsAuthenticated,
+                CountryOptions = countries,
+                RegionOptions = regionOptions,
+                Region = preferredShippingAddress.RegionName
+            };
+
         }
 
         public void DeleteCart()

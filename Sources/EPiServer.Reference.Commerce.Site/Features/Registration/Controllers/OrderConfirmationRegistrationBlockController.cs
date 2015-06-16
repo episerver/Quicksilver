@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Login;
-using EPiServer.Reference.Commerce.Site.Features.Registration.Blocks;
-using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
-using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Orders;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
-using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Registration.Blocks;
+using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
+using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
 {
-    public class OrderConfirmationRegistrationBlockController : LoginControllerBase<OrderConfirmationRegistrationBlock>
+    public class OrderConfirmationRegistrationBlockController : IdentityControllerBase<OrderConfirmationRegistrationBlock>
     {
+        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService)
+            : base(applicationSignInManager, applicationUserManager, userService)
+        {
+        }
+
         [HttpGet]
         public ActionResult Index(OrderConfirmationRegistrationBlock currentBlock)
         {
@@ -77,7 +80,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
 
             if (!ModelState.IsValid || purchaseOrder == null)
             {
-                return PartialView("Index", model);
+                return PartialView("NewCustomer", model);
             }
 
             ContactIdentityResult registration = await UserService.RegisterAccount(new ApplicationUser(purchaseOrder)
@@ -97,6 +100,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                 return PartialView("Complete", registration.Contact.Email);
             }
 
+            if (registration.Result.Errors.Any())
+            {
+                registration.Result.Errors.ToList().ForEach(x => ModelState.AddModelError("FormModel.Password2", x));
+                return PartialView("NewCustomer", model);
+            }
 
             return PartialView("Index", model);
         }

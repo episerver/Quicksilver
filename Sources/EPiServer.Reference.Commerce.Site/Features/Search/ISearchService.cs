@@ -9,7 +9,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
     public interface ISearchService
     {
         CustomSearchResult Search(IContent currentContent, FilterOptionFormModel filterOptions);
-        IEnumerable<ProductViewModel> QuickSearch(string query, int pageSize = 5, string sort = "");
+        IEnumerable<ProductViewModel> QuickSearch(string query);
+        IEnumerable<ProductViewModel> QuickSearch(FilterOptionFormModel filterOptions);
         IEnumerable<SortOrder> GetSortOrder();
     }
 }

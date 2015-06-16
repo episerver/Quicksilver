@@ -4,6 +4,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using System.Linq;
 using System.Web.Mvc;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -23,19 +24,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult MiniCartSummary()
         {
-            var model = new MiniCartSummaryViewModel
-            {
-                ItemCount = (int) _cartService.GetAllLineItems().Sum(x => x.Quantity)
-            };
-            return PartialView(model);
+            return MiniCartDetails();
         }
 
         [HttpGet]
         public ActionResult MiniCartDetails()
         {
-            var model = new MiniCartDetailsViewModel
+            var model = new MiniCartViewModel
                 {
-                    ItemCount = (int)_cartService.GetAllLineItems().Sum(x => x.Quantity),
+                    ItemCount = _cartService.GetLineItemsTotalQuantity(),
                     CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                     CartItems = _cartService.GetCartItems(),
                     Total = _cartService.GetTotal()
@@ -46,12 +43,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LargeCart()
         {
+            var items = _cartService.GetCartItems().ToList();
             var model = new LargeCartViewModel
-                {
-                    CartItems = _cartService.GetCartItems(),
-                    Total = _cartService.GetTotal(),
-                    TotalDiscount = _cartService.GetTotalDiscount()
-                };
+            {
+                CartItems = items,
+                Total = _cartService.ConvertToMoney(items.Sum(x => x.ExtendedPrice.Amount)),
+                TotalDiscount = _cartService.GetTotalDiscount()
+            };
             return PartialView(model);
         }
 

@@ -1,15 +1,14 @@
 ﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.MiniCartDetailsViewModel
-@if (Model.ItemCount > 0)
-{   
-    <ul class="dropdown-menu jsCartDropdown" role="menu" data-item-count="@Model.ItemCount">
+@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.MiniCartViewModel
+ 
+<ul class="dropdown-menu jsCartDropdown" role="menu" aria-labelledby="cartDropDown" data-item-count="@Model.ItemCount.ToString("F0")">
         @foreach (var cartItem in Model.CartItems)
         {
             <li class="cart-item">
                 @using (Html.BeginForm("ChangeQuantity", "Cart"))
                 {
                     <span class="pull-left object-description">
-                        <img src="@cartItem.Variant.GetDefaultAsset()" alt="@cartItem.DisplayName">
+                        <img src="@(cartItem.Variant.GetDefaultAsset<IContentImage>())" alt="@cartItem.DisplayName">
                         <p class="mini-cart--objectDescription">
                             @cartItem.DisplayName
                         </p>
@@ -17,7 +16,7 @@
                     <span class="pull-right">
                         <span class="mini-cart--quantity">
                             <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                            @Html.TextBox("quantity",cartItem.Quantity.ToString("0"),new {@class = "form-control quantity jsMiniCartQuantity"})
+                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control quantity jsMiniCartQuantity" })
                             @Html.Hidden("code", cartItem.Code)
                             @Html.Hidden("miniCart", true)
                         </span>
@@ -29,10 +28,13 @@
                 }
             </li>
         }
-     
-        <li>
+    @if (Model.ItemCount > 0)
+    {
+        <li class="cart-item">
             <button type="button" class="btn btn-block btn--blue" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.CheckoutPage)'">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
         </li>
-      
-    </ul>
- }
+        <li class="cart-item">
+            <button type="button" class="btn btn-block" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+        </li>
+    }
+</ul>

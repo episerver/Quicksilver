@@ -6,55 +6,43 @@
 <table class="table jsOrderSummary" data-url="@Url.Action("OrderSummary")">
     <tbody>
         <tr>
-            <td>@Html.Translate("/Checkout/SubTotal")</td>
-            <td class="total-price"><strong class="pull-right">@Model.SubTotal.ToString()</strong></td>
+            <td><h4>@Html.Translate("/Checkout/SubTotal")</h4></td>
+            <td class="total-price"><h4 class="pull-right">@Model.SubTotal.ToString()</h4></td>
         </tr>
         <tr>
             <td>
-                @Html.Translate("/Checkout/OrderLevelDiscounts") <br />
+                <h4> @Html.Translate("/Checkout/OrderLevelDiscounts")</h4>
                 @foreach (var discount in Model.OrderDiscounts)
                 {
-                    <span class="small"><strong>@discount.Displayname</strong></span><br />
+                    @discount.Displayname<br />
                 }
-            <td class="total-price">
-                <span class="pull-right">- @Model.OrderDiscountTotal.ToString()</span><br />
+            <td class="total-price text-right">
+                <h4>- @Model.OrderDiscountTotal.ToString()</h4>
                 @foreach (var discount in Model.OrderDiscounts)
                 {
-                    <strong class="pull-right">@discount.Discount.ToString()</strong><br />
+                    @discount.Discount.ToString()<br />
                 }
             </td>    
         </tr>
         <tr>
-            <td>@Html.Translate("/Checkout/ShippingAndTax")<br />
-                <span class="small">
-                    <strong>@Html.Translate("/Checkout/ShippingSubtotal")</strong>
-                </span>
-                <br />
-                <span class="small">
-                    <strong>@Html.Translate("/Checkout/ShippingDiscount")</strong>
-                </span>
-                <br />
-                <span class="small">
-                    <strong>@Html.Translate("/Checkout/ShippingTotal")</strong>
-                </span>
-                <br />
-                <span class="small">
-                    <strong>@Html.Translate("/Checkout/TaxTotal")</strong>
-                </span> 
+            <td><h4>@Html.Translate("/Checkout/ShippingAndTax")</h4>
+                    @Html.Translate("/Checkout/ShippingSubtotal")<br />
+                    @Html.Translate("/Checkout/ShippingDiscount")<br />
+                    @Html.Translate("/Checkout/ShippingTotal")<br />
+                    @Html.Translate("/Checkout/TaxTotal")
             </td>
-            <td class="total-price">
-                <strong class="pull-right">
-                    @Model.ShippingTaxTotal.ToString() <br />
-                    @Model.ShippingSubtotal.ToString() <br />
-                    - @Model.ShippingDiscountTotal.ToString() <br />
-                    @Model.ShippingTotal.ToString() <br />
+            <td class="total-price text-right">
+            
+                <h4>@Model.ShippingTaxTotal.ToString()</h4>
+                    @Model.ShippingSubtotal.ToString()<br />
+                  - @Model.ShippingDiscountTotal.ToString()<br />
+                    @Model.ShippingTotal.ToString()<br />
                     @Model.TaxTotal.ToString()
-                </strong>
             </td>
         </tr>
         <tr>
-            <td>@Html.Translate("/Checkout/CartTotal")</td>
-            <td class="total-price"><strong class="pull-right">@Model.CartTotal.ToString()</strong></td>
+            <td><h4>@Html.Translate("/Checkout/CartTotal")</h4></td>
+            <td class="total-price"><h4 class="pull-right">@Model.CartTotal.ToString()</h4></td>
         </tr>
     </tbody>
 </table>

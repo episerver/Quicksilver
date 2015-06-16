@@ -1,4 +1,5 @@
 ﻿@using Microsoft.Owin.Security
+@using EPiServer.Web.Mvc.Html
 @model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.InternalLoginViewModel
 
 
@@ -27,6 +28,11 @@
                 </label>
             </div>
             <button type="submit" class="btn">@Html.Translate("/Login/Form/Label/Login")</button>
+
+            if (Model.ResetPasswordPage != null)
+            {
+                <a class="col-md-offset-1" href="@Url.ContentUrl(Model.ResetPasswordPage)">@Html.Translate("/Login/Form/Label/ForgotPasswordLink")</a>
+            }
         }
     </div>
 

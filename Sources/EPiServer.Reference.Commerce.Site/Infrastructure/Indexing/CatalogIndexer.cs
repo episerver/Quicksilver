@@ -1,4 +1,5 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
@@ -22,10 +23,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 {
     public class CatalogIndexer : CatalogIndexBuilder
     {
+#pragma warning disable 649
         private Injected<IPriceService> _priceService;
-        private Injected<IPricingService> _pricingService;
+        private Injected<IPromotionService> _promotionService;
         private Injected<IContentLoader> _contentLoader;
         private Injected<ReferenceConverter> _referenceConverter;
+#pragma warning restore 649
 
         private readonly ILogger _log = LogManager.GetLogger(typeof(CatalogIndexer));
 
@@ -50,7 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                 AddCodes(document, variants);
                 document.Add(new SearchField("code", productContent.Code, new string[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
                 document.Add(new SearchField("displayname", productContent.DisplayName));
-                document.Add(new SearchField("image_url", productContent.GetDefaultAsset()));
+                document.Add(new SearchField("image_url", productContent.GetDefaultAsset<IContentImage>()));
                 document.Add(new SearchField("content_link", productContent.ContentLink.ToString()));
                 document.Add(new SearchField("created", productContent.Created.ToString("yyyyMMddhhmmss")));
                 document.Add(new SearchField("brand", productContent.Brand));
@@ -65,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         {
             var category = _contentLoader.Service.Get<CatalogContentBase>(nodeContent.ParentLink);
             if (category.ContentType == CatalogContentType.Catalog)
-            {
+            { 
                 return (NodeContent)nodeContent;
             }
             return GetTopCategory(category);
@@ -114,7 +117,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                         topPrice.UnitPrice.Amount);
 
                     var discountPrice = new SearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
-                        _pricingService.Service.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount);
+                        _promotionService.Service.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount);
 
                     document.Add(variationPrice);
                     document.Add(discountPrice);

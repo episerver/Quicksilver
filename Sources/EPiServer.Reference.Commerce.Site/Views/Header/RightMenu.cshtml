@@ -1,4 +1,5 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.HeaderViewModel
+﻿@using Microsoft.AspNet.Identity
+@model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.HeaderViewModel
 @{
     Layout = null;
     var additionalLink = new EPiServer.SpecializedProperties.LinkItem();
@@ -15,10 +16,13 @@ else
     additionalLink.Text = Html.Translate("/Header/Account/SignIn");
 }
 
+<span>@Model.UserDisplayName</span>
+
+
 @Html.PropertyFor(
     x => x.StartPage.RightMenu, new 
     {
-        @class = "nav settings-bar__nav",
+        @class = "nav settings-bar__nav pull-right col-md-offset-1",
         @anchorClass = "link--white",
         additionalLink = additionalLink
     }

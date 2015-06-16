@@ -18,7 +18,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         public int Ordering { get; set; }
         public bool IsDefault { get; set; }
         public T PaymentMethod { get; set; }
-        public Guid PaymentMethodId { get; set; }
         public virtual string Controller { get; set; }
     }
 }

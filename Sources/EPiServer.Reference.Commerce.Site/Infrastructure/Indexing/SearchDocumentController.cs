@@ -22,17 +22,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
     public class SearchDocumentController : ApiController
     {
         private readonly IPriceService _priceService;
-        private readonly IPricingService _pricingService;
+        private readonly IPromotionService _promotionService;
         private readonly IContentLoader _contentLoader;
         private readonly ReferenceConverter _referenceConverter;
 
         public SearchDocumentController(IPriceService priceService,
-            IPricingService pricingService,
+            IPromotionService promotionService,
             IContentLoader contentLoader,
             ReferenceConverter referenceConverter)
         {
             _priceService = priceService;
-            _pricingService = pricingService;
+            _promotionService = promotionService;
             _contentLoader = contentLoader;
             _referenceConverter = referenceConverter;
         }
@@ -67,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             AddCodes(document, variants);
             document.Fields.Add(new RestSearchField("code", productContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
             document.Fields.Add(new RestSearchField("displayname", productContent.DisplayName));
-            document.Fields.Add(new RestSearchField("image_url", productContent.GetDefaultAsset()));
+            document.Fields.Add(new RestSearchField("image_url", productContent.GetDefaultAsset<IContentImage>()));
             document.Fields.Add(new RestSearchField("content_link", productContent.ContentLink.ToString()));
             document.Fields.Add(new RestSearchField("created", productContent.Created.ToString("yyyyMMddhhmmss")));
             document.Fields.Add(new RestSearchField("brand", productContent.Brand));
@@ -128,8 +128,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                         topPrice.UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
                     var discountPrice = new RestSearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
-                        _pricingService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture),
-                        true);
+                        _promotionService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
                     document.Fields.Add(variationPrice);
                     document.Fields.Add(discountPrice);

@@ -1,12 +1,9 @@
-﻿using EPiServer.Framework.Localization;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using Microsoft.AspNet.Identity.Owin;
-using System;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using StructureMap;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -23,12 +20,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
     {
         private readonly LocalizationService _localizationService;
         private readonly ApplicationSignInManager _signInManager;
-
-        [DefaultConstructor]
-        public BackendLoginController(LocalizationService localizationService)
-            : this(localizationService, System.Web.HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>())
-        {
-        }
 
         public BackendLoginController(LocalizationService localizationService, ApplicationSignInManager signInManager)
         {
@@ -88,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             // Url.IsLocalUrl does not recognize localhost as true, so to make this work while
             // debugging we should also allow calls coming from within the same server. 
             // We can do this by first checking with Request.IsLocal.
-            if (Request.IsLocal || IsLocalUrl(returnUrl))
+            if (Request.IsLocal || returnUrl.IsLocalUrl(Request))
             {
                 return Redirect(returnUrl);
             }
@@ -96,12 +87,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             // If the return URL was set to an external address then make sure the call goes to the
             // start page of the site instead.
             return RedirectToAction("Index", new { node = EPiServer.Core.ContentReference.StartPage });
-        }
 
-        private bool IsLocalUrl(string url)
-        {
-            Uri absoluteUri;
-            return Uri.TryCreate(url, UriKind.Absolute, out absoluteUri) && String.Equals(Request.Url.Host, absoluteUri.Host, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

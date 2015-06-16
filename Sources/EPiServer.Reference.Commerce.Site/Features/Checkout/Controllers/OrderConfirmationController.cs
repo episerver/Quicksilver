@@ -1,26 +1,25 @@
-﻿using EPiServer.Editor;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
-using EPiServer.Reference.Commerce.Site.Features.Market;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
-using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Orders;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Core;
+using EPiServer.Editor;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
+using EPiServer.Web.Mvc;
+using EPiServer.Web.Mvc.Html;
+using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
     public class OrderConfirmationController : PageController<OrderConfirmationPage>
     {
         private readonly ConfirmationService _confirmationService;
-        private readonly CurrencyService _currencyService;
 
-        public OrderConfirmationController(ConfirmationService confirmationService, CurrencyService currencyService)
+        public OrderConfirmationController(ConfirmationService confirmationService)
         {
             _confirmationService = confirmationService;
-            _currencyService = currencyService;
         }
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var order = _confirmationService.GetOrder(orderNumber, PageEditing.PageIsInEditMode);
             if (order == null && !PageEditing.PageIsInEditMode)
             {
-                return HttpNotFound();
+                return Redirect(Url.ContentUrl(ContentReference.StartPage));
             }
 
             var model = CreateViewModel(currentPage, order);
@@ -65,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 ContactId = CustomerContext.Current.CurrentContactId,
                 Payment = (CreditCardPayment)form.Payments.First(),
                 GroupId = order.OrderGroupId,
-                TotalPrice = order.ToMoney(form.LineItems.Sum(x => x.ExtendedPrice))
+                TotalPrice = order.ToMoney(form.Total)
             };
         }
     }

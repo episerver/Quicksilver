@@ -7,6 +7,7 @@ using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using System.Collections.Generic;
@@ -22,24 +23,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product
     public class ProductService : IProductService
     {
         private readonly IContentLoader _contentLoader;
+        private readonly IPromotionService _promotionService;
         private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
         private readonly LinksRepository _linksRepository;
         private readonly IRelationRepository _relationRepository;
         private readonly CultureInfo _preferredCulture;
         private readonly ICurrentMarket _currentMarket;
-        private readonly CurrencyService _currencyService;
-        private readonly Guid _applicationId;
+        private readonly ICurrencyService _currencyService;
+        private readonly AppContextFacade _appContext;
 
         public ProductService(IContentLoader contentLoader, 
+            IPromotionService promotionService, 
             IPricingService pricingService, 
             UrlResolver urlResolver, 
             LinksRepository linksRepository,
             IRelationRepository relationRepository,
             ICurrentMarket currentMarket,
-            CurrencyService currencyService)
+            ICurrencyService currencyService,
+            AppContextFacade appContext)
         {
             _contentLoader = contentLoader;
+            _promotionService = promotionService;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
             _linksRepository = linksRepository;
@@ -47,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product
             _preferredCulture = ContentLanguage.PreferredCulture;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
-            _applicationId = AppContext.Current.ApplicationId;
+            _appContext = appContext;
         }
 
         public IEnumerable<ProductViewModel> GetVariationsAndPricesForProducts(IEnumerable<ProductContent> products)
@@ -116,30 +121,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product
             }
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
-            var originalPrice = _pricingService.GetCurrentPrice(variation.Code);
-            var discountPrice = GetDiscountPrice(variation, market, currency, originalPrice);
-            var image = variation.GetAssets().FirstOrDefault() ?? "";
-
             return new ProductViewModel
             {
                 DisplayName = product != null ? product.DisplayName : variation.DisplayName,
-                OriginalPrice = originalPrice,
-                Price = discountPrice,
-                Image = image,
+                OriginalPrice = _pricingService.GetCurrentPrice(variation.Code),
+                Price = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency).UnitPrice,
+                Image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
                 Url = variation.GetUrl(),
                 ContentLink = productContentReference
             };
-        }
-
-        private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money orginalPrice)
-        {
-            var discountPrice = _pricingService.GetDiscountPrice(new CatalogKey(_applicationId, variation.Code), market.MarketId, currency);
-            if (discountPrice != null)
-            {
-                return discountPrice.UnitPrice;
-            }
-
-            return orginalPrice;
         }
     }
 }

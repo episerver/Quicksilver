@@ -12,8 +12,9 @@
                 $('.jsProductDetails').replaceWith($(result).find('.jsProductDetails'));
             },
             error: function () {
-                alert('The variant is out of stock.');                
-        }
+                $('.jsAddToCart button').addClass('disabled');
+                alert('The variant is not available.');
+            }
         });
     }
 };

@@ -19,6 +19,7 @@
       </Account>
       <MiniCart>
         <Button>
+          <ContinueShopping>Continue shopping</ContinueShopping>
           <GoToCheckout>Proceed to checkout</GoToCheckout>
         </Button>
       </MiniCart>
@@ -274,22 +275,31 @@
           <Username>Username:</Username>
           <Heading>Returning customer?</Heading>
           <LoginMessage>Sign in to your account.</LoginMessage>
-          <Email>Email:</Email>
+          <Email>E-mail:</Email>
           <Password>Password:</Password>
           <RememberMe>Remember me</RememberMe>
           <Login>Login</Login>
+          <ForgotPasswordLink>Forgot your password?</ForgotPasswordLink>
         </Label>
         <Empty>
           <Username>Username is required</Username>
-          <Email>Email is required</Email>
+          <Email>E-mail is required</Email>
           <Password>Password is required</Password>
         </Empty>
         <Error>
           <WrongPasswordOrEmail>You have entered wrong username or password</WrongPasswordOrEmail>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid e-mail</InvalidEmail>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
         </Error>
       </Form>
+      <ExternalLoginFailure>
+        <Heading>Could not login</Heading>
+        <Message>Something went wrong when verifying your user account.</Message>
+      </ExternalLoginFailure>
+      <Lockout>
+        <Heading>Your account has been locked</Heading>
+        <Message>As a precaution your account has temporarely been locked due to too many recent login failures. Please come back and try again later.</Message>
+      </Lockout>
       <BackendLogin>
         <Heading>Edit view</Heading>
         <LoginMessage>
@@ -299,20 +309,39 @@
     </Login>
     <ResetPassword>
       <Mail>
-        <Text>Here are your</Text>
+        <Text>Reset your password using this </Text>
         <Link>link</Link>
       </Mail>
+      <ForgotPasswordConfirmation>
+        <Heading>Halfway there...</Heading>
+        <Message>Please check your e-mail to reset your password.</Message>
+      </ForgotPasswordConfirmation>
+      <ResetPassword>
+        <Heading>Reset password</Heading>
+        <Message>Enter your e-mail address and a new password.</Message>
+      </ResetPassword>
+      <ResetPasswordConfirmation>
+        <Heading>Password has been reset</Heading>
+        <Message>Well done. Your password was successfully updated. Please </Message>
+        <LoginLink>click here to log in.</LoginLink>
+      </ResetPasswordConfirmation>
       <Form>
+        <Placeholder>
+          <Email>Enter your e-mail address</Email>
+          <Password>Password</Password>
+          <Password2>Confirm the password</Password2>
+        </Placeholder>
         <Label>
-          <Email>Email:</Email>
+          <Email>E-mail:</Email>
           <Password>New password:</Password>
           <Password2>New password again:</Password2>
           <Send>Send</Send>
+          <Reset>Reset</Reset>
         </Label>
         <Empty>
-          <Email>Email is required</Email>
+          <Email>E-mail is required</Email>
           <Password>Password is required</Password>
-          <Password2>Password2 is required</Password2>
+          <Password2>You need to confirm your password</Password2>
         </Empty>
         <Error>
           <ExpiredLink>Your link has expired!</ExpiredLink>
@@ -337,20 +366,20 @@
       <NotInlogged>You are not inlogged</NotInlogged>
       <Form>
         <Label>
-          <ShippingAddress>Default shipping address</ShippingAddress>
-          <BillingAddress>Default billing address</BillingAddress>
-          <SetShippingAddress>Set as default shipping address</SetShippingAddress>
-          <SetBillingAddress>Set as default billing address</SetBillingAddress>
+          <ShippingAddress>Preferred shipping address</ShippingAddress>
+          <BillingAddress>Preferred billing address</BillingAddress>
+          <SetShippingAddress>Set as preferred shipping address</SetShippingAddress>
+          <SetBillingAddress>Set as preferred billing address</SetBillingAddress>
           <AddressName>Address name *:</AddressName>
           <Organization>Organization</Organization>
           <FirstName>First name *:</FirstName>
           <LastName>Last name *:</LastName>
-          <Line1>Line1 *:</Line1>
-          <Line2>Line2 :</Line2>
+          <Line1>Line 1 *:</Line1>
+          <Line2>Line 2 :</Line2>
           <City>City *:</City>
           <Region>Region</Region>
           <PostalCode>Zip code *:</PostalCode>
-          <CountryName>Country *:</CountryName>
+          <CountryCode>Country *:</CountryCode>
           <DaytimePhoneNumber>Phone number:</DaytimePhoneNumber>
           <Email>Email:</Email>
           <Submit>Save</Submit>
@@ -372,10 +401,11 @@
           <City>City is required</City>
           <Region>Region is required</Region>
           <PostalCode>Postal code is required</PostalCode>
-          <CountryName>Country name is required</CountryName>
+          <CountryCode>Country name is required</CountryCode>
         </Empty>
         <Error>
           <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <ExistingAddress>An address with the same name already exists</ExistingAddress>
         </Error>
       </Form>
     </AddressBook>
@@ -401,5 +431,32 @@
     <Search>
       <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>
     </Search>
+    <Shared>
+      <Address>
+        <Form>
+          <Empty>
+            <FirstName>First name is required</FirstName>
+            <LastName>Last name is required</LastName>
+            <Line1>Shipping address is required</Line1>
+            <CountryCode>Country is required</CountryCode>
+            <City>City is required</City>
+            <PostalCode>Zip code is required</PostalCode>
+          </Empty>
+          <Label>
+            <FirstName>First name *:</FirstName>
+            <LastName>Last name *:</LastName>
+            <Line1>Line 1 *:</Line1>
+            <City>City *:</City>
+            <Region>Region</Region>
+            <PostalCode>Zip code *:</PostalCode>
+            <CountryCode>Country *:</CountryCode>
+            <Address>Address *:</Address>
+            <Name>Name:</Name>
+            <DateModified>Date Modified</DateModified>
+          </Label>
+        </Form>
+        
+      </Address>
+    </Shared>
   </language>
 </languages>

@@ -33,9 +33,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
             _preferredCulture = ContentLanguage.PreferredCulture;
         }
 
-        public IReadOnlyCollection<LineItem> GetAllLineItems()
+        public decimal GetLineItemsTotalQuantity()
         {
-            return CartHelper.Cart.GetAllLineItems();
+            return CartHelper.Cart.GetAllLineItems().Sum(x => x.Quantity);
         }
 
         public IEnumerable<CartItem> GetCartItems()
@@ -58,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
                 DisplayName = lineItem.DisplayName,
                 ExtendedPrice = lineItem.ToMoney(lineItem.ExtendedPrice + lineItem.OrderLevelDiscountAmount),
                 PlacedPrice = lineItem.ToMoney(lineItem.PlacedPrice),
-                DiscountPrice = lineItem.ToMoney(Math.Round(lineItem.PlacedPrice - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountAmount) / lineItem.Quantity, 2)),
+                DiscountPrice = lineItem.ToMoney(Math.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity, 2)),
                 Quantity = lineItem.Quantity,
                 Url = lineItem.GetUrl(),
                 Variant = variants.FirstOrDefault(variant => variant.Code == lineItem.Code),

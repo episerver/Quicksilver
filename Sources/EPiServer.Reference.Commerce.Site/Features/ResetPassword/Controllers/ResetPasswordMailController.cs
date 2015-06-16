@@ -1,39 +1,39 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Editor;
-using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Models;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
+using System.Threading.Tasks;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
+using EPiServer.Web.Routing;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
+using Microsoft.Owin;
+using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {
-    public class ResetPasswordMailController : PageController<ResetPasswordMailPage>
+    public class ResetPasswordMailController : IdentityControllerBase<ResetPasswordMailPage>
     {
-        private readonly IContentLoader _contentLoader;
-
-        public ResetPasswordMailController(IContentLoader contentLoader)
+        public ResetPasswordMailController(ApplicationSignInManager signinManager, ApplicationUserManager userManager, UserService userService)
+            : base(signinManager, userManager, userService)
         {
-            _contentLoader = contentLoader;
         }
 
-        public ActionResult Index(ResetPasswordMailPage currentPage, string hash)
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public async Task<ActionResult> Index(ResetPasswordMailPage currentPage, string id, string language)
         {
-            if (string.IsNullOrEmpty(hash) && !PageEditing.PageIsInEditMode)
+            ResetPasswordMailModel viewModel = new ResetPasswordMailModel();
+
+            if (id != null)
             {
-                return HttpNotFound();
+                string code = await UserManager.GeneratePasswordResetTokenAsync(id);
+                viewModel.CallbackUrl = Url.Action("ResetPassword", "ResetPassword", new { userId = id, code = code, langauge = language }, protocol: Request.Url.Scheme);
             }
-            if (string.IsNullOrEmpty(hash))
-            {
-                hash = "examplehash";
-            }
-            var model = new ResetPasswordMailModel
-                {
-                    CurrentPage = currentPage,
-                    StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
-                    Hash = hash
-                };
-            return View(model);
+
+            return View(viewModel);
         }
     }
 }

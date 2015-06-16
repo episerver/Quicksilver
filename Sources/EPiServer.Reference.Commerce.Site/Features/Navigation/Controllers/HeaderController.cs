@@ -1,19 +1,23 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Navigation.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using Mediachase.Commerce.Customers;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
 {
     public class HeaderController : Controller
     {
         private readonly IContentLoader _contentLoader;
+        private readonly CurrentContactFacade _currentContactFacade;
 
-        public HeaderController(IContentLoader contentLoader)
+        public HeaderController(CurrentContactFacade currentContactFacade, IContentLoader contentLoader)
         {
             _contentLoader = contentLoader;
+            _currentContactFacade = currentContactFacade;
         }
 
         [ChildActionOnly]
@@ -24,16 +28,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
                 CurrentContentLink = GetCategoryOrPageLink(currentContent),
                 StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage)
             };
+
             return PartialView(model);
         }
 
         public ActionResult RightMenu(IContent currentContent)
         {
+            string userDisplayName = null;
+            CustomerContact customer = _currentContactFacade.CurrentContact;
+
+            if (customer != null)
+            {
+                userDisplayName = customer.FirstName + " " + customer.LastName;
+            }
+
             var model = new HeaderViewModel
             {
                 CurrentContentLink = currentContent != null ? currentContent.ContentLink : null,
-                StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage)
+                StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
+                UserDisplayName = userDisplayName
             };
+
             return PartialView(model);
         }
 
@@ -47,22 +62,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
             }
 
             if (content is PageData)
-            { 
-                return GetContentPage(content);
+            {
+                return content.ContentLink;
             }
 
             return null;
         }
 
-        private ContentReference GetContentPage(IContent content)
-        {
-            return content.ContentLink;
-        }
-
         private ContentReference GetCategory(CatalogContentBase content)
         {
             if (content is NodeContent)
-            { 
+            {
                 return content.ContentLink;
             }
 

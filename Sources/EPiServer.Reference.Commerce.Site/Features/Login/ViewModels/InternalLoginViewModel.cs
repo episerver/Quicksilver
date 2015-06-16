@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+﻿using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
         [LocalizedRequired("/Login/Form/Empty/Email")]
         [LocalizedEmail("/Login/Form/Error/InvalidEmail")]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets a reference to the reset password page.
+        /// </summary>
+        public PageReference ResetPasswordPage { get; set; }
 
     }
 }

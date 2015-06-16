@@ -6,10 +6,28 @@
         <div class="col-xs-12 col-md-6 product-details__media">
             <img src="@Model.Images.First()">
 
-            </div>              
+        </div>              
             
         <div class="col-md-6 product-info">
-            <h3>@Html.PropertyFor(x => x.Variation.DisplayName)</h3>
+            
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <h3>@Html.PropertyFor(x => x.Variation.DisplayName)</h3>
+                </div>
+                <div class="col-xs-12 col-md-4 pull-right">
+
+                    @if (Model.Price < Model.OriginalPrice)
+                    {
+                        <h3 class="original-price">@Html.Translate("/ProductPage/OriginalPrice")  <strong>@Model.OriginalPrice.ToString()</strong></h3>
+                        <h3 class="discount-price">@Html.Translate("/ProductPage/DiscountPrice")  <strong>@Model.Price.ToString()</strong></h3>
+                    }
+                    else
+                    {
+                        <h3>@Html.Translate("/ProductPage/Price")  <strong>@Model.Price.ToString()</strong></h3>
+                    }
+                </div>
+            </div>
+           
             <p>
                 @Html.PropertyFor(x => x.Product.Description)
             </p>
@@ -28,19 +46,10 @@
                 </div>
                 <div class="form-group">
                     <label for="Size">@Html.Translate("/ProductPage/VariationSelection/Size")</label>
-                    @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "form-control jsVariationSwitch" })
+                    @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "form-control" })
                 </div>
             }
-                
-            @if (Model.Price < Model.OriginalPrice)
-            {
-                <p class="original-price">@Html.Translate("/ProductPage/OriginalPrice")  <strong>@Model.OriginalPrice.ToString()</strong></p>
-                <p class="discount-price">@Html.Translate("/ProductPage/DiscountPrice")  <strong>@Model.Price.ToString()</strong></p>
-            }
-            else
-            {
-            <p>@Html.Translate("/ProductPage/Price")  <strong>@Model.Price.ToString()</strong></p>
-            }    
+             
             <p class="shopping-button">
                 @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline jsAddToCart" }))
                 {
@@ -63,8 +72,19 @@
 </div>
 
 @section Meta {
-    @if (Model != null) 
-    { 
-	 <meta property="description" content="@Html.AttributeEncode(Model.Product.Description)" />
-	}
+    @if (Model != null)
+    {
+        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Description))
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Product.SeoInformation.Description)" />
+        }
+        else if (!Model.Product.Description.IsEmpty)
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Product.Description)" />
+        }
+        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Keywords))
+        {
+            <meta property="keywords" content="@Html.AttributeEncode(Model.Product.SeoInformation.Keywords)" />
+        }
+    }
 }

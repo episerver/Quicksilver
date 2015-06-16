@@ -1,9 +1,8 @@
-using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
+using System.ComponentModel.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Pages
 {
@@ -12,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Pages
         GUID = "3c045289-8e14-420e-a815-62fdf13e4b16", 
         Description = "", 
         AvailableInEditMode = false)]
-    [AvailableContentTypes(Include = new[] { typeof(LoginRegistrationPage), typeof(PasswordResetLinkPage) })]
+    [AvailableContentTypes(Include = new[] { typeof(LoginRegistrationPage)})]
     public class LoginRegistrationPage : PageData
     {
         [CultureSpecific]

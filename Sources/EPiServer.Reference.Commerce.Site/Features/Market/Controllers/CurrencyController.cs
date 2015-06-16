@@ -5,9 +5,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
     public class CurrencyController : Controller
     {
-        private readonly CurrencyService _currencyService;
+        private readonly ICurrencyService _currencyService;
 
-        public CurrencyController(CurrencyService currencyService)
+        public CurrencyController(ICurrencyService currencyService)
         {
             _currencyService = currencyService;
         }
