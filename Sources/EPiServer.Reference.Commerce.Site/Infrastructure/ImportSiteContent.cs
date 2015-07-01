@@ -90,8 +90,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             }
         }
 
-
-
         private void EnableCurrencies()
         {
             var c = new CurrencySetup();
@@ -99,9 +97,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         }
 
         /// <summary>
-        /// This method deletes the default payment methods and creates one "dummy" credit card payment method for every language
-        /// and associates it with all available markets. Probably not a real world scenario but for our testing purposes it is fine =)
+        /// This method deletes all enabled payment methods and creates a new credit card payment method and a cash on delivery payment method for every language
+        /// and associates it with all available markets.
         /// </summary>
+        /// <remarks>
+        /// This will ensure we have at least two different working payment methods available.
+        /// Probably not a real world scenario but for our testing purposes it is fine =)
+        /// </remarks>
         private void ConfigurePaymentMethods()
         {
             var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
@@ -115,16 +117,48 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 }
                 PaymentManager.SavePayment(paymentMethodDto);
 
-                var row = paymentMethodDto.PaymentMethod.AddPaymentMethodRow(Guid.NewGuid(), "Credit card", "Dummy credit card payment", language.TwoLetterISOLanguageName,
-                                "GenericCreditCard", true, true, "EPiServer.Reference.Commerce.Shared.GenericCreditCardPaymentGateway, EPiServer.Reference.Commerce.Shared",
-                                "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce", false, 1, DateTime.Now, DateTime.Now,
-                                                 AppContext.Current.ApplicationId);
-                PaymentManager.SavePayment(paymentMethodDto);
+                AddPaymentMethod(Guid.NewGuid(),
+                    "Credit card",
+                    "GenericCreditCard",
+                    "Credit card payment",
+                    "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
+                    "EPiServer.Reference.Commerce.Shared.GenericCreditCardPaymentGateway, EPiServer.Reference.Commerce.Shared",
+                    true, 1, allMarkets, language, paymentMethodDto);
 
-                var paymentMethod = new PaymentMethod(row);
-                paymentMethod.MarketId.AddRange(allMarkets.Where(x => x.IsEnabled && x.Languages.Contains(language)).Select(x => x.MarketId));
-                paymentMethod.SaveChanges();
+                AddPaymentMethod(Guid.NewGuid(),
+                    "Cash on delivery",
+                    "CashOnDelivery",
+                    "The payment is settled as part of the order delivery.",
+                    "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
+                    "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
+                    false, 2, allMarkets, language, paymentMethodDto);
             }
+        }
+
+        /// <summary>
+        /// Adds a payment method for a specific language.
+        /// </summary>
+        /// <param name="id">The ID of the payment method.</param>
+        /// <param name="name">The name of the payment method.</param>
+        /// <param name="systemKeyword">The system name of the payment method.</param>
+        /// <param name="description">A description of the payment method.</param>
+        /// <param name="implementationClass"></param>
+        /// <param name="gatewayClass"></param>
+        /// <param name="isDefault">Indicate whether it should be the default method or not.</param>
+        /// <param name="orderIndex">The ordering index when the method is listed.</param>
+        /// <param name="markets">All markets the method should be associated with.</param>
+        /// <param name="language">The language for the payment method.</param>
+        /// <param name="paymentMethodDto">The dataset used for creating new payment method rows.</param>
+        private static void AddPaymentMethod(Guid id, string name, string systemKeyword, string description, string implementationClass, string gatewayClass, 
+            bool isDefault, int orderIndex, IEnumerable<IMarket> markets, CultureInfo language, PaymentMethodDto paymentMethodDto)
+        {
+            var row = paymentMethodDto.PaymentMethod.AddPaymentMethodRow(id, name, description, language.TwoLetterISOLanguageName,
+                            systemKeyword, true, isDefault, gatewayClass,
+                            implementationClass, false, orderIndex, DateTime.Now, DateTime.Now, AppContext.Current.ApplicationId);
+
+            var paymentMethod = new PaymentMethod(row);
+            paymentMethod.MarketId.AddRange(markets.Where(x => x.IsEnabled && x.Languages.Contains(language)).Select(x => x.MarketId));
+            paymentMethod.SaveChanges();
         }
 
         /// <summary>
@@ -420,7 +454,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             CreateExpression(1, "25 % off Mens Shoes");
             CreateExpression(2, "$50 off Order over $500");
             CreateExpression(3, "$10 off shipping from Women's Shoes");
-            
+
         }
 
         private void CreatePromotion(PromotionDto dto, string name, decimal reward, PromotionType rewardType, string promotionType, string promotionGroup, int campaignId)
@@ -449,6 +483,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 promotionRow.OfferAmount = 25m;
                 promotionRow.OfferType = 0;
             }
+            //In commerce manager, this promotion type is displayed quite differently from others. 
+            //The percentage based offer type has value "0" and value based offer type has value "1". 
+            //But in C# code, PromotionType.Percentage = 1 and PromotionType.ValueBased = 2
+            else if (name.Equals("$10 off shipping from Women's Shoes"))
+            {
+                promotionRow.OfferType = 1;
+            }
             dto.Promotion.Rows.Add(promotionRow);
             return;
         }
@@ -473,7 +514,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     xml = sr.ReadToEnd();
                     sr.Close();
                 }
-                
+
             }
             else if (name.Equals("$50 off Order over $500"))
             {
@@ -493,7 +534,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 xml = xml.Replace("fc7c2d53-7c1c-4298-8189-f8b1f8e85439", ShippingManager.GetShippingMethods("en").ShippingMethod.FirstOrDefault(x => x.LanguageId.Equals("en") && x.Name.Contains("Express") && x.Currency.Equals("USD")).ShippingMethodId.ToString().ToLower());
             }
             xml = xml.Replace("'", "''");
-            var sql = String.Format("INSERT INTO [dbo].[Expression] ([ApplicationId], [Name], [Description], [Category], [ExpressionXml], [Created], [Modified], [ModifiedBy]) VALUES (N'{0}', N'{1}', N'{1}', N'Promotion', '{2}', N'20150430 09:55:05.570', NULL, N'admin')", AppContext.Current.ApplicationId, name.Replace("'","''"), xml);
+            var sql = String.Format("INSERT INTO [dbo].[Expression] ([ApplicationId], [Name], [Description], [Category], [ExpressionXml], [Created], [Modified], [ModifiedBy]) VALUES (N'{0}', N'{1}', N'{1}', N'Promotion', '{2}', N'20150430 09:55:05.570', NULL, N'admin')", AppContext.Current.ApplicationId, name.Replace("'", "''"), xml);
             ExecuteSql(sql);
             sql = String.Format("INSERT INTO [dbo].[PromotionCondition] ([PromotionId], [ExpressionId], [CatalogName], [CatalogNodeId], [CatalogEntryId]) VALUES ({0}, {0}, NULL, NULL, NULL)", promotionId);
             ExecuteSql(sql);

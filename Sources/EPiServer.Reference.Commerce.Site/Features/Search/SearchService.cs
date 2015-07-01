@@ -23,7 +23,7 @@ using Mediachase.Search.Extensions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search
 {
-    [ServiceConfiguration(typeof(ISearchService), Lifecycle = ServiceInstanceScope.Singleton)]
+    [ServiceConfiguration(typeof(ISearchService), Lifecycle = ServiceInstanceScope.PerRequest)]
     public class SearchService : ISearchService
     {
         private readonly SearchFacade _search;
@@ -110,11 +110,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
         private CatalogEntrySearchCriteria CreateCriteriaForQuickSearch(FilterOptionFormModel filterOptions)
         {
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == filterOptions.Sort) ?? GetSortOrder().First();
+            var market = _currentMarket.GetCurrentMarket();
 
             var criteria = new CatalogEntrySearchCriteria
             {
                 ClassTypes = new StringCollection { "product" },
                 Locale = _preferredCulture.Name,
+                MarketId = market.MarketId,
                 StartingRecord = 0,
                 RecordsToRetrieve = filterOptions.PageSize,
                 Sort = new SearchSort(new SearchSortField(sortOrder.Key, sortOrder.SortDirection == SortDirection.Descending)),
@@ -169,7 +171,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                 }
 
                 var facetValues = searchFilter.Values.SimpleValue
-                    .Where(x => facetGroupOption.Facets.FirstOrDefault(y => y.Selected && y.Name.ToLower() == x.value.ToLower()) != null);
+                    .Where(x => facetGroupOption.Facets.FirstOrDefault(y => y.Selected && y.Key.ToLower() == x.key.ToLower()) != null);
 
                 criteria.Add(searchFilter.field.ToLower(), facetValues);
             }
@@ -227,7 +229,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                     {
                         Name = y.Name,
                         Selected = y.IsSelected,
-                        Count = y.Count
+                        Count = y.Count,
+                        Key = y.Key 
                     }).ToList()
                 });
             }
@@ -250,15 +253,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                 DisplayName = GetString(document, "displayname"),
                 OriginalPrice = new Money(GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)), currency),
                 Price = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
-                Image = GetUrl(document, "image_url"),
+                Image = GetString(document, "image_url"),
                 Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link")))
             });
-        }
-
-        private static string GetUrl(ISearchDocument document, string name)
-        {
-            var value = GetString(document, name);
-            return new Uri(value, UriKind.RelativeOrAbsolute).PathAndQuery;
         }
 
         private static string GetString(ISearchDocument document, string name)
@@ -298,7 +295,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search
                 {
                     case '\\':
                     case '+':
-                    case '-':
                     case '!':
                     case '(':
                     case ')':

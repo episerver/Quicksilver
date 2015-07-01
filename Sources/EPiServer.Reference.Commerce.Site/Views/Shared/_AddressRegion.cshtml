@@ -1,22 +1,23 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.AddressModelBase
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.Address
 
 @{
-    ViewData.TemplateInfo.HtmlFieldPrefix = Model is EPiServer.Reference.Commerce.Site.Features.Checkout.Models.AddressFormModel ?  "formModel.AddressFormModel" : null;
+    var originalHtmlFieldPrefix  = ViewData.TemplateInfo.HtmlFieldPrefix;
+    ViewData.TemplateInfo.HtmlFieldPrefix = Model.HtmlFieldPrefix;
 }
 
-<div id="AddressRegion" class="form-group">
+<div class="form-group address-region">
     @Html.LabelFor(formModel => formModel.Region)
-    @if (Model.RegionOptions.Any())
+    @if (Model.RegionOptions != null && Model.RegionOptions.Any())
     {
-        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, "Name", "Name", Model.Region), new { @class = "form-control address-region" });
+        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, "Name", "Name", Model.Region), new { @class = "form-control address-region-input" });
     }
     else
     {
-        @Html.TextBoxFor(formModel => formModel.Region, new { @class = "form-control address-region" })
+        @Html.TextBoxFor(formModel => formModel.Region, new { @class = "form-control address-region-input" })
     }
     @Html.ValidationMessageFor(formModel => formModel.Region)
 </div>
 
 @{
-    ViewData.TemplateInfo.HtmlFieldPrefix = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = originalHtmlFieldPrefix;
 }

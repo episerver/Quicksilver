@@ -15,7 +15,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
         ShippingRate GetShippingRate(Shipment shipment, Guid shippingMethodId);
         IEnumerable<ShippingRate> GetShippingRates(Shipment shipment);
         IEnumerable<PaymentMethodViewModel<IPaymentOption>> GetPaymentMethods();
-        AddressFormModel MapAddressToAddressForm(AddressEntity preferredShippingAddress);
         OrderAddress AddNewOrderAddress();
         void ClearOrderAddresses();
         PurchaseOrder SaveCartAsPurchaseOrder();

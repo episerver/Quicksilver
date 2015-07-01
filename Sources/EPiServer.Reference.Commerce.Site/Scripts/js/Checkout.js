@@ -4,30 +4,34 @@
             .on('change', '.jsChangePayment', Checkout.changePayment)
             .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
-            .on('change', '.jsChangeCountry', Checkout.changeCountry);
+            .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
+            .on('click', '.remove-shipping-address', Checkout.removeShippingAddress);
+
+        Checkout.initializeAddressAreas();
     },
-    changeCountry: function () {
-       
-        var $countryCode = $(this).val();
-        var $region = $(".address-region").val();
+    initializeAddressAreas: function () {
+
+        if ($("#UseBillingAddressForShipment").val() == "False") {
+            $("#AlternativeAddressButton").click();
+        }
+        else {
+            $(".shipping-address").css("display", "none");
+            $(".remove-shipping-address").click();
+        }
+    },
+    changeAddress: function () {
+
+        var form = $('.jsCheckoutForm');
+        $("#ShippingAddressIndex").val($(".jsChangeAddress").index($(this)) - 1);
 
         $.ajax({
             type: "POST",
-            url: $(this).closest(".jsCheckoutAddress").data("url").replace("ChangeAddress", "GetRegionsForCountry"),
-            data: { countryCode: $countryCode, region: $region },
-            success: function (result) {
-                $("#AddressRegion").replaceWith($(result));
-            }
-        });
-    },
-    changeAddress: function () {
-        $.ajax({
-            type: "POST",
+            chache: false,
             url: $(this).closest('.jsCheckoutAddress').data('url'),
-            data: $(this).serialize(),
+            data: form.serialize(),
             success: function (result) {
-                $('.jsCheckoutAddress').replaceWith($(result).filter('.jsCheckoutAddress'));
-                Misc.updateValidation('jsCheckoutForm');
+                $("#AddressContainer").replaceWith($(result));
+                Checkout.initializeAddressAreas();
             }
         });
     },
@@ -65,5 +69,31 @@
                 $('.jsOrderSummary').replaceWith($(result).filter('.jsOrderSummary'));
             }
         });
+    },
+    enableShippingAddress: function (event) {
+
+        event.preventDefault();
+
+        var $billingShippingMethods = $(".billing-shipping-method");
+        var $selectedShippingMethodId = $(".jsChangeShipment:checked", $billingShippingMethods).val();
+        $("input[value='" + $selectedShippingMethodId + "']").prop('checked', true);
+        $("#AlternativeAddressButton").hide();
+        $(".billing-shipping-method").hide();
+        $(".shipping-address:hidden").slideToggle(300);
+        $("#UseBillingAddressForShipment").val("False");
+
+    },
+    removeShippingAddress: function (event) {
+
+        event.preventDefault();
+
+        var $billingShippingMethods = $(".billing-shipping-method");
+        var $selectedShippingMethodId = $(".jsChangeShipment:checked", $(this).closest(".shipping-address")).val();
+        $("#" + $selectedShippingMethodId).prop('checked', true);
+        $("#AlternativeAddressButton").show();
+        $(".billing-shipping-method").show();
+        $(".shipping-address:visible").slideToggle(300);
+        $("#UseBillingAddressForShipment").val("True");
+
     }
 };

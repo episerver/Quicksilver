@@ -121,15 +121,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product
             }
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
+            var originalPrice = _pricingService.GetCurrentPrice(variation.Code);
+            var discountPrice = GetDiscountPrice(variation, market, currency, originalPrice);
+            var image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
+
             return new ProductViewModel
             {
                 DisplayName = product != null ? product.DisplayName : variation.DisplayName,
-                OriginalPrice = _pricingService.GetCurrentPrice(variation.Code),
-                Price = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency).UnitPrice,
-                Image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
+                OriginalPrice = originalPrice,
+                Price = discountPrice,
+                Image = image,
                 Url = variation.GetUrl(),
                 ContentLink = productContentReference
             };
+        }
+
+        private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money orginalPrice)
+        {
+            var discountPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
+            if (discountPrice != null)
+            {
+                return discountPrice.UnitPrice;
+            }
+
+            return orginalPrice;
         }
     }
 }

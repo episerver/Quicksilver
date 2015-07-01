@@ -24,6 +24,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using EPiServer.Editor;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -54,6 +55,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<Func<CartHelper>>()
                 .HybridHttpOrThreadLocalScoped()
                 .Use(() => new CartHelper(Cart.DefaultName, PrincipalInfo.CurrentPrincipal.GetContactId()));
+
+                //Register for auto injection of edit mode check, should be default life cycle (per request)
+                c.For<Func<bool>>()
+                .Use(() => PageEditing.PageIsInEditMode);                 
 
                 c.For<IUpdateCurrentLanguage>()
                     .Singleton()

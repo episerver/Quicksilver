@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
-    public class GenericCreditCardPaymentMethodViewModel : PaymentMethodViewModel<GenericCreditCardPaymentMethod>
+    public class GenericCreditCardViewModel : PaymentMethodViewModel<GenericCreditCardPaymentMethod>
     {
-        public GenericCreditCardPaymentMethodViewModel()
+        public GenericCreditCardViewModel()
         {
             InitializeValues();
         }

@@ -121,51 +121,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout
                     FriendlyName = paymentRow.Name,
                     MarketId = CurrentMarketId,
                     Ordering = paymentRow.Ordering,
-                    IsDefault = paymentRow.IsDefault
+                    IsDefault = paymentRow.IsDefault,
+                    Description = paymentRow.Description,
                 }).ToList();
-        }
-
-        public AddressFormModel MapAddressToAddressForm(AddressEntity preferredShippingAddress)
-        {
-
-            var countries = _countryManager.GetCountries().Country.ToList();
-            var regions = countries.First().GetStateProvinceRows().ToList();
-
-            if (preferredShippingAddress == null)
-            {
-                return new AddressFormModel()
-                {
-                    CountryOptions = countries,
-                    RegionOptions = regions
-                };
-            }
-
-            var selectedCountry = countries.FirstOrDefault(x => x.Name == preferredShippingAddress.CountryName);
-
-            var regionOptions = selectedCountry == null ? 
-                new List<CountryDto.StateProvinceRow>() : 
-                selectedCountry.GetStateProvinceRows().ToList();
-           
-
-            return new AddressFormModel
-            {
-                Line1 = preferredShippingAddress.Line1,
-                City = preferredShippingAddress.City,
-                CountryName = preferredShippingAddress.CountryName,
-                Email = preferredShippingAddress.Email,
-                FirstName = preferredShippingAddress.FirstName,
-                LastName = preferredShippingAddress.LastName,
-                PostalCode = preferredShippingAddress.PostalCode,
-                AddressId =
-                    preferredShippingAddress.PrimaryKeyId.HasValue
-                        ? preferredShippingAddress.PrimaryKeyId.Value
-                        : Guid.Empty,
-                SaveAddress = HttpContext.Current.User.Identity.IsAuthenticated,
-                CountryOptions = countries,
-                RegionOptions = regionOptions,
-                Region = preferredShippingAddress.RegionName
-            };
-
         }
 
         public void DeleteCart()

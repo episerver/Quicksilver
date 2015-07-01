@@ -46,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
             if (variant.Code != null)
             {
-                urlBuilder.QueryCollection.Add("variationId", variant.Code);
+                urlBuilder.QueryCollection.Add("variationCode", variant.Code);
             }
             
             return urlBuilder.ToString();

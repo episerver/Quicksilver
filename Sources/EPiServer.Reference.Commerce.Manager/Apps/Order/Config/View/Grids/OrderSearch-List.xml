@@ -10,7 +10,7 @@
 					</Column>
 					<Column width="200" allowSorting="true" dataField="CustomerName" headingText="{SharedStrings:Customer}"></Column>
 					<Column width="100" allowSorting="true" dataField="Total" headingText="{SharedStrings:Total}" columnType="Currency" currencyCodeField="BillingCurrency" align="Right"></Column>
-					<Column width="100" allowSorting="true" dataField="OrderGroupId"  headingText="{SharedStrings:Status}" align="Center" columnType="CustomTemplate">
+					<Column width="100" allowSorting="true" dataField="Status"  headingText="{SharedStrings:Status}" align="Center" columnType="CustomTemplate">
 						<Template id="OrderStatusTemplate" controlUrl="GridTemplates/OrderStatusTemplate.ascx"></Template>
 					</Column>
 					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>

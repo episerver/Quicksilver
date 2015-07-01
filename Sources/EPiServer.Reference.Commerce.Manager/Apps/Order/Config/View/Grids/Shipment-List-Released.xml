@@ -10,8 +10,8 @@
 					</Column>
 					<Column visible="false" allowSorting="false" dataField="OrderGroupId" headingText=""></Column>
 					<Column visible="false" allowSorting="false" dataField="CustomerId" headingText=""></Column>
-					<Column width="200" columnType="DateTime" allowSorting="true" dataField="OrderCreated" sortExpression="Created" headingText="{OrderStrings:Order_Created}"></Column>
-					<Column width="200" columnType="DateTime" allowSorting="true" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>
+					<Column width="200" columnType="DateTime" allowSorting="true" dataField="OrderCreated" sortExpression="OrderGroupId" headingText="{OrderStrings:Order_Created}"></Column>
+					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>
 					<Column width="100" allowSorting="false" dataField="ShipmentId" headingText="{OrderStrings:Shipping_Number}" dataTextFields="OrderTrackingNumber,ShipmentId" dataTextFormatString="{0}-{1}" columnType="HyperLink"></Column>
 					<Column width="100" allowSorting="true" dataField="CustomerName" headingText="{SharedStrings:Customer}"></Column>
 					<Column width="200" allowSorting="false" dataField="ShippingMethodName" headingText="{OrderStrings:Shipping_Method}"></Column>

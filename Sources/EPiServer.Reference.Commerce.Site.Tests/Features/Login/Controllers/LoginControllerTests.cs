@@ -1,19 +1,4 @@
-﻿using EPiServer.Core;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
-using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
-using EPiServer.Reference.Commerce.Site.Features.Login.Services;
-using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using FluentAssertions;
-using Mediachase.Commerce.Customers;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -21,6 +6,26 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Core;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook;
+using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using FluentAssertions;
+using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Orders.Dto;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 {
@@ -30,16 +35,28 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         [TestMethod]
         public void Index_WhenCurrentPageAndReturnUrl_ShouldCreateViewModel()
         {
-            var page = new LoginRegistrationPage
-            {
-                MainArea = new ContentArea("div")
-            };
-
+            var page = new LoginRegistrationPage();
             var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
 
-            var expectedResult = new LoginPageViewModel<LoginRegistrationPage>(page, _testUrl);
+            Assert.IsNotNull(result);
+        }
 
-            result.ShouldBeEquivalentTo(expectedResult);
+        [TestMethod]
+        public void Index_WhenCurrentPageAndReturnUrl_ShouldPassPageToViewModel()
+        {
+            var page = new LoginRegistrationPage();
+            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
+
+            Assert.AreEqual(page, result.CurrentPage);
+        }
+
+        [TestMethod]
+        public void Index_WhenCurrentPageAndReturnUrl_ShouldPassUrlToViewModel()
+        {
+            var page = new LoginRegistrationPage();
+            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
+
+            Assert.AreEqual(_testUrl, result.LoginViewModel.ReturnUrl);
         }
 
         [TestMethod]
@@ -58,16 +75,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             var model = new RegisterAccountViewModel
             {
-                Address = "Address",
-                City = "City",
-                Country = "Country",
                 Email = "email@email.com",
-                FirstName = "Fisrt Name",
-                LastName = "Last Name",
                 Newsletter = true,
                 Password = "Passwors@124#212",
                 Password2 = "Passwors@124#212",
-                PostalCode = "952595"
+            };
+
+            model.Address = new Address
+            {
+                Line1 = "Address",
+                City = "City",
+                CountryName = "Country",
+                FirstName = "Fisrt Name",
+                LastName = "Last Name",
+                PostalCode = "952595",
+                Email = "email@email.com"
             };
 
             var result = _subject.RegisterAccount(model).Result as JsonResult;
@@ -94,21 +116,47 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             var model = new RegisterAccountViewModel
             {
-                Address = "Address",
-                City = "City",
-                Country = "Country",
                 Email = "email@email.com",
-                FirstName = "Fisrt Name",
-                LastName = "Last Name",
                 Newsletter = true,
                 Password = "Passwors@124#212",
                 Password2 = "Passwors@124#212",
+            };
+
+            model.Address = new Address
+            {
+                Line1 = "Address",
+                City = "City",
+                CountryName = "Country",
+                FirstName = "Fisrt Name",
+                LastName = "Last Name",
                 PostalCode = "952595",
+                HtmlFieldPrefix = "Address"
             };
 
             var result = _subject.RegisterAccount(model);
 
             _subject.ModelState.Values.First().Errors.First().ErrorMessage.Should().Be("We have an error");
+        }
+
+        [TestMethod]
+        public void OnException_ShouldDelegateToExceptionHandler()
+        {
+            _subject.CallOnException(_exceptionContext);
+            _controllerExceptionHandler.Verify(x => x.HandleRequestValidationException(_exceptionContext, "registeraccount", _subject.OnRegisterException));
+        }
+
+        [TestMethod]
+        public void OnRegisterException_ShouldCreateRegisterAccountViewModel()
+        {
+            //Setup
+            {
+                Setup_exception(new HttpRequestValidationException());
+                Setup_action_for_controller("registeraccount");
+            }
+
+            var result = _subject.OnRegisterException(_exceptionContext);
+
+            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(RegisterAccountViewModel));
         }
 
         [TestMethod]
@@ -199,7 +247,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var expectedResult = new ChallengeResult("mark", null);
 
             result.ShouldBeEquivalentTo(expectedResult);
-            
         }
 
         [TestMethod]
@@ -258,19 +305,22 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             var result = ((ViewResult)_subject.ExternalLoginCallback("http://test.com/redirect").Result).Model as ExternalLoginConfirmationViewModel;
 
-            var expectedResult = new ExternalLoginConfirmationViewModel 
+            var expectedResult = new ExternalLoginConfirmationViewModel
             {
-                ReturnUrl = "http://test.com/redirect" 
+                ReturnUrl = "http://test.com/redirect"
             };
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        private LoginController _subject;
+        private LoginControllerForTest _subject;
         private Mock<IContentLoader> _contentLoaderMock;
         private Mock<ApplicationUserManager> _userManagerMock;
         private Mock<UserService> _userServiceMock;
         private Mock<ApplicationSignInManager> _signinManagerMock;
-        private Mock<HttpContextBase> _httpContextMock; 
+        private Mock<HttpContextBase> _httpContextMock;
+        private Mock<ControllerExceptionHandler> _controllerExceptionHandler;
+        private Mock<RequestContext> _requestContext;
+        private ExceptionContext _exceptionContext;
         private CultureInfo _cultureInfo;
         private const string _testUrl = "http://test.com";
 
@@ -285,18 +335,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 FallbackBehavior = FallbackBehaviors.MissingMessage
             };
             localizationService.AddString(english, "/Login/Form/Error/WrongPasswordOrEmail", "WrongPasswordOrEmail");
+            localizationService.AddString(english, "/Shared/Address/DefaultAddressName", "Default address");
 
             var startPageMock = new Mock<StartPage>();
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             var authenticationManager = new Mock<IAuthenticationManager>();
+
+            var customercontextFacadeMock = new Mock<CustomerContextFacade>();
+            var countryManagerFacadeMock = new Mock<CountryManagerFacade>();
+            countryManagerFacadeMock.Setup(x => x.GetCountries()).Returns(() => new CountryDto());
+            var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object);
             var request = new Mock<HttpRequestBase>();
             _httpContextMock = new Mock<HttpContextBase>();
+            _requestContext = new Mock<RequestContext>();
+            _controllerExceptionHandler = new Mock<ControllerExceptionHandler>();
 
             _contentLoaderMock = new Mock<IContentLoader>();
             _userManagerMock = new Mock<ApplicationUserManager>(userStore.Object);
             _signinManagerMock = new Mock<ApplicationSignInManager>(_userManagerMock.Object, authenticationManager.Object);
             _userServiceMock = new Mock<UserService>(_userManagerMock.Object, _signinManagerMock.Object, authenticationManager.Object, localizationService);
-           
+
             request.Setup(
                 x => x.Url)
                 .Returns(new Uri(_testUrl));
@@ -311,8 +369,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(startPageMock.Object);
 
-            _subject = new LoginController(_signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, localizationService, _contentLoaderMock.Object);
+            _subject = new LoginControllerForTest(_signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, localizationService, _contentLoaderMock.Object, addressBookService, _controllerExceptionHandler.Object);
             _subject.ControllerContext = new ControllerContext(_httpContextMock.Object, new RouteData(), _subject);
+
+            _exceptionContext = new ExceptionContext
+            {
+                HttpContext = _httpContextMock.Object,
+                RequestContext = _requestContext.Object
+            };
         }
 
         [TestCleanup]
@@ -321,9 +385,30 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             Thread.CurrentThread.CurrentUICulture = _cultureInfo;
         }
 
-        private string GetKey(Type t)
+        private void Setup_exception(Exception exception)
         {
-            return (String.Format("AspNet.Identity.Owin:{0}", t.AssemblyQualifiedName));
+            _exceptionContext.Exception = exception;
+        }
+
+        private void Setup_action_for_controller(string actionName)
+        {
+            var routeData = new RouteData();
+            routeData.Values.Add("action", actionName);
+
+            _exceptionContext.RouteData = routeData;
+        }
+
+        private class LoginControllerForTest : LoginController
+        {
+            public LoginControllerForTest(ApplicationSignInManager signInManager, ApplicationUserManager userManager, UserService userService, LocalizationService localizationService, IContentLoader contentLoader, IAddressBookService addressBookService, ControllerExceptionHandler controllerExceptionHandler)
+                : base(signInManager, userManager, userService, localizationService, contentLoader, addressBookService, controllerExceptionHandler)
+            {
+            }
+
+            public void CallOnException(ExceptionContext filterContext)
+            {
+                OnException(filterContext);
+            }
         }
     }
 }

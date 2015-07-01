@@ -81,7 +81,7 @@
         $('.jsSearchPage').val(1);
         var facets = [];
         $('.jsSearchFacet:input:checked').each(function () {
-            var selectedFacet = encodeURIComponent($(this).data('facetname'));
+            var selectedFacet = encodeURIComponent($(this).data('facetkey'));
             facets.push(selectedFacet);
         });
         var url = Search.getUrl(facets);

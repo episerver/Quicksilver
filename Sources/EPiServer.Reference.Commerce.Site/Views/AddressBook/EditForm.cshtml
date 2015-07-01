@@ -1,12 +1,12 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.Models.AddressBookFormModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels.AddressViewModel
 <div class="container-fluid">
     <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <div class="col-xs-12 col-md-9 jsAddressBook">
-            @using (Html.BeginForm("Save", "AddressBook", FormMethod.Post, new { id = "AddressForm" }))
+            @using (Html.BeginForm("Save", "AddressBook", FormMethod.Post))
             {
                 <h2>
-                    @if (Model.AddressId.HasValue)
+                    @if (Model.Address.AddressId.HasValue)
                     {
                         @Html.Translate("/AddressBook/Edit/Header")
                     }
@@ -15,74 +15,78 @@
                         @Html.Translate("/AddressBook/AddNew/Header")
                     }
                 </h2>
+                <div class="alert-danger">@Model.Address.ErrorMessage</div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Name)
-                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Name)
+                    @Html.LabelFor(x => x.Address.Name)
+                    @Html.TextBoxFor(x => x.Address.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Address.Name)
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.Address.FirstName)
+                        @Html.TextBoxFor(x => x.Address.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Address.FirstName)
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.Address.LastName)
+                        @Html.TextBoxFor(x => x.Address.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Address.LastName)
+                    </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.FirstName)
-                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.FirstName)
+                    @Html.LabelFor(x => x.Address.Line1)
+                    @Html.TextBoxFor(x => x.Address.Line1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Address.Line1)
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.LastName)
-                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.LastName)
+                    @Html.LabelFor(x => x.Address.Line2)
+                    @Html.TextBoxFor(x => x.Address.Line2, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Line1)
-                    @Html.TextBoxFor(x => x.Line1, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Line1)
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Line2)
-                    @Html.TextBoxFor(x => x.Line2, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.City)
-                    @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.City)
-                </div>
-                
-                    { Html.RenderPartial("_AddressRegion", Model); }
+                <div class="row">
 
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(x => x.Address.PostalCode)
+                        @Html.TextBoxFor(x => x.Address.PostalCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Address.PostalCode)
+                    </div>
+                    <div class="form-group  col-md-8">
+                        @Html.LabelFor(x => x.Address.City)
+                        @Html.TextBoxFor(x => x.Address.City, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Address.City)
+                    </div>
+                </div>
+                { Html.RenderPartial("_AddressRegion", Model.Address); }
                 <div class="form-group">
-                    @Html.LabelFor(x => x.PostalCode)
-                    @Html.TextBoxFor(x => x.PostalCode, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.PostalCode)
+                    @Html.LabelFor(x => x.Address.CountryCode)
+                    @Html.DropDownListFor(x => x.Address.CountryCode, new SelectList(Model.Address.CountryOptions, "Code", "Name", Model.Address.CountryCode), new { @class = "form-control jsChangeCountry" })
+                    @Html.ValidationMessageFor(x => x.Address.CountryCode)
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.CountryCode)
-                    @Html.DropDownListFor(x => x.CountryCode, new SelectList(Model.CountryOptions, "Code", "Name", Model.CountryOptions.FirstOrDefault(x => x.Name.Equals(Model.CountryName))), new { @class = "form-control jsCountry" })
-                    @Html.ValidationMessageFor(x => x.CountryCode)
+                    @Html.LabelFor(x => x.Address.DaytimePhoneNumber)
+                    @Html.TextBoxFor(x => x.Address.DaytimePhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Address.DaytimePhoneNumber)
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.DaytimePhoneNumber)
-                    @Html.TextBoxFor(x => x.DaytimePhoneNumber, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.DaytimePhoneNumber)
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Email)
-                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Email)
+                    @Html.LabelFor(x => x.Address.Email)
+                    @Html.TextBoxFor(x => x.Address.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Address.Email)
                 </div>
                 <div class="checkbox">
                     <label>
-                        @Html.CheckBoxFor(x => x.ShippingDefault) @Html.LabelFor(x => x.ShippingDefault)
+                        @Html.CheckBoxFor(x => x.Address.ShippingDefault) @Html.LabelFor(x => x.Address.ShippingDefault)
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        @Html.CheckBoxFor(x => x.BillingDefault) @Html.LabelFor(x => x.BillingDefault)
+                        @Html.CheckBoxFor(x => x.Address.BillingDefault) @Html.LabelFor(x => x.Address.BillingDefault)
                     </label>
                 </div>
-                @Html.HiddenFor(x => x.AddressId)
+                @Html.HiddenFor(x => x.Address.AddressId)
                 <button type="submit" class="btn btn--blue">@Html.Translate("/AddressBook/Form/Label/Submit")</button>
-                    if (Model.AddressId.HasValue)
-                    {
+                if (Model.Address.AddressId.HasValue)
+                {
                     @Html.ActionLink(Html.Translate("/AddressBook/Form/Label/Cancel"), "Index", "AddressBook", new { }, new { @class = "btn" })
-                    }
+                }
                 <hr />
             }
         </div>

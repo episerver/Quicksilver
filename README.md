@@ -17,10 +17,11 @@ The following is a list of known limitations in this pre-release:
 Installation
 ------------
 
-1.  Open solution and build to download nuget package dependencies.
-2.  Search the solution for "ChangeThis" and review/update as described.
-3.  Run Setup\SetupDatabases.cmd to create the databases. In the unlucky event of errors please check the logs.
-4.  Start the site (Debug-Start from Visual studio) and browse to http://localhost:50244 to finish installation. Login with admin/store.
+1.  Configure Visual Studio to add this package source: http://nuget.episerver.com/feed/packages.svc/. This allows missing packages to be downloaded, when the solution is built.
+2.  Open solution and build to download nuget package dependencies.
+3.  Search the solution for "ChangeThis" and review/update as described.
+4.  Run Setup\SetupDatabases.cmd to create the databases. In the unlucky event of errors please check the logs.  
+5.  Start the site (Debug-Start from Visual studio) and browse to http://localhost:50244 to finish installation. Login with admin/store.
 
 Note: SQL scripts are executed using Windows authentication so make sure your user has sufficient permissions
 

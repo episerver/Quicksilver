@@ -28,7 +28,7 @@
                 <tr>
                     <td colspan="2"><a href="@lineItem.GetFullUrl()">@lineItem.DisplayName</a></td>
                     <td>@lineItem.Quantity.ToString("0")</td>
-                    <td>@lineItem.ToMoney(lineItem.PlacedPrice).ToString()</td>
+                    <td>@lineItem.ToMoney(Model.ItemPrices[lineItem.Id])</td>
                     <td>@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
                 </tr>
             }
@@ -56,19 +56,11 @@
                 <br>@address.CountryName
             </p>
         </div>
+ 
+        @foreach (Payment payment in orderForm.Payments)
+        {
+            Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
+        }
 
-        <div>
-            @{
-                var payment = Model.Order.OrderForms.First().Payments.First() as CreditCardPayment;
-            }
-            <h4>@Html.Translate("/OrderConfirmationMail/PaymentDetails")</h4>
-            <p>
-                @Html.Translate("/OrderConfirmation/PaymentInfo/CardType"): @payment.CardType
-                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/Owner"): @payment.CustomerName
-                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/CardNumber"): @payment.CreditCardNumber
-                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/ExpirationDate"): @payment.ExpirationMonth/@payment.ExpirationYear
-                <br>@Html.Translate("/OrderConfirmation/PaymentInfo/CVV"): **@payment.CreditCardSecurityCode.Substring(payment.CreditCardSecurityCode.Length - 1)
-            </p>
-        </div>
     </body>
 </html>

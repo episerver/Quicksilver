@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.Models.AddressBookFormModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.Address
 
 <address>
     <p>
@@ -32,9 +32,4 @@
         }
 
     </p>
-    <button type="button" class="btn btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = Model.AddressId })';">Edit</button>
-    @using (Html.BeginForm("Remove", "AddressBook", new { addressId = Model.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
-    {
-        <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
-    }
 </address>

@@ -24,6 +24,9 @@
         </Button>
       </MiniCart>
     </Header>
+    <Facet>
+      <Choices>Artiklar:</Choices>
+    </Facet>
     <Footer>
       <CompanyInformation>
         <Header>Företagsinformation</Header>
@@ -79,6 +82,9 @@
           <PreProcessingFailure>Förbehandlingen av betalningen misslyckades.</PreProcessingFailure>
         </Errors>
         <Methods>
+          <CashOnDelivery>
+            <Description>Du betalar först när du hämtar ut din beställning på ditt närmaste postombud.</Description>
+          </CashOnDelivery>
           <CreditCard>
             <Labels>
               <CreditCardName>Fullständigt namn på kortet:</CreditCardName>
@@ -103,8 +109,12 @@
           </CreditCard>
         </Methods>
       </Payment>
+      <Billing>
+        <Heading>Faktureringsadress</Heading>
+      </Billing>
       <Shipment>
-        <Heading>Fraktinformation</Heading>
+        <AlternativeAddress>Annan leveransadress</AlternativeAddress>
+        <Heading>Leveransadress</Heading>
         <Labels>
           <ChooseDelivery>Välj leveranssätt</ChooseDelivery>
         </Labels>
@@ -174,7 +184,8 @@
       <ShippingCost>Beräknade fraktkostnader</ShippingCost>
       <TaxTotal>Beräknad skatt </TaxTotal>
       <CartTotal>Total för kundvagnen</CartTotal>
-      <ShippingDetails>Fraktinformation</ShippingDetails>
+      <BillingDetails>Faktureringsinformation</BillingDetails>
+      <ShippingDetails>Leveransadress</ShippingDetails>
       <PaymentDetails>Betalningsinformation</PaymentDetails>
       <NoOrder>Kan inte visa orderdetaljer i on-page-redigeringsläge tills åtminstone en order har skapats.</NoOrder>
       <Labels>
@@ -359,8 +370,6 @@
       <IncompletAddress>Ofullständig adress</IncompletAddress>
       <Form>
         <Label>
-          <ShippingAddress>Standardleveransadress</ShippingAddress>
-          <BillingAddress>Standardfaktureringsadress</BillingAddress>
           <SetShippingAddress>Ange som standardleveransadress</SetShippingAddress>
           <SetBillingAddress>Ange som standardfaktureringsadress</SetBillingAddress>
           <AddressName>Adressnamn *:</AddressName>
@@ -377,6 +386,7 @@
           <Email>E-post:</Email>
           <Submit>Spara</Submit>
           <Delete>Radera</Delete>
+          <Edit>Ändra</Edit>
           <Cancel>Avboka</Cancel>
           <EditAddress>Ändra</EditAddress>
           <NewAddress>Ny</NewAddress>
@@ -423,6 +433,9 @@
     </Search>
     <Shared>
       <Address>
+        <DefaultAddressName>Standard</DefaultAddressName>
+        <NewAddress>Ny adress</NewAddress>
+        <RemoveAddress>Ta bort</RemoveAddress>
         <Form>
           <Empty>
             <FirstName>Förnamn krävs</FirstName>
@@ -431,21 +444,30 @@
             <CountryCode>Land krävs</CountryCode>
             <City>Stad krävs</City>
             <PostalCode>Postnummer krävs</PostalCode>
+            <Email>Email krävs</Email>
+            <Name>Namn krävs</Name>
           </Empty>
           <Label>
             <FirstName>Förnamn *:</FirstName>
             <LastName>Efternamn *:</LastName>
             <Line1>Adressrad 1 *:</Line1>
+            <Line2>Adressrad 2:</Line2>
             <City>Stad *:</City>
             <Region>Region:</Region>
             <PostalCode>Postnummer *:</PostalCode>
-            <CountryCode>Land *:</CountryCode>
+            <CountryCode>Land :</CountryCode>
             <Address>Address *:</Address>
-            <Name>Namn:</Name>
+            <Name>Namn *:</Name>
             <DateModified>Date Modified</DateModified>
+            <ShippingAddress>Standardleveransadress</ShippingAddress>
+            <BillingAddress>Standardfaktureringsadress</BillingAddress>
+            <DaytimePhoneNumber>Telefonnummer:</DaytimePhoneNumber>
+            <Email>E-post:</Email>
           </Label>
+          <Error>
+            <InvalidEmail>Du måste ange en giltig e-postadress</InvalidEmail>
+          </Error>
         </Form>
-
       </Address>
     </Shared>
   </language>

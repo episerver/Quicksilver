@@ -103,10 +103,6 @@
             <td class="FormFieldCell">
                 <asp:TextBox runat="server" Width="250" ID="CodeText"></asp:TextBox>
                 <asp:RequiredFieldValidator runat="server" ID="CodeTextRequired" ControlToValidate="CodeText" Display="Dynamic" ErrorMessage="<%$ Resources:SharedStrings, Code_Required %>" />
-                <asp:RegularExpressionValidator ID="CodeValidation" runat="server"
-                        CssClass="error" Enabled="true" EnableClientScript="false" ControlToValidate="CodeText"
-                        Display="Dynamic" 
-                        ErrorMessage='<%$ Resources:SharedStrings, Code_Validation %>' />
                 <br />
                 <asp:CustomValidator runat="server" ID="cvCodeCheck"
                     ControlToValidate="CodeText"

@@ -82,6 +82,9 @@
           <PreProcessingFailure>Failed to pre-process the payment.</PreProcessingFailure>
         </Errors>
         <Methods>
+          <CashOnDelivery>
+            <Description>You pay for your order when picking up your delivery at your local post office.</Description>
+          </CashOnDelivery>
           <CreditCard>
             <Labels>
               <CreditCardName>Full name on card:</CreditCardName>
@@ -106,7 +109,11 @@
           </CreditCard>
         </Methods>
       </Payment>
+      <Billing>
+        <Heading>Billing address</Heading>
+      </Billing>
       <Shipment>
+        <AlternativeAddress>Alternative shipping address</AlternativeAddress>
         <Heading>Shipping details</Heading>
         <Labels>
           <ChooseDelivery>Choose delivery</ChooseDelivery>
@@ -176,6 +183,7 @@
       <ShippingCost>Estimated Shipping Costs</ShippingCost>
       <TaxTotal>Estimated Tax to Be Collected</TaxTotal>
       <CartTotal>Total for cart</CartTotal>
+      <BillingDetails>Billing details</BillingDetails>
       <ShippingDetails>Shipping details</ShippingDetails>
       <PaymentDetails>Payment details</PaymentDetails>
       <NoOrder>Can't show order details in on-page editing mode until at least one order has been created.</NoOrder>
@@ -366,8 +374,6 @@
       <NotInlogged>You are not inlogged</NotInlogged>
       <Form>
         <Label>
-          <ShippingAddress>Preferred shipping address</ShippingAddress>
-          <BillingAddress>Preferred billing address</BillingAddress>
           <SetShippingAddress>Set as preferred shipping address</SetShippingAddress>
           <SetBillingAddress>Set as preferred billing address</SetBillingAddress>
           <AddressName>Address name *:</AddressName>
@@ -384,6 +390,7 @@
           <Email>Email:</Email>
           <Submit>Save</Submit>
           <Delete>Delete</Delete>
+          <Edit>Edit</Edit>
           <Cancel>Cancel</Cancel>
           <EditAddress>Edit</EditAddress>
           <NewAddress>New</NewAddress>
@@ -433,6 +440,9 @@
     </Search>
     <Shared>
       <Address>
+        <DefaultAddressName>Default</DefaultAddressName>
+        <NewAddress>New address</NewAddress>
+        <RemoveAddress>Remove</RemoveAddress>
         <Form>
           <Empty>
             <FirstName>First name is required</FirstName>
@@ -441,21 +451,30 @@
             <CountryCode>Country is required</CountryCode>
             <City>City is required</City>
             <PostalCode>Zip code is required</PostalCode>
+            <Email>Email is required</Email>
+            <Name>Name is required</Name>
           </Empty>
           <Label>
             <FirstName>First name *:</FirstName>
             <LastName>Last name *:</LastName>
             <Line1>Line 1 *:</Line1>
+            <Line2>Line 2:</Line2>
             <City>City *:</City>
             <Region>Region</Region>
             <PostalCode>Zip code *:</PostalCode>
-            <CountryCode>Country *:</CountryCode>
+            <CountryCode>Country :</CountryCode>
             <Address>Address *:</Address>
-            <Name>Name:</Name>
+            <Name>Name *:</Name>
             <DateModified>Date Modified</DateModified>
+            <ShippingAddress>Preferred shipping address</ShippingAddress>
+            <BillingAddress>Preferred billing address</BillingAddress>
+            <DaytimePhoneNumber>Phone number:</DaytimePhoneNumber>
+            <Email>Email:</Email>
           </Label>
+          <Error>
+            <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          </Error>
         </Form>
-        
       </Address>
     </Shared>
   </language>

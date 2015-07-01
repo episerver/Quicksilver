@@ -10,7 +10,7 @@
     {
         <div>
             @foreach (var item in ViewData.ModelState.Where(x => x.Key == string.Empty))
-            {                
+            {
                 foreach (var error in item.Value.Errors)
                 {
                     <p>@error.ErrorMessage</p>
@@ -19,8 +19,14 @@
         </div>
     }
 
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger"><p>@Model.ErrorMessage</p></div>
+    }
     @using (Html.BeginForm("RegisterAccount", "Login", FormMethod.Post, new { @class = "jsRegistration", @role = "form" }))
     {
+        @Html.HiddenFor(x => x.Address.Name)
+
         <div class="form-group">
             @Html.LabelFor(x => x.Email)
             @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
@@ -36,41 +42,47 @@
             @Html.PasswordFor(x => x.Password2, new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.Password2)
         </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.FirstName)
-            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.FirstName)
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(x => x.Address.FirstName)
+                @Html.TextBoxFor(x => x.Address.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address.FirstName)
+            </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(x => x.Address.LastName)
+                @Html.TextBoxFor(x => x.Address.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address.LastName)
+            </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => x.LastName)
-            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.LastName)
+            @Html.LabelFor(x => x.Address.Line1)
+            @Html.TextBoxFor(x => x.Address.Line1, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Address.Line1)
         </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.Address)
-            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.Address)
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(x => x.Address.PostalCode)
+                @Html.TextBoxFor(x => x.Address.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address.PostalCode)
+            </div>
+            <div class="form-group col-md-8">
+                @Html.LabelFor(x => x.Address.City)
+                @Html.TextBoxFor(x => x.Address.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address.City)
+            </div>
         </div>
+        { Html.RenderPartial("_AddressRegion", Model.Address); }
+
         <div class="form-group">
-            @Html.LabelFor(x => x.PostalCode)
-            @Html.TextBoxFor(x => x.PostalCode, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.PostalCode)
-        </div>       
-        <div class="form-group">
-            @Html.LabelFor(x => x.City)
-            @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.City)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.Country)
-            @Html.TextBoxFor(x => x.Country, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.Country)
+            @Html.LabelFor(x => x.Address.CountryCode)
+            @Html.DropDownListFor(x => x.Address.CountryCode, new SelectList(Model.Address.CountryOptions, "Code", "Name", Model.Address.CountryCode), new { @class = "form-control jsChangeCountry" })
+            @Html.ValidationMessageFor(x => x.Address.CountryCode)
         </div>
         <div class="checkbox">
             <label>
                 @Html.CheckBoxFor(x => x.Newsletter, new { @type = "checkbox" }) @Html.Translate("/Registration/Form/Label/Newsletter")
             </label>
         </div>
-        <button type="submit" class="btn">@Html.Translate("/Registration/Form/Label/Submit")</button>
+        <button type="submit" class="btn btn--blue">@Html.Translate("/Registration/Form/Label/Submit")</button>
     }
 </div>

@@ -1,0 +1,12 @@
+﻿@model Mediachase.Commerce.Orders.CreditCardPayment 
+
+<div class="quicksilver-well">
+    <h4>@Html.Translate("/OrderConfirmation/PaymentDetails")</h4>
+    <p>
+        @Html.Translate("/OrderConfirmation/PaymentInfo/CardType"): @Model.CardType<br>
+        @Html.Translate("/OrderConfirmation/PaymentInfo/Owner"): @Model.CustomerName<br>
+        @Html.Translate("/OrderConfirmation/PaymentInfo/CardNumber"): @Model.CreditCardNumber<br>
+        @Html.Translate("/OrderConfirmation/PaymentInfo/ExpirationDate"): @Model.ExpirationMonth/@Model.ExpirationYear<br>
+        @Html.Translate("/OrderConfirmation/PaymentInfo/CVV"): **@Model.CreditCardSecurityCode.Substring(Model.CreditCardSecurityCode.Length - 1)
+    </p>
+</div>

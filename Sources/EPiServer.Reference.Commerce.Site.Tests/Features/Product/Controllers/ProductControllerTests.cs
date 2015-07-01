@@ -20,6 +20,8 @@ using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using FluentAssertions;
+using EPiServer.Commerce.Catalog.ContentTypes;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 {
@@ -29,21 +31,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenVariationIdIsNull_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
+            FashionProduct fashionProduct = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                SetRelation(mockFashionProduct.Object, Enumerable.Empty<ProductVariation>());
+                fashionProduct = CreateFashionProduct();
+                SetRelation(fashionProduct, Enumerable.Empty<ProductVariation>());
 
                 productController = CreateController();
             }
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, null);
+                actionResult = productController.Index(fashionProduct, null);
             }
 
             // Assert
@@ -55,21 +57,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenVariationIdIsEmpty_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
+            FashionProduct fashionProduct = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                SetRelation(mockFashionProduct.Object, Enumerable.Empty<ProductVariation>());
+                fashionProduct = CreateFashionProduct();
+                SetRelation(fashionProduct, Enumerable.Empty<ProductVariation>());
 
                 productController = CreateController();
             }
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, string.Empty);
+                actionResult = productController.Index(fashionProduct, string.Empty);
             }
 
             // Assert
@@ -81,21 +83,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenNoVariationExists_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
+            FashionProduct fashionProduct = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                SetRelation(mockFashionProduct.Object, Enumerable.Empty<ProductVariation>());
+                fashionProduct = CreateFashionProduct();
+                SetRelation(fashionProduct, Enumerable.Empty<ProductVariation>());
 
                 productController = CreateController();
             }
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, "something");
+                actionResult = productController.Index(fashionProduct, "something");
             }
 
             // Assert
@@ -107,22 +109,22 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationDontExist_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
+            FashionProduct fashionProduct = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                var mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                var fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
 
                 productController = CreateController();
             }
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, "doNotExist");
+                actionResult = productController.Index(fashionProduct, "doNotExist");
             }
 
             // Assert
@@ -134,45 +136,45 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetVariationToSelectedVariation()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
 
                 productController = CreateController();
             }
 
             // execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<FashionVariant>(mockFashionVariant.Object, model.Variation);
+                Assert.AreEqual<FashionVariant>(fashionVariant, model.Variation);
             }
         }
 
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetProductToRoutedProduct()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -180,30 +182,30 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<FashionProduct>(mockFashionProduct.Object, model.Product);
+                Assert.AreEqual<FashionProduct>(fashionProduct, model.Product);
             }
         }
 
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetOriginalPriceToDefaultPrice()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             Mock<IPriceValue> mockDefaultPrice = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
 
                 mockDefaultPrice = CreatePriceValueMock(25);
                 SetDefaultPriceService(mockDefaultPrice.Object);
@@ -216,7 +218,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -229,17 +231,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetPriceToDiscountPrice()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             Mock<IPriceValue> mockDiscountPrice = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
 
                 var mockDefaultPrice = CreatePriceValueMock(25);
                 SetDefaultPriceService(mockDefaultPrice.Object);
@@ -252,7 +254,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -265,8 +267,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetColorToSelectedVariationColor()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             string color = null;
             ActionResult actionResult = null;
@@ -275,11 +277,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 color = "green";
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetColor(mockFashionVariant, color);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetColor(fashionVariant, color);
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -287,7 +289,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -300,8 +302,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationExist_ShouldSetSizeToSelectedVariationSize()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             string size = null;
             ActionResult actionResult = null;
@@ -310,11 +312,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 size = "small";
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetSize(mockFashionVariant, size);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
+                SetSize(fashionVariant, size);
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -322,7 +324,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -335,17 +337,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationDontHaveAssets_ShouldSetImagesToOneItemWithEmptyLink()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -353,7 +355,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -366,8 +368,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenSelectedVariationHasImageAssets_ShouldSetImagesToLinkFromImage()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             string imageLink = null;
             ActionResult actionResult = null;
@@ -376,13 +378,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 imageLink = "http://www.episerver.com";
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant();
 
                 var imageMedia = CreateImageMedia(new ContentReference(237), imageLink);
-                SetMediaCollection(mockFashionVariant, imageMedia);
+                SetMediaCollection(fashionVariant, imageMedia);
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -390,7 +392,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -403,18 +405,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableColorsAreEmptyForVariation_ShouldSetColorsToEmpty()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
 
-                mockFashionProduct = CreateFashionProductMock();
+                fashionProduct = CreateFashionProduct();
 
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionVariant = CreateFashionVariant();
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -422,7 +424,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -435,21 +437,23 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetTextToItemValue()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ItemCollection<string> colors = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                colors = new ItemCollection<string>() {"green", "white"};
+                colors = new ItemCollection<string>() {"green"};
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableColors(mockFashionProduct, colors);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableColors(fashionProduct, colors);
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
 
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionVariant = CreateFashionVariant("small", "green");
+
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -457,7 +461,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -473,21 +477,23 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetValueToItemValue()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ItemCollection<string> colors = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                colors = new ItemCollection<string>() { "green", "white" };
+                colors = new ItemCollection<string>() { "green" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableColors(mockFashionProduct, colors);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableColors(fashionProduct, colors);
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> {"small"});
 
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionVariant = CreateFashionVariant("small", "green");
+
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -495,7 +501,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -511,19 +517,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetSelectedToFalse()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableColors(mockFashionProduct, new ItemCollection<string>() { "green", "white" });
+                fashionProduct = CreateFashionProduct();
+                SetAvailableColors(fashionProduct, new ItemCollection<string>() { "green" });
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
 
-                mockFashionVariant = CreateFashionVariantMock();
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionVariant = CreateFashionVariant("small", "green");
+
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -531,13 +539,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                var expectedColors = String.Join(";", new[]{false, false});
+                var expectedColors = String.Join(";", new[]{false});
                 var modelColorsSelected = String.Join(";", model.Colors.Select(x => x.Selected));
 
                 Assert.AreEqual<string>(expectedColors, modelColorsSelected);
@@ -547,8 +555,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetTextToItemValue()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ItemCollection<string> sizes = null;
             ActionResult actionResult = null;
@@ -557,11 +565,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 sizes = new ItemCollection<string>() {"medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetColor(mockFashionVariant, "Red");
-                SetSize(mockFashionVariant, "medium");
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant("medium", "red");
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -569,7 +575,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -585,8 +591,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetValueToItemValue()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ItemCollection<string> sizes = null;
             ActionResult actionResult = null;
@@ -595,11 +601,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 sizes = new ItemCollection<string>() { "medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetColor(mockFashionVariant, "Red");
-                SetSize(mockFashionVariant, "medium");
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant("medium", "red");
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -607,7 +611,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -623,19 +627,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetSelectedToFalse()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
             // Setup
             {
 
-                mockFashionProduct = CreateFashionProductMock();
-                mockFashionVariant = CreateFashionVariantMock();
-                SetColor(mockFashionVariant, "Red");
-                SetSize(mockFashionVariant, "medium");
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                fashionProduct = CreateFashionProduct();
+                fashionVariant = CreateFashionVariant("medium", "red");
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -643,7 +645,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -659,8 +661,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsDelayPublishItems_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
@@ -668,16 +670,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 var sizes = new ItemCollection<string>() { "small", "medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableSizes(mockFashionProduct, sizes);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
                  
                 // setup variant with publish date in future
-                mockFashionVariant = CreateFashionVariantMock();
-                mockFashionVariant.Setup(x => x.StartPublish).Returns(DateTime.UtcNow.AddDays(7)); // pulish date is future
-                mockFashionVariant.Setup(x => x.StopPublish).Returns(DateTime.UtcNow.AddDays(17));
-                mockFashionVariant.Setup(x => x.Status).Returns(VersionStatus.DelayedPublish);
+                fashionVariant = CreateFashionVariant();
+                fashionVariant.StartPublish = DateTime.UtcNow.AddDays(7); // pulish date is future
+                fashionVariant.StopPublish = DateTime.UtcNow.AddDays(17);
+                fashionVariant.Status = VersionStatus.DelayedPublish;
                 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -685,7 +687,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -697,8 +699,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsExpiredItems_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
@@ -706,15 +708,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 var sizes = new ItemCollection<string>() { "small", "medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableSizes(mockFashionProduct, sizes);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
 
                 // setup variant was expired.
-                mockFashionVariant = CreateFashionVariantMock();
-                mockFashionVariant.Setup(x => x.StartPublish).Returns(DateTime.UtcNow.AddDays(-17)); 
-                mockFashionVariant.Setup(x => x.StopPublish).Returns(DateTime.UtcNow.AddDays(-7));
+                fashionVariant = CreateFashionVariant();
+                fashionVariant.StartPublish = DateTime.UtcNow.AddDays(-17); 
+                fashionVariant.StopPublish = DateTime.UtcNow.AddDays(-7);
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -722,7 +724,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -734,8 +736,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsUnpublishItems_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
@@ -743,15 +745,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 var sizes = new ItemCollection<string>() { "small", "medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableSizes(mockFashionProduct, sizes);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
 
                 // setup variant with inactive
-                mockFashionVariant = CreateFashionVariantMock();
-                mockFashionVariant.Setup(x => x.IsPendingPublish).Returns(true);
-                mockFashionVariant.Setup(x => x.Status).Returns(VersionStatus.CheckedIn);
+                fashionVariant = CreateFashionVariant();
+                fashionVariant.IsPendingPublish = true;
+                fashionVariant.Status = VersionStatus.CheckedIn;
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -759,7 +761,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             { 
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
@@ -771,8 +773,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         [TestMethod]
         public void Index_WhenAvailableSizesContainsItemUnavailabelInCurrentMarket_ShouldReturnHttpNotFoundResult()
         {
-            Mock<FashionProduct> mockFashionProduct = null;
-            Mock<FashionVariant> mockFashionVariant = null;
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariant = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
@@ -780,14 +782,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
                 var sizes = new ItemCollection<string>() { "small", "medium" };
 
-                mockFashionProduct = CreateFashionProductMock();
-                SetAvailableSizes(mockFashionProduct, sizes);
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
 
                 // setup variant unavailable in default market
-                mockFashionVariant = CreateFashionVariantMock();
-                mockFashionVariant.Setup(x => x.MarketFilter).Returns(new ItemCollection<string>() { "Default" });  
+                fashionVariant = CreateFashionVariant();
+                fashionVariant.MarketFilter = new ItemCollection<string>() { "Default" };  
 
-                SetRelation(mockFashionProduct.Object, mockFashionVariant.Object);
+                SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
                 productController = CreateController();
@@ -795,12 +797,173 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(mockFashionProduct.Object, mockFashionVariant.Object.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
             // Assert
             {
                 Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+            }
+        }
+
+        [TestMethod]
+        public void Index_WhenIsInEditModeAndHasNoVariation_ShouldReturnProductWithoutVariationView()
+        {
+            FashionProduct fashionProduct = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
+
+            // Setup
+            {
+                _isInEditMode = true;
+                fashionProduct = CreateFashionProduct();
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.Index(fashionProduct, "notexist");
+            }
+
+            // Assert
+            {
+                var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
+
+                model.Product.ShouldBeEquivalentTo(fashionProduct);
+            }
+        }
+
+        [TestMethod]
+        public void Index_WhenVariationCodeHasValue_ShouldSetColorsToTheAvailableColorsForTheVariationSize()
+        {
+            const string variationColorBlue = "blue";
+            const string variationColorWhite = "white";
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariantSmallBlue = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
+
+            // Setup
+            {
+                var sizes = new ItemCollection<string>() { "small", "medium" };
+                var colors = new ItemCollection<string>() { "red", variationColorBlue, "yellow", variationColorWhite, "green" };
+
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
+                SetAvailableColors(fashionProduct, colors);
+
+                fashionVariantSmallBlue = CreateFashionVariant("small", variationColorBlue);
+                var fashionVariantSmallWhite = CreateFashionVariant("small", variationColorWhite);
+
+                SetRelation(fashionProduct, new[] { fashionVariantSmallBlue, fashionVariantSmallWhite });
+                MockPrices();
+
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.Index(fashionProduct, fashionVariantSmallBlue.Code);
+            }
+
+            // Assert
+            {
+                var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
+                var expectedColors = String.Join(";", new[] { variationColorBlue, variationColorWhite });
+                var modelColors = String.Join(";", model.Colors.Select(x => x.Value));
+
+                Assert.AreEqual<string>(expectedColors, modelColors);
+            }
+        }
+
+        [TestMethod]
+        public void Index_WhenVariationCodeHasValue_ShouldSetSizesToTheAvailableSizesForTheVariationColor()
+        {
+            const string variationSizeMedium = "medium";
+            const string variationSizeXlarge = "x-large";
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariantMediumRed = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
+
+            // Setup
+            {
+                var sizes = new ItemCollection<string>() { "small", variationSizeMedium, "large", variationSizeXlarge, "xx-large" };
+                var colors = new ItemCollection<string>() { "red" };
+
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
+                SetAvailableColors(fashionProduct, colors);
+
+                fashionVariantMediumRed = CreateFashionVariant(variationSizeMedium, "red");
+                var fashionVariantXlargeRed = CreateFashionVariant(variationSizeXlarge, "red");
+
+                SetRelation(fashionProduct, new[] { fashionVariantMediumRed, fashionVariantXlargeRed });
+                MockPrices();
+
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.Index(fashionProduct, fashionVariantMediumRed.Code);
+            }
+
+            // Assert
+            {
+                var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
+                var expectedSizes = String.Join(";", new[] { variationSizeMedium, variationSizeXlarge });
+                var modelSizes = String.Join(";", model.Sizes.Select(x => x.Value));
+
+                Assert.AreEqual<string>(expectedSizes, modelSizes);
+            }
+        }
+
+        [TestMethod]
+        public void SelectVariant_WhenColorAndSizeHasValues_ShouldGetVariantWithSelectedColorAndSize()
+        {
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariantSmallGreen = null;
+            FashionVariant fashionVariantSmallRed = null;
+            FashionVariant fashionVariantMediumGreen = null;
+            FashionVariant fashionVariantMediumRed = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
+
+            // Setup
+            {
+                var sizes = new ItemCollection<string>() { "small", "medium" };
+                var colors = new ItemCollection<string>() { "green", "red" };
+
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
+                SetAvailableColors(fashionProduct, colors);
+
+                fashionVariantSmallGreen = CreateFashionVariant("small", "green");
+                fashionVariantSmallRed = CreateFashionVariant("small", "red");
+                fashionVariantMediumGreen = CreateFashionVariant("medium", "green");
+                fashionVariantMediumRed = CreateFashionVariant("medium", "red");
+                
+                SetRelation(fashionProduct, new[]
+                {
+                    fashionVariantSmallGreen,
+                    fashionVariantSmallRed,
+                    fashionVariantMediumGreen,
+                    fashionVariantMediumRed,
+                });
+
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.SelectVariant(fashionProduct, "red", "small");
+            }
+
+            // Assert
+            {
+                var selectedCode = ((RedirectToRouteResult) actionResult).RouteValues["variationCode"] as string;
+                Assert.AreEqual<string>("redsmall", selectedCode);
             }
         }
 
@@ -820,6 +983,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
         private Currency _defaultCurrency;
         private CultureInfo _preferredCulture;
+        private bool _isInEditMode;
 
         [TestInitialize]
         public void Setup()
@@ -883,6 +1047,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             SetDefaultCurrency(null);
         }
 
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _isInEditMode = false;
+        }
+
         private ProductController CreateController()
         {
             var controller = new ProductController(
@@ -895,78 +1065,91 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 _appContextFacade.Object,
                 _mockUrlResolver.Object,
                 _filterPublished,
-                () => _preferredCulture);
+                () => _preferredCulture,
+                () => _isInEditMode);
 
             controller.ControllerContext = new ControllerContext(_mockHttpContextBase.Object, new RouteData(), controller);
 
             return controller;
         }
 
-        private static Mock<FashionVariant> CreateFashionVariantMock()
+        private static FashionVariant CreateFashionVariant(string size, string color)
         {
-            var mockFashionVariant = new Mock<FashionVariant>();
-            mockFashionVariant.Setup(x => x.ContentLink).Returns(new ContentReference(740));
-            mockFashionVariant.Setup(x => x.Code).Returns("myVariant");
-            mockFashionVariant.Setup(x => x.IsDeleted).Returns(false);
-            mockFashionVariant.Setup(x => x.IsPendingPublish).Returns(false);
-            mockFashionVariant.Setup(x => x.Status).Returns(VersionStatus.Published);
-            mockFashionVariant.Setup(x => x.StartPublish).Returns(DateTime.UtcNow.AddDays(-7));
-            mockFashionVariant.Setup(x => x.StopPublish).Returns(DateTime.UtcNow.AddDays(7));
-            mockFashionVariant.Setup(x => x.MarketFilter).Returns(new ItemCollection<string>() { "USA" });  
+            var fashionVariant = CreateFashionVariant(color + size);
+            SetSize(fashionVariant, size);
+            SetColor(fashionVariant, color);
 
-            return mockFashionVariant;
+            return fashionVariant;
         }
 
-        private static Mock<FashionProduct> CreateFashionProductMock()
+        private static FashionVariant CreateFashionVariant(string code = "myVariant")
         {
-            var mockFashionProduct = new Mock<FashionProduct>();
-            mockFashionProduct.Setup(x => x.ContentLink).Returns(new ContentReference(741));
-            mockFashionProduct.Setup(x => x.Code).Returns("myProduct");
-            mockFashionProduct.Setup(x => x.IsDeleted).Returns(false);
-            mockFashionProduct.Setup(x => x.IsPendingPublish).Returns(false);
-            mockFashionProduct.Setup(x => x.Status).Returns(VersionStatus.Published);
-            mockFashionProduct.Setup(x => x.StartPublish).Returns(DateTime.UtcNow.AddDays(-7));
-            mockFashionProduct.Setup(x => x.StopPublish).Returns(DateTime.UtcNow.AddDays(7));
-            mockFashionProduct.Setup(x => x.MarketFilter).Returns(new ItemCollection<string>() { "USA" });   
+            var fashionVariant = new FashionVariant
+            {
+                ContentLink = new ContentReference(740),
+                Code = code,
+                IsDeleted = false,
+                IsPendingPublish = false,
+                Status = VersionStatus.Published,
+                StartPublish = DateTime.UtcNow.AddDays(-7),
+                StopPublish = DateTime.UtcNow.AddDays(7),
+                MarketFilter = new ItemCollection<string>() {"USA"}
+            };
 
-            SetAvailableColors(mockFashionProduct, new ItemCollection<string>());
-            SetAvailableSizes(mockFashionProduct, new ItemCollection<string>());
-
-            return mockFashionProduct;
+            return fashionVariant;
         }
 
-        private static void SetAvailableColors(Mock<FashionProduct> product, ItemCollection<string> colors)
+        private static FashionProduct CreateFashionProduct()
         {
-            product.Setup(x => x.AvailableColors).Returns(colors);
+            var fashionProduct = new FashionProduct
+            {
+                ContentLink = new ContentReference(741),
+                Code = "myProduct",
+                IsDeleted = false,
+                IsPendingPublish = false,
+                Status = VersionStatus.Published,
+                StartPublish = DateTime.UtcNow.AddDays(-7),
+                StopPublish = DateTime.UtcNow.AddDays(7),
+                MarketFilter = new ItemCollection<string>() {"USA"}
+            };
+
+            SetAvailableColors(fashionProduct, new ItemCollection<string>());
+            SetAvailableSizes(fashionProduct, new ItemCollection<string>());
+
+            return fashionProduct;
         }
 
-        private static void SetAvailableSizes(Mock<FashionProduct> product, ItemCollection<string> sizes)
+        private static void SetAvailableColors(FashionProduct product, ItemCollection<string> colors)
         {
-            product.Setup(x => x.AvailableSizes).Returns(sizes);
+            product.AvailableColors = colors;
         }
 
-        private static void SetColor(Mock<FashionVariant> mockFashionVariant, string color)
+        private static void SetAvailableSizes(FashionProduct product, ItemCollection<string> sizes)
         {
-            mockFashionVariant.Setup(x => x.Color).Returns(color);
+            product.AvailableSizes = sizes;
         }
 
-        private static void SetSize(Mock<FashionVariant> mockFashionVariant, string size)
+        private static void SetColor(FashionVariant fashionVariant, string color)
         {
-            mockFashionVariant.Setup(x => x.Size).Returns(size);
+            fashionVariant.Color = color;
+        }
+
+        private static void SetSize(FashionVariant fashionVariant, string size)
+        {
+            fashionVariant.Size = size;
         }
 
         private void SetRelation(IContent source, IContent target)
         {
-            var mockProductVariationRelation = new ProductVariation
-            {
-                Source = source.ContentLink,
-                Target = target.ContentLink
-            };
+            SetRelation(source, new[] {target});
+        }
 
-            SetRelation(source, new[] { mockProductVariationRelation });
+        private void SetRelation(IContent source, IEnumerable<IContent> targets)
+        {
+            SetRelation(source, targets.Select(x => new ProductVariation() { Source = source.ContentLink, Target = x.ContentLink }));
 
             SetGetItems(new[] { source.ContentLink }, new[] { source });
-            SetGetItems(new[] { target.ContentLink }, new[] { target });
+            SetGetItems(targets.Select(x => x.ContentLink), targets);
         }
 
         private void SetRelation(IContent setup, IEnumerable<ProductVariation> result)
@@ -1028,9 +1211,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             return imageMedia;
         }
 
-        private static void SetMediaCollection(Mock<FashionVariant> mockFashionVariant, CommerceMedia media)
+        private static void SetMediaCollection(IAssetContainer assetContainer, CommerceMedia media)
         {
-            mockFashionVariant.Setup(x => x.CommerceMediaCollection).Returns(new ItemCollection<CommerceMedia>() { media });
+            assetContainer.CommerceMediaCollection = new ItemCollection<CommerceMedia>() { media };
         }
     }
 }

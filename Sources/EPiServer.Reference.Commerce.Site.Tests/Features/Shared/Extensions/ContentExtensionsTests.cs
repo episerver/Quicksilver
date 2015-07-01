@@ -29,7 +29,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 
             var result = ContentExtensions.GetUrl(variant, _linkRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.AreEqual<string>( _url +"?variationId=" + variant.Code, result);
+            Assert.AreEqual<string>(_url + "?variationCode=" + variant.Code, result);
         }
 
         [TestMethod]

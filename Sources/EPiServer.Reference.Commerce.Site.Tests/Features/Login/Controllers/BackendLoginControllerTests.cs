@@ -1,7 +1,9 @@
-﻿using EPiServer.Framework.Localization;
+﻿using EPiServer.Configuration;
+using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
+using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -22,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         [TestMethod]
         public void Index_WhenReturnUrl_ShouldCreateViewModel()
         {
-            const string url = "http://test.com/episerver";
+            const string url = "http://test.com/episerver/cms";
             var result = ((ViewResult)_subject.Index(url)).Model as BackendLoginViewModel;
             var expectedResult = new BackendLoginViewModel
             {
@@ -36,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         [TestMethod]
         public void Index_WhenReturnUrlIsLocal_ShouldRedirectToReturnUrl()
         {
-            var url = "http://test.com/episerver";
+            var url = "http://test.com/episerver/cms";
             var result = _subject.Index(new BackendLoginViewModel
             {
                 Heading = "Test Heading",
@@ -67,6 +69,57 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             Assert.AreEqual<string>("Index", (string) redirectResult.RouteValues["action"]);
         }
 
+        [TestMethod]
+        public void Index__WhenReturnUrlIsNotAuthorized_ShouldReturnViewModel()
+        {
+            var url = "http://tester.com/eepiserver";
+            _subject.ModelState.AddModelError("testError", "test");
+            var result = ((PartialViewResult)_subject.Index(new BackendLoginViewModel
+            {
+                Heading = "Heading",
+                LoginMessage = "LoginMessage",
+                Password = "stores",
+                RememberMe = false,
+                ReturnUrl = url,
+                Username = "admin"
+            }).Result).Model as BackendLoginViewModel;
+            var expectedResult = new BackendLoginViewModel
+            {
+                Heading = "Heading",
+                LoginMessage = "LoginMessage",
+                Password = "stores",
+                RememberMe = false,
+                ReturnUrl = url,
+                Username = "admin"
+            };
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [TestMethod]
+        public void Index__WhenModelStateIsInvalid_ShouldReturnViewModel()
+        {
+            var url = "http://tester.com/eepiserver";
+            var result = ((PartialViewResult)_subject.Index(new BackendLoginViewModel
+            {
+                Heading = "Test Heading",
+                LoginMessage = "LoginMessage",
+                Password = "stores",
+                RememberMe = false,
+                ReturnUrl = url,
+                Username = "admin"
+            }).Result).Model as BackendLoginViewModel;
+            var expectedResult = new BackendLoginViewModel
+            {
+                Heading = "Heading",
+                LoginMessage = "LoginMessage",
+                Password = "stores",
+                RememberMe = false,
+                ReturnUrl = url,
+                Username = "admin"
+            };
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private BackendLoginController _subject;
         private CultureInfo _cultureInfo;
 
@@ -88,7 +141,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             var userManager = new Mock<ApplicationUserManager>(userStore.Object);
             var signInManager = new Mock<ApplicationSignInManager>(userManager.Object, authenticationManager.Object);
-            _subject = new BackendLoginController(localizationService, signInManager.Object);
+            _subject = new BackendLoginController(localizationService, signInManager.Object, new FakeUrlAuthorization());
 
             var request = new Mock<HttpRequestBase>();
             request.Setup(x => x.Url).Returns(new Uri("http://test.com"));

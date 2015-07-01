@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using StructureMap;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Infrastructure;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -25,13 +25,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
     public class LoginController : IdentityControllerBase<LoginRegistrationPage>
     {
         private readonly IContentLoader _contentLoader;
+        private readonly IAddressBookService _addressBookService;
         private readonly LocalizationService _localizationService;
+        private readonly ControllerExceptionHandler _controllerExceptionHandler;
 
-        public LoginController(ApplicationSignInManager signinManager, ApplicationUserManager userManager, UserService userService, LocalizationService localizationService, IContentLoader contentLoader)
-            : base(signinManager, userManager, userService) 
+        public LoginController(
+            ApplicationSignInManager signinManager, 
+            ApplicationUserManager userManager, 
+            UserService userService, 
+            LocalizationService localizationService, 
+            IContentLoader contentLoader,
+            IAddressBookService addressBookService,
+            ControllerExceptionHandler controllerExceptionHandler)
+            : base(signinManager, userManager, userService)
         {
             _localizationService = localizationService;
             _contentLoader = contentLoader;
+            _controllerExceptionHandler = controllerExceptionHandler;
+            _addressBookService = addressBookService;
         }
 
         /// <summary>
@@ -46,6 +57,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         {
             var viewModel = new LoginPageViewModel<LoginRegistrationPage>(currentPage, returnUrl ?? "/");
             InitializeLoginViewModel(viewModel.LoginViewModel);
+            _addressBookService.LoadAddress(viewModel.RegisterAccountViewModel.Address);
+            viewModel.RegisterAccountViewModel.Address.Name = _localizationService.GetString("/Shared/Address/DefaultAddressName");
 
             return View(viewModel);
         }
@@ -63,32 +76,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [HttpPost]
         public async Task<ActionResult> RegisterAccount(RegisterAccountViewModel viewModel)
         {
-            ContactIdentityResult registration = null;
-
             if (!ModelState.IsValid)
             {
+                _addressBookService.LoadAddress(viewModel.Address);
                 return View(viewModel);
             }
 
-            var address = CustomerAddress.CreateInstance();
-            address.City = viewModel.City;
-            address.CountryName = viewModel.Country;
-            address.Email = viewModel.Email;
-            address.FirstName = viewModel.FirstName;
-            address.LastName = viewModel.LastName;
-            address.Line1 = viewModel.Address;
-            address.PostalCode = viewModel.PostalCode;
+            ContactIdentityResult registration = null;
+            viewModel.Address.BillingDefault = true;
+            viewModel.Address.ShippingDefault = true;
+            viewModel.Address.Email = viewModel.Email;
+
+            var customerAddress = CustomerAddress.CreateInstance();
+            _addressBookService.MapModelToCustomerAddress(viewModel.Address, customerAddress);
 
             var user = new ApplicationUser
             {
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
                 Password = viewModel.Password,
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
+                FirstName = viewModel.Address.FirstName,
+                LastName = viewModel.Address.LastName,
                 RegistrationSource = "Registration page",
                 NewsLetter = viewModel.Newsletter,
-                Addresses = new List<CustomerAddress>(new [] { address })
+                Addresses = new List<CustomerAddress>(new[] { customerAddress })
             };
 
             registration = await UserService.RegisterAccount(user);
@@ -98,6 +109,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
                 return Json(new { ReturnUrl = returnUrl }, JsonRequestBehavior.DenyGet);
             }
+
+            _addressBookService.LoadAddress(viewModel.Address);
 
             AddErrors(registration.Result.Errors);
 
@@ -120,6 +133,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             }
             return returnUrl;
 
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            _controllerExceptionHandler.HandleRequestValidationException(filterContext, "registeraccount", OnRegisterException);
+        }
+
+        public ActionResult OnRegisterException(ExceptionContext filterContext)
+        {
+            return View("RegisterAccount", new RegisterAccountViewModel
+            {
+                ErrorMessage = filterContext.Exception.Message
+            });
         }
 
         [HttpPost]

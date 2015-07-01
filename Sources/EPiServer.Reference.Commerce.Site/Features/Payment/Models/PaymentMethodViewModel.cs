@@ -1,6 +1,6 @@
-﻿using System;
-using Mediachase.Commerce;
+﻿using Mediachase.Commerce;
 using Mediachase.Commerce.Website;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
@@ -18,6 +18,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         public int Ordering { get; set; }
         public bool IsDefault { get; set; }
         public T PaymentMethod { get; set; }
-        public virtual string Controller { get; set; }
     }
 }

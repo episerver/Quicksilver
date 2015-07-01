@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
+﻿using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
-using EPiServer.Framework.Localization;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
@@ -42,6 +41,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         public GenericCreditCardPaymentMethod(LocalizationService localizationService)
             : base(localizationService)
         {
+            ExpirationMonth = DateTime.Now.Month;
+            CreditCardSecurityCode = "212";
+            CardType = "Generic";
+            CreditCardNumber = "4662519843660534";
         }
 
         [LocalizedDisplay("/Checkout/Payment/Methods/CreditCard/Labels/CreditCardName")]
@@ -68,14 +71,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         /// Gets or sets tge CardType.
         /// </summary>
         public string CardType { get; set; }
-
-        /// <summary>
-        /// Gets the name of the current payment method.
-        /// </summary>
-        public override string Name
-        {
-            get { return "GenericCreditCardPaymentMethod"; }
-        }
 
         /// <summary>
         /// Gets whether this payment method is valid or not.
@@ -220,9 +215,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
             var payment = new CreditCardPayment
                 {
-                    CardType = "VISA",
+                    CardType = "Credit card",
                     PaymentMethodId = PaymentMethodId,
-                    PaymentMethodName = "CreditCardPayment",
+                    PaymentMethodName = "GenericCreditCard",
                     OrderFormId = orderForm.OrderFormId,
                     OrderGroupId = orderForm.OrderGroupId,
                     Amount = orderForm.Total,

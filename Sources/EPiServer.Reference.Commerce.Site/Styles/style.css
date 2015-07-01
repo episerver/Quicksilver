@@ -9421,6 +9421,7 @@ h3 {
   background: #f8f9f9;
   border: 1px solid #ededed;
   padding: 10px;
+  margin-top: 10px;
 }
 .sidebar-nav li + li {
   margin: 0;
@@ -9971,7 +9972,7 @@ footer .social-icon:last-child {
 .quantity,
 .quantity.form-control {
   height: 40px;
-  width: 40px;
+  width: 52px;
   text-align: center;
 }
 .cart-total-offset {

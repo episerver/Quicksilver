@@ -1,0 +1,7 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.Models.CashOnDeliveryViewModel 
+
+@Html.HiddenFor(model => model.PaymentMethod.PaymentMethodId)
+
+<div class="alert alert-info">
+   @Html.Translate("/Checkout/Payment/Methods/CashOnDelivery/Description")
+</div>

@@ -8,7 +8,6 @@ namespace EPiServer.Reference.Commerce.Shared.CatalogIndexer
     [JsonObject]
     public class RestSearchField
     {
-        [JsonConstructor]
         public RestSearchField()
         {
             Attributes = new List<string>();
@@ -30,12 +29,16 @@ namespace EPiServer.Reference.Commerce.Shared.CatalogIndexer
             IsDecimal = isDecimal;
         }
 
+        [JsonConstructor]
         public RestSearchField(string name, string value, IEnumerable<string> attribute)
             : this()
         {
             Name = name;
             Values.Add(value);
-            Attributes.ToList().AddRange(attribute);
+            if (attribute != null)
+            {
+                Attributes = Attributes.Union(attribute).ToList();
+            }
         }
 
         public IList<string> Attributes { get; set; }

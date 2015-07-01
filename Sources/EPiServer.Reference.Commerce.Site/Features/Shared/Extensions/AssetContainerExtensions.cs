@@ -5,6 +5,8 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using EPiServer.Web;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 {
@@ -12,13 +14,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
     {
         private static Injected<AssetUrlResolver> _assetUrlResolver;
 
+        /// <summary>
+        /// Return the relative path to the default asset of an asset container.
+        /// </summary>
+        /// <typeparam name="TContentMedia">Type of the media, inherited from IContentMedia.</typeparam>
+        /// <param name="assetContainer">The content implements IAssetContainer interface.</param>
+        /// <returns></returns>
         public static string GetDefaultAsset<TContentMedia>(this IAssetContainer assetContainer)
             where TContentMedia : IContentMedia
         {
-            return _assetUrlResolver.Service.GetAssetUrl<TContentMedia>(assetContainer);
+            var url = _assetUrlResolver.Service.GetAssetUrl<TContentMedia>(assetContainer);
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                return uri.PathAndQuery;
+            }
+            return url;
         }
 
-        public static IEnumerable<string> GetAssets<TContentMedia>(this IAssetContainer assetContainer, IContentLoader contentLoader, UrlResolver urlResolver)
+        public static IList<string> GetAssets<TContentMedia>(this IAssetContainer assetContainer, IContentLoader contentLoader, UrlResolver urlResolver)
             where TContentMedia : IContentMedia
         {
             var assets = new List<string>();

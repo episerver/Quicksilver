@@ -1,29 +1,28 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
 @{
-    var formModel = Model.CheckoutFormModel;
     Layout = null;
 }
 <div class="row">
     <div class="col-md-6 col-sm-12">
         <div class="jsPaymentMethod">
-            @if (Model.CheckoutFormModel.SelectedPaymentMethodId != default(Guid))
+            @if (Model.Payment != null)
             {
-                var controller = string.Format("{0}PaymentMethod", Model.SelectedPaymentMethodSystemName);
+                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
 
-                Html.RenderPartial(controller, formModel.PaymentViewModel); 
+                Html.RenderPartial(controller, Model.Payment);
             }
         </div>
     </div>
     <div class="col-md-6 col-sm-12">
         <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
-        @foreach (var paymentMethodViewModel in Model.PaymentMethodViewModels)
+        @foreach (var method in Model.PaymentMethodViewModels)
         {
             <div class="radio">
                 <label>
-                    @Html.RadioButtonFor(_ => formModel.SelectedPaymentMethodId, paymentMethodViewModel.Id, new { @id = paymentMethodViewModel.Id, @class = "jsChangePayment" }) @paymentMethodViewModel.FriendlyName
+                    @{ string checkState = method.SystemName == Model.Payment.SystemName ? "checked" : string.Empty; }
+                    <input type="radio" class="jsChangePayment" name="SystemName" value="@method.SystemName" @checkState /> @method.FriendlyName
                 </label>
             </div>
         }
-        @Html.ValidationMessageFor(_ => formModel.SelectedPaymentMethodId)
     </div>
 </div>

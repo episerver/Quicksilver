@@ -12,10 +12,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         public Money OriginalPrice { get; set; }
         public FashionVariant Variation { get; set; }
 
-        public IEnumerable<SelectListItem> Colors { get; set; }
-        public IEnumerable<SelectListItem> Sizes { get; set; }
+        public IList<SelectListItem> Colors { get; set; }
+        public IList<SelectListItem> Sizes { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
-        public IEnumerable<string> Images { get; set; }
+        public IList<string> Images { get; set; }
     }
 }

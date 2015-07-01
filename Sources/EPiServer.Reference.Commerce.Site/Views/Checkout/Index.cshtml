@@ -1,7 +1,6 @@
 ﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
 @{
-    var formModel = Model.CheckoutFormModel;
     if (Request.IsAjaxRequest())
     {
         Layout = null;
@@ -32,38 +31,18 @@
                 </div>
             </div>
             @{ Html.RenderAction("LargeCart", "Cart"); }
-            @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = "Update" }))
+            @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
             {
-                <div class="section-box">
-                    <h4>@Html.Translate("/Checkout/Shipment/Heading")</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        @{ Html.RenderPartial("Address", Model); }
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <h3>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h3>
-                        @foreach (var shippingMethodViewModel in Model.ShippingMethodViewModels)
-                        {
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(_ => formModel.SelectedShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
-                                    @shippingMethodViewModel.DisplayName
-                                    @shippingMethodViewModel.Price.ToString()
-                                </label>
-                            </div>
-                        }
-                        @Html.ValidationMessageFor(_ => formModel.SelectedShippingMethodId)
-                    </div>
-                </div>
+                { Html.RenderPartial("Address", Model); }
+
                 <div class="section-box">
                     <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
                 </div>
-            
-                        { Html.RenderPartial("Payment", Model); }
-                        { Html.RenderAction("OrderSummary"); }
 
-                        <button type="submit" class="btn btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
+                 { Html.RenderPartial("Payment", Model); }
+                 { Html.RenderAction("OrderSummary"); }
+
+                <button type="submit" class="btn btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
             }
         </div>
     </div>

@@ -132,7 +132,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart
 
         private void AcceptChanges()
         {
-            CartHelper.Cart.OrderForms.First().LineItems.AcceptChanges();
+            if (CartHelper.Cart.OrderForms.Any())
+            {
+                CartHelper.Cart.OrderForms.First().LineItems.AcceptChanges();
+            }
+            
             CartHelper.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             CartHelper.Cart.AcceptChanges();
         }

@@ -20,17 +20,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         /// </summary>
         public Guid PaymentMethodId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the payment method.
-        /// </summary>
-        /// <remarks>
-        /// The name property should be overriden in any subclass because this value is later
-        /// used to determine which controller and view should be used for renderring. It is
-        /// also used by the PaymentModelBinder
-        /// </remarks>
-        public virtual string Name
-        {
-            get { return string.Empty; }
-        }
     }
 }

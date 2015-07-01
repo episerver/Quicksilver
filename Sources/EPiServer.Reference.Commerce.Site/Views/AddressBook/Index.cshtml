@@ -1,6 +1,5 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.AddressBook.Models
-@using EPiServer.Shell.Web
-@model AddressBookViewModel
+﻿@using EPiServer.Shell.Web
+@model EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels.AddressCollectionViewModel
 <div class="container-fluid">
     <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
@@ -10,7 +9,7 @@
                     <h2> @Html.Translate("/AddressBook/Available")</h2>
                 </div>
                 <div class="col-xs-12 col-md-3">
-                    <button type="button" class="btn btn--blue btn-sm mypages-new-address-btn" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = Guid.Empty })';">@Html.Translate("/AddressBook/Form/Label/NewAddress")</button>
+                    <button type="button" class="btn btn--blue btn-sm mypages-new-address-btn" onclick="window.location.href='@Url.Action("EditForm", "AddressBook")';">@Html.Translate("/AddressBook/Form/Label/NewAddress")</button>
                 </div>
             </div>
             <div id="addressBook">
@@ -28,7 +27,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
-                                    @Html.Partial("Address", address)
+                                    @Html.Partial("_Address", address)
+                                    <button type="button" class="btn btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })';">@Html.Translate("/AddressBook/Form/Label/Edit")</button>
+                                    @using (Html.BeginForm("Remove", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
+                                    {
+                                        <button type="submit" class="btn btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
+                                    }
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <strong class="small">@Html.Translate("/AddressBook/Form/Label/DateModified")</strong>

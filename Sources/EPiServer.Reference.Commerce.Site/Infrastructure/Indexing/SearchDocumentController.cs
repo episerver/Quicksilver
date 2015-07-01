@@ -1,10 +1,13 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.CatalogIndexer;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Pricing;
@@ -25,16 +28,25 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         private readonly IPromotionService _promotionService;
         private readonly IContentLoader _contentLoader;
         private readonly ReferenceConverter _referenceConverter;
+        private readonly AssetUrlResolver _assetUrlResolver;
+        private readonly IRelationRepository _relationRepository;
+        private readonly AppContextFacade _appContext;
 
         public SearchDocumentController(IPriceService priceService,
             IPromotionService promotionService,
             IContentLoader contentLoader,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter,
+            AssetUrlResolver assetUrlResolver,
+            IRelationRepository relationRepository,
+            AppContextFacade appContext)
         {
             _priceService = priceService;
             _promotionService = promotionService;
             _contentLoader = contentLoader;
             _referenceConverter = referenceConverter;
+            _assetUrlResolver = assetUrlResolver;
+            _relationRepository = relationRepository;
+            _appContext = appContext;
         }
 
         [Route("searchdocuments/{language}/{code}", Name = "PopulateSearchDocument")]
@@ -60,14 +72,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
             var document = new RestSearchDocument();
             var productContent = _contentLoader.Get<FashionProduct>(contentLink);
-            var variants = _contentLoader.GetItems(productContent.GetVariants(), ContentLanguage.PreferredCulture).OfType<FashionVariant>().ToList();
+            var variants = _contentLoader.GetItems(productContent.GetVariants(_relationRepository), CultureInfo.GetCultureInfo(language)).OfType<FashionVariant>().ToList();
             AddPrices(document, variants);
             AddColors(document, variants);
             AddSizes(document, variants);
             AddCodes(document, variants);
             document.Fields.Add(new RestSearchField("code", productContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
             document.Fields.Add(new RestSearchField("displayname", productContent.DisplayName));
-            document.Fields.Add(new RestSearchField("image_url", productContent.GetDefaultAsset<IContentImage>()));
+            document.Fields.Add(new RestSearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(productContent)));
             document.Fields.Add(new RestSearchField("content_link", productContent.ContentLink.ToString()));
             document.Fields.Add(new RestSearchField("created", productContent.Created.ToString("yyyyMMddhhmmss")));
             document.Fields.Add(new RestSearchField("brand", productContent.Brand));
@@ -113,7 +125,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 
         private void AddPrices(RestSearchDocument document, IEnumerable<FashionVariant> variants)
         {
-            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(AppContext.Current.ApplicationId, x.Code))).ToList();
+            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(_appContext.ApplicationId, x.Code))).ToList();
             var validPrices = prices.Where(x => x.ValidFrom <= DateTime.Now && (x.ValidUntil == null || x.ValidUntil >= DateTime.Now));
 
             foreach (var marketPrices in validPrices.GroupBy(x => x.MarketId))

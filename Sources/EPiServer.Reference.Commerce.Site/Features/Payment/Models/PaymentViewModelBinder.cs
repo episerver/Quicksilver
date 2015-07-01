@@ -6,15 +6,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            string controllerName = controllerContext.HttpContext.Request.Form.Get("PaymentMethod.Name");
-
-            switch (controllerName)
-            {
-                case "GenericCreditCardPaymentMethod":
-                    bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(GenericCreditCardPaymentMethodViewModel));
-                    break;
-            }
-
+            string controllerName = controllerContext.HttpContext.Request.Form.Get("SystemName");
+            bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, PaymentMethodViewModelResolver.Resolve(controllerName).GetType());
             object model = base.BindModel(controllerContext, bindingContext);
 
             return model;

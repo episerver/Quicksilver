@@ -26,6 +26,7 @@
                     <tr>
                         <td colspan="2">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
                         <td>@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
+                        <td>@Html.Translate("/OrderConfirmationMail/Price")</td>
                         <td>@Html.Translate("/OrderConfirmation/Labels/Total")</td>
                     </tr>
                 </thead>
@@ -33,44 +34,50 @@
                     @foreach (LineItem lineItem in Model.Items)
                     {
                         <tr>
-                            <td><a href="@lineItem.GetUrl()"><img src="@lineItem.GetThumbnailUrl()"/></a></td>
+                            <td><a href="@lineItem.GetUrl()"><img src="@lineItem.GetThumbnailUrl()" /></a></td>
                             <td><a href="@lineItem.GetUrl()">@lineItem.DisplayName</a></td>
                             <td>
                                 @Html.TextBox("Quantity", lineItem.Quantity.ToString("0"), new { @class = "form-control quantity", @placeholder = "1", @disabled = "true" })
                             </td>
+                            <td>@lineItem.ToMoney(Model.ItemPrices[lineItem.Id])</td>
                             <td>@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
                         </tr>
                     }
                     <tr>
                         <td colspan="3"></td>
+                        <td>@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
+                        <td class="total-price">@Model.ShippingTotal.ToString()</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>@Html.Translate("/OrderConfirmationMail/Total")</td>
                         <td class="total-price">@Model.TotalPrice.ToString()</td>
                     </tr>
                 </tbody>
             </table>
             <div class="col-md-6">
                 <div class="quicksilver-well">
+
+                    <h4>@Html.Translate("/OrderConfirmation/BillingDetails")</h4>
+                    @Html.Partial("_Address", Model.BillingAddress)
+
                     <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
-                    <p>
-                        @Model.Address.FirstName @Model.Address.LastName<br>
-                        @Model.Address.Line1<br>
-                        @Model.Address.PostalCode<br>
-                        @Model.Address.City<br>
-                        @Model.Address.CountryName
-                    </p>
+                    @foreach (var shippingAddress in Model.ShippingAddresses)
+                    {
+                        <hr />
+                        @Html.Partial("_Address", shippingAddress)
+                    }
+
                 </div>
             </div>
 
             <div class="col-md-6">
-                <div class="quicksilver-well">
-                    <h4>@Html.Translate("/OrderConfirmation/PaymentDetails")</h4>
-                    <p>
-                        @Html.Translate("/OrderConfirmation/PaymentInfo/CardType"): @Model.Payment.CardType<br>
-                        @Html.Translate("/OrderConfirmation/PaymentInfo/Owner"): @Model.Payment.CustomerName<br>
-                        @Html.Translate("/OrderConfirmation/PaymentInfo/CardNumber"): @Model.Payment.CreditCardNumber<br>
-                        @Html.Translate("/OrderConfirmation/PaymentInfo/ExpirationDate"): @Model.Payment.ExpirationMonth/@Model.Payment.ExpirationYear<br>
-                        @Html.Translate("/OrderConfirmation/PaymentInfo/CVV"): **@Model.Payment.CreditCardSecurityCode.Substring(Model.Payment.CreditCardSecurityCode.Length - 1)
-                    </p>
-                </div>
+
+                @foreach (Payment payment in Model.Payments)
+                {
+                    Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
+                }
+
             </div>
             <hr>
 

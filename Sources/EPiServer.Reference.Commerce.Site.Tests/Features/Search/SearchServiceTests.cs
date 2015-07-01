@@ -88,6 +88,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                     new FacetOption
                     {
                         Name = _facet.Name,
+                        Key = _facet.Key,
                         Selected = _facet.IsSelected,
                         Count = _facet.Count
                     }
@@ -128,23 +129,22 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 
             productViewModel.ShouldBeEquivalentTo(expected);
         }
+        
+        [TestMethod]
+        public void QuickSearch_ShouldFilterByCurrentMarket()
+        {
+            var filterOptions = new FilterOptionFormModel { Q = "query" };
+            _subject.QuickSearch(filterOptions);
+
+            var expected = _currentMarketMock.Object.GetCurrentMarket().MarketId;
+
+            _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.MarketId.Equals(expected))));
+        }
 
         [TestMethod]
         public void QuickSearch_WhenQueryContainsPlusCharacter_ShouldRemovePlusCharacterFromQuery()
         {
             const string searchQuery = "start+end";
-            const string expectedResult = "startend*";
-
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
-            _subject.QuickSearch(filterOptions);
-
-            _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
-        }
-
-        [TestMethod]
-        public void QuickSearch_WhenQueryContainsMinusCharacter_ShouldRemoveMinusCharacterFromQuery()
-        {
-            const string searchQuery = "start-end";
             const string expectedResult = "startend*";
 
             var filterOptions = new FilterOptionFormModel { Q = searchQuery };
@@ -286,22 +286,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         }
 
         [TestMethod]
-        public void Search_WhenQueryContainsPlusCharacter_ShouldRemovePlusCharacterFromQuery()
+        public void Search_ShouldFilterByCurrentMarket()
         {
-            const string searchQuery = "start+end";
-            const string expectedResult = "startend*";
-
+            var filterOptions = new FilterOptionFormModel { Q = "query" };
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
             _subject.Search(content, filterOptions);
 
-            _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
+            var expected = _currentMarketMock.Object.GetCurrentMarket().MarketId;
+
+            _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.MarketId.Equals(expected))));
         }
 
         [TestMethod]
-        public void Search_WhenQueryContainsMinusCharacter_ShouldRemoveMinusCharacterFromQuery()
+        public void Search_WhenQueryContainsPlusCharacter_ShouldRemovePlusCharacterFromQuery()
         {
-            const string searchQuery = "start-end";
+            const string searchQuery = "start+end";
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
@@ -506,7 +505,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             searchDocumentMock.Setup(x => x["displayname"])
                 .Returns(() => new SearchField("displayname", "DisplayName"));
             searchDocumentMock.Setup(x => x["image_url"])
-                .Returns(() => new SearchField("image_url", "http://mydomain.com/image.jpg"));  // Tests will ensures that hostname gets removed
+                .Returns(() => new SearchField("image_url", "/image.jpg"));  // Tests will ensures that hostname gets removed
             searchDocumentMock.Setup(x => x["content_link"])
                 .Returns(() => new SearchField("content_link", "1"));
             searchDocumentMock.Setup(x => x[It.IsNotIn(new[] { "displayname", "image_url", "content_link" })])

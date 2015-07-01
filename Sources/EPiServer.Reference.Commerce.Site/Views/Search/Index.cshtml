@@ -12,9 +12,9 @@
     }
     else
     {
+        @Html.Partial("_Facet", Model.FormModel)
         using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
         {
-            @Html.Partial("_Facet", Model.FormModel)
             <div class="col-md-9">
                 @Html.Partial("_ProductList", Model.ProductViewModels)
             </div>
