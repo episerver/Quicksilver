@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="Swedish" id="sv">
-    <PreRelease>
-      <Heading>Under uppbyggnad</Heading>
-      <NotificationMessage>Vänligen notera att denna version av siten är en förhandstitt och att den fortfarande är under uppbyggnad.</NotificationMessage>
-    </PreRelease>
     <Header>
       <Cookie>
         <CookieUse>Vi använder cookies</CookieUse>

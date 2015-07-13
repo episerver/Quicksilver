@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="English" id="en">
-    <PreRelease>
-      <Heading>Pre-release</Heading>
-      <NotificationMessage>Please be advised that this version of the site is a pre-release and that is still under construction.</NotificationMessage>
-    </PreRelease>
     <Header>
       <Cookie>
         <CookieUse>We use cookies</CookieUse>
