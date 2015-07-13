@@ -13,19 +13,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
             InitializeValues();
         }
 
-        /// <summary>
-        /// Gets or sets the available months to be used as credit card expiration date.
-        /// </summary>
         public List<SelectListItem> Months { get; set; }
 
-        /// <summary>
-        /// Gets or sets the available years to be used as credit card expiration date.
-        /// </summary>
         public List<SelectListItem> Years { get; set; }
 
-        /// <summary>
-        /// Adds months and years to the collections of possible values.
-        /// </summary>
         public void InitializeValues()
         {
             Months = new List<SelectListItem>();

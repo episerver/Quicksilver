@@ -6,11 +6,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
     public class PaymentMethodViewModelResolver
     {
-        /// <summary>
-        /// Provides an instance of a view model dependent on the name of a payment method.
-        /// </summary>
-        /// <param name="paymentMethodName">The name used to identify what view model should be returned.</param>
-        /// <returns>A new instance of a PaymentMethodViewModel.</returns>
         public static IPaymentMethodViewModel<IPaymentOption> Resolve(string paymentMethodName)
         {
             switch (paymentMethodName)

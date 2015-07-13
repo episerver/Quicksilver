@@ -12,9 +12,6 @@
         <title> @{ Html.RenderAction("Title", "Head"); } (@Html.Translate("/PreRelease/Heading")) </title>
         @RenderSection("Meta", false)
 
-        <!-- Google fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
     
         @Styles.Render("~/styles/bundled")
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -25,60 +22,6 @@
         <![endif]-->
     
         <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
-
-        <!-- Styles above the fold -->
-        <style>
-            /* Settings bar */
-            .settings-bar {
-                background: #444a4c;
-                box-shadow: 0px 3px 3px #c7c9c9;
-                color: #fff;
-                margin-bottom: 2em;
-                padding: 10px 15px;
-            }
-            .settings-bar .btn {
-                background-color: transparent;
-                border: none;
-                padding: 0;
-            }
-            .settings-bar,
-            .settings-bar .btn {
-                font-size: 14px; 
-            }
-            .settings-bar__nav > li > a { padding: 0; }
-            .settings-bar__nav > li > a:hover { background-color: transparent; }
-
-            .settings-bar .flag { margin-right: 3px; }
-            
-
-            /* Masthead */
-            .masthead { margin-bottom: 1em; }
-            
-            
-            /* Nav */
-            .site-nav,
-            .slicknav_menu {
-                background: #1285de;
-                border: none;
-                border-radius: 0;
-                box-shadow: 0px 2px 3px #c7c9c9;
-                min-height: 60px;
-            }
-
-            .navbar__item {
-                font-size: 18px;
-                line-height: 60px;
-                min-height: 60px;
-            }
-            .navbar-nav .navbar__item {
-              line-height: 60px;
-              padding: 0 10px;
-            }
-            .navbar__item:hover,
-            .navbar__item:active,
-            .navbar__item:focus,
-            .navbar__item:visited { text-decoration: none; }
-        </style>
     </head>
     <body>
         @Html.RenderEPiServerQuickNavigator()
@@ -94,36 +37,21 @@
         <div class="container-fluid cookies jsCookies" style="display: none">
             <div class="container text-right">
                 <p>@Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn--blue jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button></p>
-                
+
             </div>
         </div>
-        <div class="container-fluid settings-bar">
-            <div class="row site-wrapper">
-                <div class="col-xs-6  text-left  settings-bar__leading">
-                    <ul class="nav settings-bar__nav">
-                        @{
-                            Html.RenderAction("Index", "Market", new{ contentLink = ViewContext.RequestContext.GetContentLink() });
-                            Html.RenderAction("Index", "Language", new { contentLink = ViewContext.RequestContext.GetContentLink(), language = ViewContext.RequestContext.GetLanguage() });
-                        }
-                    </ul>
-                </div>
-                <div class="col-xs-6  text-right  settings-bar__trailing">
-                    @{
-                        Html.RenderAction("RightMenu", "Header");
-                    }
-                </div>
-            </div>
-        </div>
+        @{
+            Html.RenderAction("Index", "Navigation");
+        }
         <div class="quicksilver site-wrapper">
-            @{ Html.RenderAction("Index", "Header"); }
-
             @RenderBody()
-
-            @{ Html.RenderAction("Index", "Footer"); }
         </div>
+        @{ Html.RenderAction("Index", "Footer"); }
+
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/js")
+
     </body>
 </html>

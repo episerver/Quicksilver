@@ -51,6 +51,7 @@
       <AddedToWishList>Lagd i önskelistan</AddedToWishList>
       <NotAddedToWishList>Kunde inte lägga varan i önskelistan</NotAddedToWishList>
       <Price>Pris</Price>
+      <Size>Storlek</Size>
       <OriginalPrice>Ursprungliga Pris</OriginalPrice>
       <DiscountPrice>Rabatterat Pris</DiscountPrice>
       <PriceMissing>Inte tillgänglig för denna marknad</PriceMissing>
@@ -423,11 +424,14 @@
         <TotalPrice>Totalpris:</TotalPrice>
       </Labels>
     </OrderHistory>
-    <Wishlist>
+    <WishList>
+      <Button>
+        <GotoWishListPage>Gå till din önskelista</GotoWishListPage>
+      </Button>
       <NoItems>Du har inga artiklar i din önskelista</NoItems>
       <DeleteButton>Radera hela önskelistan</DeleteButton>
       <RemoveItem>Ta bort från önskelista</RemoveItem>
-    </Wishlist>
+    </WishList>
     <Search>
       <BadFirstCharacter>'*' eller '?' är inte tillåtet som första tecken i en sökning</BadFirstCharacter>
     </Search>

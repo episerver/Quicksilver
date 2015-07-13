@@ -1,38 +1,38 @@
 ﻿var Market = {
     init: function () {
         $(document)
-            .on('click', '.jsMarketSelector .dropdown-menu a', Market.setMarket)
-            .on('click', '.jsLanguageSelector .dropdown-menu a', Market.setLanguage)
-            .on('click', '.jsCurrencySelector .dropdown-menu a', Market.setCurrency);
+            .on('change ', '.jsMarketSelector', Market.setMarket)
+            .on('change ', '.jsLanguageSelector', Market.setLanguage)
+            .on('change ', '.jsCurrencySelector', Market.setCurrency);
     },
-    setMarket: function (e) {
-        e.preventDefault();
+    setMarket: function () {
+        var form = $(this).closest('form');
         $.ajax({
             type: "POST",
-            url: $(this).data('url'),
-            data: 'marketId=' + $(this).data('marketid'),
+            url: form[0].action,
+            data: form.serialize(),
             success: function (response) {
                 document.location = response.returnUrl;
             }
         });
     },
     setLanguage: function (e) {
-        e.preventDefault();
+        var form = $(this).closest('form');
         $.ajax({
             type: "POST",
-            url: $(this).data('url'),
-            data: 'language=' + $(this).data('language'),
+            url: form[0].action,
+            data: form.serialize(),
             success: function (response) {
                 document.location = response.returnUrl;
             }
         });
     },
     setCurrency: function (e) {
-        e.preventDefault();
+        var form = $(this).closest('form');
         $.ajax({
             type: "POST",
-            url: $(this).data('url'),
-            data: 'currencyCode=' + $(this).data('currency-code'),
+            url: form[0].action,
+            data: form.serialize(),
             success: function (response) {
                 document.location = response.returnUrl;
             }

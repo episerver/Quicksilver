@@ -1,6 +1,8 @@
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using System;
@@ -8,10 +10,10 @@ using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
 {
-    public class OrderConfirmationViewModel
+    public class OrderConfirmationViewModel<T> : PageViewModel<T> where T : PageData
     {
-        public OrderConfirmationPage CurrentPage { get; set; }
         public bool HasOrder { get; set; }
+        public string OrderId { get; set; }
         public OrderConfirmationRegistrationFormModel RegistrationFormModel { get; set; }
         public IEnumerable<LineItem> Items { get; set; }
         public Address BillingAddress { get; set; }

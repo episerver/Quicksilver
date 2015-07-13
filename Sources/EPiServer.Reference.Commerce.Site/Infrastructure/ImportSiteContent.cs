@@ -262,28 +262,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var defaultMarket = new MarketImpl(marketService.GetMarket(MarketId.Default)) { IsEnabled = false };
             marketService.UpdateMarket(defaultMarket);
         }
-
-        private void CreateMarket(string marketId, string name, IEnumerable<string> countries, IEnumerable<CultureInfo> cultures, CultureInfo defaultCulture, IEnumerable<Currency> currencies, Currency defaultCurrency)
-        {
-            var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
-            if (marketService.GetMarket(marketId) != null)
-                return;
-            var market = new MarketImpl(marketId)
-            {
-                MarketName = name,
-                MarketDescription = name,
-                IsEnabled = true,
-                DefaultLanguage = defaultCulture,
-                DefaultCurrency = defaultCurrency
-            };
-
-            currencies.ForEach(x => market.CurrenciesCollection.Add(x));
-            countries.ForEach(x => market.CountriesCollection.Add(x));
-            cultures.ForEach(x => market.LanguagesCollection.Add(x));
-
-            marketService.CreateMarket(market);
-        }
-
+        
         private void ImportAssets(string path)
         {
             var importer = new DataImporter { DestinationRoot = ContentReference.GlobalBlockFolder };
@@ -512,7 +491,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 using (var sr = new StreamReader(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Promotions\25_Percent_off_Mens_Shoes.xml")))
                 {
                     xml = sr.ReadToEnd();
-                    sr.Close();
                 }
 
             }
@@ -521,7 +499,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 using (var sr = new StreamReader(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Promotions\50_off_Order_over_500.xml")))
                 {
                     xml = sr.ReadToEnd();
-                    sr.Close();
                 }
             }
             else if (name.Equals("$10 off shipping from Women's Shoes"))
@@ -529,7 +506,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 using (var sr = new StreamReader(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Promotions\10_off_shipping_from_Womens_Shoes.xml")))
                 {
                     xml = sr.ReadToEnd();
-                    sr.Close();
                 }
                 xml = xml.Replace("fc7c2d53-7c1c-4298-8189-f8b1f8e85439", ShippingManager.GetShippingMethods("en").ShippingMethod.FirstOrDefault(x => x.LanguageId.Equals("en") && x.Name.Contains("Express") && x.Currency.Equals("USD")).ShippingMethodId.ToString().ToLower());
             }

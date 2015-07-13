@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
-using System.Web.Routing;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using EPiServer.Reference.Commerce.Site.Features.Search;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Routing;
@@ -19,6 +15,8 @@ using Mediachase.Search;
 using Mediachase.Search.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 {
@@ -60,9 +58,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                OriginalPrice = new Money(1, _currentCurrency),
-                Price = new Money(1, _currentCurrency),
-                Image = "/image.jpg",
+                PlacedPrice = new Money(1, _currentCurrency),
+                ExtendedPrice = new Money(1, _currentCurrency),
+                ImageUrl = "/image.jpg",
                 Url = "http://domain.com"
             };
 
@@ -121,9 +119,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                OriginalPrice = new Money(1, _currentCurrency),
-                Price = new Money(1, _currentCurrency),
-                Image = "/image.jpg",
+                PlacedPrice = new Money(1, _currentCurrency),
+                ExtendedPrice = new Money(1, _currentCurrency),
+                ImageUrl = "/image.jpg",
                 Url = "http://domain.com"
             };
 

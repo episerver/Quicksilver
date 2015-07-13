@@ -2,22 +2,32 @@
 @{
     Layout = null;
 }
-<div class="quick-search">
-    <ul>
-        @foreach (var product in Model)
-        {
-            <li>
-                <a href="@product.Url">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="@product.Image" alt="@product.DisplayName" class="media-object" />
-                        </div>
-                        <div class="media-body">
-                            <strong class="pull-right link--grey">@product.Price.ToString()</strong> @product.DisplayName 
-                        </div>
+
+<ul class="product-dropdown product-row list-unstyled">
+    @foreach (var product in Model)
+    {
+        bool hasDiscount = product.ExtendedPrice.Amount < product.PlacedPrice.Amount;
+        string productLevelClass = hasDiscount ? "list-group-item product-item has-discount" : "list-group-item product-item";
+        bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
+
+        <li class="@productLevelClass">
+            <a href="@product.Url" class="link--black">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="@product.ImageUrl" alt="@product.DisplayName" class="media-object product-row__item__image" />
                     </div>
-                </a>
-            </li>
-        }
-    </ul>
-</div>
+                    <div class="media-body">
+                        <h3 class="product-row__item__title">@product.DisplayName</h3>
+                        @if (hasDiscount)
+                        {
+                            <h4 class="product-row__item__price product-price--discount">@product.ExtendedPrice.ToString()</h4>
+                        }
+                        <h4 class="product-row__item__price product-price">@product.PlacedPrice.ToString()</h4>
+                        <span class="product-row__item__brand product-brand text-muted">Lyle &amp; Scott</span>
+                        <p class="product-row__item__description">Jacket from Lyle &amp; Scott. Rounded neckline with collar and button closure. Zipper closure and two pockets at front. Elastic at each cuff and hem. Lined. Made of 100% Cotton.</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

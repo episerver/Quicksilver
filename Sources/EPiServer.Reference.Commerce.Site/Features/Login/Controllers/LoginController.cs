@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
@@ -15,13 +14,10 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
-using EPiServer.Reference.Commerce.Site.Infrastructure;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
-    /// <summary>
-    /// Default controller managing user account logins.
-    /// </summary>
     public class LoginController : IdentityControllerBase<LoginRegistrationPage>
     {
         private readonly IContentLoader _contentLoader;
@@ -55,7 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [HttpGet]
         public ActionResult Index(LoginRegistrationPage currentPage, string returnUrl)
         {
-            var viewModel = new LoginPageViewModel<LoginRegistrationPage>(currentPage, returnUrl ?? "/");
+            var viewModel = new LoginPageViewModel(currentPage, returnUrl ?? "/");
             InitializeLoginViewModel(viewModel.LoginViewModel);
             _addressBookService.LoadAddress(viewModel.RegisterAccountViewModel.Address);
             viewModel.RegisterAccountViewModel.Address.Name = _localizationService.GetString("/Shared/Address/DefaultAddressName");
@@ -63,10 +59,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             return View(viewModel);
         }
 
-        /// <summary>
-        /// Sets any initial values required by the view model used for internal logins.
-        /// </summary>
-        /// <param name="viewModel">The view model to initialize.</param>
         private void InitializeLoginViewModel(InternalLoginViewModel viewModel)
         {
             StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);

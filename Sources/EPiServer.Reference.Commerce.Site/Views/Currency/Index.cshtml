@@ -1,12 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Market.Models.CurrencyViewModel
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown jsCurrencySelector">
-                            <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">@Html.Translate("/Product/Dropdown/Currency") @Model.CurrentCurrency.CurrencyCode <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                @foreach (var currency in Model.Currencies)
-                                {
-                                    <li><a href="#" data-url="@Url.Action("Set", "Currency")" data-currency-code="@currency.CurrencyCode">@currency.CurrencyCode</a></li>
-                                }
-                            </ul>
-                        </li>
-                    </ul>
+@using (Html.BeginForm("Set", "Currency"))
+{
+    @Html.DropDownListFor(x => x.CurrencyCode, Model.Currencies, new { @class = "form-control input-sm jsCurrencySelector" })
+}

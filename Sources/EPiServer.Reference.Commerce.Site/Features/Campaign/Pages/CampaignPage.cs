@@ -6,7 +6,7 @@ using EPiServer.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Campaign.Pages
 {
-    [ContentType(DisplayName = "Campaign page", GUID = "bfba39b8-3161-4d01-a543-f4b0e18e995b", Description = "")]
+    [ContentType(DisplayName = "Campaign page", GUID = "bfba39b8-3161-4d01-a543-f4b0e18e995b", Description = "A Page which is used to show campaign details.")]
     [ImageUrl("~/styles/images/page_type.png")]
     public class CampaignPage : PageData
     {

@@ -4,6 +4,7 @@
             .on('change', '.jsChangePayment', Checkout.changePayment)
             .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
+            .on('change', '#MiniCart', Checkout.refreshView)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
             .on('click', '.remove-shipping-address', Checkout.removeShippingAddress);
 
@@ -18,6 +19,26 @@
             $(".shipping-address").css("display", "none");
             $(".remove-shipping-address").click();
         }
+    },
+    refreshView: function () {
+
+        var view = $("#CheckoutView");
+
+        if (view.length == 0) {
+            return
+        }
+
+        var form = $("#CheckoutViewRefreshForm");
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: form[0].action,
+            success: function (result) {
+                view.replaceWith($(result));
+                Checkout.initializeAddressAreas();
+            }
+        });
     },
     changeAddress: function () {
 

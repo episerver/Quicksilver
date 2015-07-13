@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using Moq;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Search;
 using EPiServer.Core;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using Mediachase.Search;
 using System.Collections.Generic;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
 {

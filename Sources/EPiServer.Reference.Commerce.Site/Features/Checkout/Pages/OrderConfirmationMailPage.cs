@@ -6,7 +6,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Pages
 {
-    [ContentType(DisplayName = "OrderConfirmationMailPage", GUID = "535070c8-e08b-45ff-9703-c7d990174017", Description = "", AvailableInEditMode = false)]
+    [ContentType(DisplayName = "Order and confirmation mail page", GUID = "535070c8-e08b-45ff-9703-c7d990174017", Description = "", AvailableInEditMode = false)]
     public class OrderConfirmationMailPage : MailBasePage
     {
         [CultureSpecific]

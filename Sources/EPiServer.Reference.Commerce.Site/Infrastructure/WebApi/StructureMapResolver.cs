@@ -33,5 +33,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.WebApi
             return _container.GetNestedContainer().GetInstance(controllerType) as IHttpController;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            if (_container != null)
+            {
+                _container.Dispose();
+            }
+
+            base.Dispose(true);
+        }
     }
 }

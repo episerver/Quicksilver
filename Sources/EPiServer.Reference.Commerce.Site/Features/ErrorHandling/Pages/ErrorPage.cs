@@ -6,10 +6,11 @@ using EPiServer.DataAnnotations;
 namespace EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Pages
 {
     [ContentType(
-        DisplayName = "ErrorPage", 
+        DisplayName = "Error page", 
         GUID = "E7DCAABC-05BC-4230-A2AF-94CD9A9ED535", 
-        Description = "", 
+        Description = "The page which allows you to show errors details.", 
         AvailableInEditMode = true)]
+    [ImageUrl("~/styles/images/page_type.png")]
     public class ErrorPage :PageData
     {
         [CultureSpecific]

@@ -7,11 +7,8 @@ using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Models
 {
-    public class MiniCartViewModel
+    public class MiniCartViewModel : CartViewModel
     {
-        public decimal ItemCount { get; set; }
         public ContentReference CheckoutPage { get; set; }
-        public IEnumerable<CartItem> CartItems { get; set; }
-        public Money Total { get; set; }
     }
 }

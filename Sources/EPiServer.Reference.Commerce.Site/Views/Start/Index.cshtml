@@ -2,12 +2,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            @Html.PropertyFor(x => x.MainBody)
+            <h1>@Html.PropertyFor(x => x.MainBody)</h1>
         </div>
     </div>
 </div>
 <div class="container-fluid product-row">
     <div class="row">
-        @Html.PropertyFor(x => x.ProductArea, new { ChildrenCssClass = "jsProductTile col-xs-12 col-md-6 col-lg-4" })
+        @Html.PropertyFor(x => x.ProductArea, new { ChildrenCssClass = "jsProductTile product-row__tile col-xs-12 col-sm-6 col-lg-4" })
     </div>
 </div>

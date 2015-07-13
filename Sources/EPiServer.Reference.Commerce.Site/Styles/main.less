@@ -1,213 +1,89 @@
+html { 
+    min-height: 100%;
+    position: relative;
+}
 body {
     background: @site-background;
-    color: @grey;
-    font-size: 16px;
-    padding-bottom: 2em;
 }
 
-h1, h2, h3 { margin-top: 0; }
+h1, h2, h3 { font-family: 'Raleway', sans-serif; }
+h1, h2, h3, h4 { margin-top: 0; }
 
-.cookies {
-    background: #323738;
-    color: #fff;
-    font-size: 14px;
-    padding: 10px;
-
-    p {
-        margin: 0;
-        vertical-align: middle;
-    }
-}
-
-.container { width: auto; }
-.epi-editContainer { .clearfix(); }
-
-
-@media (min-width: 767px) {
-  .site-wrapper {
-    margin: 0 auto;
-    max-width: 750px;
-  }
-}
-@media (min-width: 1200px) {
-  .site-wrapper {
-    margin: 0 auto;
-    max-width: 1170px;
-  }
-}
-
-// Colors
-//===============================================================================================
-.link--white {
+.link--black { 
     &,
     &:hover,
-    &:focus,
     &:visited,
-    &:active { 
-        background-color: transparent;
-        color: #fff;
-    }
-}
-.link--grey {
-    &,
-    &:hover,
-    &:focus,
-    &:visited,
-    &:active { 
-        background-color: transparent;
-        color: @grey;
-    }
-}
-
-.form--grey { 
-    .flat-form();
-    border-color: @grey;
-}
-.btn--grey {
-    &,
-    &:active,
-    &:focus,
-    &:visited,
-    &:hover {
-        background-color: @grey;
-        color: #fff;
-    }
-}
-
-.form--blue { 
-    .flat-form();
-    border-color: @blue; 
-}
-.btn--blue {
-    &,
-    &:active,
-    &:focus,
-    &:visited {
-        background-color: @blue;
-        color: #fff;
-    }
-    &:hover {
-        background-color: @light-blue;
-        color: #fff;
-    }
-}
-
-.form--green { 
-    .flat-form();
-    border-color: @green; 
-}
-.btn--green {
-    &,
-    &:active,
-    &:focus,
-    &:visited,
-    &:hover {
-        background-color: @green;
-        color: #fff;
-    }
-}
-
-// Misc objects re-used across the site
-//===============================================================================================
-.form-inline { display: inline; }
-.block-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-// Make all buttons square
-.btn { .flat-form; }
-
-
-// Social sharing buttons
-.btn--social {
-    background: @grey;
-    border-radius: 2000px;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 18px;
-    height: 32px;
-    padding-top: 3px;
-    text-align: center;
-    width: 32px;
-
-    &--small {
-        font-size: 14px;
-        height: 24px;
-        padding-top: 1px;
-        width: 24px;
-    }
-
-    &:hover,
     &:active,
     &:focus {
-        background: @blue;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .fa { vertical-align: middle; }
-
-    .fa-{
-        &facebook,
-        &google { margin-top: 1px; }
-    
-        &envelope { font-size: 16px; }
-    }
-    &&--small .fa-envelope { font-size: 12px; }
-}
-
-// Little counter block
-.counter {
-    background: @grey;
-    color: #fff;
-    font-size: 16px;
-    line-height: 16px;
-    padding: 2px 4px;
-
-    &.counter--small { 
-        font-size: 12px;
-        line-height: 12px;
-    }
-
-    &.counter--medium { 
-        font-size: 14px;
-        line-height: 14px;
+        color: @text-color;
     }
 }
 
-// Squared off block with background
+
+.form-inline { display: inline-block; }
+.form-field--narrow { 
+    input[type="text"]& { max-width: 60px; }
+    select& { max-width: 70px; }
+}
+.btn-gray-light {
+  .button-variant(@text-color; @gray-lighter; @gray-lighter);
+}
+
+
+.page-wrapper { min-height: 100%; }
+.site-wrapper { 
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+.site-logo {
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0px; 
+    position: relative;
+
+    &,
+    a:hover,
+    a:active,
+    a:focus,
+    a:visited { color: @text-color; }
+}
+
+
 .section-box {
-    background: #f8f9f9;
-    border: 1px solid @light-grey;
-    padding: 10px;
-    margin-top: 10px;
+    margin-bottom: @padding-large-vertical * 4;
+
+    &&--visible {
+        background: lighten(@gray-base, 97%);
+        border: 1px solid @gray-lighter;
+        padding: @padding-large-vertical @padding-large-horizontal;
+    }
 }
 
-// Stacked sidebar navigation
-.sidebar-nav {
-    li { 
-        & + li { margin: 0; }
-        
-        a { 
-            border: 1px solid @light-grey;
-            border-bottom-width: 0px;
-        }
-        &:last-child a { border-bottom-width: 1px; }
+// Palm only
+@media (max-width: @screen-xs-max) {
+    body { padding-top: 40px; }
 
-        &.is-active {
-            a { 
-                background: @blue;
-                border-color: @blue;
-                color: #fff;
-            }
-        }
-        a:hover { 
-            background: @light-blue;
-            border-color: @light-blue;
-            color: #fff;
-        }
+    .xs-vertical-margin { 
+        display: inline-block;
+        margin-bottom: @padding-large-vertical;
     }
+}
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    .site-wrapper { max-width: 960px; }
+    .site-logo {
+        font-size: 60px;
+        font-weight: 400;
+        top: -10px;
+    }
+}
+
+// Desktop and up
+@media (min-width: @screen-lg-min) {
+    .site-wrapper { max-width: 1140px; }
 }

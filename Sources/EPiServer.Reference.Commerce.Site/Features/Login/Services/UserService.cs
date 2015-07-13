@@ -8,44 +8,31 @@ using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 {
-    /// <summary>
-    /// Service class for working with user accounts.
-    /// </summary>
-    public class UserService
+    public class UserService : IDisposable
     {
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly LocalizationService _localizationService;
-
-        /// <summary>
-        /// Returns a new instance of a UserService. The ApplicationUserManager, IAuthenticationManager and the ApplicationSignInManager
-        /// needs to be proviced by the caller.
-        /// </summary>
-        /// <param name="userManager">The ApplicationUserManager for working with user accounts.</param>
-        /// <param name="signInManager">The ApplicationSignInManager for signing in an existing user.</param>
-        /// <param name="authenticationManager">The AuthenticationManager</param>
-        /// <param name="localizationService"></param>
+        private readonly CustomerContextFacade _customerContext;
+        
         public UserService(ApplicationUserManager userManager, 
             ApplicationSignInManager signInManager, 
             IAuthenticationManager authenticationManager,
-            LocalizationService localizationService)
+            LocalizationService localizationService,
+            CustomerContextFacade customerContextFacade)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _authenticationManager = authenticationManager;
             _localizationService = localizationService;
+            _customerContext = customerContextFacade; 
         }
 
-        /// <summary>
-        /// Gets the CustomerContact associated with given email address.
-        /// </summary>
-        /// <param name="email">The e-mail address belonging to the CustomerContact.</param>
-        /// <returns>Returns the CustomerContact having the same e-mail address as the one provided. If no contact exist
-        /// then null is returned instead.</returns>
         public virtual CustomerContact GetCustomerContact(string email)
         {
             if (email == null)
@@ -58,27 +45,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 
             if (user != null)
             {
-                contact = CustomerContext.Current.GetContactById(new Guid(user.Id));
+                contact = _customerContext.GetContactById(new Guid(user.Id));
             }
 
             return contact;
         }
 
-        /// <summary>
-        /// Gets the CustomerContact by specific PrimaryKeyId.
-        /// </summary>
-        /// <param name="primaryKeyId">The contact primary key id.</param>
-        /// <returns>Returns the CustomerContact having the specified PrimaryKeyId.</returns>
         public virtual CustomerContact GetCustomerContact(PrimaryKeyId primaryKeyId)
         {
-            return CustomerContext.Current.GetContactById(primaryKeyId);
+            return _customerContext.GetContactById(primaryKeyId);
         }
 
-        /// <summary>
-        /// Get the contact PrimaryKeyid associated with given email address.
-        /// </summary>
-        /// <param name="email">The email address.</param>
-        /// <returns>If a customer contact associated with the email address is found, its PrimaryKeyId is returned. Otherwise return null </returns>
         public virtual PrimaryKeyId? GetCustomerContactPrimaryKeyId(string email)
         {
             if (email == null)
@@ -94,12 +71,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contact.PrimaryKeyId;
         }
 
-        /// <summary>
-        /// Gets an existing ApplicationUser based the user's e-mail address.
-        /// </summary>
-        /// <param name="email">The e-mail address belonging to the ApplicationUser.</param>
-        /// <returns>Returns the ApplicationUser having the same e-mail address as the one provided. If no user exist
-        /// then null is returned instead.</returns>
         public virtual ApplicationUser GetUser(string email)
         {
             if (email == null)
@@ -112,12 +83,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return user;
         }
 
-        /// <summary>
-        /// Gets an existing ApplicationUser asynchronously based the user's e-mail address.
-        /// </summary>
-        /// <param name="email">The e-mail address belonging to the ApplicationUser.</param>
-        /// <returns>Returns the ApplicationUser having the same e-mail address as the one provided. If no user exist
-        /// then null is returned instead.</returns>
         public virtual async Task<ApplicationUser> GetUserAsync(string email)
         {
             if (email == null)
@@ -128,21 +93,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return await _userManager.FindByNameAsync(email);
         }
 
-        /// <summary>
-        /// Gets user login information retrieved from an external login provider.
-        /// </summary>
-        /// <returns>Gets an ExternalLoginInfo object for the current user.</returns>
         public virtual async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
             return await _authenticationManager.GetExternalLoginInfoAsync();
         }
 
-        /// <summary>
-        /// Creates a new user account and adds an associated CustomerContact to it.
-        /// </summary>
-        /// <param name="user">The ApplicationUser to create.</param>
-        /// <returns>Returns a ContactIdentityResult holding both the result of creating the user account as well as the
-        /// CustomerContact if such was successfully stored.</returns>
         public virtual async Task<ContactIdentityResult> RegisterAccount(ApplicationUser user)
         {
             if (user == null)
@@ -184,11 +139,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contactResult;
         }
 
-        /// <summary>
-        /// Creates a new CustomerContact based on an ApplicationUser and saves it to the database.
-        /// </summary>
-        /// <param name="user">The user account that should be the base for the new CustomerContact.</param>
-        /// <returns>Returns the created CustomerContact.</returns>
         private CustomerContact CreateCustomerContact(ApplicationUser user)
         {
             if (user == null)
@@ -245,12 +195,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contact;
         }
 
-        /// <summary>
-        /// Signs out the current user.
-        /// </summary>
         public void SignOut()
         {
             _authenticationManager.SignOut();
+        }
+
+        public void Dispose()
+        {
+            if (_userManager != null)
+            {
+                _userManager.Dispose();
+            }
+
+            if (_signInManager != null)
+            {
+                _signInManager.Dispose();
+            }
         }
     }
 }

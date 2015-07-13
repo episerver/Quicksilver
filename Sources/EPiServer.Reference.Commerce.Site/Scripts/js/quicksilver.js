@@ -8,4 +8,5 @@
     ProductPage.init();
     Registration.init();
     Search.init();
+    Navigation.init();
 });

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Page;
-using Mediachase.Commerce.Orders;
+using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models
 {

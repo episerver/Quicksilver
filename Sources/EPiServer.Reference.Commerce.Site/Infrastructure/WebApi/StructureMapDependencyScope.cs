@@ -8,7 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.WebApi
 {
     public class StructureMapDependencyScope : IDependencyScope
     {
-        private IContainer _container;
+        private readonly IContainer _container;
 
         public StructureMapDependencyScope(IContainer container)
         {
@@ -39,11 +39,20 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.WebApi
 
         public void Dispose()
         {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
             if (_container != null)
             {
                 _container.Dispose();
             }
-            _container = null;
         }
     }
 }

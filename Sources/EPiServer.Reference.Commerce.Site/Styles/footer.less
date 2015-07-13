@@ -1,52 +1,51 @@
 footer {
-    padding-top: 1.5em;
-    
-    .row .column:first-child hr { 
-        border-top: 1px solid @grey;
-        margin: 0;
-    }
-    
-    h3 { margin-top: 0; }
-    
-    .column { 
-        padding-bottom: 2em; 
-    }
+    background: @gray-dark;
+    bottom: 0;
+    color: #fff;
+    font-size: @font-size-small;
+    left: 0;
+    position: absolute;
+    width: 100%;
 
-    // Leading column
-    .footer-logo { 
-        float: left;
-        margin: 0 15px 15px 0;
-    }
+    h3 { font-size: @font-size-h4; }
+    .btn-social {
+        color: #fff;
+        font-size: @font-size-h6;
+        padding-left: 30px;
 
-    // Middle column
-    .col--center {
-        .form-control {
-            border-color: @grey;
+        .fa {
+            border: none;
+            width: auto;
         }
-        .btn { padding-bottom: 5px; }
-        .mail-icon {
-            margin-left: 5px;
-            position: relative;
-            top: 2px;
-        }
-    }
-
-    // Trailing column
-    .social-icon { 
-        margin-right: 5px;
-
-        &:last-child { margin-right: 0; }
     }
 }
 
-// Larger than handheld
-@media (min-width: @screen-sm-min) {
-    footer {
-        p { margin: 0; }
-        .column { padding-top: 0; }
+// Palm and up
+@media (max-width: @screen-xs-max) {
+    @footer-height: 300px;
+    body { margin-bottom: @footer-height + 80px; }
 
-        .col--center {
-            .input-group { max-width: 400px; }
+    footer {
+        height: @footer-height;
+        padding: @padding-large-vertical*2 0;
+
+        .column {
+            margin: @padding-large-vertical 0;
+        }
+    }
+}
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    @footer-height: 170px;
+    body { margin-bottom: @footer-height + 80px; }
+
+    footer {
+        height: @footer-height;
+        padding: @padding-large-vertical*4 0;
+
+        .column {
+            padding: 0 @padding-large-vertical * 3;
         }
     }
 }

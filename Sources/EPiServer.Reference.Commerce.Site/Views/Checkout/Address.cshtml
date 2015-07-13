@@ -4,10 +4,7 @@
 }
 
 <div id="AddressContainer">
-
-    <div class="section-box">
-        <h4>@Html.Translate("/Checkout/Billing/Heading")</h4>
-    </div>
+    <h3>@Html.Translate("/Checkout/Billing/Heading")</h3>
 
     <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -16,6 +13,7 @@
                 @Html.HiddenFor(model => model.BillingAddress.Name)
                 @Html.HiddenFor(model => model.BillingAddress.HtmlFieldPrefix)
                 @Html.HiddenFor(model => model.UseBillingAddressForShipment)
+                @Html.HiddenFor(model => model.BillingAddress.DaytimePhoneNumber)
 
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
@@ -88,7 +86,7 @@
 
         </div>
         <div class="col-md-6 col-sm-12 billing-shipping-method">
-            <h3>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h3>
+            <h4>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h4>
             @foreach (var shippingMethodViewModel in Model.ShippingMethodViewModels)
             {
                 <div class="radio">
@@ -126,6 +124,7 @@
 
                         @Html.HiddenFor(model => model.ShippingAddresses[index].Name)
                         @Html.HiddenFor(model => model.ShippingAddresses[index].HtmlFieldPrefix)
+                        @Html.HiddenFor(model => model.ShippingAddresses[index].DaytimePhoneNumber)
 
                         @if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {

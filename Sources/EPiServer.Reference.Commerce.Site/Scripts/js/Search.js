@@ -20,6 +20,14 @@
                 .on('change', '.jsSearchFacet', Search.sort)
                 .on('click', '.jsSearchFacetRemoveAll', Search.removeAll);
         }
+
+        // Set input width
+        $('.js-search-input').focus(function () {
+            $(this).addClass('has-focus');
+        });
+        $('.js-search-input').blur(function () {
+            $(this).removeClass('has-focus');
+        });
     },
     fetchingNewPage: false,
     lastPage: false,

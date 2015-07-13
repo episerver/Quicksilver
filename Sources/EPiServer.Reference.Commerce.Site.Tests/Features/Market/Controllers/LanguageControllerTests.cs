@@ -1,8 +1,10 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Market;
+﻿using System.Linq;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Web.Routing;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
@@ -19,15 +21,22 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         { 
             // Arrange
             var availableLanguages = new[] { CultureInfo.GetCultureInfo("en"), CultureInfo.GetCultureInfo("sv") };
+            var items = availableLanguages.Select(x => new SelectListItem
+            {
+                Selected = false,
+                Text = x.DisplayName,
+                Value = x.Name
+            });
+
             _mockLanguageService
                 .Setup(l => l.GetAvailableLanguages())
                 .Returns(availableLanguages);
 
             // Act
-            var result = (ViewResultBase)_subject.Index(null, null);
+            var result = ((ViewResultBase)_subject.Index(null, null)).Model as LanguageViewModel;
 
             // Assert
-            Assert.AreEqual<IEnumerable<CultureInfo>>(availableLanguages, ((LanguageViewModel)result.Model).Languages);
+           result.Languages.ShouldBeEquivalentTo(items);
         }
 
         [TestMethod]
@@ -40,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
             // Assert
-            Assert.AreEqual<CultureInfo>(_currentLanguage, ((LanguageViewModel)result.Model).CurrentLanguage);
+            Assert.AreEqual<string>(_currentLanguage.Name, ((LanguageViewModel)result.Model).Language);
         }
 
         [TestMethod]
@@ -53,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
             // Assert
-            Assert.AreEqual<CultureInfo>(CultureInfo.GetCultureInfo(languageCode), ((LanguageViewModel)result.Model).CurrentLanguage);
+            Assert.AreEqual<string>(languageCode, ((LanguageViewModel)result.Model).Language);
         }
 
         [TestMethod]

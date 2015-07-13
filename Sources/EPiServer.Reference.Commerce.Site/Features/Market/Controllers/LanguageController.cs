@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Routing;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
@@ -24,8 +26,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
         {
             var model = new LanguageViewModel
             {
-                Languages = _languageService.GetAvailableLanguages(),
-                CurrentLanguage = String.IsNullOrEmpty(language) ? _languageService.GetCurrentLanguage() : CultureInfo.GetCultureInfo(language),
+                Languages = _languageService.GetAvailableLanguages()
+                    .Select(x => new SelectListItem
+                {
+                    Selected = false,
+                    Text = x.DisplayName,
+                    Value = x.Name
+                }),
+                Language = String.IsNullOrEmpty(language) ? _languageService.GetCurrentLanguage().Name : CultureInfo.GetCultureInfo(language).Name,
                 ContentLink = contentLink
             };
 

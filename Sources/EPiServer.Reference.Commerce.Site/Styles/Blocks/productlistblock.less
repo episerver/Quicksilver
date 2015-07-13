@@ -1,41 +1,61 @@
-.product-header {
-    display: block;
-    margin-bottom: 1em;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
+.product-row {
+    .product.has-discount {
+        position: relative; 
+
+        &::before {
+            @object-size: 60px;
+            background: @brand-primary;;
+            border-radius: 2000px;
+            color: #fff;
+            content: "Sale!";
+            height: @object-size;
+            line-height: @object-size;
+            position: absolute;
+            text-align: center;
+            top: -10px;
+            transform: rotate(-10deg);
+            width: @object-size;
+            right: -10px;
+        }
+    }
+    .product-title,
+    .product-brand { 
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .product-price { 
+        font-size: @font-size-h4;
+        margin-bottom: 0;
+    }
+
+    &__tile {
+        padding: @padding-large-horizontal*2 @padding-large-vertical*2;
+        transition: box-shadow .15s ease-out;
+
+        &:hover {
+            box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+            transition: box-shadow .1s ease-out;
+        }
+    }
+}
+.action-buttons { margin-top: @padding-large-vertical; }
+
+// Palm
+@media (max-width: @screen-xs-max) {
     
-    &:first-line { background-color: @site-background; }
+}
 
-    &::before {
-        background-color: @grey;
-        content: "";
-        height: 1px;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 50%;
-        z-index: -1;
-    }
-
-    span {
-        display: inline-block;
-        padding: 0 5px;
+// Lap 
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    .product-row {
+        .col-sm-6:nth-of-type(2n+1) { clear: left; }
     }
 }
 
-
-.product {
-    padding-bottom: 2em;
-    text-align: center;
-}
-.product__link {
-    display: block;
-}
-.product__info {
-    strong { display: block; }
-}
-.product__image {
-
-    img { max-width: 100%; }
+// Desktop
+@media (min-width: @screen-lg-min) {
+    .product-row {
+        .col-lg-4:nth-of-type(3n+1) { clear: left; }
+    }
 }

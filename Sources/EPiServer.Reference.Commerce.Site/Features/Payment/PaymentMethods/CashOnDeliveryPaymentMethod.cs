@@ -8,9 +8,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
     public class CashOnDeliveryPaymentMethod : PaymentMethodBase, IPaymentOption
     {
-        /// <summary>
-        /// Parameterless constructor. Required for model binding to work.
-        /// </summary>
         public CashOnDeliveryPaymentMethod()
             : this(LocalizationService.Current)
         {

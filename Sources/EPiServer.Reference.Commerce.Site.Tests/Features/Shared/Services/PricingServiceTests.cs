@@ -1,4 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Market;
+﻿using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;

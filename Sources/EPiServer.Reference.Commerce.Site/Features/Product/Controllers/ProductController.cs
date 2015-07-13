@@ -7,7 +7,6 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Filters;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
@@ -17,8 +16,7 @@ using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
-using EPiServer.Editor;
-using StructureMap;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {

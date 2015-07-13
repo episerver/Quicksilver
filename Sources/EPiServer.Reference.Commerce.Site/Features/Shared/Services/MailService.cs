@@ -61,12 +61,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             return body;
         }
 
-        /// <summary>
-        /// Creates a new e-mail message and sends it to the recipient.
-        /// </summary>
-        /// <param name="subject">The subject of the e-mail message.</param>
-        /// <param name="body">The HTML string representing the body of the e-mail message.</param>
-        /// <param name="recipientMailAddress">The receiver's e-mail address.</param>
         public void Send(string subject, string body, string recipientMailAddress)
         {
             MailMessage message = new MailMessage()
@@ -81,10 +75,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             Send(message);
         }
 
-        /// <summary>
-        /// Sends an e-mail message.
-        /// </summary>
-        /// <param name="message">The e-mail message to send.</param>
         public void Send(MailMessage message)
         {
             using (SmtpClient client = new SmtpClient())

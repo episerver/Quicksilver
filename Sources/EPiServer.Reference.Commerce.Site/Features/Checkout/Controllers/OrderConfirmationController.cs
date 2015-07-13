@@ -1,13 +1,14 @@
 ﻿using EPiServer.Core;
 using EPiServer.Editor;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
-using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
     {
         private readonly ConfirmationService _confirmationService;
         private readonly AddressBookService _addressBookService;
+        private readonly CustomerContextFacade _customerContext;
 
-        public OrderConfirmationController(ConfirmationService confirmationService, AddressBookService addressBookService)
+        public OrderConfirmationController(ConfirmationService confirmationService, AddressBookService addressBookService, CustomerContextFacade customerContextFacade)
         {
             _confirmationService = confirmationService;
             _addressBookService = addressBookService;
+            _customerContext = customerContextFacade;
         }
 
-        /// <summary>
-        /// Renders the order confirmation view to the customer.
-        /// </summary>
-        /// <param name="currentPage">An instance of an OrderConfirmationPage.</param>
-        /// <param name="notificationMessage">Any additional message that is vital to present to the customer.</param>
-        /// <param name="contactId">The id of the contact if available.</param>
-        /// <param name="orderNumber">The id of the related order.</param>
-        /// <returns>The order confirmation view.</returns>
         [HttpGet]
         public ActionResult Index(OrderConfirmationPage currentPage, string notificationMessage, Guid? contactId = null, int orderNumber = 0)
         {
@@ -50,13 +45,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return View(model);
         }
 
-        private OrderConfirmationViewModel CreateViewModel(OrderConfirmationPage currentPage, PurchaseOrder order)
+        private OrderConfirmationViewModel<OrderConfirmationPage> CreateViewModel(OrderConfirmationPage currentPage, PurchaseOrder order)
         {
             var hasOrder = order != null;
 
             if (!hasOrder)
             {
-                return new OrderConfirmationViewModel();
+                return new OrderConfirmationViewModel<OrderConfirmationPage> { CurrentPage = currentPage };
             }
 
             var form = order.OrderForms.First();
@@ -68,15 +63,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                                                                                         : lineItem.PlacedPrice;
             }
 
-            OrderConfirmationViewModel viewModel = new OrderConfirmationViewModel
+            OrderConfirmationViewModel<OrderConfirmationPage> viewModel = new OrderConfirmationViewModel<OrderConfirmationPage>
             {
                 CurrentPage = currentPage,
                 HasOrder = hasOrder,
+                OrderId = order.TrackingNumber,
                 Created = order.Created,
                 Items = form.LineItems,
                 BillingAddress = new Address(),
                 ShippingAddresses = new List<Address>(),
-                ContactId = CustomerContext.Current.CurrentContactId,
+                ContactId = _customerContext.CurrentContactId,
                 Payments = form.Payments,
                 GroupId = order.OrderGroupId,
                 ShippingTotal = order.ToMoney(form.ShippingTotal),

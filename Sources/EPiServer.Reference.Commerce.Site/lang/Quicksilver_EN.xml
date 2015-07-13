@@ -51,6 +51,7 @@
       <AddedToWishList>Item added to wish list</AddedToWishList>
       <NotAddedToWishList>The item could not be added to wish list</NotAddedToWishList>
       <Price>Price</Price>
+      <Size>Size</Size>
       <OriginalPrice>Original Price</OriginalPrice>
       <DiscountPrice>Discount Price</DiscountPrice>
       <PriceMissing>Not set for this market</PriceMissing>
@@ -417,7 +418,12 @@
       </Form>
     </AddressBook>
     <WishList>
-      <NoItems>You don't have any items in you wish list.</NoItems>
+      <Button>
+        <GotoWishListPage>Go to wishlist</GotoWishListPage>
+      </Button>
+      <NoItems>You don't have any items in your wish list.</NoItems>
+      <DeleteButton>Delete entire wishlist</DeleteButton>
+      <RemoveItem>Remove from wishlist</RemoveItem>
     </WishList>
     <OrderHistory>
       <Labels>
@@ -430,11 +436,6 @@
         <TotalPrice>Total price:</TotalPrice>
       </Labels>
     </OrderHistory>
-    <Wishlist>
-      <NoItems>You don't have any items in your wish list.</NoItems>
-      <DeleteButton>Delete entire wishlist</DeleteButton>
-      <RemoveItem>Remove from wishlist</RemoveItem>
-    </Wishlist>
     <Search>
       <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>
     </Search>

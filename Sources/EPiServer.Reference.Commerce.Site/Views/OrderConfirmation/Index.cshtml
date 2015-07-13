@@ -1,26 +1,30 @@
 ﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using Mediachase.Commerce.Customers
 @using Mediachase.Commerce.Orders
-@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationViewModel
+@using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationViewModel<OrderConfirmationPage>
 
 <div class="row checkout">
     <div class="col-md-12">
         <h1>@Html.PropertyFor(x => x.CurrentPage.Title)</h1>
-
+        <h2>@Html.Translate("/OrderHistory/Labels/OrderID") @Model.OrderId</h2>
+        @Html.Translate("/OrderHistory/Labels/OrderDate") @Model.Created
         @if (Model.NotificationMessage != null)
         {
             <div class="alert alert-danger">
                 @Model.NotificationMessage
             </div>
         }
+    </div>
+</div>
 
-        <div>
-            @Html.PropertyFor(x => x.CurrentPage.Body)
-        </div>
+<div class="row checkout">
+
+    <div class="col-md-12">
+        @Html.PropertyFor(x => x.CurrentPage.Body)
 
         @if (Model.HasOrder)
         {
-            @Model.Created
             <table class="table">
                 <thead>
                     <tr>
@@ -34,12 +38,12 @@
                     @foreach (LineItem lineItem in Model.Items)
                     {
                         <tr>
-                            <td><a href="@lineItem.GetUrl()"><img src="@lineItem.GetThumbnailUrl()" /></a></td>
-                            <td><a href="@lineItem.GetUrl()">@lineItem.DisplayName</a></td>
+                            <td><a href="@lineItem.GetUrl()" class="link--black"><img src="@lineItem.GetThumbnailUrl()" /></a></td>
+                            <td><a href="@lineItem.GetUrl()" class="link--black">@lineItem.DisplayName</a></td>
                             <td>
-                                @Html.TextBox("Quantity", lineItem.Quantity.ToString("0"), new { @class = "form-control quantity", @placeholder = "1", @disabled = "true" })
+                                @lineItem.Quantity.ToString("0")
                             </td>
-                            <td>@lineItem.ToMoney(Model.ItemPrices[lineItem.Id])</td>
+                            <td>@lineItem.ToMoney(Model.ItemPrices[lineItem.Id]).ToString()</td>
                             <td>@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
                         </tr>
                     }
@@ -55,33 +59,39 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="col-md-6">
-                <div class="quicksilver-well">
 
-                    <h4>@Html.Translate("/OrderConfirmation/BillingDetails")</h4>
-                    @Html.Partial("_Address", Model.BillingAddress)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="quicksilver-well">
 
-                    <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
-                    @foreach (var shippingAddress in Model.ShippingAddresses)
+                        <h4>@Html.Translate("/OrderConfirmation/BillingDetails")</h4>
+                        @Html.Partial("_Address", Model.BillingAddress)
+
+                        <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
+                        @foreach (var shippingAddress in Model.ShippingAddresses)
+                        {
+                            <hr />
+                            @Html.Partial("_Address", shippingAddress)
+                        }
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    @foreach (Payment payment in Model.Payments)
                     {
-                        <hr />
-                        @Html.Partial("_Address", shippingAddress)
+                        Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
                     }
 
                 </div>
             </div>
 
-            <div class="col-md-6">
-
-                @foreach (Payment payment in Model.Payments)
-                {
-                    Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
-                }
-
-            </div>
             <hr>
 
-            @Html.PropertyFor(x => x.CurrentPage.RegistrationArea, new { ContactId = Model.ContactId, OrderNumber = Model.GroupId })
+            <div class="row">
+                @Html.PropertyFor(x => x.CurrentPage.RegistrationArea, new { ContactId = Model.ContactId, OrderNumber = Model.GroupId })
+            </div>
         }
         else
         {

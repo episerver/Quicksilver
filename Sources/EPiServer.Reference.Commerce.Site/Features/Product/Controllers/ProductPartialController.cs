@@ -2,6 +2,7 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {

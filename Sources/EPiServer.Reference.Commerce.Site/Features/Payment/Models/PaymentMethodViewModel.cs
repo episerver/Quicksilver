@@ -4,10 +4,6 @@ using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
-    /// <summary>
-    /// Generic base class for a payment method view model.
-    /// </summary>
-    /// <typeparam name="T">The type of the related payment method.</typeparam>
     public class PaymentMethodViewModel<T> : IPaymentMethodViewModel<T> where T : IPaymentOption
     {
         public Guid Id { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Pages
 {
     [ContentType(
-        DisplayName = "Login & Registration page", 
+        DisplayName = "Login and Registration page", 
         GUID = "3c045289-8e14-420e-a815-62fdf13e4b16", 
         Description = "", 
         AvailableInEditMode = false)]

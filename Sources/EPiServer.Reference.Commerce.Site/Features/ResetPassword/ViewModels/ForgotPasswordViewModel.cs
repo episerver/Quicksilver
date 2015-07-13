@@ -12,9 +12,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels
     {
         public ResetPasswordPage CurrentPage { get; set; }
 
-        /// <summary>
-        /// Gets or sets the user's e-mail address.
-        /// </summary>
         [LocalizedDisplay("/ResetPassword/Form/Label/Email")]
         [LocalizedRequired("/ResetPassword/Form/Empty/Email")]
         [LocalizedEmail("/ResetPassword/Form/Error/InvalidEmail")]

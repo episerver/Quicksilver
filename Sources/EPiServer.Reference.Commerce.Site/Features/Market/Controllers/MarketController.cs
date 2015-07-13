@@ -6,6 +6,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
@@ -29,8 +30,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
         {
             var model = new MarketViewModel
             {
-                Markets = _marketService.GetAllMarkets().Where(x => x.IsEnabled).OrderBy(x => x.MarketName),
-                CurrentMarket = _currentMarket.GetCurrentMarket(),
+                Markets = _marketService.GetAllMarkets().Where(x => x.IsEnabled).OrderBy(x => x.MarketName)
+                    .Select(x => new SelectListItem
+                {
+                    Selected = false,
+                    Text = x.MarketName,
+                    Value = x.MarketId.Value
+                }),
+                MarketId = _currentMarket.GetCurrentMarket().MarketId.Value,
                 ContentLink = contentLink
             };
             return PartialView(model);

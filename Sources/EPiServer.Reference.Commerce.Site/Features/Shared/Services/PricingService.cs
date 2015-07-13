@@ -1,5 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Market;
-using EPiServer.ServiceLocation;
+﻿using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 {

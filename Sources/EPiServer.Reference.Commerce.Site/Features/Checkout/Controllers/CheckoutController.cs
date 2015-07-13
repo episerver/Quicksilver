@@ -1,24 +1,24 @@
 ﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
-using EPiServer.Reference.Commerce.Site.Features.Cart;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
-using EPiServer.Reference.Commerce.Site.Features.Market;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Exceptions;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
 using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.Helpers;
@@ -41,12 +41,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IPaymentService _paymentService;
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
-        private readonly Func<CartHelper> _cartHelper;
+        private readonly Func<string, CartHelper> _cartHelper;
         private readonly CurrencyService _currencyService;
         private readonly IAddressBookService _addressBookService;
         private const string _billingAddressPrefix = "BillingAddress";
         private const string _shippingAddressPrefix = "ShippingAddresses[{0}]";
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
+        private readonly CustomerContextFacade _customerContext;
 
         public CheckoutController(
                     ICartService cartService,
@@ -57,10 +58,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     IContentLoader contentLoader,
                     IPaymentService paymentService,
                     LocalizationService localizationService,
-                    Func<CartHelper> cartHelper,
+                    Func<string, CartHelper> cartHelper,
                     CurrencyService currencyService,
                     IAddressBookService addressBookService,
-                    ControllerExceptionHandler controllerExceptionHandler)
+                    ControllerExceptionHandler controllerExceptionHandler,
+                    CustomerContextFacade customerContextFacade)
         {
             _cartService = cartService;
             _contentRepository = contentRepository;
@@ -74,22 +76,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _currencyService = currencyService;
             _addressBookService = addressBookService;
             _controllerExceptionHandler = controllerExceptionHandler;
+            _customerContext = customerContextFacade;
         }
 
-        /// <summary>
-        /// Renders the Checkout view.
-        /// </summary>
-        /// <param name="currentPage">The current content page.</param>
-        /// <returns>The Checkout view.</returns>
-        /// <remarks>If the user is logged in, her preferred shipping address will be
-        /// used as default.</remarks>
         [HttpGet]
         public ActionResult Index(CheckoutPage currentPage)
         {
             var currency = _currencyService.GetCurrentCurrency();
-            if (currency != _cartHelper().Cart.BillingCurrency)
+            if (currency != _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency)
             {
-                _cartHelper().Cart.BillingCurrency = currency;
+                _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency = currency;
                 _cartService.SaveCart();
             }
 
@@ -147,23 +143,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return viewModel;
         }
 
-        /// <summary>
-        /// Initializes a CheckoutViewModel and adding all related objects and default values to it.
-        /// </summary>
-        /// <param name="currentPage">The current CheckoutPage.</param>
-        /// <param name="viewModel">Any previously used CheckoutViewModel that should be re-used in the new view. If null is passed then a new view model will be instantiated.</param>
-        /// <returns>A new CheckoutViewModel containing a CheckoutFormModel with an Address and a PaymentViewModel.</returns>
         private CheckoutViewModel InitializeCheckoutViewModel(CheckoutPage currentPage, CheckoutViewModel viewModel)
         {
             var shipment = _checkoutService.CreateShipment();
             var shippingRates = _checkoutService.GetShippingRates(shipment);
             var shippingmethods = GetShippingMethods(shippingRates);
             var selectedShippingRate = shippingRates.First();
-            var customer = CustomerContext.Current.CurrentContact;
+            var customer = _customerContext.CurrentContact.CurrentContact;
             var paymentMethods = _checkoutService.GetPaymentMethods();
 
             _checkoutService.UpdateShipment(shipment, selectedShippingRate);
-           
+
             if (viewModel == null)
             {
                 viewModel = CreateCheckoutViewModel(paymentMethods.First(), shippingmethods.First().Id, customer);
@@ -176,9 +166,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
                 // And get the countries and the regions for all other addresses as well.
                 PopulateCountryAndRegions(viewModel, viewModel.BillingAddress);
-
-                _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
-                _cartService.SaveCart();
             }
 
             viewModel.StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
@@ -214,25 +201,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             });
         }
 
-        /// <summary>
-        /// Gets a collection of all existing addresses for the current customer along with one additional
-        /// empty one representing new addresses.
-        /// </summary>
-        /// <returns>A list of available addresses to be used during checkout for the current customer.</returns>
         private IList<ShippingAddress> GetAvailableAddresses()
         {
-            CustomerContact currentContact = CustomerContext.Current.CurrentContact;
+            var currentContact = _customerContext.CurrentContact.CurrentContact;
             List<ShippingAddress> addresses = new List<ShippingAddress>();
 
             if (currentContact != null)
             {
-                addresses = CustomerContext.Current.CurrentContact.ContactAddresses.Select(x => new ShippingAddress()
+                addresses = currentContact.ContactAddresses.Select(x => new ShippingAddress()
                 {
                     AddressId = x.AddressId,
                     Name = !string.IsNullOrEmpty(x.Name) ? x.Name : _localizationService.GetString("/Shared/Address/DefaultAddressName")
                 }).ToList();
             }
 
+            //add additional address, representing a new address
             addresses.Add(new ShippingAddress
             {
                 Name = _localizationService.GetString("/Shared/Address/NewAddress")
@@ -380,13 +363,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return PartialView(viewModel);
         }
 
-        /// <summary>
-        /// Processes a purchase by saving all related addresses, processing the order and then finalizing it.
-        /// </summary>
-        /// <param name="currentPage">The checkout content page.</param>
-        /// <param name="checkoutViewModel">The view model representing the purchase order.</param>
-        /// <param name="paymentViewModel">The view model representing the payment method.</param>
-        /// <returns>The confirmation view for the purchase order.</returns>
         [HttpPost]
         public ActionResult Purchase(CheckoutPage currentPage, CheckoutViewModel checkoutViewModel, [ModelBinder(typeof(PaymentViewModelBinder))] IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
@@ -456,6 +432,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <param name="checkoutViewModel">The view model representing the purchase order.</param>
         private void SaveBillingAddress(CheckoutViewModel checkoutViewModel)
         {
+            if (!_addressBookService.CanSave(checkoutViewModel.BillingAddress))
+            {
+                return;
+            }
+
             var orderAddress = _checkoutService.AddNewOrderAddress();
 
             _addressBookService.MapModelToOrderAddress(checkoutViewModel.BillingAddress, orderAddress);
@@ -464,7 +445,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             if (checkoutViewModel.BillingAddress.SaveAddress && User.Identity.IsAuthenticated)
             {
-                var currentContact = CustomerContext.Current.CurrentContact;
+                var currentContact = _customerContext.CurrentContact.CurrentContact;
                 var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == checkoutViewModel.BillingAddress.AddressId)
                               ?? CustomerAddress.CreateInstance();
 
@@ -491,6 +472,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         {
             foreach (ShippingAddress shippingAddress in checkoutViewModel.ShippingAddresses ?? Enumerable.Empty<ShippingAddress>())
             {
+                if (!_addressBookService.CanSave(shippingAddress))
+                {
+                    continue;
+                }
+
                 var orderAddress = _checkoutService.AddNewOrderAddress();
                 _addressBookService.MapModelToOrderAddress(shippingAddress, orderAddress);
                 orderAddress.Name = Guid.NewGuid().ToString();
@@ -498,7 +484,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
                 if (shippingAddress.SaveAddress && User.Identity.IsAuthenticated)
                 {
-                    var currentContact = CustomerContext.Current.CurrentContact;
+                    var currentContact = _customerContext.CurrentContact.CurrentContact;
                     var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == shippingAddress.AddressId)
                                   ?? CustomerAddress.CreateInstance();
 
@@ -556,7 +542,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             var queryCollection = new NameValueCollection
             {
-                {"contactId", CustomerContext.Current.CurrentContactId.ToString()},
+                {"contactId", _customerContext.CurrentContactId.ToString()},
                 {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
             };
 

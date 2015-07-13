@@ -70,35 +70,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         }
 
         [TestMethod]
-        public void Index__WhenReturnUrlIsNotAuthorized_ShouldReturnViewModel()
-        {
-            var url = "http://tester.com/eepiserver";
-            _subject.ModelState.AddModelError("testError", "test");
-            var result = ((PartialViewResult)_subject.Index(new BackendLoginViewModel
-            {
-                Heading = "Heading",
-                LoginMessage = "LoginMessage",
-                Password = "stores",
-                RememberMe = false,
-                ReturnUrl = url,
-                Username = "admin"
-            }).Result).Model as BackendLoginViewModel;
-            var expectedResult = new BackendLoginViewModel
-            {
-                Heading = "Heading",
-                LoginMessage = "LoginMessage",
-                Password = "stores",
-                RememberMe = false,
-                ReturnUrl = url,
-                Username = "admin"
-            };
-            result.ShouldBeEquivalentTo(expectedResult);
-        }
-
-        [TestMethod]
         public void Index__WhenModelStateIsInvalid_ShouldReturnViewModel()
         {
             var url = "http://tester.com/eepiserver";
+            _subject.ModelState.AddModelError("testError", "test");
             var result = ((PartialViewResult)_subject.Index(new BackendLoginViewModel
             {
                 Heading = "Test Heading",

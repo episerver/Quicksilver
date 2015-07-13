@@ -1,8 +1,8 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using EPiServer.Reference.Commerce.Site.Features.Search;
 using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,8 +34,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                 new ProductViewModel
                 {
                     DisplayName = "Test",
-                    OriginalPrice = new Money(10m, Currency.USD),
-                    Price = new Money(10m, Currency.USD)
+                    PlacedPrice = new Money(10m, Currency.USD),
+                    ExtendedPrice = new Money(10m, Currency.USD)
                 }
             };
             result.ShouldAllBeEquivalentTo(expectedResult);
@@ -65,8 +65,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                     new ProductViewModel
                     {
                         DisplayName = "Test",
-                        OriginalPrice = new Money(10m, Currency.USD),
-                        Price = new Money(10m, Currency.USD)
+                        PlacedPrice = new Money(10m, Currency.USD),
+                        ExtendedPrice = new Money(10m, Currency.USD)
                     }
                 });
             _subject = new SearchController(_searchViwModelFactoryMock.Object, _searchServiceMock.Object);

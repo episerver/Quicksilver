@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using Mediachase.Search;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
 {

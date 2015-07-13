@@ -1,10 +1,11 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -12,70 +13,99 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICartService _cartService;
-        private readonly IWishListService _wishListService;
+        private readonly ICartService _wishListService;
+        private readonly IProductService _productService;
 
-        public CartController(IContentLoader contentLoader, ICartService cartService, IWishListService wishListService)
+        public CartController(IContentLoader contentLoader,
+                              ICartService cartService,
+                              ICartService wishListService,
+                              IProductService productService)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
             _wishListService = wishListService;
+            _productService = productService;
+            _wishListService.InitializeAsWishList();
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult MiniCartSummary()
-        {
-            return MiniCartDetails();
-        }
-
-        [HttpGet]
         public ActionResult MiniCartDetails()
         {
-            var model = new MiniCartViewModel
-                {
-                    ItemCount = _cartService.GetLineItemsTotalQuantity(),
-                    CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
-                    CartItems = _cartService.GetCartItems(),
-                    Total = _cartService.GetTotal()
-                };
-            return PartialView(model);
+            var viewModel = new MiniCartViewModel
+            {
+                ItemCount = _cartService.GetLineItemsTotalQuantity(),
+                CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
+                CartItems = _cartService.GetCartItems(),
+                Total = _cartService.GetSubTotal()
+            };
+
+            return PartialView("_MiniCartDetails", viewModel);
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LargeCart()
         {
             var items = _cartService.GetCartItems().ToList();
-            var model = new LargeCartViewModel
+            var viewModel = new LargeCartViewModel
             {
                 CartItems = items,
                 Total = _cartService.ConvertToMoney(items.Sum(x => x.ExtendedPrice.Amount)),
                 TotalDiscount = _cartService.GetTotalDiscount()
             };
-            return PartialView(model);
+
+            return PartialView("LargeCart", viewModel);
         }
 
         [HttpPost]
         public ActionResult AddToCart(string code)
         {
-            _cartService.AddToCart(code);
-            _wishListService.RemoveItem(code);
-            return RedirectToAction("MiniCartDetails");
+            string warningMessage = null;
+            _cartService.AddToCart(code, out warningMessage);
+            _wishListService.RemoveLineItem(code);
+
+            return MiniCartDetails();
         }
 
         [HttpPost]
-        public ActionResult ChangeQuantity(string code, int? quantity, bool miniCart = false)
+        public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
-            if(quantity != null && quantity.Value > 0)
+            string warningMessage = null;
+
+            if (quantity > 0)
             {
-                _cartService.ChangeQuantity(code, quantity.Value);
-            }
-            return miniCart ? RedirectToAction("MiniCartDetails") : RedirectToAction("LargeCart");
-        }
+                if (size == newSize || (newSize == null))
+                {
+                    _cartService.ChangeQuantity(code, quantity);
+                }
+                else
+                {
+                    string newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
 
-        [HttpPost]
-        public ActionResult RemoveLineItem(string code)
-        {
-            _cartService.RemoveLineItem(code);
-            return RedirectToAction("LargeCart");
+                    if (newCode != null)
+                    {
+                        IEnumerable<CartItem> existingItems = _cartService.GetCartItems();
+                        decimal existingQuantity = existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
+                        quantity += existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
+                        _cartService.RemoveLineItem(code);
+
+                        if (existingQuantity == 0)
+                        {
+                            _cartService.AddToCart(newCode, out warningMessage);
+                        }
+
+                        if (quantity > 1)
+                        {
+                            _cartService.ChangeQuantity(newCode, quantity);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _cartService.RemoveLineItem(code);
+            }
+
+            return MiniCartDetails();
         }
     }
 }
