@@ -4,37 +4,52 @@
 // Re-orders the navigation depending on media queries
 
 // Palm only
-@media (max-width: @screen-xs-max) {    
+@media (max-width: @screen-xs-max) {
     .qs-flexbox {
         &.collapse.in,
         &.collapsing {
             display: flex;
-            padding: 0; 
+            padding: 0;
 
-            .container { width: 100%; }
+            .container {
+                width: 100%;
+            }
         }
     }
+
     .navbar {
         .navbar-fixed-top;
-        .row .row { margin: 0; }
+
+        .row .row {
+            margin: 0;
+        }
     }
 
     .navbar-header {
-        .col-xs-4 { padding: 7px 0 0; }
+        .col-xs-4 {
+            padding: 7px 0 0;
+        }
 
-        .col-xs-4:nth-child(2) { text-align: center; }
-        .col-xs-4:nth-child(3) { text-align: right; }
+        .col-xs-4:nth-child(2) {
+            text-align: center;
+        }
+
+        .col-xs-4:nth-child(3) {
+            text-align: right;
+        }
     }
-    .navbar-nav { 
+
+    .navbar-nav {
         margin: 7px 0;
         padding-right: 0;
     }
 
 
-    .site-logo { 
+    .site-logo {
         font-size: @font-size-h4;
         margin: 8px 0 0;
     }
+    .sm-cart-container { display: none; }
 }
 
 // Lap and up
@@ -42,12 +57,21 @@
     .qs-flexbox {
         .container {
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
         }
     }
-    .sm-row-1 { order: 2; }
-    .sm-row-2 { order: 3; }
-    .sm-row-3 { order: 1; }
+
+    .sm-row-1 {
+        order: 2;
+    }
+
+    .sm-row-2 {
+        order: 3;
+    }
+
+    .sm-row-3 {
+        order: 1;
+    }
 }
 
 
@@ -60,23 +84,33 @@
     border-bottom: 1px solid @gray-lighter;
     margin-bottom: 80px;
 
-    .dropdown-menu .form-group { padding: 0 20px; }
+    .dropdown-menu .form-group {
+        padding: 0 20px;
+    }
+}
+
+.search-input::-ms-clear {
+    display: none;
 }
 
 // Palm only
 @media (max-width: @screen-xs-max) {
-    .xs-site-nav-dropdown { 
+    .xs-site-nav-dropdown {
         padding-left: 0;
         padding-right: 0;
     }
 }
 // Lap and up
-@media (min-width: @screen-sm-min) {    
+@media (min-width: @screen-sm-min) {
     .site-menu {
         > li > a {
             color: @brand-primary;
-            &:hover { background-color: transparent; }
+
+            &:hover {
+                background-color: transparent;
+            }
         }
+
         li {
             font: italic @font-size-large Arapey, serif;
             margin-right: 5px;
@@ -92,13 +126,21 @@
                 transition: all .1s ease-out;
                 width: 100%;
             }
-            &::before { top: 50% }
-            &::after { bottom: 50%; }
+
+            &::before {
+                top: 50%;
+            }
+
+            &::after {
+                bottom: 50%;
+            }
+
             &:hover {
                 &::before {
                     background-color: @brand-primary;
                     top: 5px;
                 }
+
                 &::after {
                     background-color: @brand-primary;
                     bottom: 5px;
@@ -107,7 +149,10 @@
 
             &.is-active {
                 &::before,
-                &::after { display: none; }
+                &::after {
+                    display: none;
+                }
+
                 a {
                     &,
                     &:hover,
@@ -120,8 +165,11 @@
             }
         }
     }
-    
-    .search-form { margin-right: -15px; }
+
+    .search-form {
+        margin-right: -15px;
+    }
+
     .search-input {
         float: right;
         max-width: 500px;
@@ -133,7 +181,10 @@
             transition: width 0.2s ease-out;
         }
     }
-    .xs-search.navbar-collapse.collapse { display: none !important; }
+
+    .xs-search.navbar-collapse.collapse {
+        display: none !important;
+    }
 }
 
 
@@ -141,9 +192,11 @@
 // Cart
 // --------------------------------------------------
 @shopping-btn-offset: 15px;
+
 .shopping-btn-container {
     margin-bottom: -@shopping-btn-offset;
 }
+
 .shopping-btns(@btn-color) {
     background-color: @btn-color;
     border: 1px dashed #fff;
@@ -152,15 +205,16 @@
     color: #fff;
     margin: 3px;
     position: relative;
-    
+
     &,
     &:hover,
     &:active,
     &:focus,
-    &:visited { 
+    &:visited {
         box-shadow: 0 0 0 3px @btn-color, 0 5px 9px 0 rgba(0, 0, 0, .8);
         color: #fff;
     }
+
     &:focus,
     &:active,
     &:focus:active {
@@ -168,10 +222,12 @@
         outline-offset: 0;
     }
 }
+
 .btn-favorites {
     .shopping-btns(@gray);
     margin-right: 10px;
 }
+
 .btn-cart {
     .shopping-btns(@brand-primary);
 }

@@ -225,7 +225,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(CheckoutPage currentPage, CheckoutViewModel viewModel, [ModelBinder(typeof(PaymentViewModelBinder))] IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
+        public ActionResult Update(CheckoutPage currentPage, CheckoutViewModel viewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.
@@ -364,7 +364,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
-        public ActionResult Purchase(CheckoutPage currentPage, CheckoutViewModel checkoutViewModel, [ModelBinder(typeof(PaymentViewModelBinder))] IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
+        public ActionResult Purchase(CheckoutPage currentPage, CheckoutViewModel checkoutViewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.

@@ -9366,7 +9366,7 @@ fieldset[disabled] .btn-gray-light.active {
 }
 @media (max-width: 767px) {
   body {
-    padding-top: 40px;
+    padding-top: 70px;
   }
   .xs-vertical-margin {
     display: inline-block;
@@ -9429,6 +9429,9 @@ fieldset[disabled] .btn-gray-light.active {
     font-size: 18px;
     margin: 8px 0 0;
   }
+  .sm-cart-container {
+    display: none;
+  }
 }
 @media (max-width: 767px) and (max-device-width: 480px) and (orientation: landscape) {
   .navbar .navbar-collapse {
@@ -9462,6 +9465,9 @@ fieldset[disabled] .btn-gray-light.active {
 }
 .site-nav .dropdown-menu .form-group {
   padding: 0 20px;
+}
+.search-input::-ms-clear {
+  display: none;
 }
 @media (max-width: 767px) {
   .xs-site-nav-dropdown {

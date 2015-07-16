@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Web.Helpers;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
-using EPiServer.Logging.Compatibility;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -19,7 +13,13 @@ using Lucene.Net.Util;
 using Mediachase.Commerce;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Web.Helpers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
@@ -31,18 +31,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         private readonly ICurrencyService _currencyService;
         private readonly UrlResolver _urlResolver;
         private readonly CultureInfo _preferredCulture;
+        private readonly IContentLoader _contentLoader;
+        private readonly LocalizationService _localizationService;
 
         public SearchService(ICurrentMarket currentMarket, 
             ICurrencyService currencyService, 
             UrlResolver urlResolver, 
             SearchFacade search,
-            Func<CultureInfo> preferredCulture)
+            Func<CultureInfo> preferredCulture,
+            IContentLoader contentLoader,
+            LocalizationService localizationService)
         {
             _search = search;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
             _urlResolver = urlResolver;
             _preferredCulture = preferredCulture();
+            _contentLoader = contentLoader;
+            _localizationService = localizationService;
         }
 
         public CustomSearchResult Search(IContent currentContent, FilterOptionFormModel filterOptions)
@@ -53,8 +59,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             }
 
             var criteria = CreateCriteria(currentContent, filterOptions);
-            AddFacets(filterOptions.FacetGroups, criteria);
-            return Search(criteria);
+            AddFacets(filterOptions.FacetGroups, criteria, currentContent);
+            return Search(criteria, currentContent);
         }
 
         public IEnumerable<ProductViewModel> QuickSearch(string query)
@@ -149,9 +155,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return criteria;
         }
 
-        private void AddFacets(List<FacetGroupOption> facetGroups, CatalogEntrySearchCriteria criteria)
+        private void AddFacets(List<FacetGroupOption> facetGroups, CatalogEntrySearchCriteria criteria, IContent currentContent)
         {
-            if (facetGroups == null)
+            var nodeContent = currentContent as NodeContent;
+            if (facetGroups == null && nodeContent == null)
             {
                 return;
             }
@@ -161,9 +168,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 var searchFilter = _search.SearchFilters.FirstOrDefault(x => x.field.Equals(facetGroupOption.GroupFieldName, StringComparison.OrdinalIgnoreCase));
                 if (searchFilter == null)
                 {
-                    continue;
+                    if (nodeContent == null)
+                    {
+                        continue;
+                    }
+                    searchFilter = GetSearchFilterForNode(nodeContent);
                 }
-
+                
                 var facetValues = searchFilter.Values.SimpleValue
                     .Where(x => facetGroupOption.Facets.FirstOrDefault(y => y.Selected && y.Key.ToLower() == x.key.ToLower()) != null);
 
@@ -184,9 +195,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             };
         }
 
-        private CustomSearchResult Search(CatalogEntrySearchCriteria criteria)
+        private CustomSearchResult Search(CatalogEntrySearchCriteria criteria, IContent currentContent)
         {
+            var nodeContent = currentContent as NodeContent;
+            if (nodeContent != null)
+            {
+                criteria.Add(GetSearchFilterForNode(nodeContent));
+            }
             _search.SearchFilters.ToList().ForEach(criteria.Add);
+            
             ISearchResults searchResult;
 
             try
@@ -194,7 +211,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 searchResult = _search.Search(criteria);
             }
             catch (ParseException)
-            {
+                {
                 return new CustomSearchResult
                 {
                     FacetGroups = new List<FacetGroupOption>(),
@@ -246,7 +263,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link")))
             });
         }
-
+        
         private static string GetString(ISearchDocument document, string name)
         {
             return document[name] != null ? document[name].Value.ToString() : "";
@@ -306,6 +323,53 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             }
 
             return stringBuilder.ToString().Trim();
+        }
+
+        public SearchFilter GetSearchFilterForNode(NodeContent nodeContent)
+        {
+            var configFilter = new SearchFilter
+            {
+                field = BaseCatalogIndexBuilder.FieldConstants.Node,
+                Descriptions = new Descriptions
+                {
+                    defaultLocale = _preferredCulture.Name
+                },
+                Values = new SearchFilterValues()
+            };
+
+            var desc = new Description
+            {
+                locale = "en",
+                Value = _localizationService.GetString("/Facet/Category")
+            };
+            configFilter.Descriptions.Description = new[] { desc };  
+
+            var nodes = _contentLoader.GetChildren<NodeContent>(nodeContent.ContentLink).ToList();
+            var nodeValues = new SimpleValue[nodes.Count];
+            var index = 0;
+            foreach (var node in nodes)
+            {
+                var val = new SimpleValue
+                {
+                    key = node.Code,
+                    value = node.Code,
+                    Descriptions = new Descriptions
+                    {
+                        defaultLocale = _preferredCulture.Name
+                    }
+                };
+                var desc2 = new Description
+                {
+                    locale = _preferredCulture.Name,
+                    Value = node.DisplayName
+                };
+                val.Descriptions.Description = new[] { desc2 };
+
+                nodeValues[index] = val;
+                index++;
+            }
+            configFilter.Values.SimpleValue = nodeValues;
+            return configFilter;
         }
     }
 }

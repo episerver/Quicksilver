@@ -60,10 +60,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         public ActionResult AddToCart(string code)
         {
             string warningMessage = null;
-            _cartService.AddToCart(code, out warningMessage);
-            _wishListService.RemoveLineItem(code);
+        
+            if (_cartService.AddToCart(code, out warningMessage))
+            {
+                _wishListService.RemoveLineItem(code);
+                return MiniCartDetails();
+            }
 
-            return MiniCartDetails();
+            // HttpStatusMessage can't be longer than 512 characters.
+            warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
+            return new HttpStatusCodeResult(500, warningMessage);
         }
 
         [HttpPost]

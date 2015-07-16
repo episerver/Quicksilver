@@ -70,7 +70,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-5">
                 @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
                 {
                     @Html.Hidden("code", Model.Variation.Code)
@@ -84,6 +84,10 @@
                         <button type="submit" role="button" class="btn btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
                     }
                 }
+            </div>
+            <div id="CartWarningMessage" class="col-md-7 col-xs-12 alert alert-danger pull-right" hidden>
+                <button type="button" class="close" data-hide="alert">&times;</button>
+                <span class="warning-message"></span>
             </div>
         </div>
     </div>

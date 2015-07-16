@@ -22,6 +22,7 @@
     </Header>
     <Facet>
       <Choices>Artiklar:</Choices>
+      <Category>Kategori</Category>
     </Facet>
     <Footer>
       <CompanyInformation>

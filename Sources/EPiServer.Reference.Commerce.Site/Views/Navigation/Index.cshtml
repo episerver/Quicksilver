@@ -45,16 +45,17 @@
             <div class="row sm-row-1">
                 <div class="col-sm-6 hidden-xs"><h1 class="site-logo"><a href="/">Quicksilver</a></h1></div>
                 <div class="col-sm-6 hidden-xs text-right">
-                    <form class="clearfix search-form" role="search">
-                        <input type="text" placeholder="Search" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new{ node=Model.StartPage.SearchPage })" />
+                    @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
+                    {
+                        <input type="text" placeholder="Search" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                         <div class="jsQuickSearchResult product-dropdown-container search-dropdown"></div>
-                    </form>
+                    }
                 </div>
             </div>
             <div class="row sm-row-2">
                 @Html.PropertyFor(x => x.StartPage.MainMenu, new { @class = "nav navbar-nav sm-row-3 col-xs-12 col-sm-6 site-menu", @selected = "is-active", @currentPage = Model.CurrentContentLink })
-                <div class="col-sm-6">
+                <div class="col-sm-6 sm-cart-container">
                     <div class="nav navbar-right">
                         <ul class="list-inline text-right sm-row-3-2 hidden-xs shopping-btn-container">
                             @if (Request.LogonUserIdentity.IsAuthenticated)
@@ -122,27 +123,28 @@
     <div class="collapse navbar-collapse xs-search" id="site-search-dropdown">
         <ul class="nav navbar-nav">
             <li>
-                <form role="search">
+                @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search" }))
+                {
                     <div class="form-group">
-                        <input type="text" placeholder="Search" class="form-control form-inline search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new{ node=Model.StartPage.SearchPage })" />
+                        <input type="text" placeholder="Search" class="form-control form-inline search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                         <div class="jsQuickSearchResult product-dropdown-container" style="display: none;"></div>
                     </div>
-                </form>
+                }
             </li>
         </ul>
     </div>
     @if (Request.LogonUserIdentity.IsAuthenticated)
     {
         <div class="collapse navbar-collapse xs-search" id="wishlist-dropdown">
-            <div class="cart-button-wrapper WishListMiniCartSummary jsCart">
+            <div id="WishListMiniCartResponsive" class="cart-button-wrapper">
                 @{ Html.RenderPartial("_WishListMiniCartDetails", Model.WishListMiniCart); }
             </div>
         </div>
     }
     <div class="collapse navbar-collapse xs-search" id="cart-dropdown">
-        <div class="cart-button-wrapper jsCart MiniCartSummary">
-            @{ Html.RenderPartial("_MiniCartDetails",  Model.MiniCart); }
+        <div id="MiniCartResponsive" class="cart-button-wrapper">
+            @{ Html.RenderPartial("_MiniCartDetails", Model.MiniCart); }
         </div>
     </div>
 </nav>

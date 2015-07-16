@@ -73,6 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<ApplicationSignInManager>().Use(() => owinContextFunc().Get<ApplicationSignInManager>());
                 c.For<IAuthenticationManager>().Use(() => owinContextFunc().Authentication);
                 c.For<IOwinContext>().Use(() => owinContextFunc());
+                c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));

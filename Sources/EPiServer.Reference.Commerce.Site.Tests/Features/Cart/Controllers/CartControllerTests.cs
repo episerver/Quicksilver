@@ -68,14 +68,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         }
 
         [TestMethod]
-        public void AddToCart_WhenAddingToCart_ShouldCallAddToCartOnCartService()
-        {
-            string warningMessage = null;
-            _subject.AddToCart("Code 1");
-            _cartServiceMock.Verify(s => s.AddToCart("Code 1", out warningMessage));
-        }
-
-        [TestMethod]
         public void AddToCart_WhenAddingToCart_ShouldCallRemoveItemOnWishlistService()
         {
             _subject.AddToCart("Code 1");
@@ -137,7 +129,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             _cartServiceMock.Setup(x => x.GetTotal()).Returns(new Money(270, Currency.USD));
             _cartServiceMock.Setup(x => x.GetSubTotal()).Returns(new Money(270, Currency.USD));
             _cartServiceMock.Setup(x => x.GetTotalDiscount()).Returns(new Money(30, Currency.USD));
-            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<string>(), out warningMessage)).Verifiable();
+            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<string>(), out warningMessage)).Returns(true).Verifiable();
             _cartServiceMock.Setup(x => x.RemoveLineItem(It.IsAny<string>())).Verifiable();
             _cartServiceMock.Setup(x => x.ChangeQuantity(It.IsAny<string>(), It.IsAny<int>())).Verifiable();
             _wishListServiceMock.Setup(x => x.RemoveLineItem(It.IsAny<string>())).Verifiable();

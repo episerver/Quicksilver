@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -38,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnSameSearchResult()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel();
+            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -49,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnPopulatedProductViewModel()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel();
+            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -71,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnPopulatedFacetGroupOption()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel();
+            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -286,7 +287,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [TestMethod]
         public void Search_ShouldFilterByCurrentMarket()
         {
-            var filterOptions = new FilterOptionFormModel { Q = "query" };
+            var filterOptions = new FilterOptionFormModel { Q = "query", FacetGroups = new List<FacetGroupOption>()};
             var content = new NodeContent();
             _subject.Search(content, filterOptions);
 
@@ -302,7 +303,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -315,7 +316,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -328,7 +329,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -341,7 +342,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -354,7 +355,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -367,7 +368,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -380,7 +381,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -393,7 +394,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -406,7 +407,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -419,7 +420,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -432,7 +433,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -445,7 +446,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -455,6 +456,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         private Mock<ICurrentMarket> _currentMarketMock;
         private Mock<ICurrencyService> _currencyServiceMock;
         private Mock<ISearchResults> _searchResultsMock;
+        private Mock<IContentLoader> _contentLoaderMock;
+        private MemoryLocalizationService _localizationService;
         private Currency _currentCurrency;
         private Facet _facet;
         private Mock<SearchFacade> _searchFacadeMock;
@@ -482,12 +485,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Setup(x => x.GetOutlinesForNode(It.IsAny<string>())).Returns(new StringCollection());
             _searchFacadeMock.Setup(x => x.GetSearchProvider()).Returns(SearchFacade.SearchProviderType.Lucene);
 
+            _localizationService = new MemoryLocalizationService();
+            _localizationService.AddString(CultureInfo.GetCultureInfo("en"), "/Facet/Category", "Category");
+
+            _contentLoaderMock = new Mock<IContentLoader>();
+            _contentLoaderMock.Setup(x => x.GetChildren<NodeContent>(It.IsAny<ContentReference>())).Returns(new [] { new NodeContent()
+            {
+                DisplayName = "Node",
+                Code = "Node"
+            }});
+
             _subject = new SearchService(
                 _currentMarketMock.Object,
                 _currencyServiceMock.Object,
                 urlResolverMock.Object,
                 _searchFacadeMock.Object,
-                () => CultureInfo.GetCultureInfo("en"));
+                () => CultureInfo.GetCultureInfo("en"),
+                _contentLoaderMock.Object,
+                _localizationService);
         }
 
         private void SetupSearchResultMock()

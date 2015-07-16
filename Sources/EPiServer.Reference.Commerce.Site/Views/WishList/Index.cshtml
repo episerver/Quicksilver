@@ -12,6 +12,12 @@
                     @Html.Translate("/WishList/NoItems")
                 </div>
             }
+           
+            <div id="CartWarningMessage" class="col-md-12 alert alert-danger" hidden>
+                <button type="button" class="close" data-hide="alert">&times;</button>
+                <span class="warning-message"></span>
+            </div>
+
             <div class="product-row">
                 <div class="row">
                     @foreach (var product in Model.CartItems)

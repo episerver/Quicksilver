@@ -5,6 +5,8 @@
             .on('click', '.jsRemoveCartItem', Cart.removeCartItem)
             .on('change', '.jsChangeCartItem', Cart.changeCartItem)
             .on('click', '.jsAddToCart', Cart.addCartItem)
+            .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
+            .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
             .on('click', '.jsCartDropdown', function (e) {
                 return ($(e.target).hasClass('btn') || $(e.target).parent().is('a'));
             });
@@ -58,6 +60,9 @@
         var formContainer = $("#" + form.data("container"));
         var skuCode = $("#code", form).val();
 
+        $("#CartWarningMessage").hide()
+        $(".warning-message", $("#CartWarningMessage")).html("");
+
         $.ajax({
             type: "POST",
             url: form[0].action,
@@ -84,6 +89,10 @@
                         Cart.refreshWishList();
                     }
                 }
+            },
+            error: function (xhr, status, error) {
+                $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
+                $("#CartWarningMessage").show();
             }
         });
     },
