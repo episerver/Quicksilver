@@ -1,5 +1,4 @@
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
@@ -22,9 +21,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         public Guid ContactId { get; set; }
         public DateTime Created { get; set; }
         public int GroupId { get; set; }
-        public Money ShippingTotal { get; set; }
-        public Money TotalPrice { get; set; }
         public string NotificationMessage { get; set; }
         public Dictionary<int, decimal> ItemPrices { get; set; }
+
+        public Money HandlingTotal { get; set; }
+        public Money ShippingTotal { get; set; }
+        public Money TaxTotal { get; set; }
+        public Money CartTotal { get; set; }
     }
 }

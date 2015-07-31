@@ -34,12 +34,12 @@
                                             @Html.Hidden("size", size)
 
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control jsChangeCartItem" })
+                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
                                         }
                                     </div>
                                     <div class="col-md-3">
                                         <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-quantity jsChangeCartItem" })
+                                        <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" />
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
                                         <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>

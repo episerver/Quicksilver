@@ -22,7 +22,9 @@
 
                 @if (Model.HasOrder)
                 {
-                    @Model.Created
+                    <h2>@Html.Translate("/OrderHistory/Labels/OrderID") @Model.OrderId</h2>
+                    @Html.Translate("/OrderHistory/Labels/OrderDate") @Model.Created
+                    
                     <table style="width:100%; vertical-align: top; @fontFamily">
                         <thead>
                             <tr>
@@ -44,7 +46,11 @@
                                     <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
                                 </tr>
                             }
-
+                            <tr>
+                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.HandlingTotal.ToString()</td>
+                            </tr>
                             <tr>
                                 <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
@@ -52,8 +58,13 @@
                             </tr>
                             <tr>
                                 <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
-                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/Total")</td>
-                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.TotalPrice.ToString()</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/TaxCost")</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.TaxTotal.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding"><strong>@Html.Translate("/OrderConfirmationMail/Total")</strong></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding"><strong>@Model.CartTotal.ToString()</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -68,7 +79,6 @@
                                 <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
                                 @foreach (var shippingAddress in Model.ShippingAddresses)
                                 {
-                                    <hr />
                                     @Html.Partial("_Address", shippingAddress)
                                 }
                             </td>

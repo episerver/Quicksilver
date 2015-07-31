@@ -30,16 +30,38 @@
     }
 
     &__tile {
+        overflow: hidden;
         padding: @padding-large-horizontal*2 @padding-large-vertical*2;
+        position: relative;
         transition: box-shadow .15s ease-out;
 
-        &:hover {
-            box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-            transition: box-shadow .1s ease-out;
+        .quick-view-btn-container {
+            bottom: 0;
+            box-sizing: border-box;
+            height: auto;
+            left: 0;
+            max-height: 0;
+            position: absolute;
+            transition: max-height .1s ease-out;
+            width: 100%;
+
+            .btn { 
+                background: @gray;
+                color: #fff;
+            }
         }
     }
 }
 .action-buttons { margin-top: @padding-large-vertical; }
+
+// Quickview
+.quickview-button {
+    &:focus,
+    &:active {
+        outline: none;
+    }
+}
+.modal-backdrop { z-index: -1; }
 
 // Palm
 @media (max-width: @screen-xs-max) {
@@ -50,6 +72,29 @@
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     .product-row {
         .col-sm-6:nth-of-type(2n+1) { clear: left; }
+    }
+}
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    .product-row {
+        &__tile {
+            padding-bottom: @padding-large-horizontal*3;
+
+            &:hover {
+                box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+                transition: box-shadow .1s ease-out;
+
+                .quick-view-btn-container { 
+                    max-height: 100px;
+                    transition: max-height .2s ease-out;
+                }
+            }
+        }
+    }
+    
+    .modal.in .modal-dialog {
+        transform: translate(0, 40%);
     }
 }
 

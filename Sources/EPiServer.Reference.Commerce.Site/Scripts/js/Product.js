@@ -1,6 +1,7 @@
 ﻿var ProductPage = {
     init: function () {
         $(document).on('change', '.jsVariationSwitch', ProductPage.switchVariant);
+        $(document).on('click', '.quickview-button', ProductPage.showQuickview);
 
         ProductPage.resetCarousel();
         $('#product-carousel').carousel({
@@ -30,6 +31,20 @@
             error: function () {
                 $('.jsAddToCart button').addClass('disabled');
                 alert('The variant is not available.');
+            }
+        });
+    },
+    showQuickview: function (e) {
+        e.preventDefault();
+        var skuCode = $(this).data("code");
+        var url = $(this).data("url");
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: url,
+            data: { variationCode: skuCode, quickview: true },
+            success: function (result) {
+                $(".modal-dialog", $("#Quickview")).html($(result));
             }
         });
     }

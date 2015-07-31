@@ -164,6 +164,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             return  CartHelper.Cart.OrderAddresses.AddNew();
         }
 
+        public void UpdateBillingAddressId(string addressId)
+        {
+            CartHelper.Cart.OrderForms[0].BillingAddressId = addressId;
+            CartHelper.Cart.OrderForms[0].AcceptChanges();
+        }
+
         public void ClearOrderAddresses()
         {
             CartHelper.Cart.OrderAddresses.Clear();

@@ -62,7 +62,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 PlacedPrice = new Money(1, _currentCurrency),
                 ExtendedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
-                Url = "http://domain.com"
+                Url = "http://domain.com",
+                Code = "Code",
+                Brand = "Brand"
             };
 
             productViewModel.ShouldBeEquivalentTo(expected);
@@ -123,12 +125,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 PlacedPrice = new Money(1, _currentCurrency),
                 ExtendedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
-                Url = "http://domain.com"
+                Url = "http://domain.com",
+                Brand = "Brand",
+                Code = "Code"
             };
 
             productViewModel.ShouldBeEquivalentTo(expected);
         }
-        
+
         [TestMethod]
         public void QuickSearch_ShouldFilterByCurrentMarket()
         {
@@ -287,7 +291,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [TestMethod]
         public void Search_ShouldFilterByCurrentMarket()
         {
-            var filterOptions = new FilterOptionFormModel { Q = "query", FacetGroups = new List<FacetGroupOption>()};
+            var filterOptions = new FilterOptionFormModel { Q = "query", FacetGroups = new List<FacetGroupOption>() };
             var content = new NodeContent();
             _subject.Search(content, filterOptions);
 
@@ -489,7 +493,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _localizationService.AddString(CultureInfo.GetCultureInfo("en"), "/Facet/Category", "Category");
 
             _contentLoaderMock = new Mock<IContentLoader>();
-            _contentLoaderMock.Setup(x => x.GetChildren<NodeContent>(It.IsAny<ContentReference>())).Returns(new [] { new NodeContent()
+            _contentLoaderMock.Setup(x => x.GetChildren<NodeContent>(It.IsAny<ContentReference>())).Returns(new[] { new NodeContent()
             {
                 DisplayName = "Node",
                 Code = "Node"
@@ -524,11 +528,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             searchDocumentMock.Setup(x => x[It.IsNotIn(new[] { "displayname", "image_url", "content_link" })])
                 .Returns(() => new SearchField("name", ConvertToPrefixCodedLong(1m)));
 
+            searchDocumentMock.Setup(x => x["brand"]).Returns(() => new SearchField("brand", "Brand"));
+            searchDocumentMock.Setup(x => x["code"]).Returns(() => new SearchField("code", "Code"));
+
             _searchResultsMock = new Mock<ISearchResults>();
             _searchResultsMock.Setup(x => x.FacetGroups).Returns(() => new[] { facetGroupMock.Object });
 
             _searchResultsMock.Setup(x => x.Documents)
-                .Returns(() => new SearchDocuments { searchDocumentMock.Object } );
+                .Returns(() => new SearchDocuments { searchDocumentMock.Object });
         }
 
         protected string ConvertToPrefixCodedLong(decimal input)

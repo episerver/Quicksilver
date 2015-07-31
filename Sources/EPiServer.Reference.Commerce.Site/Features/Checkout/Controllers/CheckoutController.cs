@@ -157,6 +157,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             if (viewModel == null)
             {
                 viewModel = CreateCheckoutViewModel(paymentMethods.First(), shippingmethods.First().Id, customer);
+
+                // Run the workflow once to calculate all taxes, charges and get the correct total amounts.
+                _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             }
             else
             {
@@ -350,12 +353,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 TaxTotal = _cartService.GetTaxTotal(),
                 OrderDiscounts = orderForm.SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Select(x => new OrderDiscountModel
                 {
-                    Discount = _cartService.ConvertToMoney(x.DiscountAmount),
+                    Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
                 }),
                 ShippingDiscounts = orderForm.SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Select(x => new OrderDiscountModel
                 {
-                    Discount = _cartService.ConvertToMoney(x.DiscountAmount),
+                    Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
                 }),
             };
@@ -426,7 +429,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         /// <summary>
-        /// Converts the billing address into an order addresses and saves it. If any changes to the address should be saved for future usage
+        /// Converts the billing address into an order address and saves it. If any changes to the address should be saved for future usage
         /// then the address will also be converted as a customer addresses and gets related to the current contact.
         /// </summary>
         /// <param name="checkoutViewModel">The view model representing the purchase order.</param>
@@ -442,6 +445,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _addressBookService.MapModelToOrderAddress(checkoutViewModel.BillingAddress, orderAddress);
             orderAddress.Name = Guid.NewGuid().ToString();
             orderAddress.AcceptChanges();
+            _checkoutService.UpdateBillingAddressId(orderAddress.Name);
 
             if (checkoutViewModel.BillingAddress.SaveAddress && User.Identity.IsAuthenticated)
             {

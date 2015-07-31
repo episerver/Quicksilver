@@ -39,7 +39,7 @@
         {
             <meta property="description" content="@Html.AttributeEncode(Model.Product.SeoInformation.Description)" />
         }
-        else if (!Model.Product.Description.IsEmpty)
+        else if (Model.Product.Description!= null && !Model.Product.Description.IsEmpty)
         {
             <meta property="description" content="@Html.AttributeEncode(Model.Product.Description)" />
         }

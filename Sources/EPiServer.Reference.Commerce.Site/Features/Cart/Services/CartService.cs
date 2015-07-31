@@ -1,10 +1,12 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
@@ -29,14 +31,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly CultureInfo _preferredCulture;
         private string _cartName = Mediachase.Commerce.Orders.Cart.DefaultName;
         private readonly UrlResolver _urlResolver;
+        private readonly IProductService _productService;
 
-        public CartService(Func<string, CartHelper> cartHelper, IContentLoader contentLoader, ReferenceConverter referenceConverter, UrlResolver urlResolver)
+        public CartService(Func<string, CartHelper> cartHelper, IContentLoader contentLoader, ReferenceConverter referenceConverter, UrlResolver urlResolver, IProductService productService)
         {
             _cartHelper = cartHelper;
             _contentLoader = contentLoader;
             _referenceConverter = referenceConverter;
             _preferredCulture = ContentLanguage.PreferredCulture;
             _urlResolver = urlResolver;
+            _productService = productService;
         }
 
         public void InitializeAsWishList()
@@ -87,9 +91,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
                 if (product is FashionProduct)
                 {
-                    FashionProduct fashionProduct = (FashionProduct)product;
+                    var fashionProduct = (FashionProduct)product;
+                    var fashionVariant = (FashionVariant)variant;
                     item.Brand = fashionProduct.Brand;
-                    item.AvailableSizes = fashionProduct.AvailableSizes;
+                    var variations = _productService.GetVariations(fashionProduct);
+                    item.AvailableSizes = variations.Where(x => x.Color == fashionVariant.Color).Select(x=> x.Size);
                 }
 
                 cartItems.Add(item);
@@ -191,9 +197,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public Money GetShippingSubTotal()
         {
-            decimal amount = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShipmentTotal) + CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShippingDiscountAmount);
-
-            return ConvertToMoney(amount);
+            decimal shippingTotal = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShipmentTotal);
+        
+            return ConvertToMoney(shippingTotal);
         }
 
         public Money GetShippingTotal()
@@ -215,14 +221,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public Money GetOrderDiscountTotal()
         {
-            decimal amount = GetOrderForms().SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountAmount);
+            decimal amount = GetOrderForms().SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountValue);
 
             return ConvertToMoney(amount);
         }
 
         public Money GetShippingDiscountTotal()
         {
-            decimal amount = GetOrderForms().SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Sum(x => x.DiscountAmount);
+            decimal amount = GetOrderForms().SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Sum(x => x.DiscountValue);
 
             return ConvertToMoney(amount);
         }

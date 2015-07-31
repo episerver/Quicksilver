@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
 
             _nodeContentMock.Setup(c => c.SeoInformation).Returns(nodeSeoInformation);
             var contentLoaderMock = SetupContentLoader();
-            contentLoaderMock.Setup(c => c.Get<NodeContent>(It.IsAny<ContentReference>())).Returns(_nodeContentMock.Object);
+            contentLoaderMock.Setup(c => c.Get<CatalogContentBase>(It.IsAny<ContentReference>())).Returns(_nodeContentMock.Object);
             _contentRouteHelperMock.Setup(c => c.Content).Returns(() => _entryContentMock.Object);
 
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
@@ -129,7 +129,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             _nodeContentMock.Setup(c => c.DisplayName).Returns("Node");
 
             var contentLoaderMock = SetupContentLoader();
-            contentLoaderMock.Setup(c => c.Get<NodeContent>(It.IsAny<ContentReference>())).Returns(_nodeContentMock.Object);
+            contentLoaderMock.Setup(c => c.Get<CatalogContentBase>(It.IsAny<ContentReference>())).Returns(_nodeContentMock.Object);
             _contentRouteHelperMock.Setup(c => c.Content).Returns(() => _entryContentMock.Object);
 
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
@@ -137,7 +137,28 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
 
             Assert.AreEqual<string>("Entry - Node-Quicksilver", ((ContentResult)result).Content);
         }
+        [TestMethod]
+        public void Title_WhenCalledWithEntryContentBaseBeneathCatalogEntry_ShouldReturnFormatContainsCatalogName()
+        {
+            var expectedTitle = "Fashion Catalog";
+            
+            var seoInformation = new SeoInformation()
+            {
+                Description = "Entry Seo"
+            };
 
+            _entryContentMock.Setup(c => c.SeoInformation).Returns(seoInformation);
+            _entryContentMock.Setup(c => c.DisplayName).Returns("Entry");
+            _catalogContentMock.Setup(c => c.Name).Returns("Fashion Catalog");
+
+            var contentLoaderMock = SetupContentLoader();
+            contentLoaderMock.Setup(c => c.Get<CatalogContentBase>(It.IsAny<ContentReference>())).Returns(_catalogContentMock.Object);
+            _contentRouteHelperMock.Setup(c => c.Content).Returns(() => _entryContentMock.Object);
+            
+            var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
+            var result = subject.Title();
+            StringAssert.Contains(((ContentResult)result).Content, expectedTitle);
+        }
         private Mock<IContentLoader> SetupContentLoader()
         {
             _startPageMock.Setup(c => c.TitleFormat).Returns("{title}-Quicksilver");
@@ -150,6 +171,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
         Mock<NodeContent> _nodeContentMock;
         Mock<EntryContentBase> _entryContentMock;
         Mock<IContentLoader> _contentLoaderMock;
+        Mock<CatalogContentBase> _catalogContentMock;
 
         [TestInitialize]
         public void Setup()
@@ -159,6 +181,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             _entryContentMock = new Mock<EntryContentBase>();
             _nodeContentMock = new Mock<NodeContent>();
             _contentLoaderMock = new Mock<IContentLoader>();
+            _catalogContentMock = new Mock<CatalogContentBase>();
         }
     }
 }

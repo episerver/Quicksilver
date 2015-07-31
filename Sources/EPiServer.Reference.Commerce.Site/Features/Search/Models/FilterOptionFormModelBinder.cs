@@ -39,7 +39,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
             }
 
             var contentLink = controllerContext.RequestContext.GetContentLink();
-            var content = _contentLoader.Get<IContent>(contentLink);
+            IContent content = null;
+            if (!ContentReference.IsNullOrEmpty(contentLink))
+            {
+                content = _contentLoader.Get<IContent>(contentLink);
+            }
 
             var query = controllerContext.HttpContext.Request.QueryString["q"];
             var sort = controllerContext.HttpContext.Request.QueryString["sort"];
@@ -127,7 +131,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
                 return facetGroups;
             }
             var nodeFacet = CreateFacetGroup(filter);
-            nodeFacetValues.ForEach(x => nodeFacet.Facets.Add(new FacetOption { Name = x.value, Selected = true }));
+            nodeFacetValues.ForEach(x => nodeFacet.Facets.Add(CreateFacetOption(x.value)));
             facetGroups.Add(nodeFacet);
             return facetGroups;
         }

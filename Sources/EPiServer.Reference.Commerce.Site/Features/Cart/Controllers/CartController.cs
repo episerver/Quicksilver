@@ -1,6 +1,7 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using System.Collections.Generic;
@@ -59,6 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [HttpPost]
         public ActionResult AddToCart(string code)
         {
+            ModelState.Clear();
             string warningMessage = null;
         
             if (_cartService.AddToCart(code, out warningMessage))
@@ -75,6 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [HttpPost]
         public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
+            ModelState.Clear();
             string warningMessage = null;
 
             if (quantity > 0)
@@ -106,7 +109,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                     }
                 }
             }
-            else
+            else if(quantity == 0)
             {
                 _cartService.RemoveLineItem(code);
             }

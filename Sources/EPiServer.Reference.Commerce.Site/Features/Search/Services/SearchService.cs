@@ -256,6 +256,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 
             return searchResult.Documents.Select(document => new ProductViewModel
             {
+                Brand = GetString(document, "brand"),
+                Code = GetString(document, "code"),
                 DisplayName = GetString(document, "displayname"),
                 PlacedPrice = new Money(GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)), currency),
                 ExtendedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),

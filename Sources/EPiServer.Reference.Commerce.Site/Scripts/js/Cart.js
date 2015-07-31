@@ -22,6 +22,12 @@
 
         e.preventDefault();
         var form = $(this).closest("form");
+        var quantity = $("#quantity", form).val();
+
+        if (parseInt(quantity, 10) < 0) {
+            return;
+        }
+
         var formContainer = $("#" + form.data("container"));
         $.ajax({
             type: "POST",

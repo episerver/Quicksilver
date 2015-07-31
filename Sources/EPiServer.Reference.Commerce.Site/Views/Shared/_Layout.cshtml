@@ -24,6 +24,7 @@
         <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
     </head>
     <body>
+
         @Html.RenderEPiServerQuickNavigator()
         @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
         {
@@ -34,18 +35,27 @@
                 </div>
             </div>
         }
+        
+        <div id="Quickview" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            </div>
+        </div>
+
         <div class="container-fluid cookies jsCookies" style="display: none">
             <div class="container text-right">
                 <p>@Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn--blue jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button></p>
 
             </div>
         </div>
+
         @{
             Html.RenderAction("Index", "Navigation");
         }
+
         <div class="quicksilver site-wrapper">
             @RenderBody()
         </div>
+
         @{ Html.RenderAction("Index", "Footer"); }
 
         @Scripts.Render("~/bundles/jquery")

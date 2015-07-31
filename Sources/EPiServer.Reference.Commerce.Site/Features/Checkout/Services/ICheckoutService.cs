@@ -14,6 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         IEnumerable<ShippingRate> GetShippingRates(Shipment shipment);
         IEnumerable<PaymentMethodViewModel<IPaymentOption>> GetPaymentMethods();
         OrderAddress AddNewOrderAddress();
+        void UpdateBillingAddressId(string addressId);
         void ClearOrderAddresses();
         PurchaseOrder SaveCartAsPurchaseOrder();
         void DeleteCart();

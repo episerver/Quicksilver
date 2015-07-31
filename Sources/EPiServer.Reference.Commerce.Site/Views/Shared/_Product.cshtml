@@ -7,22 +7,24 @@
 }
 
 <div class="@productLevelClass">
-    <a href="@Model.Url" class="product__image">
+    <a href="@Model.Url" class="link--black">
         <div class="view-details"></div>
         <img src="@Model.ImageUrl" alt="@Model.DisplayName" class="img-responsive">
-    </a>
 
-    <h3 class="product-title">@Model.DisplayName</h3>
-    <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
-    @if (hasDiscount)
-    {
-        <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
-        <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
-    }
-    else
-    {
-        <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
-    }
+        <h3 class="product-title">@Model.DisplayName</h3>
+        <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
+
+        @if (hasDiscount)
+        {
+            <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
+            <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+        }
+        else
+        {
+            <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+        }
+
+    </a>
 
     @if (renderWishListButtons)
     {
@@ -40,4 +42,8 @@
             }
         </div>
     }
+</div>
+
+<div class="quick-view-btn-container">
+    <button type="button" data-toggle="modal" data-target="#Quickview" data-url="@Model.Url" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
 </div>

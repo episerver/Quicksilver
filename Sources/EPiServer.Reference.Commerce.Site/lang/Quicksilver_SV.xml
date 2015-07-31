@@ -36,6 +36,7 @@
       <Social>Var Social</Social>
     </Footer>
     <Product>
+      <Quickview>Snabbtitt</Quickview>
       <Dropdown>
         <Currency>Visa priser i</Currency>
       </Dropdown>
@@ -160,7 +161,9 @@
       <Quantity>Antal</Quantity>
       <Price>Pris</Price>
       <LineItemTotal>Total</LineItemTotal>
-      <ShippingCost>Fraktkostnad</ShippingCost>
+      <HandlingCost>Administrationsavgift</HandlingCost>
+      <TaxCost>Skattkostnader</TaxCost>
+      <ShippingCost>Fraktkostnader</ShippingCost>
       <Total>Total</Total>
       <ShippingDetails>Fraktdetaljer</ShippingDetails>
       <PaymentDetails>Betalningsinformation</PaymentDetails>

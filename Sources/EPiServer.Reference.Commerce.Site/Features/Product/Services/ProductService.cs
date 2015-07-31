@@ -56,6 +56,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _referenceConverter = referenceConverter;
         }
 
+        public IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
+        {
+            return _contentLoader
+                .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
+                .Cast<FashionVariant>()
+                .Where(v => v.IsAvailableInCurrentMarket(_currentMarket));
+        }
+
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
         {
             ContentReference variationReference = _referenceConverter.GetContentLink(siblingCode);
@@ -64,9 +72,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
             IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
 
-            foreach (FashionVariant variant in siblingVariations.Where(x => x is FashionVariant))
+            var siblingVariant = siblingVariations.OfType<FashionVariant>().FirstOrDefault(x => x.Code == siblingCode);
+            
+            foreach (var variant in siblingVariations.OfType<FashionVariant>())
             {
-                if (variant.Size == size && variant.Code != siblingCode)
+                if (variant.Size == size && variant.Code != siblingCode && variant.Color == siblingVariant.Color)
                 {
                     return variant.Code;
                 }

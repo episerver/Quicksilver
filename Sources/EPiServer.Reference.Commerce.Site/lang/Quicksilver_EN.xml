@@ -36,6 +36,7 @@
       <Social>Be Social</Social>
     </Footer>
     <Product>
+      <Quickview>Quick view</Quickview>
       <Dropdown>
         <Currency>Show prices in</Currency>
       </Dropdown>
@@ -159,6 +160,8 @@
       <Quantity>Quantity</Quantity>
       <Price>Price</Price>
       <LineItemTotal>Total</LineItemTotal>
+      <HandlingCost>Handling cost</HandlingCost>
+      <TaxCost>Tax cost</TaxCost>
       <ShippingCost>Shipping cost</ShippingCost>
       <Total>Total</Total>
       <ShippingDetails>Shipping details</ShippingDetails>
