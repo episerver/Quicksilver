@@ -157,7 +157,10 @@
     <OrderConfirmationMail>
       <OrderDate>Order date:</OrderDate>
       <DisplayName>Display name</DisplayName>
+      <Discount>Discount</Discount>
+      <OrderLevelDiscounts>Additional discounts</OrderLevelDiscounts>
       <Quantity>Quantity</Quantity>
+      <UnitPrice>Unit price</UnitPrice>
       <Price>Price</Price>
       <LineItemTotal>Total</LineItemTotal>
       <HandlingCost>Handling cost</HandlingCost>

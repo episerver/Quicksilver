@@ -9647,6 +9647,9 @@ fieldset[disabled] .btn-gray-light.active {
 .product-dropdown.cart-dropdown .product-row__item__image {
   max-width: 100px;
 }
+.cart-control {
+  padding: 5px;
+}
 @media (max-width: 767px) {
   .product-dropdown.product-row .product-row__item__title {
     font-size: 20px;
@@ -9774,19 +9777,54 @@ footer .btn-social .fa {
   margin-bottom: 0;
 }
 .product-row__tile {
+  overflow: hidden;
   padding: 32px 20px;
+  position: relative;
   transition: box-shadow 0.15s ease-out;
 }
-.product-row__tile:hover {
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.1s ease-out;
+.product-row__tile .quick-view-btn-container {
+  bottom: 0;
+  box-sizing: border-box;
+  height: auto;
+  left: 0;
+  max-height: 0;
+  position: absolute;
+  transition: max-height 0.1s ease-out;
+  width: 100%;
+}
+.product-row__tile .quick-view-btn-container .btn {
+  background: #555555;
+  color: #fff;
 }
 .action-buttons {
   margin-top: 10px;
 }
+.quickview-button:focus,
+.quickview-button:active {
+  outline: none;
+}
+.modal-backdrop {
+  z-index: -1;
+}
 @media (min-width: 768px) and (max-width: 991px) {
   .product-row .col-sm-6:nth-of-type(2n+1) {
     clear: left;
+  }
+}
+@media (min-width: 768px) {
+  .product-row__tile {
+    padding-bottom: 48px;
+  }
+  .product-row__tile:hover {
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.1s ease-out;
+  }
+  .product-row__tile:hover .quick-view-btn-container {
+    max-height: 100px;
+    transition: max-height 0.2s ease-out;
+  }
+  .modal.in .modal-dialog {
+    transform: translate(0, 40%);
   }
 }
 @media (min-width: 1200px) {

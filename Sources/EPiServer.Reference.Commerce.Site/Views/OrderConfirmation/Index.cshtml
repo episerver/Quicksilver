@@ -30,7 +30,9 @@
                     <tr>
                         <td colspan="2">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
                         <td class="text-right">@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/UnitPrice")</td>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/Price")</td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/Discount")</td>
                         <td class="text-right">@Html.Translate("/OrderConfirmation/Labels/Total")</td>
                     </tr>
                 </thead>
@@ -40,32 +42,37 @@
                         <tr>
                             <td><a href="@lineItem.GetUrl()" class="link--black"><img src="@lineItem.GetThumbnailUrl()" /></a></td>
                             <td><a href="@lineItem.GetUrl()" class="link--black">@lineItem.DisplayName</a></td>
-                            <td class="text-right">
-                                @lineItem.Quantity.ToString("0")
-                            </td>
-                            <td class="text-right">@lineItem.ToMoney(Model.ItemPrices[lineItem.Id]).ToString()</td>
-                            <td class="text-right">@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
+                            <td class="text-right">@lineItem.Quantity.ToString("0")</td>
+                            <td class="text-right">@lineItem.ToMoney(lineItem.PlacedPrice).ToString()</td>
+                            <td class="text-right">@lineItem.PlacedPriceTotal().ToString()</td>
+                            <td class="text-right">@lineItem.ToMoney(lineItem.LineItemDiscountAmount).ToString()</td>
+                            <td class="text-right">@lineItem.ExtendedPriceTotal().ToString()</td>
                         </tr>
                     }
                     <tr>
-                        <td colspan="3"></td>
-                        <td>@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/OrderLevelDiscounts")</td>
+                        <td class="total-price text-right">- @Model.OrderLevelDiscountTotal.ToString()</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
                         <td class="total-price text-right">@Model.HandlingTotal.ToString()</td>
                     </tr>
                     <tr>
-                        <td colspan="3"></td>
-                        <td>@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
                         <td class="total-price text-right">@Model.ShippingTotal.ToString()</td>
                     </tr>
 
                     <tr>
-                        <td colspan="3"></td>
-                        <td>@Html.Translate("/OrderConfirmationMail/TaxCost")</td>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/TaxCost")</td>
                         <td class="total-price text-right">@Model.TaxTotal.ToString()</td>
                     </tr>
                     <tr>
-                        <td colspan="3"></td>
-                        <td><strong>@Html.Translate("/OrderConfirmationMail/Total")</strong></td>
+                        <td colspan="5"></td>
+                        <td class="text-right"><strong>@Html.Translate("/OrderConfirmationMail/Total")</strong></td>
                         <td class="total-price text-right"><strong>@Model.CartTotal.ToString()</strong></td>
                     </tr>
                 </tbody>

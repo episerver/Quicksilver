@@ -40,14 +40,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
 
             var form = order.OrderForms.First();
-            Dictionary<int, decimal> itemPrices = new Dictionary<int, decimal>();
-
-            foreach (LineItem lineItem in form.LineItems)
-            {
-                itemPrices[lineItem.Id] = lineItem.Discounts.Count > 0 ? 
-                    Math.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity, 2)
-                  : lineItem.PlacedPrice;
-            }
 
             OrderConfirmationViewModel<T> viewModel = new OrderConfirmationViewModel<T>
             {
@@ -61,11 +53,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 ContactId = _customerContext.CurrentContactId,
                 Payments = form.Payments,
                 GroupId = order.OrderGroupId,
+                OrderLevelDiscountTotal = order.ToMoney(form.LineItems.Sum(x=>x.OrderLevelDiscountAmount)),
                 ShippingTotal = order.ToMoney(form.ShippingTotal),
                 HandlingTotal = order.ToMoney(form.HandlingTotal),
                 TaxTotal = order.ToMoney(form.TaxTotal),
-                CartTotal = order.ToMoney(form.Total),
-                ItemPrices = itemPrices
+                CartTotal = order.ToMoney(form.Total)
             };
 
             // Identify the id for all shipping addresses.

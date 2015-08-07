@@ -8,12 +8,15 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Catalog.Managers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
+using Mediachase.Commerce.Pricing;
 using Mediachase.Commerce.Website.Helpers;
 using System;
 using System.Collections.Generic;
@@ -32,8 +35,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private string _cartName = Mediachase.Commerce.Orders.Cart.DefaultName;
         private readonly UrlResolver _urlResolver;
         private readonly IProductService _productService;
+        private readonly IPricingService _pricingService;
 
-        public CartService(Func<string, CartHelper> cartHelper, IContentLoader contentLoader, ReferenceConverter referenceConverter, UrlResolver urlResolver, IProductService productService)
+        public CartService(Func<string, CartHelper> cartHelper, 
+            IContentLoader contentLoader, 
+            ReferenceConverter referenceConverter, 
+            UrlResolver urlResolver, 
+            IProductService productService,
+            IPricingService pricingService)
         {
             _cartHelper = cartHelper;
             _contentLoader = contentLoader;
@@ -41,11 +50,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _preferredCulture = ContentLanguage.PreferredCulture;
             _urlResolver = urlResolver;
             _productService = productService;
+            _pricingService = pricingService;
         }
 
         public void InitializeAsWishList()
         {
-            _cartName = Mediachase.Commerce.Website.Helpers.CartHelper.WishListName;
+            _cartName = CartHelper.WishListName;
         }
 
         public decimal GetLineItemsTotalQuantity()
@@ -136,6 +146,36 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(out warningMessage);
 
             return CartHelper.LineItems.Select(x => x.Code).Contains(code);
+        }
+
+        public void UpdateLineItemSku(string oldCode, string newCode, decimal quantity)
+        {
+            //merge same sku's
+            var newLineItem = CartHelper.Cart.GetLineItem(newCode);
+            if (newLineItem != null)
+            {
+                newLineItem.Quantity += quantity;
+                RemoveLineItem(oldCode);
+                newLineItem.AcceptChanges();
+                ValidateCart();
+                return;
+            }
+
+            var lineItem = CartHelper.Cart.GetLineItem(oldCode);
+            var entry = CatalogContext.Current.GetCatalogEntry(newCode, 
+                new CatalogEntryResponseGroup(CatalogEntryResponseGroup.ResponseGroup.Variations));
+            
+            lineItem.Code = entry.ID;
+            lineItem.MaxQuantity = entry.ItemAttributes.MaxQuantity;
+            lineItem.MinQuantity = entry.ItemAttributes.MinQuantity;
+            lineItem.InventoryStatus = (int)entry.InventoryStatus;
+
+            var price = _pricingService.GetCurrentPrice(newCode);
+            lineItem.ListPrice = price.Amount;
+            lineItem.PlacedPrice = price.Amount;
+
+            ValidateCart();
+            lineItem.AcceptChanges();
         }
 
         public void ChangeQuantity(string code, decimal quantity)

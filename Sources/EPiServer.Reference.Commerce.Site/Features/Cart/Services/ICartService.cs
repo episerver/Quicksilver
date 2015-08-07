@@ -27,5 +27,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void SaveCart();
         void DeleteCart();
         void InitializeAsWishList();
+        void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
     }
 }

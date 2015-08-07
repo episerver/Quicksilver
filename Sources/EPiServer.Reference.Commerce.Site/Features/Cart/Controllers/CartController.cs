@@ -1,7 +1,6 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using System.Collections.Generic;
@@ -39,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 CartItems = _cartService.GetCartItems(),
                 Total = _cartService.GetSubTotal()
             };
-
+            
             return PartialView("_MiniCartDetails", viewModel);
         }
 
@@ -78,38 +77,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
-            string warningMessage = null;
 
             if (quantity > 0)
             {
-                if (size == newSize || (newSize == null))
+                if (size == newSize)
                 {
                     _cartService.ChangeQuantity(code, quantity);
                 }
                 else
                 {
-                    string newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-
-                    if (newCode != null)
-                    {
-                        IEnumerable<CartItem> existingItems = _cartService.GetCartItems();
-                        decimal existingQuantity = existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
-                        quantity += existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
-                        _cartService.RemoveLineItem(code);
-
-                        if (existingQuantity == 0)
-                        {
-                            _cartService.AddToCart(newCode, out warningMessage);
-                        }
-
-                        if (quantity > 1)
-                        {
-                            _cartService.ChangeQuantity(newCode, quantity);
-                        }
-                    }
+                    var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
+                    _cartService.UpdateLineItemSku(code, newCode, quantity);
                 }
             }
-            else if(quantity == 0)
+            else 
             {
                 _cartService.RemoveLineItem(code);
             }

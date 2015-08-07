@@ -28,5 +28,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         public Money ShippingTotal { get; set; }
         public Money TaxTotal { get; set; }
         public Money CartTotal { get; set; }
+        public Money OrderLevelDiscountTotal { get; set; }
     }
 }

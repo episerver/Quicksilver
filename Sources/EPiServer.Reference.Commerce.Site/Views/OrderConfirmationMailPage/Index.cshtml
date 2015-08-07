@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <table style="width: 800px; margin:50px; @fontFamily">
+    <table style="width: 900px; margin:50px; @fontFamily">
         <tr>
             <td>
                 @Html.PropertyFor(x => x.CurrentPage.MainBody)
@@ -30,7 +30,9 @@
                             <tr>
                                 <td style="@cellPadding">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
                                 <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
+                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Unit")</td>
                                 <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Price")</td>
+                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Discount")</td>
                                 <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Total")</td>
                             </tr>
                         </thead>
@@ -39,30 +41,35 @@
                             {
                                 <tr>
                                     <td style="@horizontalLineStyle @cellPadding"><a href="@lineItem.GetFullUrl()">@lineItem.DisplayName</a></td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">
-                                        @lineItem.Quantity.ToString("0")
-                                    </td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(Model.ItemPrices[lineItem.Id]).ToString()</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.ExtendedPrice).ToString()</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.Quantity.ToString("0")</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.PlacedPrice).ToString()</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.PlacedPriceTotal().ToString()</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.LineItemDiscountAmount).ToString()</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ExtendedPriceTotal().ToString()</td>
                                 </tr>
                             }
                             <tr>
-                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">- @Html.Translate("/OrderConfirmationMail/OrderLevelDiscounts")</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.OrderLevelDiscountTotal.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.HandlingTotal.ToString()</td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.ShippingTotal.ToString()</td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/TaxCost")</td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.TaxTotal.ToString()</td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="@horizontalLineStyle @cellPadding"></td>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding"><strong>@Html.Translate("/OrderConfirmationMail/Total")</strong></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding"><strong>@Model.CartTotal.ToString()</strong></td>
                             </tr>

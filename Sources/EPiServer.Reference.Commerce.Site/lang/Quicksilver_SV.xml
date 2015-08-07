@@ -158,7 +158,10 @@
     <OrderConfirmationMail>
       <OrderDate>Orderdatum:</OrderDate>
       <DisplayName>Visningsnamn</DisplayName>
+      <Discount>Rabatt</Discount>
+      <OrderLevelDiscounts>Ytterligare rabatter</OrderLevelDiscounts>
       <Quantity>Antal</Quantity>
+      <UnitPrice>Styckespris</UnitPrice>
       <Price>Pris</Price>
       <LineItemTotal>Total</LineItemTotal>
       <HandlingCost>Administrationsavgift</HandlingCost>

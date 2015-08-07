@@ -64,6 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [HttpPost]
         public ActionResult AddToCart(string code)
         {
+            ModelState.Clear();
             string warningMessage = null;
 
             if (_cartService.AddToCart(code, out warningMessage))
@@ -79,35 +80,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [HttpPost]
         public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
-            string warningMessage = null;
+            ModelState.Clear();
 
             if (quantity > 0)
             {
-                if (size == newSize || (newSize == null))
+                if (size == newSize)
                 {
                     _cartService.ChangeQuantity(code, quantity);
                 }
                 else
                 {
-                    string newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-
-                    if (newCode != null)
-                    {
-                        IEnumerable<CartItem> existingItems = _cartService.GetCartItems();
-                        decimal existingQuantity = existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
-                        quantity += existingItems.Where(x => x.Code == newCode).Sum(x => x.Quantity);
-                        _cartService.RemoveLineItem(code);
-
-                        if (existingQuantity == 0)
-                        {
-                            _cartService.AddToCart(newCode, out warningMessage);
-                        }
-
-                        if (quantity > 1)
-                        {
-                            _cartService.ChangeQuantity(newCode, quantity);
-                        }
-                    }
+                    var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
+                    _cartService.UpdateLineItemSku(code, newCode, quantity);
                 }
             }
             else
