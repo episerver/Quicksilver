@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Linq;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
 using EPiServer.Web.Routing;
 using FluentAssertions;
@@ -13,6 +12,7 @@ using Moq;
 using System.Collections;
 using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
@@ -67,8 +67,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var expectedModel = new MarketViewModel()
             {
                ContentLink = _contentLink,
-               CurrentMarket = _currentMarket,
-               Markets = markets
+               MarketId = _currentMarket.MarketId.Value,
+               Markets = markets.Select(x => new SelectListItem
+               {
+                   Selected = false,
+                   Text = x.MarketName,
+                   Value = x.MarketId.Value
+               })
             };
 
             _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
@@ -86,11 +91,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, disabledMarket };
             _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            
+            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+
             var subject = CreateController();
             var result = subject.Index(_contentLink);
             var model = ((ViewResultBase)result).Model as MarketViewModel;
-            CollectionAssert.AreEquivalent(new[] { _currentMarket }, model.Markets.ToList());
+            model.Markets.ShouldBeEquivalentTo(new[] { _currentMarket }.Select(x => new SelectListItem { Text = x.MarketName, Value = x.MarketId.Value}));
         }
 
         [TestMethod]
@@ -100,16 +106,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
             _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            
+            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+
             var subject = CreateController();
             var result = subject.Index(_contentLink);
             var model = ((ViewResultBase)result).Model as MarketViewModel;
-            Assert.AreEqual<MarketImpl>( _currentMarket, (MarketImpl)model.Markets.ToList().First());
+            Assert.AreEqual<string>( _currentMarket.MarketId.Value, model.Markets.ToList().First().Value);
         }
         
         [TestMethod]
         public void Index_ShouldReturnPartialViewResultType()
         {
+            IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
+            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);
@@ -119,6 +130,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         [TestMethod]
         public void Index_ShouldReturnModelType()
         {
+            IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
+            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);

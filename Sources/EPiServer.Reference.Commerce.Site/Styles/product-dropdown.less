@@ -1,0 +1,125 @@
+// Shared between the quicksearch and the cart
+
+@product-dropdown-bg: #fff;
+
+.product-dropdown-container {
+    border: 1px solid @gray-lighter;
+    border-radius: 4px;
+    display: none;
+    z-index: 10000;
+
+    &.js-cart-container { display: block; }
+
+    &.dropdown-menu {
+        padding: 0;
+    }
+
+    &.cart-dropdown-container { top: 75px; }
+}
+
+.product-dropdown {
+    background-color: @product-dropdown-bg;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+
+    &.product-row {
+        .product-row {
+            &:hover {
+                background-color: lighten(@gray-base, 98.5%);
+                transition: background-color .2s;
+            }
+            &__item {
+                &__image {
+                    max-width: 60px;
+                }
+                &__price {
+                    display: inline-block;
+                    float: right;
+                    margin-left: @padding-base-horizontal;
+
+                    &.product-price {
+                        &--discount { clear: right; }
+                    }
+                }
+                &__brand {
+                    clear: left;
+                }
+                &__description {
+                    clear: left;
+                    color: @product-dropdown-bg;
+                    display: block;
+                    height: auto;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: .15s ease-out;
+                }
+            }
+        }
+    }
+
+    &.cart-dropdown {
+        .cart-dropdown__button-list {
+            li {
+                padding: 10px;
+
+                &:last-child { padding-top: 0; }
+            }
+        }
+        .product-row__item__image { max-width: 100px; }
+    } 
+}
+
+.cart-control { padding: 5px; }
+
+
+// Palm only
+@media (max-width: @screen-xs-max) {
+    .product-dropdown.product-row {
+        .product-row__item__title { font-size: 20px; }
+        .product-row__item__price {
+            clear: left;
+            display: block;
+        }
+
+    }
+}
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    .product-dropdown-container {
+        max-width: 500px;
+        overflow: auto;
+        position: absolute;
+        right: 0;
+        top: 37px;
+    }
+    .search-dropdown { max-height: 500px; }
+
+    .product-dropdown {
+        &.product-row {
+            .product-item:hover .product-row__item__description {
+                color: @text-color;
+                max-height: 40px;
+            }
+            .product-row__item {
+                &__title {
+                    float: left;
+                }
+            }
+        }
+
+        &.cart-dropdown {
+            .cart-dropdown__product-container {
+                max-height: 400px;
+                overflow: auto;
+            }
+        }
+    }
+}
+
+// Desktop and up
+@media (min-width: @screen-lg-min) {
+
+}

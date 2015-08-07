@@ -2,9 +2,9 @@
 @{
     Layout = null;
 }
-<div class="col-md-3 jsSearchFacets">
+<div class="col-sm-3 jsSearchFacets">
     <p class="select-label">@Html.Translate("/Category/SortBy")</p>
-    @Html.DropDownList("FormModel.Sort", Model.Sorting, new { @class = "form-control jsSearchSort" })
+    @Html.DropDownList("FormModel.Sort", Model.Sorting, new { @class = "form-control jsSearchSort" })<br />
     <div class="section-box product-filtering choices">
         <h3>@Html.Translate("/Category/YourChoices")</h3>
         <ul class="nav">

@@ -96,13 +96,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
         public virtual PageReference ResetPasswordPage { get; set; }
 
         [Display(
-            Name = "Reset link password page",
-            Description = "",
-            GroupName = SiteTabs.SiteStructure,
-            Order = 7)]
-        public virtual PageReference ResetPasswordLinkPage { get; set; }
-
-        [Display(
             Name = "Order confirmation mail",
             Description = "",
             GroupName = SiteTabs.MailTemplates,

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Page;
-using Mediachase.Commerce.Orders;
+﻿using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
+using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models
 {
-    public class OrderHistoryViewModel
+    public class OrderHistoryViewModel : PageViewModel<OrderHistoryPage>
     {
-        public OrderHistoryPage CurrentPage { get; set; }
         public List<Order> Orders { get; set; }
     }
 }

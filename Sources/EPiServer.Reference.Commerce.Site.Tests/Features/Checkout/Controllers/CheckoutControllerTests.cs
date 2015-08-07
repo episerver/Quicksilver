@@ -2,19 +2,19 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
-using EPiServer.Reference.Commerce.Site.Features.Cart;
-using EPiServer.Reference.Commerce.Site.Features.Checkout;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce.Website.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 {
@@ -63,12 +63,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 RequestContext = _requestContext.Object
             };
 
-            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null,null, _controllerExceptionHandler.Object);
+            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null,null, _controllerExceptionHandler.Object,null);
         }
 
         private CheckoutControllerForTest CreateTestController()
         {
-            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object);
+            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null);
         }
 
         private void Setup_RequestContext_to_contain_routed_data(object rotedData)
@@ -86,8 +86,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 
         private class CheckoutControllerForTest : CheckoutController
         {
-            public CheckoutControllerForTest(ICartService cartService, IContentRepository contentRepository, UrlResolver urlResolver, IMailService mailService, ICheckoutService checkoutService, IContentLoader contentLoader, IPaymentService paymentService, LocalizationService localizationService, Func<CartHelper> cartHelper, CurrencyService currencyService, AddressBookService addressBookService, ControllerExceptionHandler controllerExceptionHandler)
-                : base(cartService, contentRepository, urlResolver, mailService, checkoutService, contentLoader, paymentService, localizationService, cartHelper, currencyService, addressBookService, controllerExceptionHandler)
+            public CheckoutControllerForTest(ICartService cartService, IContentRepository contentRepository, UrlResolver urlResolver, IMailService mailService, ICheckoutService checkoutService, IContentLoader contentLoader, IPaymentService paymentService, LocalizationService localizationService, Func<string,CartHelper> cartHelper, CurrencyService currencyService, AddressBookService addressBookService, ControllerExceptionHandler controllerExceptionHandler, CustomerContextFacade customerContextFacade)
+                : base(cartService, contentRepository, urlResolver, mailService, checkoutService, contentLoader, paymentService, localizationService, cartHelper, currencyService, addressBookService, controllerExceptionHandler,customerContextFacade)
             {
             }
 

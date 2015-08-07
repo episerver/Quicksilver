@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
@@ -26,6 +25,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 {
@@ -36,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         public void Index_WhenCurrentPageAndReturnUrl_ShouldCreateViewModel()
         {
             var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
+            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
             Assert.IsNotNull(result);
         }
@@ -45,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         public void Index_WhenCurrentPageAndReturnUrl_ShouldPassPageToViewModel()
         {
             var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
+            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
             Assert.AreEqual(page, result.CurrentPage);
         }
@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         public void Index_WhenCurrentPageAndReturnUrl_ShouldPassUrlToViewModel()
         {
             var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel<LoginRegistrationPage>;
+            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
             Assert.AreEqual(_testUrl, result.LoginViewModel.ReturnUrl);
         }
@@ -353,7 +353,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _contentLoaderMock = new Mock<IContentLoader>();
             _userManagerMock = new Mock<ApplicationUserManager>(userStore.Object);
             _signinManagerMock = new Mock<ApplicationSignInManager>(_userManagerMock.Object, authenticationManager.Object);
-            _userServiceMock = new Mock<UserService>(_userManagerMock.Object, _signinManagerMock.Object, authenticationManager.Object, localizationService);
+            _userServiceMock = new Mock<UserService>(_userManagerMock.Object, _signinManagerMock.Object, authenticationManager.Object, localizationService, customercontextFacadeMock.Object);
 
             request.Setup(
                 x => x.Url)

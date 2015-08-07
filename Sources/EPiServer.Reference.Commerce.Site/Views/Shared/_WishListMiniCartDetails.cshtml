@@ -1,0 +1,70 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.WishListMiniCartViewModel
+
+<div class="product-dropdown cart-dropdown product-row list-unstyled">
+
+    <input type="hidden" id="CartItemCount" value="@Model.ItemCount.ToString("0.####")" />
+    <input type="hidden" id="CartTotalAmount" value="@Model.Total.ToString()" />
+
+    <div class="cart-dropdown__product-container">
+        <ul class="list-unstyled">
+            @foreach (var cartItem in Model.CartItems)
+            {
+                <li class="list-group-item product-item @cartItem.Code">
+                    @using (Html.BeginForm("ChangeCartItem", "WishList", FormMethod.Post, new { data_container = "WishListMiniCart" }))
+                    {
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="@cartItem.Url"><img src="@(cartItem.Variant.GetDefaultAsset<IContentImage>())" alt="@cartItem.DisplayName" class="media-object product-row__item__image" /></a>
+                            </div>
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="@cartItem.Url" class="link--black"><h4 class="product-row__item__title">@cartItem.DisplayName</h4></a>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
+                                        {
+                                            var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
+                                            var size = fashionVariant.Size;
+                                            @Html.Hidden("size", size)
+                                            
+                                            <strong>@Html.Translate("/ProductPage/Size")</strong>
+                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
+                                        }
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
+                                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control cart-control form-quantity jsChangeCartItem" })
+                                    </div>
+                                    <div class="col-md-4 text-right product-col-price">
+                                        <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
+                                    </div>
+                                    <div class="col-md-2 product-col-remove">
+                                        <button role="button" class="btn btn-gray-light btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.Hidden("code", cartItem.Code)
+                            @Html.Hidden("miniCart", true)
+                        </div>
+                    }
+                </li>
+                }
+            </ul>
+        </div>
+        <div>
+            <ul class="list-unstyled cart-dropdown__button-list">
+
+                <li class="cart-item">
+                    <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
+                </li>
+                <li class="cart-item">
+                    <button type="button" class="btn btn-block" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+                </li>
+            </ul>
+        </div>
+    </div>

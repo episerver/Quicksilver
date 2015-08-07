@@ -12,14 +12,8 @@ using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
 {
-    /// <summary>
-    /// An application user built for the ASP.NET Identity framework.
-    /// </summary>
     public class ApplicationUser : IdentityUser
     {
-        /// <summary>
-        /// Default public constructor.
-        /// </summary>
         public ApplicationUser()
         {
         }
@@ -67,46 +61,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Models
             }
         }
 
-        /// <summary>
-        /// Gets or sets the user's order addresses.
-        /// </summary>
         [NotMapped]
         public List<CustomerAddress> Addresses { get; set; }
 
-        /// <summary>
-        /// Gets or sets the first name.
-        /// </summary>
         [NotMapped]
         public string FirstName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the last name.
-        /// </summary>
         [NotMapped]
         public string LastName { get; set; }
 
-        /// <summary>
-        /// Gets the source from which the user's details where originally collected.
-        /// </summary>
         [NotMapped]
         public string RegistrationSource { get; set; }
 
-        /// <summary>
-        /// Gets or sets the user's password.
-        /// </summary>
         [NotMapped]
         public string Password { get; set; }
 
-        /// <summary>
-        /// Gets or sets whether the user subscribes to News letter or not.
-        /// </summary>
         public bool NewsLetter { get; set; }
 
-        /// <summary>
-        /// Creates and returns a ClaimsIdentity asynchronously.
-        /// </summary>
-        /// <param name="manager">An instance of the site's UserManager.</param>
-        /// <returns>Returns a ClaimsIdentity for the user.</returns>
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

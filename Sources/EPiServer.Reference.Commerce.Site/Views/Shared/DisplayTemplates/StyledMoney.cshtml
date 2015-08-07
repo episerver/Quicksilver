@@ -1,0 +1,3 @@
+﻿@model Mediachase.Commerce.Money
+
+@Html.Raw(Model.ToString().Replace(Model.Currency.Format.CurrencySymbol, @"<span class=""product-price__currency-marker"">" + Model.Currency.Format.CurrencySymbol + "</span>"))

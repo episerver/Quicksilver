@@ -20,7 +20,7 @@
                 <h4>- @Model.OrderDiscountTotal.ToString()</h4>
                 @foreach (var discount in Model.OrderDiscounts)
                 {
-                    @discount.Discount.ToString()<br />
+                   <span>- </span> @discount.Discount.ToString()<br />
                 }
             </td>    
         </tr>

@@ -5,7 +5,7 @@ using EPiServer.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Profile.Pages
 {
-    [ContentType(DisplayName = "ProfilePage", GUID = "c8d44748-62e6-4121-9bdb-f5574263f007", Description = "", AvailableInEditMode = false)]
+    [ContentType(DisplayName = "Profile page", GUID = "c8d44748-62e6-4121-9bdb-f5574263f007", Description = "", AvailableInEditMode = false)]
     public class ProfilePage : PageData
     {
         [CultureSpecific]

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Login;
+﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
 {
@@ -28,25 +28,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
             _userManager = applicationUserManager;
             _userService = userService;
         }
-        /// <summary>
-        /// Gets the user service used for working with user accounts.
-        /// </summary>
+
         public UserService UserService
         {
             get { return _userService; }
         }
 
-        /// <summary>
-        /// The SignInManager sued when signing in users to their existing accounts.
-        /// </summary>
         public ApplicationSignInManager SignInManager
         {
             get { return _signInManager; }
         }
 
-        /// <summary>
-        /// The ApplicationUserManager used for creating new and retrieving existing users.
-        /// </summary>
         public ApplicationUserManager UserManager
         {
             get { return _userManager; }
@@ -67,10 +59,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
             return RedirectToAction("Index", new { node = ContentReference.StartPage });
         }
 
-        /// <summary>
-        /// Sign out the current user and redirects to the web site start page.
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult SignOut()
         {
@@ -78,16 +66,40 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
             return RedirectToAction("Index", new { node = ContentReference.StartPage });
         }
 
-        /// <summary>
-        /// Adds any existing authentication errors to the ModelState.
-        /// </summary>
-        /// <param name="errors">The errors to be added.</param>
         public void AddErrors(IEnumerable<string> errors)
         {
             foreach (var error in errors)
             {
                 ModelState.AddModelError(string.Empty, error);
             }
+        }
+
+        private bool _disposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing || _disposed)
+            {
+                return;
+            }
+
+            if (_userManager != null)
+            {
+                _userManager.Dispose();
+            }
+
+            if (_signInManager != null)
+            {
+                _signInManager.Dispose();    
+            }
+
+            if (_userService != null)
+            {
+                _userService.Dispose();
+            }
+
+            base.Dispose(disposing);
+
+            _disposed = true;
         }
     }
 }

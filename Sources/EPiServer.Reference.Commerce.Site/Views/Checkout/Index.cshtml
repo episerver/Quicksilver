@@ -7,8 +7,11 @@
     }
 }
 
-<div class="container-fluid">
-    <div class="row checkout jsCheckout">
+<div class="container-fluid" id="CheckoutView">
+
+    @using (Html.BeginForm("Index", "Checkout", FormMethod.Get, new { id = "CheckoutViewRefreshForm" })) { }
+
+    <div class="row section-box checkout jsCheckout">
         <div class="col-xs-12">
             <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
             <h4>@Html.Translate("/Checkout/Coupons/Heading")</h4>
@@ -30,20 +33,39 @@
                     <button role="button" onclick="window.location.href='@Model.ReferrerUrl'" class="btn btn--blue"><i class="glyphicon glyphicon-arrow-left"></i> @Html.Translate("/Checkout/Continue/Button")</button>
                 </div>
             </div>
-            @{ Html.RenderAction("LargeCart", "Cart"); }
-            @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
-            {
-                { Html.RenderPartial("Address", Model); }
-
-                <div class="section-box">
-                    <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
-                </div>
-
-                 { Html.RenderPartial("Payment", Model); }
-                 { Html.RenderAction("OrderSummary"); }
-
-                <button type="submit" class="btn btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-            }
         </div>
     </div>
+    <div class="row section-box">
+        <div class="col-xs-12">
+            @{ Html.RenderAction("LargeCart", "Cart"); }
+        </div>
+    </div>
+
+@if (!String.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">@Model.ErrorMessage</div>
+            }
+
+    @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
+    {
+    <div class="row section-box">
+        <div class="col-xs-12">
+            @{ Html.RenderPartial("Address", Model); }
+        </div>
+    </div>
+    <div class="row section-box">
+        <div class="col-xs-12">
+            <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
+
+            @{ Html.RenderPartial("Payment", Model); }
+        </div>
+    </div>
+    <div class="row section-box">
+        <div class="col-xs-12">
+            @{ Html.RenderAction("OrderSummary"); }
+
+            <button type="submit" class="btn btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
+        </div>
+    </div>
+    }
 </div>

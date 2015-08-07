@@ -33,8 +33,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             if (product != null)
             {
                 // Note: If this product is placed in more than one category, we might pick the wrong category here
-                var node = _contentLoader.Get<NodeContent>(content.ParentLink);
-                return Content(FormatTitle(string.Format("{0} - {1}", product.SeoInformation.Title.NullIfEmpty() ?? product.DisplayName, node.SeoInformation.Title.NullIfEmpty() ?? node.DisplayName)));
+                var parentContent = _contentLoader.Get<CatalogContentBase>(content.ParentLink);
+                
+                var node = parentContent as NodeContent;
+                string title = null;
+                if (node != null)
+                {
+                    title = node.SeoInformation.Title.NullIfEmpty() ?? node.DisplayName;
+                }
+                else
+                {
+                    title = parentContent.Name;
+                }
+                return Content(FormatTitle(string.Format("{0} - {1}", product.SeoInformation.Title.NullIfEmpty() ?? product.DisplayName, title)));
             }
 
             var category = content as NodeContent;

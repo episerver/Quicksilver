@@ -15,10 +15,15 @@
                         @Html.Translate("/AddressBook/AddNew/Header")
                     }
                 </h2>
-                <div class="alert-danger">@Model.Address.ErrorMessage</div>
+                
+                if (!String.IsNullOrEmpty(Model.Address.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Model.Address.ErrorMessage</div>
+                }
+                
                 <div class="form-group">
                     @Html.LabelFor(x => x.Address.Name)
-                    @Html.TextBoxFor(x => x.Address.Name, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.Address.Name, new { @class = "form-control", autofocus = "autofocus" })
                     @Html.ValidationMessageFor(x => x.Address.Name)
                 </div>
                 <div class="row">

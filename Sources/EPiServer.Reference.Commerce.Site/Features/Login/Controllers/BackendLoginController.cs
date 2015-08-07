@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using EPiServer.Framework.Localization;
+﻿using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
-using EPiServer.Security;
 using Microsoft.AspNet.Identity.Owin;
-using System.Web.Security;
+using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -53,15 +51,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             return View(viewModel);
         }
 
-        /// <summary>
-        /// Authenticates a user's password and username.
-        /// </summary>
-        /// <param name="viewModel">View model holding the user's credentials.</param>
-        /// <returns>If the login is successfull </returns>
         [HttpPost]
         public async Task<ActionResult> Index(BackendLoginViewModel viewModel)
         {
-            var returnUrl = !string.IsNullOrEmpty(viewModel.ReturnUrl) ? viewModel.ReturnUrl : "/";
+            var returnUrl = !string.IsNullOrEmpty(viewModel.ReturnUrl) ? viewModel.ReturnUrl : UrlHelper.GenerateContentUrl("~/", ControllerContext.HttpContext);
 
             if (!ModelState.IsValid)
             {
@@ -82,17 +75,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     ModelState.AddModelError("Password", _localizationService.GetString("/Login/Form/Error/WrongPasswordOrEmail"));
                     return PartialView("Index", viewModel);
             }
-
-            var returnUri = new Uri(returnUrl);
-            var authorized = _urlAuthorization.CheckUrlAccessForPrincipal(returnUri.IsAbsoluteUri ?
-                returnUri.AbsolutePath : returnUri.ToString());
-            if (!authorized)
-            {
-                viewModel.Heading = _localizationService.GetString("/Login/BackendLogin/Heading");
-                viewModel.LoginMessage = _localizationService.GetString("/Login/BackendLogin/LoginMessage");
-                return PartialView("Index", viewModel);
-            }
-
+            
             // As a security concern in order to prevent open re-direct attacks we
             // check the return URL to make sure it is within the own site. The method
             // Url.IsLocalUrl does not recognize localhost as true, so to make this work while
@@ -106,7 +89,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             // If the return URL was set to an external address then make sure the call goes to the
             // start page of the site instead.
             return RedirectToAction("Index", new { node = Core.ContentReference.StartPage });
-
         }
     }
 }

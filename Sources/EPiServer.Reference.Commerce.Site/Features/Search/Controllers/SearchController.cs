@@ -1,5 +1,6 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
 

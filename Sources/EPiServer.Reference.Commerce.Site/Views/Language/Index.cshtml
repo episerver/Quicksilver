@@ -1,15 +1,7 @@
 ﻿@using EPiServer.Web.Routing
 @model EPiServer.Reference.Commerce.Site.Features.Market.Models.LanguageViewModel
 
-        <li class="jsLanguageSelector">
-            <button type="button" class="btn dropdown-toggle link--white" data-toggle="dropdown" aria-expanded="false">
-                @Model.CurrentLanguage.DisplayName <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                @foreach (var language in Model.Languages.OrderBy(x => x.DisplayName))
-                {
-                    <li><a href="#" data-url="@Url.Action("Set", "Language", new { contentLink = @Model.ContentLink })" data-language="@language.Name">@language.DisplayName</a></li>
-                }
-            </ul>
-        </li>              
-
+@using (Html.BeginForm("Set", "Language", new { contentLink = @Model.ContentLink }))
+{
+    @Html.DropDownListFor(x => x.Language, Model.Languages, new { @class = "form-control input-sm jsLanguageSelector" })
+}

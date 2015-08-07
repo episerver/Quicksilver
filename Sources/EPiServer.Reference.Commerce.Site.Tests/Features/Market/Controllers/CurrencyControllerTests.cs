@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
+using FluentAssertions;
 using Mediachase.Commerce;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
@@ -35,9 +34,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var model = ((ViewResultBase)result).Model as CurrencyViewModel;
 
-            Assert.AreEqual<Currency>(new Currency("USD"), model.CurrentCurrency);
-            CollectionAssert.AreEquivalent(
-                new []{ new Currency("USD"), new Currency("SEK") }, model.Currencies.ToList());
+            Assert.AreEqual<Currency>(new Currency("USD"), model.CurrencyCode);
+            model.Currencies.ShouldBeEquivalentTo(new[] 
+            { 
+                new Currency("USD"), 
+                new Currency("SEK") 
+            }
+            .Select(x => new SelectListItem
+            { 
+                Text = x.CurrencyCode, 
+                Value = x.CurrencyCode 
+            }));
         }
 
         [TestMethod]

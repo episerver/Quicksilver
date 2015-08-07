@@ -1,139 +1,132 @@
 ﻿var Cart = {
-    init: function() {
+    init: function () {
+
         $(document)
-            .on('focusout', '.jsQuantity', Cart.changeQuantityOnFocusout)
-            .on('submit', '.jsQuantitySubmit', Cart.changeQuantityOnSubmit)
-            .on('click', '.jsRemoveLineItem', Cart.removeLineItem)
-            .on('change', '.jsMiniCartQuantity', Cart.changeQuantityMiniCart)
-            .on('submit', '.jsAddToCart', Cart.addToCart)
-            .on('submit', '.jsAddToWishList', Cart.addToWishList)
-            .on('submit', '.jsRemoveFromWishList', Cart.removeFromWishlist)
-            .on('click', '.jsCartDropdown', function(e) {
-                return $(e.target).hasClass('btn');
+            .on('click', '.jsRemoveCartItem', Cart.removeCartItem)
+            .on('change', '.jsChangeCartItem', Cart.changeCartItem)
+            .on('click', '.jsAddToCart', Cart.addCartItem)
+            .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
+            .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
+            .on('click', '.jsCartDropdown', function (e) {
+                return ($(e.target).hasClass('btn') || $(e.target).parent().is('a'));
             });
-        $('#miniCartDropdown').on('show.bs.dropdown', Cart.showingMiniCartDropdown);
+
+        $('.cart-dropdown').on('show.bs.dropdown', function (e) {
+            if ($('#CartItemCount', $(this)).val() == 0) {
+                e.preventDefault();
+            }
+        });
+
     },
-    changeQuantityMiniCart: function(e) {
+    changeCartItem: function (e) {
+
         e.preventDefault();
         var form = $(this).closest("form");
-        if ($('.jsMiniCartQuantity').val() == '')
-            $('.jsMiniCartQuantity').val('0');
-        $.ajax({
-            type: "POST",
-            url: form[0].action,
-            data: form.serialize(),
-            success: function(result) {
+        var quantity = $("#quantity", form).val();
 
-                $('.jsCartDropdown').replaceWith($(result).first());
-                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
-            }
-        });
-    },
-    changeQuantityOnFocusout: function (e) {
-        e.preventDefault();
-        var form = $(this).parent();
-        Cart.changeQuantity(form);
-    },
-    changeQuantityOnSubmit: function (e) {
-        e.preventDefault();
-        var form = $(this);
-        Cart.changeQuantity(form);
-    },
-    changeQuantity: function (form) {
+        if (parseInt(quantity, 10) < 0) {
+            return;
+        }
+
+        var formContainer = $("#" + form.data("container"));
         $.ajax({
             type: "POST",
             url: form[0].action,
             data: form.serialize(),
             success: function (result) {
-                $('.jsLargeCart').replaceWith($(result).filter('.jsLargeCart'));
-                Checkout.updateOrderSummary();
+
+                formContainer.html($(result));
+                $('.cartItemCountLabel', formContainer.parent()).text($('#CartItemCount', formContainer).val());
+                $('.cartTotalAmountLabel', formContainer.parent()).text($('#CartTotalAmount', formContainer).val());
+
+                formContainer.change();
+
+                if (formContainer.is($('#WishListMiniCart'))) {
+                    // If items where removed from the wishlist cart from the wishlist view, they should be removed from the view.
+                    var wishListAction = form.closest(".wishlist-actions");
+                    if (wishListAction.length > 0) {
+                        wishListAction.parent().remove();
+                    }
+                }
             }
         });
+
     },
-    removeLineItem: function(e) {
+    removeCartItem: function (e) {
+
         e.preventDefault();
         var form = $(this).closest('form');
-        var lineItemRow = $(this).closest('.jsLineItemRow');
-        lineItemRow.hide();
+        $("#quantity", form).val(0).change();
+
+    },
+    addCartItem: function (e) {
+
+        e.preventDefault();
+        var form = $(this).closest("form");
+        var formContainer = $("#" + form.data("container"));
+        var skuCode = $("#code", form).val();
+
+        $("#CartWarningMessage").hide()
+        $(".warning-message", $("#CartWarningMessage")).html("");
+
         $.ajax({
             type: "POST",
             url: form[0].action,
-            data: form.serialize(),
-            success: function(result) {
-                $('.jsLargeCart').replaceWith($(result).filter('.jsLargeCart'));
-                Checkout.updateOrderSummary();
-                Cart.updateMiniCartSummary();
+            data: { code: skuCode },
+            success: function (result) {
+
+                formContainer.html($(result));
+                $('.cartItemCountLabel', formContainer.parent()).text($('#CartItemCount', formContainer).val());
+                $('.cartTotalAmountLabel', formContainer.parent()).text($('#CartTotalAmount', formContainer).val());
+
+                formContainer.change();
+
+                if (formContainer.is($('#MiniCart'))) {
+                    // If items where added to the cart from the wishlist view, they should be removed from the view.
+                    var wishListAction = form.closest(".wishlist-actions");
+                    if (wishListAction.length > 0) {
+                        wishListAction.closest(".product").remove();
+                    }
+
+                    // If items were added to the cart while the same item exists in the wishlist, they should be removed
+                    // from the wishlist.
+                    var wishListItems = $("." + skuCode, $('#WishListMiniCart'));
+                    if (wishListItems.length > 0) {
+                        Cart.refreshWishList();
+                    }
+                }
             },
-            error: function () {
-                lineItemRow.show();
+            error: function (xhr, status, error) {
+                $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
+                $("#CartWarningMessage").show();
             }
         });
     },
-    updateMiniCartSummary: function() {
+    refreshWishList: function () {
+
         $.ajax({
             type: "GET",
-            url: $('.jsCartToggle').data('url'),
+            url: "/WishList/WishListMiniCartDetails",
+            cache: false,
             success: function (result) {
-                $('.jsCartDropdown').replaceWith($(result).first());
-                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
+                var formContainer = $('#WishListMiniCart');
+                formContainer.html($(result));
+                $('.cartItemCountLabel', formContainer.parent()).text($('#CartItemCount', formContainer).val());
             }
         });
-    },
-    addToCart: function(e) {
-        e.preventDefault();
-        var form = $(this);
-        $.ajax({
-            type: "POST",
-            url: form[0].action,
-            data: form.serialize(),
-            context: this,
-            success: function(result) {
-                $('.jsCartDropdown').replaceWith($(result).first());
-                $('.jsCartToggle').trigger("click");
-                $('.jsCartItemCount').text($('.jsCartDropdown').data('item-count'));
 
-                var isWishList = $(this).data('iswishlist');
-                if (isWishList) {
-                    $(this).closest('.jsProductTile').remove();
-                }
-            }
-        });
     },
-    addToWishList: function(e) {
-        e.preventDefault();
-        var form = $(this);
-        $.ajax({
-            type: "POST",
-            url: form[0].action,
-            data: form.serialize(),
-            success: function (result) {
-                $('.jsWishListResult').text(result.message);
-                $('.jsWishListResult').show();
+    removeFromWishlist: function (e) {
 
-                if (result.added) {
-                    $('.jsWishListResult').addClass("alert-info");
-                } else {
-                    $('.jsWishListResult').addClass("alert-warning");
-                }
-            }
-        });
-    },
-    removeFromWishlist: function(e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
             url: this.action,
             data: $(this).serialize(),
             context: this,
-            success: function() {
+            success: function () {
                 $(this).closest('.jsProductTile').remove();
             }
         });
-    },
-    showingMiniCartDropdown: function (e) {
-        if ($('.jsCartDropdown').data('item-count') == 0) {
-            //if there are no items in the cart, don't show the dropdown
-            e.preventDefault();
-        }
     }
 };

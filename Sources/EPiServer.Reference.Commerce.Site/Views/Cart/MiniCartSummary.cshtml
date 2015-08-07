@@ -1,8 +1,0 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.MiniCartViewModel
-
-<div class="cart-button-wrapper jsCart">
-    <div class="btn-group" id="miniCartDropdown">
-        <button class="btn btn--green cart-button dropdown-toggle jsCartToggle" data-toggle="dropdown" aria-expanded="false" data-url="@Url.Action("MiniCartDetails")" id="cartDropDown"><span class="counter counter--small jsCartItemCount">@Model.ItemCount.ToString("F0")</span></button>
-        @{ Html.RenderPartial("MiniCartDetails", Model); }
-    </div>
-</div>

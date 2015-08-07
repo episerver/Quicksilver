@@ -14,12 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
     {
         private static Injected<AssetUrlResolver> _assetUrlResolver;
 
-        /// <summary>
-        /// Return the relative path to the default asset of an asset container.
-        /// </summary>
-        /// <typeparam name="TContentMedia">Type of the media, inherited from IContentMedia.</typeparam>
-        /// <param name="assetContainer">The content implements IAssetContainer interface.</param>
-        /// <returns></returns>
         public static string GetDefaultAsset<TContentMedia>(this IAssetContainer assetContainer)
             where TContentMedia : IContentMedia
         {

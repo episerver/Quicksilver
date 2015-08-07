@@ -1,5 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook;
-using System;
+﻿using System;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
@@ -7,6 +6,7 @@ using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 {

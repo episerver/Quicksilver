@@ -1,8 +1,8 @@
 ﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Cart;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using FluentAssertions;
 using Mediachase.Commerce;
@@ -68,68 +68,40 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         }
 
         [TestMethod]
-        public void AddToCart_WhenAddingToCart_ShouldCallAddToCartOnCartService()
-        {
-            _subject.AddToCart("Code 1");
-            _cartServiceMock.Verify(s => s.AddToCart("Code 1"));
-        }
-
-        [TestMethod]
         public void AddToCart_WhenAddingToCart_ShouldCallRemoveItemOnWishlistService()
         {
             _subject.AddToCart("Code 1");
-            _wishListServiceMock.Verify(s => s.RemoveItem("Code 1"));
+            _wishListServiceMock.Verify(s => s.RemoveLineItem("Code 1"));
         }
 
         [TestMethod]
-        public void ChangeQuantity_WhenChangeQuantity_ShouldCallChangeQuantityOnCartService()
+        public void ChangeCartItem_WhenChangeQuantity_ShouldCallChangeQuantityOnCartService()
         {
-            _subject.ChangeQuantity("Code 1", 7);
+            _subject.ChangeCartItem("Code 1", 7, null, null);
             _cartServiceMock.Verify(s => s.ChangeQuantity("Code 1", 7));
         }
 
         [TestMethod]
-        public void ChangeQuantity_WhenMiniCartTrue_ShouldRedirectMiniCartDetails()
+        public void ChangeCartItem_WhenQuantityIsZero_ShouldCallRemoveLineItemOnCartService()
         {
-            var result = _subject.ChangeQuantity("Code 1", 7, true);
-            var redirectResult = result as RedirectToRouteResult;
-            Assert.AreEqual<string>("MiniCartDetails", (string)redirectResult.RouteValues["action"]);
-        }
-
-        [TestMethod]
-        public void ChangeQuantity_WhenMiniCartIsFalse_ShouldRedirectLargeCart()
-        {
-            var result = _subject.ChangeQuantity("Code 1", 7);
-            var redirectResult = result as RedirectToRouteResult;
-            Assert.AreEqual<string>("LargeCart", (string)redirectResult.RouteValues["action"]);
-        }
-
-        [TestMethod]
-        public void RemoveLineItem_WhenRemoveLineItem_ShouldCallRemoveLineItemOnCartService()
-        {
-            _subject.RemoveLineItem("Code 1");
+            _subject.ChangeCartItem("Code 1", 0, null, null);
             _cartServiceMock.Verify(s => s.RemoveLineItem("Code 1"));
-        }
-
-        [TestMethod]
-        public void RemoveLineItem_WhenRemoveLineItem_ShouldRedirectLargeCart()
-        {
-            var result = _subject.RemoveLineItem("Code 1");
-            var redirectResult = result as RedirectToRouteResult;
-            Assert.AreEqual<string>("LargeCart", (string)redirectResult.RouteValues["action"]);
         }
 
         CartController _subject;
         Mock<IContentLoader> _contentLoaderMock;
         Mock<ICartService> _cartServiceMock;
-        Mock<IWishListService> _wishListServiceMock;
+        Mock<IProductService> _ProductServiceMock;
+        Mock<ICartService> _wishListServiceMock;
 
         [TestInitialize]
         public void Setup()
         {
+            string warningMessage = null;
             _contentLoaderMock = new Mock<IContentLoader>();
             _cartServiceMock = new Mock<ICartService>();
-            _wishListServiceMock = new Mock<IWishListService>();
+            _ProductServiceMock = new Mock<IProductService>();
+            _wishListServiceMock = new Mock<ICartService>();
 
             _contentLoaderMock.Setup(c => c.Get<StartPage>(ContentReference.StartPage))
                 .Returns(new StartPage
@@ -155,12 +127,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             _cartServiceMock.Setup(x => x.ConvertToMoney(270)).Returns(new Money(270, Currency.USD));
             _cartServiceMock.Setup(x => x.GetLineItemsTotalQuantity()).Returns(6);
             _cartServiceMock.Setup(x => x.GetTotal()).Returns(new Money(270, Currency.USD));
+            _cartServiceMock.Setup(x => x.GetSubTotal()).Returns(new Money(270, Currency.USD));
             _cartServiceMock.Setup(x => x.GetTotalDiscount()).Returns(new Money(30, Currency.USD));
-            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<string>())).Verifiable();
+            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<string>(), out warningMessage)).Returns(true).Verifiable();
             _cartServiceMock.Setup(x => x.RemoveLineItem(It.IsAny<string>())).Verifiable();
             _cartServiceMock.Setup(x => x.ChangeQuantity(It.IsAny<string>(), It.IsAny<int>())).Verifiable();
-            _wishListServiceMock.Setup(x => x.RemoveItem(It.IsAny<string>())).Verifiable();
-            _subject = new CartController(_contentLoaderMock.Object, _cartServiceMock.Object, _wishListServiceMock.Object);
+            _wishListServiceMock.Setup(x => x.RemoveLineItem(It.IsAny<string>())).Verifiable();
+            _subject = new CartController(_contentLoaderMock.Object, _cartServiceMock.Object, _wishListServiceMock.Object, _ProductServiceMock.Object);
         }
     }
 }

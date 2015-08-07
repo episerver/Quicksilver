@@ -35,7 +35,7 @@
 	</DockItems>
 </IbnWebControls:McDock>
 <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" TypeName="Mediachase.Commerce.Manager.Apps.Order.ShipmentList"
-        EnablePaging="true" SelectCountMethod="GetTotalOrderCount" SelectMethod="FindOrder" SortParameterName="orderBy" 
+        EnablePaging="true" SelectCountMethod="GetTotalShipmentCount" SelectMethod="FindShipment" SortParameterName="orderBy" 
         StartRowIndexParameterName="startingRecord" MaximumRowsParameterName="recordsToRetrieve" >
     <SelectParameters>
         <asp:ControlParameter Name="selectedWarehouseCode" ControlID="Warehouse" PropertyName="SelectedValue" />

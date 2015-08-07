@@ -3,9 +3,9 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
-namespace EPiServer.Reference.Commerce.Site.Features.Editorial.Blocks
+namespace EPiServer.Reference.Commerce.Site.Features.Folder.Editorial.Blocks
 {
-    [ContentType(DisplayName = "Free Text Block", GUID = "32782B29-278B-410A-A402-9FF46FAF32B9", Description = "")]
+    [ContentType(DisplayName = "Free text block", GUID = "32782B29-278B-410A-A402-9FF46FAF32B9", Description = "")]
     public class FreeTextBlock : BlockData
     {
         [CultureSpecific]

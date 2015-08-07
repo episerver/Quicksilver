@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EPiServer.ServiceLocation;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
+using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 {
@@ -16,7 +17,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 
         public virtual IEnumerable<CustomerAddress> ContactAddresses
         {
-            get { return CustomerContext.Current.CurrentContact.ContactAddresses; }
+            get
+            {
+                if (CustomerContext.Current.CurrentContact == null)
+                {
+                    return Enumerable.Empty<CustomerAddress>();
+                }
+                return CustomerContext.Current.CurrentContact.ContactAddresses;
+            }
         }
 
         public virtual CustomerAddress PreferredBillingAddress

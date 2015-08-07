@@ -1,0 +1,150 @@
+﻿@using System.Web.Optimization
+@using EPiServer.Editor
+@using EPiServer.Security
+@using EPiServer.Web.Routing
+@using EPiServer.Core
+@model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.NavigationViewModel
+@{
+    Layout = null;
+}
+
+<nav class="navbar site-nav" role="navigation">
+    <div class="navbar-header">
+        <div class="container hidden-sm hidden-md hidden-lg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="button" class="btn btn-default menu-toggle collapsed" id="nav-btn" data-toggle="collapse" data-target="#site-nav-dropdown">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>
+                    <button type="button" class="btn btn-default collapsed" id="search-btn" data-toggle="collapse" data-target="#site-search-dropdown">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+                <div class="col-xs-4">
+                    <h1 class="site-logo"><a href="/">Quicksilver</a></h1>
+                </div>
+                <div class="col-xs-4">
+                    @if (Request.LogonUserIdentity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-default collapsed" id="wishlist-btn" data-toggle="collapse" data-target="#wishlist-dropdown">
+                            <span class="glyphicon glyphicon-heart"></span>
+                        </button>
+                    }
+                    <button type="button" class="btn btn-default collapsed" id="cart-btn" data-toggle="collapse" data-target="#cart-dropdown">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation used in all responsive modes -->
+    <div class="collapse navbar-collapse qs-nav-collapse qs-flexbox site-wrapper" id="site-nav-dropdown">
+
+        <div class="container">
+            <div class="row sm-row-1">
+                <div class="col-sm-6 hidden-xs"><h1 class="site-logo"><a href="/">Quicksilver</a></h1></div>
+                <div class="col-sm-6 hidden-xs text-right">
+                    @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
+                    {
+                        <input type="text" placeholder="Search" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                        <div class="jsQuickSearchResult product-dropdown-container search-dropdown"></div>
+                    }
+                </div>
+            </div>
+            <div class="row sm-row-2">
+                @Html.PropertyFor(x => x.StartPage.MainMenu, new { @class = "nav navbar-nav sm-row-3 col-xs-12 col-sm-6 site-menu", @selected = "is-active", @currentPage = Model.CurrentContentLink })
+                <div class="col-sm-6 sm-cart-container">
+                    <div class="nav navbar-right">
+                        <ul class="list-inline text-right sm-row-3-2 hidden-xs shopping-btn-container">
+                            @if (Request.LogonUserIdentity.IsAuthenticated)
+                            {
+                                <li class="cart-dropdown">
+                                    <button type="button" class="btn btn-favorites" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-heart"></span> <span class="counter counter--small cartItemCountLabel">@Model.WishListMiniCart.ItemCount.ToString("F0")</span>
+                                    </button>
+                                    <div id="WishListMiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_WishListMiniCartDetails", Model.WishListMiniCart); }</div>
+                                </li>
+                            }
+                            <li class="cart-dropdown">
+                                <button type="button" class="btn btn-cart" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> <span class="counter counter--small cartItemCountLabel">@Model.MiniCart.ItemCount.ToString("F0")</span><br />
+                                    <span class="cartTotalAmountLabel">@Model.MiniCart.Total.ToString()</span>
+                                </button>
+                                <div id="MiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_MiniCartDetails", Model.MiniCart); }</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Row 3 -->
+            <div class="row sm-row-3">
+                <div class="col-sm-12 xs-site-nav-dropdown">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+                            @Html.PropertyFor(model => model.UserLinks, new { @class = "dropdown-menu", role = "menu" })
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-usd"></span> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <div class="form-group">
+                                        <label for="market">Market</label>
+                                        @{
+                                            Html.RenderAction("Index", "Market", new { contentLink = ViewContext.RequestContext.GetContentLink() });
+                                        }
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <label for="language">Language</label>
+                                        @{
+                                            Html.RenderAction("Index", "Language", new { contentLink = ViewContext.RequestContext.GetContentLink(), language = ViewContext.RequestContext.GetLanguage() });
+                                        }
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <label for="Currency">Currency</label>
+                                        @{
+                                            Html.RenderAction("Index", "Currency");
+                                        }
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.navbar-collapse -->
+    <div class="collapse navbar-collapse xs-search" id="site-search-dropdown">
+        <ul class="nav navbar-nav">
+            <li>
+                @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search" }))
+                {
+                    <div class="form-group">
+                        <input type="text" placeholder="Search" class="form-control form-inline search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                        <div class="jsQuickSearchResult product-dropdown-container" style="display: none;"></div>
+                    </div>
+                }
+            </li>
+        </ul>
+    </div>
+    @if (Request.LogonUserIdentity.IsAuthenticated)
+    {
+        <div class="collapse navbar-collapse xs-search" id="wishlist-dropdown">
+            <div id="WishListMiniCartResponsive" class="cart-button-wrapper">
+                @{ Html.RenderPartial("_WishListMiniCartDetails", Model.WishListMiniCart); }
+            </div>
+        </div>
+    }
+    <div class="collapse navbar-collapse xs-search" id="cart-dropdown">
+        <div id="MiniCartResponsive" class="cart-button-wrapper">
+            @{ Html.RenderPartial("_MiniCartDetails", Model.MiniCart); }
+        </div>
+    </div>
+</nav>

@@ -4,84 +4,89 @@
 @{
     Layout = null;
 }
-<div class="section-box">
-    <h4>@Html.Translate("/Cart/Heading")</h4>
-</div>
+
+<h3>@Html.Translate("/Cart/Heading")</h3>
 
 <div class="checkout-cart jsLargeCart">
     @foreach (var cartItem in Model.CartItems)
     {
-        <div class="media cart-item jsLineItemRow">
-            <div class="media-left">
-                <a href=" @cartItem.Url "><img src=" @cartItem.GetThumbnailUrl() " /></a>
-            </div>
-            <div class="media-body">
-                @using (Html.BeginForm("RemoveLineItem", "Cart", FormMethod.Post, new { @class = "pull-right" }))
-                {
-                    @Html.Hidden("code", cartItem.Code)
-                    <button role="button" class="btn btn-sm jsRemoveLineItem"><i class="glyphicon glyphicon-remove"></i></button>
-                }
-                <p><a href="@cartItem.Url">@cartItem.DisplayName</a></p>
-                <ol class="block-list cart-item__values row">
-                    <li class="col-xs-12 col-md-3">
-                        @if (cartItem.Discounts.Any())
-                        {
-                            foreach (var discount in cartItem.Discounts)
+        bool hasDiscount = (cartItem.Discounts.Any());
+        string productLevelClass = hasDiscount ? "has-discount" : string.Empty;
+        using (Html.BeginForm("ChangeCartItem", "Cart", FormMethod.Post, new { data_container = "MiniCart" }))
+        {
+
+            <div class="row cart-row @productLevelClass">
+                <div class="col-xs-4 col-sm-2">
+                    <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image" /></a>
+                </div>
+                <div class="col-xs-8 col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <a href="@cartItem.Url" class="link--black">@cartItem.DisplayName</a>
+
+                            <span class="product-brand xs-vertical-margin">@cartItem.Brand</span>
+                            @if (cartItem.Discounts.Any())
                             {
-                                <span>@discount.Displayname</span><br />
+                                <span class="product-price">@cartItem.PlacedPrice.ToString()</span>
+                                <span class="product-price product-price--discount xs-vertical-margin">@cartItem.DiscountPrice.ToString()</span>
                             }
-                        }
-                    </li>
-                    <li class="col-xs-12 col-md-3">
-                        <strong>@Html.Translate("/Cart/Labels/Price")</strong>
-                        @if (cartItem.Discounts.Any())
-                        {
-                            <span class="discount-price">@cartItem.DiscountPrice.ToString()</span>
-                            <span class="original-price">(@cartItem.PlacedPrice.ToString())</span>
-                        }
-                        else
-                        {
-                            @cartItem.PlacedPrice.ToString()
-                        }
-                    </li>
-                    <li class="col-xs-12 col-md-3">
-                        <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                        @using (Html.BeginForm("ChangeQuantity", "Cart", FormMethod.Post, new { @class = "form-inline jsQuantitySubmit" }))
-                        {
-                            @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline quantity jsQuantity" })
-                            @Html.Hidden("code", cartItem.Code)
-                        }
-                    </li>
-                    <li class="col-xs-12 col-md-3">
-                        <strong>@Html.Translate("/Cart/Labels/Total")</strong>
-                        @cartItem.ExtendedPrice.ToString()
-                    </li>
-                </ol>
+                            else
+                            {
+                                <span class="product-price xs-vertical-margin">@cartItem.PlacedPrice.ToString()</span>
+                            }
+                        </div>
+                        <div class="col-sm-5">
+
+                            <div class="row">
+
+                                <div class="col-xs-6 xs-vertical-margin">
+                                    <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br />
+
+                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                    @Html.Hidden("code", cartItem.Code)
+
+                                </div>
+                                <div class="col-xs-6 xs-vertical-margin">
+                                    @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
+                                    {
+                                        var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
+                                        var size = fashionVariant.Size;
+                                        @Html.Hidden("size", size)
+
+                                        <strong>@Html.Translate("/ProductPage/Size")</strong><br />
+                                        @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-1 product-col-remove">
+                            <button role="button" class="btn btn-gray-light btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                        <div class="col-xs-6 col-sm-2 product-col-price text-right">
+                            @cartItem.ExtendedPrice.ToString()
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     }
-    <div class="media cart-item">
-        <div class="media-left">
-            <div class="cart-total-offset">&nbsp;</div>
-        </div>
-        <div class="media-body">
-            <ol class="block-list cart-item__values row">
-                <li class="col-xs-12 col-md-9">
-                    @if (Model.TotalDiscount.Amount > 0)
-                    {
-                        <span class="discount-applied">
-                            @Html.Translate("/Cart/Labels/DiscountsApplied")
-                        </span>
-                        @Html.Translate("/Cart/Labels/YouSave")
-                        <strong>@Model.TotalDiscount.ToString()</strong>
-                    }
-                </li>
-                <li class="col-xs-12  col-md-3">
-                    <strong>@Html.Translate("/Cart/Labels/Total")</strong>
-                    @Model.Total.ToString()
-                </li>
-            </ol>
-        </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        @if (Model.TotalDiscount.Amount > 0)
+        {
+            <span class="discount-applied">
+                @Html.Translate("/Cart/Labels/DiscountsApplied")
+            </span>
+            @Html.Translate("/Cart/Labels/YouSave")
+            <strong>@Model.TotalDiscount.ToString()</strong>
+        }
+    </div>
+    <div class="col-xs-12 col-sm-6 text-right">
+        <h4>@Html.Translate("/Cart/Labels/Total")</h4>
+        @Model.Total.ToString()
     </div>
 </div>
-

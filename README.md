@@ -6,13 +6,18 @@ This repository is the starter site for EPiServer Commerce based on MVC, aka "Qu
 Release Notes
 -------------
 
-**This is a pre-release of Quicksilver** and more features will be added over time.
-The following is a list of known limitations in this pre-release:
+This is the first release of Quicksilver and more features will be added over time.
+The following is a list of features to be added in the future:
 
-* Performance testing has not been done.
-* In-store pickup is missing.
-* Multi-shipment support is missing.
-* Package and bundle support is missing.
+* In-store pickup.
+* Multi-shipment support.
+* Package and bundle support.
+
+Changes in this release
+-----------------------
+
+* Numerous bug fixes. For future releases a proper bug list will be included.
+* New look with improved responsive design.
 
 Installation
 ------------

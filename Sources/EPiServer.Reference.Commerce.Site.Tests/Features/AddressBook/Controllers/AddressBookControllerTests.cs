@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
@@ -16,6 +15,7 @@ using EPiServer.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controllers
 {

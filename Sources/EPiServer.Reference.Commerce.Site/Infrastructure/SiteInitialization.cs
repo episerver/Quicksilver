@@ -11,7 +11,6 @@ using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Login.Models;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
@@ -25,6 +24,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using EPiServer.Editor;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -52,9 +52,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             {
                 c.For<ICurrentMarket>().Singleton().Use<CurrentMarket>();
 
-                c.For<Func<CartHelper>>()
+                c.For<Func<string, CartHelper>>()
                 .HybridHttpOrThreadLocalScoped()
-                .Use(() => new CartHelper(Cart.DefaultName, PrincipalInfo.CurrentPrincipal.GetContactId()));
+                .Use((cartName) => new CartHelper(cartName, PrincipalInfo.CurrentPrincipal.GetContactId()));
 
                 //Register for auto injection of edit mode check, should be default life cycle (per request)
                 c.For<Func<bool>>()
@@ -73,6 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<ApplicationSignInManager>().Use(() => owinContextFunc().Get<ApplicationSignInManager>());
                 c.For<IAuthenticationManager>().Use(() => owinContextFunc().Authentication);
                 c.For<IOwinContext>().Use(() => owinContextFunc());
+                c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));

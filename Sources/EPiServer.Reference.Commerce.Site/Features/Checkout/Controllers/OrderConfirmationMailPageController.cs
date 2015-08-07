@@ -1,52 +1,36 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using EPiServer.Core;
 using EPiServer.Editor;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
-using EPiServer.Web.Mvc;
-using System.Collections.Generic;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Web.Mvc.Html;
 using Mediachase.Commerce.Orders;
+using System;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
-    public class OrderConfirmationMailPageController : PageController<OrderConfirmationMailPage>
+    public class OrderConfirmationMailPageController : OrderConfirmationControllerBase<OrderConfirmationMailPage>
     {
-        private readonly ConfirmationService _confirmationService;
-
-        public OrderConfirmationMailPageController(ConfirmationService confirmationService)
+        public OrderConfirmationMailPageController(ConfirmationService confirmationService, AddressBookService addressBookService, CustomerContextFacade customerContextFacade)
+            : base(confirmationService, addressBookService, customerContextFacade)
         {
-            _confirmationService = confirmationService;
         }
 
         [HttpGet]
         public ActionResult Index(OrderConfirmationMailPage currentPage, Guid? contactId = null, int orderNumber = 0)
         {
-            var order = _confirmationService.GetOrder(orderNumber, PageEditing.PageIsInEditMode);
-            var form = order.OrderForms.First();
-            Dictionary<int, decimal> itemPrices = new Dictionary<int, decimal>();
-            foreach (LineItem lineItem in form.LineItems)
+            PurchaseOrder order = _confirmationService.GetOrder(orderNumber, PageEditing.PageIsInEditMode);
+
+            if (order == null && !PageEditing.PageIsInEditMode)
             {
-                itemPrices[lineItem.Id] = lineItem.Discounts.Count > 0 ? Math.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity, 2)
-                                                                                        : lineItem.PlacedPrice;
+                return Redirect(Url.ContentUrl(ContentReference.StartPage));
             }
-            var model = new OrderConfirmationMailViewModel
-                {
-                    CurrentPage = currentPage,
-                    Order = order,
-                    ItemPrices = itemPrices
-                };
-            if (order == null)
-            {
-                if (PageEditing.PageIsInEditMode)
-                {
-                    return View("Empty", model);
-                }
-                else
-                {
-                    return HttpNotFound();
-                }
-            }
+
+            OrderConfirmationViewModel<OrderConfirmationMailPage> model = CreateViewModel(currentPage, order);
+
             return View(model);
         }
     }

@@ -4,10 +4,10 @@ using System.Web;
 using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.Market;
 using Mediachase.Commerce;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 {

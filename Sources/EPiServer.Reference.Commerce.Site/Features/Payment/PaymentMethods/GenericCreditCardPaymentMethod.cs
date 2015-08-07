@@ -9,14 +9,8 @@ using System.Text.RegularExpressions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
-    /// <summary>
-    /// Payment method used as part of a credit card purchase.
-    /// </summary>
     public class GenericCreditCardPaymentMethod : PaymentMethodBase, IPaymentOption, IDataErrorInfo
     {
-        /// <summary>
-        /// A collection of all properties that has custom validation logic.
-        /// </summary>
         static readonly string[] ValidatedProperties = 
         {
             "CreditCardNumber",
@@ -25,19 +19,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             "ExpirationMonth",
         };
 
-        /// <summary>
-        /// Returns a new instance of an GenericCreditCardPaymentMethod.
-        /// </summary>
         public GenericCreditCardPaymentMethod()
             : this(LocalizationService.Current)
         {
         }
 
-        /// <summary>
-        /// Returns a new instance of an GenericCreditCardPaymentMethod taking an existing LocalizationService as
-        /// argument.
-        /// </summary>
-        /// <param name="localizationService">LocalizationService used for translating error messages.</param>
         public GenericCreditCardPaymentMethod(LocalizationService localizationService)
             : base(localizationService)
         {
@@ -67,14 +53,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         [LocalizedRequired("/Checkout/Payment/Methods/CreditCard/Empty/ExpirationYear")]
         public int ExpirationYear { get; set; }
 
-        /// <summary>
-        /// Gets or sets tge CardType.
-        /// </summary>
         public string CardType { get; set; }
 
-        /// <summary>
-        /// Gets whether this payment method is valid or not.
-        /// </summary>
         public bool IsValid
         {
             get
@@ -96,11 +76,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             get { return null; }
         }
 
-        /// <summary>
-        /// Gets any existing error messages for a certain property.
-        /// </summary>
-        /// <param name="propertyName">The property to inspect.</param>
-        /// <returns>Null if the property is valid. In case of errors the error message is returned.</returns>
         string IDataErrorInfo.this[string propertyName]
         {
             get { return this.GetValidationError(propertyName); }
@@ -135,10 +110,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return error;
         }
 
-        /// <summary>
-        /// Validates and returns any existing errors of the ExpirationMonth.
-        /// </summary>
-        /// <returns>Any existing errors of the ExpirationDate property. If property is valid then the returned value is null.</returns>
         private string ValidateExpirationMonth()
         {
             if (ExpirationYear == DateTime.Now.Year && ExpirationMonth < DateTime.Now.Month)
@@ -149,10 +120,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        /// <summary>
-        /// Validates and returns any existing errors of the ExpirationYear.
-        /// </summary>
-        /// <returns>Any existing errors of the ExpirationYear property. If property is valid then the returned value is null.</returns>
         private string ValidateExpirationYear()
         {
             if (ExpirationYear < DateTime.Now.Year)
@@ -163,10 +130,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        /// <summary>
-        /// Validates and returns any existing errors of the CreditCardSecurityCode.
-        /// </summary>
-        /// <returns>Any existing errors of the CreditCardSecurityCode property. If property is valid then the returned value is null.</returns>
         private string ValidateCreditCardSecurityCode()
         {
             if (string.IsNullOrEmpty(CreditCardSecurityCode))
@@ -182,10 +145,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        /// <summary>
-        /// Validates and returns any existing errors of the CreditCardNumber.
-        /// </summary>
-        /// <returns>Any existing errors of the CreditCardNumber property. If property is valid then the returned value is null.</returns>
         private string ValidateCreditCardNumber()
         {
             if (string.IsNullOrEmpty(CreditCardNumber))

@@ -1,26 +1,10 @@
-.checkout {
-    .section-box {
-        margin-bottom: 2em; 
-    }
-}
-.keep-shopping-col {
-    padding-top: 1em;
-    padding-bottom: 1em;
-}
-
-// Cart
 .checkout-cart {
-    img {
-        float: left;
-        margin: 0 10px 10px 0;
-        max-width: 60px;
-    }
-}
+    margin-bottom: @padding-large-vertical *2;
 
-// Medium and up 
-@media (min-width: @screen-sm-min) {
-    .keep-shopping-col {
-        padding-top: 0;
-        text-align: right;
+    .cart-row { 
+        border-bottom: 1px solid @gray-lighter;
+        padding: @padding-large-vertical*2 0;    
     }
+
+    .product-image { max-width: 100%; }
 }

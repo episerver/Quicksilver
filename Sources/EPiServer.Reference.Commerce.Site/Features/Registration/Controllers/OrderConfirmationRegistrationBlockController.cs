@@ -9,14 +9,18 @@ using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
 {
     public class OrderConfirmationRegistrationBlockController : IdentityControllerBase<OrderConfirmationRegistrationBlock>
     {
-        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService)
+        private readonly CustomerContextFacade _customerContext;
+
+        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService, CustomerContextFacade customerContextFacade)
             : base(applicationSignInManager, applicationUserManager, userService)
         {
+            _customerContext = customerContextFacade;
         }
 
         [HttpGet]
@@ -27,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
             var contactId = ControllerContext.ParentActionViewContext.ViewData["ContactId"] as Guid? ?? Guid.Empty;
             var order = OrderContext.Current.GetPurchaseOrder(orderNumber);
 
-            if (order == null || CustomerContext.Current.GetContactById(order.CustomerId) != null)
+            if (order == null || _customerContext.GetContactById(order.CustomerId) != null)
             {
                 return null;
             }

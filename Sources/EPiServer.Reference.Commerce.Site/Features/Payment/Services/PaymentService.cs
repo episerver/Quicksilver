@@ -8,29 +8,21 @@ using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
 {
-    /// <summary>
-    /// Service for processing a payment transaction.
-    /// </summary>
     [ServiceConfiguration(typeof(IPaymentService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class PaymentService : IPaymentService
     {
-        private readonly Func<CartHelper> _cartHelper;
+        private readonly Func<string, CartHelper> _cartHelper;
         private readonly LocalizationService _localizationService;
 
-        public PaymentService(Func<CartHelper> cartHelper, LocalizationService localizationService)
+        public PaymentService(Func<string, CartHelper> cartHelper, LocalizationService localizationService)
         {
             _cartHelper = cartHelper;
             _localizationService = localizationService;
         }
 
-        /// <summary>
-        /// Processes the provided payment.
-        /// </summary>
-        /// <param name="method">The payment to process.</param>
-        /// <returns>Service result indicating whether the processing was successfull or not.</returns>
         public void ProcessPayment(IPaymentOption method)
         {
-            var cart = _cartHelper().Cart;
+            var cart = _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart;
 
             if (!cart.OrderForms.Any())
             {

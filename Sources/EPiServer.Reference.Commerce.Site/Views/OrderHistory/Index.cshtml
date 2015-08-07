@@ -2,62 +2,54 @@
 @using Mediachase.Commerce.Orders
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models.OrderHistoryViewModel
 
+
 <div class="container-fluid">
-    <div class="row myPage">
+    <div class="row">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
-        <div class="col-xs-12 col-md-9">
-            <div class="tab-content">
-                <div class="tab-pane row active" id="orderHistory">
-                    <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-                    @Html.PropertyFor(x => x.CurrentPage.MainBody)
-                    @foreach (var order in Model.Orders)
-                    {
-                        var orderForm = order.PurchaseOrder.OrderForms.FirstOrDefault() ?? new OrderForm();
-                        var address = order.PurchaseOrder.OrderAddresses.FirstOrDefault() ?? new OrderAddress();
-                        <div class="col-md-6">
-                            <h2>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.TrackingNumber</h2>
-                            <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.Status</strong></p>
-                        <p>
-                            @Html.Translate("/OrderHistory/Labels/Payment") 
-                            @if (orderForm.Payments.Any())
-                            {
-                                @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
-                            }
-                            <br>
-                            @Html.Translate("/OrderHistory/Labels/TotalPrice") @order.PurchaseOrder.ToMoney(order.PurchaseOrder.Total).ToString()
-                        </p>
-                        </div>
-                        <div class="col-md-6">
-                            <h3>@Html.Translate("/OrderHistory/Labels/ObjectsOrdered")</h3>
-                            <ul class="orderhistory">
-                                @foreach (var item in order.Items)
-                                {
-                                    <li><a href="@item.LineItem.GetUrl()"><img src="@item.LineItem.GetThumbnailUrl()" /><br />@item.LineItem.DisplayName</a></li>
-                                }
-                            </ul>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="quicksilver-well">
-                                <h3>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h3>
-                                <address>
-                                    <p>
-                                        <strong>@address.FirstName @address.LastName</strong>
-                                        <br>
-                                        @address.Line1
-                                        <br>
-                                        @address.City, @address.PostalCode
-                                        <br>
-                                        <abbr title="Phone">P:</abbr> @address.DaytimePhoneNumber
-                                        <br>
-                                        <a href="mailto:@address.Email">@address.Email</a>
-                                    </p>
-                                </address>
-                            </div>
-                            <hr>
-                        </div>
-                    }
-                </div>
+        <div class="col-xs-12 col-sm-9">
+            <div class="section-box">
+                <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
+                @Html.PropertyFor(x => x.CurrentPage.MainBody)
             </div>
+
+            @foreach (var order in Model.Orders)
+            {
+                var orderForm = order.PurchaseOrder.OrderForms.FirstOrDefault() ?? new OrderForm();
+                var address = order.PurchaseOrder.OrderAddresses.FirstOrDefault() ?? new OrderAddress();
+
+                <hr />
+                <div class="row section-box">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.TrackingNumber</h3>
+                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.Status</strong></p>
+                        @Html.Translate("/OrderHistory/Labels/Payment")
+                        @if (orderForm.Payments.Any())
+                        {
+                            @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
+                        }
+                        <br>
+                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @order.PurchaseOrder.ToMoney(order.PurchaseOrder.Total).ToString()
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>
+
+                        @foreach (var shippingAddress in order.ShippingAddresses)
+                        {
+                            @Html.Partial("_Address", shippingAddress)
+                        }
+
+                    </div>
+                    <div class="col-xs-12">
+                        <h4>@Html.Translate("/OrderHistory/Labels/ObjectsOrdered")</h4>
+                        <ul class="list-unstyled">
+                            @foreach (var item in order.Items)
+                            {
+                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>

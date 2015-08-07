@@ -1,19 +1,16 @@
 ﻿using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {
-    public class LoginPageViewModel<T> : ILoginPageViewModel<T> where T : PageData
+    public class LoginPageViewModel : PageViewModel<LoginRegistrationPage>
     {
-        public T CurrentPage { get; private set; }
         public InternalLoginViewModel LoginViewModel { get; set; }
         public RegisterAccountViewModel RegisterAccountViewModel { get; set; }
 
-        /// <summary>
-        /// Returns a new instance of a LoginViewModel.
-        /// </summary>
-        /// <param name="currentPage">The page acting as the DataContext for the ViewModel.</param>
-        public LoginPageViewModel(T currentPage, string returnUrl)
+        public LoginPageViewModel(LoginRegistrationPage currentPage, string returnUrl)
         {
             CurrentPage = currentPage;
             LoginViewModel = new InternalLoginViewModel() { ReturnUrl = returnUrl };

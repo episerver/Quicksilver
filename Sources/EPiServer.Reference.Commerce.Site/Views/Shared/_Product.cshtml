@@ -1,37 +1,49 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Product.Models.ProductViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.IProductModel
 
-<div class="product">
-    <a href="@Model.Url" class="product__image">
+@{
+    bool hasDiscount = Model.ExtendedPrice.Amount < Model.PlacedPrice.Amount;
+    string productLevelClass = hasDiscount ? "product has-discount" : "product";
+    bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
+}
+
+<div class="@productLevelClass">
+    <a href="@Model.Url" class="link--black">
         <div class="view-details"></div>
-        <img src="@Model.Image" alt="@Model.DisplayName" class="img-responsive">
-    </a>
+        <img src="@Model.ImageUrl" alt="@Model.DisplayName" class="img-responsive">
 
-    <p class="product__info">
-        @Model.DisplayName
-        @if (Model.Price.Amount < Model.OriginalPrice.Amount)
+        <h3 class="product-title">@Model.DisplayName</h3>
+        <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
+
+        @if (hasDiscount)
         {
-            <strong class="original-price">@Model.OriginalPrice.ToString()</strong>
-            <strong class="discount-price">@Model.Price.ToString()</strong>
+            <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
+            <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
         }
         else
         {
-            <strong class="product__price">@Model.Price.ToString()</strong>
+            <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
         }
-    </p>
 
-    @if (Model.IsWishList)
+    </a>
+
+    @if (renderWishListButtons)
     {
-        <div class="action-buttons">
-            @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline jsAddToCart", data_IsWishList = Model.IsWishList }))
+        <div class="action-buttons wishlist-actions">
+            @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
             {
-                @Html.HiddenFor(x => x.Code)
-                <button type="submit" class="btn btn--blue glyphicon glyphicon-shopping-cart"></button>
+                @Html.Hidden("code", Model.Code)
+                <button type="submit" role="button" class="btn btn-primary jsAddToCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
             }
-            @using (@Html.BeginForm("RemoveFromWishList", "WishList", FormMethod.Post, new { @class = "form-inline jsRemoveFromWishList" }))
+            @using (@Html.BeginForm("ChangeCartItem", "WishList", FormMethod.Post, new { @class = "form-inline", data_container = "WishListMiniCart" }))
             {
-                @Html.HiddenFor(x => x.Code)
-                <button type="submit" class="btn glyphicon glyphicon-remove"></button>
+                @Html.Hidden("code", Model.Code)
+                @Html.Hidden("quantity", 0, new { @class = "jsChangeCartItem" })
+                <button role="button" class="btn btn-gray-light jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
             }
         </div>
     }
+</div>
+
+<div class="quick-view-btn-container">
+    <button type="button" data-toggle="modal" data-target="#Quickview" data-url="@Model.Url" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
 </div>

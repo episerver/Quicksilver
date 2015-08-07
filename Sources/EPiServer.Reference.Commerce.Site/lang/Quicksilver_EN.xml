@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="English" id="en">
-    <PreRelease>
-      <Heading>Pre-release</Heading>
-      <NotificationMessage>Please be advised that this version of the site is a pre-release and that is still under construction.</NotificationMessage>
-    </PreRelease>
     <Header>
       <Cookie>
         <CookieUse>We use cookies</CookieUse>
@@ -26,6 +22,7 @@
     </Header>
     <Facet>
       <Choices>Products:</Choices>
+      <Category>Category</Category>
     </Facet>
     <Footer>
       <CompanyInformation>
@@ -39,6 +36,7 @@
       <Social>Be Social</Social>
     </Footer>
     <Product>
+      <Quickview>Quick view</Quickview>
       <Dropdown>
         <Currency>Show prices in</Currency>
       </Dropdown>
@@ -51,6 +49,7 @@
       <AddedToWishList>Item added to wish list</AddedToWishList>
       <NotAddedToWishList>The item could not be added to wish list</NotAddedToWishList>
       <Price>Price</Price>
+      <Size>Size</Size>
       <OriginalPrice>Original Price</OriginalPrice>
       <DiscountPrice>Discount Price</DiscountPrice>
       <PriceMissing>Not set for this market</PriceMissing>
@@ -158,9 +157,14 @@
     <OrderConfirmationMail>
       <OrderDate>Order date:</OrderDate>
       <DisplayName>Display name</DisplayName>
+      <Discount>Discount</Discount>
+      <OrderLevelDiscounts>Additional discounts</OrderLevelDiscounts>
       <Quantity>Quantity</Quantity>
+      <UnitPrice>Unit price</UnitPrice>
       <Price>Price</Price>
       <LineItemTotal>Total</LineItemTotal>
+      <HandlingCost>Handling cost</HandlingCost>
+      <TaxCost>Tax cost</TaxCost>
       <ShippingCost>Shipping cost</ShippingCost>
       <Total>Total</Total>
       <ShippingDetails>Shipping details</ShippingDetails>
@@ -417,7 +421,12 @@
       </Form>
     </AddressBook>
     <WishList>
-      <NoItems>You don't have any items in you wish list.</NoItems>
+      <Button>
+        <GotoWishListPage>Go to wishlist</GotoWishListPage>
+      </Button>
+      <NoItems>You don't have any items in your wish list.</NoItems>
+      <DeleteButton>Delete entire wishlist</DeleteButton>
+      <RemoveItem>Remove from wishlist</RemoveItem>
     </WishList>
     <OrderHistory>
       <Labels>
@@ -430,11 +439,6 @@
         <TotalPrice>Total price:</TotalPrice>
       </Labels>
     </OrderHistory>
-    <Wishlist>
-      <NoItems>You don't have any items in your wish list.</NoItems>
-      <DeleteButton>Delete entire wishlist</DeleteButton>
-      <RemoveItem>Remove from wishlist</RemoveItem>
-    </Wishlist>
     <Search>
       <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>
     </Search>
