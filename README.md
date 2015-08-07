@@ -12,7 +12,6 @@ The following is a list of features to be added in the future:
 * In-store pickup.
 * Multi-shipment support.
 * Package and bundle support.
-* Quickview feature on products.
 
 Changes in this release
 -----------------------
