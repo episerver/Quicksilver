@@ -17,7 +17,7 @@
 				<Button id="EditSelected" text="Edit" imageUrl="~/Apps/Shell/styles/Images/toolbar/properties.gif" commandName="cmdCatalogItemEdit"/>
 				-->
 					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdCatalogDelete" permissions="catalog:ctlg:entries:mng:delete,catalog:ctlg:nodes:mng:delete"/>
-					<Button id="CloneSelected" text="{SharedStrings:Clone_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/copy.gif" commandName="cmdCatalogCopy" permissions="catalog:ctlg:entries:mng:edit" />
+					<Button id="CloneSelected" text="{SharedStrings:Clone_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/copy.gif" commandName="cmdCatalogCopy" permissions="catalog:ctlg:entries:mng:create,catalog:ctlg:nodes:mng:create" />
 					<Button id="MoveLinkToFolder" text="{CatalogStrings:Catalog_Move_Link_To_Folder}" imageUrl="~/Apps/Shell/styles/Images/toolbar/movetofolder.gif" commandName="cmdCatalogMoveToFolder" permissions="catalog:ctlg:entries:mng:edit"/>
 				</Menu>
 			</add>

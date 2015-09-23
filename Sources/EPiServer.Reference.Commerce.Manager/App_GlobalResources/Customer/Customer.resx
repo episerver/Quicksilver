@@ -915,4 +915,7 @@
   <data name="Organization_mf_OrgCustomerGroup_Description" xml:space="preserve">
     <value />
   </data>
+  <data name="NotUseLegacySecurityRoleSystem_Warning" xml:space="preserve">
+    <value>Role management in Commerce Manager is obsolete, instead use CMS Admin view to manage roles.</value>
+  </data>
 </root>

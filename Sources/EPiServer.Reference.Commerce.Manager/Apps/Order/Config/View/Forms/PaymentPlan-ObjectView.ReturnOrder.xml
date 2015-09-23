@@ -27,12 +27,12 @@
 			<add>
 				<ButtonSet placeName="ExchangeButtonsHolder">
 					<Button id="ViewExchangeOrder" text="View Exchange" commandName="btn_ViewExchangeOrder" width="110" disableMode="true" permissions="order:mng:view"></Button>
-					<Button id="CreateExchangeOrder" text="{OrderStrings:Create_Exchange}" commandName="btn_CreateExchangeOrder" width="110" disableMode="true" permissions="order:mng:return:create_exchange"></Button>
+					<Button id="CreateExchangeOrder" text="{OrderStrings:Create_Exchange}" commandName="btn_CreateExchangeOrder" width="110" disableMode="true" permissions="order:mng:return:create:exchange"></Button>
 				</ButtonSet>
 				<ButtonSet placeName="ReturnButtonsHolder">
 					<Button id="EditReturn" text="Edit Return"  commandName="btn_EditReturn" width="150" tooltip="My Save" disableMode="true" permissions="order:mng:edit"></Button>
 					<Button id="CancelReturn" text="Cancel Return" commandName="btn_CancelReturn" width="150" disableMode="true" permissions="order:mng:edit" ></Button>
-					<Button id="CompleteReturn" text="Complete Return" commandName="btn_CompleteReturn" width="150" disableMode="true" permissions="order:mng:edit"></Button>
+					<Button id="CompleteReturn" text="Complete Return" commandName="btn_CompleteReturn" width="150" disableMode="true" permissions="order:mng:discretionary:credit:payment"></Button>
 					<Button id="AcknowledgeReceiptItems" text="Acknowledge Receipt Items" commandName="btn_AcknowledgeReceiptItems" width="150" disableMode="true" permissions="order:mng:return:receiving"></Button>
 				</ButtonSet>
 			</add>

@@ -76,6 +76,7 @@
 
         <Command id="cmdCompleteAnyShipment">
           <CommandType>ServerAction</CommandType>
+          <EnableHandler type="Mediachase.Commerce.Manager.Apps.Order.CommandHandlers.PurchaseOrderHandlers.ShipmentPickListCompleteHandler, Mediachase.ConsoleManager" />
           <Handler type="Mediachase.Commerce.Manager.Apps.Order.CommandHandlers.PurchaseOrderHandlers.ShipmentPickListCompleteHandler, Mediachase.ConsoleManager"></Handler>
         </Command>
         

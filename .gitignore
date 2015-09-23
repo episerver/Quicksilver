@@ -1,6 +1,7 @@
 Deployment/GitHubRelease/Output
 Sources/EPiServer.Reference.Commerce.Site/License.config
 Sources/EPiServer.Reference.Commerce.Manager/App_Data/ImportExport/*
+Sources/EPiServer.Reference.Commerce.Manager/App_GlobalResources/*
 Sources/appdata
 
 # User-specific files
@@ -183,3 +184,4 @@ FakesAssemblies/
 
 # VS2015 settings folder
 .vs
+

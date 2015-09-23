@@ -18,7 +18,7 @@
 		<Toolbar>
 			<clear></clear>
 			<add>
-				<Button id="NewMetaField" text="{SharedStrings:New_Meta_Field}" imageUrl="~/Apps/Shell/styles/Images/metafield.gif" commandName="cmdOrderNewMetaField" />
+				<Button id="NewMetaField" text="{SharedStrings:New_Meta_Field}" imageUrl="~/Apps/Shell/styles/Images/metafield.gif" commandName="cmdOrderNewMetaField" permissions="order:admin:meta:fld:mng:create" />
 			</add>
 		</Toolbar>
 		<Commands>
@@ -32,6 +32,6 @@
 		</Commands>
 	</ListViewUI>
 	<ViewConfig>
-		<setAttributes id="OrderMetaFields-List" controlUrl="Order/MetaFieldList.ascx" help="Order+System"/>
+		<setAttributes id="OrderMetaFields-List" controlUrl="Order/MetaFieldList.ascx" permissions="order:admin:meta:fld:mng:view" help="Order+System"/>
 	</ViewConfig>
 </View>

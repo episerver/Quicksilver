@@ -7,10 +7,7 @@
 		<Toolbar>
 			<add>
 				<Button id="New" text="{SharedStrings:New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdOrderNewShippingMethod" permissions="order:admin:shipping:methods:mng:create"/>
-				<Splitter id="ActionsSplitter"/>
-				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="order:admin:shipping:methods:mng:delete">
-					<Button id="DeleteSelected" text="{SharedStrings:Delete}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderShippingMethodDelete" permissions="order:admin:shipping:methods:mng:delete"/>
-				</Menu>
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderShippingMethodDelete" permissions="order:admin:shipping:methods:mng:delete"/>
 			</add>
 		</Toolbar>
 		<Grid>

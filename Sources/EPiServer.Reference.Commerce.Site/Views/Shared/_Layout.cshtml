@@ -2,6 +2,8 @@
 @using EPiServer.Editor
 @using EPiServer.Security
 @using EPiServer.Web.Routing
+@using EPiServer.Framework.Web
+@using EPiServer.Framework.Web.Mvc.Html
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +24,7 @@
         <![endif]-->
     
         <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
+        @Html.RequiredClientResources("Header")
     </head>
     <body>
 
@@ -62,6 +65,6 @@
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/js")
-
+        @Html.RequiredClientResources("Footer")
     </body>
 </html>

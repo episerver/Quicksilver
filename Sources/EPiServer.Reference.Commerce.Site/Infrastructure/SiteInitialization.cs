@@ -10,7 +10,7 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
@@ -25,6 +25,7 @@ using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using EPiServer.Editor;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using StructureMap.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -54,11 +55,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
                 c.For<Func<string, CartHelper>>()
                 .HybridHttpOrThreadLocalScoped()
-                .Use((cartName) => new CartHelper(cartName, PrincipalInfo.CurrentPrincipal.GetContactId()));
+                .Use(() => new Func<string, CartHelper>((cartName) => new CartHelper(cartName, PrincipalInfo.CurrentPrincipal.GetContactId())));
 
                 //Register for auto injection of edit mode check, should be default life cycle (per request)
                 c.For<Func<bool>>()
-                .Use(() => PageEditing.PageIsInEditMode);                 
+                .Use(() => new Func<bool>(() => PageEditing.PageIsInEditMode));                 
 
                 c.For<IUpdateCurrentLanguage>()
                     .Singleton()
@@ -66,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     .Setter<IUpdateCurrentLanguage>()
                     .Is(x => x.GetInstance<UpdateCurrentLanguage>());
 
-                c.For<Func<CultureInfo>>().Use(() => ContentLanguage.PreferredCulture);
+                c.For<Func<CultureInfo>>().Use(() => new Func<CultureInfo>(() => ContentLanguage.PreferredCulture));
 
                 Func<IOwinContext> owinContextFunc = () => HttpContext.Current.GetOwinContext();
                 c.For<ApplicationUserManager>().Use(() => owinContextFunc().GetUserManager<ApplicationUserManager>());

@@ -242,10 +242,6 @@
 				</Grid>
 				<Grid placeName="ContactRoleAssignment-List">
 					<Columns>
-						<Column columnType="CheckBox" />
-						<Column width="20" headingText="" columnType="Action" dataField="RoleAssignId">
-							<Item toolTip="" imageUrl="~/Apps/Shell/Styles/images/edit.gif" commandName="RoleAssignment_Edit" commandParameters="RoleAssignId" permissions="businessfoundation:contact:edit:permission"></Item>
-						</Column>
 						<Column width="150" allowSorting="false" dataField="RoleName" headingText="{Customer:RoleAssignment_RoleName}"></Column>
 						<Column width="150" allowSorting="false" dataField="OrganizationName" headingText="{Customer:RoleAssignment_OrganizationName}"></Column>
 						<Column width="100" allowSorting="false" dataField="CheckModeFriendlyName" headingText="{Customer:RoleAssignment_CheckMode}"></Column>
@@ -284,7 +280,7 @@
 				</Toolbar>
 				<Toolbar placeName="ContactView">
 					<Button id="EditButton" text="{Common:Edit}" imageUrl="~/Apps/MetaDataBase/images/edit.gif" tooltip="{Common:Edit}" commandName="Contact_Edit" itemSplitter="Right"></Button>
-					<Button id="DeleteButton" text="{Customer:DeleteContact}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="Contact_Delete" itemSplitter="Right"></Button>
+					<Button id="DeleteButton" text="{Customer:DeleteContact}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="Contact_Delete" itemSplitter="Right" permissions="businessfoundation:contact:delete:permission"></Button>
 					<Button id="ListButton" text="{Customer:Contacts}" imageUrl="~/Apps/MetaDataBase/images/back.gif" tooltip="{Customer:Contacts}" commandName="Contact_List" ></Button>
 					<Splitter id="ActionsSplitter"></Splitter>
 					<!--<Button id="NewOrderButton" text="{OrderStrings:Order_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" tooltip="{OrderStrings:Order_New}" commandName="cmdPurchaseOrderNew" permissions="order:mng:create"></Button>-->
@@ -298,10 +294,6 @@
 				<Toolbar placeName="ContactMembershipAccount-List">
 					<Button id="CreateAccount" text="{Customer:NewAccount}" commandName="MembershipAccount_New"></Button>
 					<Button id="DeleteAccount" text="{Customer:DeleteAccount}"  commandName="MembershipAccount_Delete" itemSplitter="Right"></Button>
-				</Toolbar>
-				<Toolbar placeName="ContactRoleAssignment-List">
-					<Button id="AssignRole" text="{Customer:AssignRole}" imageUrl="~/Apps/MetaDataBase/images/newitem.gif" commandName="RoleAssignment_New" permissions="businessfoundation:contact:edit:permission" itemSplitter="Right"></Button>
-					<Button id="DeleteRoleAssignment" text="{Customer:DeleteRole}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="RoleAssignment_Delete" permissions="businessfoundation:contact:edit:permission" itemSplitter="Right"></Button>
 				</Toolbar>
         <Toolbar placeName="ContactContactNotes-List">
           <Button id="AddContactNote" text="{Customer:AddNewContactNote}" imageUrl="~/Apps/MetaDataBase/images/newitem.gif" commandName="MC_ContactNote_NewItem" itemSplitter="Right"></Button>
@@ -318,10 +310,12 @@
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
 					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
 					<CommandType>ServerAction</CommandType>
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<Handler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.DeleteSelectedAddressHandler, Mediachase.ConsoleManager" />
 					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
 				</Command>
 				<Command id="MC_ContactAddress_NewItem">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:AddressNew}</PopupTitle>
 					<!--<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=Address-Edit&amp;ContactId={QueryString:ObjectId}&amp;commandName=MC_ContactAddress_NewItem</Url>-->
@@ -334,6 +328,7 @@
 				</Command>
 				<!-- Grid commands -->
 				<Command id="cmdContactAddressGridEdit">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:AddressEdit}</PopupTitle>
 					<!--<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=Address-Edit&amp;ContactId={QueryString:ObjectId}&amp;ObjectId=[ClientParam:PrimaryKeyId]&amp;commandName=cmdContactAddressGridEdit</Url>-->
@@ -358,7 +353,7 @@
 				<Command id="Contact_Delete">
 					<CommandType>ServerAction</CommandType>
 					<Handler type="Mediachase.Ibn.Web.UI.Customer.CommandHandlers.DeleteContactHandler, Mediachase.ConsoleManager" />
-                    <EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
 					<ConfirmationText>{Customer:DeleteContactConfirmation}</ConfirmationText>
 				</Command>
 				<Command id="cmdPurchaseOrderNew">
@@ -385,6 +380,7 @@
 				<!--*ContactView CreditCard*-->
 				<!--************************-->
 				<Command id="MC_CreditCard_NewItem">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:NewCreditCard}</PopupTitle>
 					<!--<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=Address-Edit&amp;formName=[MC_BaseForm]&amp;className=Address&amp;</Url>-->
@@ -397,6 +393,7 @@
 				</Command>
 
 				<Command id="MC_CreditCard_DeleteSelected">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
 					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
 					<CommandType>ServerAction</CommandType>
@@ -405,6 +402,7 @@
 				</Command>
 				<!-- Grid commands -->
 				<Command id="cmdCreditCardGridEdit">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<Url>~/Apps/MetaUIEntity/Pages/EntityEditPopup.aspx?formName=[MC_BaseForm]&amp;className=CreditCard&amp;ObjectId=[ClientParam:PrimaryKeyId]&amp;commandName=cmdCreditCardGridEdit</Url>
 					<Width>590</Width>
@@ -415,7 +413,8 @@
         <!--************************-->
         <!--*ContactView ContactNote*-->
         <!--************************-->
-        <Command id="MC_ContactNote_NewItem">     
+        <Command id="MC_ContactNote_NewItem">
+          <EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
           <CommandType>OpenFrameModalPopup</CommandType>
           <PopupTitle>{Customer:ContactNoteNew}</PopupTitle>
           <Url>~/Apps/MetaUIEntity/Pages/EntityEditPopup.aspx?formName=[MC_BaseForm]&amp;className=ContactNote&amp;ContainerFieldName=ContactId&amp;ContainerId={QueryString:ObjectId}</Url>
@@ -428,6 +427,7 @@
         </Command>      
         
         <Command id="MC_ContactNote_DeleteSelected">
+          <EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
           <BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
           <ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
           <CommandType>ServerAction</CommandType>
@@ -439,6 +439,7 @@
 				<!--*ContactMembershipAccount-List*-->
 				<!--*******************************-->
 				<Command id="MembershipAccount_Edit">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:EditAccount}</PopupTitle>
 					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=MembershipAccount-Edit&amp;UserName=[ClientParam:UserName]&amp;commandName=MembershipAccount_Edit&amp;ReturnCommand=MembershipAccount_Edit&amp;refreshName=fn_rebind</Url>
@@ -449,6 +450,7 @@
 					<Drag>False</Drag>
 				</Command>
 				<Command id="MembershipAccount_New">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:NewAccount}</PopupTitle>
 					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=MembershipAccount-Edit&amp;ContactId=[ClientParam:ContactId]&amp;commandName=MembershipAccount_New&amp;ReturnCommand=MembershipAccount_New&amp;refreshName=fn_rebind</Url>
@@ -459,6 +461,7 @@
 					<Drag>False</Drag>
 				</Command>
 				<Command id="MembershipAccount_ChangePassword">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:ChangePassword}</PopupTitle>
 					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=MembershipAccount-ChangePassword&amp;ContactId=[ClientParam:ContactId]&amp;commandName=MembershipAccount_New&amp;ReturnCommand=MembershipAccount_ChangePassword&amp;refreshName=fn_rebind</Url>
@@ -476,37 +479,7 @@
 				<!--****************************-->
 				<!--*ContactRoleAssignment-List*-->
 				<!--****************************-->
-				<Command id="RoleAssignment_Delete">
-					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
-					<ConfirmationText>{SharedStrings:Delete_Selected}</ConfirmationText>
-					<CommandType>ServerAction</CommandType>
-          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
-					<Handler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.DeleteSelectedRoleAssignmentHandler, Mediachase.ConsoleManager" />
-					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
-				</Command>
-				<Command id="RoleAssignment_Edit">
-					<CommandType>OpenFrameModalPopup</CommandType>
-					<PopupTitle>{Customer:EditRoleAssignment}</PopupTitle>
-          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
-          <Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=RoleAssignment-Edit&amp;CustomerContactId={QueryString:ObjectId}&amp;RoleAssignId=[ClientParam:RoleAssignId]&amp;commandName=RoleAssignment_Edit</Url>
-					<Width>550</Width>
-					<Height>350</Height>
-					<Top>55</Top>
-					<Left>55</Left>
-					<Drag>True</Drag>
-				</Command>
-				<Command id="RoleAssignment_New">
-					<CommandType>OpenFrameModalPopup</CommandType>
-					<PopupTitle>{Customer:AssignRole}</PopupTitle>
-					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=RoleAssignment-Edit&amp;CustomerContactId={QueryString:ObjectId}&amp;commandName=RoleAssignment_New</Url>
-          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
-          <Width>550</Width>
-					<Height>350</Height>
-					<Top>55</Top>
-					<Left>55</Left>
-					<Drag>True</Drag>
-					<DependCommand>RoleAssignment_Edit</DependCommand>
-				</Command>
+				
 
 			</add>
 		</Commands>

@@ -9,7 +9,7 @@
 				</Menu>
 				<Splitter id="ActionsSplitter" commandName="cmdBlankPermissions" permissions="catalog:admin:meta:cls:mng:create,catalog:admin:meta:fld:mng:create"/>
 				<Menu id="ImportExportSplitButton" text="{SharedStrings:Import_Export}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" commandName="cmdBlankPermissions">
-					<Button id="ImportMetaData" text="{CatalogStrings:MetaClass_Import_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdCatalogImportMetaData" permissions="*catalog:admin:meta:cls:mng:create,*catalog:admin:meta:fld:mng:create"/>
+					<Button id="ImportMetaData" text="{CatalogStrings:MetaClass_Import_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdCatalogImportMetaData" permissions="catalog:admin:meta:cls:mng:create,catalog:admin:meta:fld:mng:create"/>
 					<Button id="ExportMetaData" text="{CatalogStrings:MetaClass_Export_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdCatalogExportMetaData"/>
 				</Menu>
 			</add>

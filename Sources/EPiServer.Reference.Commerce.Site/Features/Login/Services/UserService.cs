@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+﻿using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 {

@@ -3,7 +3,7 @@
 	<Navigation>
 		<Tabs id="mainTag">
 			<add>
-				<Tab id="navTabMarketManagement" text="{SharedStrings:Market_Management}" order="20" contentType="default" imageUrl="~/Apps/Markets/images/module.png" configUrl="" enableHandler="Mediachase.Commerce.Manager.Markets.CommandHandlers.ContentEnableHandler, Mediachase.ConsoleManager" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="markets:tabviewpermission">
+				<Tab id="navTabMarketManagement" text="{SharedStrings:Market_Management}" order="20" contentType="default" imageUrl="~/Apps/Markets/images/module.png" configUrl="" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="markets:tabviewpermission">
 					<Link id="Markets_Markets" text="{SharedStrings:Markets}" order="20" iconUrl="" iconCss="treeIcon" type="Markets" command="cmdMarketsMarketList" treeLoaderPath="~/Apps/Markets/Tree/TreeSource.aspx" permissions="markets:market:mng:view"/>
 				</Tab>
 			</add>

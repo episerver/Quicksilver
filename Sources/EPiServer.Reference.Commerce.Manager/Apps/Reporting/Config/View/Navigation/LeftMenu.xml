@@ -3,7 +3,7 @@
 	<Navigation>
 		<Tabs id="mainTag">
 			<add>
-				<Tab id="navTabReporting" text="{ReportingStrings:Reporting}" order="130"  contentType="default" imageUrl="~/Apps/Reporting/images/module.png" configUrl="" enableHandler="Mediachase.Commerce.Manager.Apps.Core.CommandHandlers.Common.CommandHandlerBase, Mediachase.ConsoleManager" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="reporting:tabviewpermission">
+				<Tab id="navTabReporting" text="{ReportingStrings:Reporting}" order="130"  contentType="default" imageUrl="~/Apps/Reporting/images/module.png" configUrl="" enableHandler2="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" permissions="reporting:tabviewpermission">
 					<Link id="Sales" text="{ReportingStrings:Sales}" order="10" iconUrl="~/Apps/Reporting/images/report-group.png" iconCss="treeIcon" permissions="reporting:mng:view" >
 						<Link id="SalesReport" text="{ReportingStrings:Sales_Report}" order="10" iconUrl="~/Apps/Reporting/images/report.png" iconCss="treeIcon" command="SalesReportCommand" permissions="reporting:mng:view"/>
 						<Link id="ShippingReport" text="{ReportingStrings:Shipping_Report}" order="20" iconUrl="~/Apps/Reporting/images/report.png" iconCss="treeIcon" command="ShippingReportCommand" permissions="reporting:mng:view"/>

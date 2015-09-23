@@ -7,6 +7,16 @@
             .on('click', '.jsAddToCart', Cart.addCartItem)
             .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
             .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
+            .on('click', '.jsCartContinueShopping', function () {
+                if ($(this).closest('#cart-dropdown')) {
+                    $(this).closest('#cart-dropdown').collapse('hide');
+                }                 
+            })
+            .on('click', '.jsWishListContinueShopping', function () {
+                if ($(this).closest('#wishlist-dropdown')) {
+                    $(this).closest('#wishlist-dropdown').collapse('hide');
+                }                
+            })
             .on('click', '.jsCartDropdown', function (e) {
                 return ($(e.target).hasClass('btn') || $(e.target).parent().is('a'));
             });

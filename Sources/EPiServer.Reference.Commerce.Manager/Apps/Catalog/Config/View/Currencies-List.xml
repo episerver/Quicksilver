@@ -19,10 +19,7 @@
 		<Toolbar>
 			<add>
 				<Button id="NewCurrency" text="{CatalogStrings:Currency_New_Currency}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdCatalogNewCurrency" permissions="catalog:admin:currencies:mng:create"/>
-				<Splitter id="ActionsSplitter"/>
-				<Menu id="ActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
-					<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdCatalogDeleteCurrency" permissions="catalog:admin:currencies:mng:delete"/>
-				</Menu>
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdCatalogDeleteCurrency" permissions="catalog:admin:currencies:mng:delete"/>
 			</add>
 		</Toolbar>
 		<Commands>

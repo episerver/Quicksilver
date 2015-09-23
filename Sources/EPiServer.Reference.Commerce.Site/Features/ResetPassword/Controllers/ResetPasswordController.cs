@@ -1,11 +1,13 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Editor;
+using EPiServer.Reference.Commerce.Shared.Models;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using System.Threading.Tasks;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
 using System.Collections.Specialized;

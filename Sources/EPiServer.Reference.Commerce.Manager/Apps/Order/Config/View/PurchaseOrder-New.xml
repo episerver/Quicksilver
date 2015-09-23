@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <View xmlns="http://schemas.mediachase.com/ecf/view">
 	<ViewConfig>
-		<setAttributes id="PurchaseOrder-New" controlUrl="Order/Modules/OrderCreateContainer.ascx" help="Order+Management" permissions="order:mng:create"></setAttributes>
+		<setAttributes id="PurchaseOrder-New" controlUrl="Order/Modules/OrderCreateContainer.ascx" help="Order+Management" permissions="order:mng:create,order:mng:return:create:exchange"></setAttributes>
 		<add>
 			<CustomParams>
 				<Param key="ClassName" value="PurchaseOrder"></Param>

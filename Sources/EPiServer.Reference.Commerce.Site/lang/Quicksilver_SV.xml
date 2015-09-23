@@ -41,8 +41,8 @@
         <Currency>Visa priser i</Currency>
       </Dropdown>
       <Button>
-        <AddToCart>Lägg till i kundvagn</AddToCart>
-        <AddToWishList>Lägg till på önskelistan</AddToWishList>
+        <AddToCart>Lägg i kundvagn</AddToCart>
+        <AddToWishList>Till önskelista</AddToWishList>
       </Button>
     </Product>
     <ProductPage>

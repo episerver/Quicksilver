@@ -154,6 +154,7 @@
 				<!--* OrganizationView *-->
 				<!--********************-->
 				<Command id="Organization_Edit">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>ClientAction</CommandType>
 					<ClientScript>CSManagementClient.ChangeBafView('{QueryString:ClassName}', 'Edit', 'ObjectId={QueryString:ObjectId}&amp;back=view')</ClientScript>
 				</Command>
@@ -169,6 +170,7 @@
 				<!--* OrganizationAddress-List *-->
 				<!--****************************-->
 				<Command id="MC_Address_DeleteSelected">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
 					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
 					<CommandType>ServerAction</CommandType>
@@ -176,6 +178,7 @@
 					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
 				</Command>
 				<Command id="MC_OrgAddress_NewItem">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:AddressNew}</PopupTitle>
 					<!--<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=Address-Edit&amp;formName=[MC_BaseForm]&amp;className=Address&amp;</Url>-->
@@ -199,6 +202,7 @@
 				<!--* OrganizationCreditCards-List *-->
 				<!--********************************-->
 				<Command id="MC_CreditCard_DeleteSelected">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
 					<ConfirmationText>{CommerceManager:DeleteSelectedItemsConfirmation}</ConfirmationText>
 					<CommandType>ServerAction</CommandType>
@@ -206,6 +210,7 @@
 					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
 				</Command>
 				<Command id="MC_CreditCard_NewItem">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Customer:NewCreditCard}</PopupTitle>
 					<Url>~/Apps/MetaUIEntity/Pages/EntityEditPopup.aspx?formName=[MC_BaseForm]&amp;className=CreditCard&amp;ContainerFieldName=OrganizationId&amp;ContainerId={QueryString:ObjectId}</Url>
@@ -217,6 +222,7 @@
 				</Command>
 				<!-- Grid commands -->
 				<Command id="cmdCreditCardGridEdit">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<Url>~/Apps/MetaUIEntity/Pages/EntityEditPopup.aspx?formName=[MC_BaseForm]&amp;className=CreditCard&amp;ObjectId=[ClientParam:PrimaryKeyId]&amp;commandName=cmdCreditCardGridEdit</Url>
 					<Width>590</Width>
@@ -228,6 +234,7 @@
 				<!--* OrganizationContact-List *-->
 				<!--********************************-->
 				<Command id="MC_MUI_AddSelectedContact">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Common:SearchObjects}</PopupTitle>
 					<Url>~/Apps/MetaUIEntity/Pages/EntitySelect.aspx?Classes=Contact&amp;refreshName=SelectItems_Refresh&amp;ReturnCommand=MC_MUI_AddSelectedContact&amp;MultipleSelect=1&amp;CanCreate=0&amp;ContainerFieldName=OrganizationId&amp;ContainerId={QueryString:ObjectId}</Url>
@@ -242,6 +249,7 @@
 				<!--* OrganizationChild-List *-->
 				<!--********************************-->
 				<Command id="MC_MUI_AddSelectedOrg">
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditOrganizationEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{Common:SearchObjects}</PopupTitle>
 					<Url>~/Apps/MetaUIEntity/Pages/EntitySelect.aspx?Classes=Organization&amp;refreshName=SelectItems_Refresh&amp;ReturnCommand=MC_MUI_AddSelectedOrg&amp;MultipleSelect=1&amp;CanCreate=0&amp;ContainerFieldName=OrganizationId&amp;ContainerId={QueryString:ObjectId}</Url>
