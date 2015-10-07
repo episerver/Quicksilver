@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
@@ -26,10 +26,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
 
         public LoginController(
-            ApplicationSignInManager signinManager, 
-            ApplicationUserManager userManager, 
-            UserService userService, 
-            LocalizationService localizationService, 
+            ApplicationSignInManager signinManager,
+            ApplicationUserManager userManager,
+            UserService userService,
+            LocalizationService localizationService,
             IContentLoader contentLoader,
             IAddressBookService addressBookService,
             ControllerExceptionHandler controllerExceptionHandler)
@@ -134,10 +134,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
         public ActionResult OnRegisterException(ExceptionContext filterContext)
         {
-            return View("RegisterAccount", new RegisterAccountViewModel
+            RegisterAccountViewModel viewModel = new RegisterAccountViewModel
             {
-                ErrorMessage = filterContext.Exception.Message
-            });
+                ErrorMessage = filterContext.Exception.Message,
+                Address = new Shared.Models.Address()
+            };
+
+            _addressBookService.LoadAddress(viewModel.Address);
+            viewModel.Address.Name = _localizationService.GetString("/Shared/Address/DefaultAddressName");
+
+            return View("RegisterAccount", viewModel);
         }
 
         [HttpPost]

@@ -36,7 +36,7 @@
 			<add>
 				<Button id="NewItemButton" text="{Customer:NewContact}" imageUrl="~/Apps/MetaDataBase/images/contact.gif" commandName="MC_Cont_NewItem" itemSplitter="Right" permissions="businessfoundation:contact:create:permission"></Button>
 				<Button id="PrinterVersionButton" text="{Common:PrinterVersion}" imageUrl="~/Apps/MetaUIEntity/images/Print.png" commandName="MC_MUI_PrinterVersion" itemSplitter="Right"></Button>
-				<Button id="DeleteSelectedButton" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="MC_Cont_DeleteSelected" itemSplitter="Right"></Button>
+				<Button id="DeleteSelectedButton" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="MC_Cont_DeleteSelected" itemSplitter="Right" permissions="businessfoundation:contact:delete:permission"></Button>
 			</add>
 		</Toolbar>
 		<CustomColumns>
@@ -52,14 +52,16 @@
 			<add>
 				<Command id="MC_Cont_NewItem">
 					<CommandType>ClientAction</CommandType>
-          <EnableHandler type="Mediachase.Commerce.Manager.Apps.Core.CommandHandlers.Common.CommandHandlerBase, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Core.CommandHandlers.Common.CommandHandlerBase, Mediachase.ConsoleManager" />
 					<ClientScript>CSManagementClient.ChangeBafView('{QueryString:ClassName}', 'Create')</ClientScript>
 				</Command>
 				<Command id="MC_Cont_EditItem">
 					<CommandType>ClientAction</CommandType>
+					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.EditContactEnableHandler, Mediachase.ConsoleManager" />
 					<ClientScript>CSCustomerManagementClient.EditContact(params)</ClientScript>
 				</Command>
 				<Command id="MC_Cont_DeleteSelected">
+					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
 					<CommandType>ServerAction</CommandType>
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>
 					<Handler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.DeleteSelectedContactHandler, Mediachase.ConsoleManager" />

@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Editor;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
@@ -11,7 +12,6 @@ using EPiServer.Web.Routing;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using Microsoft.Owin;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {

@@ -5,7 +5,7 @@
 			<Tab id="navTabAdmin">
 				<Link id="Core_System">
 					<add>
-						<Link order="60" id="LeftMenu" text="{Common:LeftMenu}" iconUrl="" iconCss="" command="cmd_LeftMenu" permissions="customization:tabviewpermission" />
+						<Link order="60" id="LeftMenu" text="{Common:LeftMenu}" iconUrl="" iconCss="" command="cmd_LeftMenu" permissions="core:mng:leftmenu" />
 					</add>
 				</Link>
 			</Tab>

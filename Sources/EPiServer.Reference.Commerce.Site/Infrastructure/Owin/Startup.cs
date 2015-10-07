@@ -1,5 +1,5 @@
 ﻿using EPiServer.Logging;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Shell;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -11,13 +11,20 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using System;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http.Routing;
+using EPiServer.Core;
+using EPiServer.Web.Routing;
+using Microsoft.Xml.Serialization.GeneratedAssembly;
 
 [assembly: OwinStartupAttribute(typeof(EPiServer.Reference.Commerce.Site.Infrastructure.Owin.Startup))]
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
 {
     public class Startup
     {
+        const string LogoutUrl = "/util/logout.aspx";
+
         public void Configuration(IAppBuilder app)
         {
             // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
@@ -54,6 +61,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+
+            app.Map(LogoutUrl, map =>
+            {
+                map.Run(ctx =>
+                {
+                    ctx.Authentication.SignOut();
+                    return Task.Run(() => ctx.Response.Redirect(UrlResolver.Current.GetUrl(ContentReference.StartPage)));
+                });
+            });
 
             // To enable using an external provider like Facebook or Google, uncomment the options you want to make available.
             // Also remember to apply the correct client id and secret code to each method that you call below.

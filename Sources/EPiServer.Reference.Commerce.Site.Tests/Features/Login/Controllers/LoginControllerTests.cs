@@ -8,8 +8,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
@@ -182,7 +182,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             var expectedResult = new JsonResult
             {
-                Data = new { Success = true, ReturnUrl = _testUrl },
+                Data = new { Success = true, ReturnUrl = "/" },     // ReturnUrl should always be without hostname
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
 

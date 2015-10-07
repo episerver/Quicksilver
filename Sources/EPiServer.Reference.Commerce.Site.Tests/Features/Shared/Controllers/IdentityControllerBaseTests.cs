@@ -1,4 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+﻿using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;

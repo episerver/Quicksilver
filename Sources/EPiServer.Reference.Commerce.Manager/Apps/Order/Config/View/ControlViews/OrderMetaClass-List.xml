@@ -4,12 +4,12 @@
 		<Toolbar>
 			<add>
 				<Menu id="ActionsSplitButton" text="{SharedStrings:Create_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdBlankPermissions" permissions="order:admin:meta:cls:mng:create,order:admin:meta:fld:mng:create">
-					<Button id="NewMetaClass" text="{SharedStrings:New_Meta_Class}" imageUrl="~/Apps/Shell/styles/Images/metaclass.gif" commandName="cmdOrderNewMetaClass" permissions="catalog:admin:meta:cls:mng:create"/>
-					<Button id="NewMetaField" text="{SharedStrings:New_Meta_Field}" imageUrl="~/Apps/Shell/styles/Images/metafield.gif" commandName="cmdOrderNewMetaField" permissions="catalog:admin:meta:fld:mng:create"/>
+					<Button id="NewMetaClass" text="{SharedStrings:New_Meta_Class}" imageUrl="~/Apps/Shell/styles/Images/metaclass.gif" commandName="cmdOrderNewMetaClass" permissions="order:admin:meta:cls:mng:create"/>
+					<Button id="NewMetaField" text="{SharedStrings:New_Meta_Field}" imageUrl="~/Apps/Shell/styles/Images/metafield.gif" commandName="cmdOrderNewMetaField" permissions="order:admin:meta:fld:mng:create"/>
 				</Menu>
 				<Splitter id="ActionsSplitter"/>
 				<Menu id="ImportExportSplitButton" text="{SharedStrings:Import_Export}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
-					<Button id="ImportMetaData" text="{SharedStrings:Import_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdOrderImportMetaData"/>
+					<Button id="ImportMetaData" text="{SharedStrings:Import_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdOrderImportMetaData" permissions="order:admin:meta:cls:mng:create,order:admin:meta:fld:mng:create"/>
 					<Button id="ExportMetaData" text="{SharedStrings:Export_MetaData}" imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdOrderExportMetaData"/>
 				</Menu>
 			</add>

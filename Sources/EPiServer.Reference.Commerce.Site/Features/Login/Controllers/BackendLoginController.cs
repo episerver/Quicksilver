@@ -1,5 +1,5 @@
 ﻿using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Login.Models;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;

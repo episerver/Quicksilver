@@ -99,8 +99,8 @@
 			<add>
 				<Toolbar placeName="ShoppingCartView">
 					<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif">
-						<Button id="ConvertToPurchaseOrder" text="{SharedStrings:Convert_To_Purchase_Order}" commandName="cmdCartConvertPurchaseOrder"/>
-						<Button id="CartCreatePaymentPlan" text="{OrderStrings:Create_Payment_Plan}" commandName="cmdCartCreatePaymentPlan" />
+						<Button id="ConvertToPurchaseOrder" text="{SharedStrings:Convert_To_Purchase_Order}" commandName="cmdCartConvertPurchaseOrder" permissions="order:mng:create"/>
+						<Button id="CartCreatePaymentPlan" text="{OrderStrings:Create_Payment_Plan}" commandName="cmdCartCreatePaymentPlan" permissions="order:mng:create" />
 					</Menu>
 				</Toolbar>
 				<Toolbar placeName="ShoppingCartLineItem-List">

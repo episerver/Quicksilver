@@ -109,7 +109,7 @@
 						<Column columnType="CheckBox" width="25" dataField="LineItemId"/>
 						<Column width="50" headingText="" columnType="Action" dataField="LineItemId">
 							<Item imageUrl="~/Apps/Shell/Styles/images/edit.gif" commandName="cmdOrderLineItemGridEdit" commandParameters="LineItemId,ShipmentId" toolTip="Edit" permissions="order:mng:edit"></Item>
-							<Item imageUrl="~/Apps/Shell/Styles/images/move.png" commandName="cmdOrderLineItemGridMove" commandParameters="LineItemId,ShipmentId" toolTip="Move" permissions="order:mng:split_shipments"></Item>
+							<Item imageUrl="~/Apps/Shell/Styles/images/move.png" commandName="cmdOrderLineItemGridMove" commandParameters="LineItemId,ShipmentId" toolTip="Move" permissions="order:mng:split:shipments"></Item>
 						</Column>
 						<Column visible="false" allowSorting="true" dataField="ShipmentId" headingText=""></Column>
 						<Column visible="false" allowSorting="true" dataField="LineItemId" headingText="{SharedStrings:LineItemId}"></Column>
