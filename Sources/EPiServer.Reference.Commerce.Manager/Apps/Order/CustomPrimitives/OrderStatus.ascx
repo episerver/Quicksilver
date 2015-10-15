@@ -77,6 +77,15 @@
 			<asp:Label ID="lblShippingDiscounts" runat="server"></asp:Label>
 		</td>
 	</tr>
+    
+    <tr>
+		<td valign="top" style="width: 140px; font-weight:bold; text-align:right;padding: 5px;">
+			<asp:Label runat="server" ID="Label14" Text="<%$ Resources:SharedStrings, Handling_Total %>"></asp:Label>:
+		</td>
+		<td style="padding: 5px;">
+			<asp:Label ID="lblHandling" runat="server"></asp:Label>
+		</td>
+	</tr>
     <tr>
 		<td valign="top" style="width: 140px; font-weight:bold; text-align:right;padding: 5px;">
 			<asp:Label runat="server" ID="Label7" Text="<%$ Resources:OrderStrings, Taxes_Total %>"></asp:Label>:

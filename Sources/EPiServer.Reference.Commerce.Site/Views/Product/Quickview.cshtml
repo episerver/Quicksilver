@@ -2,7 +2,7 @@
 @model EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionProductViewModel
 
 
-<div class="modal-content">
+<div class="modal-content jsProductDetails">
 
     <div class="modal-header">
         <p>
@@ -10,14 +10,14 @@
         </p>
     </div>
 
-    <div class="modal-body row jsProductDetails">
+    <div class="modal-body row ">
 
         <div class="col-xs-12 col-sm-4 col--leading">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
-                        <div class="item active" data-slide-number="0">
-                            <img src="@Model.Images.ElementAt(0)" />
-                        </div>
+                    <div class="item active" data-slide-number="0">
+                        <img src="@Model.Images.ElementAt(0)" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,6 +45,7 @@
             <div class="row">
                 @using (Html.BeginForm("SelectVariant", "Product", FormMethod.Post, new { @class = "product-details__form clearfix" }))
                 {
+                    @Html.Hidden("quickview", true)
                     <div class="col-xs-12 col-sm-6">
                         <label for="Color">@Html.Translate("/ProductPage/VariationSelection/Color")</label>
                         @Html.DropDownListFor(x => x.Color, Model.Colors, new { @class = "form-control jsVariationSwitch" })

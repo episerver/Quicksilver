@@ -6,8 +6,7 @@
         <Tab id="navTabAdmin" text="{SharedStrings:Administration}" contentType="default" order="200"  imageUrl="~/Apps/Core/images/module.png" configUrl="" enableHandler2="Mediachase.Commerce.Manager.Apps.Core.CommandHandlers.CoreAdministrationTabEnableHandler, Mediachase.ConsoleManager">
           <Link id="Core_System" text="{SharedStrings:System_Settings}" order="10" iconUrl="" iconCss="treeIcon" command="cmdCoreSystemLink">
             <!-- Dictionaries -->
-            <Link id="Core_Dictionaries" text="{SharedStrings:Dictionaries}" iconUrl="" iconCss="treeIcon" order="10" command="cmdCoreDictionaryLink" >
-              <Link id="Core_LanguagesDictionary" text="{SharedStrings:Languages}" order="10" iconUrl="" iconCss="" command="cmdContentLanguagesDictionary" permissions="content:site:mng:edit"/>
+            <Link id="Core_Dictionaries" text="{SharedStrings:Dictionaries}" iconUrl="" iconCss="treeIcon" order="10" command="cmdCoreDictionaryLink" >              
               <Link id="Core_CountriesDictionary" text="{SharedStrings:Countries}" order="20" iconUrl="" iconCss="" command="cmdOrderCountriesDictionary"
                 permissions="catalog:admin:country:mng:view, catalog:admin:country:mng:create, catalog:admin:country:mng:delete, catalog:admin:country:mng:edit"/>
               <Link id="Core_ReturnReasonDictionary" text="{SharedStrings:Return_Reasons}" order="25" iconUrl="" iconCss="" command="cmdOrderReturnReasonsDictionary"
@@ -20,15 +19,9 @@
               <Link id="Core_ApplicationLog" text="{SharedStrings:Application_Log}" order="20" iconUrl="" iconCss="" command="cmdApplicationLog" permissions="core:admin:applog:mng:view,core:admin:applog:mng:delete" />
             </Link>
             <!-- Common Settings -->
-            <Link id="Core_CommonSettings" text="{SharedStrings:Common_Settings}" order="20" iconUrl="" iconCss="" command="cmdCoreCommonSettings" permissions="core:mng:settings"/>
-            <!--Remove obsolte content links-->
-            <remove nodeId="navTabContentManagement" />
-            <remove nodeId="Core_ContentSites"/>
-            <remove nodeId="Core_LIC"/>
+            <Link id="Core_CommonSettings" text="{SharedStrings:Common_Settings}" order="20" iconUrl="" iconCss="" command="cmdCoreCommonSettings" permissions="core:mng:settings"/>            
             <!-- Business Foundation -->
-            <Link id="Core_BAF" text="{SharedStrings:Business_Foundation}" order="30" iconUrl="" iconCss="" command="cmdCoreBF" permissions="core:mng:businessfoundation" />
-            <!-- Workflow -->
-            <Link id="Core_ContentWorkflow" text="{SharedStrings:Workflow}" iconUrl="" order="40" iconCss="" command="cmdContentWorkflow" permissions="content:admin:workflow:mng:view"/>
+            <Link id="Core_BAF" text="{SharedStrings:Business_Foundation}" order="30" iconUrl="" iconCss="" command="cmdCoreBF" permissions="core:mng:businessfoundation" />            
             <!-- Search -->
             <Link id="Core_Search" text="{SharedStrings:Search_Index}" order="50" iconUrl="" iconCss="" command="cmdSearch" permissions="core:mng:search" />
           </Link>

@@ -16,7 +16,7 @@
 		</Grid>
 		<Toolbar>
 			<add>
-				<Button id="AddLeftMenuItemButton" text="{Global:_mc_Add}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdCustomizationNewLeftMenuItem" permissions="customization:admin:menu:new"/>
+				<Button id="AddLeftMenuItemButton" text="{Global:_mc_Add}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdCustomizationNewLeftMenuItem" permissions="core:mng:leftmenu"/>
 			</add>
 		</Toolbar>
 

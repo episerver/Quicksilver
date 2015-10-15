@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     function SalePriceEditPopup_CloseDialog() {
-        document.getElementById('<%=DialogTrigger.ClientID%>').value = "0";
+        document.getElementById('<%=DialogTrigger.ClientID%>').value = "";
         SalePriceEditDialog.close();
         SalePricesGrid.callback();
         CSManagementClient.MarkDirty();

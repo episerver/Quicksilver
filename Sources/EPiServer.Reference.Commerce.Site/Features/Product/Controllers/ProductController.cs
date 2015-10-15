@@ -123,7 +123,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [HttpPost]
-        public ActionResult SelectVariant(FashionProduct currentContent, string color, string size)
+        public ActionResult SelectVariant(FashionProduct currentContent, string color, string size, bool quickview = false)
         {
             var variations = GetVariations(currentContent);
 
@@ -133,7 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 return HttpNotFound();
             }
 
-            return RedirectToAction("Index", new { variationCode = variation.Code });
+            return RedirectToAction("Index", new { variationCode = variation.Code, quickview });
         }
 
         private IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)

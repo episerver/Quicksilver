@@ -1,5 +1,6 @@
-<%@ Application Language="C#" %>
+<%@ Application Language="C#" Inherits="EPiServer.Global" %>
 <%@ Import Namespace="System.Web.Configuration" %>
+<%@ Import Namespace="System.Web.Routing" %>
 <%@ Import Namespace="EPiServer.Security" %>
 <%@ Import Namespace="Mediachase.Commerce.Core.Dto" %>
 <%@ Import Namespace="EPiServer.Logging" %>
@@ -8,86 +9,85 @@
 <script RunAt="server">
 
     private static AuthenticationMode _authenticationMode;
-    
-	void Application_Start(object sender, EventArgs e)
-	{
+
+    void Application_Start(object sender, EventArgs e)
+    {
         // Code that runs on application startup
-		Application["ComponentArtWebUI_AppKey"] = "This edition of ComponentArt Web.UI is licensed for EPiServer Framework only.";        
+        Application["ComponentArtWebUI_AppKey"] = "This edition of ComponentArt Web.UI is licensed for EPiServer Framework only.";
 
-		string[] resolvedPaths = new string[] {
-			"~/Apps/MetaDataBase/Primitives/", 
-			"~/Apps/MetaDataBase/MetaUI/Primitives/",
-			"~/Apps/MetaUIEntity/Primitives/",
-			"~/Apps/Customer/Primitives/"
-		};
-		
-		Mediachase.Commerce.Manager.ControlPathResolver ctrlPathResolver = new Mediachase.Commerce.Manager.ControlPathResolver();
-	
-		ctrlPathResolver.Init(resolvedPaths);
-	
+        string[] resolvedPaths = new string[] {
+            "~/Apps/MetaDataBase/Primitives/",
+            "~/Apps/MetaDataBase/MetaUI/Primitives/",
+            "~/Apps/MetaUIEntity/Primitives/",
+            "~/Apps/Customer/Primitives/"
+        };
 
-		Mediachase.Commerce.Manager.ControlPathResolver.Current = ctrlPathResolver;
+        Mediachase.Commerce.Manager.ControlPathResolver ctrlPathResolver = new Mediachase.Commerce.Manager.ControlPathResolver();
 
-		Mediachase.Ibn.Web.UI.Layout.DynamicControlFactory.ControlsFolderPath = "~/Apps/";
-		Mediachase.Ibn.Web.UI.Layout.WorkspaceTemplateFactory.ControlsFolderPath = "~/Apps/";
-        
+        ctrlPathResolver.Init(resolvedPaths);
+
+
+        Mediachase.Commerce.Manager.ControlPathResolver.Current = ctrlPathResolver;
+
+        Mediachase.Ibn.Web.UI.Layout.DynamicControlFactory.ControlsFolderPath = "~/Apps/";
+        Mediachase.Ibn.Web.UI.Layout.WorkspaceTemplateFactory.ControlsFolderPath = "~/Apps/";
+
         var configuration = WebConfigurationManager.OpenWebConfiguration("/");
         var authenticationSection = (AuthenticationSection)configuration.GetSection("system.web/authentication");
         _authenticationMode = authenticationSection.Mode;
-	}
-	
-	void Application_End(object sender, EventArgs e)
-	{        
-	}
+    }
 
-	void Application_Error(object sender, EventArgs e)
-	{
-		Exception ex = Server.GetLastError().GetBaseException();
+    void Application_End(object sender, EventArgs e)
+    {
+    }
 
-		if (ex != null)
-		{
+    void Application_Error(object sender, EventArgs e)
+    {
+        Exception ex = Server.GetLastError().GetBaseException();
+
+        if (ex != null)
+        {
             if (typeof(AccessDeniedException) == ex.GetType())
-			{
+            {
                 Response.Redirect(String.Format("~/Apps/Shell/Pages/Unauthorized.html"));
-			}
-			else if (typeof(HttpException) == ex.GetType())
-			{
-				int errorCode = ((HttpException)ex).ErrorCode;
-				if (errorCode == 500) // consider 500 a fatal exception
-				{
-					// Log the exception
+            }
+            else if (typeof(HttpException) == ex.GetType())
+            {
+                int errorCode = ((HttpException)ex).ErrorCode;
+                if (errorCode == 500) // consider 500 a fatal exception
+                {
+                    // Log the exception
                     LogManager.GetLogger(GetType()).Critical("Backend encountered unhandled error.", ex);
-					return;
-				}
-			}
-		}
+                    return;
+                }
+            }
+        }
 
-		// Code that runs when an unhandled error occurs
-		// Log the exception
-		LogManager.GetLogger(GetType()).Error("Backend encountered unhandled error.", ex);
+        // Code that runs when an unhandled error occurs
+        // Log the exception
+        LogManager.GetLogger(GetType()).Error("Backend encountered unhandled error.", ex);
 
-	}
+    }
 
-	void Session_Start(object sender, EventArgs e)
-	{
-		// Code that runs when a new session is started
-	}
+    void Session_Start(object sender, EventArgs e)
+    {
+        // Code that runs when a new session is started
+    }
 
-	void Session_End(object sender, EventArgs e)
-	{
-		// Code that runs when a session ends. 
-		// Note: The Session_End event is raised only when the sessionstate mode
-		// is set to InProc in the Web.config file. If session mode is set to StateServer 
-		// or SQLServer, the event is not raised.
+    void Session_End(object sender, EventArgs e)
+    {
+        // Code that runs when a session ends. 
+        // Note: The Session_End event is raised only when the sessionstate mode
+        // is set to InProc in the Web.config file. If session mode is set to StateServer 
+        // or SQLServer, the event is not raised.
 
-		//Unlock all user locked objects
-		Mediachase.Commerce.Orders.Managers.OrderGroupLockManager.UnlockAllUserLocks(EPiServer.Security.PrincipalInfo.CurrentPrincipal.GetContactId());
+        //Unlock all user locked objects
+        Mediachase.Commerce.Orders.Managers.OrderGroupLockManager.UnlockAllUserLocks(EPiServer.Security.PrincipalInfo.CurrentPrincipal.GetContactId());
 
-	}
+    }
 
-	protected void Application_BeginRequest(object sender, EventArgs e)
-	{
-		log4net.ThreadContext.Properties["Hostname"] = HttpContext.Current.Request.UserHostAddress;
+    protected void Application_BeginRequest(object sender, EventArgs e)
+    {
         // Bug fix for MS SSRS Blank.gif 500 server error missing parameter IterationId
         if (HttpContext.Current.Request.Url.PathAndQuery.StartsWith("/Reserved.ReportViewerWebControl.axd") &&
          !String.IsNullOrEmpty(HttpContext.Current.Request.QueryString["ResourceStreamID"]) &&
@@ -95,22 +95,22 @@
         {
             Context.RewritePath(String.Concat(HttpContext.Current.Request.Url.PathAndQuery, "&IterationId=0"));
         }
-	}
+    }
 
-	protected void Application_AuthenticateRequest(object sender, EventArgs e)
-	{
+    protected void Application_AuthenticateRequest(object sender, EventArgs e)
+    {
 
-	}
+    }
 
-	protected void Application_AuthorizeRequest(object sender, EventArgs e)
-	{
-		HttpApplication httpApplication = (HttpApplication)sender;
+    protected void Application_AuthorizeRequest(object sender, EventArgs e)
+    {
+        HttpApplication httpApplication = (HttpApplication)sender;
 
-		if (this.Request.IsAuthenticated)
-		{
-			// Check current 
-			string fullName = User.Identity.Name;
-			string appName = String.Empty;
+        if (this.Request.IsAuthenticated)
+        {
+            // Check current 
+            string fullName = User.Identity.Name;
+            string appName = String.Empty;
 
             if (_authenticationMode == AuthenticationMode.Forms)
             {
@@ -145,72 +145,75 @@
                     ProfileManager.ApplicationName = appName;
                     Mediachase.Commerce.Core.AppContext.Current.ApplicationId = dto.Application[0].ApplicationId;
                     Mediachase.Commerce.Core.AppContext.Current.ApplicationName = dto.Application[0].Name;
-                    log4net.ThreadContext.Properties["ApplicationId"] = Mediachase.Commerce.Core.AppContext.Current.ApplicationId;
-                    log4net.ThreadContext.Properties["Username"] = Mediachase.Commerce.Security.SecurityContext.Current.CurrentUserName;
                 }
             }
-			// Check permissions
-			// Check permissions
-			if (Mediachase.Commerce.Security.SecurityContext.Current.IsPermissionCheckEnable)
-			{
+            // Check permissions
+            // Check permissions
+            if (Mediachase.Commerce.Security.SecurityContext.Current.IsPermissionCheckEnable)
+            {
                 if (!PrincipalInfo.Current.IsPermitted(x => x.Core.Login))
-				{
-					FormsAuthentication.SignOut();
-					this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
-					httpApplication.CompleteRequest();
-				}
+                {
+                    FormsAuthentication.SignOut();
+                    this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
+                    httpApplication.CompleteRequest();
+                }
 
-				Mediachase.Commerce.Security.SecurityContext context = Mediachase.Commerce.Security.SecurityContext.Current;
+                Mediachase.Commerce.Security.SecurityContext context = Mediachase.Commerce.Security.SecurityContext.Current;
 
-				try
-				{
-					if (context != null && _authenticationMode == AuthenticationMode.Forms)
-					{
-						Mediachase.Commerce.Customers.Profile.CustomerProfileWrapper profile = context.CurrentUserProfile as Mediachase.Commerce.Customers.Profile.CustomerProfileWrapper;
+                try
+                {
+                    if (context != null && _authenticationMode == AuthenticationMode.Forms)
+                    {
+                        Mediachase.Commerce.Customers.Profile.CustomerProfileWrapper profile = context.CurrentUserProfile as Mediachase.Commerce.Customers.Profile.CustomerProfileWrapper;
 
-						if (profile != null && profile.State != 2)
-						{
-							FormsAuthentication.SignOut();
-							this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
-							httpApplication.CompleteRequest();
-						}
-					}
-				}
-				catch (System.Data.SqlClient.SqlException)
-				{
-					FormsAuthentication.SignOut();
-					FormsAuthentication.RedirectToLoginPage();
-					httpApplication.CompleteRequest();
-				}
-			}
-			else if (!Mediachase.Commerce.Security.SecurityContext.Current.CheckCurrentUserInAnyGlobalRoles(
+                        if (profile != null && profile.State != 2)
+                        {
+                            FormsAuthentication.SignOut();
+                            this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
+                            httpApplication.CompleteRequest();
+                        }
+                    }
+                }
+                catch (System.Data.SqlClient.SqlException)
+                {
+                    FormsAuthentication.SignOut();
+                    FormsAuthentication.RedirectToLoginPage();
+                    httpApplication.CompleteRequest();
+                }
+            }
+            else if (!Mediachase.Commerce.Security.SecurityContext.Current.CheckCurrentUserInAnyGlobalRoles(
                 new string[] { Mediachase.Commerce.Core.AppRoles.AdminRole, Mediachase.Commerce.Core.AppRoles.ManagerUserRole }))
-			{
-				FormsAuthentication.SignOut();
-				this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
-				httpApplication.CompleteRequest();
-			}
-		}
-	}
+            {
+                FormsAuthentication.SignOut();
+                this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");
+                httpApplication.CompleteRequest();
+            }
+        }
+    }
 
-	protected void Application_PostAcquireRequestState(object sender, EventArgs e)
-	{
-		try
-		{
-			SetCulture(Mediachase.Web.Console.ManagementContext.Current.ConsoleUICulture);
-		}
-		catch (Exception)
-		{
-		}
-	}
+    protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+    {
+        try
+        {
+            SetCulture(Mediachase.Web.Console.ManagementContext.Current.ConsoleUICulture);
+        }
+        catch (Exception)
+        {
+        }
+    }
 
-	public static void SetCulture(System.Globalization.CultureInfo culture)
-	{
-		// Set the CurrentCulture property to the requested culture.
-		System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+    //Overwrite methods in GlobalBase because we don't need them.
+    protected override void OnRoutesRegistrating(RouteCollection routes) { }
+    protected override void OnRoutesRegistered(RouteCollection routes) { }
+    protected override void RegisterRoutes(RouteCollection routes) { }
 
-		// Initialize the CurrentUICulture property
-		// with the CurrentCulture property.
-		System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
-	}
+    public static void SetCulture(System.Globalization.CultureInfo culture)
+    {
+        // Set the CurrentCulture property to the requested culture.
+        System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+
+        // Initialize the CurrentUICulture property
+        // with the CurrentCulture property.
+        System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+    }
 </script>

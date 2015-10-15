@@ -1,6 +1,9 @@
-﻿using EPiServer.Logging;
+﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Security;
+using EPiServer.ServiceLocation;
 using EPiServer.Shell;
+using EPiServer.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -13,10 +16,6 @@ using Owin;
 using System;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Routing;
-using EPiServer.Core;
-using EPiServer.Web.Routing;
-using Microsoft.Xml.Serialization.GeneratedAssembly;
 
 [assembly: OwinStartupAttribute(typeof(EPiServer.Reference.Commerce.Site.Infrastructure.Owin.Startup))]
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
@@ -48,7 +47,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
-                    OnApplyRedirect = ApplyRedirect
+                    OnApplyRedirect = ApplyRedirect,
+                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<SynchronizingUserService>().SynchronizeAsync(context.Identity)
                 }
             });
 

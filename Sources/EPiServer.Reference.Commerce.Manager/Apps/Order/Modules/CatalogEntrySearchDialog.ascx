@@ -27,10 +27,7 @@
 			<asp:Label runat="server" ID="lblErrorInfo" Style="color: Red" Visible="false"></asp:Label>
 			<table runat="server" id="SearchTable" cellpadding="0" cellspacing="0" width="100%"
 				class="filter">
-				<tr>
-					<td runat="server" id="SiteCell" style="width: 155px;">
-						<asp:DropDownList runat="server" ID="ddlSites" Width="150" AutoPostBack="true" OnSelectedIndexChanged="ddlSites_SelectedIndexChanged"></asp:DropDownList>
-					</td>
+				<tr>					
 					<td style="width: 205px;">
 						<asp:TextBox runat="server" ID="tbKeywordValue" Width="200"></asp:TextBox>
 					</td>
