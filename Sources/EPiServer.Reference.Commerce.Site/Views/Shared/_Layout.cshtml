@@ -44,11 +44,8 @@
             </div>
         </div>
 
-        <div class="container-fluid cookies jsCookies" style="display: none">
-            <div class="container text-right">
-                <p>@Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn--blue jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button></p>
-
-            </div>
+        <div class="cookies jsCookies" style="display: none">
+            @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
         </div>
 
         @{

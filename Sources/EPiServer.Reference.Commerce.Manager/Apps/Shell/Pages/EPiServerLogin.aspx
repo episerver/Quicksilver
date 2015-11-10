@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.EPiServerLogin" CodeBehind="EPiServerLogin.aspx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <script runat="server">
     protected override void OnPreInit(EventArgs e)
     {
@@ -69,14 +70,14 @@
             getEcfMainFrame().location.href = self.location.href;
     </script>
 
-    <link href="../styles/css/FontStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FormStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/GeneralStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/LoginStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/BusinessFoundation/Theme.css" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FontStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FormStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
     
     <!-- EPi Style START -->
-	<link href="../EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 	<!-- EPi Style END -->	
 </head>
 <body>

@@ -1,9 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="OrderLineItemMove.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Order.Modules.OrderLineItemMove" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc2" Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" %>
-<script type="text/javascript" src='<%= this.Page.ResolveClientUrl("~/Apps/Shell/Scripts/jquery.js") %>' ></script>
-<script type="text/javascript" src='<%= this.Page.ResolveClientUrl("~/Apps/Shell/Scripts/jQuery/lib/jquery.bgiframe.js") %>' ></script>
-<script type="text/javascript" src='<%= this.Page.ResolveClientUrl("~/Apps/Shell/Scripts/jQuery/lib/jquery.linkselect.js") %>' ></script>
-<link type="text/css" rel="Stylesheet" href='<%= this.Page.ResolveClientUrl("~/Apps/Shell/Scripts/jQuery/css/jquery.linkselect.style.select.css") %>' />
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/jquery.js") %>" ></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/jQuery/lib/jquery.bgiframe.js") %>" ></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/jQuery/lib/jquery.linkselect.js") %>" ></script>
+<link type="text/css" rel="stylesheet" href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/jQuery/css/jquery.linkselect.style.select.css") %>" />
 <script type="text/javascript">
     function ToggleShipmentTable() {
         var useExistingShipment = $get('<%= rbExistingShipment.ClientID %>').checked;

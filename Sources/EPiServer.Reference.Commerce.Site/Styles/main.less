@@ -25,8 +25,14 @@ h1, h2, h3, h4 { margin-top: 0; }
     input[type="text"]& { max-width: 60px; }
     select& { max-width: 70px; }
 }
-.btn-gray-light {
+
+
+.btn .glyphicon { top: 2px; }
+.btn-gray-lighter {
   .button-variant(@text-color; @gray-lighter; @gray-lighter);
+}
+.btn-gray-light {
+  .button-variant(@text-color; @gray-light; @gray-light);
 }
 
 
@@ -37,6 +43,57 @@ h1, h2, h3, h4 { margin-top: 0; }
 }
 
 
+
+//
+// Cookies bar
+// --------------------------------------------------
+.cookies {
+    animation: cookiesIn .3s ease-out;
+    -webkit-animation: cookiesIn .5s ease-out;
+    background: @gray-dark;
+    bottom: 0px;
+    color: #fff;
+    left: 0;
+    padding: 10px 10px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 100000;
+}
+
+@-webkit-keyframes cookiesIn { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(40px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+
+@keyframes cookiesIn { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(40px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+
+.cookiesIn { 
+    -webkit-animation-name: cookiesIn; 
+    animation-name: cookiesIn; 
+}
+
+
+
+
+//
+// Site-wide components
+// --------------------------------------------------
 .site-logo {
     font-family: 'Raleway', sans-serif;
     font-size: 20px;
@@ -46,6 +103,7 @@ h1, h2, h3, h4 { margin-top: 0; }
     position: relative;
 
     &,
+    a,
     a:hover,
     a:active,
     a:focus,
@@ -62,6 +120,7 @@ h1, h2, h3, h4 { margin-top: 0; }
         padding: @padding-large-vertical @padding-large-horizontal;
     }
 }
+
 
 // Palm only
 @media (max-width: @screen-xs-max) {

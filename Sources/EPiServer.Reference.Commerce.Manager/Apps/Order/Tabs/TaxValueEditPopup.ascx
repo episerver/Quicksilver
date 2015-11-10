@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TaxValueEditPopup.ascx.cs" Inherits="Mediachase.Commerce.Manager.Order.Tabs.TaxValueEditPopup" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker" TagPrefix="ecf" %>
 <script type="text/javascript">
     function ecf_UpdateTaxValueDialogControl(val)
@@ -70,7 +71,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="background-image: url(Apps/Shell/Styles/images/dialog/bottom_content.gif); height: 41px; padding-right: 10px;" align="right">
+                <td colspan="2" style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>); height: 41px; padding-right: 10px;" align="right">
                     <asp:Button runat="server" ID="SaveChangesButton" ValidationGroup="TaxValueValidationGroup" OnClick="SaveChangesButton_Click" Text="<%$ Resources:SharedStrings, Save_Changes %>" />
                 </td>
             </tr>

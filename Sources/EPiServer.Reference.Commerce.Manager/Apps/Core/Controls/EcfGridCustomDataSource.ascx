@@ -1,8 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EcfGridCustomDataSource.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Core.Controls.EcfGridCustomDataSource" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" TagPrefix="mc" %>
 <%@ Register Assembly="Mediachase.ConsoleManager" Namespace="Mediachase.UI.Web.Apps.MetaUI.Grid" TagPrefix="mc3" %>
 <%@ Register TagPrefix="mc" TagName="MetaToolbar" Src="~/Apps/Core/Controls/MetaToolbar.ascx" %>
-<link rel="stylesheet" type="text/css" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/MetaUIEntity/styles/grid.css", this.Page) %>' />
+<link rel="stylesheet" type="text/css" href='<%= CommerceHelper.GetAbsolutePath("~/Apps/MetaUIEntity/styles/grid.css") %>' />
 <asp:UpdatePanel runat="server" ID="panelToolbar" UpdateMode="Conditional">
 	<ContentTemplate>
 		<table runat="server" id="topTable" cellspacing="0" cellpadding="0" border="0" width="100%">

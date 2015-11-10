@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PaymentMethodSelectControl.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Order.Modules.PaymentMethodSelectControl" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/MetaData/PaymentSelectEditTab.ascx" TagName="MetaData" TagPrefix="ecf" %>
-<script type="text/javascript" src='<%= this.Page.ResolveClientUrl("~/Apps/Shell/Scripts/jquery.js") %>' ></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/jquery.js") %>" ></script>
 <script type="text/javascript">
 	function OptimizeMetaForm() {
 		$("input[name$='MetaValueCtrl']").width(400);

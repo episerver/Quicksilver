@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="OrderCreateReturn.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Order.Modules.OrderCreateReturn" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc2" Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" %>
 <%@ Register Src="~/Apps/Customer/Modules/EcfListViewControlWithoutDockTop.ascx" TagName="EcfListViewControl" TagPrefix="cm" %>
 <%@ Register TagPrefix="mc3" Namespace="Mediachase.Commerce.Manager.Apps.Common.Design"
@@ -130,7 +131,7 @@
 		</ContentTemplate>
 	</asp:UpdatePanel>
 </div>
-<script type="text/javascript" src="/Apps/Shell/EPi/Shell/Light/jquery.min.js"></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('td.episerveroverwriteimage > table td:has(img):nth-child(odd) img').each(function(){

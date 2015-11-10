@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" ClassName="uploadiframe" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mcf" Namespace="Mediachase.FileUploader.Web.UI" Assembly="Mediachase.FileUploader" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -6,7 +7,7 @@
 <head id="Head1" runat="server">
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="../../../Shell/Styles/css/FileUploaderStyle.css" rel="stylesheet" type="text/css" />
+    <link href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FileUploaderStyle.css") %>" rel="stylesheet" type="text/css" />
 </head>
 <body class="FileUpload">
     <form id="uploadForm" method="post" runat="server" enctype="multipart/form-data">

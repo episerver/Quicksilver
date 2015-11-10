@@ -9,6 +9,15 @@ using System.Web.UI.WebControls;
 
 namespace EPiServer.Reference.Commerce.Manager
 {
+    /// <summary>
+    /// This is a custom code behind for the login page for CommerceManager
+    /// to get OWIN authentication.
+    /// </summary>
+    /// <remarks>
+    /// We replace the original one as a build step when building this project. 
+    /// See the AfterBuild msbuild target in this files project file for details 
+    /// on how that is done.
+    /// </remarks>
     public partial class Login : Page
     {
         private const string UserLoginFailureMessage = "Login failed. Please try again.";

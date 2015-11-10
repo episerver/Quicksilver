@@ -166,6 +166,8 @@
       <HandlingCost>Handling cost</HandlingCost>
       <TaxCost>Tax cost</TaxCost>
       <ShippingCost>Shipping cost</ShippingCost>
+      <ShippingSubtotal>Shipping Subtotal</ShippingSubtotal>
+      <ShippingDiscount>Shipping Discount</ShippingDiscount>
       <Total>Total</Total>
       <ShippingDetails>Shipping details</ShippingDetails>
       <PaymentDetails>Payment details</PaymentDetails>
@@ -217,7 +219,7 @@
       </Sort>
       <SortBy>Sort by</SortBy>
       <RemoveAll>Remove all</RemoveAll>
-      <YourChoices>Your choices</YourChoices>
+      <Filters>Filters</Filters>
     </Category>
     <Cart>
       <Heading>Items In Your Cart/Being Ordered</Heading>

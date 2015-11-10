@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Enum.Manage.ascx.cs" Inherits="Mediachase.Ibn.Web.UI.MetaDataBase.Primitives.Enum_Manage" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <table cellpadding="3" cellspacing="1" border="0" width="100%" class="ibn-propertysheet" style="table-layout:fixed;">
 	<tr id="trName" runat="server">
 		<td class="ibn-label" style="width:120px">
@@ -21,7 +22,7 @@
 			<asp:TextBox ID="txtFriendlyName" runat="server" Width="100%"></asp:TextBox>
 		</td>
 		<td align="left" style="width:16px">
-			<img src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/images/resource.gif")%>' title='<%=GetGlobalResourceObject("GlobalMetaInfo", "ResourceTooltip").ToString()%>' alt='' style="width:16px; height:16px" />
+			<img src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/images/resource.gif")%>' title='<%=GetGlobalResourceObject("GlobalMetaInfo", "ResourceTooltip").ToString()%>' alt='' style="width:16px; height:16px" />
 		</td>
 		<td style="width:20px">
 			<asp:RequiredFieldValidator id="vldFriendlyName_Required" runat="server" ErrorMessage="*" ControlToValidate="txtFriendlyName" Display="Dynamic"></asp:RequiredFieldValidator>

@@ -436,11 +436,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <param name="checkoutViewModel">The view model representing the purchase order.</param>
         private void SaveBillingAddress(CheckoutViewModel checkoutViewModel)
         {
-            if (!_addressBookService.CanSave(checkoutViewModel.BillingAddress))
-            {
-                return;
-            }
-
             var orderAddress = _checkoutService.AddNewOrderAddress();
 
             _addressBookService.MapModelToOrderAddress(checkoutViewModel.BillingAddress, orderAddress);
@@ -448,24 +443,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             orderAddress.AcceptChanges();
             _checkoutService.UpdateBillingAddressId(orderAddress.Name);
 
-            if (checkoutViewModel.BillingAddress.SaveAddress && User.Identity.IsAuthenticated)
-            {
-                var currentContact = _customerContext.CurrentContact.CurrentContact;
-                var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == checkoutViewModel.BillingAddress.AddressId)
-                              ?? CustomerAddress.CreateInstance();
-
-                _addressBookService.MapModelToCustomerAddress(checkoutViewModel.BillingAddress, customerAddress);
-
-                if (checkoutViewModel.BillingAddress.AddressId == null)
-                {
-                    currentContact.AddContactAddress(customerAddress);
-                }
-                else
-                {
-                    BusinessManager.Update(customerAddress);
-                }
-                currentContact.SaveChanges();
-            }
+            SaveToAddressBookIfNeccessary(checkoutViewModel.BillingAddress);
         }
 
         /// <summary>
@@ -477,39 +455,38 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         {
             foreach (ShippingAddress shippingAddress in checkoutViewModel.ShippingAddresses ?? Enumerable.Empty<ShippingAddress>())
             {
-                if (!_addressBookService.CanSave(shippingAddress))
-                {
-                    continue;
-                }
-
                 var orderAddress = _checkoutService.AddNewOrderAddress();
                 _addressBookService.MapModelToOrderAddress(shippingAddress, orderAddress);
                 orderAddress.Name = Guid.NewGuid().ToString();
                 orderAddress.AcceptChanges();
 
-                if (shippingAddress.SaveAddress && User.Identity.IsAuthenticated)
-                {
-                    var currentContact = _customerContext.CurrentContact.CurrentContact;
-                    var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == shippingAddress.AddressId)
-                                  ?? CustomerAddress.CreateInstance();
-
-                    _addressBookService.MapModelToCustomerAddress(shippingAddress, customerAddress);
-
-                    if (shippingAddress.AddressId == null)
-                    {
-                        currentContact.AddContactAddress(customerAddress);
-                    }
-                    else
-                    {
-                        BusinessManager.Update(customerAddress);
-                    }
-                    currentContact.SaveChanges();
-                }
-
                 var shipment = _checkoutService.CreateShipment();
                 shipment.ShippingAddressId = orderAddress.Name;
                 var shippingRate = _checkoutService.GetShippingRate(shipment, shippingAddress.ShippingMethodId);
                 _checkoutService.UpdateShipment(shipment, shippingRate);
+
+                SaveToAddressBookIfNeccessary(shippingAddress);
+            }
+        }
+
+        private void SaveToAddressBookIfNeccessary(ShippingAddress address)
+        {
+            if (address.SaveAddress && User.Identity.IsAuthenticated && _addressBookService.CanSave(address))
+            {
+                var currentContact = _customerContext.CurrentContact.CurrentContact;
+                var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == address.AddressId) ?? CustomerAddress.CreateInstance();
+
+                _addressBookService.MapModelToCustomerAddress(address, customerAddress);
+
+                if (address.AddressId == null)
+                {
+                    currentContact.AddContactAddress(customerAddress);
+                }
+                else
+                {
+                    BusinessManager.Update(customerAddress);
+                }
+                currentContact.SaveChanges();
             }
         }
 

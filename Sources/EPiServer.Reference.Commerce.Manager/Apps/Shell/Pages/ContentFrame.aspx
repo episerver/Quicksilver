@@ -1,37 +1,38 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="ContentFrame" EnableEventValidation="false" CodeBehind="ContentFrame.aspx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/ErrorModule.ascx" TagName="ErrorModule" TagPrefix="uc1" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title><asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:SharedStrings, EPiServer_Commerce_Manager %>" /></title>
     
-    <link href="../styles/css/ext-all.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/ComboBoxStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/BusinessFoundation/Theme.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/dashboard.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FileUploaderStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FilterBuilder.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FontStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FormStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/GeneralStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/grid.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/IbnLayout.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/MultiPage.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/reports.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/tabs.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/TabStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/TreeStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/GridStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/LoginStyle.css" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/ext-all.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/ComboBoxStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/dashboard.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FileUploaderStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FilterBuilder.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FontStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FormStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/grid.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/IbnLayout.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/MultiPage.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/reports.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/tabs.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/TabStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/TreeStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/GridStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
 
-     <script type="text/javascript" src='<%# ResolveClientUrl("~/Apps/Shell/Scripts/Shell/ManagementClient2.js")%>'></script>
-     <script type="text/javascript" src='<%# ResolveClientUrl("~/Apps/Shell/Scripts/Shell/ManagementClientProxy.js")%>'></script>
+     <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/Shell/ManagementClient2.js")%>"></script>
+     <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/Shell/ManagementClientProxy.js")%>"></script>    
 
 
     <!-- EPi Style START -->
-	<link href="../EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/Apps/Shell/EPi/Shell/Light/jquery.min.js"></script>
-	<script type="text/javascript" src="../EPi/Shell/Light/Shell-ext.js"></script>
+	<link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />	
+	<script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
+	<script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.js") %>"></script>
 	<!-- EPi Style END -->
 	
     <script type="text/javascript">
@@ -119,12 +120,15 @@
     </div>
     <asp:ScriptManager runat="server" ID="ScriptManager1" EnablePageMethods="true" EnablePartialRendering="true" 
 		EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="true"
-		ScriptMode="Auto">
+		ScriptMode="Auto" EnableCdn="true">
         <Services>
 			<asp:ServiceReference Path="~/Apps/Core/Controls/WebServices/EcfListViewExtenderService.asmx"
 				InlineScript="true" />
  		</Services>
-    </asp:ScriptManager>       
+        <Scripts>
+            <asp:ScriptReference Path="/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js"/>
+        </Scripts>
+        </asp:ScriptManager>       
     <uc1:ErrorModule ID="ErrorModule1" runat="server"></uc1:ErrorModule>
     <asp:HiddenField runat="server" ID="_action" Value="" />
     <asp:HiddenField runat="server" ID="_params" Value="" />

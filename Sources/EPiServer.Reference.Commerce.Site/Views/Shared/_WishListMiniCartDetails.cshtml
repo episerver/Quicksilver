@@ -30,7 +30,7 @@
                                         {
                                             var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
                                             var size = fashionVariant.Size;
-                                            @Html.Hidden("size", size)
+                                            @Html.Hidden("size", size.Trim())
                                             
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
                                             @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
@@ -44,7 +44,7 @@
                                         <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
                                     </div>
                                     <div class="col-md-2 product-col-remove">
-                                        <button role="button" class="btn btn-gray-light btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                        <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                     <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
                 </li>
                 <li class="cart-item">
-                    <button type="button" class="btn btn-block jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+                    <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
                 </li>
             </ul>
         </div>

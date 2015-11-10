@@ -1,11 +1,12 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EntitySelect.ascx.cs" Inherits="Mediachase.Ibn.Web.UI.MetaUIEntity.Modules.EntitySelect" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc" TagName="EntityGrid" Src="~/Apps/MetaUIEntity/Grid/EntityGrid.ascx" %>
 <%@ Register TagPrefix="mc" TagName="MCGridAction" Src="~/Apps/MetaUIEntity/Grid/MetaGridServerEventAction.ascx" %>
 <%@ Register TagPrefix="mc2" Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" %>
 <%@ Register TagPrefix="mc" TagName="FormView" Src="~/Apps/MetaDataBase/MetaUI/MetaForm/FormDocumentView.ascx" %>
-<link rel="stylesheet" type="text/css" href='<%= ResolveClientUrl("~/Apps/MetaUIEntity/styles/grid.css") %>' />
+<link rel="stylesheet" type="text/css" href='<%= CommerceHelper.GetAbsolutePath("~/Apps/MetaUIEntity/styles/grid.css") %>' />
  <!-- EPi Style-->
- <link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+<link href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 	var resizeFlag = false;
 	function LayoutResizeHandler(sender, eventArgs)

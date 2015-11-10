@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.Apps.MetaDataBase.Modules.ManageControls.MetaClassView" Codebehind="MetaClassView.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="ibn" TagName="BlockHeader" Src="~/Apps/MetaDataBase/Common/Design/BlockHeader.ascx" %>
 <%@ Register TagPrefix="ibn2" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
 <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server">
@@ -28,7 +29,7 @@
 	  </tr>
 	</table>
 </asp:Panel>
-<script type="text/javascript" src="/Apps/Shell/EPi/Shell/Light/jquery.min.js"></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		var table = $('a.tabTLink:first').parents('table').get(0);

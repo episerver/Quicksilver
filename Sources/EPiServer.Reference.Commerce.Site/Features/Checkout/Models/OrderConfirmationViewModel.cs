@@ -25,6 +25,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         public Dictionary<int, decimal> ItemPrices { get; set; }
 
         public Money HandlingTotal { get; set; }
+        public Money ShippingSubTotal { get; set; }
+        public Money ShippingDiscountTotal { get; set; }
         public Money ShippingTotal { get; set; }
         public Money TaxTotal { get; set; }
         public Money CartTotal { get; set; }

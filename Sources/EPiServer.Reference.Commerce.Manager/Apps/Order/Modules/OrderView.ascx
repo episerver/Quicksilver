@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="OrderView.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Order.Modules.OrderView" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="ibn" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
-<script type="text/javascript" src='<%= ResolveClientUrl("~/Apps/Shell/Scripts/jquery.js") %>'></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
 <script type="text/javascript">
 
 	var blockColl;

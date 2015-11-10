@@ -186,6 +186,8 @@
       <OrderLevelDiscounts>Ytterligare rabatter</OrderLevelDiscounts>
       <ShippingAndTax>Frakt &amp; skatt</ShippingAndTax>
       <ShippingCost>Beräknade fraktkostnader</ShippingCost>
+      <ShippingSubtotal>Frakt Delsumma</ShippingSubtotal>
+      <ShippingDiscount>Frakt Rabatt</ShippingDiscount>
       <TaxTotal>Beräknad skatt </TaxTotal>
       <CartTotal>Total för kundvagnen</CartTotal>
       <BillingDetails>Faktureringsinformation</BillingDetails>
@@ -217,7 +219,7 @@
       </Sort>
       <SortBy>Sortera på</SortBy>
       <RemoveAll>Ta bort alla</RemoveAll>
-      <YourChoices>Dina val</YourChoices>
+      <Filters>Filter</Filters>
     </Category>
     <Cart>
       <Heading>Artiklar i din varukorg / som beställs</Heading>

@@ -1,4 +1,5 @@
 <%@ Master Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.MasterPages.ExtGrid" Codebehind="ExtGrid.master.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Import Namespace="Mediachase.Ibn.Web.UI"%>
 <%@ Register Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" TagPrefix="mc" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -25,11 +26,11 @@
 	}
 	</script>
 	<!-- EPi Style-->
-    <link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 </head>
 <body scroll="auto">
 <form id="form1" runat="server" onkeypress="return disableEnterKey(event);">
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true" />
+<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true" EnableCdn="true" />
 <div id="hideAllDiv" runat="server" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; background-color: White; z-index: 100000;">&nbsp;</div>
 <mc:CommandManager ID="cm1" runat="server" ContainerId="divContainer" />  
 <div id="divContainer" runat="server"></div>	   

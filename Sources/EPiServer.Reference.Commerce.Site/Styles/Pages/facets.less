@@ -1,0 +1,31 @@
+//
+// Facets
+// --------------------------------------------------
+// Styling for the facet sidebar in the categories view
+
+.facets-wrapper {
+	margin: 80px 0 40px;
+
+	label { cursor: pointer; }
+
+    input[type="checkbox"] { display: none; }
+}
+
+
+// Currently selected facets
+.facet-active { margin-bottom: 5px; }
+.facets-summary { margin-bottom: @padding-large-vertical * 4; }
+.facets-amount { padding: @padding-large-vertical 0; }
+
+
+// Facet groups
+.facet-group { 
+	border-bottom: 1px solid @gray-lighter;
+	margin-bottom: @padding-large-vertical * 2;
+
+	padding-bottom: @padding-large-vertical * 2;
+
+	&:last-child { border-bottom: 0px; }
+}
+
+.counter { font-weight: bold; }

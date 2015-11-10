@@ -1,11 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ProfileEdit.ascx.cs" Inherits="Mediachase.Ibn.Web.UI.MetaUIEntity.Modules.ProfileEdit" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="ibn" Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" %>
 
-<link rel="stylesheet" type="text/css" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/MetaDataBase/styles/Theme.css", this.Page) %>' />
-<link rel='Stylesheet' href='<%= this.Page.ResolveUrl("~/Apps/MetaDataBase/styles/calendar.css") %>' type='text/css' />
+<link rel="stylesheet" type="text/css" href="<%= CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/styles/Theme.css") %>" />
+<link rel="stylesheet" type="text/css" href="<%= CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/styles/calendar.css") %>" />
 
 <!-- EPi Style -->
-<link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>"/>
 
 <style type='text/css'>
 	.text, .ibn-nav td, .ibn-nav, .ibn-input 
@@ -337,7 +338,7 @@ window.onload=resizeTable;
 	</table>
 </asp:Panel>
 <asp:HiddenField ID="hfValue" runat="server" />
-<script type="text/javascript" src="/Apps/Shell/EPi/Shell/Light/jquery.min.js"></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var imgLeft = $('div.episerveroverwriteimage table:first td:first img');

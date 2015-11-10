@@ -1,9 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EntityViewWithButtons.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.MetaUIEntity.Modules.EntityViewWithButtons" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="ibn" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
 
-<link rel="stylesheet" type="text/css" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/MetaDataBase/Styles/Theme.css", this.Page) %>' />
+<link rel="stylesheet" type="text/css" href="<%= CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/Styles/Theme.css") %>" />
 <!-- EPi Style -->
-<link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+<link href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 	
 <asp:UpdatePanel runat="server" ID="ContentPanel">
 	<ContentTemplate>

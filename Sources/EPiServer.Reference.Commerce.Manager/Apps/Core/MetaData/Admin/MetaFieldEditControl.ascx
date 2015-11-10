@@ -1,5 +1,6 @@
 <%@ Control Language="c#" Inherits="Mediachase.Commerce.Manager.Core.MetaData.Admin.MetaFieldEditControl"
     CodeBehind="MetaFieldEditControl.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/SaveControl.ascx" TagName="SaveControl" TagPrefix="ecf" %>
 <div id="FormMultiPage">
     <table class="FormMultiPage">
@@ -265,7 +266,7 @@
 				                    <ProgressTemplate>
 					                    <div class="upProgressMain">
 						                    <div class="upProgressCenter">
-							                    <img align='absmiddle' border='0' src='<%# Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/Shell/loading_rss.gif") %>' />&nbsp;Loading...
+							                    <img align='absmiddle' border='0' src='<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/Shell/loading_rss.gif") %>' />&nbsp;Loading...
 						                    </div>
 					                    </div>
 				                    </ProgressTemplate>

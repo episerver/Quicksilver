@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.MetaUI.FormDocumentEdit" Codebehind="FormDocumentEdit.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <style type="text/css">
   html, body {
    margin: 0;
@@ -44,19 +45,19 @@
   <table cellspacing="7" cellpadding="0" class="text">
 	 <tr>
 	  <td><label for="rb11"><input type="radio" name="rbList" id="rb11" runat="server" checked="true" value="11" />&nbsp;<asp:Literal ID="Literal5" runat="server" Text='<%$Resources : MetaForm, TwoCols11 %>' /></label></td>
-	  <td><img style="border:0;" alt="" src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_1.JPG") %>' /></td>
+	  <td><img style="border:0;" alt="" src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_1.JPG") %>' /></td>
 	</tr>
 	<tr>
 	  <td><label for="rb12"><input type="radio" name="rbList" id="rb12" runat="server" value="12" />&nbsp;<asp:Literal ID="Literal6" runat="server" Text='<%$Resources : MetaForm, TwoCols12 %>' /></label></td>
-	  <td><img style="border:0;" alt="" src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_2.JPG") %>' /></td>
+	  <td><img style="border:0;" alt="" src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_2.JPG") %>' /></td>
 	</tr>
 	<tr>
 	  <td><label for="rb21"><input type="radio" name="rbList" id="rb21" runat="server" value="21" />&nbsp;<asp:Literal ID="Literal7" runat="server" Text='<%$Resources : MetaForm, TwoCols21 %>' /></label></td>
-	  <td><img style="border:0;" alt="" src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_2_1.JPG") %>' /></td>
+	  <td><img style="border:0;" alt="" src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_2_1.JPG") %>' /></td>
 	</tr>
 	<tr>
 	  <td><label for="rb111"><input type="radio" name="rbList" id="rb111" runat="server" value="111" />&nbsp;<asp:Literal ID="Literal8" runat="server" Text='<%$Resources : MetaForm, ThreeCols %>' /></label></td>
-	  <td><img style="border:0;" alt="" src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_1_1.JPG") %>' /></td>
+	  <td><img style="border:0;" alt="" src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/Images/LayoutTypes/tab_1_1_1.JPG") %>' /></td>
 	</tr>
   </table>
 </div>
