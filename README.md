@@ -23,6 +23,7 @@ Changes in this release
 * COM-138 Many buttons display as text on IPhone devices (640×1136 pixels). Fixed.
 * COM-231 Incomplete Owin Support for Projects collaboration. Fixed.
 * COM-240 Missing shipping address in order detail when select "Save address" option in checkout page. Fixed.
+* COM-137 Navigation Icon to edit mode overlay mini cart and wishlist in mobile view. Fixed.
 
 Changes in Quicksilver 1.1
 --------------------------
