@@ -26,6 +26,8 @@ namespace EPiServer.Reference.Commerce.Manager
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Header.DataBind();
+
             _signInManager = Request.GetOwinContext().Get<ApplicationSignInManager>();
             LoginCtrl.Authenticate += LoginCtrl_Authenticate;
 
