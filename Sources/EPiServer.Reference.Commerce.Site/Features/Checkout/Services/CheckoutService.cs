@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             shipment.ShippingMethodId = shippingCost.Id;
             shipment.ShippingMethodName = shippingCost.Name;
             shipment.SubTotal = shippingCost.Money.Amount;
-            shipment.ShipmentTotal = shippingCost.Money.Amount;
+            shipment.ShippingSubTotal = shippingCost.Money.Amount;
             shipment.AcceptChanges();
         }
 

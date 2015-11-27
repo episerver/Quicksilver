@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RelationEdit.ascx.cs" Inherits="Mediachase.Ibn.Web.UI.Apps.MetaDataBase.Modules.ManageControls.RelationEdit" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Reference Control="~/Apps/Common/Design/BlockHeader2.ascx" %>
 <%@ Register TagPrefix="ibn" TagName="BlockHeader" Src="~/Apps/Common/Design/BlockHeader2.ascx" %>
 <%@ Reference Control="~/Apps/MetaDataBase/Modules/ManageControls/MetaFormSelector.ascx" %>
@@ -138,7 +139,7 @@
 </table>
 </ContentTemplate>
 </asp:UpdatePanel>
-<script type="text/javascript" src="/Apps/Shell/EPi/Shell/Light/jquery.min.js"></script>
+<script type="text/javascript" src="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/jquery.min.js") %>"></script>
 <script type="text/javascript">
 	var changeStyle = function () {
 		$('td.episerveroverwriteimage > table td:has(img):nth-child(odd) img').each(function () {

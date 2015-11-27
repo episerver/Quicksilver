@@ -1,12 +1,12 @@
-<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Catalog.Tabs.SalePriceEditPopup"
-	CodeBehind="SalePriceEditPopup.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Catalog.Tabs.SalePriceEditPopup"	CodeBehind="SalePriceEditPopup.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/MetaData/EditTab.ascx" TagName="MetaData" TagPrefix="ecf" %>
 <%@ Register Src="~/Apps/Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker"
 	TagPrefix="ecf" %>
 
 <script type="text/javascript">
     function SalePriceEditPopup_CloseDialog() {
-        document.getElementById('<%=DialogTrigger.ClientID%>').value = "0";
+        document.getElementById('<%=DialogTrigger.ClientID%>').value = "";
         SalePriceEditDialog.close();
         SalePricesGrid.callback();
         CSManagementClient.MarkDirty();
@@ -116,12 +116,12 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="background-image: url(Apps/Shell/Styles/images/dialog/bottom_content.gif);
+				<td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>);
 					height: 41px; padding-right: 10px;" align="right">
 					<asp:Button runat="server" ID="SaveChangesButton" ValidationGroup="SalePriceDetails"
 						OnClick="SaveChangesButton_Click" Text="<%$ Resources:CatalogStrings, Entry_Save_Changes %>" />
 				</td>
-                <td style="background-image: url(Apps/Shell/Styles/images/dialog/bottom_content.gif);
+                <td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>);
 					height: 41px; padding-right: 10px;" align="right">
 					<asp:Button runat="server" ID="CancelChangesButton" causesvalidation="false"
 						OnClientClick="SalePriceEditPopup_CloseDialog()" Text="<%$ Resources:CatalogStrings, Entry_Cancel_Changes %>" />

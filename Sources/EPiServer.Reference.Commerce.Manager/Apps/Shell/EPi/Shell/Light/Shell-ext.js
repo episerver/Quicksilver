@@ -19,9 +19,9 @@ function reLoadCss() {
     $('div#mainDiv span').css('color', '#1D1D1D');
 
     $('div#mainDiv > span > table:eq(2) > tbody > tr > td:eq(0) > span').each(function () {
-        $(this).find('table > tbody > tr > td:eq(0) > div:eq(1)').css('background', 'url("../Resources/Gradients.png") repeat-x scroll left -5400px #F0F0F0');
+        $(this).find('table > tbody > tr > td:eq(0) > div:eq(1)').css('background', 'url("../EPi/Shell/Resources/Gradients.png") repeat-x scroll left -5400px #F0F0F0');
     });
-    $('div#mainDiv > span > table:eq(4) > tbody > tr > td:eq(0) > span > table > tbody > tr > td:eq(0) > div:eq(1)').css('background', 'url("../Resources/Gradients.png") repeat-x scroll left -5400px #F0F0F0');
+    $('div#mainDiv > span > table:eq(4) > tbody > tr > td:eq(0) > span > table > tbody > tr > td:eq(0) > div:eq(1)').css('background', 'url("../EPi/Shell/Resources/Gradients.png") repeat-x scroll left -5400px #F0F0F0');
     $('div#mainDiv > span > table:eq(4) > tbody > tr > td:eq(0) > div:eq(0) > table').css('border-color', '#8D8D8D');
     $('span#IbnMainLayout > div.LayoutBase > div > div > table > tbody > tr > td >  div#mainDiv > span > table:eq(0) > tbody > tr > td:eq(0) > div:eq(0)').css('background-color', '#FFFDBD');
     $('div#mainDiv > span > table:eq(0) > tbody > tr > td:eq(0) > div:eq(0)').css('border-bottom', '1px solid #8D8D8D');
@@ -38,7 +38,7 @@ function reLoadCss() {
     $('span#IbnMainLayout > div.LayoutBase > div > span:eq(0) > div.DockContainer > div > table.filter > tbody > tr:eq(0) > td > div > table.ibn-propertysheet > tbody > tr > td:eq(0) > input').css('border', '1px solid #B4B4B4');
     $('div#mainDiv > div > span > table:eq(1) > tbody > tr > td:eq(0) > div').each(function () {
         if ($(this).css('border') != undefined && $(this).css('border').indexOf('1px solid') >= 0) {
-            $(this).css({ 'border': '1px solid #8B8B8B', 'background': 'url("../Resources/Gradients.png") repeat-x scroll left -2200px #FAA61D' });
+            $(this).css({ 'border': '1px solid #8B8B8B', 'background': 'url("../EPi/Shell/Resources/Gradients.png") repeat-x scroll left -2200px #FAA61D' });
         }
     });
 

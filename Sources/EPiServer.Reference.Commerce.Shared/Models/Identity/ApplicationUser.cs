@@ -1,4 +1,5 @@
-﻿using Mediachase.Commerce.Customers;
+﻿using System;
+using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -80,7 +81,19 @@ namespace EPiServer.Reference.Commerce.Shared.Models.Identity
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim(ClaimTypes.Email, Email));
+
+            if (!String.IsNullOrEmpty(FirstName))
+            {
+                userIdentity.AddClaim(new Claim(ClaimTypes.GivenName, FirstName));
+            }
+
+            if (!String.IsNullOrEmpty(LastName))
+            {
+                userIdentity.AddClaim(new Claim(ClaimTypes.Surname, LastName));
+            }
             return userIdentity;
         }
     }

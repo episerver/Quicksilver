@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="Mediachase.Commerce.Manager.Dashboard.Home"%>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Assembly="Mediachase.ConsoleManager" Namespace="Mediachase.Ibn.Web.UI.Layout.Extender" TagPrefix="ibn" %>
 <%@ Register Assembly="Mediachase.ConsoleManager" Namespace="Mediachase.Ibn.Web.UI.Layout" TagPrefix="ibn" %>
 
@@ -7,30 +8,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title><asp:Literal runat="server" Text="<%$ Resources:SharedStrings, EPiServer_Commerce_Manager %>"/></title>
-    <link href="../Shell/styles/css/ext-all.css" rel="stylesheet" type="text/css" />
-    <link href="../Core/Layout/Styles/ext-all2-workspace.css" rel="stylesheet" type="text/css" />
-    <link href="../Core/Layout/Styles/workspace.css" rel="stylesheet" type="text/css" />        
-    <link href="../Shell/styles/ComboBoxStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/BusinessFoundation/Theme.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/dashboard.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/FileUploaderStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/FilterBuilder.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/FontStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/FormStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/GeneralStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/grid.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/IbnLayout.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/MultiPage.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/reports.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/tabs.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/TabStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/css/TreeStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/GridStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/LoginStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../Shell/styles/ToolbarStyle.css" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/ext-all.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Core/Layout/Styles/ext-all2-workspace.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Core/Layout/Styles/workspace.css") %>" rel="stylesheet" type="text/css" />        
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/ComboBoxStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/dashboard.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FileUploaderStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FilterBuilder.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FontStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FormStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/grid.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/IbnLayout.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/MultiPage.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/reports.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/tabs.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/TabStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/TreeStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/GridStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/ToolbarStyle.css") %>" type="text/css" rel="stylesheet" />
 
 	<!-- EPi Style-->
-	<link href="../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+	<link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         // this page should be inside frame
@@ -61,7 +62,7 @@
 				</div>
 			</div>
 		</div>
-   		<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true" EnableScriptGlobalization="true" LoadScriptsBeforeUI="true" ScriptMode="debug">
+   		<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true" EnableScriptGlobalization="true" LoadScriptsBeforeUI="true" ScriptMode="debug" EnableCdn="true">
    		    <Services>
      		    <asp:ServiceReference Path="~/Apps/Core/Layout/WebServices/LayoutCustomizationService.asmx" InlineScript="true" />
      		</Services>

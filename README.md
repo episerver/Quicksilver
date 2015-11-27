@@ -6,7 +6,7 @@ This repository is the starter site for EPiServer Commerce based on MVC, aka "Qu
 Release Notes
 -------------
 
-This is release 1.1 of Quicksilver and more features will be added over time.
+This is release 1.2 of Quicksilver and more features will be added over time.
 The following is a list of features to be added in the future:
 
 * In-store pickup.
@@ -15,7 +15,18 @@ The following is a list of features to be added in the future:
 
 Changes in this release
 -----------------------
+* COM-111 Support for Commerce 9
+* COM-259 GitIgnore file on Quicksilver / GitHub excludes too much. Fixed.
+* COM-136 Inconsistent display description in Quickview dialog. Fixed.
+* COM-267 Error in console when update quantity in cart/minicart. Fixed.
+* COM-261 Should show shipping discount information in order confirmation/email. Fixed.
+* COM-138 Many buttons display as text on IPhone devices (640×1136 pixels). Fixed.
+* COM-231 Incomplete Owin Support for Projects collaboration. Fixed.
+* COM-240 Missing shipping address in order detail when select "Save address" option in checkout page. Fixed.
+* COM-137 Navigation Icon to edit mode overlay mini cart and wishlist in mobile view. Fixed.
 
+Changes in Quicksilver 1.1
+--------------------------
 * Improved support for ASP.NET identity in Commerce Manager.
 * Bug #126401 - Null reference exception when rendering address in some cases. Fixed.
 * Bug #129168 - Quick view in Swedish was badly formatted. Fixed.

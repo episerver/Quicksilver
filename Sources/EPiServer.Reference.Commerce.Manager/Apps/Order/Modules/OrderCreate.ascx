@@ -310,11 +310,19 @@
 												            </td>
 											            </tr>
 											            <tr>
-												            <td class="orderform-label label-divider label-divider-red orderform-label-normal">
+												            <td class="orderform-label label-divider-red orderform-label-normal">
 													            <asp:Label ID="Label2" runat="server" Text="<%$ Resources:OrderStrings, Less_Shipment_Discount %>"></asp:Label>:
 												            </td>
-												            <td class="orderform-field label-divider">
+												            <td class="orderform-field">
 													            <asp:Label ID="lblShipDiscount" runat="server"></asp:Label>
+												            </td>
+											            </tr>
+                                                        <tr>
+												            <td class="orderform-label label-divider orderform-label-normal">
+													            <asp:Label ID="Label12" runat="server" Text="<%$ Resources:SharedStrings, Handling_Total %>"></asp:Label>:
+												            </td>
+												            <td class="orderform-field label-divider">
+													            <asp:Label ID="lblHandlingCost" runat="server"></asp:Label>
 												            </td>
 											            </tr>
 											            <tr>

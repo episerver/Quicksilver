@@ -54,6 +54,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 Payments = form.Payments,
                 GroupId = order.OrderGroupId,
                 OrderLevelDiscountTotal = order.ToMoney(form.LineItems.Sum(x=>x.OrderLevelDiscountAmount)),
+                ShippingSubTotal = order.ToMoney(form.Shipments.Sum(s => s.ShippingSubTotal)),
+                ShippingDiscountTotal = order.ToMoney(form.Shipments.Sum(s => s.ShippingDiscountAmount)),
                 ShippingTotal = order.ToMoney(form.ShippingTotal),
                 HandlingTotal = order.ToMoney(form.HandlingTotal),
                 TaxTotal = order.ToMoney(form.TaxTotal),

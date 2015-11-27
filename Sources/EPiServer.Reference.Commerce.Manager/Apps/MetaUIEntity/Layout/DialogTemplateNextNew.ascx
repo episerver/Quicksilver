@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DialogTemplateNextNew.ascx.cs" Inherits="Mediachase.UI.Web.Modules.DialogTemplateNextNew" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -21,17 +22,17 @@
     			obj.style.display = 'none';
     		}
     	}
-    </script>
+    </script>        
+    <link type="text/css" rel="stylesheet" href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/css/FilterBuilder.css")%>" />
+    <link type="text/css" rel="stylesheet" href="<%# CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/Styles/Calendar.css")%>" />
+    
+    <!-- EPi Style-->
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 </head>
 <body class="ibn-WhiteBg">	
     <form id="frmMain" runat="server" method="post">
-    <link type="text/css" rel="stylesheet" href='<%= ResolveClientUrl("~/Apps/Shell/Styles/css/FilterBuilder.css")%>' />
-    <link type="text/css" rel="stylesheet" href='<%= ResolveClientUrl("~/Apps/MetaDataBase/Styles/Calendar.css")%>' />
-    
-    <!-- EPi Style-->
-	<link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
 	
-	<asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="false"></asp:ScriptManager>
+	<asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="false" EnableCdn="true"></asp:ScriptManager>
 	<div id='ibn_divWithLoadingRss' style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; background-color: White; z-index: 10000">
 		<div style="left: 40%; top: 40%; height: 30px; width: 200px; position: absolute; z-index: 10001">
 			<div style="position: relative;  z-index: 10002">

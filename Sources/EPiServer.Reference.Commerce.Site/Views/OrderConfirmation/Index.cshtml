@@ -58,13 +58,22 @@
                         <td colspan="5"></td>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
                         <td class="total-price text-right">@Model.HandlingTotal.ToString()</td>
+                    </tr> 
+                    <tr>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingSubtotal")</td>
+                        <td class="total-price text-right">@Model.ShippingSubTotal.ToString()</td>
+                    </tr>      
+                    <tr>
+                        <td colspan="5"></td>
+                        <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingDiscount")</td>
+                        <td class="total-price text-right">- @Model.ShippingDiscountTotal.ToString()</td>
                     </tr>
                     <tr>
                         <td colspan="5"></td>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
                         <td class="total-price text-right">@Model.ShippingTotal.ToString()</td>
-                    </tr>
-
+                    </tr>       
                     <tr>
                         <td colspan="5"></td>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/TaxCost")</td>

@@ -1,10 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RoleAssignmentEdit.ascx.cs"
 	Inherits="Mediachase.Commerce.Manager.Apps.Customer.Modules.RoleAssignmentEdit" %>
-<%@ Register Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation"	TagPrefix="mc" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="RoleFilter.ascx" TagName="RoleFilter" TagPrefix="uc1" %>
 <%@ Reference Control="~/Apps/MetaUIEntity/Modules/EntityDropDown.ascx" %>
 <%@ Register TagPrefix="mc" TagName="EntityDD" Src="~/Apps/MetaUIEntity/Modules/EntityDropDown.ascx" %>
-<script type="text/javascript" src='<%=ResolveClientUrl("~/Apps/MetaDataBase/Scripts/main.js") %>' ></script>
+<script type="text/javascript" src='<%=CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/Scripts/main.js") %>' ></script>
 <script type="text/javascript">
     function RunValidation(arrVGroups) {
         var validated = true;

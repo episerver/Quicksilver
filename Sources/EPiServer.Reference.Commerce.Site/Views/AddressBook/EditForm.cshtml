@@ -87,10 +87,10 @@
                     </label>
                 </div>
                 @Html.HiddenFor(x => x.Address.AddressId)
-                <button type="submit" class="btn btn--blue">@Html.Translate("/AddressBook/Form/Label/Submit")</button>
+                <button type="submit" class="btn btn-primary btn--blue">@Html.Translate("/AddressBook/Form/Label/Submit")</button>
                 if (Model.Address.AddressId.HasValue)
                 {
-                    @Html.ActionLink(Html.Translate("/AddressBook/Form/Label/Cancel"), "Index", "AddressBook", new { }, new { @class = "btn" })
+                    @Html.ActionLink(Html.Translate("/AddressBook/Form/Label/Cancel"), "Index", "AddressBook", new { }, new { @class = "btn btn-default" })
                 }
                 <hr />
             }

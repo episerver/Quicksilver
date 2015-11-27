@@ -1,6 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="True" Inherits="EPiServer.Commerce.Manager.Apps.Shell.Pages._default"
-    CodeBehind="episerverdefault.aspx.cs" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="True" Inherits="EPiServer.Commerce.Manager.Apps.Shell.Pages._default" CodeBehind="episerverdefault.aspx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc" TagName="MetaToolbar" Src="~/Apps/Core/Controls/MetaToolbar.ascx" %>
 <%@ Register TagPrefix="mc" TagName="leftTemplate" Src="~/Apps/Shell/Modules/leftTemplate.ascx" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -10,27 +9,27 @@
         <asp:Literal ID="Literal1" runat="server" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
-    <link href="../styles/ComboBoxStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/BusinessFoundation/Theme.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/dashboard.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FileUploaderStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FilterBuilder.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FontStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FormStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/GeneralStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/grid.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/IbnLayout.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/MultiPage.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/reports.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/tabs.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/TabStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/TreeStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/GridStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/LoginStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/ext-all.css" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/ComboBoxStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/dashboard.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FileUploaderStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FilterBuilder.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FontStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FormStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/grid.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/IbnLayout.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/MultiPage.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/reports.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/tabs.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/TabStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/TreeStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/GridStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/ext-all.css") %>" rel="stylesheet" type="text/css" />
 	<!-- EPi Style-->
-	<link href="../EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />	
-    <script type="text/javascript" src='<%=ResolveClientUrl("~/Apps/Shell/Scripts/ManagementClient2.js")%>'></script>
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src='<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/ManagementClient2.js")%>'></script>
 
     <style type="text/css">
         table.imageMiddle tbody tr td em button { background-position: 4pt 2px !important; }
@@ -91,7 +90,7 @@
         </div>
     </div>
     <asp:ScriptManager ID="sm1" runat="server" EnablePartialRendering="true" ScriptMode="Debug"
-        EnableScriptGlobalization="true" EnableScriptLocalization="true" EnableHistory="true" />
+        EnableScriptGlobalization="true" EnableScriptLocalization="true" EnableHistory="true" EnableCdn="true" />
     <IbnWebControls:CommandManager ID="cm1" runat="server" ContainerId="containerDiv" />
     <div id="containerDiv" runat="server">
     </div>

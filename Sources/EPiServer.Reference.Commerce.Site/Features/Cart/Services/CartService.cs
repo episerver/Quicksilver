@@ -237,7 +237,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public Money GetShippingSubTotal()
         {
-            decimal shippingTotal = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShipmentTotal);
+            decimal shippingTotal = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShippingSubTotal);
         
             return ConvertToMoney(shippingTotal);
         }

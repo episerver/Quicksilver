@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CurrencyRateEditPopup.ascx.cs" Inherits="Mediachase.Commerce.Manager.Catalog.Tabs.CurrencyRateEditPopup" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker" TagPrefix="ecf" %>
 <script type="text/javascript">
 	function ecf_UpdateCurrencyRateDialogControl(currencyRateId, currencyName, currencyCode)
@@ -104,10 +105,10 @@
                 </td>
             </tr>
             <tr>
-                <td style="background-image: url(Apps/Shell/Styles/images/dialog/bottom_content.gif); height: 41px; padding-right: 10px;" align="right">
+                <td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>); height: 41px; padding-right: 10px;" align="right">
                     <asp:Button runat="server" ID="SaveChangesButton" ValidationGroup="CurrencyRateValidationGroup" OnClick="SaveChangesButton_Click" Text="<%$ Resources:SharedStrings, Save_Changes %>" />
                 </td>
-                <td style="background-image: url(Apps/Shell/Styles/images/dialog/bottom_content.gif);
+                <td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>);
 					height: 41px; padding-right: 10px;" align="right">
 					<asp:Button runat="server" ID="CancelChangesButton" causesvalidation="false"
 						OnClientClick="CurrencyRateEditPopup_CloseDialog()" Text="<%$ Resources:CatalogStrings, Entry_Cancel_Changes %>" />

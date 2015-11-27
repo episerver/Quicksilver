@@ -1,5 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Catalog.Tabs.CatalogOverviewEditTab"
     CodeBehind="CatalogOverviewEditTab.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Src="~/Apps/Core/Controls/BooleanEditControl.ascx" TagName="BooleanEditControl"
     TagPrefix="ecf" %>
 <%@ Register Src="~/Apps/Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker"
@@ -7,7 +8,7 @@
 <%@ Reference Control="~/Apps/MetaUIEntity/Modules/EntityDropDown.ascx" %>
 <%@ Register Src="~/Apps/MetaUIEntity/Modules/EntityDropDown.ascx" TagName="EntityDD"
     TagPrefix="mc" %>
-<script type="text/javascript" src='<%=ResolveClientUrl("~/Apps/MetaDataBase/Scripts/main.js") %>'></script>
+<script type="text/javascript" src='<%=CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/Scripts/main.js") %>'></script>
 <style type="text/css">
     .ajax__validatorcallout_popup_table {
         top: 100px;

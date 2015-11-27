@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Logout" Codebehind="Logout.aspx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -20,14 +21,14 @@
 		}
 	</style>
 
-    <link href="../styles/css/FontStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/FormStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/GeneralStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/LoginStyle.css" type="text/css" rel="stylesheet" />
-    <link href="../styles/css/BusinessFoundation/Theme.css" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FontStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FormStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
     
     <!-- EPi Style START -->
-	<link href="../EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 	<!-- EPi Style END -->	
 </head>
 <body>

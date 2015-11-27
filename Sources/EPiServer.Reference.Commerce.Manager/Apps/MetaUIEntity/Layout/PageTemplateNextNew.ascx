@@ -9,7 +9,7 @@
 
 	<body class="UserBackground" id="bodyTag" runat="server">
 	<form id="frmMain" method="post" runat="server" onkeypress="return disableEnterKey(event);">
-	<asp:ScriptManager ID="ScriptManager2" runat="server" EnablePartialRendering="true" ScriptMode="Debug" EnableScriptGlobalization = "true" EnableScriptLocalization="true">
+	<asp:ScriptManager ID="ScriptManager2" runat="server" EnablePartialRendering="true" ScriptMode="Debug" EnableScriptGlobalization = "true" EnableScriptLocalization="true" EnableCdn="true">
 		<Services>
 			<asp:ServiceReference Path="~/Apps/MetaUIEntity/WebServices/EntityGridService.asmx" InlineScript="true" />
 		</Services>

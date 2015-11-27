@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DialogTemplateLayout.ascx.cs" Inherits="Mediachase.UI.Web.Modules.DialogTemplateLayout" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register TagPrefix="mc" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,16 +15,17 @@
     	}
     </script>    
     <!-- EPi Style-->
-    <link href="../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
+    
+    <link type="text/css" rel="stylesheet" href="<%# CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/styles/ext-all2.css")%>" />
+    <link type="text/css" rel="stylesheet" href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/FormStyle.css")%>" />
+    <link type="text/css" rel="stylesheet" href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/IbnLayout.css")%>" />
 </head>
-<link type="text/css" rel="stylesheet" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/MetaDataBase/styles/ext-all2.css", this.Page)%>' />
-<link type="text/css" rel="stylesheet" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/Shell/styles/css/FormStyle.css", this.Page)%>' />
-<link type="text/css" rel="stylesheet" href='<%= Mediachase.BusinessFoundation.McScriptLoader.Current.GetScriptUrl("~/Apps/Shell/styles/css/IbnLayout.css", this.Page)%>' />
 <body class="ibn-WhiteBg">
 	
     <form id="frmMain" runat="server" method="post">
 	<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" 
-		EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="false">
+		EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="false" EnableCdn="true">
 	</asp:ScriptManager>
 	<div id='ibn_divWithLoadingRss' style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; background-color: White; z-index: 10000">
 		<div style="left: 40%; top: 40%; height: 30px; width: 200px; position: absolute; z-index: 10001">

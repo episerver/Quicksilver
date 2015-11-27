@@ -1,16 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web;
-using EPiServer.Core;
-using EPiServer.Reference.Commerce.Manager;
+﻿using EPiServer.Reference.Commerce.Manager;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Security;
+using EPiServer.ServiceLocation;
 using EPiServer.Shell;
-using EPiServer.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System;
+using System.Threading.Tasks;
+using System.Web;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace EPiServer.Reference.Commerce.Manager
@@ -42,7 +42,8 @@ namespace EPiServer.Reference.Commerce.Manager
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
-                    OnApplyRedirect = ApplyRedirect
+                    OnApplyRedirect = ApplyRedirect,
+                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<SynchronizingUserService>().SynchronizeAsync(context.Identity)
                 }
             });
 

@@ -283,9 +283,7 @@
 					<Button id="DeleteButton" text="{Customer:DeleteContact}" imageUrl="~/Apps/MetaDataBase/images/delete.gif" commandName="Contact_Delete" itemSplitter="Right" permissions="businessfoundation:contact:delete:permission"></Button>
 					<Button id="ListButton" text="{Customer:Contacts}" imageUrl="~/Apps/MetaDataBase/images/back.gif" tooltip="{Customer:Contacts}" commandName="Contact_List" ></Button>
 					<Splitter id="ActionsSplitter"></Splitter>
-					<!--<Button id="NewOrderButton" text="{OrderStrings:Order_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" tooltip="{OrderStrings:Order_New}" commandName="cmdPurchaseOrderNew" permissions="order:mng:create"></Button>-->
-					<Button id="NewOrderButton" text="{OrderStrings:Order_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" tooltip="{OrderStrings:Order_New}" commandName="cmdPurchaseOrderNewSelect" permissions="order:mng:create"></Button>
-					<Button id="NewOrderButton2" text="{OrderStrings:Order_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" tooltip="{OrderStrings:Order_New}" commandName="cmdPurchaseOrderNew" permissions="order:mng:create"></Button>
+          <Button id="NewOrderButton" text="{OrderStrings:Order_New}" imageUrl="~/Apps/Shell/styles/Images/new.png" tooltip="{OrderStrings:Order_New}" commandName="cmdPurchaseOrderNew" permissions="order:mng:create"></Button>
 				</Toolbar>
 				<Toolbar placeName="ContactCreditCards-List">
 					<Button id="NewCreditCard" text="{Customer:NewCreditCard}" imageUrl="~/Apps/MetaDataBase/images/newitem.gif" commandName="MC_CreditCard_NewItem" itemSplitter="Right"></Button>
@@ -359,23 +357,9 @@
 				<Command id="cmdPurchaseOrderNew">
 					<CommandType>ClientAction</CommandType>
 					<ClientScript>CSOrderClient.NewPurchaseOrder('{QueryString:ObjectId}', 'Contact-View')</ClientScript>
-					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.NewOrderDirectEnableHandler, Mediachase.ConsoleManager" />
+          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
 				</Command>
-				<Command id="cmdPurchaseOrderNewServer">
-					<CommandType>ServerAction</CommandType>
-					<Handler type="Mediachase.Commerce.Manager.Apps.Order.CommandHandlers.OrderCreateRedirectHandler, Mediachase.ConsoleManager" />
-				</Command>
-				<Command id="cmdPurchaseOrderNewSelect">
-					<CommandType>OpenFrameModalPopup</CommandType>
-					<PopupTitle>{OrderStrings:Order_New}</PopupTitle>
-					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Customer&amp;_v=OpenFrameXmlFormBuilderView&amp;CommandClassName=Contact&amp;CommandViewName=EntityView&amp;CommandPlaceName=&amp;CommandName=cmdPurchaseOrderNewSelect&amp;LayoutClassName=SelectCustomerSite&amp;LayoutPlaceName=&amp;CustomerId={QueryString:ObjectId}&amp;ReturnCommandName=cmdPurchaseOrderNewServer</Url>
-					<Width>550</Width>
-					<Height>190</Height>
-					<Top>15</Top>
-					<Drag>True</Drag>
-					<EnableHandler type="Mediachase.Commerce.Manager.Apps.Customer.CommandHandlers.NewOrderEnableHandler, Mediachase.ConsoleManager" />
-					<DependCommand>cmdPurchaseOrderNewServer</DependCommand>
-				</Command>
+				
 				<!--************************-->
 				<!--*ContactView CreditCard*-->
 				<!--************************-->

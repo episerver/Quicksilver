@@ -1,11 +1,12 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.MetaUI.FormDocumentDesigner" Codebehind="FormDocumentDesigner.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Reference Control="~/Apps/Core/Controls/MetaToolbar.ascx" %>
 <%@ Register TagPrefix="ibn2" TagName="MetaToolbar" Src="~/Apps/Core/Controls/MetaToolbar.ascx" %>
 <%@ Register TagPrefix="mc" Namespace="Mediachase.BusinessFoundation.MetaForm" Assembly="Mediachase.BusinessFoundation" %>
 <%@ Register TagPrefix="mc2" Namespace="Mediachase.Commerce.Manager.Apps.Common.Design" Assembly="Mediachase.ConsoleManager" %>
-<link type="text/css" rel="Stylesheet" href='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/styles/Theme.css") %>' />
+<link type="text/css" rel="Stylesheet" href='<%= CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/styles/Theme.css") %>' />
 <!-- EPi Style -->
-<link href="../../../Shell/EPi/Shell/Light/Shell-ext.css" rel="stylesheet" type="text/css" />
+<link href="<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
 	
 <style type="text/css">
 	body{

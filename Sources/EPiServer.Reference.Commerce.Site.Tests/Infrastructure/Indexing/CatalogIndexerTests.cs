@@ -280,7 +280,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             newEntryRow.Name = "Name";
             newEntryRow.StartDate = DateTime.UtcNow.AddHours(-1);
             newEntryRow.TemplateName = "Template";
-            newEntryRow.SetSerializedDataNull();
             dataTable.AddCatalogEntryRow(newEntryRow);
             return newEntryRow;
         }

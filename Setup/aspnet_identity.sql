@@ -113,17 +113,37 @@ GO
 
 declare @AdminRoleId as uniqueidentifier;
 declare @AdminUserId as uniqueidentifier;
+declare @WebAdminRoleId as uniqueidentifier;
+declare @WebAdminUserId as uniqueidentifier;
+declare @EditorRoleId as uniqueidentifier;
+declare @EditorUserId as uniqueidentifier;
 
 set @AdminRoleId = NEWID();
+set @WebAdminRoleId = NEWID();
+set @EditorRoleId = NEWID();
 set @AdminUserId = NEWID();
+set @EditorUserId = NEWID();
+set @WebAdminUserId = NEWID();
 
 insert into AspNetRoles(Id, Name) Values(@AdminRoleId, 'Administrators');
-insert into AspNetRoles(Id, Name) Values(NEWID(), 'WebAdmins');
-insert into AspNetRoles(Id, Name) Values(NEWID(), 'WebEditors');
+insert into AspNetRoles(Id, Name) Values(@WebAdminRoleId, 'WebAdmins');
+insert into AspNetRoles(Id, Name) Values(@EditorRoleId, 'WebEditors');
 
 insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
 values (@AdminUserId, 'admin', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'admin', 0, 0, 0, 0, 0);
 
 insert into AspNetUserRoles (RoleId, UserId) values (@AdminRoleId, @AdminUserId);
+
+
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
+values (@EditorUserId, 'editor@quicksilver.com', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'editor@quicksilver.com', 0, 0, 0, 0, 0);
+
+insert into AspNetUserRoles (RoleId, UserId) values (@EditorRoleId, @EditorUserId);
+
+
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
+values (@WebAdminUserId, 'webaadmin@quicksilver.com', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'webaadmin@quicksilver.com', 0, 0, 0, 0, 0);
+
+insert into AspNetUserRoles (RoleId, UserId) values (@WebAdminRoleId, @WebAdminUserId);
 
 GO

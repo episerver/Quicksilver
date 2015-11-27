@@ -1,6 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.MetaUI.FormDocumentView" Codebehind="FormDocumentView.ascx.cs" %>
 <%@ Register TagPrefix="mc" Namespace="Mediachase.BusinessFoundation.MetaForm" Assembly="Mediachase.BusinessFoundation" %>
 <%@ Register TagPrefix="mc2" Namespace="Mediachase.Commerce.Manager.Apps.Common.Design" Assembly="Mediachase.ConsoleManager" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <div runat="server" id="OuterDiv" style="overflow:auto;">
 <mc:FormRenderer ID="fRenderer" runat="server" TableLayoutMode="View">
 	<SectionHeaderTemplate>
@@ -8,4 +9,4 @@
 	</SectionHeaderTemplate>
 </mc:FormRenderer>
 </div>
-<script type="text/javascript" src='<%=Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/Apps/MetaDataBase/Scripts/main.js") %>'></script>
+<script type="text/javascript" src='<%=CommerceHelper.GetAbsolutePath("/Apps/MetaDataBase/Scripts/main.js") %>'></script>

@@ -60,6 +60,16 @@
                             </tr>
                             <tr>
                                 <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/ShippingSubtotal")</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.ShippingSubTotal.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/ShippingDiscount")</td>
+                                <td style="text-align: right; @horizontalLineStyle @cellPadding">- @Model.ShippingDiscountTotal.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="@horizontalLineStyle @cellPadding"></td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
                                 <td style="text-align: right; @horizontalLineStyle @cellPadding">@Model.ShippingTotal.ToString()</td>
                             </tr>

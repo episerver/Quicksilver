@@ -13,7 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
     public class FashionVariant : VariationContent
     {
         [Searchable]
-        [CultureSpecific]
         [Tokenize]
         [IncludeInDefaultSearch]
         [BackingType(typeof(PropertyString))]

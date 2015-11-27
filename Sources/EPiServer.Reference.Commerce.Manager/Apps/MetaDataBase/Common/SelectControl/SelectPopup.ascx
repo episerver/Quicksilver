@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Ibn.Web.UI.SelectPopup" Codebehind="SelectPopup.ascx.cs" %>
+<%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <%@ Register Assembly="Mediachase.BusinessFoundation" Namespace="Mediachase.BusinessFoundation" TagPrefix="Ibn" %>
 <div runat="server" id="backgroundContainer" style="position: absolute; left: 0px; top:0px; height: 100%; width: 100%; background-color: #666666; display: none; z-index: 10001; opacity: 0.4; filter: alpha(opacity=40);">
     &nbsp;
@@ -7,7 +8,7 @@
 
 <div style="position:relative;">
 <div id="divClose" runat="server" style="cursor:pointer;position: absolute; left: 382px; top:2px; height: 16px; width: 16px; z-index: 10002;">
-	<img alt="" src='<%= Mediachase.Ibn.Web.UI.CHelper.GetAbsolutePath("/images/deny_black.gif") %>' />
+	<img alt="" src='<%= CommerceHelper.GetAbsolutePath("/images/deny_black.gif") %>' />
 </div>
 <div style="position: absolute; left: 282px; top:2px; z-index: 10002;">Advanced View</div>
 <table style="padding:5px" cellspacing="0" cellpadding="5" width="100%" class="ibn-propertysheet">

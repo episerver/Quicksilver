@@ -20,18 +20,21 @@
                             </div>
                             <div class="media-body">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
                                         <a href="@cartItem.Url" class="link--black"><h4 class="product-row__item__title">@cartItem.DisplayName</h4></a>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button role="button" class="btn btn-gray-lighter btn-xs jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                         @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
                                         {
                                             var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
                                             var size = fashionVariant.Size;
-                                            @Html.Hidden("size", size)
+                                            @Html.Hidden("size", size.Trim())
 
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
                                             @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
@@ -43,9 +46,6 @@
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
                                         <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
-                                    </div>
-                                    <div class="col-md-2 product-col-remove">
-                                        <button role="button" class="btn btn-gray-light btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                     <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.CheckoutPage)'">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
                 </li>
                 <li class="cart-item">
-                    <button type="button" class="btn btn-block jsCartContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+                    <button type="button" class="btn btn-block btn-default jsCartContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
                 </li>
             </ul>
         </div>
