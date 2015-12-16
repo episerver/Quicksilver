@@ -45,17 +45,15 @@ namespace EPiServer.Reference.Commerce.Shared.Services
                 QueryCollection = nameValueCollection
             };
 
-            string basePath = _httpContextBase.Request.Url.GetLeftPart(UriPartial.Authority);
-            string relativePath = urlBuilder.ToString();
+            var basePath = _httpContextBase.Request.Url.GetLeftPart(UriPartial.Authority);
+            var relativePath = urlBuilder.ToString();
             
             if (relativePath.StartsWith(basePath))
             {
                 relativePath = relativePath.Substring(basePath.Length);
             }
 
-            string body = _htmlDownloader.Download(basePath, relativePath);
-
-            return body;
+            return _htmlDownloader.Download(basePath, relativePath);
         }
 
         public void Send(string subject, string body, string recipientMailAddress)

@@ -41,10 +41,18 @@
         </div>
     </div>
 
-@if (!String.IsNullOrEmpty(Model.ErrorMessage))
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var item in ViewData.ModelState)
             {
-                <div class="alert alert-danger">@Model.ErrorMessage</div>
+                foreach (var error in item.Value.Errors)
+                {
+                    <p>@error.ErrorMessage</p>
+                }
             }
+        </div>
+    }
 
     @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
     {

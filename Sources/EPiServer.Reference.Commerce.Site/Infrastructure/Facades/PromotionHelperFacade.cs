@@ -4,7 +4,7 @@ using Mediachase.Commerce.Website.Helpers;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 {
-    [ServiceConfiguration(typeof(PromotionHelperFacade), Lifecycle = ServiceInstanceScope.Singleton)]
+    [ServiceConfiguration(typeof(PromotionHelperFacade), Lifecycle = ServiceInstanceScope.HybridHttpSession)]
     public class PromotionHelperFacade
     {
         private PromotionHelper _helper;

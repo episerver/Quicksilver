@@ -13,7 +13,7 @@ using Mediachase.Commerce.Pricing;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 {
-    [ServiceConfiguration(typeof(IPromotionEntryService), Lifecycle = ServiceInstanceScope.Singleton)]
+    [ServiceConfiguration(typeof(IPromotionEntryService), Lifecycle = ServiceInstanceScope.HybridHttpSession)]
     public class PromotionEntryService : IPromotionEntryService
     {
         private readonly ILinksRepository _linksRepository;

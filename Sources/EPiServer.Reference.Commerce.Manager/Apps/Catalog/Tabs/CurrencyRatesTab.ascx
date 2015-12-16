@@ -26,7 +26,7 @@
      <tr>
         <td class="wh100">
             <ComponentArt:Grid Debug="false" AllowEditing="true" RunningMode="Callback" AutoFocusSearchBox="false" 
-                ShowHeader="false" ShowFooter="false" Width="700" SkinID="Inline" runat="server" ID="CurrencyRatesGrid" 
+                ShowHeader="false" ShowFooter="true" Width="700" SkinID="Inline" runat="server" ID="CurrencyRatesGrid" 
                 AutoPostBackOnInsert="false" AutoPostBackOnDelete="false" AutoPostBackOnUpdate="false" 
                 AutoCallBackOnInsert="false" AutoCallBackOnDelete="false" AutoCallBackOnUpdate="false"
                 FooterTextCssClass="ca-GridFooterText" ImagesBaseUrl="~/Apps/Shell/styles/images/" CssClass="ca-Grid" AllowMultipleSelect="false"

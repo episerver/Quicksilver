@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Framework.Cache;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Inventory;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Pricing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 {
@@ -113,7 +113,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 
         private void SetupReferenceConverter()
         {
-            _referenceConverterMock = new Mock<ReferenceConverter>(new Mock<ICatalogSystem>().Object)
+            var synchronizedObjectInstanceCache = new Mock<ISynchronizedObjectInstanceCache>();
+
+            _referenceConverterMock = new Mock<ReferenceConverter>(
+                new EntryIdentityResolver(synchronizedObjectInstanceCache.Object),
+                new NodeIdentityResolver(synchronizedObjectInstanceCache.Object))
             {
                 CallBase = true
             };

@@ -5,16 +5,13 @@ using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Controllers
@@ -114,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             _userManagerMock = new Mock<ApplicationUserManager>(userStoreMock.Object);
             signinManagerMock = new Mock<ApplicationSignInManager>(_userManagerMock.Object, authenticationManagerMock.Object);
             _userServiceMock = new Mock<UserService>(_userManagerMock.Object, signinManagerMock.Object, authenticationManagerMock.Object, localizationService, customerContextFacade.Object);
-            _subject = new ResetPasswordController(signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, contentLoaderMock.Object, mailServiceMock.Object);
+            _subject = new ResetPasswordController(signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, contentLoaderMock.Object, mailServiceMock.Object, new MemoryLocalizationService());
         }
     }
 }
