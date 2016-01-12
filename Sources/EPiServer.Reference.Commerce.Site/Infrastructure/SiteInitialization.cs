@@ -6,6 +6,7 @@ using EPiServer.Framework.Web;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Indexing;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
@@ -76,6 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<IOwinContext>().Use(() => owinContextFunc());
                 c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
                 c.For<SiteContext>().HybridHttpOrThreadLocalScoped().Use<CustomCurrencySiteContext>();
+                c.For<PromotionHelper>().HybridHttpOrThreadLocalScoped().Use(() => new PromotionHelper());
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));

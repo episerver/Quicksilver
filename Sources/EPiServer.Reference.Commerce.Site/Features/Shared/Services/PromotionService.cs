@@ -12,7 +12,7 @@ using Mediachase.Commerce.Pricing;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 {
-    [ServiceConfiguration(typeof(IPromotionService), Lifecycle = ServiceInstanceScope.HybridHttpSession)]
+    [ServiceConfiguration(typeof(IPromotionService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class PromotionService : IPromotionService
     {
         private readonly IContentLoader _contentLoader;
@@ -70,8 +70,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             currency = GetCurrency(currency, marketId);
 
             var priceValues = new List<IPriceValue>();
-            
-            _promotionHelper.Reset();
             
             foreach (var entry in GetEntries(prices))
             {

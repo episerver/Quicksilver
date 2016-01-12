@@ -22,10 +22,5 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
         {
             
         }
-
-        public override void Reset()
-        {
-            
-        }
     }
 }
