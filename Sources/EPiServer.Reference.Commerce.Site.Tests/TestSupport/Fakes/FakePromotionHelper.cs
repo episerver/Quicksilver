@@ -6,21 +6,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
 {
     public class FakePromotionHelper : PromotionHelperFacade
     {
-        private readonly PromotionContext _promotionContext;
-
-        public FakePromotionHelper()
+        public override PromotionContext Evaluate(PromotionFilter filter, PromotionEntriesSet sourceEntriesSet, PromotionEntriesSet targetEntriesSet, bool checkEntryLevelLimit)
         {
-            _promotionContext = new PromotionContext(null, null, null);
-        }
-
-        public override PromotionContext PromotionContext
-        {
-            get { return _promotionContext; }
-        }
-
-        public override void Evaluate(PromotionFilter filter, bool checkEntryLevelLimit)
-        {
-            
+            return null;
         }
     }
 }

@@ -77,7 +77,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<IOwinContext>().Use(() => owinContextFunc());
                 c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
                 c.For<SiteContext>().HybridHttpOrThreadLocalScoped().Use<CustomCurrencySiteContext>();
-                c.For<PromotionHelper>().HybridHttpOrThreadLocalScoped().Use(() => new PromotionHelper());
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));

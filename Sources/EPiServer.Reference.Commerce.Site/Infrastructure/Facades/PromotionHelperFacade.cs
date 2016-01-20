@@ -7,18 +7,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
     [ServiceConfiguration(typeof(PromotionHelperFacade), Lifecycle = ServiceInstanceScope.Singleton)]
     public class PromotionHelperFacade
     {
-        private PromotionHelper _helper;
-
-        public virtual PromotionContext PromotionContext
+        public virtual PromotionContext Evaluate(PromotionFilter filter, PromotionEntriesSet sourceEntriesSet, PromotionEntriesSet targetEntriesSet, bool checkEntryLevelLimit)
         {
-            get { return ServiceLocator.Current.GetInstance<PromotionHelper>().PromotionContext; }
-        }
-
-        public virtual void Evaluate(PromotionFilter filter, bool checkEntryLevelLimit)
-        {
-            _helper = ServiceLocator.Current.GetInstance<PromotionHelper>();
-            _helper.PromotionContext.TargetGroup = PromotionGroup.GetPromotionGroup(PromotionGroup.PromotionGroupKey.Entry).Key;
-            _helper.Eval(filter, checkEntryLevelLimit);
+            var helper = new PromotionHelper();
+            helper.PromotionContext.TargetGroup = PromotionGroup.GetPromotionGroup(PromotionGroup.PromotionGroupKey.Entry).Key;
+            helper.PromotionContext.SourceEntriesSet = sourceEntriesSet;
+            helper.PromotionContext.TargetEntriesSet = targetEntriesSet;
+            helper.Eval(filter, checkEntryLevelLimit);
+            return helper.PromotionContext;
         }
     }
 }
