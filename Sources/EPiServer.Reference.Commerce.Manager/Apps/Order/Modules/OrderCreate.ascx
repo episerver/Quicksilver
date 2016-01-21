@@ -135,8 +135,8 @@
                                                         <div>
                                                             <asp:Label ID="Label11" runat="server" Text="Changing the market will clear the order, do you want to continue?"></asp:Label>
                                                             <br />
-                                                            <asp:Button ID="btnYes" runat="server" Text="Yes" OnClick="btnYes_Click" />
-                                                            <asp:Button ID="btnNo" runat="server" Text="No" OnClick="btnNo_Click" />
+                                                            <asp:Button ID="btnYes" runat="server" Text="Yes" OnClick="btnYes_Click" CausesValidation="false"/>
+                                                            <asp:Button ID="btnNo" runat="server" Text="No" OnClick="btnNo_Click" CausesValidation="false"/>
                                                         </div>
                                                     </asp:Panel>
                                                     <asp:Button runat="server" ID="hiddenTargetControlForModalPopup" Style="display: none" />

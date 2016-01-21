@@ -116,7 +116,7 @@
                                         <tr>
                                             <td style="font-size: 10px;">Loading...&nbsp;</td>
                                             <td>
-                                                <img src="Apps/Shell/Styles/images/grid/spinner.gif" alt="Loading" width="16" height="16" border="0">
+                                                <img src="../../../Apps/Shell/Styles/images/grid/spinner.gif" alt="Loading" width="16" height="16" border="0">
                                         </tr>
                                     </table>
                                 </ComponentArt:ClientTemplate>

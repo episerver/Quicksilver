@@ -119,14 +119,14 @@
         </div>
     </div>
     <asp:ScriptManager runat="server" ID="ScriptManager1" EnablePageMethods="true" EnablePartialRendering="true" 
-		EnableScriptGlobalization="true" EnableScriptLocalization="true" LoadScriptsBeforeUI="true"
+		EnableScriptGlobalization="true" EnableScriptLocalization="false" LoadScriptsBeforeUI="true"
 		ScriptMode="Auto" EnableCdn="true">
         <Services>
 			<asp:ServiceReference Path="~/Apps/Core/Controls/WebServices/EcfListViewExtenderService.asmx"
 				InlineScript="true" />
  		</Services>
         <Scripts>
-            <asp:ScriptReference Path="/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js"/>
+            <asp:ScriptReference Path="~/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js"/>
         </Scripts>
         </asp:ScriptManager>       
     <uc1:ErrorModule ID="ErrorModule1" runat="server"></uc1:ErrorModule>

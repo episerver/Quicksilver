@@ -138,7 +138,7 @@ function InitTree(dataUrlString)
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="background-image: url(../../../../Apps/Shell/Styles/images/dialog/bottom_content.gif);
+        <td colspan="2" style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/bottom_content.gif")%>');
             height: 41px; padding-right: 10px;" align="right">
             <asp:Button runat="server" ID="btnOK" Text="<%$ Resources:SharedStrings, OK %>" Width="80px" />
             &nbsp;&nbsp;&nbsp;

@@ -105,10 +105,10 @@
                 </td>
             </tr>
             <tr>
-                <td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>); height: 41px; padding-right: 10px;" align="right">
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>'); height: 41px; padding-right: 10px;" align="right">
                     <asp:Button runat="server" ID="SaveChangesButton" ValidationGroup="CurrencyRateValidationGroup" OnClick="SaveChangesButton_Click" Text="<%$ Resources:SharedStrings, Save_Changes %>" />
                 </td>
-                <td style="background-image: url(<%= CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>);
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/bottom_content.gif") %>');
 					height: 41px; padding-right: 10px;" align="right">
 					<asp:Button runat="server" ID="CancelChangesButton" causesvalidation="false"
 						OnClientClick="CurrencyRateEditPopup_CloseDialog()" Text="<%$ Resources:CatalogStrings, Entry_Cancel_Changes %>" />

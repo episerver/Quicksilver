@@ -1273,7 +1273,7 @@ tr.GridHeader td
 }
 #mainDiv .x-toolbar .ytb-sep, #IbnMainLayout .x-toolbar .ytb-sep
 {
-    background-image: url("/Apps/Shell/Styles/images/ext/default/grid/grid-split.gif");
+    background-image: url("../../../styles/images/ext/default/grid/grid-split.gif");
 }
 #IbnMainLayout .DockContainer
 {
@@ -1281,7 +1281,7 @@ tr.GridHeader td
 }
 #IbnMainLayout .DockContainer .x-toolbar .ytb-sep
 {
-    background-image: url("/Apps/Shell/Styles/images/ext/default/grid/grid-split.gif");
+    background-image: url("../../../styles/images/ext/default/grid/grid-split.gif");
 }
 /* NewOrder select Customer dropdownlist */
 .ibn-propertysheet .dropstyle

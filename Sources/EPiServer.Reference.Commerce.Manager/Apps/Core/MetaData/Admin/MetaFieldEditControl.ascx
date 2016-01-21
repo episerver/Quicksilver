@@ -266,7 +266,7 @@
 				                    <ProgressTemplate>
 					                    <div class="upProgressMain">
 						                    <div class="upProgressCenter">
-							                    <img align='absmiddle' border='0' src='<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Styles/images/Shell/loading_rss.gif") %>' />&nbsp;Loading...
+							                    <img align='absmiddle' border='0' src='<%# this.ResolveUrl("~/Apps/Shell/Styles/images/Shell/loading_rss.gif") %>' />&nbsp;Loading...
 						                    </div>
 					                    </div>
 				                    </ProgressTemplate>
