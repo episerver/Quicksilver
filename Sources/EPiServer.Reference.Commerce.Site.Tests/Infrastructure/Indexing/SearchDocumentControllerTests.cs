@@ -3,6 +3,7 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
+using EPiServer.Framework.Cache;
 using EPiServer.Reference.Commerce.Shared.CatalogIndexer;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
@@ -12,7 +13,6 @@ using EPiServer.Web.Routing;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Commerce.Pricing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -166,6 +166,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         [TestInitialize]
         public void Setup()
         {
+            var synchronizedObjectInstanceCache = new Mock<ISynchronizedObjectInstanceCache>();
+
             _cheapPriceUSD = new Money(1000, "USD");
             _expensivePriceGBP = new Money(2000, "GBP");
             _discountPriceUSD = new Money(500, "USD");
@@ -177,11 +179,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             _relationRepositoryMock = new Mock<IRelationRepository>();
             _promotionServiceMock = new Mock<IPromotionService>();
             _fakeAppContext = new FakeAppContext();
-            _referenceConverterMock = new Mock<ReferenceConverter>(catalogSystemMock.Object)
+            _referenceConverterMock = new Mock<ReferenceConverter>(
+                new EntryIdentityResolver(synchronizedObjectInstanceCache.Object),
+                new NodeIdentityResolver(synchronizedObjectInstanceCache.Object))
             {
-                CallBase = true 
+                CallBase = true
             };
-            
+
             _urlResolverMock = new Mock<UrlResolver>();
             _assetUrlConventionsMock = new Mock<AssetUrlConventions>();
 

@@ -55,3 +55,12 @@ you can also execute the following command in folder "Sources\EPiServer.Referenc
 ```
 msbuild -t:BuildLessFiles
 ```
+
+Compiling the razor views
+-------------------------
+
+If you want to build the view to validate their correctness you can set the MvcBuildViews parameter to true.
+
+```
+msbuild -p:MvcBuildViews=true
+```

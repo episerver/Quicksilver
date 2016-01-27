@@ -51,6 +51,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         /// Gets or sets whether the shipping address should be the same as the billing address.
         /// </summary>
         public bool UseBillingAddressForShipment { get; set; }
-        public string ErrorMessage { get; set; }
     }
 }

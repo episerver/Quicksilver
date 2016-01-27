@@ -79,6 +79,7 @@
         </Empty>
         <Errors>
           <PreProcessingFailure>Failed to pre-process the payment.</PreProcessingFailure>
+          <NoShippingRate>No shipping rate found for this shipment.</NoShippingRate>
         </Errors>
         <Methods>
           <CashOnDelivery>
@@ -325,6 +326,7 @@
       <Mail>
         <Text>Reset your password using this </Text>
         <Link>link</Link>
+        <Instructions>Please enter your reset password markup and use a placeholder [MailUrl] for the link so the url can be properly constructed.</Instructions>
       </Mail>
       <ForgotPasswordConfirmation>
         <Heading>Halfway there...</Heading>

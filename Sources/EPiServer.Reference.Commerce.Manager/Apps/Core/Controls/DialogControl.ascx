@@ -42,7 +42,7 @@
     <Content>
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td style="background-image: url(../../../Apps/Shell/Styles/images/dialog/left.png); filter: alpha(opacity=60);"
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/left.png") %>'); filter: alpha(opacity=60);"
                     width="7">
                 </td>
                 <td style="background-color: white; font-size: 12px; font-family: Arial; overflow: auto;">
@@ -50,7 +50,7 @@
                     <asp:Panel runat="server" ID="DialogContentPanel"></asp:Panel>
                     <!-- /Content Area -->
                 </td>
-                <td style="background-image: url(../../../Apps/Shell/Styles/images/dialog/right.png); filter: alpha(opacity=60);" width="7">
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/right.png") %>'); filter: alpha(opacity=60);" width="7">
                 </td>
             </tr>
         </table>

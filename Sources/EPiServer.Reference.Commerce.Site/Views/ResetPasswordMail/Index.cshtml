@@ -1,7 +1,13 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels.ResetPasswordMailModel
+﻿@using EPiServer.Editor
+@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages.ResetPasswordMailPage
 @{
     Layout = null;
 }
+@{ if (PageEditing.PageIsInEditMode)
+   {
+       @Html.Translate("/ResetPassword/Mail/Instructions")
+   }
+}
+@Html.PropertyFor(x => x.MailBody)
 
-@Html.Translate("/ResetPassword/Mail/Text") <a href="@Model.CallbackUrl">@Html.Translate("/ResetPassword/Mail/Link")</a>
 

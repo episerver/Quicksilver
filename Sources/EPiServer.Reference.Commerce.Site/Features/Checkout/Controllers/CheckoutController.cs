@@ -148,16 +148,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         {
             var shipment = _checkoutService.CreateShipment();
             var shippingRates = _checkoutService.GetShippingRates(shipment);
-            var shippingmethods = GetShippingMethods(shippingRates);
-            var selectedShippingRate = shippingRates.First();
+            var shippingMethods = GetShippingMethods(shippingRates);
+            var selectedShippingRate = shippingRates.FirstOrDefault();
             var customer = _customerContext.CurrentContact.CurrentContact;
             var paymentMethods = _checkoutService.GetPaymentMethods();
 
-            _checkoutService.UpdateShipment(shipment, selectedShippingRate);
-
+            if (selectedShippingRate != null)
+            {
+                _checkoutService.UpdateShipment(shipment, selectedShippingRate);
+            }
+            else
+            {
+                ModelState.AddModelError("ShippingRate", _localizationService.GetString("/Checkout/Payment/Errors/NoShippingRate"));
+            }
+            
             if (viewModel == null)
             {
-                viewModel = CreateCheckoutViewModel(paymentMethods.First(), shippingmethods.First().Id, customer);
+                var shippingMethod = shippingMethods.FirstOrDefault();
+                viewModel = CreateCheckoutViewModel(paymentMethods.First(), shippingMethod == null ? Guid.Empty : shippingMethod.Id, customer);
 
                 // Run the workflow once to calculate all taxes, charges and get the correct total amounts.
                 _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
@@ -176,7 +184,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             viewModel.ReferrerUrl = GetReferrerUrl();
             viewModel.CurrentPage = currentPage;
             viewModel.PaymentMethodViewModels = paymentMethods;
-            viewModel.ShippingMethodViewModels = shippingmethods;
+            viewModel.ShippingMethodViewModels = shippingMethods;
             viewModel.AvailableAddresses = GetAvailableAddresses();
 
             return viewModel;
@@ -406,7 +414,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             SaveBillingAddress(checkoutViewModel);
 
-            SaveShippingAddresses(checkoutViewModel);
+            if (!SaveShippingAddresses(checkoutViewModel))
+            {
+                InitializeCheckoutViewModel(currentPage, checkoutViewModel);
+                return View("Index", checkoutViewModel);
+            }
 
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
             _cartService.SaveCart();
@@ -451,9 +463,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// then they are also stored as customer addresses and gets related to the current contact.
         /// </summary>
         /// <param name="checkoutViewModel">The view model representing the purchase order.</param>
-        private void SaveShippingAddresses(CheckoutViewModel checkoutViewModel)
+        /// <returns><c>true</c> if there save was successful, otherwise <c>false</c>.</returns>
+        private bool SaveShippingAddresses(CheckoutViewModel checkoutViewModel)
         {
-            foreach (ShippingAddress shippingAddress in checkoutViewModel.ShippingAddresses ?? Enumerable.Empty<ShippingAddress>())
+            if (checkoutViewModel.ShippingAddresses == null || 
+                !checkoutViewModel.ShippingAddresses.Any(address => address.ShippingMethodId != Guid.Empty))
+            {
+                return false;
+            }
+
+            foreach (ShippingAddress shippingAddress in checkoutViewModel.ShippingAddresses)
             {
                 var orderAddress = _checkoutService.AddNewOrderAddress();
                 _addressBookService.MapModelToOrderAddress(shippingAddress, orderAddress);
@@ -467,6 +486,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
                 SaveToAddressBookIfNeccessary(shippingAddress);
             }
+
+            return true;
         }
 
         private void SaveToAddressBookIfNeccessary(ShippingAddress address)
@@ -559,7 +580,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
 
             CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
-            viewModel.ErrorMessage = filterContext.Exception.Message;
+            ModelState.AddModelError("Purchase", filterContext.Exception.Message);
 
             return View("index", viewModel);
         }

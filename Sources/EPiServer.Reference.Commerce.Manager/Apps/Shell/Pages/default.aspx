@@ -86,9 +86,9 @@
         </div>
     </div>
     <asp:ScriptManager ID="sm1" runat="server" EnablePartialRendering="true" ScriptMode="Auto"
-        EnableScriptGlobalization="true" EnableScriptLocalization="true" EnableHistory="true" EnableCdn="true">
+        EnableScriptGlobalization="true" EnableScriptLocalization="false" EnableHistory="true" EnableCdn="true">
         <Scripts>
-            <asp:ScriptReference Path="/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js"/>
+            <asp:ScriptReference Path="~/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js"/>
         </Scripts>
     </asp:ScriptManager> 
     <IbnWebControls:CommandManager ID="cm1" runat="server" ContainerId="containerDiv" />
@@ -103,7 +103,7 @@
     <span id="SaveStatusCtrl" class="SaveStatus" style="visibility: hidden"></span>
     <div id="center_div" style="height: 100%;">
         <iframe frameborder="0" scrolling="auto" name="right" id="right" width="100%" marginheight="0"
-            marginwidth="0" src='<%=ResolveUrl("~/Apps/Shell/Pages/Empty.html") %>'></iframe>
+            marginwidth="0" src='<%= ResolveUrl("~/Apps/Shell/Pages/Empty.html") %>'></iframe>
     </div>
 
     </form>

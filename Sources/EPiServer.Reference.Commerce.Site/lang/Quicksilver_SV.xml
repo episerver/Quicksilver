@@ -79,6 +79,7 @@
         </Empty>
         <Errors>
           <PreProcessingFailure>Förbehandlingen av betalningen misslyckades.</PreProcessingFailure>
+          <NoShippingRate>Ingen fraktkonstad finns för denna leverans.</NoShippingRate>
         </Errors>
         <Methods>
           <CashOnDelivery>
@@ -322,6 +323,7 @@
       <Mail>
         <Text>Återställ ditt lösenord genom att klicka på den här </Text>
         <Link>länken</Link>
+        <Instructions>Ange meddelande för återställning av lösenord och använd platshållaren [MailUrl] där du vill att länken för återställning skall infogas.</Instructions>
       </Mail>
       <ForgotPasswordConfirmation>
         <Heading>Halvvägs framme...</Heading>

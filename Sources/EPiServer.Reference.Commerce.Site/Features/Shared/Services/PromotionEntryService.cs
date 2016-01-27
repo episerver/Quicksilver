@@ -49,11 +49,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 
             var sourceSet = new PromotionEntriesSet();
             sourceSet.Entries.Add(promotionEntry);
-            promotionHelper.PromotionContext.SourceEntriesSet = sourceSet;
-            promotionHelper.PromotionContext.TargetEntriesSet = sourceSet;
-            promotionHelper.Evaluate(filter, false);
+            var promotionContext = promotionHelper.Evaluate(filter, sourceSet, sourceSet, false);
 
-            if (promotionHelper.PromotionContext.PromotionResult.PromotionRecords.Count > 0)
+            if (promotionContext.PromotionResult.PromotionRecords.Count > 0)
             {
                 return new PriceValue
                 {
@@ -61,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                     CustomerPricing = CustomerPricing.AllCustomers,
                     MarketId = price.MarketId,
                     MinQuantity = 1,
-                    UnitPrice = new Money(price.UnitPrice.Amount - GetDiscountPrice(promotionHelper), currency),
+                    UnitPrice = new Money(price.UnitPrice.Amount - GetDiscountPrice(promotionContext), currency),
                     ValidFrom = DateTime.UtcNow,
                     ValidUntil = null
                 };
@@ -84,9 +82,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             return promotionEntry;
         }
 
-        private decimal GetDiscountPrice(PromotionHelperFacade promotionHelper)
+        private decimal GetDiscountPrice(PromotionContext promotionContext)
         {
-            var result = promotionHelper.PromotionContext.PromotionResult;
+            var result = promotionContext.PromotionResult;
             return result.PromotionRecords.Sum(record => GetDiscountAmount(record, record.PromotionReward));
         }
 

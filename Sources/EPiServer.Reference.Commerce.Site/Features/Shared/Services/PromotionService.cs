@@ -71,8 +71,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 
             var priceValues = new List<IPriceValue>();
             
-            _promotionHelper.Reset();
-            
             foreach (var entry in GetEntries(prices))
             {
                 var price = prices

@@ -61,10 +61,10 @@
                 </td>
             </tr>
             <tr>
-                <td style="background-image: url(/Apps/Shell/Styles/images/dialog/bottom_content.gif); height: 41px; padding-right: 10px;" align="right">
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/bottom_content.gif")%>'); height: 41px; padding-right: 10px;" align="right">
                     <asp:Button runat="server" ID="SaveChangesButton" ValidationGroup="AssocValidationGroup" OnClick="SaveChangesButton_Click" Text="<%$ Resources:CatalogStrings, Entry_Save_Changes %>" />
                 </td>
-                <td style="background-image: url(/Apps/Shell/Styles/images/dialog/bottom_content.gif);
+                <td style="background-image: url('<%= this.ResolveUrl("~/Apps/Shell/Styles/images/dialog/bottom_content.gif")%>');
 					height: 41px; padding-right: 10px;" align="right">
 					<asp:Button runat="server" ID="CancelChangesButton" causesvalidation="false"
 						OnClientClick="EntryAssociationEditPopup_CloseDialog()" Text="<%$ Resources:CatalogStrings, Entry_Cancel_Changes %>" />

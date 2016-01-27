@@ -28,9 +28,9 @@
                 <asp:RequiredFieldValidator runat="server" ID="MarketIDRequiredValidator" ControlToValidate="MarketID"
                     ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Required %>" Display="Dynamic"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator id="MarketIDLengthValidator" runat="server"  ControlToValidate="MarketID" 
-                    ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Length_Exceeded %>" ValidationExpression=".{1,8}"></asp:RegularExpressionValidator>
+                    ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Length_Exceeded %>" Display="Dynamic" ValidationExpression=".{1,8}"></asp:RegularExpressionValidator>
                 <asp:RegularExpressionValidator runat="server" id="MarketIDValidator" ControlToValidate="MarketID" 
-                    ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Invalid %>" Display="Dynamic" ValidationExpression="^[- \w]*$" />
+                    ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Invalid %>" Display="Dynamic" ValidationExpression="^[a-zA-Z0-9_]*$" />
                 <asp:CustomValidator runat="server" ID="MarketIDUniqueCustomValidator" ControlToValidate="MarketID"
                     OnServerValidate="MarketIDCheck" Display="Dynamic" ErrorMessage="<%$ Resources:SharedStrings, Market_ID_Already_Exists %>" />    
             </td>
