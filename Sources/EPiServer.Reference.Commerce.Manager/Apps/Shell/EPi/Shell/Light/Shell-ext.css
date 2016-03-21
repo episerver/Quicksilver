@@ -13,6 +13,10 @@ body {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, Sans-Serif;
 }
 
+input[type='text'].aspNetDisabled {
+    background-color: transparent;
+}
+
 body.view, div.LayoutBase
 {
 	background-color:#F4F4F4;
@@ -689,10 +693,19 @@ a.tabTLinkSelected
 div.designTableLayoutItemHover,
 td.designTableLayoutItemHover
 {
-	background: transparent none;
+	background: #c7c7c7 none;
 	_background: transparent none;
 	border: none;
 }
+
+table.borderType1TableLayoutSection td.designTableLayoutItemSelected
+{
+    background: transparent none;
+	_background: transparent none;
+	border: 2px solid #c7c7c7;
+}
+
+
 
 div.designSmartTableLayoutItem,
 td.designSmartTableLayoutItem

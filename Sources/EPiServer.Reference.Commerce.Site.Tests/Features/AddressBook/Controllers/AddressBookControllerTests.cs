@@ -72,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         public void Save_WhenAnotherAddressWithSameNameExists_ShouldNotSave()
         {
             AddressBookPage currentPage = new AddressBookPage();
-            var viewModel = new AddressViewModel{ Address = new Address() };
+            var viewModel = new AddressViewModel { Address = new Address() };
             _addressBookServiceMock.Setup(x => x.CanSave(It.IsAny<Address>())).Returns(false);
 
             _subject.Save(currentPage, viewModel);

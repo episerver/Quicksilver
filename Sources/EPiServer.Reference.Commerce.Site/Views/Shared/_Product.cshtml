@@ -1,9 +1,9 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.IProductModel
 
-@{
-    bool hasDiscount = Model.ExtendedPrice.Amount < Model.PlacedPrice.Amount;
+@{    
+    bool hasDiscount = Model.IsAvailable && Model.ExtendedPrice.Value.Amount < Model.PlacedPrice.Value.Amount;
     string productLevelClass = hasDiscount ? "product has-discount" : "product";
-    bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
+    bool renderWishListButtons = Model.IsAvailable ? User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true : false;
 }
 
 <div class="@productLevelClass">
@@ -14,19 +14,25 @@
         <h3 class="product-title">@Model.DisplayName</h3>
         <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
 
-        @if (hasDiscount)
-        {
-            <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
-            <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+        @if (Model.IsAvailable)
+        { 
+            if (hasDiscount)
+            {
+                <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
+                <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+            }
+            else
+            {
+                <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+            }
         }
         else
-        {
-            <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+        { 
+            <h4 class="product-price">@Html.Translate("/Product/NotAvailable")</h4>
         }
-
     </a>
 
-    @if (renderWishListButtons)
+    @if (renderWishListButtons && !(bool)ViewData["IsReadOnly"])
     {
         <div class="action-buttons wishlist-actions">
             @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))

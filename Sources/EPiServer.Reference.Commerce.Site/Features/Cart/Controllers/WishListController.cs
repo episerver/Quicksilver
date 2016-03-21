@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly ICartService _cartService;
         private readonly LocalizationService _localizationService;
         private readonly IProductService _productService;
-        
+
         public WishListController(
             IContentLoader contentLoader,
             ICartService cartService,
@@ -47,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             return View(viewModel);
         }
 
-        [AcceptVerbs(HttpVerbs.Get|HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult WishListMiniCartDetails()
         {
             WishListMiniCartViewModel viewModel = new WishListMiniCartViewModel
@@ -108,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _cartService.DeleteCart();
             var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
 
-            return RedirectToAction("Index", new {Node = startPage.WishListPage});
+            return RedirectToAction("Index", new { Node = startPage.WishListPage });
         }
     }
 }

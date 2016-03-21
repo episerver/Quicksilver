@@ -24,7 +24,10 @@
                                         <a href="@cartItem.Url" class="link--black"><h4 class="product-row__item__title">@cartItem.DisplayName</h4></a>
                                     </div>
                                     <div class="col-md-2 text-right">
-                                        <button role="button" class="btn btn-gray-lighter btn-xs jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                        @if (!(bool)ViewData["IsReadOnly"])
+                                        {
+                                            <button role="button" class="btn btn-gray-lighter btn-xs jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                        }
                                     </div>
                                 </div>
 
@@ -37,12 +40,26 @@
                                             @Html.Hidden("size", size.Trim())
 
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
+                                            if ((bool)ViewData["IsReadOnly"])
+                                            {
+                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem", disabled = "disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
+                                            }
                                         }
                                     </div>
                                     <div class="col-md-3">
                                         <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                                        <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" />
+                                        @if ((bool)ViewData["IsReadOnly"])
+                                        {
+                                            <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" disabled="disabled" />
+                                        }
+                                        else
+                                        {
+                                            <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" />
+                                        }
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
                                         <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>

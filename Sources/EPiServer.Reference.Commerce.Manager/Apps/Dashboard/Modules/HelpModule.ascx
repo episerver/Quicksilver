@@ -3,7 +3,7 @@
 <script type="text/javascript">
     function help_search() {
         var value = document.getElementById('query').value;
-        window.open('http://webhelp.episerver.com/15-5/EN/home.htm');
+        window.open('http://webhelp.episerver.com/16-1/EN/home.htm');
     }
 </script>
 <div class="db-panel-outer">
@@ -18,17 +18,17 @@
         <ul>
             <li>
                 <asp:HyperLink ID="HyperLink1" runat="server" Target="_blank" 
-                    NavigateUrl="http://webhelp.episerver.com/15-5/EN/home.htm"
+                    NavigateUrl="http://webhelp.episerver.com/16-1/EN/home.htm"
                     Text="<%$ Resources:DashboardStrings, How_To_Discount_Promotion %>"></asp:HyperLink>
             </li>
             <li>
                 <asp:HyperLink ID="HyperLink2" runat="server" Target="_blank" 
-                    NavigateUrl="http://webhelp.episerver.com/15-5/EN/home.htm"
+                    NavigateUrl="http://webhelp.episerver.com/16-1/EN/home.htm"
                     Text="<%$ Resources:DashboardStrings, How_To_New_Product %>"></asp:HyperLink>
             </li>
             <li>
                 <asp:HyperLink ID="HyperLink3" runat="server" Target="_blank" 
-                    NavigateUrl="http://webhelp.episerver.com/15-5/EN/home.htm"
+                    NavigateUrl="http://webhelp.episerver.com/16-1/EN/home.htm"
                     Text="<%$ Resources:DashboardStrings, How_To_Release_History %>"></asp:HyperLink>
             </li>
         </ul>

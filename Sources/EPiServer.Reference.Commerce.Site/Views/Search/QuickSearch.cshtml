@@ -6,7 +6,7 @@
 <ul class="product-dropdown product-row list-unstyled">
     @foreach (var product in Model)
     {
-        bool hasDiscount = product.ExtendedPrice.Amount < product.PlacedPrice.Amount;
+        bool hasDiscount = product.ExtendedPrice.HasValue && product.PlacedPrice.HasValue && product.ExtendedPrice.Value.Amount < product.PlacedPrice.Value.Amount;
         string productLevelClass = hasDiscount ? "list-group-item product-item has-discount" : "list-group-item product-item";
         bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
 

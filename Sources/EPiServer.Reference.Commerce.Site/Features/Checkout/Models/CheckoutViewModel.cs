@@ -16,6 +16,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
         public CheckoutPage CurrentPage { get; set; }
 
         /// <summary>
+        /// Gets or sets a collection of all coupon codes that have been applied.
+        /// </summary>
+        public IEnumerable<string> AppliedCouponCodes { get; set; }
+
+        /// <summary>
         /// Gets or sets all available payment methods that the customer can choose from.
         /// </summary>
         public IEnumerable<PaymentMethodViewModel<IPaymentOption>> PaymentMethodViewModels { get; set; }

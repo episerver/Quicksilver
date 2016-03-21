@@ -2,16 +2,19 @@
 using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
     public class CurrencyController : Controller
     {
         private readonly ICurrencyService _currencyService;
+        private readonly ICartService _cartService;
 
-        public CurrencyController(ICurrencyService currencyService)
+        public CurrencyController(ICurrencyService currencyService, ICartService cartService)
         {
             _currencyService = currencyService;
+            _cartService = cartService;
         }
 
         [ChildActionOnly]
@@ -39,6 +42,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
             {
                 return new HttpStatusCodeResult(400, "Unsupported");
             }
+            
+            var currentCurrency = _currencyService.GetCurrentCurrency();
+            _cartService.SetCartCurrency(currentCurrency);
+            
             return Json(new { returnUrl = Request.UrlReferrer.ToString() });
         }
     }

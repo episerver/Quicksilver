@@ -64,7 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
                 Code = "Code",
-                Brand = "Brand"
+                Brand = "Brand",
+                IsAvailable = true
             };
 
             productViewModel.ShouldBeEquivalentTo(expected);
@@ -127,7 +128,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
                 Brand = "Brand",
-                Code = "Code"
+                Code = "Code",
+                IsAvailable = true
             };
 
             productViewModel.ShouldBeEquivalentTo(expected);

@@ -6,7 +6,7 @@ using EPiServer.Framework.Web;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Indexing;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
@@ -38,6 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             CatalogRouteHelper.MapDefaultHierarchialRouter(RouteTable.Routes, false);
             
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
+            GlobalFilters.Filters.Add(new ReadOnlyFilter());
 
             context.Locate.DisplayChannelService().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
             {

@@ -61,13 +61,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         [TestMethod]
         public void GetCurrentPrice_WhenPricesExist_ShouldReturnCheapestPrice()
         {
-            var price = _subject.GetCurrentPrice("code");
+            Money? price = _subject.GetCurrentPrice("code");
 
-            Assert.AreEqual<Money>(_cheapPriceUSD, price);
+            Assert.AreEqual<Money>(_cheapPriceUSD, price.Value);
         }
 
         [TestMethod]
-        public void GetCurrentPrice_WhenPricesDoNotExist_ShouldReturnZeroMoney()
+        public void GetCurrentPrice_WhenPricesDoNotExist_ShouldReturnNull()
         {
             _priceServiceMock.Setup(
                 x =>
@@ -78,9 +78,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                         It.IsAny<PriceFilter>()))
                 .Returns(Enumerable.Empty<IPriceValue>);
 
-            var price = _subject.GetCurrentPrice("code");
+            Money? price = _subject.GetCurrentPrice("code");
 
-            Assert.AreEqual<decimal>(0, price.Amount);
+            Assert.AreEqual(price.HasValue, false);            
         }
 
         private Mock<IPriceService> _priceServiceMock;

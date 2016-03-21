@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
                 AddressId = Guid.NewGuid(),
                 Name = _address1.Name
             };
-            
+
             Assert.IsFalse(_subject.CanSave(model));
         }
 
@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             };
 
             _subject.Save(model);
-           
+
             Assert.IsNotNull(_currentContact.ContactAddresses.SingleOrDefault(x => x.AddressId == model.AddressId));
         }
 
@@ -62,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             };
 
             _subject.Save(model);
-            
+
             Assert.IsNotNull(_currentContact.ContactAddresses.SingleOrDefault(x => x.Name == model.AddressId.ToString()));
         }
 
@@ -180,7 +180,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         public void Delete_WhenAddressExistsAndIsSetAsPreferredBillingAddress_ShouldDeleteAddressAndUpdatePreferredBillingAddress()
         {
             _subject.SetPreferredBillingAddress(_address1.AddressId);
-            
+
             _subject.Delete(_address1.AddressId);
 
             Assert.IsNull(_currentContact.PreferredBillingAddressId);
@@ -243,7 +243,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             _address2 = CustomerAddress.CreateInstance();
             _address2.AddressId = new PrimaryKeyId(Guid.NewGuid());
             _address2.Name = _address2.AddressId.ToString();
-            
+
             _currentContact = new FakeCurrentContact(new[] { _address1, _address2 });
             var customerContext = new FakeCustomerContext(_currentContact);
             var countryManager = new FakeCountryManager();

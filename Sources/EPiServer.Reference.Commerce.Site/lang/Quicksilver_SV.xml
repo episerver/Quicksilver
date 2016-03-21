@@ -37,6 +37,7 @@
     </Footer>
     <Product>
       <Quickview>Snabbtitt</Quickview>
+      <NotAvailable>Inte tillgänglig</NotAvailable>
       <Dropdown>
         <Currency>Visa priser i</Currency>
       </Dropdown>
@@ -62,9 +63,14 @@
       <Coupons>
         <Heading>Kuponger och Kampanjkoder</Heading>
         <CouponCode>
-          <Info>Har du en värdekod? Ange den för att ta del av erbjudandet.</Info>
+          <Info>Har du en rabattkod? Ange den för att ta del av erbjudandet.</Info>
           <Button>Aktivera kod</Button>
+          <ErrorMessage>Rabattkoden du angav är ogiltig.</ErrorMessage>
         </CouponCode>
+        <AppliedCoupons>
+          <Heading>Använda rabattkoder:</Heading>
+          <RemoveButton>Ta bort</RemoveButton>
+        </AppliedCoupons>
       </Coupons>
       <Continue>
         <Button>Fortsätt shoppa</Button>
@@ -481,5 +487,9 @@
         </Form>
       </Address>
     </Shared>
+    <Readonly>
+      <Message>Underhållsarbete utförs på webbplatsen. Vissa funktioner är avstängda tills arbetet är slutfört.</Message>
+      <Login>Inloggningen är tillfälligt avstängd medan underhållsarbete utförs på webbplatsen.</Login>
+    </Readonly>
   </language>
 </languages>

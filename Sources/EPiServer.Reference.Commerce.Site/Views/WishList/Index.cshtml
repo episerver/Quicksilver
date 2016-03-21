@@ -31,7 +31,10 @@
             <div class="action-buttons">
                 @using (Html.BeginForm("DeleteWishList", "WishList"))
                 {
-                    <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
+                    if (!(bool)ViewData["IsReadOnly"])
+                    {
+                        <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
+                    }
                 }
             </div>
         </div>

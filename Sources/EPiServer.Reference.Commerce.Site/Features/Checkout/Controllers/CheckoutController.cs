@@ -19,6 +19,7 @@ using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website;
@@ -161,7 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 ModelState.AddModelError("ShippingRate", _localizationService.GetString("/Checkout/Payment/Errors/NoShippingRate"));
             }
-            
+
             if (viewModel == null)
             {
                 var shippingMethod = shippingMethods.FirstOrDefault();
@@ -186,6 +187,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             viewModel.PaymentMethodViewModels = paymentMethods;
             viewModel.ShippingMethodViewModels = shippingMethods;
             viewModel.AvailableAddresses = GetAvailableAddresses();
+            viewModel.AppliedCouponCodes = GetAppliedDiscountsWithCode().Select(d => d.DiscountCode).Distinct();
 
             return viewModel;
         }
@@ -369,10 +371,64 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 {
                     Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
-                }),
+                })
             };
 
             return PartialView(viewModel);
+        }
+
+        private IEnumerable<Discount> GetDiscountsWithCode(Func<OrderForm, IEnumerable<Discount>> getDiscountsFunc)
+        {
+            return _cartService.GetOrderForms().SelectMany(form => getDiscountsFunc(form)).Where(d => !string.IsNullOrEmpty(d.DiscountCode));
+        }
+
+        /// <summary>
+        /// Gets a collection of applied discounts that have coupon code.
+        /// It includes order level discount, entry level discount and shipment level discount.
+        /// </summary>
+        /// <returns>A collection of applied discounts.</returns>
+        private IEnumerable<Discount> GetAppliedDiscountsWithCode()
+        {
+            var appliedDiscounts = new List<Discount>();
+
+            // Get order level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.Discounts.Cast<Discount>()));
+            // Get entry level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.LineItems.SelectMany(l => l.Discounts.Cast<Discount>())));
+            // Get shipment level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.Shipments.SelectMany(s => s.Discounts.Cast<Discount>())));
+
+            return appliedDiscounts;
+        }
+
+        [HttpPost]
+        public ActionResult AddCouponCode(string couponCode)
+        {
+            MarketingContext.Current.AddCouponToMarketingContext(couponCode);
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
+            _cartService.SaveCart();
+
+            if (!GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode)).Any())
+            {
+                return new EmptyResult();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCouponCode(string couponCode)
+        {
+            var removeDiscounts = GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode));
+            foreach (var discount in removeDiscounts)
+            {
+                discount.Delete();
+            }
+
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
+            _cartService.SaveCart();
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -466,7 +522,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <returns><c>true</c> if there save was successful, otherwise <c>false</c>.</returns>
         private bool SaveShippingAddresses(CheckoutViewModel checkoutViewModel)
         {
-            if (checkoutViewModel.ShippingAddresses == null || 
+            if (checkoutViewModel.ShippingAddresses == null ||
                 !checkoutViewModel.ShippingAddresses.Any(address => address.ShippingMethodId != Guid.Empty))
             {
                 return false;

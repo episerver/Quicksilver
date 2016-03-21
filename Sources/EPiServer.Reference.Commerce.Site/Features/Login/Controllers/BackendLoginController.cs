@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         private readonly ApplicationSignInManager _signInManager;
         private readonly UrlAuthorizationFacade _urlAuthorization;
 
-        public BackendLoginController(LocalizationService localizationService, 
+        public BackendLoginController(LocalizationService localizationService,
             ApplicationSignInManager signInManager,
             UrlAuthorizationFacade urlAuthorization)
         {
@@ -75,7 +75,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     ModelState.AddModelError("Password", _localizationService.GetString("/Login/Form/Error/WrongPasswordOrEmail"));
                     return PartialView("Index", viewModel);
             }
-            
+
             // As a security concern in order to prevent open re-direct attacks we
             // check the return URL to make sure it is within the own site. The method
             // Url.IsLocalUrl does not recognize localhost as true, so to make this work while

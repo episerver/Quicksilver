@@ -37,6 +37,7 @@
     </Footer>
     <Product>
       <Quickview>Quick view</Quickview>
+      <NotAvailable>Not available</NotAvailable>
       <Dropdown>
         <Currency>Show prices in</Currency>
       </Dropdown>
@@ -64,7 +65,12 @@
         <CouponCode>
           <Info>Got a Coupon Code? Enter it and we will apply that to your cart as well.</Info>
           <Button>Apply</Button>
+          <ErrorMessage>The coupon code you entered is invalid.</ErrorMessage>
         </CouponCode>
+        <AppliedCoupons>
+          <Heading>Coupons have been applied:</Heading>
+          <RemoveButton>Remove</RemoveButton>
+        </AppliedCoupons>
       </Coupons>
       <Continue>
         <Button>Continue shopping</Button>
@@ -202,7 +208,6 @@
         <Remove>Remove item</Remove>
         <DiscountsApplied>Item level discounts applied</DiscountsApplied>
         <YouSave>You saved</YouSave>
-        <Placeholder>Password</Placeholder>
       </Labels>
       <PaymentInfo>
         <CardType>Card type</CardType>
@@ -485,5 +490,9 @@
         </Form>
       </Address>
     </Shared>
+    <Readonly>
+      <Message>The site is currently undergoing maintenance.  Certain features are disabled until the maintenance has completed.</Message>
+      <Login>Login has been disabled because the site is currently undergoing maintenance</Login>
+    </Readonly>
   </language>
 </languages>

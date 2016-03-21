@@ -9904,6 +9904,11 @@ footer .btn-social .fa {
     clear: left;
   }
 }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .product-row__tile {
+    height: 470px;
+  }
+}
 @media (min-width: 768px) {
   .product-row__tile {
     padding-bottom: 48px;
@@ -9992,4 +9997,7 @@ footer .btn-social .fa {
 }
 .checkout-cart .product-image {
   max-width: 100%;
+}
+.couponcode-errormessage {
+  margin-top: 10px;
 }

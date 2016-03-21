@@ -1,13 +1,16 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Login.ViewModels.LoginPageViewModel
+@using EPiServer.Framework.Localization;
 
 <div class="container-fluid">
     <div class="row">
-        @{
-
-            Html.RenderPartial("RegisterAccount", Model.RegisterAccountViewModel);
-
-            Html.RenderPartial("Login", Model.LoginViewModel);
-
+        @if ((bool)ViewData["IsReadOnly"])
+        {
+            @Html.Raw(String.Format("<div class=\"container\"><p class=\"text-center\">{0}</p></div>", LocalizationService.Current.GetString("/Readonly/Login")))
+        }
+        else
+        {
+            @Html.Partial("RegisterAccount", Model.RegisterAccountViewModel)
+            @Html.Partial("Login", Model.LoginViewModel)
         }
     </div>
 </div>

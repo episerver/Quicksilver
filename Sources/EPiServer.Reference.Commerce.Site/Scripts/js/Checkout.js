@@ -6,7 +6,9 @@
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
-            .on('click', '.remove-shipping-address', Checkout.removeShippingAddress);
+            .on('click', '.remove-shipping-address', Checkout.removeShippingAddress)
+            .on('click', '.js-add-couponcode', Checkout.addCouponCode)
+            .on('click', '.js-remove-couponcode', Checkout.removeCouponCode);
 
         Checkout.initializeAddressAreas();
     },
@@ -19,6 +21,36 @@
             $(".shipping-address").css("display", "none");
             $(".remove-shipping-address").click();
         }
+    },
+    addCouponCode: function (e) {
+        e.preventDefault();
+        var couponCode = $(inputCouponCode).val();
+        if (couponCode.trim()) {
+            $.ajax({
+                type: "POST",
+                url: $(this).data("url"),
+                data: { couponCode: couponCode },
+                success: function (result) {
+                    if (!result) {
+                        $('.couponcode-errormessage').show();
+                        return;
+                    }
+                    $('.couponcode-errormessage').hide();
+                    $("#CheckoutView").replaceWith($(result));
+                }
+            });
+        }
+    },
+    removeCouponCode: function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: $(this).attr("href"),
+            data: { couponCode: $(this).siblings().text() },
+            success: function (result) {
+                $("#CheckoutView").replaceWith($(result));
+            }
+        });
     },
     refreshView: function () {
 

@@ -102,7 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof (HttpNotFoundResult));
+                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
             }
         }
 
@@ -129,7 +129,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof (HttpNotFoundResult));
+                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
             }
         }
 
@@ -260,7 +260,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<Money>(mockDiscountPrice.Object.UnitPrice, model.Price);
+                Assert.AreEqual<Money>(mockDiscountPrice.Object.UnitPrice, model.Price.Value);
             }
         }
 
@@ -445,7 +445,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Setup
             {
-                colors = new ItemCollection<string>() {"green"};
+                colors = new ItemCollection<string>() { "green" };
 
                 fashionProduct = CreateFashionProduct();
                 SetAvailableColors(fashionProduct, colors);
@@ -489,7 +489,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
                 fashionProduct = CreateFashionProduct();
                 SetAvailableColors(fashionProduct, colors);
-                SetAvailableSizes(fashionProduct, new ItemCollection<string> {"small"});
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
 
                 fashionVariant = CreateFashionVariant("small", "green");
 
@@ -545,7 +545,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                var expectedColors = String.Join(";", new[]{false});
+                var expectedColors = String.Join(";", new[] { false });
                 var modelColorsSelected = String.Join(";", model.Colors.Select(x => x.Selected));
 
                 Assert.AreEqual<string>(expectedColors, modelColorsSelected);
@@ -563,7 +563,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Setup
             {
-                sizes = new ItemCollection<string>() {"medium" };
+                sizes = new ItemCollection<string>() { "medium" };
 
                 fashionProduct = CreateFashionProduct();
                 fashionVariant = CreateFashionVariant("medium", "red");
@@ -672,13 +672,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
                 fashionProduct = CreateFashionProduct();
                 SetAvailableSizes(fashionProduct, sizes);
-                 
+
                 // setup variant with publish date in future
                 fashionVariant = CreateFashionVariant();
                 fashionVariant.StartPublish = DateTime.UtcNow.AddDays(7); // pulish date is future
                 fashionVariant.StopPublish = DateTime.UtcNow.AddDays(17);
                 fashionVariant.Status = VersionStatus.DelayedPublish;
-                
+
                 SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
 
@@ -713,7 +713,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
                 // setup variant was expired.
                 fashionVariant = CreateFashionVariant();
-                fashionVariant.StartPublish = DateTime.UtcNow.AddDays(-17); 
+                fashionVariant.StartPublish = DateTime.UtcNow.AddDays(-17);
                 fashionVariant.StopPublish = DateTime.UtcNow.AddDays(-7);
 
                 SetRelation(fashionProduct, fashionVariant);
@@ -760,7 +760,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             }
 
             // Execute
-            { 
+            {
                 actionResult = productController.Index(fashionProduct, fashionVariant.Code);
             }
 
@@ -787,7 +787,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
                 // setup variant unavailable in default market
                 fashionVariant = CreateFashionVariant();
-                fashionVariant.MarketFilter = new ItemCollection<string>() { "Default" };  
+                fashionVariant.MarketFilter = new ItemCollection<string>() { "Default" };
 
                 SetRelation(fashionProduct, fashionVariant);
                 MockPrices();
@@ -943,7 +943,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 fashionVariantSmallRed = CreateFashionVariant("small", "red");
                 fashionVariantMediumGreen = CreateFashionVariant("medium", "green");
                 fashionVariantMediumRed = CreateFashionVariant("medium", "red");
-                
+
                 SetRelation(fashionProduct, new[]
                 {
                     fashionVariantSmallGreen,
@@ -962,7 +962,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                var selectedCode = ((RedirectToRouteResult) actionResult).RouteValues["variationCode"] as string;
+                var selectedCode = ((RedirectToRouteResult)actionResult).RouteValues["variationCode"] as string;
                 Assert.AreEqual<string>("redsmall", selectedCode);
             }
         }
@@ -1001,19 +1001,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             var mockPublishedStateAssessor = new Mock<IPublishedStateAssessor>();
             mockPublishedStateAssessor.Setup(x => x.IsPublished(It.IsAny<IContent>(), It.IsAny<PublishedStateCondition>()))
                 .Returns((IContent content, PublishedStateCondition condition) =>
+                {
+                    var contentVersionable = content as IVersionable;
+                    if (contentVersionable != null)
                     {
-                        var contentVersionable = content as IVersionable;
-                        if (contentVersionable != null)
+                        if (contentVersionable.Status == VersionStatus.Published &&
+                            contentVersionable.StartPublish < DateTime.UtcNow &&
+                            contentVersionable.StopPublish > DateTime.UtcNow)
                         {
-                            if (contentVersionable.Status == VersionStatus.Published &&
-                                contentVersionable.StartPublish < DateTime.UtcNow &&
-                                contentVersionable.StopPublish > DateTime.UtcNow)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
-                        return false;
                     }
+                    return false;
+                }
                 );
 
             _filterPublished = new FilterPublished(mockPublishedStateAssessor.Object);
@@ -1093,7 +1093,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 Status = VersionStatus.Published,
                 StartPublish = DateTime.UtcNow.AddDays(-7),
                 StopPublish = DateTime.UtcNow.AddDays(7),
-                MarketFilter = new ItemCollection<string>() {"USA"}
+                MarketFilter = new ItemCollection<string>() { "USA" }
             };
 
             return fashionVariant;
@@ -1110,7 +1110,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 Status = VersionStatus.Published,
                 StartPublish = DateTime.UtcNow.AddDays(-7),
                 StopPublish = DateTime.UtcNow.AddDays(7),
-                MarketFilter = new ItemCollection<string>() {"USA"}
+                MarketFilter = new ItemCollection<string>() { "USA" }
             };
 
             SetAvailableColors(fashionProduct, new ItemCollection<string>());
@@ -1141,7 +1141,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
         private void SetRelation(IContent source, IContent target)
         {
-            SetRelation(source, new[] {target});
+            SetRelation(source, new[] { target });
         }
 
         private void SetRelation(IContent source, IEnumerable<IContent> targets)

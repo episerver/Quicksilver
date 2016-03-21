@@ -24,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         public AddressBookController(
             IContentLoader contentLoader,
             IAddressBookService addressBookService,
-            LocalizationService localizationService, 
+            LocalizationService localizationService,
             ControllerExceptionHandler controllerExceptionHandler)
         {
             _contentLoader = contentLoader;
@@ -51,7 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                     AddressId = addressId,
                     HtmlFieldPrefix = "Address"
                 },
-                CurrentPage = currentPage 
+                CurrentPage = currentPage
             };
 
             _addressBookService.LoadAddress(viewModel.Address);

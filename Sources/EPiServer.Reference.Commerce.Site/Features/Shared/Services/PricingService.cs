@@ -59,8 +59,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                 .OrderBy(x => x.UnitPrice.Amount)
                 .ToList();
         }
-        
-        public Money GetCurrentPrice(string code)
+
+        public Money? GetCurrentPrice(string code)
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
@@ -69,8 +69,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                 {
                     Currencies = new[] { currency }
                 });
-
-            return prices.Any() ? prices.First().UnitPrice : new Money(0, currency);
+            
+            return prices.Any() ? prices.First().UnitPrice : (Money?)null;
         }
     }
 }

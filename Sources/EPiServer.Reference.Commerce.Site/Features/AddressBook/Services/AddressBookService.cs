@@ -236,7 +236,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             address.CountryOptions = GetAllCountries();
 
             //try get country first by code, then by name, then the first in list as final fallback
-            var selectedCountry = (GetCountryByCode(address) ?? 
+            var selectedCountry = (GetCountryByCode(address) ??
                                    GetCountryByName(address)) ??
                                    address.CountryOptions.FirstOrDefault();
 

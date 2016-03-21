@@ -46,14 +46,28 @@
                                         @Html.Hidden("size", size.Trim())
 
                                         <strong>@Html.Translate("/ProductPage/Size")</strong><br />
-                                        @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                        if ((bool)ViewData["IsReadOnly"])
+                                        {
+                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control form-inline form-field--narrow jsChangeCartItem", disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                        }
+
                                     }
                                 </div>
 
                                 <div class="col-xs-6 xs-vertical-margin">
                                     <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br />
-
-                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                    @if ((bool)ViewData["IsReadOnly"])
+                                    {
+                                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem", disabled = "disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
+                                    }
                                     @Html.Hidden("code", cartItem.Code)
 
                                 </div>
@@ -62,7 +76,10 @@
 
                         </div>
                         <div class="col-xs-6 col-sm-1 product-col-remove">
-                            <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                            @if (!(bool)ViewData["IsReadOnly"])
+                            {
+                                <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                            }
                         </div>
                         <div class="col-xs-6 col-sm-2 product-col-price text-right">
                             @cartItem.ExtendedPrice.ToString()

@@ -1,10 +1,8 @@
 ﻿@using System.Web.Optimization
 @using EPiServer.Editor
 @using EPiServer.Security
-@using EPiServer.Web.Routing
-@using EPiServer.Framework.Web
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using EPiServer.Framework.Web.Mvc.Html
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,7 +36,9 @@
                 </div>
             </div>
         }
-        
+
+        @Html.RenderReadonlyMessage()
+
         <div id="Quickview" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
             </div>

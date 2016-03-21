@@ -7,6 +7,7 @@ using Mediachase.Commerce;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
@@ -56,13 +57,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         }
 
         private Mock<ICurrencyService> _currencyServiceMock;
+        private Mock<ICartService> _cartService;
         private CurrencyController _subject;
 
         [TestInitialize]
         public void Setup()
         {
             _currencyServiceMock = new Mock<ICurrencyService>();
-            _subject = new CurrencyController(_currencyServiceMock.Object);
+            _cartService = new Mock<ICartService>();
+            _subject = new CurrencyController(_currencyServiceMock.Object, _cartService.Object);
         }
     }
 }
