@@ -98,17 +98,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             foreach (var lineItem in lineItems)
             {
                 VariationContent variant = variants.FirstOrDefault(x => x.Code == lineItem.Code);
-                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());
+                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());                
                 CartItem item = new CartItem
                 {
                     Code = lineItem.Code,
                     DisplayName = lineItem.DisplayName,
                     ImageUrl = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
-                    ExtendedPrice = _cartName.Equals(CartHelper.WishListName) ?
-                                                _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency).UnitPrice :
-                                                lineItem.ToMoney(lineItem.ExtendedPrice + lineItem.OrderLevelDiscountAmount),
+                    ExtendedPrice = GetExtendedPrice(lineItem, marketId, currency),
                     PlacedPrice = lineItem.ToMoney(lineItem.PlacedPrice),
-                    DiscountPrice = lineItem.ToMoney(Math.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity, 2)),
+                    DiscountPrice = lineItem.ToMoney(currency.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity)),
                     Quantity = lineItem.Quantity,
                     Url = lineItem.GetUrl(),
                     Variant = variant,
@@ -116,7 +114,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                     {
                         Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)),
                         Displayname = x.DisplayMessage
-                    })
+                    }),
+                    IsAvailable = _pricingService.GetCurrentPrice(variant.Code).HasValue
                 };
 
                 if (product is FashionProduct)
@@ -132,6 +131,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
 
             return cartItems;
+        }
+
+        private Money? GetExtendedPrice(LineItem lineItem, MarketId marketId, Currency currency)
+        {
+            if (_cartName.Equals(CartHelper.WishListName))
+            {
+                var discountPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
+
+                if (discountPrice == null)
+                {
+                    return null;
+                }
+
+                return discountPrice.UnitPrice;
+            }
+
+            return lineItem.ToMoney(lineItem.ExtendedPrice + lineItem.OrderLevelDiscountAmount);
         }
 
         public Money GetTotal()

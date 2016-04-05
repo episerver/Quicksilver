@@ -33,6 +33,7 @@ namespace EPiServer.Reference.Commerce.Site
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedRequiredAttribute), typeof(RequiredAttributeAdapter));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedRegularExpressionAttribute), typeof(RegularExpressionAttributeAdapter));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedEmailAttribute), typeof(RegularExpressionAttributeAdapter));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedSafeInputAttribute), typeof(RegularExpressionAttributeAdapter));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedStringLengthAttribute), typeof(StringLengthAttributeAdapter));
 
             ScriptManager.ScriptResourceMapping.AddDefinition("jquery", new ScriptResourceDefinition

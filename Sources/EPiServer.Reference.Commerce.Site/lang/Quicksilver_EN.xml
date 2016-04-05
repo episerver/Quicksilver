@@ -279,7 +279,7 @@
           <Password2>Password2 is required</Password2>
         </Empty>
         <Error>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <UsedEmail>This email is already used</UsedEmail>
           <PasswordMatch>Your passwords has to match</PasswordMatch>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
@@ -308,7 +308,7 @@
         </Empty>
         <Error>
           <WrongPasswordOrEmail>You have entered wrong username or password</WrongPasswordOrEmail>
-          <InvalidEmail>You have to enter a valid e-mail</InvalidEmail>
+          <InvalidEmail>You have to enter a valid e-mail address</InvalidEmail>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
         </Error>
       </Form>
@@ -366,7 +366,7 @@
         </Empty>
         <Error>
           <ExpiredLink>Your link has expired!</ExpiredLink>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <PasswordMatch>Your passwords has to match</PasswordMatch>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
           <PasswordLength2>Your password has to be between 5 and 100 characters long</PasswordLength2>
@@ -424,7 +424,7 @@
           <CountryCode>Country name is required</CountryCode>
         </Empty>
         <Error>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <ExistingAddress>An address with the same name already exists</ExistingAddress>
         </Error>
       </Form>
@@ -485,7 +485,8 @@
             <Email>Email:</Email>
           </Label>
           <Error>
-            <InvalidEmail>You have to enter a valid email</InvalidEmail>
+            <InvalidEmail>You have to enter a valid email address</InvalidEmail>
+            <InvalidInput>The format of the entered value is invalid, avoid using &lt; phrase &gt;</InvalidInput>
           </Error>
         </Form>
       </Address>

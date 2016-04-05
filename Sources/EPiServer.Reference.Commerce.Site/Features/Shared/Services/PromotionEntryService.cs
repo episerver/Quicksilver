@@ -59,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                     CustomerPricing = CustomerPricing.AllCustomers,
                     MarketId = price.MarketId,
                     MinQuantity = 1,
-                    UnitPrice = new Money(price.UnitPrice.Amount - GetDiscountPrice(promotionContext), currency),
+                    UnitPrice = new Money(price.UnitPrice.Amount - GetDiscountPrice(promotionContext, currency), currency),
                     ValidFrom = DateTime.UtcNow,
                     ValidUntil = null
                 };
@@ -82,28 +82,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             return promotionEntry;
         }
 
-        private decimal GetDiscountPrice(PromotionContext promotionContext)
+        private decimal GetDiscountPrice(PromotionContext promotionContext, Currency currency)
         {
             var result = promotionContext.PromotionResult;
-            return result.PromotionRecords.Sum(record => GetDiscountAmount(record, record.PromotionReward));
+            return result.PromotionRecords.Sum(record => GetDiscountAmount(record, record.PromotionReward, currency));
         }
 
-        private decimal GetDiscountAmount(PromotionItemRecord record, PromotionReward reward)
+        private decimal GetDiscountAmount(PromotionItemRecord record, PromotionReward reward, Currency currency)
         {
             decimal discountAmount = 0;
             if (reward.RewardType != PromotionRewardType.EachAffectedEntry && reward.RewardType != PromotionRewardType.AllAffectedEntries)
             {
-                return Math.Round(discountAmount, 2);
+                return currency.Round(discountAmount);
             }
             if (reward.AmountType == PromotionRewardAmountType.Percentage)
             {
-                discountAmount = record.AffectedEntriesSet.TotalCost * reward.AmountOff / 100;
+                discountAmount = currency.Round(record.AffectedEntriesSet.TotalCost * reward.AmountOff / 100);
             }
             else
             {
                 discountAmount += reward.AmountOff;
             }
-            return Math.Round(discountAmount, 2);
+            return discountAmount;
         }
 
         private void Populate(PromotionEntry entry, EntryContentBase catalogEntry, IPriceValue price)

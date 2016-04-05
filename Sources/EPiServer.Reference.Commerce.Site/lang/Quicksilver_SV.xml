@@ -483,6 +483,7 @@
           </Label>
           <Error>
             <InvalidEmail>Du måste ange en giltig e-postadress</InvalidEmail>
+            <InvalidInput>Formatet för det angivna värdet är ogiltigt, undvik att använda &lt; fras &gt;</InvalidInput>
           </Error>
         </Form>
       </Address>

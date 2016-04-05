@@ -499,6 +499,7 @@
     <Compile Include="Features\ResetPassword\Controllers\ResetPasswordController.cs" />
     <Compile Include="Features\Shared\Services\PromotionEntryService.cs" />
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
+    <Compile Include="Infrastructure\Attributes\LocalizedSafeInputAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
     <Compile Include="Infrastructure\Facades\AppContextFacade.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />

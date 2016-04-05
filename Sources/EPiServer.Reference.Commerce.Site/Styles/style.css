@@ -1,4 +1,4 @@
-/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+﻿/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 @import url("http://fonts.googleapis.com/css?family=Cookie|Raleway:400,500,700|Arapey:400italic,400");
 html {
   font-family: sans-serif;
@@ -9859,6 +9859,9 @@ footer .btn-social .fa {
   width: 60px;
   right: -10px;
 }
+.product-row .product-title {
+  margin-top: 10px;
+}
 .product-row .product-title,
 .product-row .product-brand {
   display: block;
@@ -9870,7 +9873,7 @@ footer .btn-social .fa {
 }
 .product-row__tile {
   overflow: hidden;
-  padding: 32px 20px;
+  padding: 20px 32px 0 32px;
   position: relative;
   transition: box-shadow 0.15s ease-out;
 }
@@ -9905,8 +9908,8 @@ footer .btn-social .fa {
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  .product-row__tile {
-    height: 470px;
+  .product-row .col-lg-4:nth-of-type(2n+1) {
+    clear: left;
   }
 }
 @media (min-width: 768px) {
