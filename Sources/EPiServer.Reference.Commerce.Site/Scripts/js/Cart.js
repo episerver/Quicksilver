@@ -67,7 +67,10 @@
         e.preventDefault();
         var form = $(this).closest('form');
         $("#quantity", form).val(0).change();
-
+        $(this).closest(".jsProductTile").remove();
+        if (!$(".jsProductTile").length) {
+            $(".wishlist-noitem").show();
+        }
     },
     addCartItem: function (e) {
 

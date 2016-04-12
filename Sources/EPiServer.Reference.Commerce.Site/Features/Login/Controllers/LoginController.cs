@@ -15,6 +15,7 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -66,6 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public async Task<ActionResult> RegisterAccount(RegisterAccountViewModel viewModel)
         {
             if (!ModelState.IsValid)

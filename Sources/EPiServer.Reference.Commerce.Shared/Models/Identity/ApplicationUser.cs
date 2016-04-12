@@ -1,8 +1,8 @@
-﻿using System;
-using Mediachase.Commerce.Customers;
+﻿using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;

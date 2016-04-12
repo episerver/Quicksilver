@@ -14,6 +14,7 @@ using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
@@ -239,6 +240,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult Update(CheckoutPage currentPage, CheckoutViewModel viewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
@@ -275,6 +277,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <param name="shippingAddressIndex">The index of the shipping address to be changed. If it concerns the billing address and not a shipping address then this value will be -1.</param>
         /// <returns>A refreshed view containing the billing address and all the shipping addresses.</returns>
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult ChangeAddress(CheckoutPage currentPage, CheckoutViewModel viewModel, int shippingAddressIndex)
         {
             ModelState.Clear();
@@ -402,7 +405,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCouponCode(string couponCode)
+        [AllowDBWrite]
+        public ActionResult AddCouponCode(CheckoutPage currentPage, string couponCode)
         {
             MarketingContext.Current.AddCouponToMarketingContext(couponCode);
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
@@ -413,11 +417,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 return new EmptyResult();
             }
 
-            return RedirectToAction("Index");
+            CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
+
+            return View("Index", viewModel);
         }
 
         [HttpPost]
-        public ActionResult RemoveCouponCode(string couponCode)
+        [AllowDBWrite]
+        public ActionResult RemoveCouponCode(CheckoutPage currentPage, string couponCode)
         {
             var removeDiscounts = GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode));
             foreach (var discount in removeDiscounts)
@@ -428,10 +435,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             _cartService.SaveCart();
 
-            return RedirectToAction("Index");
+            CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
+
+            return View("Index", viewModel);
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult Purchase(CheckoutPage currentPage, CheckoutViewModel checkoutViewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel

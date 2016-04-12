@@ -27,7 +27,7 @@
     <Footer>
       <CompanyInformation>
         <Header>Company information</Header>
-        <Text>Company information should go here for atleast a few rows, like org number and an address.</Text>
+        <Text>Company information should go here for at least a few rows, like org number and an address.</Text>
       </CompanyInformation>
       <Newsletter>
         <Header>Sign up for news letter</Header>

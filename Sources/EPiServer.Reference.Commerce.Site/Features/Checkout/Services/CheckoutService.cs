@@ -52,8 +52,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             var orderForm = orderForms.First();
 
             var shipments = orderForm.Shipments;
+            var shipmentDiscounts = new ShipmentDiscountCollection();
             if (shipments.Count != 0)
             {
+                shipmentDiscounts = shipments.First().Discounts;
                 shipments.Clear();
             }
 
@@ -62,6 +64,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             {
                 var item = orderForm.LineItems[i];
                 shipment.AddLineItemIndex(i, item.Quantity);
+            }
+
+            foreach (ShipmentDiscount discount in shipmentDiscounts)
+            {
+                shipment.Discounts.Add(discount);
             }
             shipment.AcceptChanges();
 

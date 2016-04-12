@@ -45,7 +45,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Models
 
         [LocalizedDisplay("/Shared/Address/Form/Label/Line1")]
         [LocalizedRequired("/Shared/Address/Form/Empty/Line1")]
-        [LocalizedSafeInput("/Shared/Address/Form/Error/InvalidInput")]
         public string Line1 { get; set; }
 
         [LocalizedDisplay("/Shared/Address/Form/Label/Line2")]

@@ -6,6 +6,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using System;
@@ -71,6 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult Save(AddressBookPage currentPage, AddressViewModel viewModel)
         {
             if (String.IsNullOrEmpty(viewModel.Address.Name))
@@ -97,6 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult Remove(Guid addressId)
         {
             _addressBookService.Delete(addressId);
@@ -104,6 +107,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult SetPreferredShippingAddress(Guid addressId)
         {
             _addressBookService.SetPreferredShippingAddress(addressId);
@@ -111,6 +115,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult SetPreferredBillingAddress(Guid addressId)
         {
             _addressBookService.SetPreferredBillingAddress(addressId);

@@ -67,17 +67,11 @@
     <form id="form1" runat="server" autocomplete="off">
         <div id="epi-ecf-banner">
 	        <div style="float:left;width:350px;padding:5px;">
-	        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/"><img alt="EPiServer Commerce" align="absmiddle" src="../EPi/Shell/Light/Resources/EPiServer_ECF-NEG.png" width="300" height="40" /></asp:HyperLink></div>
-<%--	        <div style="clear:both;"></div>--%>
+	        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">
+                <img alt="EPiServer Commerce" src="../EPi/Shell/Light/Resources/EPiServer_ECF-NEG.png" width="300" height="40" />
+	        </asp:HyperLink>
+	        </div>
         </div>
-<%--    <div style="width: 100%; height: 50px; background-image: url(<%=ResolveClientUrl("~/Apps/Shell/Styles/Images/Shell/up_bg.gif") %>);
-        background-repeat: repeat-y; background-color: #B4CAF4;">
-        <div style="float: left; padding: 15px 0 0 10px;">
-            <asp:Label ID="lblPageTitle" runat="server" CssClass="ibn-pagetitle" Text="EPiServer Commerce Manager"></asp:Label>
-        </div>
-        <div style="float: right; padding: 7px" id="rightPart">
-        </div>
-    </div>--%>
     <div class="LoginPanel">
         <div class="LoginTable">
             <table cellspacing="0" cellpadding="0" align="left">

@@ -18,6 +18,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using Microsoft.Owin;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {
@@ -96,6 +97,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)

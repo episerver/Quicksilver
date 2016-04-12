@@ -1,10 +1,10 @@
-﻿using System.Globalization;
-using Mediachase.Commerce.Catalog.Dto;
+﻿using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Search.Extensions;
 using Mediachase.Search.Extensions.Indexers;
 using Newtonsoft.Json;
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;

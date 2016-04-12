@@ -5,8 +5,8 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -62,12 +62,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult AddToCart(string code)
         {
             ModelState.Clear();
             string warningMessage = null;
 
-            if (_cartService.AddToCart(code, out warningMessage))
+            if (_cartService.GetCartItems().Any(item => item.Code.Equals(code)) || _cartService.AddToCart(code, out warningMessage))
             {
                 return WishListMiniCartDetails();
             }
@@ -78,6 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
@@ -103,6 +105,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult DeleteWishList()
         {
             _cartService.DeleteCart();

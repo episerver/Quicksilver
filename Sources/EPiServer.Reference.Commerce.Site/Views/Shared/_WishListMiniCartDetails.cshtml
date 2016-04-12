@@ -25,13 +25,13 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                         @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
                                         {
                                             var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
                                             var size = fashionVariant.Size;
                                             @Html.Hidden("size", size.Trim())
-                                            
+
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
                                             if ((bool)ViewData["IsReadOnly"])
                                             {
@@ -42,18 +42,6 @@
                                                 @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
                                             }
                                         }
-                                    </div>
-                                    <div class="col-md-3">
-                                        <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                                        @if ((bool)ViewData["IsReadOnly"])
-                                        {
-                                            @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control cart-control form-quantity jsChangeCartItem", disabled = "disabled" })
-                                        }
-                                        else
-                                        {
-                                            @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control cart-control form-quantity jsChangeCartItem" })
-                                        }
-                                        
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
                                         <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
@@ -66,6 +54,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @Html.Hidden("quantity", cartItem.Quantity.ToString("0"), new { @class = "jsChangeCartItem" })
                             @Html.Hidden("code", cartItem.Code)
                             @Html.Hidden("miniCart", true)
                         </div>
