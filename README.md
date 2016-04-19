@@ -23,6 +23,8 @@ Changes in this release
 * COM-912  Variations without price for currency are shown with price zero
 * COM-1163 Cannot apply coupon code in checkout page
 * COM-1291 Update Quicksilver to support read-only mode
+* COM-1447 Shipping form breaks when apply/remove coupon code
+* Updated to Episerver Commerce 9.11.1
 
 Changes in Quicksilver 1.2
 --------------------------

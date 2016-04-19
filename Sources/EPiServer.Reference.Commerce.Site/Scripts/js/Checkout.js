@@ -37,6 +37,7 @@
                     }
                     $('.couponcode-errormessage').hide();
                     $("#CheckoutView").replaceWith($(result));
+                    Checkout.initializeAddressAreas();
                 }
             });
         }
@@ -49,6 +50,7 @@
             data: { couponCode: $(this).siblings().text() },
             success: function (result) {
                 $("#CheckoutView").replaceWith($(result));
+                Checkout.initializeAddressAreas();
             }
         });
     },
