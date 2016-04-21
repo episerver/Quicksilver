@@ -141,8 +141,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Facebook.
             FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
             {
-                AppId = "805286916226866",
-                AppSecret = "34e50b02be4f1a7c62364c9fe89dcfd"
+                AppId = "<change it>",
+                AppSecret = "<change it>"
             };
             facebookOptions.Scope.Add("email");
             app.UseFacebookAuthentication(facebookOptions);
@@ -164,8 +164,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Twitter.
             TwitterAuthenticationOptions twitterOptions = new TwitterAuthenticationOptions
             {
-                ConsumerKey = "CqbBBscRO1jFbdr4CGRTiQFj",
-                ConsumerSecret = "dh82r3SHGbL4ADgj6EJavdNGxFyx4YRX7QPyngBjKhV2bCdRrY"
+                ConsumerKey = "<change it>",
+                ConsumerSecret = "<change it>"
             };
             app.UseTwitterAuthentication(twitterOptions);
         }
@@ -186,8 +186,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Microsoft.
             MicrosoftAccountAuthenticationOptions microsoftOptions = new MicrosoftAccountAuthenticationOptions
             {
-                ClientId = "0000000049673D31",
-                ClientSecret = "hkQB8uwZ55HrkIcpeU9J6tXXebrMUpOS"
+                ClientId = "<change it>",
+                ClientSecret = "<change it>"
             };
             microsoftOptions.Scope.Add("email");
             app.UseMicrosoftAccountAuthentication(microsoftOptions);
