@@ -66,7 +66,7 @@
                 Search.fetchingNewPage = true;
                 var form = $(document).find('.jsSearchForm');
                 $.ajax({
-                    url: "",
+                    url: Search.getUrlWithFacets(),
                     type: "POST",
                     data: form.serialize(),
                     success: function (result) {
@@ -87,15 +87,18 @@
         Search.lastPage = false;
         var form = $(document).find('.jsSearchForm');
         $('.jsSearchPage').val(1);
+        var url = Search.getUrlWithFacets();
+        Search.updatePage(url, form.serialize(), function () {
+            history.pushState({ url: url }, "", url); //put the new url to browser history
+        })
+    },
+    getUrlWithFacets: function () {
         var facets = [];
         $('.jsSearchFacet:input:checked').each(function () {
             var selectedFacet = encodeURIComponent($(this).data('facetkey'));
             facets.push(selectedFacet);
         });
-        var url = Search.getUrl(facets);
-        Search.updatePage(url, form.serialize(), function () {
-            history.pushState({ url: url }, "", url); //put the new url to browser history
-        })
+        return Search.getUrl(facets);
     },
     getUrl: function (facets) {
         var urlParams = Search.getUrlParams();

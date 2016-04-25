@@ -24,6 +24,8 @@ Changes in this release
 * COM-1163 Cannot apply coupon code in checkout page
 * COM-1291 Update Quicksilver to support read-only mode
 * COM-1447 Shipping form breaks when apply/remove coupon code
+* COM-1448 Keep facets during scroll
+* COM-1489 Coupon codes may be dropped
 * Updated to Episerver Commerce 9.11.1
 
 Changes in Quicksilver 1.2

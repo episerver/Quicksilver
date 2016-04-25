@@ -25,6 +25,7 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -51,6 +52,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private const string _shippingAddressPrefix = "ShippingAddresses[{0}]";
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
         private readonly CustomerContextFacade _customerContext;
+        private const string CouponKey = "CouponCookieKey";
+        private readonly CookieService _cookieService;
 
         public CheckoutController(
                     ICartService cartService,
@@ -65,7 +68,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     CurrencyService currencyService,
                     IAddressBookService addressBookService,
                     ControllerExceptionHandler controllerExceptionHandler,
-                    CustomerContextFacade customerContextFacade)
+                    CustomerContextFacade customerContextFacade,
+                    CookieService cookieService)
         {
             _cartService = cartService;
             _contentRepository = contentRepository;
@@ -80,6 +84,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _addressBookService = addressBookService;
             _controllerExceptionHandler = controllerExceptionHandler;
             _customerContext = customerContextFacade;
+            _cookieService = cookieService;
         }
 
         [HttpGet]
@@ -91,6 +96,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency = currency;
                 _cartService.SaveCart();
             }
+
+            ApplyCoupons();
 
             CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
 
@@ -416,6 +423,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 return new EmptyResult();
             }
+            var cookie = _cookieService.Get(CouponKey);
+            var coupons = cookie != null ? JsonConvert.DeserializeObject<HashSet<string>>(cookie) : new HashSet<string>();
+            coupons.Add(couponCode);
+            _cookieService.Set(CouponKey, JsonConvert.SerializeObject(coupons));
 
             CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
 
@@ -432,6 +443,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 discount.Delete();
             }
 
+            var cookie = _cookieService.Get(CouponKey);
+            if (cookie != null)
+            {
+                var coupons = JsonConvert.DeserializeObject<HashSet<string>>(cookie);
+                if (coupons != null && coupons.Contains(couponCode))
+                {
+                    coupons.Remove(couponCode);
+                    _cookieService.Set(CouponKey, JsonConvert.SerializeObject(coupons));
+                }
+            }
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             _cartService.SaveCart();
 
@@ -447,6 +468,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.
             checkoutViewModel.Payment = paymentViewModel;
+
+            ApplyCoupons();
 
             if (String.IsNullOrEmpty(checkoutViewModel.BillingAddress.Email))
             {
@@ -629,6 +652,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 // Todo: Log the error and raise an alert so that an administrator can look in to it.
             }
 
+            _cookieService.Remove(CouponKey);
+
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
@@ -651,5 +676,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return View("index", viewModel);
         }
 
+
+        private void ApplyCoupons()
+        {
+            var cookie = _cookieService.Get(CouponKey);
+            if (cookie != null)
+            {
+                var coupons = JsonConvert.DeserializeObject<HashSet<string>>(cookie);
+                if (coupons != null && coupons.Any())
+                {
+                    foreach (var coupon in coupons)
+                    {
+                        MarketingContext.Current.AddCouponToMarketingContext(coupon);
+                    }
+                }
+            }
+        }
     }
 }
