@@ -9,7 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
     {
         IList<IPriceValue> GetPriceList(string code, MarketId marketId, PriceFilter priceFilter);
         IList<IPriceValue> GetPriceList(IEnumerable<CatalogKey> catalogKeys, MarketId marketId, PriceFilter priceFilter);
-        Money GetCurrentPrice(string code);
-       
+        Money? GetCurrentPrice(string code);
     }
 }

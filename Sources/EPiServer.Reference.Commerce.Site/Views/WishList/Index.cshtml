@@ -1,18 +1,16 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.WishListViewModel
-@{ ViewBag.IsWishList = true; }
+@{ ViewBag.IsWishList = true;
+   string displayNoItemMsg = Model.CartItems.Any() ? "none" : string.Empty; 
+}
 
 <div class="container-fluid">
     <div class="row wishlist">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <div class="col-xs-12 col-sm-9">
             <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-            @if (!Model.CartItems.Any())
-            {
-                <div>
-                    @Html.Translate("/WishList/NoItems")
-                </div>
-            }
-           
+            <div class="wishlist-noitem" style="display: @displayNoItemMsg">
+                @Html.Translate("/WishList/NoItems")
+            </div>
             <div id="CartWarningMessage" class="col-md-12 alert alert-danger" hidden>
                 <button type="button" class="close" data-hide="alert">&times;</button>
                 <span class="warning-message"></span>
@@ -21,7 +19,7 @@
             <div class="product-row">
                 <div class="row">
                     @foreach (var product in Model.CartItems)
-                    { 
+                    {
                         @Html.Partial("_ProductTile", product)
                     }
                 </div>
@@ -31,7 +29,10 @@
             <div class="action-buttons">
                 @using (Html.BeginForm("DeleteWishList", "WishList"))
                 {
-                    <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
+                    if (!(bool)ViewData["IsReadOnly"])
+                    {
+                        <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
+                    }
                 }
             </div>
         </div>

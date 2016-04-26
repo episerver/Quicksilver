@@ -27,7 +27,7 @@
     <Footer>
       <CompanyInformation>
         <Header>Company information</Header>
-        <Text>Company information should go here for atleast a few rows, like org number and an address.</Text>
+        <Text>Company information should go here for at least a few rows, like org number and an address.</Text>
       </CompanyInformation>
       <Newsletter>
         <Header>Sign up for news letter</Header>
@@ -37,6 +37,7 @@
     </Footer>
     <Product>
       <Quickview>Quick view</Quickview>
+      <NotAvailable>Not available</NotAvailable>
       <Dropdown>
         <Currency>Show prices in</Currency>
       </Dropdown>
@@ -64,7 +65,12 @@
         <CouponCode>
           <Info>Got a Coupon Code? Enter it and we will apply that to your cart as well.</Info>
           <Button>Apply</Button>
+          <ErrorMessage>The coupon code you entered is invalid.</ErrorMessage>
         </CouponCode>
+        <AppliedCoupons>
+          <Heading>Coupons have been applied:</Heading>
+          <RemoveButton>Remove</RemoveButton>
+        </AppliedCoupons>
       </Coupons>
       <Continue>
         <Button>Continue shopping</Button>
@@ -202,7 +208,6 @@
         <Remove>Remove item</Remove>
         <DiscountsApplied>Item level discounts applied</DiscountsApplied>
         <YouSave>You saved</YouSave>
-        <Placeholder>Password</Placeholder>
       </Labels>
       <PaymentInfo>
         <CardType>Card type</CardType>
@@ -274,7 +279,7 @@
           <Password2>Password2 is required</Password2>
         </Empty>
         <Error>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <UsedEmail>This email is already used</UsedEmail>
           <PasswordMatch>Your passwords has to match</PasswordMatch>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
@@ -303,7 +308,7 @@
         </Empty>
         <Error>
           <WrongPasswordOrEmail>You have entered wrong username or password</WrongPasswordOrEmail>
-          <InvalidEmail>You have to enter a valid e-mail</InvalidEmail>
+          <InvalidEmail>You have to enter a valid e-mail address</InvalidEmail>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
         </Error>
       </Form>
@@ -361,7 +366,7 @@
         </Empty>
         <Error>
           <ExpiredLink>Your link has expired!</ExpiredLink>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <PasswordMatch>Your passwords has to match</PasswordMatch>
           <PasswordLength>Your password has to be between 5 and 100 characters long</PasswordLength>
           <PasswordLength2>Your password has to be between 5 and 100 characters long</PasswordLength2>
@@ -419,7 +424,7 @@
           <CountryCode>Country name is required</CountryCode>
         </Empty>
         <Error>
-          <InvalidEmail>You have to enter a valid email</InvalidEmail>
+          <InvalidEmail>You have to enter a valid email address</InvalidEmail>
           <ExistingAddress>An address with the same name already exists</ExistingAddress>
         </Error>
       </Form>
@@ -480,10 +485,15 @@
             <Email>Email:</Email>
           </Label>
           <Error>
-            <InvalidEmail>You have to enter a valid email</InvalidEmail>
+            <InvalidEmail>You have to enter a valid email address</InvalidEmail>
+            <InvalidInput>The format of the entered value is invalid, avoid using &lt; phrase &gt;</InvalidInput>
           </Error>
         </Form>
       </Address>
     </Shared>
+    <Readonly>
+      <Message>The site is currently undergoing maintenance.  Certain features are disabled until the maintenance has completed.</Message>
+      <Login>Login has been disabled because the site is currently undergoing maintenance</Login>
+    </Readonly>
   </language>
 </languages>

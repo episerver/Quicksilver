@@ -14,15 +14,18 @@ using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -49,6 +52,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private const string _shippingAddressPrefix = "ShippingAddresses[{0}]";
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
         private readonly CustomerContextFacade _customerContext;
+        private const string CouponKey = "CouponCookieKey";
+        private readonly CookieService _cookieService;
 
         public CheckoutController(
                     ICartService cartService,
@@ -63,7 +68,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     CurrencyService currencyService,
                     IAddressBookService addressBookService,
                     ControllerExceptionHandler controllerExceptionHandler,
-                    CustomerContextFacade customerContextFacade)
+                    CustomerContextFacade customerContextFacade,
+                    CookieService cookieService)
         {
             _cartService = cartService;
             _contentRepository = contentRepository;
@@ -78,6 +84,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _addressBookService = addressBookService;
             _controllerExceptionHandler = controllerExceptionHandler;
             _customerContext = customerContextFacade;
+            _cookieService = cookieService;
         }
 
         [HttpGet]
@@ -89,6 +96,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency = currency;
                 _cartService.SaveCart();
             }
+
+            ApplyCoupons();
 
             CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
 
@@ -161,7 +170,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 ModelState.AddModelError("ShippingRate", _localizationService.GetString("/Checkout/Payment/Errors/NoShippingRate"));
             }
-            
+
             if (viewModel == null)
             {
                 var shippingMethod = shippingMethods.FirstOrDefault();
@@ -186,6 +195,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             viewModel.PaymentMethodViewModels = paymentMethods;
             viewModel.ShippingMethodViewModels = shippingMethods;
             viewModel.AvailableAddresses = GetAvailableAddresses();
+            viewModel.AppliedCouponCodes = GetAppliedDiscountsWithCode().Select(d => d.DiscountCode).Distinct();
 
             return viewModel;
         }
@@ -237,6 +247,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult Update(CheckoutPage currentPage, CheckoutViewModel viewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
@@ -273,6 +284,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <param name="shippingAddressIndex">The index of the shipping address to be changed. If it concerns the billing address and not a shipping address then this value will be -1.</param>
         /// <returns>A refreshed view containing the billing address and all the shipping addresses.</returns>
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult ChangeAddress(CheckoutPage currentPage, CheckoutViewModel viewModel, int shippingAddressIndex)
         {
             ModelState.Clear();
@@ -369,18 +381,95 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 {
                     Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
-                }),
+                })
             };
 
             return PartialView(viewModel);
         }
 
+        private IEnumerable<Discount> GetDiscountsWithCode(Func<OrderForm, IEnumerable<Discount>> getDiscountsFunc)
+        {
+            return _cartService.GetOrderForms().SelectMany(form => getDiscountsFunc(form)).Where(d => !string.IsNullOrEmpty(d.DiscountCode));
+        }
+
+        /// <summary>
+        /// Gets a collection of applied discounts that have coupon code.
+        /// It includes order level discount, entry level discount and shipment level discount.
+        /// </summary>
+        /// <returns>A collection of applied discounts.</returns>
+        private IEnumerable<Discount> GetAppliedDiscountsWithCode()
+        {
+            var appliedDiscounts = new List<Discount>();
+
+            // Get order level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.Discounts.Cast<Discount>()));
+            // Get entry level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.LineItems.SelectMany(l => l.Discounts.Cast<Discount>())));
+            // Get shipment level discounts
+            appliedDiscounts.AddRange(GetDiscountsWithCode(form => form.Shipments.SelectMany(s => s.Discounts.Cast<Discount>())));
+
+            return appliedDiscounts;
+        }
+
         [HttpPost]
+        [AllowDBWrite]
+        public ActionResult AddCouponCode(CheckoutPage currentPage, string couponCode)
+        {
+            MarketingContext.Current.AddCouponToMarketingContext(couponCode);
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
+            _cartService.SaveCart();
+
+            if (!GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode)).Any())
+            {
+                return new EmptyResult();
+            }
+            var cookie = _cookieService.Get(CouponKey);
+            var coupons = cookie != null ? JsonConvert.DeserializeObject<HashSet<string>>(cookie) : new HashSet<string>();
+            coupons.Add(couponCode);
+            _cookieService.Set(CouponKey, JsonConvert.SerializeObject(coupons));
+
+            CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
+
+            return View("Index", viewModel);
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult RemoveCouponCode(CheckoutPage currentPage, string couponCode)
+        {
+            var removeDiscounts = GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode));
+            foreach (var discount in removeDiscounts)
+            {
+                discount.Delete();
+            }
+
+            var cookie = _cookieService.Get(CouponKey);
+            if (cookie != null)
+            {
+                var coupons = JsonConvert.DeserializeObject<HashSet<string>>(cookie);
+                if (coupons != null && coupons.Contains(couponCode))
+                {
+                    coupons.Remove(couponCode);
+                    _cookieService.Set(CouponKey, JsonConvert.SerializeObject(coupons));
+                }
+            }
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
+            _cartService.SaveCart();
+
+            CheckoutViewModel viewModel = InitializeCheckoutViewModel(currentPage, null);
+
+            return View("Index", viewModel);
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
         public ActionResult Purchase(CheckoutPage currentPage, CheckoutViewModel checkoutViewModel, IPaymentMethodViewModel<IPaymentOption> paymentViewModel)
         {
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.
             checkoutViewModel.Payment = paymentViewModel;
+
+            ApplyCoupons();
 
             if (String.IsNullOrEmpty(checkoutViewModel.BillingAddress.Email))
             {
@@ -466,7 +555,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <returns><c>true</c> if there save was successful, otherwise <c>false</c>.</returns>
         private bool SaveShippingAddresses(CheckoutViewModel checkoutViewModel)
         {
-            if (checkoutViewModel.ShippingAddresses == null || 
+            if (checkoutViewModel.ShippingAddresses == null ||
                 !checkoutViewModel.ShippingAddresses.Any(address => address.ShippingMethodId != Guid.Empty))
             {
                 return false;
@@ -563,6 +652,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 // Todo: Log the error and raise an alert so that an administrator can look in to it.
             }
 
+            _cookieService.Remove(CouponKey);
+
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
@@ -585,5 +676,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return View("index", viewModel);
         }
 
+
+        private void ApplyCoupons()
+        {
+            var cookie = _cookieService.Get(CouponKey);
+            if (cookie != null)
+            {
+                var coupons = JsonConvert.DeserializeObject<HashSet<string>>(cookie);
+                if (coupons != null && coupons.Any())
+                {
+                    foreach (var coupon in coupons)
+                    {
+                        MarketingContext.Current.AddCouponToMarketingContext(coupon);
+                    }
+                }
+            }
+        }
     }
 }

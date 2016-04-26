@@ -3,6 +3,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -38,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 CartItems = _cartService.GetCartItems(),
                 Total = _cartService.GetSubTotal()
             };
-            
+
             return PartialView("_MiniCartDetails", viewModel);
         }
 
@@ -49,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             var viewModel = new LargeCartViewModel
             {
                 CartItems = items,
-                Total = _cartService.ConvertToMoney(items.Sum(x => x.ExtendedPrice.Amount)),
+                Total = _cartService.ConvertToMoney(items.Where(x => x.ExtendedPrice.HasValue).Sum(x => x.ExtendedPrice.Value.Amount)),
                 TotalDiscount = _cartService.GetTotalDiscount()
             };
 
@@ -57,11 +58,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult AddToCart(string code)
         {
             ModelState.Clear();
             string warningMessage = null;
-        
+
             if (_cartService.AddToCart(code, out warningMessage))
             {
                 _wishListService.RemoveLineItem(code);
@@ -74,6 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
@@ -90,7 +93,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                     _cartService.UpdateLineItemSku(code, newCode, quantity);
                 }
             }
-            else 
+            else
             {
                 _cartService.RemoveLineItem(code);
             }

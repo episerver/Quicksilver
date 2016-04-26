@@ -64,12 +64,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 RequestContext = _requestContext.Object
             };
 
-            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null,null, _controllerExceptionHandler.Object,null);
+            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null, null);
         }
 
         private CheckoutControllerForTest CreateTestController()
         {
-            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null);
+            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null, null);
         }
 
         private void Setup_RequestContext_to_contain_routed_data(object rotedData)
@@ -87,8 +87,35 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 
         private class CheckoutControllerForTest : CheckoutController
         {
-            public CheckoutControllerForTest(ICartService cartService, IContentRepository contentRepository, UrlResolver urlResolver, IMailService mailService, ICheckoutService checkoutService, IContentLoader contentLoader, IPaymentService paymentService, LocalizationService localizationService, Func<string,CartHelper> cartHelper, CurrencyService currencyService, AddressBookService addressBookService, ControllerExceptionHandler controllerExceptionHandler, CustomerContextFacade customerContextFacade)
-                : base(cartService, contentRepository, urlResolver, mailService, checkoutService, contentLoader, paymentService, localizationService, cartHelper, currencyService, addressBookService, controllerExceptionHandler,customerContextFacade)
+            public CheckoutControllerForTest(
+                ICartService cartService, 
+                IContentRepository contentRepository, 
+                UrlResolver urlResolver, 
+                IMailService mailService, 
+                ICheckoutService checkoutService, 
+                IContentLoader contentLoader, 
+                IPaymentService paymentService, 
+                LocalizationService localizationService, 
+                Func<string, CartHelper> cartHelper, 
+                CurrencyService currencyService, 
+                AddressBookService addressBookService, 
+                ControllerExceptionHandler controllerExceptionHandler, 
+                CustomerContextFacade customerContextFacade,
+                CookieService cookieService)
+                : base(cartService, 
+                      contentRepository, 
+                      urlResolver, 
+                      mailService, 
+                      checkoutService, 
+                      contentLoader, 
+                      paymentService, 
+                      localizationService, 
+                      cartHelper, 
+                      currencyService, 
+                      addressBookService, 
+                      controllerExceptionHandler, 
+                      customerContextFacade,
+                      cookieService)
             {
             }
 

@@ -34,6 +34,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
 
+        // Since the site is responsive the rows that the search results can be arranged in is 3/2/1 result per row
+        // so we want a default page size to be divisible with all three.
+        private static readonly int _defaultPageSize = 18;
+
         public SearchService(ICurrentMarket currentMarket, 
             ICurrencyService currencyService, 
             UrlResolver urlResolver, 
@@ -128,7 +132,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 
         private CatalogEntrySearchCriteria CreateCriteria(IContent currentContent, FilterOptionFormModel filterOptions)
         {
-            var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : 20;
+            var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : _defaultPageSize;
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == filterOptions.Sort) ?? GetSortOrder().First();
             var market = _currentMarket.GetCurrentMarket();
 
@@ -262,7 +266,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 PlacedPrice = new Money(GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)), currency),
                 ExtendedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
                 ImageUrl = GetString(document, "image_url"),
-                Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link")))
+                Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link"))),
+                IsAvailable = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)) > 0                
             });
         }
         

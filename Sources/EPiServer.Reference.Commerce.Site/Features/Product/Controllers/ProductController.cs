@@ -39,9 +39,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             IContentLoader contentLoader,
             IPriceService priceService,
             ICurrentMarket currentMarket,
-            CurrencyService currencyservice, 
-            IRelationRepository relationRepository, 
-            AppContextFacade appContext, 
+            CurrencyService currencyservice,
+            IRelationRepository relationRepository,
+            AppContextFacade appContext,
             UrlResolver urlResolver,
             FilterPublished filterPublished,
             Func<CultureInfo> preferredCulture,
@@ -60,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             _filterPublished = filterPublished;
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool quickview = false)
         {
             var variations = GetVariations(currentContent).ToList();
@@ -111,7 +111,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                     .ToList(),
                 Color = variation.Color,
                 Size = variation.Size,
-                Images = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver)
+                Images = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                IsAvailable = defaultPrice != null
             };
 
             if (quickview)
@@ -146,8 +147,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 
         private static bool TryGetFashionVariant(IEnumerable<FashionVariant> variations, string variationCode, out FashionVariant variation)
         {
-            variation = !string.IsNullOrEmpty(variationCode) ? 
-                variations.FirstOrDefault(x => x.Code == variationCode) : 
+            variation = !string.IsNullOrEmpty(variationCode) ?
+                variations.FirstOrDefault(x => x.Code == variationCode) :
                 variations.FirstOrDefault();
 
             return variation != null;
@@ -171,11 +172,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 currency);
         }
 
-        private Money GetDiscountPrice(IPriceValue defaultPrice, IMarket market, Currency currency)
+        private Money? GetDiscountPrice(IPriceValue defaultPrice, IMarket market, Currency currency)
         {
             if (defaultPrice == null)
             {
-                return new Money(0, currency);
+                return null;
             }
 
             return _promotionService.GetDiscountPrice(defaultPrice.CatalogKey, market.MarketId, currency).UnitPrice;

@@ -66,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 Username = "admin"
             });
             var redirectResult = result.Result as RedirectToRouteResult;
-            Assert.AreEqual<string>("Index", (string) redirectResult.RouteValues["action"]);
+            Assert.AreEqual<string>("Index", (string)redirectResult.RouteValues["action"]);
         }
 
         [TestMethod]

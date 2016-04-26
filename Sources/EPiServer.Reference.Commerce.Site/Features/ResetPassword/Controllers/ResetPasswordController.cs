@@ -18,6 +18,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using Microsoft.Owin;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {
@@ -27,10 +28,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
         private readonly IMailService _mailService;
         private readonly LocalizationService _localizationService;
 
-        public ResetPasswordController(ApplicationSignInManager signinManager, 
+        public ResetPasswordController(ApplicationSignInManager signinManager,
             ApplicationUserManager userManager,
-            UserService userService, 
-            IContentLoader contentLoader, 
+            UserService userService,
+            IContentLoader contentLoader,
             IMailService mailService,
             LocalizationService localizationService)
 
@@ -71,8 +72,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             var url = Url.Action("ResetPassword", "ResetPassword", new { userId = user.Id, code, langauge = language }, Request.Url.Scheme);
 
-            body = body.Replace("[MailUrl]", 
-                String.Format("{0}<a href=\"{1}\">{2}</a>", 
+            body = body.Replace("[MailUrl]",
+                String.Format("{0}<a href=\"{1}\">{2}</a>",
                     _localizationService.GetString("/ResetPassword/Mail/Text"),
                     url,
                     _localizationService.GetString("/ResetPassword/Mail/Link")));
@@ -96,6 +97,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
         }
 
         [HttpPost]
+        [AllowDBWrite]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)

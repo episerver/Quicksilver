@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
 
             var siblingVariant = siblingVariations.OfType<FashionVariant>().FirstOrDefault(x => x.Code == siblingCode);
-            
+
             foreach (var variant in siblingVariations.OfType<FashionVariant>())
             {
                 if (variant.Size == size && variant.Code != siblingCode && variant.Color == siblingVariant.Color)
@@ -145,8 +145,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             }
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
+
             var originalPrice = _pricingService.GetCurrentPrice(variation.Code);
-            var discountPrice = GetDiscountPrice(variation, market, currency, originalPrice);
+            var discountPrice = originalPrice.HasValue ? GetDiscountPrice(variation, market, currency, originalPrice.Value) : (Money?)null;
+
             var image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
             var brand = product is FashionProduct ? ((FashionProduct)product).Brand : string.Empty;
 
@@ -157,11 +159,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 ExtendedPrice = discountPrice,
                 ImageUrl = image,
                 Url = variation.GetUrl(),
-                Brand = brand
+                Brand = brand,
+                IsAvailable = originalPrice.HasValue
             };
         }
 
-        private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money orginalPrice)
+        private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money originalPrice)
         {
             var discountPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
             if (discountPrice != null)
@@ -169,7 +172,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 return discountPrice.UnitPrice;
             }
 
-            return orginalPrice;
+            return originalPrice;
         }
     }
 }

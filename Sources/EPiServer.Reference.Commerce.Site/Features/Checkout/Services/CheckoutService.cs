@@ -45,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             var orderForms = CartHelper.Cart.OrderForms;
             if (orderForms.Count == 0)
             {
-                orderForms.AddNew().AcceptChanges();
+                orderForms.AddNew();
                 orderForms.Single().Name = CartHelper.Cart.Name;
             }
 
@@ -63,7 +63,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 var item = orderForm.LineItems[i];
                 shipment.AddLineItemIndex(i, item.Quantity);
             }
-            shipment.AcceptChanges();
+
+            orderForm.AcceptChanges();
 
             return shipment;
         }

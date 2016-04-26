@@ -9859,6 +9859,9 @@ footer .btn-social .fa {
   width: 60px;
   right: -10px;
 }
+.product-row .product-title {
+  margin-top: 10px;
+}
 .product-row .product-title,
 .product-row .product-brand {
   display: block;
@@ -9870,7 +9873,7 @@ footer .btn-social .fa {
 }
 .product-row__tile {
   overflow: hidden;
-  padding: 32px 20px;
+  padding: 20px 32px 0 32px;
   position: relative;
   transition: box-shadow 0.15s ease-out;
 }
@@ -9901,6 +9904,11 @@ footer .btn-social .fa {
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .product-row .col-sm-6:nth-of-type(2n+1) {
+    clear: left;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .product-row .col-lg-4:nth-of-type(2n+1) {
     clear: left;
   }
 }
@@ -9992,4 +10000,7 @@ footer .btn-social .fa {
 }
 .checkout-cart .product-image {
   max-width: 100%;
+}
+.couponcode-errormessage {
+  margin-top: 10px;
 }

@@ -1,14 +1,16 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
@@ -37,12 +39,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly IProductService _productService;
         private readonly IPricingService _pricingService;
 
-        public CartService(Func<string, CartHelper> cartHelper, 
-            IContentLoader contentLoader, 
-            ReferenceConverter referenceConverter, 
-            UrlResolver urlResolver, 
+        private readonly IPromotionService _promotionService;
+        private AppContextFacade _appContext;
+        private readonly ICurrentMarket _currentMarket;
+        private readonly ICurrencyService _currencyService;
+
+        public CartService(Func<string, CartHelper> cartHelper,
+            IContentLoader contentLoader,
+            ReferenceConverter referenceConverter,
+            UrlResolver urlResolver,
             IProductService productService,
-            IPricingService pricingService)
+            IPricingService pricingService,
+            IPromotionService promotionService,
+            AppContextFacade appContext,
+            ICurrentMarket currentMarket,
+            ICurrencyService currencyService)
         {
             _cartHelper = cartHelper;
             _contentLoader = contentLoader;
@@ -51,6 +62,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _urlResolver = urlResolver;
             _productService = productService;
             _pricingService = pricingService;
+            _promotionService = promotionService;
+            _appContext = appContext;
+            _currentMarket = currentMarket;
+            _currencyService = currencyService;
         }
 
         public void InitializeAsWishList()
@@ -77,18 +92,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             var variants = _contentLoader.GetItems(lineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
                 _preferredCulture).OfType<VariationContent>();
 
+            var marketId = _currentMarket.GetCurrentMarket().MarketId;
+            var currency = _currencyService.GetCurrentCurrency();
+
             foreach (var lineItem in lineItems)
             {
                 VariationContent variant = variants.FirstOrDefault(x => x.Code == lineItem.Code);
-                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());
+                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());                
                 CartItem item = new CartItem
                 {
                     Code = lineItem.Code,
                     DisplayName = lineItem.DisplayName,
                     ImageUrl = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
-                    ExtendedPrice = lineItem.ToMoney(lineItem.ExtendedPrice + lineItem.OrderLevelDiscountAmount),
+                    ExtendedPrice = GetExtendedPrice(lineItem, marketId, currency),
                     PlacedPrice = lineItem.ToMoney(lineItem.PlacedPrice),
-                    DiscountPrice = lineItem.ToMoney(Math.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity, 2)),
+                    DiscountPrice = lineItem.ToMoney(currency.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity)),
                     Quantity = lineItem.Quantity,
                     Url = lineItem.GetUrl(),
                     Variant = variant,
@@ -96,7 +114,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                     {
                         Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)),
                         Displayname = x.DisplayMessage
-                    })
+                    }),
+                    IsAvailable = _pricingService.GetCurrentPrice(variant.Code).HasValue
                 };
 
                 if (product is FashionProduct)
@@ -105,13 +124,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                     var fashionVariant = (FashionVariant)variant;
                     item.Brand = fashionProduct.Brand;
                     var variations = _productService.GetVariations(fashionProduct);
-                    item.AvailableSizes = variations.Where(x => x.Color == fashionVariant.Color).Select(x=> x.Size);
+                    item.AvailableSizes = variations.Where(x => x.Color == fashionVariant.Color).Select(x => x.Size);
                 }
 
                 cartItems.Add(item);
             }
 
             return cartItems;
+        }
+
+        private Money? GetExtendedPrice(LineItem lineItem, MarketId marketId, Currency currency)
+        {
+            if (_cartName.Equals(CartHelper.WishListName))
+            {
+                var discountPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
+
+                if (discountPrice == null)
+                {
+                    return null;
+                }
+
+                return discountPrice.UnitPrice;
+            }
+
+            return lineItem.ToMoney(lineItem.ExtendedPrice + lineItem.OrderLevelDiscountAmount);
         }
 
         public Money GetTotal()
@@ -162,17 +198,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
 
             var lineItem = CartHelper.Cart.GetLineItem(oldCode);
-            var entry = CatalogContext.Current.GetCatalogEntry(newCode, 
+            var entry = CatalogContext.Current.GetCatalogEntry(newCode,
                 new CatalogEntryResponseGroup(CatalogEntryResponseGroup.ResponseGroup.Variations));
-            
+
             lineItem.Code = entry.ID;
             lineItem.MaxQuantity = entry.ItemAttributes.MaxQuantity;
             lineItem.MinQuantity = entry.ItemAttributes.MinQuantity;
             lineItem.InventoryStatus = (int)entry.InventoryStatus;
 
             var price = _pricingService.GetCurrentPrice(newCode);
-            lineItem.ListPrice = price.Amount;
-            lineItem.PlacedPrice = price.Amount;
+
+            if (price.HasValue)
+            {
+                lineItem.ListPrice = price.Value.Amount;
+                lineItem.PlacedPrice = price.Value.Amount;
+            }
 
             ValidateCart();
             lineItem.AcceptChanges();
@@ -189,7 +229,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 lineItem.Quantity = quantity;
                 ValidateCart();
-                AcceptChanges();
+                CartHelper.Cart.AcceptChanges();
+            }
+        }
+
+        public void SetCartCurrency(Currency currency)
+        {
+            if (currency != CartHelper.Cart.BillingCurrency)
+            {
+                CartHelper.Cart.BillingCurrency = currency;
+                ValidateCart();
+                CartHelper.Cart.AcceptChanges();
             }
         }
 
@@ -200,7 +250,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 PurchaseOrderManager.RemoveLineItemFromOrder(CartHelper.Cart, lineItem.LineItemId);
                 ValidateCart();
-                AcceptChanges();
+                CartHelper.Cart.AcceptChanges();
             }
         }
 
@@ -238,7 +288,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         public Money GetShippingSubTotal()
         {
             decimal shippingTotal = CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments).Sum(x => x.ShippingSubTotal);
-        
+
             return ConvertToMoney(shippingTotal);
         }
 
@@ -290,17 +340,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public void SaveCart()
         {
-            AcceptChanges();
+            CartHelper.Cart.AcceptChanges();
         }
 
         public void DeleteCart()
         {
             CartHelper.Cart.Delete();
-            CartHelper.Cart.AcceptChanges();
-        }
-
-        private void AcceptChanges()
-        {
             CartHelper.Cart.AcceptChanges();
         }
 

@@ -1,5 +1,4 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
+﻿using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 

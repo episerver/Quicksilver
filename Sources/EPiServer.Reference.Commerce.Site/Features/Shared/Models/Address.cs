@@ -1,5 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+﻿using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using Mediachase.Commerce.Orders.Dto;
 using System;
 using System.Collections.Generic;

@@ -6,7 +6,7 @@ This repository is the starter site for EPiServer Commerce based on MVC, aka "Qu
 Release Notes
 -------------
 
-This is release 1.2 of Quicksilver and more features will be added over time.
+This is release 1.3 of Quicksilver and more features will be added over time.
 The following is a list of features to be added in the future:
 
 * In-store pickup.
@@ -15,6 +15,21 @@ The following is a list of features to be added in the future:
 
 Changes in this release
 -----------------------
+* COM-122  Item in wishlist should show discounted price
+* COM-868  Inconsistent price when change currency for current market
+* COM-1086 Updated looks for login page
+* COM-454  Bad layout of product listing page in IPad landscape orientation
+* COM-586  Missing Swedish translation of Registration block
+* COM-912  Variations without price for currency are shown with price zero
+* COM-1163 Cannot apply coupon code in checkout page
+* COM-1291 Update Quicksilver to support read-only mode
+* COM-1447 Shipping form breaks when apply/remove coupon code
+* COM-1448 Keep facets during scroll
+* COM-1489 Coupon codes may be dropped
+* Updated to Episerver Commerce 9.11.1
+
+Changes in Quicksilver 1.2
+--------------------------
 * COM-111 Support for Commerce 9
 * COM-259 GitIgnore file on Quicksilver / GitHub excludes too much. Fixed.
 * COM-136 Inconsistent display description in Quickview dialog. Fixed.

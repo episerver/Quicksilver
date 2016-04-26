@@ -262,6 +262,9 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
   <data name="Shipping" xml:space="preserve">
     <value>Shipping</value>
   </data>
@@ -285,6 +288,15 @@
   </data>
   <data name="Today" xml:space="preserve">
     <value>Today</value>
+  </data>
+  <data name="Last_7_Days" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="Last_30_Days" xml:space="preserve">
+    <value>Last 30 days</value>
+  </data>
+  <data name="Custom_Range" xml:space="preserve">
+    <value>Custom</value>
   </data>
   <data name="To_Lowercase" xml:space="preserve">
     <value>to</value>
@@ -1849,6 +1861,9 @@
   <data name="TransactionType" xml:space="preserve">
     <value>Transaction Type</value>
   </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>Transaction Id</value>
+  </data>
   <data name="Address_Edit" xml:space="preserve">
     <value>Edit Address</value>
   </data>
@@ -2130,6 +2145,9 @@
   <data name="Purchase_Order_Details" xml:space="preserve">
     <value>Purchase Order Details</value>
   </data>
+	<data name="Filter_By_Market" xml:space="preserve">
+		<value>Filter by market:</value>
+	</data>
   <data name="Markets" xml:space="preserve">
     <value>Markets</value>
   </data>

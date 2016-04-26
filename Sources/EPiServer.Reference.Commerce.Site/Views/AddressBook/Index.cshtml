@@ -9,7 +9,10 @@
                     <h2> @Html.Translate("/AddressBook/Available")</h2>
                 </div>
                 <div class="col-xs-12 col-md-3">
-                    <button type="button" class="btn btn-default btn--blue btn-sm mypages-new-address-btn" onclick="window.location.href='@Url.Action("EditForm", "AddressBook")';">@Html.Translate("/AddressBook/Form/Label/NewAddress")</button>
+                    @if (!(bool)ViewData["IsReadOnly"])
+                    {
+                        <button type="button" class="btn btn-default btn--blue btn-sm mypages-new-address-btn" onclick="window.location.href='@Url.Action("EditForm", "AddressBook")';">@Html.Translate("/AddressBook/Form/Label/NewAddress")</button>
+                    }
                 </div>
             </div>
             <div id="addressBook">
@@ -28,10 +31,13 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     @Html.Partial("_Address", address)
-                                    <button type="button" class="btn btn-default btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })';">@Html.Translate("/AddressBook/Form/Label/Edit")</button>
-                                    @using (Html.BeginForm("Remove", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
+                                    @if (!(bool)ViewData["IsReadOnly"])
                                     {
-                                        <button type="submit" class="btn btn-default btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
+                                        <button type="button" class="btn btn-default btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })';">@Html.Translate("/AddressBook/Form/Label/Edit")</button>
+                                        using (Html.BeginForm("Remove", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
+                                        {
+                                            <button type="submit" class="btn btn-default btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
+                                        }
                                     }
                                 </div>
                                 <div class="col-xs-12 col-md-6">
@@ -44,10 +50,13 @@
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("SetPreferredBillingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                        if (!(bool)ViewData["IsReadOnly"])
                                         {
+                                            using (Html.BeginForm("SetPreferredBillingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                            {
                                             <button type="submit" class="btn btn-default btn-xs">@Html.Translate("/AddressBook/Form/Label/SetBillingAddress")</button>
                                             <br />
+                                            }
                                         }
                                     }
                                     @if (address.ShippingDefault)
@@ -56,10 +65,13 @@
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("SetPreferredShippingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                        if (!(bool)ViewData["IsReadOnly"])
                                         {
+                                            using (Html.BeginForm("SetPreferredShippingAddress", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post))
+                                            {
                                             <button type="submit" class="btn btn-default btn-xs">@Html.Translate("/AddressBook/Form/Label/SetShippingAddress")</button>
                                             <br />
+                                            }
                                         }
                                     }
                                 </div>

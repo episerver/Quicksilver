@@ -67,8 +67,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             string email = "john.doe@company.com";
             ApplicationUser user = new ApplicationUser
             {
-               Email = email,
-               Id = Guid.NewGuid().ToString()
+                Email = email,
+                Id = Guid.NewGuid().ToString()
             };
             ResetPasswordViewModel viewModel = new ResetPasswordViewModel
             {
@@ -95,7 +95,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
         private Mock<ApplicationUserManager> _userManagerMock;
         private Mock<UserService> _userServiceMock;
         private Mock<ResetPasswordPage> _resetPasswordPageMock;
-        
+
         [TestInitialize]
         public void Setup()
         {

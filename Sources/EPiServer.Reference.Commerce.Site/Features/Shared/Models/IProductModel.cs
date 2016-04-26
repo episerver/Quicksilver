@@ -6,9 +6,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Models
         string Brand { get; set; }
         string Code { get; set; }
         string DisplayName { get; set; }
-        Money ExtendedPrice { get; set; }
+        Money? ExtendedPrice { get; set; }
         string ImageUrl { get; set; }
-        Money PlacedPrice { get; set; }
+        Money? PlacedPrice { get; set; }
         string Url { get; set; }
+        bool IsAvailable { get; set; }
     }
 }

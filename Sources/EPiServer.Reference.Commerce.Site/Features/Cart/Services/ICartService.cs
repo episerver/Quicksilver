@@ -28,5 +28,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void DeleteCart();
         void InitializeAsWishList();
         void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
+        void SetCartCurrency(Currency currency);
     }
 }

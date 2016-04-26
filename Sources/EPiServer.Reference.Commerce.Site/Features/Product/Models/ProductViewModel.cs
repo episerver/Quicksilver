@@ -9,8 +9,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         public string ImageUrl { get; set; }
         public string Url { get; set; }
         public string Brand { get; set; }
-        public Money ExtendedPrice { get; set; }
-        public Money PlacedPrice { get; set; }
+        public Money? ExtendedPrice { get; set; }
+        public Money? PlacedPrice { get; set; }
         public string Code { get; set; }
+        public bool IsAvailable { get; set; }
     }
 }
