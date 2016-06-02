@@ -1,0 +1,147 @@
+@using System.Linq
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.MultiShipmentViewModel
+@{
+    if (Request.IsAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+
+<div class="container-fluid" id="CheckoutView" data-url="@Url.Action("MultiShipment")">
+
+    @using (Html.BeginForm("MultiShipment", "Checkout", FormMethod.Post))
+    {
+
+        <div class="row section-box checkout jsCheckout">
+            <div class="col-xs-12">
+                <h1>@Html.Translate("/Checkout/MultiShipment/Heading")</h1>
+                @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
+                {
+                    <h4>@Html.Translate("/Checkout/MultiShipment/SubheadingFirst") <a href="@Url.ContentUrl(Model.StartPage.AddressBookPage)">@Html.Translate("/Checkout/MultiShipment/SubheadingAddress")</a> @Html.Translate("/Checkout/MultiShipment/SubheadingSecond")</h4>
+                }
+            </div>
+        </div>
+        <div class="row section-box">
+            <div class="col-xs-12 checkout-cart">
+                @for (int index = 0; index < Model.CartItems.Count(); index++)
+                {
+                    @Html.HiddenFor(model => model.CartItems[index].Code);
+                    @Html.HiddenFor(model => model.CartItems[index].Quantity);
+                    @Html.HiddenFor(model => model.CartItems[index].LineItemDiscountAmount);
+                    @Html.HiddenFor(model => model.CartItems[index].OrderLevelDiscountAmount);
+
+                    bool hasDiscount = (Model.CartItems[index].Discounts != null && Model.CartItems[index].Discounts.Any());
+                    string productLevelClass = hasDiscount ? "has-discount" : string.Empty;
+
+                    <div class="row cart-row @productLevelClass">
+                        <div class="col-xs-4 col-sm-2">
+                            <a href="@Model.CartItems[index].Url "><img src="@Model.CartItems[index].ImageUrl" class="product-image" /></a>
+                        </div>
+                        <div class="col-xs-8 col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <strong>@Html.Translate("/Checkout/MultiShipment/Item")</strong><br />
+                                    <a href="@Model.CartItems[index].Url" class="link--black">@Model.CartItems[index].DisplayName</a><br />
+
+                                    <span class="product-brand xs-vertical-margin">@Model.CartItems[index].Brand</span>
+                                    @if (hasDiscount)
+                                    {
+                                        <span class="product-price">@Helpers.RenderMoney(Model.CartItems[index].PlacedPrice, Model.CartItems[index].Currency)</span>
+                                        <span class="product-price product-price--discount xs-vertical-margin">@Helpers.RenderMoney(Model.CartItems[index].DiscountPrice.Value)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(Model.CartItems[index].PlacedPrice, Model.CartItems[index].Currency)</span>
+                                    }
+                                </div>
+                                <div class="col-sm-8">
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-4 xs-vertical-margin">
+                                            <strong>@Html.Translate("/ProductPage/Size")</strong><br />
+                                            @Helpers.RenderSize(Model.CartItems[index].Variant)
+
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-8 xs-vertical-margin">
+                                            <strong>@Html.Translate("/Checkout/MultiShipment/DeliveryAddress")</strong><br />
+                                            @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
+                                            {
+                                                var dropDownPlaceholder = Model.AvailableAddresses.Any() ? Html.Translate("/Checkout/MultiShipment/SelectDeliveryAddress") : Html.Translate("/Checkout/MultiShipment/NoAddressFound");
+                                                @Html.DropDownListFor(model => Model.CartItems[index].AddressId,
+                                               new SelectList(Model.AvailableAddresses, "AddressId", "Name", Model.CartItems[index].AddressId),
+                                               dropDownPlaceholder,
+                                               new { @class = "form-control shippingaddress-dropdown" })
+                                                <br />
+												<button class="btn jsNewAddress" data-url="@Url.Action("EditForm", "AddressBook")" data-toggle="modal" data-target="#AddressDialog">@Html.Translate("/Checkout/MultiShipment/AddNewAddress")</button>
+                                                @Html.ValidationMessageFor(model => Model.CartItems[index].AddressId)
+                                            }
+                                            else {
+
+                                                @Html.HiddenFor(model => Model.CartItems[index].AddressId, new { @value = Model.CartItems[index].AddressId })
+                                                @Html.HiddenFor(model => Model.AvailableAddresses[index].AddressId, new { @value = Model.AvailableAddresses[index].AddressId })
+                                                @Html.HiddenFor(model => Model.AvailableAddresses[index].Name, new { @value = Model.AvailableAddresses[index].Name })
+
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+
+                                                        @Html.LabelFor(model => Model.AvailableAddresses[index].FirstName)
+                                                        @Html.TextBoxFor(model => Model.AvailableAddresses[index].FirstName, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].FirstName)
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                        @Html.LabelFor(model => Model.AvailableAddresses[index].LastName)
+                                                        @Html.TextBoxFor(model => Model.AvailableAddresses[index].LastName, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].LastName)
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => Model.AvailableAddresses[index].Line1)
+                                                        @Html.TextBoxFor(model => Model.AvailableAddresses[index].Line1, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].Line1)
+                                                    </div>
+
+                                                        <div class="row">
+                                                            <div class="form-group col-md-4">
+                                                                @Html.LabelFor(model => Model.AvailableAddresses[index].PostalCode)
+                                                                @Html.TextBoxFor(model => Model.AvailableAddresses[index].PostalCode, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].PostalCode)
+                                                            </div>
+
+                                                            <div class="form-group col-md-8">
+                                                                @Html.LabelFor(model => Model.AvailableAddresses[index].City)
+                                                                @Html.TextBoxFor(model => Model.AvailableAddresses[index].City, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].City)
+                                                            </div>
+                                                        </div>
+
+                                                Html.RenderPartial("_AddressRegion", Model.AvailableAddresses[index]);
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => Model.AvailableAddresses[index].CountryCode)
+                                                    @Html.DropDownListFor(model => Model.AvailableAddresses[index].CountryCode,
+                                                            new SelectList(Model.AvailableAddresses[index].CountryOptions, "Code", "Name", Model.AvailableAddresses[index].CountryCode), new { @class = "form-control jsChangeCountry" })
+                                                    @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].CountryCode)
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                @if (!(bool)ViewData["IsReadOnly"])
+                {
+                    <input type="submit" class="btn btn-primary" value="@Html.Translate("/Checkout/MultiShipment/Continue")" />
+                }
+                <a href="@Model.ReferrerUrl" class="btn btn-default">@Html.Translate("/AddressBook/Form/Label/Cancel")</a>
+            </div>
+        </div>
+    }
+</div>

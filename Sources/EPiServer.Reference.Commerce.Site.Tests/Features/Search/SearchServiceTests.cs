@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Routing;
 using FluentAssertions;
@@ -14,17 +12,19 @@ using Lucene.Net.Util;
 using Mediachase.Commerce;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using EPiServer.Reference.Commerce.Site.Features.Search.Services;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 {
-    [TestClass]
+
     public class SearchServiceTests
     {
-        [TestMethod]
+        [Fact]
         public void Search_WhenFilterOptionsIsNull_ShouldReturnEmptyResult()
         {
             var content = new NodeContent();
@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             result.SearchResult.FacetGroups.Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_ShouldReturnSameSearchResult()
         {
             var content = new NodeContent();
@@ -46,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             result.SearchResult.ShouldBeEquivalentTo(_searchResultsMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_ShouldReturnPopulatedProductViewModel()
         {
             var content = new NodeContent();
@@ -59,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                PlacedPrice = new Money(1, _currentCurrency),
+                PlacedPrice = 1,
                 ExtendedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
@@ -71,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             productViewModel.ShouldBeEquivalentTo(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_ShouldReturnPopulatedFacetGroupOption()
         {
             var content = new NodeContent();
@@ -100,7 +100,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             facetGroupOption.ShouldBeEquivalentTo(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryIsEmpty_ShouldReturnEmptyList()
         {
             var filterOptions = new FilterOptionFormModel();
@@ -110,7 +110,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             result.Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_ShouldReturnPopulatedProductViewModel()
         {
             var filterOptions = new FilterOptionFormModel();
@@ -123,7 +123,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                PlacedPrice = new Money(1, _currentCurrency),
+                PlacedPrice = 1,
                 ExtendedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
@@ -135,7 +135,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             productViewModel.ShouldBeEquivalentTo(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_ShouldFilterByCurrentMarket()
         {
             var filterOptions = new FilterOptionFormModel { Q = "query" };
@@ -146,7 +146,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.MarketId.Equals(expected))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsPlusCharacter_ShouldRemovePlusCharacterFromQuery()
         {
             const string searchQuery = "start+end";
@@ -158,7 +158,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsExclamationCharacter_ShouldRemoveExclamationCharacterFromQuery()
         {
             const string searchQuery = "start!end";
@@ -170,7 +170,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsStartBracketCharacter_ShouldRemoveStartBracketCharacterFromQuery()
         {
             const string searchQuery = "start[end";
@@ -182,7 +182,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsEndBracketCharacter_ShouldRemoveEndBracketCharacterFromQuery()
         {
             const string searchQuery = "start]end";
@@ -194,7 +194,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsColonCharacter_ShouldRemoveColonCharacterFromQuery()
         {
             const string searchQuery = "start:end";
@@ -206,7 +206,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsQuestionMarkCharacter_ShouldRemoveQuestionMarkCharacterFromQuery()
         {
             const string searchQuery = "start?end";
@@ -218,7 +218,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsStartGullwingCharacter_ShouldRemoveStartGullwingCharacterFromQuery()
         {
             const string searchQuery = "start{end";
@@ -230,7 +230,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsEndGullwingCharacter_ShouldRemoveEndGullwingCharacterFromQuery()
         {
             const string searchQuery = "start}end";
@@ -242,7 +242,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsStarCharacter_ShouldRemoveStarCharacterFromQuery()
         {
             const string searchQuery = "start*end";
@@ -254,7 +254,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsAndCharacter_ShouldRemoveAndCharacterFromQuery()
         {
             const string searchQuery = "start&end";
@@ -266,7 +266,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsSeparatorCharacter_ShouldRemoveSeparatorCharacterFromQuery()
         {
             const string searchQuery = "start|end";
@@ -278,7 +278,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenQueryContainsWaveCharacter_ShouldRemoveWaveCharacterFromQuery()
         {
             const string searchQuery = "start~end";
@@ -290,7 +290,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_ShouldFilterByCurrentMarket()
         {
             var filterOptions = new FilterOptionFormModel { Q = "query", FacetGroups = new List<FacetGroupOption>() };
@@ -302,7 +302,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.MarketId.Equals(expected))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsPlusCharacter_ShouldRemovePlusCharacterFromQuery()
         {
             const string searchQuery = "start+end";
@@ -315,7 +315,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsExclamationCharacter_ShouldRemoveExclamationCharacterFromQuery()
         {
             const string searchQuery = "start!end";
@@ -328,7 +328,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsStartBracketCharacter_ShouldRemoveStartBracketCharacterFromQuery()
         {
             const string searchQuery = "start[end";
@@ -341,7 +341,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsEndBracketCharacter_ShouldRemoveEndBracketCharacterFromQuery()
         {
             const string searchQuery = "start]end";
@@ -354,7 +354,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsColonCharacter_ShouldRemoveColonCharacterFromQuery()
         {
             const string searchQuery = "start:end";
@@ -367,7 +367,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsQuestionMarkCharacter_ShouldRemoveQuestionMarkCharacterFromQuery()
         {
             const string searchQuery = "start?end";
@@ -380,7 +380,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsStartGullwingCharacter_ShouldRemoveStartGullwingCharacterFromQuery()
         {
             const string searchQuery = "start{end";
@@ -393,7 +393,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsEndGullwingCharacter_ShouldRemoveEndGullwingCharacterFromQuery()
         {
             const string searchQuery = "start}end";
@@ -406,7 +406,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsStarCharacter_ShouldRemoveStarCharacterFromQuery()
         {
             const string searchQuery = "start*end";
@@ -419,7 +419,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsAndCharacter_ShouldRemoveAndCharacterFromQuery()
         {
             const string searchQuery = "start&end";
@@ -432,7 +432,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsSeparatorCharacter_ShouldRemoveSeparatorCharacterFromQuery()
         {
             const string searchQuery = "start|end";
@@ -445,7 +445,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
         }
 
-        [TestMethod]
+        [Fact]
         public void Search_WhenQueryContainsWaveCharacter_ShouldRemoveWaveCharacterFromQuery()
         {
             const string searchQuery = "start~end";
@@ -468,8 +468,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         private Facet _facet;
         private Mock<SearchFacade> _searchFacadeMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public SearchServiceTests()
         {
             SetupSearchResultMock();
 

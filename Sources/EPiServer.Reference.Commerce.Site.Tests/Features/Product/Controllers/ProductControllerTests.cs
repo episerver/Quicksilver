@@ -17,18 +17,18 @@ using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using FluentAssertions;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 {
-    [TestClass]
-    public class ProductControllerTests
+    public class ProductControllerTests : IDisposable
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenVariationIdIsNull_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -50,11 +50,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenVariationIdIsEmpty_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -76,11 +76,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenNoVariationExists_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -102,11 +102,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationDontExist_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -129,11 +129,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetVariationToSelectedVariation()
         {
             FashionProduct fashionProduct = null;
@@ -158,11 +158,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<FashionVariant>(fashionVariant, model.Variation);
+                Assert.Equal<FashionVariant>(fashionVariant, model.Variation);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetProductToRoutedProduct()
         {
             FashionProduct fashionProduct = null;
@@ -188,11 +188,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<FashionProduct>(fashionProduct, model.Product);
+                Assert.Equal<FashionProduct>(fashionProduct, model.Product);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetOriginalPriceToDefaultPrice()
         {
             FashionProduct fashionProduct = null;
@@ -224,11 +224,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<Money>(mockDefaultPrice.Object.UnitPrice, model.OriginalPrice);
+                Assert.Equal<Money>(mockDefaultPrice.Object.UnitPrice, model.OriginalPrice);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetPriceToDiscountPrice()
         {
             FashionProduct fashionProduct = null;
@@ -260,11 +260,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<Money>(mockDiscountPrice.Object.UnitPrice, model.Price.Value);
+                Assert.Equal<Money>(mockDiscountPrice.Object.UnitPrice, model.Price.Value);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetColorToSelectedVariationColor()
         {
             FashionProduct fashionProduct = null;
@@ -295,11 +295,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<string>(color, model.Color);
+                Assert.Equal<string>(color, model.Color);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationExist_ShouldSetSizeToSelectedVariationSize()
         {
             FashionProduct fashionProduct = null;
@@ -330,11 +330,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<string>(size, model.Size);
+                Assert.Equal<string>(size, model.Size);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationDontHaveAssets_ShouldSetImagesToOneItemWithEmptyLink()
         {
             FashionProduct fashionProduct = null;
@@ -361,11 +361,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<string>(string.Empty, model.Images.Single());
+                Assert.Equal<string>(string.Empty, model.Images.Single());
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenSelectedVariationHasImageAssets_ShouldSetImagesToLinkFromImage()
         {
             FashionProduct fashionProduct = null;
@@ -398,11 +398,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<string>(imageLink, model.Images.Single());
+                Assert.Equal<string>(imageLink, model.Images.Single());
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableColorsAreEmptyForVariation_ShouldSetColorsToEmpty()
         {
             FashionProduct fashionProduct = null;
@@ -430,11 +430,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.AreEqual<int>(0, model.Colors.Count());
+                Assert.Equal<int>(0, model.Colors.Count());
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetTextToItemValue()
         {
             FashionProduct fashionProduct = null;
@@ -470,11 +470,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedColors = String.Join(";", colors);
                 var modelColorTexts = String.Join(";", model.Colors.Select(x => x.Text));
 
-                Assert.AreEqual<string>(expectedColors, modelColorTexts);
+                Assert.Equal<string>(expectedColors, modelColorTexts);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetValueToItemValue()
         {
             FashionProduct fashionProduct = null;
@@ -510,11 +510,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedColors = String.Join(";", colors);
                 var modelColorValues = String.Join(";", model.Colors.Select(x => x.Value));
 
-                Assert.AreEqual<string>(expectedColors, modelColorValues);
+                Assert.Equal<string>(expectedColors, modelColorValues);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableColorsContainsItems_ShouldSetSelectedToFalse()
         {
             FashionProduct fashionProduct = null;
@@ -548,11 +548,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedColors = String.Join(";", new[] { false });
                 var modelColorsSelected = String.Join(";", model.Colors.Select(x => x.Selected));
 
-                Assert.AreEqual<string>(expectedColors, modelColorsSelected);
+                Assert.Equal<string>(expectedColors, modelColorsSelected);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetTextToItemValue()
         {
             FashionProduct fashionProduct = null;
@@ -584,11 +584,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedSizes = String.Join(";", sizes);
                 var modelSizeTexts = String.Join(";", model.Sizes.Select(x => x.Text));
 
-                Assert.AreEqual<string>(expectedSizes, modelSizeTexts);
+                Assert.Equal<string>(expectedSizes, modelSizeTexts);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetValueToItemValue()
         {
             FashionProduct fashionProduct = null;
@@ -620,11 +620,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedSizes = String.Join(";", sizes);
                 var modelSizeValues = String.Join(";", model.Sizes.Select(x => x.Value));
 
-                Assert.AreEqual<string>(expectedSizes, modelSizeValues);
+                Assert.Equal<string>(expectedSizes, modelSizeValues);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsItems_ShouldSetSelectedToFalse()
         {
             FashionProduct fashionProduct = null;
@@ -654,11 +654,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedSizes = String.Join(";", new[] { false });
                 var modelSizesSelected = String.Join(";", model.Sizes.Select(x => x.Selected));
 
-                Assert.AreEqual<string>(expectedSizes, modelSizesSelected);
+                Assert.Equal<string>(expectedSizes, modelSizesSelected);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsDelayPublishItems_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -692,11 +692,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsExpiredItems_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -729,11 +729,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsUnpublishItems_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -766,11 +766,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAvailableSizesContainsItemUnavailabelInCurrentMarket_ShouldReturnHttpNotFoundResult()
         {
             FashionProduct fashionProduct = null;
@@ -802,11 +802,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Assert
             {
-                Assert.IsInstanceOfType(actionResult, typeof(HttpNotFoundResult));
+                Assert.IsType(typeof(HttpNotFoundResult), actionResult);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenIsInEditModeAndHasNoVariation_ShouldReturnProductWithoutVariationView()
         {
             FashionProduct fashionProduct = null;
@@ -833,7 +833,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenVariationCodeHasValue_ShouldSetColorsToTheAvailableColorsForTheVariationSize()
         {
             const string variationColorBlue = "blue";
@@ -872,11 +872,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedColors = String.Join(";", new[] { variationColorBlue, variationColorWhite });
                 var modelColors = String.Join(";", model.Colors.Select(x => x.Value));
 
-                Assert.AreEqual<string>(expectedColors, modelColors);
+                Assert.Equal<string>(expectedColors, modelColors);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenVariationCodeHasValue_ShouldSetSizesToTheAvailableSizesForTheVariationColor()
         {
             const string variationSizeMedium = "medium";
@@ -915,11 +915,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 var expectedSizes = String.Join(";", new[] { variationSizeMedium, variationSizeXlarge });
                 var modelSizes = String.Join(";", model.Sizes.Select(x => x.Value));
 
-                Assert.AreEqual<string>(expectedSizes, modelSizes);
+                Assert.Equal<string>(expectedSizes, modelSizes);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void SelectVariant_WhenColorAndSizeHasValues_ShouldGetVariantWithSelectedColorAndSize()
         {
             FashionProduct fashionProduct = null;
@@ -963,7 +963,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var selectedCode = ((RedirectToRouteResult)actionResult).RouteValues["variationCode"] as string;
-                Assert.AreEqual<string>("redsmall", selectedCode);
+                Assert.Equal<string>("redsmall", selectedCode);
             }
         }
 
@@ -985,8 +985,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         private CultureInfo _preferredCulture;
         private bool _isInEditMode;
 
-        [TestInitialize]
-        public void Setup()
+
+        public ProductControllerTests()
         {
             _defaultCurrency = Currency.USD;
             _preferredCulture = CultureInfo.GetCultureInfo("en");
@@ -1047,8 +1047,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             SetDefaultCurrency(null);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             _isInEditMode = false;
         }

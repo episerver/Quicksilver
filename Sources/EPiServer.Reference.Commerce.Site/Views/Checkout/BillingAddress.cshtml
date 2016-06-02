@@ -1,0 +1,101 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Checkout.Models
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+
+<h3>@Html.Translate("/Checkout/Billing/Heading")</h3>
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new {@node = @Model.StartPage.CheckoutPage})">
+
+            @Html.HiddenFor(model => model.BillingAddress.Name)
+            @Html.HiddenFor(model => model.BillingAddress.HtmlFieldPrefix)
+            @Html.HiddenFor(model => model.UseBillingAddressForShipment)
+            @Html.HiddenFor(model => model.BillingAddress.DaytimePhoneNumber)
+
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BillingAddress.AddressId)
+                    @Html.DropDownListFor(model => model.BillingAddress.AddressId,
+                        new SelectList(Model.AvailableAddresses, "AddressId", "Name", Model.BillingAddress.AddressId.HasValue ? Model.BillingAddress.AddressId.Value.ToString() : string.Empty), new { @class = "form-control jsChangeAddress" })
+                </div>
+            }
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.BillingAddress.FirstName)
+                    @Html.TextBoxFor(model => model.BillingAddress.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BillingAddress.FirstName)
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.BillingAddress.LastName)
+                    @Html.TextBoxFor(model => model.BillingAddress.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BillingAddress.LastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BillingAddress.Email)
+                @Html.TextBoxFor(model => model.BillingAddress.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BillingAddress.Email)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BillingAddress.Line1)
+                @Html.TextBoxFor(model => model.BillingAddress.Line1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BillingAddress.Line1)
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.BillingAddress.PostalCode)
+                    @Html.TextBoxFor(model => model.BillingAddress.PostalCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BillingAddress.PostalCode)
+                </div>
+
+                <div class="form-group col-md-8">
+                    @Html.LabelFor(model => model.BillingAddress.City)
+                    @Html.TextBoxFor(model => model.BillingAddress.City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BillingAddress.City)
+                </div>
+            </div>
+
+            @{ Html.RenderPartial("_AddressRegion", Model.BillingAddress); }
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BillingAddress.CountryCode)
+                @Html.DropDownListFor(model => model.BillingAddress.CountryCode,
+                        new SelectList(Model.BillingAddress.CountryOptions, "Code", "Name", Model.BillingAddress.CountryCode), new { @class = "form-control jsChangeCountry" })
+                @Html.ValidationMessageFor(model => model.BillingAddress.CountryCode)
+            </div>
+
+            @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(model => model.BillingAddress.SaveAddress, new { @type = "checkbox" }) @Html.Translate("/Checkout/Address/Labels/SaveAddress")
+                    </label>
+                </div>
+            }
+
+        </div>
+
+    </div>
+    @if (Model.ViewName == "SingleShipmentCheckout")
+    {
+        <div class="col-md-6 col-sm-12 billing-shipping-method">
+            <h4>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h4>
+            @foreach (var shippingMethodViewModel in Model.ShippingMethodViewModels ?? Enumerable.Empty<ShippingMethodViewModel>())
+            {
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(model => model.BillingAddress.ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
+                        @shippingMethodViewModel.DisplayName
+                        @shippingMethodViewModel.Price.ToString()
+                    </label>
+                </div>
+            }
+        </div>
+    }
+</div>

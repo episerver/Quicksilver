@@ -495,6 +495,9 @@
   <data name="Total_Catalog_Entries_Found" xml:space="preserve">
     <value>Total Catalog Entries Found</value>
   </data>
+  <data name="Total_Packages_Variations_Found" xml:space="preserve">
+    <value>Total Packages and Variations Found</value>
+  </data>
   <data name="Promotion_Name_Invalid" xml:space="preserve">
     <value>Invalid name; cannot start with '@'</value>
   </data>

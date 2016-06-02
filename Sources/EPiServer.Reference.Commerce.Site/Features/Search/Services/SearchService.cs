@@ -263,7 +263,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 Brand = GetString(document, "brand"),
                 Code = GetString(document, "code"),
                 DisplayName = GetString(document, "displayname"),
-                PlacedPrice = new Money(GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)), currency),
+                PlacedPrice = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)),
                 ExtendedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
                 ImageUrl = GetString(document, "image_url"),
                 Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link"))),

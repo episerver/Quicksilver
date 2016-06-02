@@ -26,21 +26,14 @@
 
                                 <div class="row">
                                     <div class="col-md-5">
-                                        @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
+                                        <strong>@Html.Translate("/ProductPage/Size")</strong>
+                                        @if ((bool)ViewData["IsReadOnly"])
                                         {
-                                            var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
-                                            var size = fashionVariant.Size;
-                                            @Html.Hidden("size", size.Trim())
-
-                                            <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                            if ((bool)ViewData["IsReadOnly"])
-                                            {
-                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem", disabled = "disabled" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
-                                            }
+                                            @Helpers.RenderSize(cartItem.Variant)
+                                        }
+                                        else
+                                        {
+                                            @Helpers.RenderSizeDropDown(cartItem)
                                         }
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
@@ -60,18 +53,18 @@
                         </div>
                     }
                 </li>
-                }
-            </ul>
-        </div>
-        <div>
-            <ul class="list-unstyled cart-dropdown__button-list">
-
-                <li class="cart-item">
-                    <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
-                </li>
-                <li class="cart-item">
-                    <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
-                </li>
-            </ul>
-        </div>
+            }
+        </ul>
     </div>
+    <div>
+        <ul class="list-unstyled cart-dropdown__button-list">
+
+            <li class="cart-item">
+                <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
+            </li>
+            <li class="cart-item">
+                <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+            </li>
+        </ul>
+    </div>
+</div>

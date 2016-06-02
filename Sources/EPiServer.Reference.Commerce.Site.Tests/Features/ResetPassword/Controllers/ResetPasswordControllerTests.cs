@@ -8,58 +8,58 @@ using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Controllers
 {
-    [TestClass]
     public class ResetPasswordControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnForgotPasswordView()
         {
             ViewResult result = _subject.Index(_resetPasswordPageMock.Object) as ViewResult;
-            Assert.AreEqual("ForgotPassword", result.ViewName);
+            Assert.Equal("ForgotPassword", result.ViewName);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_ShouldUseForgotPasswordViewModel()
         {
             ViewResult result = _subject.Index(_resetPasswordPageMock.Object) as ViewResult;
             ForgotPasswordViewModel viewModel = result.Model as ForgotPasswordViewModel;
-            Assert.IsNotNull(viewModel);
+            Assert.NotNull(viewModel);
         }
 
-        [TestMethod]
+        [Fact]
         public void ForgotPasswordConfirmation_ShouldReturnForgotPasswordConfirmationView()
         {
             ViewResult result = _subject.ForgotPasswordConfirmation() as ViewResult;
-            Assert.AreEqual("ForgotPasswordConfirmation", result.ViewName);
+            Assert.Equal("ForgotPasswordConfirmation", result.ViewName);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetPassword_WhenCodeIsNotNull_ShouldReturnResetPasswordView()
         {
             string code = "tHis_IS_aN_awFully_tR1cky_C0dE";
             ResetPasswordViewModel viewModel = new ResetPasswordViewModel();
             ViewResult result = _subject.ResetPassword(code) as ViewResult;
-            Assert.AreEqual("ResetPassword", result.ViewName);
+            Assert.Equal("ResetPassword", result.ViewName);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetPassword_WhenCodeIsNull_ShouldReturnErrorView()
         {
             string code = null;
             ResetPasswordViewModel viewModel = new ResetPasswordViewModel();
             ViewResult result = _subject.ResetPassword(code) as ViewResult;
-            Assert.AreEqual("Error", result.ViewName);
+            Assert.Equal("Error", result.ViewName);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetPassword_WhenValidInput_ShouldRedirectToResetPasswordConfirmationView()
         {
             string code = "A1B2C3";
@@ -81,14 +81,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             _userManagerMock.Setup(x => x.ResetPasswordAsync(user.Id, code, It.IsAny<string>())).Returns(Task.FromResult<IdentityResult>(IdentityResult.Success));
 
             RedirectToRouteResult result = _subject.ResetPassword(viewModel).Result as RedirectToRouteResult;
-            Assert.AreEqual("ResetPasswordConfirmation", result.RouteValues["action"]);
+            Assert.Equal("ResetPasswordConfirmation", result.RouteValues["action"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetPasswordConfirmation_ShouldReturnResetPasswordConfirmationView()
         {
             ViewResult result = _subject.ResetPasswordConfirmation() as ViewResult;
-            Assert.AreEqual("ResetPasswordConfirmation", result.ViewName);
+            Assert.Equal("ResetPasswordConfirmation", result.ViewName);
         }
 
         ResetPasswordController _subject;
@@ -96,8 +96,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
         private Mock<UserService> _userServiceMock;
         private Mock<ResetPasswordPage> _resetPasswordPageMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public ResetPasswordControllerTests()
         {
             Mock<ApplicationSignInManager> signinManagerMock = null;
             var userStoreMock = new Mock<IUserStore<ApplicationUser>>();

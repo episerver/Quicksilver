@@ -161,6 +161,22 @@
           <ZipCode>Postnummer krävs</ZipCode>
         </Empty>
       </Address>
+      <MultiShipment>
+        <Heading>Leverera till olika adresser</Heading>
+        <SubheadingFirst>Adresser behöver sparas i din</SubheadingFirst>
+        <SubheadingAddress>adressbok</SubheadingAddress>
+        <SubheadingSecond>innan de blir tillgängliga.</SubheadingSecond>
+        <Item>Vara</Item>
+        <Continue>Fortsätt</Continue>
+        <DeliveryAddress>Leveransadress</DeliveryAddress>
+        <SelectDeliveryAddress>Välj leveransadress</SelectDeliveryAddress>
+        <AddNewAddress>Lägg till ny adress</AddNewAddress>
+        <DeliveryOption>Välj fraktalternativ</DeliveryOption>
+        <NoAddressFound>Inga adresser finns</NoAddressFound>
+        <Empty>
+          <AddressId>Adress krävs</AddressId>
+        </Empty>
+      </MultiShipment>
     </Checkout>
     <OrderConfirmationMail>
       <OrderDate>Orderdatum:</OrderDate>
@@ -401,7 +417,7 @@
           <Submit>Spara</Submit>
           <Delete>Radera</Delete>
           <Edit>Ändra</Edit>
-          <Cancel>Avboka</Cancel>
+          <Cancel>Avbryt</Cancel>
           <EditAddress>Ändra</EditAddress>
           <NewAddress>Ny</NewAddress>
           <PrimaryAddress>Primär adress</PrimaryAddress>

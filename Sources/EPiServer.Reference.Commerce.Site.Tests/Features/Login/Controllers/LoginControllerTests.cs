@@ -23,43 +23,43 @@ using Mediachase.Commerce.Orders.Dto;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 {
-    [TestClass]
-    public class LoginControllerTests
+    public class LoginControllerTests : IDisposable
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenCurrentPageAndReturnUrl_ShouldCreateViewModel()
         {
             var page = new LoginRegistrationPage();
             var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenCurrentPageAndReturnUrl_ShouldPassPageToViewModel()
         {
             var page = new LoginRegistrationPage();
             var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
-            Assert.AreEqual(page, result.CurrentPage);
+            Assert.Equal(page, result.CurrentPage);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenCurrentPageAndReturnUrl_ShouldPassUrlToViewModel()
         {
             var page = new LoginRegistrationPage();
             var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
 
-            Assert.AreEqual(_testUrl, result.LoginViewModel.ReturnUrl);
+            Assert.Equal(_testUrl, result.LoginViewModel.ReturnUrl);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterAccount_WhenRegisterSuccessful_ShouldReturnJsonReturnUrl()
         {
             var identityResult = new IdentityResult();
@@ -103,7 +103,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterAccount_WhenRegisterFails_ShouldReturnModelErrorState()
         {
             _userServiceMock.Setup(
@@ -138,14 +138,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _subject.ModelState.Values.First().Errors.First().ErrorMessage.Should().Be("We have an error");
         }
 
-        [TestMethod]
+        [Fact]
         public void OnException_ShouldDelegateToExceptionHandler()
         {
             _subject.CallOnException(_exceptionContext);
             _controllerExceptionHandler.Verify(x => x.HandleRequestValidationException(_exceptionContext, "registeraccount", _subject.OnRegisterException));
         }
 
-        [TestMethod]
+        [Fact]
         public void OnRegisterException_ShouldCreateRegisterAccountViewModel()
         {
             //Setup
@@ -156,10 +156,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             var result = _subject.OnRegisterException(_exceptionContext);
 
-            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(RegisterAccountViewModel));
+            Assert.IsType(typeof(RegisterAccountViewModel), ((ViewResult)result).Model);
         }
 
-        [TestMethod]
+        [Fact]
         public void InternalLogin_WhenSuccessful_ShouldReturnJson()
         {
             _signinManagerMock.Setup(
@@ -189,7 +189,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void InternalLogin_WhenLockedOut_ShoulReturndLockoutView()
         {
             _signinManagerMock.Setup(
@@ -213,7 +213,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ViewName.Should().Be("Lockout");
         }
 
-        [TestMethod]
+        [Fact]
         public void InternalLogin_WhenFailure_ShouldReturnModelErrors()
         {
             _signinManagerMock.Setup(
@@ -237,7 +237,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _subject.ModelState.Values.First().Errors.First().ErrorMessage.Should().Be("WrongPasswordOrEmail");
         }
 
-        [TestMethod]
+        [Fact]
         public void ExternalLogin_WhenRequestUrl_ShouldReturnChallengeResult()
         {
             _subject.Url = new UrlHelper(new RequestContext(_httpContextMock.Object, new RouteData()), new RouteCollection());
@@ -249,7 +249,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExternalLoginCallback_WhenSuccessful_ShouldRedirectToReturnUrl()
         {
             _userServiceMock.Setup(
@@ -269,7 +269,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.Url.Should().Be("http://test.com/redirect");
         }
 
-        [TestMethod]
+        [Fact]
         public void ExternalLoginCallback_WhenLockedOut_ShoulReturndLockoutView()
         {
             _userServiceMock.Setup(
@@ -289,7 +289,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.RouteValues["action"].Should().Be("Lockout");
         }
 
-        [TestMethod]
+        [Fact]
         public void ExternalLoginCallback_WhenFailure_ShouldCreateExternalLoginConfirmationViewModel()
         {
             _userServiceMock.Setup(
@@ -324,8 +324,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         private CultureInfo _cultureInfo;
         private const string _testUrl = "http://test.com";
 
-        [TestInitialize]
-        public void Setup()
+
+        public LoginControllerTests()
         {
             _cultureInfo = CultureInfo.CurrentUICulture;
             var english = CultureInfo.CreateSpecificCulture("en");
@@ -379,8 +379,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             };
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             Thread.CurrentThread.CurrentUICulture = _cultureInfo;
         }

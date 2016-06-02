@@ -57,7 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
             _addressBookService.LoadAddress(viewModel.Address);
 
-            return View(viewModel);
+            return AddressEditView(viewModel);
         }
 
         [HttpPost]
@@ -90,10 +90,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 _addressBookService.LoadAddress(viewModel.Address);
                 viewModel.CurrentPage = currentPage;
 
-                return View("EditForm", viewModel);
+                return AddressEditView(viewModel);
             }
 
             _addressBookService.Save(viewModel.Address);
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json(viewModel.Address);
+            }
 
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
@@ -122,11 +127,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
 
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            _controllerExceptionHandler.HandleRequestValidationException(filterContext, "save", OnSaveException);
-        }
-
         public ActionResult OnSaveException(ExceptionContext filterContext)
         {
             Guid addressId;
@@ -150,6 +150,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
             };
 
             _addressBookService.LoadAddress(viewModel.Address);
+
+            return View("EditForm", viewModel);
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            _controllerExceptionHandler.HandleRequestValidationException(filterContext, "save", OnSaveException);
+        }
+
+        private ActionResult AddressEditView(AddressViewModel viewModel)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("ModalAddressDialog", viewModel);
+            }
 
             return View("EditForm", viewModel);
         }

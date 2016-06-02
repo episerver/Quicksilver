@@ -9471,6 +9471,9 @@ fieldset[disabled] .btn-gray-light.active {
     font-weight: 400;
     top: -10px;
   }
+  .modal.in .modal-dialog.modal--tall {
+    transform: translate(0, 10%);
+  }
 }
 @media (min-width: 1200px) {
   .site-wrapper {
@@ -9936,6 +9939,9 @@ footer .btn-social .fa {
 .address-block {
   margin-bottom: 40px;
 }
+.address-book-modal .container-fluid > .col-md-9 {
+  width: 100%;
+}
 .facets-wrapper {
   margin: 80px 0 40px;
 }
@@ -10003,4 +10009,7 @@ footer .btn-social .fa {
 }
 .couponcode-errormessage {
   margin-top: 10px;
+}
+.shipment-summary-container {
+  margin-bottom: 20px;
 }

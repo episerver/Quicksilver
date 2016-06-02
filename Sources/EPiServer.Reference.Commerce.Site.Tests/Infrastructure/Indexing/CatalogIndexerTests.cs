@@ -18,19 +18,18 @@ using Mediachase.Commerce.InventoryService;
 using Mediachase.Commerce.Pricing;
 using Mediachase.MetaDataPlus;
 using Mediachase.Search.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
 {
-    [TestClass]
     public class CatalogIndexerTests
     {
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddOriginalUSDPrice()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -41,7 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((1000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddOriginalGBPPrice()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -53,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((2000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddDicountUSDPrice()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -65,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((1000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddDiscountGBPPrice()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -77,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((2000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddColor()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -87,7 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["color"].Should().Equals("Green");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddSize()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -97,7 +96,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["size"].Should().Equals("Small");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddCode()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -107,7 +106,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["code"].Should().Equals("Variant 1");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddDisplayName()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -117,7 +116,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["displayname"].Should().Equals("DisplayName");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddContentLink()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -127,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["content_link"].Should().Equals(GetContentReference(444, CatalogContentType.CatalogEntry).ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddCreated()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -137,7 +136,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["created"].Should().Equals(new DateTime(2012, 4, 4).ToString("yyyyMMddhhmmss"));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddBrand()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -147,7 +146,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["brand"].Should().Equals("Brand");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddTopCategory()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -157,7 +156,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document["top_category_name"].Should().Equals("Catalog");
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateSearchDocument_WhenPopulatingDocument_ShouldAddImageUrl()
         {
             var entry = GetCatalogEntryRow("Product");
@@ -189,8 +188,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         private Money _discountPriceUSD;
         private Money _discountPriceGBP;
 
-        [TestInitialize]
-        public void Setup()
+
+        public CatalogIndexerTests()
         {
             var synchronizedObjectInstanceCache = new Mock<ISynchronizedObjectInstanceCache>();
 

@@ -98,7 +98,10 @@
                     // If items where added to the cart from the wishlist view, they should be removed from the view.
                     var wishListAction = form.closest(".wishlist-actions");
                     if (wishListAction.length > 0) {
-                        wishListAction.closest(".product").remove();
+                        wishListAction.closest(".jsProductTile").remove();
+                        if (!$(".jsProductTile").length) {
+                            $(".wishlist-noitem").show();
+                        }
                     }
 
                     // If items were added to the cart while the same item exists in the wishlist, they should be removed

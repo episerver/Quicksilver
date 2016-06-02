@@ -1,8 +1,4 @@
-﻿@using System.Web.Optimization
-@using EPiServer.Editor
-@using EPiServer.Security
-@using EPiServer.Web.Routing
-@using EPiServer.Core
+﻿@using EPiServer.Web.Routing
 @model EPiServer.Reference.Commerce.Site.Features.Navigation.Models.NavigationViewModel
 @{
     Layout = null;
@@ -24,7 +20,7 @@
                     <h1 class="site-logo"><a href="/">Quicksilver</a></h1>
                 </div>
                 <div class="col-xs-4">
-                    @if (Request.LogonUserIdentity.IsAuthenticated)
+                    @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
                     {
                         <button type="button" class="btn btn-default collapsed" id="wishlist-btn" data-toggle="collapse" data-target="#wishlist-dropdown">
                             <span class="glyphicon glyphicon-heart"></span>
@@ -47,7 +43,7 @@
                 <div class="col-sm-6 hidden-xs text-right">
                     @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
                     {
-                        <input type="text" placeholder="Search" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                        <input type="text" placeholder="@Html.Translate("/Header/Search/Placeholder")" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                         <div class="jsQuickSearchResult product-dropdown-container search-dropdown"></div>
                     }
@@ -58,7 +54,7 @@
                 <div class="col-sm-6 sm-cart-container">
                     <div class="nav navbar-right">
                         <ul class="list-inline text-right sm-row-3-2 hidden-xs shopping-btn-container">
-                            @if (Request.LogonUserIdentity.IsAuthenticated)
+                            @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
                             {
                                 <li class="cart-dropdown">
                                     <button type="button" class="btn btn-favorites" data-toggle="dropdown" aria-expanded="false">
@@ -134,7 +130,7 @@
             </li>
         </ul>
     </div>
-    @if (Request.LogonUserIdentity.IsAuthenticated)
+    @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
     {
         <div class="collapse navbar-collapse xs-search" id="wishlist-dropdown">
             <div id="WishListMiniCartResponsive" class="cart-button-wrapper">

@@ -8,7 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Models
         string DisplayName { get; set; }
         Money? ExtendedPrice { get; set; }
         string ImageUrl { get; set; }
-        Money? PlacedPrice { get; set; }
+        decimal PlacedPrice { get; set; }
         string Url { get; set; }
         bool IsAvailable { get; set; }
     }

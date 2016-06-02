@@ -7,8 +7,8 @@
 					<Column columnType="CheckBox"/>
 					<Column visible="false" allowSorting="false" dataField="JurisdictionId" headingText=""></Column>
 					<Column width="50" headingText="" columnType="Action" dataField="JurisdictionGroupId">
-						<Item imageUrl="~/Apps/Shell/styles/Images/edit.gif" commandName="cmdOrderGridJurisdictionEdit" commandParameters="JurisdictionId,JurisdictionType" toolTip="Edit" permissions="order:admin:shipping:jur:mng:edit"></Item>
-						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderGridJurisdictionDelete" commandParameters="JurisdictionId" toolTip="Delete" permissions="order:admin:shipping:jur:mng:delete"></Item>
+						<Item imageUrl="~/Apps/Shell/styles/Images/edit.gif" commandName="cmdOrderGridJurisdictionEdit" commandParameters="JurisdictionId,JurisdictionType" toolTip="Edit" permissions="order:admin:shipping:jur:mng:edit,order:admin:taxes:mng:edit"></Item>
+						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderGridJurisdictionDelete" commandParameters="JurisdictionId" toolTip="Delete" permissions="order:admin:shipping:jur:mng:delete,order:admin:taxes:mng:delete"></Item>
 					</Column>
 					<Column width="250" allowSorting="true" dataField="DisplayName" headingText="{SharedStrings:Name}" id="DisplayName" columnType="HyperLink" dataNavigateUrlFields="JurisdictionId,JurisdictionType" dataNavigateUrlFormatString="javascript:CSOrderClient.EditJurisdiction('{0}', '{1}');" dataTextFields="DisplayName" dataTextFormatString="{0}" dataTextEncode="true"></Column>
 					<Column width="450" allowSorting="true" dataField="Code" headingText="{SharedStrings:Code}"></Column>
@@ -17,8 +17,8 @@
 		</Grid>
 		<Toolbar>
 			<add>
-				<Button id="New" text="{SharedStrings:New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdOrderNewJurisdiction" permissions="order:admin:shipping:jur:mng:create"/>
-				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderJurisdictionDelete" permissions="order:admin:shipping:jur:mng:delete" />
+				<Button id="New" text="{SharedStrings:New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdOrderNewJurisdiction" permissions="order:admin:shipping:jur:mng:create,order:admin:taxes:mng:create"/>
+				<Button id="DeleteSelected" text="{SharedStrings:Delete_Selected}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderJurisdictionDelete" permissions="order:admin:shipping:jur:mng:delete,order:admin:taxes:mng:delete" />
 			</add>
 		</Toolbar>
 

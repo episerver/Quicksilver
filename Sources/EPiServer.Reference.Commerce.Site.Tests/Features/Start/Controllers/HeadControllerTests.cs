@@ -3,26 +3,26 @@ using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Start.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Web.Mvc;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
 {
-    [TestClass]
     public class HeadControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithNoContentFromContentRouteHelper_ShouldReturnEmpty()
         {
             _contentRouteHelperMock.Setup(c=>c.Content).Returns( () => null);
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>(string.Empty, ((ContentResult)result).Content);
+            Assert.Equal<string>(string.Empty, ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithStartPageWithTitle_ShouldReturnTitle()
         {
             _startPageMock.Setup(c => c.Title).Returns("Title");
@@ -31,10 +31,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Title", ((ContentResult)result).Content);
+            Assert.Equal<string>("Title", ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithStartPageWithNoTitle_ShouldReturnName()
         {
             _startPageMock.Setup(c => c.Title).Returns(() => null);
@@ -44,10 +44,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Name", ((ContentResult)result).Content);
+            Assert.Equal<string>("Name", ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithNodeContentWithSeoTitle_ShouldReturnFormatSeoTitle()
         {
             var seoInformation = new SeoInformation()
@@ -61,10 +61,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(SetupContentLoader().Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Seo Tittle-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal<string>("Seo Tittle-Quicksilver", ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithNodeContentWithoutSeoTitle_ShouldReturnFormatName()
         {
             var seoInformation = new SeoInformation()
@@ -79,10 +79,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(SetupContentLoader().Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Display Name-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal<string>("Display Name-Quicksilver", ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithEntryContentBaseWithSeoTitle_ShouldReturnFormatTitleOfNodeAndEntry()
         {
             var seoInformation = new SeoInformation()
@@ -105,10 +105,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Entry Seo Tittle - Node Seo Tittle-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal<string>("Entry Seo Tittle - Node Seo Tittle-Quicksilver", ((ContentResult)result).Content);
         }
 
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithEntryContentBaseWithoutSeoTitle_ShouldReturnFormatDisplayNameOfNodeAndEntry()
         {
             var seoInformation = new SeoInformation()
@@ -135,9 +135,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.AreEqual<string>("Entry - Node-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal<string>("Entry - Node-Quicksilver", ((ContentResult)result).Content);
         }
-        [TestMethod]
+        [Fact]
         public void Title_WhenCalledWithEntryContentBaseBeneathCatalogEntry_ShouldReturnFormatContainsCatalogName()
         {
             var expectedTitle = "Fashion Catalog";
@@ -157,7 +157,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
-            StringAssert.Contains(((ContentResult)result).Content, expectedTitle);
+            Assert.Contains(expectedTitle, ((ContentResult)result).Content);
         }
         private Mock<IContentLoader> SetupContentLoader()
         {
@@ -173,8 +173,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
         Mock<IContentLoader> _contentLoaderMock;
         Mock<CatalogContentBase> _catalogContentMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public HeadControllerTests()
         {
             _contentRouteHelperMock = new Mock<ContentRouteHelper>(null, null, null, null);
             _startPageMock = new Mock<StartPage>();

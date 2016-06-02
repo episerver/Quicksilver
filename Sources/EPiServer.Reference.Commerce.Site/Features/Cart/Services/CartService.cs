@@ -78,11 +78,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             return CartHelper.Cart.GetAllLineItems().Sum(x => x.Quantity);
         }
 
-        public IEnumerable<CartItem> GetCartItems()
+        public CartItem[] GetCartItems()
         {
             if (CartHelper.IsEmpty)
             {
-                return Enumerable.Empty<CartItem>();
+                return new CartItem[0];
             }
 
             var cartItems = new List<CartItem>();
@@ -98,26 +98,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             foreach (var lineItem in lineItems)
             {
                 VariationContent variant = variants.FirstOrDefault(x => x.Code == lineItem.Code);
+
+                if (variant == null)
+                {
+                    RemoveLineItem(lineItem.Code);
+                    continue;
+                }
+
                 ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());                
                 CartItem item = new CartItem
                 {
                     Code = lineItem.Code,
                     DisplayName = lineItem.DisplayName,
                     ImageUrl = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
+                    Currency = currency,
                     ExtendedPrice = GetExtendedPrice(lineItem, marketId, currency),
-                    PlacedPrice = lineItem.ToMoney(lineItem.PlacedPrice),
+                    PlacedPrice = lineItem.PlacedPrice,
                     DiscountPrice = lineItem.ToMoney(currency.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity)),
                     Quantity = lineItem.Quantity,
                     Url = lineItem.GetUrl(),
                     Variant = variant,
                     Discounts = lineItem.Discounts.Cast<LineItemDiscount>().Select(x => new OrderDiscountModel
                     {
-                        Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)),
+                        Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)), 
                         Displayname = x.DisplayMessage
                     }),
                     IsAvailable = _pricingService.GetCurrentPrice(variant.Code).HasValue
                 };
-
+                
                 if (product is FashionProduct)
                 {
                     var fashionProduct = (FashionProduct)product;
@@ -130,7 +138,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 cartItems.Add(item);
             }
 
-            return cartItems;
+            return cartItems.ToArray();
         }
 
         private Money? GetExtendedPrice(LineItem lineItem, MarketId marketId, Currency currency)
@@ -328,6 +336,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             return CartHelper.Cart.OrderForms.Count == 0 ? new[] { new OrderForm() } : CartHelper.Cart.OrderForms.ToArray();
         }
 
+        public IEnumerable<Shipment> GetShipments()
+        {
+            return CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments);
+        }
+        
         public void RunWorkflow(string workFlowName)
         {
             if (_cartName == Mediachase.Commerce.Website.Helpers.CartHelper.WishListName)

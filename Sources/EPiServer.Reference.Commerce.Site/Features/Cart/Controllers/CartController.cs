@@ -1,10 +1,13 @@
 ﻿using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,17 +19,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly ICartService _cartService;
         private readonly ICartService _wishListService;
         private readonly IProductService _productService;
+        private readonly IAddressBookService _addressBookService;
 
         public CartController(IContentLoader contentLoader,
                               ICartService cartService,
                               ICartService wishListService,
-                              IProductService productService)
+                              IProductService productService,
+                              IAddressBookService addressBookService)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
             _wishListService = wishListService;
             _productService = productService;
             _wishListService.InitializeAsWishList();
+            _addressBookService = addressBookService;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -46,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LargeCart()
         {
-            var items = _cartService.GetCartItems().ToList();
+            var items = _cartService.GetCartItems();
             var viewModel = new LargeCartViewModel
             {
                 CartItems = items,

@@ -5,18 +5,17 @@ using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Web.Routing;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
-    [TestClass]
     public class LanguageControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenCreatingViewModel_ShouldSetLanguagesAsAvailableLanguages()
         { 
             // Arrange
@@ -39,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
            result.Languages.ShouldBeEquivalentTo(items);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenLanguageIsNull_ShouldGetCurrentLanguage()
         {
             // Arrange
@@ -49,10 +48,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
             // Assert
-            Assert.AreEqual<string>(_currentLanguage.Name, ((LanguageViewModel)result.Model).Language);
+            Assert.Equal<string>(_currentLanguage.Name, ((LanguageViewModel)result.Model).Language);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenLanguageHasValue_ShouldConvertItToCultureInfo()
         {
             // Arrange
@@ -62,20 +61,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
             // Assert
-            Assert.AreEqual<string>(languageCode, ((LanguageViewModel)result.Model).Language);
+            Assert.Equal<string>(languageCode, ((LanguageViewModel)result.Model).Language);
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_WhenSetCurrentLanguageIsSuccessful_ShouldReturnJsonObject()
         {
             // Act
             var result = _subject.Set("en", new ContentReference(11));
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            Assert.IsType(typeof(JsonResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_WhenSetCurrentLanguageFails_ShouldReturnHttpStatusUnsupported()
         {
             // Arrange
@@ -85,10 +84,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = _subject.Set("en", new ContentReference(11));
 
             // Assert
-            Assert.AreEqual<int>(400, ((HttpStatusCodeResult)result).StatusCode);
+            Assert.Equal<int>(400, ((HttpStatusCodeResult)result).StatusCode);
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_WhenReturningJson_ShouldContainResolvedUrl()
         {
             // Arrange
@@ -102,10 +101,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var result = _subject.Set(language, contentLink);
 
             // Assert
-            Assert.IsTrue(((JsonResult)result).Data.ToString().Contains(expectedUrl));
+            Assert.True(((JsonResult)result).Data.ToString().Contains(expectedUrl));
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_WhenPassingLanguage_ShouldCallSetCurrentLanguageWithLanguage()
         {
             // Arrange
@@ -123,8 +122,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         private LanguageController _subject;
         private CultureInfo _currentLanguage = CultureInfo.GetCultureInfo("en");
 
-        [TestInitialize]
-        public void Setup()
+
+        public LanguageControllerTests()
         {
             _mockUrlResolver = new Mock<UrlResolver>();
 

@@ -298,7 +298,23 @@
 													            <asp:Label ID="Label4" runat="server" Text="<%$ Resources:OrderStrings, Item_Subtotal %>"></asp:Label>:
 												            </td>
 												            <td class="orderform-field">
-													            <asp:Label ID="lblSubTotal" runat="server"></asp:Label>
+													            <asp:Label ID="lblItemsSubTotal" runat="server"></asp:Label>
+												            </td>
+											            </tr>
+                                                        <tr>
+												            <td class="orderform-label orderform-label-normal">
+													            <asp:Label ID="Label14" runat="server" Text="<%$ Resources:OrderStrings, Order_Level_Discounts %>"></asp:Label>:
+												            </td>
+												            <td class="orderform-field">
+													            <asp:Label ID="lblOrderLevelDiscount" runat="server"></asp:Label>
+												            </td>
+											            </tr>
+											            <tr>
+												            <td class="orderform-label orderform-label-normal">
+													            <asp:Label ID="Label13" runat="server" Text="<%$ Resources:OrderStrings, Order_Subtotal %>"></asp:Label>:
+												            </td>
+												            <td class="orderform-field">
+													            <asp:Label ID="lblOrderSubTotal" runat="server"></asp:Label>
 												            </td>
 											            </tr>
 											            <tr>

@@ -7,19 +7,19 @@ using EPiServer.Web.Routing;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections;
 using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
-    [TestClass]
     public class MarketControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Set_ShouldReturnResultFromGetUrlOnUrlResolverAsJson()
         {
             const string expectedUrl = "https://github.com/episerver/Quicksilver";
@@ -30,10 +30,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var controller = CreateController();
             var result = controller.Set(_language, _contentLink);
 
-            Assert.IsTrue(((JsonResult)result).Data.ToString().Contains(expectedUrl));
+            Assert.True(((JsonResult)result).Data.ToString().Contains(expectedUrl));
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_ShouldCallSetCurrentLanguageOnLanguageService()
         {
             _mockMarketService.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
@@ -44,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             _mockLanguageService.Verify(x => x.SetCurrentLanguage(_language), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_ShouldCallSetCurrentMarket()
         {
             _mockMarketService.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
@@ -55,7 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             _mockCurrentMarket.Verify(x => x.SetCurrentMarket(_language), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenCreatingViewModel_ShouldCreateModel()
         {
             var markets = new List<IMarket>
@@ -84,7 +84,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             result.ShouldBeEquivalentTo(expectedModel);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnModelWithEnabledMarkets()
         {
             var disabledMarket = CreateMarketImpl("myMarket", "myMarket", false);
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             model.Markets.ShouldBeEquivalentTo(new[] { _currentMarket }.Select(x => new SelectListItem { Text = x.MarketName, Value = x.MarketId.Value}));
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnModelWithSortedMarkets()
         {
             var contentLink = new ContentReference(11);
@@ -111,10 +111,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var subject = CreateController();
             var result = subject.Index(_contentLink);
             var model = ((ViewResultBase)result).Model as MarketViewModel;
-            Assert.AreEqual<string>( _currentMarket.MarketId.Value, model.Markets.ToList().First().Value);
+            Assert.Equal<string>( _currentMarket.MarketId.Value, model.Markets.ToList().First().Value);
         }
         
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnPartialViewResultType()
         {
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
@@ -124,10 +124,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsType(typeof(PartialViewResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnModelType()
         {
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
@@ -137,7 +137,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);
-            Assert.IsInstanceOfType((result as ViewResultBase).Model, typeof(MarketViewModel));
+            Assert.IsType(typeof(MarketViewModel), (result as ViewResultBase).Model);
         }
 
         private Mock<ICurrentMarket> _mockCurrentMarket;
@@ -149,8 +149,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         private string _language;
         private ContentReference _contentLink;
         
-        [TestInitialize]
-        public void Setup()
+
+        public MarketControllerTests()
         {
             _contentLink = new ContentReference(11);
             _language = "en";

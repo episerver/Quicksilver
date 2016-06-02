@@ -6,48 +6,48 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Controllers
 {
-    [TestClass]
     public class IdentityControllerBaseTests
     {
-        [TestMethod]
+        [Fact]
         public void RedirectToLocal_WhenReturnUrlIsLocal_ShouldRedirectToReturnUrl()
         {
             const string url = "http://test.com/episerver";
             var result = _subject.RedirectToLocal(url);
             var redirectResult = result as RedirectResult;
-            Assert.AreEqual(url, redirectResult.Url);
+            Assert.Equal(url, redirectResult.Url);
         }
 
-        [TestMethod]
+        [Fact]
         public void RedirectToLocal_WhenReturnUrlIsNotLocal_ShouldRedirectToHome()
         {
             const string url = "http://tester.com/episerver";
             var result = _subject.RedirectToLocal(url);
             var redirectResult = result as RedirectToRouteResult;
-            Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
+            Assert.Equal("Index", redirectResult.RouteValues["action"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void SignOut_ShouldRedirectToHome()
         {
             var result = _subject.SignOut();
             var redirectResult = result as RedirectToRouteResult;
-            Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
+            Assert.Equal("Index", redirectResult.RouteValues["action"]);
         }
 
         private FakeLoginController _subject;
         
-        [TestInitialize]
-        public void Setup()
+
+        public IdentityControllerBaseTests()
         {
             var authenticationManager = new Mock<IAuthenticationManager>();
             var userStore = new Mock<IUserStore<ApplicationUser>>();

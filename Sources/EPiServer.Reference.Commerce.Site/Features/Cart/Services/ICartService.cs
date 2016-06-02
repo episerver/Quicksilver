@@ -8,7 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
     public interface ICartService
     {
         decimal GetLineItemsTotalQuantity();
-        IEnumerable<CartItem> GetCartItems();
+        CartItem[] GetCartItems();
         Money GetSubTotal();
         Money GetTotal();
         Money GetShippingSubTotal();
@@ -20,6 +20,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         Money GetShippingDiscountTotal();
         Money ConvertToMoney(decimal amount);
         IEnumerable<OrderForm> GetOrderForms();
+        IEnumerable<Shipment> GetShipments();
         bool AddToCart(string code, out string warningMessage);
         void ChangeQuantity(string code, decimal quantity);
         void RemoveLineItem(string code);

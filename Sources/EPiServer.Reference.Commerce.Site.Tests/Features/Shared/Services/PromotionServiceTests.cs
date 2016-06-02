@@ -8,18 +8,18 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Pricing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 {
-    [TestClass]
     public class PromotionServiceTests
     {
-        [TestMethod]
+        [Fact]
         public void GetDiscountPrice_WhenEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnMarket()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
@@ -29,10 +29,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             var expectedUnitPrice = new Money(cheapestPrice.UnitPrice.Amount - _discountAmount,
                 cheapestPrice.UnitPrice.Currency);
 
-            Assert.AreEqual<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
+            Assert.Equal<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetDiscountPrice_WhenNonEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnProvidedCurrency()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
@@ -42,29 +42,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             var expectedUnitPrice = new Money(cheapestPrice.UnitPrice.Amount - _discountAmount,
                 cheapestPrice.UnitPrice.Currency);
 
-            Assert.AreEqual<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
+            Assert.Equal<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetDiscountPrice_WhenMismatchBetweenCurrencyAndMarketCurrency_ShouldReturnNoPrice()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
                 new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.SEK);
 
-            Assert.IsNull(priceWithDiscount);
+            Assert.Null(priceWithDiscount);
         }
         
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void GetDiscountPrice_WhenMarketIsUnknown_ShouldThrow()
         {
-            var priceWithDiscount = _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), new MarketId("UNKNOWN"), Currency.Empty);
-
-            Assert.IsNull(priceWithDiscount);
+            Assert.Throws<ArgumentException>(() => _subject.GetDiscountPrice(
+                new CatalogKey(_appContext.ApplicationId, _variation1.Code), new MarketId("UNKNOWN"), Currency.Empty));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetDiscountPrice_WhenNoPricesAvailableForMarket_ShouldReturnNull()
         {
             _pricingServiceMock
@@ -74,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             var priceWithDiscount = _subject.GetDiscountPrice(
                 new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.USD);
 
-            Assert.IsNull(priceWithDiscount);
+            Assert.Null(priceWithDiscount);
         }
 
         private PromotionService _subject;
@@ -91,8 +88,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         private VariationContent _variation1;
         private VariationContent _variation2;
 
-        [TestInitialize]
-        public void Setup()
+
+        public PromotionServiceTests()
         {
             _appContext = new FakeAppContext();
 

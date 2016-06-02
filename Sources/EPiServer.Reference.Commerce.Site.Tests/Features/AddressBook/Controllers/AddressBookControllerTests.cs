@@ -12,18 +12,18 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controllers
 {
-    [TestClass]
+
     public class AddressBookControllerTests
     {
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenCreatingViewModel_ShouldCallGetViewModelOnService()
         {
             var page = new AddressBookPage();
@@ -33,7 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.GetAddressBookViewModel(page));
         }
 
-        [TestMethod]
+        [Fact]
         public void EditForm_WhenCalledWithPage_ShouldCallLoadAddressOnService()
         {
             var page = new AddressBookPage();
@@ -44,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.LoadAddress(It.IsAny<Address>()));
         }
 
-        [TestMethod]
+        [Fact]
         public void Save_WhenModelStateIsValid_ShouldCallSaveOnService()
         {
             var viewModel = new AddressViewModel { Address = new Address() };
@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.Save(viewModel.Address));
         }
 
-        [TestMethod]
+        [Fact]
         public void Save_WhenModelStateIsNotValid_ShouldNotCallSaveOnService()
         {
             AddressBookPage currentPage = new AddressBookPage();
@@ -68,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.Save(viewModel.Address), Times.Never);
         }
 
-        [TestMethod]
+        [Fact]
         public void Save_WhenAnotherAddressWithSameNameExists_ShouldNotSave()
         {
             AddressBookPage currentPage = new AddressBookPage();
@@ -81,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Remove_ShouldCallDeleteOnService()
         {
             var guid = Guid.NewGuid();
@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.Delete(guid));
         }
 
-        [TestMethod]
+        [Fact]
         public void SetPrimaryShippingAddress_ShouldCallSetPreferredShippingAddressOnService()
         {
             var guid = Guid.NewGuid();
@@ -101,7 +101,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.SetPreferredShippingAddress(guid));
         }
 
-        [TestMethod]
+        [Fact]
         public void SetPrimaryBillingAddress_ShouldCallSetPreferredBillingAddressOnService()
         {
             var guid = Guid.NewGuid();
@@ -111,16 +111,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _addressBookServiceMock.Verify(s => s.SetPreferredBillingAddress(guid));
         }
 
-        [TestMethod]
+        [Fact]
         public void OnException_ShouldDelegateToExceptionHandler()
         {
             var testController = CreateTestController();
             testController.CallOnException(_exceptionContext);
 
-            _controllerExceptionHandler.Verify(x => x.HandleRequestValidationException(_exceptionContext, "save", testController.OnSaveException));
+            _controllerExceptionHandlerMock.Verify(x => x.HandleRequestValidationException(_exceptionContext, "save", testController.OnSaveException));
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenAddressIdDontExist_ShouldCreateViewModelWithoutAddressIdSet()
         {
             //Setup
@@ -133,10 +133,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(AddressViewModel));
+            Assert.IsType(typeof(AddressViewModel), ((ViewResult)result).Model);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenAddressIdDontExist_ShouldReturnActionResult()
         {
             //Setup
@@ -148,10 +148,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             }
 
             var result = _subject.OnSaveException(_exceptionContext);
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenAddressIdExist_ShouldCreateViewModelWithAddressIdSet()
         {
             var guid = Guid.NewGuid();
@@ -167,10 +167,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var result = _subject.OnSaveException(_exceptionContext);
 
             var model = ((ViewResult)result).Model as AddressViewModel;
-            Assert.AreEqual<Guid?>(guid, model.Address.AddressId);
+            Assert.Equal<Guid?>(guid, model.Address.AddressId);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenCurrentPageDontExist_ShouldNotReturnResult()
         {
             var guid = Guid.NewGuid();
@@ -185,10 +185,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsInstanceOfType(result, typeof(EmptyResult));
+            Assert.IsType(typeof(EmptyResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenCurrentPageDontExist_ShouldReturnEmptyResult()
         {
             var guid = Guid.NewGuid();
@@ -203,10 +203,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsInstanceOfType(result, typeof(EmptyResult));
+            Assert.IsType(typeof(EmptyResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenCurrentPageExist_ShouldCreateViewModelWithCurrentPageSet()
         {
             var guid = Guid.NewGuid();
@@ -223,12 +223,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var result = _subject.OnSaveException(_exceptionContext);
 
             var model = ((ViewResult)result).Model as AddressViewModel;
-            Assert.AreEqual<AddressBookPage>(currentPage, model.CurrentPage);
+            Assert.Equal<AddressBookPage>(currentPage, model.CurrentPage);
 
-            Assert.IsInstanceOfType(_exceptionContext.Result, typeof(EmptyResult));
+            Assert.IsType(typeof(EmptyResult), _exceptionContext.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnSaveException_WhenActionIsSave_ShouldCreateAddressBookFormModel()
         {
             var guid = Guid.NewGuid();
@@ -247,33 +247,36 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsInstanceOfType(((ViewResult)result).Model, typeof(AddressViewModel));
+            Assert.IsType(typeof(AddressViewModel), ((ViewResult)result).Model);
         }
 
         AddressBookController _subject;
         MemoryLocalizationService _localizationService;
         Mock<IContentLoader> _contentLoaderMock;
         Mock<IAddressBookService> _addressBookServiceMock;
-        Mock<HttpRequestBase> _httpRequestBase;
-        Mock<HttpContextBase> _httpContextBase;
-        Mock<RequestContext> _requestContext;
-        Mock<ControllerExceptionHandler> _controllerExceptionHandler;
+        Mock<HttpRequestBase> _httpRequestBaseMock;
+        Mock<HttpContextBase> _httpContextBaseMock;
+        Mock<RequestContext> _requestContextMock;
+        Mock<ControllerExceptionHandler> _controllerExceptionHandlerMock;
         ExceptionContext _exceptionContext;
 
-        [TestInitialize]
-        public void Setup()
-        {
-            _controllerExceptionHandler = new Mock<ControllerExceptionHandler>();
-            _requestContext = new Mock<RequestContext>();
-            _httpRequestBase = new Mock<HttpRequestBase>();
 
-            _httpContextBase = new Mock<HttpContextBase>();
-            _httpContextBase.Setup(x => x.Request).Returns(_httpRequestBase.Object);
+        public AddressBookControllerTests()
+        {
+            _controllerExceptionHandlerMock = new Mock<ControllerExceptionHandler>();
+            _requestContextMock = new Mock<RequestContext>();
+            _httpRequestBaseMock = new Mock<HttpRequestBase>();
+
+            // Simulate that requests are sent using AJAX.
+            _httpRequestBaseMock.SetupGet(x => x.Headers).Returns(new System.Net.WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } });
+
+            _httpContextBaseMock = new Mock<HttpContextBase>();
+            _httpContextBaseMock.Setup(x => x.Request).Returns(_httpRequestBaseMock.Object);
 
             _exceptionContext = new ExceptionContext
             {
-                HttpContext = _httpContextBase.Object,
-                RequestContext = _requestContext.Object
+                HttpContext = _httpContextBaseMock.Object,
+                RequestContext = _requestContextMock.Object
             };
 
             _contentLoaderMock = new Mock<IContentLoader>();
@@ -285,12 +288,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _localizationService = new MemoryLocalizationService();
             _localizationService.AddString(CultureInfo.CreateSpecificCulture("en"), "/AddressBook/Form/Error/ExistingAddress", "error");
 
-            _subject = new AddressBookController(_contentLoaderMock.Object, _addressBookServiceMock.Object, _localizationService, _controllerExceptionHandler.Object);
+            _subject = new AddressBookController(_contentLoaderMock.Object, _addressBookServiceMock.Object, _localizationService, _controllerExceptionHandlerMock.Object);
+            _subject.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), _subject);
         }
 
         private AddressBookControllerForTest CreateTestController()
         {
-            return new AddressBookControllerForTest(_contentLoaderMock.Object, _addressBookServiceMock.Object, _localizationService, _controllerExceptionHandler.Object);
+            return new AddressBookControllerForTest(_contentLoaderMock.Object, _addressBookServiceMock.Object, _localizationService, _controllerExceptionHandlerMock.Object);
         }
 
         private void Setup_action_for_controller(string actionName, Controller controller)
@@ -304,7 +308,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var routeData = new RouteData();
             routeData.DataTokens.Add(RoutingConstants.RoutedDataKey, rotedData);
 
-            _requestContext.Setup(x => x.RouteData).Returns(routeData);
+            _requestContextMock.Setup(x => x.RouteData).Returns(routeData);
         }
 
         private void Setup_exception(Exception exception)
@@ -314,7 +318,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
         private void Setup_form_on_HttpRequestBase(NameValueCollection nameValueCollection)
         {
-            _httpRequestBase.Setup(x => x.Form).Returns(nameValueCollection);
+            _httpRequestBaseMock.Setup(x => x.Form).Returns(nameValueCollection);
         }
 
         private void Setup_GetAddressBookViewModel_to_return_model_having_same_page_as_inparameter()

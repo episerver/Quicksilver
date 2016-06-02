@@ -5,6 +5,7 @@
             .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
+            .on('click', '.jsNewAddress', Checkout.newAddress)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
             .on('click', '.remove-shipping-address', Checkout.removeShippingAddress)
             .on('click', '.js-add-couponcode', Checkout.addCouponCode)
@@ -59,20 +60,22 @@
         var view = $("#CheckoutView");
 
         if (view.length == 0) {
-            return
+            return;
         }
-
-        var form = $("#CheckoutViewRefreshForm");
-
+        var url = view.data('url');
         $.ajax({
             cache: false,
             type: "GET",
-            url: form[0].action,
+            url: view.data('url'),
             success: function (result) {
                 view.replaceWith($(result));
                 Checkout.initializeAddressAreas();
             }
         });
+    },
+    newAddress: function (e) {
+        e.preventDefault();
+        AddressBook.showNewAddressDialog($(this));
     },
     changeAddress: function () {
 
@@ -81,11 +84,10 @@
 
         $.ajax({
             type: "POST",
-            chache: false,
             url: $(this).closest('.jsCheckoutAddress').data('url'),
             data: form.serialize(),
             success: function (result) {
-                $("#AddressContainer").replaceWith($(result));
+                $("#AddressContainer").html($(result));
                 Checkout.initializeAddressAreas();
             }
         });

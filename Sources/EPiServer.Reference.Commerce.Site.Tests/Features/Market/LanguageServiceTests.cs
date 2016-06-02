@@ -5,16 +5,16 @@ using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using Mediachase.Commerce;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 {
-    [TestClass]
     public class LanguageServiceTests
     {
-        [TestMethod]
+        [Fact]
         public void UpdateReplacementLanguage_ShouldCallUpdateReplacementLanguageOnUnderlyingUpdateCurrentLanguage()
         {
             var mockContent = new Mock<IContent>();
@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateReplacementLanguage(mockContent.Object, English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenHttpContextIsNull_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguageWithLanguage()
         {
             _requestContext.Setup(x => x.HttpContext).Returns((HttpContextBase)null);
@@ -36,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUrlIsNull_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguageWithLanguage()
         {
             var mockHttpRequestBase = new Mock<HttpRequestBase>();
@@ -53,7 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsNotSiteRoot_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguageWithLanguage()
         {
             var uri = new Uri("http://www.episerver.com/something");
@@ -72,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsSiteRoot_ShouldCallGetOnCookieService()
         {
             var uri = new Uri("http://www.episerver.com");
@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockCookieService.Verify(x => x.Get("Language"), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsSiteRootAndCookieExist_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguageWithLanguageFromCookie()
         {
             _mockCookieService.Setup(x => x.Get("Language")).Returns(English);
@@ -112,7 +112,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsSiteRootAndCookieExist_ShouldNotCallGetCurrentMarketOnCurrentMarket()
         {
             var uri = new Uri("http://www.episerver.com");
@@ -133,7 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockCurrentMarket.Verify(x => x.GetCurrentMarket(), Times.Never);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsSiteRootAndCookieDontExist_ShouldCallGetCurrentMarketOnCurrentMarket()
         {
             var uri = new Uri("http://www.episerver.com");
@@ -152,7 +152,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockCurrentMarket.Verify(x => x.GetCurrentMarket(), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLanguage_WhenUriIsSiteRootAndCookieDontExist_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguageWithCurrentMarketDefaultLanguage()
         {
             _mockMarket.Setup(x => x.DefaultLanguage).Returns(CultureInfo.GetCultureInfo(English));
@@ -173,7 +173,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageExistsOnMarket_ShouldCallUpdateLanguageOnUnderlyingUpdateCurrentLanguage()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new[] { CultureInfo.GetCultureInfo(English) });
@@ -184,7 +184,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageDoesntExistsOnMarket_ShouldNotCallUpdateLanguageOnUnderlyingUpdateCurrentLanguage()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new CultureInfo[] { });
@@ -195,7 +195,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockUpdateCurrentLanguage.Verify(x => x.UpdateLanguage(English), Times.Never);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageExistsOnMarket_ShouldCallSetOnCookieServiceWithLanguage()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new[] { CultureInfo.GetCultureInfo(English) });
@@ -206,7 +206,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockCookieService.Verify(x => x.Set("Language", English), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageDoesntExistsOnMarket_ShouldNotCallSetOnCookieServiceWithLanguage()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new CultureInfo[] { });
@@ -217,7 +217,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             _mockCookieService.Verify(x => x.Set("Language", English), Times.Never);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageExistsOnMarket_ShouldReturnTrue()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new[] { CultureInfo.GetCultureInfo(English) });
@@ -225,10 +225,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             var service = CreateService();
             var result = service.SetCurrentLanguage(English);
 
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentLanguage_WhenLanguageDoesntExistsOnMarket_ShouldReturnFalse()
         {
             _mockMarket.Setup(x => x.Languages).Returns(new CultureInfo[] { });
@@ -236,7 +236,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             var service = CreateService();
             var result = service.SetCurrentLanguage(English);
         
-            Assert.IsFalse(result);
+            Assert.False(result);
         }
 
         private const string English = "en";
@@ -247,8 +247,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
         private Mock<IUpdateCurrentLanguage> _mockUpdateCurrentLanguage;
         private Mock<RequestContext> _requestContext;
 
-        [TestInitialize]
-        public void Setup()
+
+        public LanguageServiceTests()
         {
             _mockCookieService = new Mock<CookieService>();
             _mockUpdateCurrentLanguage = new Mock<IUpdateCurrentLanguage>();

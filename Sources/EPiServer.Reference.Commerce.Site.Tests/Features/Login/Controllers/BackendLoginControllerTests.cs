@@ -1,5 +1,4 @@
-﻿using EPiServer.Configuration;
-using EPiServer.Framework.Localization;
+﻿using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
@@ -7,7 +6,6 @@ using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Globalization;
@@ -15,13 +13,14 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 {
-    [TestClass]
-    public class BackendLoginControllerTests
+    public class BackendLoginControllerTests : IDisposable
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenReturnUrl_ShouldCreateViewModel()
         {
             const string url = "http://test.com/episerver/cms";
@@ -35,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenReturnUrlIsLocal_ShouldRedirectToReturnUrl()
         {
             var url = "http://test.com/episerver/cms";
@@ -49,10 +48,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 Username = "admin"
             });
             var redirectResult = result.Result as RedirectResult;
-            Assert.AreEqual<string>(url, redirectResult.Url);
+            Assert.Equal<string>(url, redirectResult.Url);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index__WhenReturnUrlIsNotLocal_ShouldRedirectToHome()
         {
             var url = "http://tester.com/episerver";
@@ -66,10 +65,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 Username = "admin"
             });
             var redirectResult = result.Result as RedirectToRouteResult;
-            Assert.AreEqual<string>("Index", (string)redirectResult.RouteValues["action"]);
+            Assert.Equal<string>("Index", (string)redirectResult.RouteValues["action"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index__WhenModelStateIsInvalid_ShouldReturnViewModel()
         {
             var url = "http://tester.com/eepiserver";
@@ -98,8 +97,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         private BackendLoginController _subject;
         private CultureInfo _cultureInfo;
 
-        [TestInitialize]
-        public void Setup()
+
+        public BackendLoginControllerTests()
         {
             _cultureInfo = CultureInfo.CurrentUICulture;
             var english = CultureInfo.CreateSpecificCulture("en");
@@ -125,8 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _subject.ControllerContext = new ControllerContext(httpContext.Object, new RouteData(), _subject);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             Thread.CurrentThread.CurrentUICulture = _cultureInfo;
         }

@@ -160,6 +160,22 @@
           <ZipCode>Zip code is required</ZipCode>
         </Empty>
       </Address>
+      <MultiShipment>
+        <Heading>Ship to multiple addresses</Heading>
+        <SubheadingFirst>Addresses need to be saved in your</SubheadingFirst>
+        <SubheadingAddress>address book</SubheadingAddress>
+        <SubheadingSecond>before being available.</SubheadingSecond>
+        <Item>Item</Item>
+        <Continue>Continue</Continue>
+        <DeliveryAddress>Delivery address</DeliveryAddress>
+        <SelectDeliveryAddress>Select delivery address</SelectDeliveryAddress>
+        <AddNewAddress>Add new address</AddNewAddress>
+        <DeliveryOption>Choose delivery option</DeliveryOption>
+        <NoAddressFound>No addresses exists</NoAddressFound>
+        <Empty>
+          <AddressId>Address is required</AddressId>
+        </Empty>
+      </MultiShipment>
     </Checkout>
     <OrderConfirmationMail>
       <OrderDate>Order date:</OrderDate>

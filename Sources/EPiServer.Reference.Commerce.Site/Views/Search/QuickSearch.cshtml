@@ -4,9 +4,9 @@
 }
 
 <ul class="product-dropdown product-row list-unstyled">
-    @foreach (var product in Model)
+    @foreach (var product in Model.Where(x => x.ExtendedPrice.HasValue))
     {
-        bool hasDiscount = product.ExtendedPrice.HasValue && product.PlacedPrice.HasValue && product.ExtendedPrice.Value.Amount < product.PlacedPrice.Value.Amount;
+        bool hasDiscount = product.ExtendedPrice.Value.Amount < product.PlacedPrice;
         string productLevelClass = hasDiscount ? "list-group-item product-item has-discount" : "list-group-item product-item";
         bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
 
@@ -20,9 +20,9 @@
                         <h3 class="product-row__item__title">@product.DisplayName</h3>
                         @if (hasDiscount)
                         {
-                            <h4 class="product-row__item__price product-price--discount">@product.ExtendedPrice.ToString()</h4>
+                            <h4 class="product-row__item__price product-price--discount">@Helpers.RenderMoney(product.ExtendedPrice.Value)</h4>
                         }
-                        <h4 class="product-row__item__price product-price">@product.PlacedPrice.ToString()</h4>
+                        <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(product.PlacedPrice, product.ExtendedPrice.Value.Currency)</h4>
                         <span class="product-row__item__brand product-brand text-muted">Lyle &amp; Scott</span>
                         <p class="product-row__item__description">Jacket from Lyle &amp; Scott. Rounded neckline with collar and button closure. Zipper closure and two pockets at front. Elastic at each cuff and hem. Lined. Made of 100% Cotton.</p>
                     </div>

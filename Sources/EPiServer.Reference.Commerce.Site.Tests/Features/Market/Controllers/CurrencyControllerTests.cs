@@ -4,26 +4,26 @@ using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using FluentAssertions;
 using Mediachase.Commerce;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
-    [TestClass]
     public class CurrencyControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnCorrectTypes()
         {
             var result = _subject.Index();
 
-            Assert.IsInstanceOfType(result, typeof(ViewResultBase));
-            Assert.IsInstanceOfType((result as ViewResultBase).Model, typeof(CurrencyViewModel));
+            Assert.IsAssignableFrom(typeof(ViewResultBase), result);
+            Assert.IsType(typeof(CurrencyViewModel), (result as ViewResultBase).Model);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnCorrectModel()
         {
             _currencyServiceMock.Setup(x => x.GetCurrentCurrency()).Returns(new Currency("USD"));
@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var model = ((ViewResultBase)result).Model as CurrencyViewModel;
 
-            Assert.AreEqual<Currency>(new Currency("USD"), model.CurrencyCode);
+            Assert.Equal<Currency>(new Currency("USD"), model.CurrencyCode);
             model.Currencies.ShouldBeEquivalentTo(new[] 
             { 
                 new Currency("USD"), 
@@ -48,20 +48,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             }));
         }
 
-        [TestMethod]
+        [Fact]
         public void Set_WhenInValidCurrency_ShouldReturnHttpError()
         {
             var result = _subject.Set("UNKNOWN CURRENCY");
 
-            Assert.AreEqual<int>(400, ((HttpStatusCodeResult) result).StatusCode);
+            Assert.Equal<int>(400, ((HttpStatusCodeResult) result).StatusCode);
         }
 
         private Mock<ICurrencyService> _currencyServiceMock;
         private Mock<ICartService> _cartService;
         private CurrencyController _subject;
 
-        [TestInitialize]
-        public void Setup()
+
+        public CurrencyControllerTests()
         {
             _currencyServiceMock = new Mock<ICurrencyService>();
             _cartService = new Mock<ICartService>();

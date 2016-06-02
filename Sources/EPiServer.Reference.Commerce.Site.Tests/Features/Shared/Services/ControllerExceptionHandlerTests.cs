@@ -2,17 +2,16 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 {
-    [TestClass]
     public class ControllerExceptionHandlerTests
     {
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenExceptionHasBeenHandled_ShouldNotCallDelegate()
         {
             Setup_exception_has_been_handled();
@@ -25,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 context => { throw new Exception("The delegate should not be called."); });
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenExceptionIsntHttpRequestValidationException_ShouldNotCallDelegate()
         {
             Setup_exception(new Exception());
@@ -37,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 context => { throw new Exception("The delegate should not be called."); });
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenActionDoesNotEqualsActionName_ShouldNotCallDelegate()
         {
             Setup_exception(new HttpRequestValidationException());
@@ -50,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 context => { throw new Exception("The delegate should not be called."); });
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenActionEuqalsActionName_ShouldCallDelegate()
         {
             const string actionName = "someAction";
@@ -65,10 +64,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 actionName,
                 context => delegateResult);
 
-            Assert.AreEqual<ActionResult>(delegateResult, _exceptionContext.Result);
+            Assert.Equal<ActionResult>(delegateResult, _exceptionContext.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenDelegateReturnsNull_ShouldNotSetExceptionHandled()
         {
             const string actionName = "someAction";
@@ -82,10 +81,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 actionName,
                 context => null);
 
-            Assert.IsFalse(_exceptionContext.ExceptionHandled);
+            Assert.False(_exceptionContext.ExceptionHandled);
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenDelegateReturnsEmptyResult_ShouldNotSetExceptionHandled()
         {
             const string actionName = "someAction";
@@ -99,10 +98,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 actionName,
                 context => new EmptyResult());
 
-            Assert.IsFalse(_exceptionContext.ExceptionHandled);
+            Assert.False(_exceptionContext.ExceptionHandled);
         }
 
-        [TestMethod]
+        [Fact]
         public void HandleRequestValidationException_WhenDelegateReturnsActionResult_ShouldSetExceptionHandled()
         {
             const string actionName = "someAction";
@@ -116,7 +115,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 actionName,
                 context => new JsonResult());
 
-            Assert.IsTrue(_exceptionContext.ExceptionHandled);
+            Assert.True(_exceptionContext.ExceptionHandled);
         }
 
         Mock<HttpRequestBase> _httpRequestBase;
@@ -124,8 +123,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         Mock<RequestContext> _requestContext;
         ExceptionContext _exceptionContext;
 
-        [TestInitialize]
-        public void Setup()
+
+        public ControllerExceptionHandlerTests()
         {
             _requestContext = new Mock<RequestContext>();
             _httpRequestBase = new Mock<HttpRequestBase>();

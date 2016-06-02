@@ -1,17 +1,12 @@
 ﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Cart;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Navigation.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.SpecializedProperties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
 {
@@ -58,7 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
                 }
             };
 
-            if (Request.LogonUserIdentity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 var rightMenuItems = _contentLoader.Get<StartPage>(ContentReference.StartPage).RightMenu;
                 if (rightMenuItems != null)
