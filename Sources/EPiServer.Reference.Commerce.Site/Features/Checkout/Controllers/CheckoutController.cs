@@ -160,9 +160,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var countries = checkoutViewModel.BillingAddress.CountryOptions;
             var selectedShippingMethodId = checkoutViewModel.ShippingMethodViewModels.First().Id;
 
-            checkoutViewModel.CartItems = viewModel.CartItems.AggregateCartItems(_cartService.GetCartItems());
-
             MergeAnonymousShippingAddresses(viewModel);
+
+            checkoutViewModel.CartItems = viewModel.CartItems.AggregateCartItems(_cartService.GetCartItems());
 
             checkoutViewModel.ShippingAddresses = viewModel.AvailableAddresses;
 
@@ -579,7 +579,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                         AddressId = Guid.NewGuid(),
                         Name = "Anonymous",
                         HtmlFieldPrefix = _shippingAddressPrefix,
-                        CountryCode = "SWE"
+                        CountryCode = "USA"
                     };
 
                     item.AddressId = anonymousShippingAddress.AddressId;

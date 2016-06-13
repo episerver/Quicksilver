@@ -58,7 +58,7 @@ var AddressBook = {
                     var option = $('<option>');
                     option.attr('value', result.AddressId).text(result.Name);
                     $('.shippingaddress-dropdown').append(option);
-                    $("#ModalDialog").modal("hide");
+                    $("#AddressDialog").modal("hide");
 
                     if (addressDropDown) {
                         addressDropDown.val(result.AddressId);

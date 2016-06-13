@@ -1,4 +1,5 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+using Mediachase.Commerce;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,8 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Extensions
                                            ImageUrl = cartItem.ImageUrl,
                                            PlacedPrice = cartItem.PlacedPrice,
                                            DiscountPrice = cartItem.DiscountPrice,
-                                           LineItemDiscountAmount = shipmentItem.Sum(x => x.LineItemDiscountAmount),
-                                           OrderLevelDiscountAmount = shipmentItem.Sum(x => x.OrderLevelDiscountAmount),
+                                           LineItemDiscountAmount = cartItem.DiscountPrice.HasValue ? 
+                                                (cartItem.PlacedPrice - cartItem.DiscountPrice.Value.Amount) * shipmentItem.Sum(x => x.Quantity) : 0,
                                            Discounts = cartItem.Discounts,
                                            IsAvailable = cartItem.IsAvailable,
                                            Url = cartItem.Url,

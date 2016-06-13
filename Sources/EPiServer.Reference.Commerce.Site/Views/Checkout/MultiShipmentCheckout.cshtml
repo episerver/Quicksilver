@@ -70,6 +70,7 @@
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].PostalCode)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].City)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].CountryCode)
+                            @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].Region)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].Line1)
 
                             <div class="row shipment-summary-container">
@@ -102,14 +103,14 @@
                                                         <a href="@cartItem.Url" class="link--black">@cartItem.DisplayName</a><br />
 
                                                         <span class="product-brand xs-vertical-margin">@cartItem.Brand</span>
-                                                        @if (cartItem.Discounts != null && cartItem.Discounts.Any())
+                                                        @if (cartItem.DiscountPrice.HasValue)
                                                         {
                                                             <span class="product-price">@Helpers.RenderMoney(cartItem.PlacedPrice, cartItem.Currency)</span>
                                                             <span class="product-price product-price--discount xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountPrice.Value)</span>
                                                         }
                                                         else
                                                         {
-                                                            <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.PlacedPrice, cartItem.Currency)</span>
+                                                            <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.ExtendedPrice.Value)</span>
                                                         }
                                                     </div>
 
