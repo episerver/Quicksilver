@@ -7,7 +7,7 @@
 }
 
 <div class="container-fluid" id="CheckoutView" data-url="@Url.Action("Index", "Checkout")">
-
+    @Html.HiddenFor(model => model.ViewName)
     <div class="row section-box checkout jsCheckout">
         <div class="col-xs-12">
             <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>

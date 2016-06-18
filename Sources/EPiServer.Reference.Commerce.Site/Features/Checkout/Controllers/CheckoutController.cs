@@ -3,6 +3,7 @@ using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
@@ -104,6 +105,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             ApplyCoupons();
 
+            // When this action is called, the current expected behavior is that it always returns the single shipment checkout view,
+            // so that we need to reset shipping addresses of all line items in the cart.
+            _cartService.UpdateShippingAddressLineItems(Enumerable.Empty<CartItem>());
+
             var viewModel = CreateCheckoutViewModel(currentPage);
             _cartService.SaveCart();
 
@@ -130,26 +135,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 }
             }
 
+            _cartService.UpdateShippingAddressLineItems(viewModel.CartItems);
+
             if (!ModelState.IsValid)
             {
                 InitializeMultiShipmentViewModel(viewModel);
                 return View("MultiShipmentAddressSelection", viewModel);
             }
 
-            var currentCurrency = _currencyService.GetCurrentCurrency();
-
-            var checkoutViewModel = HttpContext.User.Identity.IsAuthenticated ?
-                GetAuthenticatedCheckoutViewModelForMultiShipment(currentPage, viewModel) :
-                GetAnonymousCheckoutViewModelForMultiShipment(currentPage, viewModel);
-
-            checkoutViewModel.UseBillingAddressForShipment = false;
-
-            _checkoutService.CreateShipments(checkoutViewModel.CartItems, checkoutViewModel.ShippingAddresses);
-
-            foreach (var item in checkoutViewModel.CartItems)
-            {
-                item.ExtendedPrice = _LineItemCalculator.GetExtendedPrice(item, currentCurrency);
-            }
+            var checkoutViewModel = UpdateViewModelForMultiShipment(currentPage, viewModel);
 
             return View(checkoutViewModel.ViewName, checkoutViewModel);
         }
@@ -290,7 +284,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult AddCouponCode(CheckoutPage currentPage, string couponCode)
+        public ActionResult AddCouponCode(CheckoutPage currentPage, string couponCode, string viewName)
         {
             MarketingContext.Current.AddCouponToMarketingContext(couponCode);
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
@@ -306,14 +300,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             coupons.Add(couponCode);
             _cookieService.Set(CouponKey, JsonConvert.SerializeObject(coupons));
 
-            var viewModel = CreateCheckoutViewModel(currentPage);
-
-            return View(viewModel.ViewName, viewModel);
+            return ViewWithUpdatedDiscount(currentPage, viewName);
         }
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult RemoveCouponCode(CheckoutPage currentPage, string couponCode)
+        public ActionResult RemoveCouponCode(CheckoutPage currentPage, string couponCode, string viewName)
         {
             var removeDiscounts = GetAppliedDiscountsWithCode().Where(d => couponCode.Equals(d.DiscountCode));
             foreach (var discount in removeDiscounts)
@@ -332,9 +324,45 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 }
             }
 
-            var viewModel = CreateCheckoutViewModel(currentPage);
+            return ViewWithUpdatedDiscount(currentPage, viewName);
+        }
 
-            return View(viewModel.ViewName, viewModel);
+        private ActionResult ViewWithUpdatedDiscount(CheckoutPage currentPage, string viewName)
+        {
+            if (viewName.Equals(CheckoutViewModel.MultiShipmentCheckoutViewName))
+            {
+                var multiShipmentViewModel = new MultiShipmentViewModel();
+                InitializeMultiShipmentViewModel(multiShipmentViewModel);
+                var checkoutViewModel = UpdateViewModelForMultiShipment(currentPage, multiShipmentViewModel);
+
+                return View(checkoutViewModel.ViewName, checkoutViewModel);
+            }
+            else if (viewName.Equals(CheckoutViewModel.SingleShipmentCheckoutViewName))
+            {
+                var viewModel = CreateCheckoutViewModel(currentPage);
+                return View(viewModel.ViewName, viewModel);
+            }
+
+            return new EmptyResult();
+        }
+
+        private CheckoutViewModel UpdateViewModelForMultiShipment(CheckoutPage currentPage, MultiShipmentViewModel multiShipmentViewModel)
+        {
+            var currentCurrency = _currencyService.GetCurrentCurrency();
+            var checkoutViewModel = HttpContext.User.Identity.IsAuthenticated ?
+                GetAuthenticatedCheckoutViewModelForMultiShipment(currentPage, multiShipmentViewModel) :
+                GetAnonymousCheckoutViewModelForMultiShipment(currentPage, multiShipmentViewModel);
+
+            checkoutViewModel.UseBillingAddressForShipment = false;
+
+            _checkoutService.CreateShipments(checkoutViewModel.CartItems, checkoutViewModel.ShippingAddresses);
+
+            foreach (var item in checkoutViewModel.CartItems)
+            {
+                item.ExtendedPrice = _LineItemCalculator.GetExtendedPrice(item, currentCurrency);
+            }
+
+            return checkoutViewModel;
         }
 
         [HttpPost]

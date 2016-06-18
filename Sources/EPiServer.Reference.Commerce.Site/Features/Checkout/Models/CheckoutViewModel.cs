@@ -13,6 +13,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
     [Bind(Exclude = "Payment")]
     public class CheckoutViewModel
     {
+        public const string MultiShipmentCheckoutViewName = "MultiShipmentCheckout";
+
+        public const string SingleShipmentCheckoutViewName = "SingleShipmentCheckout";
+
         public StartPage StartPage { get; set; }
 
         public CheckoutPage CurrentPage { get; set; }
@@ -75,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Models
                     .Where(x => x.AddressId.HasValue)
                     .Select(x => x.AddressId)
                     .GroupBy(x => x)
-                    .Count() > 1 ? "MultiShipmentCheckout" : "SingleShipmentCheckout";
+                    .Count() > 1 ? MultiShipmentCheckoutViewName : SingleShipmentCheckoutViewName;
             }
         }
     }

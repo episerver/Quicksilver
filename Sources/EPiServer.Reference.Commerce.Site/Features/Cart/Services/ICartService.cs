@@ -30,5 +30,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void InitializeAsWishList();
         void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
         void SetCartCurrency(Currency currency);
+
+        /// <summary>
+        /// Updates shipping addresses of all line items in the cart
+        /// with the address of the correspondent <see cref="CartItem"/>s in the view model.
+        /// </summary>
+        /// <param name="cartItems">The cart items used to update shipping addresses for the line items.</param>
+        void UpdateShippingAddressLineItems(IEnumerable<CartItem> cartItems);
     }
 }

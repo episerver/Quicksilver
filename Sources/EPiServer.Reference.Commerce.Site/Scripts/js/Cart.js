@@ -2,6 +2,7 @@
     init: function () {
 
         $(document)
+            .on('keypress', '.jsChangeCartItem', Cart.preventSubmit)
             .on('click', '.jsRemoveCartItem', Cart.removeCartItem)
             .on('change', '.jsChangeCartItem', Cart.changeCartItem)
             .on('click', '.jsAddToCart', Cart.addCartItem)
@@ -117,6 +118,11 @@
                 $("#CartWarningMessage").show();
             }
         });
+    },
+    preventSubmit: function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+        }
     },
     refreshWishList: function () {
 
