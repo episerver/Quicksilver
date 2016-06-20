@@ -171,42 +171,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         }
 
         [Fact]
-        public void OnSaveException_WhenCurrentPageDontExist_ShouldNotReturnResult()
-        {
-            var guid = Guid.NewGuid();
-
-            //Setup
-            {
-                Setup_form_on_HttpRequestBase(new NameValueCollection() { { "addressId", guid.ToString() } });
-                Setup_exception(new HttpRequestValidationException());
-                Setup_RequestContext_to_contain_routed_data(null);
-                Setup_GetAddressBookViewModel_to_return_model_having_same_page_as_inparameter();
-            }
-
-            var result = _subject.OnSaveException(_exceptionContext);
-
-            Assert.IsType(typeof(EmptyResult), result);
-        }
-
-        [Fact]
-        public void OnSaveException_WhenCurrentPageDontExist_ShouldReturnEmptyResult()
-        {
-            var guid = Guid.NewGuid();
-
-            //Setup
-            {
-                Setup_form_on_HttpRequestBase(new NameValueCollection() { { "addressId", guid.ToString() } });
-                Setup_exception(new HttpRequestValidationException());
-                Setup_RequestContext_to_contain_routed_data(null);
-                Setup_GetAddressBookViewModel_to_return_model_having_same_page_as_inparameter();
-            }
-
-            var result = _subject.OnSaveException(_exceptionContext);
-
-            Assert.IsType(typeof(EmptyResult), result);
-        }
-
-        [Fact]
         public void OnSaveException_WhenCurrentPageExist_ShouldCreateViewModelWithCurrentPageSet()
         {
             var guid = Guid.NewGuid();
@@ -240,7 +204,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
                 Setup_exception(new HttpRequestValidationException());
                 Setup_RequestContext_to_contain_routed_data(currentPage);
                 Setup_GetAddressBookViewModel_to_return_model_having_same_page_as_inparameter();
-
                 Setup_exception(new HttpRequestValidationException());
                 Setup_action_for_controller("save", _subject);
             }
@@ -248,6 +211,28 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var result = _subject.OnSaveException(_exceptionContext);
 
             Assert.IsType(typeof(AddressViewModel), ((ViewResult)result).Model);
+        }
+
+        [Fact]
+        public void OnSaveException_WhenActionIsSaveAndAjaxRequest_ShouldCreatePartialView()
+        {
+            var guid = Guid.NewGuid();
+            var currentPage = new AddressBookPage();
+
+            //Setup
+            {
+                Setup_form_on_HttpRequestBase(new NameValueCollection() { { "addressId", guid.ToString() } });
+                Setup_exception(new HttpRequestValidationException());
+                Setup_RequestContext_to_contain_routed_data(currentPage);
+                Setup_GetAddressBookViewModel_to_return_model_having_same_page_as_inparameter();
+                Setup_exception(new HttpRequestValidationException());
+                Setup_AjaxRequest();
+                Setup_action_for_controller("save", _subject);
+            }
+
+            var result = _subject.OnSaveException(_exceptionContext);
+
+            Assert.IsType(typeof(PartialViewResult), result);
         }
 
         AddressBookController _subject;
@@ -267,11 +252,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             _requestContextMock = new Mock<RequestContext>();
             _httpRequestBaseMock = new Mock<HttpRequestBase>();
 
-            // Simulate that requests are sent using AJAX.
-            _httpRequestBaseMock.SetupGet(x => x.Headers).Returns(new System.Net.WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } });
 
             _httpContextBaseMock = new Mock<HttpContextBase>();
-            _httpContextBaseMock.Setup(x => x.Request).Returns(_httpRequestBaseMock.Object);
+            _httpContextBaseMock.SetupGet(x => x.Request).Returns(_httpRequestBaseMock.Object);
 
             _exceptionContext = new ExceptionContext
             {
@@ -299,7 +282,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
         private void Setup_action_for_controller(string actionName, Controller controller)
         {
-            controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.RouteData.Values.Add("action", actionName);
         }
 
@@ -309,6 +291,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             routeData.DataTokens.Add(RoutingConstants.RoutedDataKey, rotedData);
 
             _requestContextMock.Setup(x => x.RouteData).Returns(routeData);
+        }
+
+        private void Setup_AjaxRequest()
+        {
+            // Simulate that requests are sent using AJAX.
+            _httpRequestBaseMock.SetupGet(x => x.Headers).Returns(new System.Net.WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } });
         }
 
         private void Setup_exception(Exception exception)

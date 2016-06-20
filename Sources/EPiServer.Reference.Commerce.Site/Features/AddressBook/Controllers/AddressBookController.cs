@@ -133,10 +133,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
             Guid.TryParse(filterContext.HttpContext.Request.Form["addressId"], out addressId);
 
             var currentPage = filterContext.RequestContext.GetRoutedData<AddressBookPage>();
-            if (currentPage == null)
-            {
-                return new EmptyResult();
-            }
 
             AddressViewModel viewModel = new AddressViewModel
             {
@@ -151,7 +147,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
             _addressBookService.LoadAddress(viewModel.Address);
 
-            return View("EditForm", viewModel);
+            return AddressEditView(viewModel);
         }
 
         protected override void OnException(ExceptionContext filterContext)
