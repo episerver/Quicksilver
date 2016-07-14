@@ -25,17 +25,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void ChangeQuantity(string code, decimal quantity);
         void RemoveLineItem(string code);
         void RunWorkflow(string workFlowName);
+        void RunWorkflow(string workFlowName, Dictionary<string, object> context);
         void SaveCart();
         void DeleteCart();
         void InitializeAsWishList();
         void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
         void SetCartCurrency(Currency currency);
-
-        /// <summary>
-        /// Updates shipping addresses of all line items in the cart
-        /// with the address of the correspondent <see cref="CartItem"/>s in the view model.
-        /// </summary>
-        /// <param name="cartItems">The cart items used to update shipping addresses for the line items.</param>
-        void UpdateShippingAddressLineItems(IEnumerable<CartItem> cartItems);
+        void ResetLineItemAddresses();
+        void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems);
     }
 }

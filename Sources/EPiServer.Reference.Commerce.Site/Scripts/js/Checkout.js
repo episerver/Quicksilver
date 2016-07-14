@@ -91,6 +91,13 @@
             success: function (result) {
                 $("#AddressContainer").html($(result));
                 Checkout.initializeAddressAreas();
+                $.ajax({
+                    type: "POST",
+                    url: $('.jsOrderSummary').data('url'),
+                    success: function (result) {
+                        $(".jsOrderSummary").html($(result));
+                    }
+                });
             }
         });
     },

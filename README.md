@@ -11,12 +11,14 @@ The following is a list of features to be added in the future:
 
 * In-store pickup.
 * Package and bundle support.
+* Using the new campaigns and promotion system.
 
 Changes in this release
 -----------------------
 * COM-76   Support for multi-shipment checkout
 * COM-1551 Server error when delete item in shopping cart
 * COM-1549 Clarify requirement to change fake credentials in Startup.cs
+* COM-1932 Items disappears from cart after confirming updated quantity with Enter
 * Updated to Episerver Commerce 9.16.0
 
 Changes Quicksilver 1.3

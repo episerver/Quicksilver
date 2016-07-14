@@ -64,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
                     {
                         LineItem = lineItem,
                         Variation = variations.FirstOrDefault(y => y.Code == lineItem.Code)
-                    }),
+                    }).GroupBy(x => x.LineItem.Code).Select(group => group.First()),
                     BillingAddress = new Address(),
                     ShippingAddresses = new List<Address>()
                 };

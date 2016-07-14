@@ -45,7 +45,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         Mock<HttpRequestBase> _httpRequestBaseMock;
         Mock<HttpContextBase> _httpContextBaseMock;
         Mock<RequestContext> _requestContextMock;
-        Mock<ILineItemCalculator> _lineItemCalculatorMock;
         ExceptionContext _exceptionContext;
         Mock<ControllerExceptionHandler> _controllerExceptionHandlerMock;
         CheckoutController _subject;
@@ -53,7 +52,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 
         public CheckoutControllerTests()
         {
-            _lineItemCalculatorMock = new Mock<ILineItemCalculator>();
             _controllerExceptionHandlerMock = new Mock<ControllerExceptionHandler>();
             _requestContextMock = new Mock<RequestContext>();
             _httpRequestBaseMock = new Mock<HttpRequestBase>();
@@ -67,12 +65,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 RequestContext = _requestContextMock.Object
             };
 
-            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null, _lineItemCalculatorMock.Object);
+            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null);
         }
 
         private CheckoutControllerForTest CreateTestController()
         {
-            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null, _lineItemCalculatorMock.Object);
+            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null);
         }
 
         private void Setup_RequestContext_to_contain_routed_data(object rotedData)
@@ -104,8 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 IAddressBookService addressBookService, 
                 ControllerExceptionHandler controllerExceptionHandler, 
                 CustomerContextFacade customerContextFacade,
-                CookieService cookieService,
-                ILineItemCalculator lineItemCalculator)
+                CookieService cookieService)
                 : base(cartService, 
                       contentRepository, 
                       urlResolver, 
@@ -119,8 +116,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       addressBookService, 
                       controllerExceptionHandler, 
                       customerContextFacade,
-                      cookieService,
-                      lineItemCalculator)
+                      cookieService)
             {
             }
 

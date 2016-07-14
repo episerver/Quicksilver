@@ -20,6 +20,7 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
+using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce.Customers;
@@ -57,7 +58,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly CustomerContextFacade _customerContext;
         private const string CouponKey = "CouponCookieKey";
         private readonly CookieService _cookieService;
-        private readonly ILineItemCalculator _LineItemCalculator;
 
         public CheckoutController(
                     ICartService cartService,
@@ -73,8 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     IAddressBookService addressBookService,
                     ControllerExceptionHandler controllerExceptionHandler,
                     CustomerContextFacade customerContextFacade,
-                    CookieService cookieService,
-                    ILineItemCalculator lineItemCalculator)
+                    CookieService cookieService)
         {
             _cartService = cartService;
             _contentRepository = contentRepository;
@@ -90,7 +89,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _controllerExceptionHandler = controllerExceptionHandler;
             _customerContext = customerContextFacade;
             _cookieService = cookieService;
-            _LineItemCalculator = lineItemCalculator;
         }
 
         [HttpGet]
@@ -107,9 +105,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             // When this action is called, the current expected behavior is that it always returns the single shipment checkout view,
             // so that we need to reset shipping addresses of all line items in the cart.
-            _cartService.UpdateShippingAddressLineItems(Enumerable.Empty<CartItem>());
+            _cartService.ResetLineItemAddresses();
 
-            var viewModel = CreateCheckoutViewModel(currentPage);
+            var viewModel = CreateCheckoutViewModel(currentPage, null);
             _cartService.SaveCart();
 
             return View(viewModel.ViewName, viewModel);
@@ -127,6 +125,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [HttpPost]
         public ActionResult MultiShipment(CheckoutPage currentPage, MultiShipmentViewModel viewModel)
         {
+            CheckoutViewModel checkoutViewModel;
+
+            if (viewModel.CartItems == null || !viewModel.CartItems.Any())
+            {
+                var home = Url.ContentUrl(ContentReference.StartPage);
+                return Redirect(home);
+            }
+
             for (int i = 0; i < viewModel.CartItems.Count(); i++)
             {
                 if (viewModel.CartItems[i].AddressId == null)
@@ -135,30 +141,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 }
             }
 
-            _cartService.UpdateShippingAddressLineItems(viewModel.CartItems);
-
             if (!ModelState.IsValid)
             {
                 InitializeMultiShipmentViewModel(viewModel);
                 return View("MultiShipmentAddressSelection", viewModel);
             }
 
-            var checkoutViewModel = UpdateViewModelForMultiShipment(currentPage, viewModel);
+            ApplyCoupons();
+
+            checkoutViewModel = UpdateViewModelForMultiShipment(currentPage, viewModel);
 
             return View(checkoutViewModel.ViewName, checkoutViewModel);
         }
 
         private CheckoutViewModel GetAnonymousCheckoutViewModelForMultiShipment(CheckoutPage currentPage, MultiShipmentViewModel viewModel)
         {
-            var checkoutViewModel = CreateCheckoutViewModel(currentPage);
-            var countries = checkoutViewModel.BillingAddress.CountryOptions;
-            var selectedShippingMethodId = checkoutViewModel.ShippingMethodViewModels.First().Id;
-
             MergeAnonymousShippingAddresses(viewModel);
 
-            checkoutViewModel.CartItems = viewModel.CartItems.AggregateCartItems(_cartService.GetCartItems());
+            _cartService.RecreateLineItemsBasedOnAddresses(viewModel.CartItems);
 
-            checkoutViewModel.ShippingAddresses = viewModel.AvailableAddresses;
+            var checkoutViewModel = CreateCheckoutViewModel(currentPage, viewModel.AvailableAddresses);
+            var countries = checkoutViewModel.BillingAddress.CountryOptions;
+            var selectedShippingMethodId = checkoutViewModel.ShippingMethodViewModels.First().Id;
 
             foreach (var address in checkoutViewModel.ShippingAddresses)
             {
@@ -171,15 +175,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         private CheckoutViewModel GetAuthenticatedCheckoutViewModelForMultiShipment(CheckoutPage currentPage, MultiShipmentViewModel viewModel)
         {
-            var checkoutViewModel = CreateCheckoutViewModel(currentPage);
-            var selectedShippingMethodId = checkoutViewModel.ShippingMethodViewModels.First().Id;
+            var shippingAddresses = new List<ShippingAddress>();
+            foreach (var addressId in viewModel.CartItems.Select(c => c.AddressId).Distinct())
+            {
+                shippingAddresses.Add(GetAvailableShippingAddresses().FirstOrDefault(a => a.AddressId == addressId));
+            }
 
-            checkoutViewModel.CartItems = viewModel.CartItems.AggregateCartItems(_cartService.GetCartItems());
+            _cartService.RecreateLineItemsBasedOnAddresses(viewModel.CartItems);
 
-            checkoutViewModel.ShippingAddresses = checkoutViewModel.CartItems
-              .Select(x => x.AddressId).Distinct()
-              .Select(a => (new ShippingAddress { AddressId = a.Value, ShippingMethodId = selectedShippingMethodId }))
-              .ToList();
+            var checkoutViewModel = CreateCheckoutViewModel(currentPage, shippingAddresses);
 
             foreach (var address in checkoutViewModel.ShippingAddresses)
             {
@@ -238,11 +242,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 viewModel.ShippingAddresses[shippingAddressIndex] = updatedAddress;
                 updatedAddress.HtmlFieldPrefix = string.Format(_shippingAddressPrefix, shippingAddressIndex);
+                SaveShippingAddresses(viewModel);
             }
             else
             {
                 viewModel.BillingAddress = updatedAddress;
                 updatedAddress.HtmlFieldPrefix = _billingAddressPrefix;
+                SaveBillingAddress(viewModel);
             }
 
             PopulateCountryAndRegions(viewModel, updatedAddress);
@@ -255,6 +261,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult OrderSummary()
         {
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
+            _cartService.SaveCart();
+
             var orderForm = _cartService.GetOrderForms();
 
             OrderSummaryViewModel viewModel = new OrderSummaryViewModel
@@ -267,12 +276,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 ShippingDiscountTotal = _cartService.GetShippingDiscountTotal(),
                 ShippingTaxTotal = _cartService.GetShippingTaxTotal(),
                 TaxTotal = _cartService.GetTaxTotal(),
-                OrderDiscounts = orderForm.SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Select(x => new OrderDiscountModel
+                OrderDiscounts = orderForm.SelectMany(x => x.Discounts).Select(x => new OrderDiscountModel
                 {
                     Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
                 }),
-                ShippingDiscounts = orderForm.SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Select(x => new OrderDiscountModel
+                ShippingDiscounts = orderForm.SelectMany(x => x.Shipments).SelectMany(x => x.Discounts).Select(x => new OrderDiscountModel
                 {
                     Discount = _cartService.ConvertToMoney(x.DiscountValue),
                     Displayname = x.DisplayMessage
@@ -339,7 +348,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
             else if (viewName.Equals(CheckoutViewModel.SingleShipmentCheckoutViewName))
             {
-                var viewModel = CreateCheckoutViewModel(currentPage);
+                var viewModel = CreateCheckoutViewModel(currentPage, null);
                 return View(viewModel.ViewName, viewModel);
             }
 
@@ -348,19 +357,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         private CheckoutViewModel UpdateViewModelForMultiShipment(CheckoutPage currentPage, MultiShipmentViewModel multiShipmentViewModel)
         {
-            var currentCurrency = _currencyService.GetCurrentCurrency();
-            var checkoutViewModel = HttpContext.User.Identity.IsAuthenticated ?
+            var checkoutViewModel = User.Identity.IsAuthenticated ?
                 GetAuthenticatedCheckoutViewModelForMultiShipment(currentPage, multiShipmentViewModel) :
                 GetAnonymousCheckoutViewModelForMultiShipment(currentPage, multiShipmentViewModel);
 
             checkoutViewModel.UseBillingAddressForShipment = false;
-
-            _checkoutService.CreateShipments(checkoutViewModel.CartItems, checkoutViewModel.ShippingAddresses);
-
-            foreach (var item in checkoutViewModel.CartItems)
-            {
-                item.ExtendedPrice = _LineItemCalculator.GetExtendedPrice(item, currentCurrency);
-            }
 
             return checkoutViewModel;
         }
@@ -459,7 +460,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 throw new InvalidOperationException("Wrong amount");
             }
 
-            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
+            Dictionary<string, object> context = new Dictionary<string, object>();
+            context.Add("UsageStatus", PromotionUsageStatus.Used);
+
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName, context);
             purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();
 
             _checkoutService.DeleteCart();
@@ -499,7 +503,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 return new EmptyResult();
             }
 
-            var viewModel = CreateCheckoutViewModel(currentPage);
+            var viewModel = CreateCheckoutViewModel(currentPage, null);
             ModelState.AddModelError("Purchase", filterContext.Exception.Message);
 
             return View(viewModel.ViewName, viewModel);
@@ -514,8 +518,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// Creates and returns a new instance if a CheckoutViewModel.
         /// </summary>
         /// <param name="currentPage">The checkout content page.</param>
-        /// <returns>A new instance of a <see cref="CheckoutViewModel"/>.</returns>
-        private CheckoutViewModel CreateCheckoutViewModel(CheckoutPage currentPage)
+        /// <param name="shippingAddresses">The shipping addresses.</param>
+        /// <returns>
+        /// A new instance of a <see cref="CheckoutViewModel" />.
+        /// </returns>
+        private CheckoutViewModel CreateCheckoutViewModel(CheckoutPage currentPage, IEnumerable<ShippingAddress> shippingAddresses)
         {
             var viewModel = new CheckoutViewModel();
             var customer = _customerContext.CurrentContact.CurrentContact;
@@ -539,8 +546,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             viewModel = new CheckoutViewModel
             {
                 BillingAddress = billingAddress,
-                UseBillingAddressForShipment = (customer == null || (customer.PreferredShippingAddressId.HasValue && customer.PreferredShippingAddressId == customer.PreferredBillingAddressId)),
-                ShippingAddresses = new ShippingAddress[] { shippingAddress },
+                UseBillingAddressForShipment = (customer == null || (customer.PreferredShippingAddressId.HasValue && customer.PreferredShippingAddressId == customer.PreferredBillingAddressId))
+                    && shippingAddresses == null,
+                ShippingAddresses = shippingAddresses == null ? new List<ShippingAddress> { shippingAddress } : shippingAddresses.ToList(),
                 CartItems = _cartService.GetCartItems(),
                 CurrentPage = currentPage
             };
@@ -595,7 +603,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             foreach (var item in viewModel.CartItems)
             {
                 item.Currency = currency;
-                item.SetValues(cartItems.Single(x => x.Code == item.Code));
+                item.SetValues(cartItems.First(x => x.Code == item.Code));
             }
 
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -713,19 +721,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private void ManageCartItems(CheckoutViewModel viewModel)
         {
             var cartItems = _cartService.GetCartItems();
+
             if (viewModel.CartItems != null)
             {
-                foreach (var item in viewModel.CartItems)
+                for (int i = 0; i < viewModel.CartItems.Count(); i++)
                 {
-                    var product = cartItems.Single(x => x.Code == item.Code);
-                    item.SetValues(product);
-                    item.ExtendedPrice = _LineItemCalculator.GetExtendedPrice(item, item.Currency);
+                    cartItems.ElementAt(i).AddressId = viewModel.CartItems.ElementAt(i).AddressId;
                 }
             }
-            else
-            {
-                viewModel.CartItems = cartItems;
-            }
+
+            viewModel.CartItems = cartItems;
         }
 
         private void SetViewModelCurrency(CheckoutViewModel viewModel)

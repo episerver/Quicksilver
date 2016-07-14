@@ -53,17 +53,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 CreateShipment(orderForm, address.AddressId, address.ShippingMethodId);
             }
 
-            for (int index = 0; index < orderForm.LineItems.Count; index++)
+            for (int shipmentIndex = 0; shipmentIndex < orderForm.Shipments.Count; shipmentIndex++)
             {
-                for (int shipmentIndex = 0; shipmentIndex < orderForm.Shipments.Count; shipmentIndex++)
+                for (int index = 0; index < orderForm.LineItems.Count; index++)
                 {
-                    var quantity = cartItems
-                        .Where(x => x.Code == orderForm.LineItems[index].Code && (!x.AddressId.HasValue || x.AddressId == shippingAddresses.ElementAt(shipmentIndex).AddressId))
-                        .Sum(x => x.Quantity);
-
-                    if (quantity > 0)
+                    if (orderForm.LineItems[index].ShippingAddressId == shippingAddresses.ElementAt(shipmentIndex).AddressId.ToString()
+                        || orderForm.LineItems[index].ShippingAddressId == string.Empty)
                     {
-                        orderForm.Shipments[shipmentIndex].AddLineItemIndex(index, quantity);
+                        orderForm.Shipments[shipmentIndex].AddLineItemIndex(index, orderForm.LineItems[index].Quantity);
                     }
                 }
             }
@@ -88,7 +85,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             {
                 var existingRates = this.GetShippingRates(shipment);
                 var defaultRate = existingRates.First();
-                
+
                 rate = defaultRate;
             }
 
