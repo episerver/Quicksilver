@@ -8,7 +8,6 @@
         <div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new {@node = @Model.StartPage.CheckoutPage})">
 
             @Html.HiddenFor(model => model.BillingAddress.Name)
-            @Html.HiddenFor(model => model.BillingAddress.HtmlFieldPrefix)
             @Html.HiddenFor(model => model.UseBillingAddressForShipment)
             @Html.HiddenFor(model => model.BillingAddress.DaytimePhoneNumber)
 
@@ -61,13 +60,13 @@
                 </div>
             </div>
 
-            @{ Html.RenderPartial("_AddressRegion", Model.BillingAddress); }
+            @Html.EditorFor(model => model.BillingAddress.CountryRegion, Model.BillingAddress.CountryRegion)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BillingAddress.CountryCode)
-                @Html.DropDownListFor(model => model.BillingAddress.CountryCode,
-                        new SelectList(Model.BillingAddress.CountryOptions, "Code", "Name", Model.BillingAddress.CountryCode), new { @class = "form-control jsChangeCountry" })
+                @Html.LabelFor(model => model.BillingAddress.CountryName)
+                @Html.DropDownListFor(model => model.BillingAddress.CountryCode, new SelectList(Model.BillingAddress.CountryOptions, "Code", "Name", Model.BillingAddress.CountryCode), new { @class = "form-control jsChangeCountry" })
                 @Html.ValidationMessageFor(model => model.BillingAddress.CountryCode)
+                @Html.Hidden("address-htmlfieldprefix", "BillingAddress.CountryRegion")
             </div>
 
             @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)

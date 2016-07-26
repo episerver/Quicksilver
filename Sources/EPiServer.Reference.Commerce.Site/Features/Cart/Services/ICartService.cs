@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
+using System;
+using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
@@ -33,5 +34,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void SetCartCurrency(Currency currency);
         void ResetLineItemAddresses();
         void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems);
+        OrderAddress GetOrderAddress(Guid addressId);
     }
 }

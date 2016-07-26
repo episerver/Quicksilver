@@ -1,17 +1,9 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Reference.Commerce.Site.Infrastructure;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using EPiServer.ServiceLocation;
-using EPiServer.Shell;
-using EPiServer.Web.Routing;
-using System;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.UI;
+using EPiServer.Reference.Commerce.Site.Infrastructure;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site
 {

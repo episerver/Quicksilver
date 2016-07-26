@@ -9,12 +9,13 @@ var AddressBook = {
         var $countryCode = $(this).val();
         var $addressRegionContainer = $(".address-region", $(this).parents().eq(1));
         var $region = $(".address-region-input", $addressRegionContainer).val();
+        var $htmlPrefix = $("input[name='address-htmlfieldprefix']", $(this).parent()).val();
         var $url = "/AddressBook/GetRegionsForCountry/";
 
         $.ajax({
             type: "POST",
             url: $url,
-            data: { countryCode: $countryCode, region: $region },
+            data: { countryCode: $countryCode, region: $region, htmlPrefix: $htmlPrefix },
             success: function (result) {
                 $addressRegionContainer.replaceWith($(result));
             }

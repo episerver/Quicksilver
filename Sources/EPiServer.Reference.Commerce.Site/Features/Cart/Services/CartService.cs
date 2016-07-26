@@ -413,7 +413,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 {
                     Code = x.Key.Code,
                     AddressId = x.Key.AddressId,
-                    Quantity = x.Sum(item => item.Quantity)
+                    Quantity = x.Sum(item => item.Quantity),
+                    DisplayName = x.First().DisplayName,
+                    PlacedPrice = x.First().PlacedPrice
                 });
 
             foreach (var item in newCartItems)
@@ -421,11 +423,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 LineItem lineItem = form.LineItems.AddNew();
                 lineItem.Code = item.Code;
                 lineItem.Quantity = item.Quantity;
+                lineItem.PlacedPrice = item.PlacedPrice;
+                lineItem.DisplayName = item.DisplayName;
                 lineItem.ShippingAddressId = item.AddressId.ToString();
             }
 
             RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             SaveCart();
+        }
+
+        public OrderAddress GetOrderAddress(Guid addressId)
+        {
+            return CartHelper.Cart.OrderAddresses.FirstOrDefault(a => a.Name == addressId.ToString());
         }
 
         private CartHelper CartHelper

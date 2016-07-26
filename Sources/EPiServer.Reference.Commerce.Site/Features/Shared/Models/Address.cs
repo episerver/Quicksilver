@@ -2,14 +2,19 @@
 using Mediachase.Commerce.Orders.Dto;
 using System;
 using System.Collections.Generic;
+using EPiServer.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Models
 {
     public class Address
     {
-        public bool SaveAddress { get; set; }
+        public Address()
+        {
+            CountryRegion = new CountryRegion();
+        }
 
-        public string HtmlFieldPrefix { get; set; }
+        public bool SaveAddress { get; set; }
 
         public Guid? AddressId { get; set; }
 
@@ -50,10 +55,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Models
         [LocalizedDisplay("/Shared/Address/Form/Label/Line2")]
         public string Line2 { get; set; }
 
-        public IEnumerable<CountryDto.StateProvinceRow> RegionOptions { get; set; }
-
-        [LocalizedDisplay("/Shared/Address/Form/Label/Region")]
-        public string Region { get; set; }
+        [UIHint("AddressRegion")]
+        public CountryRegion CountryRegion { get; set; }
 
         [LocalizedDisplay("/Shared/Address/Form/Label/Email")]
         [LocalizedEmail("/Shared/Address/Form/Error/InvalidEmail")]

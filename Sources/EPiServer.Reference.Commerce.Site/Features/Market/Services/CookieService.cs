@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
@@ -8,24 +7,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
     {
         public virtual string Get(string cookie)
         {
-            if (HttpContext.Current == null)
+            if (HttpContext.Current == null || HttpContext.Current.Request.Cookies[cookie] == null)
             {
                 return null;
             }
 
-            return HttpContext.Current.Request.Cookies[cookie] == null ? null : HttpContext.Current.Request.Cookies[cookie].Value;
+            // Because of we can have multiple cookies of the same name, so that, we should get latest value.
+            var lastCookieIndex = Array.FindLastIndex(HttpContext.Current.Request.Cookies.AllKeys, c => c.Equals(cookie, StringComparison.Ordinal));
+
+            return lastCookieIndex == -1 ? null : HttpContext.Current.Request.Cookies[lastCookieIndex].Value;
         }
 
         public virtual void Set(string cookie, string value)
         {
             if (HttpContext.Current != null)
             {
-                var httpCookie = new HttpCookie(cookie)
+                var httpCookie = new HttpCookie(cookie, value)
                 {
-                    Value = value, Expires = DateTime.Now.AddYears(1)
+                    Expires = DateTime.Now.AddYears(1)
                 };
 
-                Set(HttpContext.Current.Response.Cookies, httpCookie);
+                Set(httpCookie);
             }
         }
 
@@ -38,13 +40,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
                     Expires = DateTime.Now.AddDays(-1)
                 };
 
-                Set(HttpContext.Current.Response.Cookies, httpCookie);
+                Set(httpCookie);
             }
         }
 
-        private void Set(HttpCookieCollection cookieCollection, HttpCookie cookie)
+        private void Set(HttpCookie cookie)
         {
-            cookieCollection.Add(cookie);
+            HttpContext.Current.Response.SetCookie(cookie);
         }
     }
 }

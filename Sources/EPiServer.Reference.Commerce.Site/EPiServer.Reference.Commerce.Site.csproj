@@ -481,6 +481,7 @@
     <Compile Include="Features\Cart\Models\WishListViewModel.cs" />
     <Compile Include="Features\Checkout\Controllers\OrderConfirmationControllerBase.cs" />
     <Compile Include="Features\Checkout\Models\MultiShipmentCheckoutViewModel.cs" />
+    <Compile Include="Features\Shared\Models\CountryRegion.cs" />
     <Compile Include="Features\Shared\Models\ShippingAddress.cs" />
     <Compile Include="Features\ErrorHandling\Controllers\ErrorHandlingController.cs" />
     <Compile Include="Features\ErrorHandling\Models\ErrorViewModel.cs" />
@@ -641,6 +642,7 @@
     <Compile Include="Infrastructure\Indexing\CatalogIndexer.cs" />
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
+    <Compile Include="Infrastructure\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
     <Compile Include="Infrastructure\CustomCurrencySiteContext.cs" />
@@ -822,7 +824,7 @@
     <Content Include="Views\Shared\_CashOnDeliveryPaymentMethod.cshtml" />
     <Content Include="Views\Shared\_GenericCreditCardConfirmation.cshtml" />
     <Content Include="Views\Shared\_CashOnDeliveryConfirmation.cshtml" />
-    <Content Include="Views\Shared\_AddressRegion.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AddressRegion.cshtml" />
     <Content Include="Styles\Fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Views\Product\ProductWithoutVariation.cshtml" />
     <Content Include="Views\Shared\_WishListMiniCartDetails.cshtml" />

@@ -50,7 +50,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 Address = new Address
                 {
                     AddressId = addressId,
-                    HtmlFieldPrefix = "Address"
                 },
                 CurrentPage = currentPage
             };
@@ -62,13 +61,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult GetRegionsForCountry(string countryCode, string region)
+        public ActionResult GetRegionsForCountry(string countryCode, string region, string htmlPrefix)
         {
-            var address = new Address();
-            address.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
-            address.Region = region;
+            ViewData.TemplateInfo.HtmlFieldPrefix = htmlPrefix;
+            var countryRegion = new CountryRegion();
+            countryRegion.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
+            countryRegion.Region = region;
 
-            return PartialView("_AddressRegion", address);
+            return PartialView("~/Views/Shared/EditorTemplates/AddressRegion.cshtml", countryRegion);
         }
 
         [HttpPost]
@@ -140,7 +140,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 {
                     AddressId = addressId != Guid.Empty ? (Guid?)addressId : null,
                     ErrorMessage = filterContext.Exception.Message,
-                    HtmlFieldPrefix = "Address"
                 },
                 CurrentPage = currentPage
             };

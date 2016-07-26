@@ -130,7 +130,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 FirstName = "Fisrt Name",
                 LastName = "Last Name",
                 PostalCode = "952595",
-                HtmlFieldPrefix = "Address"
             };
 
             var result = _subject.RegisterAccount(model);

@@ -4,6 +4,7 @@ using Mediachase.Commerce.Website;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Infrastructure.ModelBinders;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -12,7 +13,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private static readonly IDictionary<Type, Type> ModelBinderTypeMappings = new Dictionary<Type, Type>
         {                                                                                
             { typeof(FilterOptionFormModel), typeof(FilterOptionFormModelBinder) },
-            { typeof(IPaymentMethodViewModel<IPaymentOption>), typeof(PaymentViewModelBinder) }                                                             
+            { typeof(IPaymentMethodViewModel<IPaymentOption>), typeof(PaymentViewModelBinder) },
+            { typeof(decimal), typeof(DecimalModelBinder) },
+            { typeof(decimal?), typeof(DecimalModelBinder) }                                                
         };
 
         public IModelBinder GetBinder(Type modelType)

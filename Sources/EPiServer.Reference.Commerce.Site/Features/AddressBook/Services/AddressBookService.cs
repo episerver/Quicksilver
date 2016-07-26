@@ -40,7 +40,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             address.LastName = customerAddress.LastName;
             address.PostalCode = customerAddress.PostalCode;
             address.SaveAddress = HttpContext.Current.User.Identity.IsAuthenticated;
-            address.Region = customerAddress.RegionName ?? customerAddress.State;
+            address.CountryRegion = new CountryRegion()
+                                        {
+                                            Region = customerAddress.RegionName ?? customerAddress.RegionCode ?? customerAddress.State
+                                        };
             address.ShippingDefault = customerAddress.Equals(_customerContext.CurrentContact.PreferredShippingAddress);
             address.BillingDefault = customerAddress.Equals(_customerContext.CurrentContact.PreferredBillingAddress);
             address.AddressId = customerAddress.AddressId;
@@ -61,7 +64,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             address.LastName = orderAddress.LastName;
             address.PostalCode = orderAddress.PostalCode;
             address.SaveAddress = false;
-            address.Region = orderAddress.RegionName ?? orderAddress.State;
+            address.CountryRegion = new CountryRegion()
+                                        {
+                                            Region = orderAddress.RegionName ?? orderAddress.RegionCode ?? orderAddress.State
+                                        };
             address.Modified = orderAddress.Modified;
             address.Name = orderAddress.Name;
             address.DaytimePhoneNumber = orderAddress.DaytimePhoneNumber;
@@ -78,10 +84,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             orderAddress.Line2 = address.Line2;
             orderAddress.DaytimePhoneNumber = address.DaytimePhoneNumber;
             orderAddress.PostalCode = address.PostalCode;
-            orderAddress.RegionName = address.Region;
+            orderAddress.RegionName = address.CountryRegion.Region;
+            orderAddress.RegionCode = address.CountryRegion.Region;
             // Commerce Manager expects State to be set for addresses in order management. Set it to be same as
             // RegionName to avoid issues.
-            orderAddress.State = address.Region;
+            orderAddress.State = address.CountryRegion.Region;
             orderAddress.Email = address.Email;
         }
 
@@ -97,10 +104,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             customerAddress.Line2 = address.Line2;
             customerAddress.DaytimePhoneNumber = address.DaytimePhoneNumber;
             customerAddress.PostalCode = address.PostalCode;
-            customerAddress.RegionName = address.Region;
+            customerAddress.RegionName = address.CountryRegion.Region;
+            customerAddress.RegionCode = address.CountryRegion.Region;
             // Commerce Manager expects State to be set for addresses in order management. Set it to be same as
             // RegionName to avoid issues.
-            customerAddress.State = address.Region;
+            customerAddress.State = address.CountryRegion.Region;
             customerAddress.Email = address.Email;
             customerAddress.AddressType =
                 CustomerAddressTypeEnum.Public |
@@ -216,7 +224,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
             if (!string.IsNullOrEmpty(address.CountryCode))
             {
-                address.RegionOptions = GetRegionOptionsByCountryCode(address.CountryCode);
+                if (address.CountryRegion == null)
+                {
+                    address.CountryRegion = new CountryRegion();
+                }
+                address.CountryRegion.RegionOptions = GetRegionOptionsByCountryCode(address.CountryCode);
             }
         }
 
@@ -239,6 +251,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
                     City = x.City,
                     CountryCode = x.CountryCode,
                     CountryName = x.CountryName,
+                    CountryRegion = new CountryRegion()
+                    {
+                        Region = x.RegionName ?? x.RegionCode ?? x.State
+                    },
                     Email = x.Email
                 }));
             }
@@ -265,7 +281,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
                                    GetCountryByName(address)) ??
                                    address.CountryOptions.FirstOrDefault();
 
-            address.RegionOptions = GetRegionOptionsFromCountry(selectedCountry);
+            address.CountryRegion.RegionOptions = GetRegionOptionsFromCountry(selectedCountry);
         }
 
         private CountryDto.CountryRow GetCountryByCode(Address address)

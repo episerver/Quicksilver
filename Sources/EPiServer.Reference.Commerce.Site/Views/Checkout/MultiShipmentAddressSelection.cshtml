@@ -116,13 +116,13 @@
                                                             </div>
                                                         </div>
 
-                                                Html.RenderPartial("_AddressRegion", Model.AvailableAddresses[index]);
+                                                @Html.EditorFor(model => model.AvailableAddresses[index].CountryRegion, Model.AvailableAddresses[index].CountryRegion)
 
                                                 <div class="form-group">
-                                                    @Html.LabelFor(model => Model.AvailableAddresses[index].CountryCode)
-                                                    @Html.DropDownListFor(model => Model.AvailableAddresses[index].CountryCode,
-                                                            new SelectList(Model.AvailableAddresses[index].CountryOptions, "Code", "Name", Model.AvailableAddresses[index].CountryCode), new { @class = "form-control jsChangeCountry" })
-                                                    @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].CountryCode)
+                                                    @Html.LabelFor(model => model.AvailableAddresses[index].CountryName)
+                                                    @Html.DropDownListFor(model => model.AvailableAddresses[index].CountryCode, new SelectList(Model.AvailableAddresses[index].CountryOptions, "Code", "Name", Model.AvailableAddresses[index].CountryCode), new { @class = "form-control jsChangeCountry" })
+                                                    @Html.ValidationMessageFor(model => model.AvailableAddresses[index].CountryCode)
+                                                    @Html.Hidden("address-htmlfieldprefix", String.Format("AvailableAddresses[{0}].CountryRegion", index))
                                                 </div>
                                             }
                                         </div>

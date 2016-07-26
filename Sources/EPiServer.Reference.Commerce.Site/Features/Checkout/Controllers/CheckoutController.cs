@@ -3,7 +3,6 @@ using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
@@ -52,8 +51,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly Func<string, CartHelper> _cartHelper;
         private readonly ICurrencyService _currencyService;
         private readonly IAddressBookService _addressBookService;
-        private const string _billingAddressPrefix = "BillingAddress";
-        private const string _shippingAddressPrefix = "ShippingAddresses[{0}]";
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
         private readonly CustomerContextFacade _customerContext;
         private const string CouponKey = "CouponCookieKey";
@@ -151,7 +148,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             checkoutViewModel = UpdateViewModelForMultiShipment(currentPage, viewModel);
 
+            SaveShippingAddresses(viewModel);
+
             return View(checkoutViewModel.ViewName, checkoutViewModel);
+        }
+
+        private void SaveShippingAddresses(MultiShipmentViewModel viewModel)
+        {
+            foreach (var shipment in _cartService.GetShipments())
+            {
+                ShippingAddress shippingAddress;
+                if (!HttpContext.User.Identity.IsAuthenticated)
+                {
+                    shippingAddress = viewModel.AvailableAddresses.FirstOrDefault(s => s.AddressId.Value.ToString() == shipment.ShippingAddressId);
+
+                }
+                else
+                {
+                    shippingAddress =
+                        GetAvailableShippingAddresses().FirstOrDefault(a => a.AddressId.Value.ToString() == shipment.ShippingAddressId);
+
+                }
+                SaveShippingAddress(shipment, shippingAddress);
+            }
         }
 
         private CheckoutViewModel GetAnonymousCheckoutViewModelForMultiShipment(CheckoutPage currentPage, MultiShipmentViewModel viewModel)
@@ -241,13 +260,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             if (shippingAddressUpdated)
             {
                 viewModel.ShippingAddresses[shippingAddressIndex] = updatedAddress;
-                updatedAddress.HtmlFieldPrefix = string.Format(_shippingAddressPrefix, shippingAddressIndex);
                 SaveShippingAddresses(viewModel);
             }
             else
             {
                 viewModel.BillingAddress = updatedAddress;
-                updatedAddress.HtmlFieldPrefix = _billingAddressPrefix;
                 SaveBillingAddress(viewModel);
             }
 
@@ -261,6 +278,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult OrderSummary()
         {
+            ApplyCoupons();
+
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
             _cartService.SaveCart();
 
@@ -530,8 +549,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var billingAddress = new ShippingAddress
             {
                 AddressId = customer != null ? customer.PreferredBillingAddressId : null,
-                Name = _localizationService.GetString("/Shared/Address/NewAddress"),
-                HtmlFieldPrefix = _billingAddressPrefix
+                Name = _localizationService.GetString("/Shared/Address/NewAddress")
             };
 
             // If the customer uses the same address for billing and shipment then we prepare a new empty address as shipping address
@@ -539,8 +557,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var shippingAddress = new ShippingAddress
             {
                 AddressId = (customer != null && customer.PreferredShippingAddressId != customer.PreferredBillingAddressId) ? customer.PreferredShippingAddressId : null,
-                Name = _localizationService.GetString("/Shared/Address/NewAddress"),
-                HtmlFieldPrefix = _shippingAddressPrefix
+                Name = _localizationService.GetString("/Shared/Address/NewAddress")
             };
 
             viewModel = new CheckoutViewModel
@@ -610,17 +627,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 foreach (var item in viewModel.CartItems)
                 {
-                    var anonymousShippingAddress = new ShippingAddress
+                    if (!item.AddressId.HasValue)
                     {
-                        AddressId = Guid.NewGuid(),
-                        Name = "Anonymous",
-                        HtmlFieldPrefix = _shippingAddressPrefix,
-                        CountryCode = "USA"
-                    };
+                        var anonymousShippingAddress = new ShippingAddress
+                        {
+                            AddressId = Guid.NewGuid(),
+                            Name = "Anonymous",
+                            CountryCode = "USA"
+                        };
 
-                    item.AddressId = anonymousShippingAddress.AddressId;
-                    _addressBookService.GetCountriesAndRegionsForAddress(anonymousShippingAddress);
-                    viewModel.AvailableAddresses.Add(anonymousShippingAddress);
+                        item.AddressId = anonymousShippingAddress.AddressId;
+                        _addressBookService.GetCountriesAndRegionsForAddress(anonymousShippingAddress);
+                        viewModel.AvailableAddresses.Add(anonymousShippingAddress);
+                    }
+                    else
+                    {
+                        var orderAddress = _cartService.GetOrderAddress(item.AddressId.Value);
+                        var addressModel = new ShippingAddress { AddressId = item.AddressId };
+                        _addressBookService.MapOrderAddressToModel(addressModel, orderAddress);
+                        viewModel.AvailableAddresses.Add(addressModel);
+                    }
                 }
             }
         }
@@ -794,11 +820,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 // By comparing countries, see if we can re-use the already existing regions or if we must fetch new ones.
                 if (unchangedAddress.CountryCode == updatedAddress.CountryCode)
                 {
-                    unchangedAddress.RegionOptions = updatedAddress.RegionOptions;
+                    unchangedAddress.CountryRegion.RegionOptions = updatedAddress.CountryRegion.RegionOptions;
                 }
                 else
                 {
-                    unchangedAddress.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(unchangedAddress.CountryCode);
+                    unchangedAddress.CountryRegion.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(unchangedAddress.CountryCode);
                 }
             }
         }
@@ -841,7 +867,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             orderAddress.AcceptChanges();
             _checkoutService.UpdateBillingAddressId(orderAddress.Name);
 
-            SaveToAddressBookIfNeccessary(checkoutViewModel.BillingAddress);
+            SaveToAddressBookIfNecessary(checkoutViewModel.BillingAddress);
         }
 
         /// <summary>
@@ -862,25 +888,43 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             for (int index = 0; index < shipments.Count(); index++)
             {
-                var orderAddress = _checkoutService.AddNewOrderAddress();
                 var shippingAddress = checkoutViewModel.ShippingAddresses[index];
                 var shipment = shipments.ElementAt(index);
 
-                _addressBookService.MapModelToOrderAddress(shippingAddress, orderAddress);
-                orderAddress.Name = Guid.NewGuid().ToString();
-                orderAddress.AcceptChanges();
-
-                shipment.ShippingAddressId = orderAddress.Name;
-                var shippingRate = _checkoutService.GetShippingRate(shipment, shippingAddress.ShippingMethodId);
-                _checkoutService.UpdateShipment(shipment, shippingRate);
-
-                SaveToAddressBookIfNeccessary(shippingAddress);
+                SaveShippingAddress(shipment, shippingAddress);
             }
 
             return true;
         }
 
-        private void SaveToAddressBookIfNeccessary(ShippingAddress address)
+        private void SaveShippingAddress(Shipment shipment, ShippingAddress shippingAddress)
+        {
+            var orderAddress = _checkoutService.AddNewOrderAddress();
+
+            _addressBookService.MapModelToOrderAddress(shippingAddress, orderAddress);
+
+            if (shippingAddress.AddressId.HasValue)
+            {
+                orderAddress.Name = shippingAddress.AddressId.Value.ToString();
+            }
+            else
+            {
+                orderAddress.Name = Guid.NewGuid().ToString();
+            }
+            orderAddress.AcceptChanges();
+
+            shipment.ShippingAddressId = orderAddress.Name;
+
+            if (shippingAddress.ShippingMethodId != Guid.Empty)
+            {
+                var shippingRate = _checkoutService.GetShippingRate(shipment, shippingAddress.ShippingMethodId);
+                _checkoutService.UpdateShipment(shipment, shippingRate);
+            }
+
+            SaveToAddressBookIfNecessary(shippingAddress);
+        }
+
+        private void SaveToAddressBookIfNecessary(ShippingAddress address)
         {
             if (address.SaveAddress && User.Identity.IsAuthenticated && _addressBookService.CanSave(address))
             {

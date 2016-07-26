@@ -70,7 +70,7 @@
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].PostalCode)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].City)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].CountryCode)
-                            @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].Region)
+                            @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].CountryRegion.Region)
                             @Html.HiddenFor(model => model.ShippingAddresses[addressIndex - 1].Line1)
 
                             <div class="row shipment-summary-container">

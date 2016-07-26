@@ -30,7 +30,6 @@
         <div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new { @node = @Model.StartPage.CheckoutPage })">
 
         @Html.HiddenFor(model => model.ShippingAddresses[index].Name)
-        @Html.HiddenFor(model => model.ShippingAddresses[index].HtmlFieldPrefix)
         @Html.HiddenFor(model => model.ShippingAddresses[index].DaytimePhoneNumber)
 
         @if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -39,7 +38,7 @@
             @Html.LabelFor(model => model.ShippingAddresses[index].AddressId)
             @Html.DropDownListFor(model => model.ShippingAddresses[index].AddressId,
                             new SelectList(Model.AvailableAddresses, "AddressId", "Name", Model.ShippingAddresses[index].AddressId.HasValue ? Model.ShippingAddresses[index].AddressId.ToString() : string.Empty),
-                            new { @class = "form-control jsChangeAddress", @data_toggle = "modal", @data_target = "#ModalDialog" })
+                            new { @class = "form-control jsChangeAddress"})
             </div>
         }
 
@@ -83,13 +82,13 @@
         </div>
         </div>
 
-        @{ Html.RenderPartial("_AddressRegion", Model.ShippingAddresses[index]); }
+        @Html.EditorFor(model => model.ShippingAddresses[index].CountryRegion, Model.ShippingAddresses[index].CountryRegion)
 
         <div class="form-group">
-        @Html.LabelFor(model => model.ShippingAddresses[index].CountryCode)
-        @Html.DropDownListFor(model => model.ShippingAddresses[index].CountryCode,
-                            new SelectList(Model.ShippingAddresses[index].CountryOptions, "Code", "Name", Model.ShippingAddresses[index].CountryCode), new { @class = "form-control jsChangeCountry" })
-        @Html.ValidationMessageFor(model => model.ShippingAddresses[index].CountryCode)
+            @Html.LabelFor(model => model.ShippingAddresses[index].CountryName)
+            @Html.DropDownListFor(model => model.ShippingAddresses[index].CountryCode, new SelectList(Model.ShippingAddresses[index].CountryOptions, "Code", "Name", Model.ShippingAddresses[index].CountryCode), new { @class = "form-control jsChangeCountry" })
+            @Html.ValidationMessageFor(model => model.ShippingAddresses[index].CountryCode)
+            @Html.Hidden("address-htmlfieldprefix", String.Format("ShippingAddresses[{0}].CountryRegion", index))
         </div>
 
         @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
