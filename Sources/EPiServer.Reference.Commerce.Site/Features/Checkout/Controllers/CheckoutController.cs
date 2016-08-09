@@ -580,16 +580,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var paymentMethods = _checkoutService.GetPaymentMethods();
 
             viewModel.PaymentMethodViewModels = paymentMethods;
+            var selectedPaymentMethod = viewModel.Payment == null ? paymentMethods.First() :
+                paymentMethods.Single(p => p.SystemName == viewModel.Payment.SystemName);
 
-            if (viewModel.Payment == null)
-            {
-                PaymentMethodViewModel<IPaymentOption> selectedPaymentMethod = paymentMethods.First();
-
-                viewModel.Payment = PaymentMethodViewModelResolver.Resolve(selectedPaymentMethod.SystemName);
-                viewModel.Payment.Description = selectedPaymentMethod.Description;
-                viewModel.Payment.SystemName = selectedPaymentMethod.SystemName;
-                ((PaymentMethodBase)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
-            }
+            viewModel.Payment = PaymentMethodViewModelResolver.Resolve(selectedPaymentMethod.SystemName);
+            viewModel.Payment.Description = selectedPaymentMethod.Description;
+            viewModel.Payment.SystemName = selectedPaymentMethod.SystemName;
+            ((PaymentMethodBase)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
         }
 
         private IList<ShippingAddress> GetAvailableShippingAddresses()

@@ -226,6 +226,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         public void ClearOrderAddresses()
         {
             CartHelper.Cart.OrderAddresses.Clear();
+            CartHelper.Cart.OrderAddresses.AcceptChanges();
         }
 
         public PurchaseOrder SaveCartAsPurchaseOrder()

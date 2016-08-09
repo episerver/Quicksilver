@@ -402,10 +402,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         public void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems)
         {
             var form = GetOrderForms().First();
-            foreach (var item in form.LineItems.ToArray())
-            {
-                item.Delete();
-            }
+
+            var oldLineItems = form.LineItems.ToArray();
 
             var newCartItems = cartItems
                 .GroupBy(x => new { x.AddressId, x.Code })
@@ -414,9 +412,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                     Code = x.Key.Code,
                     AddressId = x.Key.AddressId,
                     Quantity = x.Sum(item => item.Quantity),
-                    DisplayName = x.First().DisplayName,
-                    PlacedPrice = x.First().PlacedPrice
+                    DisplayName = oldLineItems.FirstOrDefault(c => c.Code.Equals(x.Key.Code, StringComparison.OrdinalIgnoreCase)).DisplayName,
+                    PlacedPrice = oldLineItems.FirstOrDefault(c => c.Code.Equals(x.Key.Code, StringComparison.OrdinalIgnoreCase)).PlacedPrice
                 });
+
+            foreach (var item in oldLineItems)
+            {
+                item.Delete();
+            }
 
             foreach (var item in newCartItems)
             {
