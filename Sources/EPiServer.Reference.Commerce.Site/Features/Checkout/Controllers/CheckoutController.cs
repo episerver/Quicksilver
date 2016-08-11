@@ -629,26 +629,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 foreach (var item in viewModel.CartItems)
                 {
-                    if (!item.AddressId.HasValue)
+                    var anonymousShippingAddress = new ShippingAddress
                     {
-                        var anonymousShippingAddress = new ShippingAddress
-                        {
-                            AddressId = Guid.NewGuid(),
-                            Name = "Anonymous",
-                            CountryCode = "USA"
-                        };
+                        AddressId = Guid.NewGuid(),
+                        Name = "Anonymous",
+                        CountryCode = "USA"
+                    };
 
-                        item.AddressId = anonymousShippingAddress.AddressId;
-                        _addressBookService.GetCountriesAndRegionsForAddress(anonymousShippingAddress);
-                        viewModel.AvailableAddresses.Add(anonymousShippingAddress);
-                    }
-                    else
-                    {
-                        var orderAddress = _cartService.GetOrderAddress(item.AddressId.Value);
-                        var addressModel = new ShippingAddress { AddressId = item.AddressId };
-                        _addressBookService.MapOrderAddressToModel(addressModel, orderAddress);
-                        viewModel.AvailableAddresses.Add(addressModel);
-                    }
+                    item.AddressId = anonymousShippingAddress.AddressId;
+                    _addressBookService.GetCountriesAndRegionsForAddress(anonymousShippingAddress);
+                    viewModel.AvailableAddresses.Add(anonymousShippingAddress);
                 }
             }
         }
