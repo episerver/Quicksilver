@@ -60,6 +60,7 @@
       </VariationSelection>
     </ProductPage>
     <Checkout>
+      <EmptyCart>Din varukorg är tom.</EmptyCart>
       <Coupons>
         <Heading>Kuponger och Kampanjkoder</Heading>
         <CouponCode>

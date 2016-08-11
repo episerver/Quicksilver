@@ -845,6 +845,7 @@
     <Content Include="App_Code\Helpers.cshtml" />
     <Content Include="Views\AddressBook\ModalAddressDialog.cshtml" />
     <Content Include="Views\AddressBook\EditAddress.cshtml" />
+    <Content Include="Views\Checkout\EmptyCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

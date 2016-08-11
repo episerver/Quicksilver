@@ -89,12 +89,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = 0, NoStore = true)]
         public ActionResult Index(CheckoutPage currentPage)
         {
-            var currency = _currencyService.GetCurrentCurrency();
-            if (currency != _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency)
+            var cartHelper = _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName);
+            if (cartHelper.IsEmpty)
             {
-                _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.BillingCurrency = currency;
+                return View("EmptyCart");
+            }
+            var currency = _currencyService.GetCurrentCurrency();
+            if (currency != cartHelper.Cart.BillingCurrency)
+            {
+                cartHelper.Cart.BillingCurrency = currency;
                 _cartService.SaveCart();
             }
 
@@ -451,26 +457,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 return View(checkoutViewModel.ViewName, checkoutViewModel);
             }
 
-            return Finish(checkoutViewModel.CurrentPage);
+            var purchaseOrder = PlaceOrder();
+            var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink);
+            var startPage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
+
+            var queryCollection = new NameValueCollection
+            {
+                {"contactId", _customerContext.CurrentContactId.ToString()},
+                {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
+            };
+
+            SendConfirmationEmail(purchaseOrder, startPage.OrderConfirmationMail, confirmationPage.Language.Name, queryCollection);
+
+            return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
         /// <summary>
         /// Finalizes a purchase orders and send an e-mail confirmation to the customer.
         /// </summary>
-        /// <param name="currentPage">The checkout content page.</param>
         /// <returns>The confirmation view for the purchase order.</returns>
-        [HttpGet]
-        public ActionResult Finish(CheckoutPage currentPage)
+        private PurchaseOrder PlaceOrder()
         {
-            if (!_cartService.GetCartItems().Any())
-            {
-                return RedirectToAction("Index");
-            }
 
-            var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
-            var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(currentPage.ContentLink);
             PurchaseOrder purchaseOrder = null;
-            string emailAddress = null;
             OrderForm orderForm = _cartService.GetOrderForms().First();
             decimal totalProcessedAmount = orderForm.Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString())).Sum(x => x.Amount);
 
@@ -487,17 +496,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             _checkoutService.DeleteCart();
 
-            emailAddress = purchaseOrder.OrderAddresses.First().Email;
+            _cookieService.Remove(CouponKey);
+            return purchaseOrder;
+        }
 
-            var queryCollection = new NameValueCollection
-            {
-                {"contactId", _customerContext.CurrentContactId.ToString()},
-                {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
-            };
+        private void SendConfirmationEmail(PurchaseOrder purchaseOrder, PageReference confirmationEmail, string language, NameValueCollection queryCollection)
+        {
+            var emailAddress = purchaseOrder.OrderAddresses.First().Email;
 
             try
             {
-                _mailService.Send(startpage.OrderConfirmationMail, queryCollection, emailAddress, currentPage.Language.Name);
+                _mailService.Send(confirmationEmail, queryCollection, emailAddress, language);
             }
             catch (Exception)
             {
@@ -508,10 +517,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
                 // Todo: Log the error and raise an alert so that an administrator can look in to it.
             }
-
-            _cookieService.Remove(CouponKey);
-
-            return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
         public ActionResult OnPurchaseException(ExceptionContext filterContext)
@@ -612,7 +617,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             viewModel.StartPage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
             viewModel.AvailableAddresses = GetAvailableShippingAddresses();
-            viewModel.ReferrerUrl = GetReferrerUrl();
+            viewModel.ReferrerUrl = _urlResolver.GetUrl(ContentReference.StartPage);
 
             foreach (var item in viewModel.CartItems)
             {
@@ -669,6 +674,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                         address.Organization == currentAddress.Organization &&
                         address.PostalCode == currentAddress.PostalCode &&
                         address.City == currentAddress.City &&
+                        address.CountryRegion.Region == currentAddress.CountryRegion.Region &&
                         address.CountryCode == currentAddress.CountryCode)
                     {
                         foreach (var item in viewModel.CartItems.Where(x => x.AddressId == currentAddress.AddressId))
@@ -770,7 +776,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             if (HttpContext.Request.Url != null)
             {
                 if (HttpContext.Request.UrlReferrer != null &&
-                    HttpContext.Request.UrlReferrer.Host.Equals(HttpContext.Request.Url.Host, StringComparison.OrdinalIgnoreCase))
+                    HttpContext.Request.UrlReferrer.Host.Equals(HttpContext.Request.Url.Host, StringComparison.OrdinalIgnoreCase) &&
+                    !HttpContext.Request.Url.Equals(HttpContext.Request.UrlReferrer))
                 {
                     return HttpContext.Request.UrlReferrer.ToString();
                 }

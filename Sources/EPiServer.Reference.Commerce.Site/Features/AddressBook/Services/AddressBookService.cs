@@ -50,6 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             address.Modified = customerAddress.Modified;
             address.Name = customerAddress.Name;
             address.DaytimePhoneNumber = customerAddress.DaytimePhoneNumber;
+            GetCountriesAndRegionsForAddress(address);
         }
 
         public void MapOrderAddressToModel(Address address, OrderAddress orderAddress)
@@ -71,6 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
             address.Modified = orderAddress.Modified;
             address.Name = orderAddress.Name;
             address.DaytimePhoneNumber = orderAddress.DaytimePhoneNumber;
+            GetCountriesAndRegionsForAddress(address);
         }
 
         public void MapModelToOrderAddress(Address address, OrderAddress orderAddress)

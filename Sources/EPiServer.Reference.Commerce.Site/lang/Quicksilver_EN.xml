@@ -60,6 +60,7 @@
       </VariationSelection>
     </ProductPage>
     <Checkout>
+      <EmptyCart>Your cart is empty.</EmptyCart>
       <Coupons>
         <Heading>Coupons and Promotional Codes</Heading>
         <CouponCode>
