@@ -105,26 +105,28 @@
 		<Grids>
 			<add>
 				<Grid placeName="OrderLineItem-List">
-					<Columns>
-						<Column columnType="CheckBox" width="25" dataField="LineItemId"/>
-						<Column width="50" headingText="" columnType="Action" dataField="LineItemId">
-							<Item imageUrl="~/Apps/Shell/Styles/images/edit.gif" commandName="cmdOrderLineItemGridEdit" commandParameters="LineItemId,ShipmentId" toolTip="Edit" permissions="order:mng:edit"></Item>
-							<Item imageUrl="~/Apps/Shell/Styles/images/move.png" commandName="cmdOrderLineItemGridMove" commandParameters="LineItemId,ShipmentId" toolTip="Move" permissions="order:mng:split:shipments"></Item>
-						</Column>
-						<Column visible="false" allowSorting="true" dataField="ShipmentId" headingText=""></Column>
-						<Column visible="false" allowSorting="true" dataField="LineItemId" headingText="{SharedStrings:LineItemId}"></Column>
-						<Column width="150" visible="true" allowSorting="false" dataField="CatalogEntryId" headingText="{SharedStrings:ID}"></Column>
-						<Column width="400" visible="true" allowSorting="false" dataField="DisplayName" headingText="{SharedStrings:Name}"></Column>
-						<Column width="60" visible="true" allowSorting="false" dataField="Quantity" headingText="{SharedStrings:Quantity}" formatString="{0:#0.00}"></Column>
-						<Column width="70" visible="true" allowSorting="false" dataField="ListPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:List_Price}"></Column>
-						<Column width="70" visible="true" allowSorting="false" dataField="PlacedPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:Placed_Price}"></Column>
-						<Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total_Discount}" Align="Center" columnType="CustomTemplate">
-							<Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/LineItemDiscountTemplate.ascx"></Template>
-						</Column>
-						<Column width="180" visible="true" allowSorting="false" dataField="CustomDiscountDescr" headingText="{SharedStrings:Discount_Descr}"></Column>
-						<Column width="70" visible="true" allowSorting="false" dataField="ExtendedPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:Total}"></Column>
+          <Columns>
+            <Column columnType="CheckBox" width="25" dataField="LineItemId"/>
+            <Column width="50" headingText="" columnType="Action" dataField="LineItemId">
+              <Item imageUrl="~/Apps/Shell/Styles/images/edit.gif" commandName="cmdOrderLineItemGridEdit" commandParameters="LineItemId,ShipmentId" toolTip="Edit" permissions="order:mng:edit"></Item>
+              <Item imageUrl="~/Apps/Shell/Styles/images/move.png" commandName="cmdOrderLineItemGridMove" commandParameters="LineItemId,ShipmentId" toolTip="Move" permissions="order:mng:split:shipments"></Item>
+            </Column>
+            <Column visible="false" allowSorting="true" dataField="ShipmentId" headingText=""></Column>
+            <Column visible="false" allowSorting="true" dataField="LineItemId" headingText="{SharedStrings:LineItemId}"></Column>
+            <Column width="150" visible="true" allowSorting="false" dataField="CatalogEntryId" headingText="{SharedStrings:ID}"></Column>
+            <Column width="400" visible="true" allowSorting="false" dataField="DisplayName" headingText="{SharedStrings:Name}"></Column>
+            <Column width="60" visible="true" allowSorting="false" dataField="Quantity" headingText="{SharedStrings:Quantity}" formatString="{0:#0.00}"></Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="ListPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:List_Price}"></Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="PlacedPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:Placed_Price}"></Column>
+            <Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total_Discount}" Align="Center" columnType="CustomTemplate">
+              <Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/LineItemDiscountTemplate.ascx"></Template>
+            </Column>
+            <Column width="180" visible="true" allowSorting="false" dataField="CustomDiscountDescr" headingText="{SharedStrings:Discount_Descr}"></Column>
+            <Column width="70" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total}" Align="Center" columnType="CustomTemplate">
+              <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
+            </Column>
             <Column width="180" visible="true" allowSorting="true" dataField="Warehouse" headingText="{OrderStrings:Fulfillment_Warehouse}"></Column>
-					</Columns>
+          </Columns>
 				</Grid>
 				<Grid placeName="OrderPayment-List">
 					<Columns>

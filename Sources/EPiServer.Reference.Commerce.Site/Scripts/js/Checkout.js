@@ -5,6 +5,7 @@
             .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
+            .on('click', '.jsNewAddress', Checkout.newAddress)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
             .on('click', '.remove-shipping-address', Checkout.removeShippingAddress)
             .on('click', '.js-add-couponcode', Checkout.addCouponCode)
@@ -25,11 +26,12 @@
     addCouponCode: function (e) {
         e.preventDefault();
         var couponCode = $(inputCouponCode).val();
+        var viewName = $(ViewName).val();
         if (couponCode.trim()) {
             $.ajax({
                 type: "POST",
                 url: $(this).data("url"),
-                data: { couponCode: couponCode },
+                data: { couponCode: couponCode, viewName: viewName },
                 success: function (result) {
                     if (!result) {
                         $('.couponcode-errormessage').show();
@@ -44,10 +46,11 @@
     },
     removeCouponCode: function (e) {
         e.preventDefault();
+        var viewName = $(ViewName).val();
         $.ajax({
             type: "POST",
             url: $(this).attr("href"),
-            data: { couponCode: $(this).siblings().text() },
+            data: { couponCode: $(this).siblings().text(), viewName: viewName },
             success: function (result) {
                 $("#CheckoutView").replaceWith($(result));
                 Checkout.initializeAddressAreas();
@@ -59,20 +62,22 @@
         var view = $("#CheckoutView");
 
         if (view.length == 0) {
-            return
+            return;
         }
-
-        var form = $("#CheckoutViewRefreshForm");
-
+        var url = view.data('url');
         $.ajax({
             cache: false,
             type: "GET",
-            url: form[0].action,
+            url: view.data('url'),
             success: function (result) {
                 view.replaceWith($(result));
                 Checkout.initializeAddressAreas();
             }
         });
+    },
+    newAddress: function (e) {
+        e.preventDefault();
+        AddressBook.showNewAddressDialog($(this));
     },
     changeAddress: function () {
 
@@ -81,12 +86,18 @@
 
         $.ajax({
             type: "POST",
-            chache: false,
             url: $(this).closest('.jsCheckoutAddress').data('url'),
             data: form.serialize(),
             success: function (result) {
-                $("#AddressContainer").replaceWith($(result));
+                $("#AddressContainer").html($(result));
                 Checkout.initializeAddressAreas();
+                $.ajax({
+                    type: "POST",
+                    url: $('.jsOrderSummary').data('url'),
+                    success: function (result) {
+                        $(".jsOrderSummary").html($(result));
+                    }
+                });
             }
         });
     },

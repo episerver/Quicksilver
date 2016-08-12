@@ -40,21 +40,23 @@
 		<Grids>
 			<add>
 				<Grid placeName="ReturnOrderLineItem-List">
-					<Columns>
-						<Column visible="false" allowSorting="true" dataField="LineItemId" headingText="{SharedStrings:LineItemId}"></Column>
-						<Column width="150" visible="true" allowSorting="false" dataField="CatalogEntryId" headingText="{SharedStrings:ID}"></Column>
-						<Column width="400" visible="true" allowSorting="false" dataField="DisplayName" headingText="{SharedStrings:Name}"></Column>
-						<Column width="60" visible="true" allowSorting="false" dataField="ReturnQuantity" formatString="{0:#0.00}" headingText="{SharedStrings:Quantity}"></Column>
-						<Column width="70" visible="true" allowSorting="false" dataField="ListPrice" columnType="Currency" headingText="{SharedStrings:List_Price}" currencyCodeField="Parent.Parent.BillingCurrency" ></Column>
-						<Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Placed_Price}" columnType="CustomTemplate">
-							<Template id="PlacedPriceTemplate" controlUrl="GridTemplates/PlacedPriceTemplate.ascx"></Template>
-						</Column>
-						<Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total_Discount}" columnType="CustomTemplate">
-							<Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/LineItemDiscountTemplate.ascx"></Template>
-						</Column>
-						<Column width="70" visible="true" allowSorting="false" dataField="ExtendedPrice" formatString="{0:#0.00}" headingText="{SharedStrings:Total}" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" ></Column>
-						<Column width="120" visible="true" allowSorting="false" dataField="ReturnReason" headingText="{SharedStrings:Reason}"></Column>
-					</Columns>
+          <Columns>
+            <Column visible="false" allowSorting="true" dataField="LineItemId" headingText="{SharedStrings:LineItemId}"></Column>
+            <Column width="150" visible="true" allowSorting="false" dataField="CatalogEntryId" headingText="{SharedStrings:ID}"></Column>
+            <Column width="400" visible="true" allowSorting="false" dataField="DisplayName" headingText="{SharedStrings:Name}"></Column>
+            <Column width="60" visible="true" allowSorting="false" dataField="ReturnQuantity" formatString="{0:#0.00}" headingText="{SharedStrings:Quantity}"></Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="ListPrice" columnType="Currency" headingText="{SharedStrings:List_Price}" currencyCodeField="Parent.Parent.BillingCurrency" ></Column>
+            <Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Placed_Price}" columnType="CustomTemplate">
+              <Template id="PlacedPriceTemplate" controlUrl="GridTemplates/PlacedPriceTemplate.ascx"></Template>
+            </Column>
+            <Column width="100" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total_Discount}" columnType="CustomTemplate">
+              <Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/ReturnFormLineItemDiscountTemplate.ascx"></Template>
+            </Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="LineItemId" headingText="{SharedStrings:Total}" columnType="CustomTemplate">
+              <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
+            </Column>
+            <Column width="120" visible="true" allowSorting="false" dataField="ReturnReason" headingText="{SharedStrings:Reason}"></Column>
+          </Columns>
 				</Grid>
 			</add>
 		</Grids>

@@ -2,6 +2,7 @@
     init: function () {
 
         $(document)
+            .on('keypress', '.jsChangeCartItem', Cart.preventSubmit)
             .on('click', '.jsRemoveCartItem', Cart.removeCartItem)
             .on('change', '.jsChangeCartItem', Cart.changeCartItem)
             .on('click', '.jsAddToCart', Cart.addCartItem)
@@ -98,7 +99,10 @@
                     // If items where added to the cart from the wishlist view, they should be removed from the view.
                     var wishListAction = form.closest(".wishlist-actions");
                     if (wishListAction.length > 0) {
-                        wishListAction.closest(".product").remove();
+                        wishListAction.closest(".jsProductTile").remove();
+                        if (!$(".jsProductTile").length) {
+                            $(".wishlist-noitem").show();
+                        }
                     }
 
                     // If items were added to the cart while the same item exists in the wishlist, they should be removed
@@ -114,6 +118,11 @@
                 $("#CartWarningMessage").show();
             }
         });
+    },
+    preventSubmit: function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+        }
     },
     refreshWishList: function () {
 

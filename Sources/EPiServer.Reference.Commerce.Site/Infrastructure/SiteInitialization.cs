@@ -40,7 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
             GlobalFilters.Filters.Add(new ReadOnlyFilter());
 
-            context.Locate.DisplayChannelService().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
+            context.Locate.Advanced.GetInstance<IDisplayChannelService>().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
             {
                 ContextCondition = r => r.GetOverriddenBrowser().IsMobileDevice
             });

@@ -120,7 +120,9 @@
               <Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/LineItemDiscountTemplate.ascx"></Template>
             </Column>
             <Column width="180" visible="true" allowSorting="false" dataField="CustomDiscountDescr" headingText="{SharedStrings:Discount_Descr}"></Column>
-            <Column width="70" visible="true" allowSorting="false" dataField="ExtendedPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:Total}"></Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="LineItemId" headingText="{SharedStrings:Total}" columnType="CustomTemplate">
+              <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
+            </Column>
             <Column width="180" visible="true" allowSorting="true" dataField="Warehouse" headingText="{OrderStrings:Fulfillment_Warehouse}"></Column>
           </Columns>
         </Grid>

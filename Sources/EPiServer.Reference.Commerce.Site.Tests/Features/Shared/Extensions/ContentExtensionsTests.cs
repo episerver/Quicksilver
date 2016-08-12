@@ -4,35 +4,35 @@ using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 {
-    [TestClass]
     public class ContentExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void GetUrl_WhenVariationHasNoCode_ShouldReturnBaseUrl()
         {
             var variant = new VariationContent();
 
             var result = ContentExtensions.GetUrl(variant, _linkRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.AreEqual<string>(_url, result);
+            Assert.Equal<string>(_url, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetUrl_WhenVariationHasCode_ShouldReturnUrlWithQuery()
         {
             var variant = new VariationContent {Code = "code"};
 
             var result = ContentExtensions.GetUrl(variant, _linkRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.AreEqual<string>(_url + "?variationCode=" + variant.Code, result);
+            Assert.Equal<string>(_url + "?variationCode=" + variant.Code, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetUrl_WhenNoRelationExists_ShouldReturnEmptyString()
         {
             _linkRepositoryMock
@@ -43,15 +43,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 
             var result = ContentExtensions.GetUrl(variant, _linkRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.AreEqual<string>(string.Empty, result);
+            Assert.Equal<string>(string.Empty, result);
         }
 
         private Mock<ILinksRepository> _linkRepositoryMock;
         private Mock<UrlResolver> _urlResolverMock;
         private string _url;
 
-        [TestInitialize]
-        public void Setup()
+
+        public ContentExtensionsTests()
         {
             _linkRepositoryMock = new Mock<ILinksRepository>();
             _linkRepositoryMock.Setup(x => x.GetRelationsByTarget<ProductVariation>(It.IsAny<ContentReference>()))

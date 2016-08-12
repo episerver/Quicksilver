@@ -5,16 +5,15 @@ using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using FluentAssertions;
 using Mediachase.Commerce;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Web.Mvc;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 {
-    [TestClass]
     public class SearchControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_ShouldReturnViewModel()
         {
             var result = ((ViewResult)_subject.Index(new SearchPage(), new FilterOptionFormModel())).Model as SearchViewModel<SearchPage>;
@@ -25,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuickSearch_WhenSearch_ShouldReturnIEnumerableProductViewModel()
         {
             var result = ((ViewResult)_subject.QuickSearch("test")).Model as ProductViewModel[];
@@ -34,8 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                 new ProductViewModel
                 {
                     DisplayName = "Test",
-                    PlacedPrice = new Money(10m, Currency.USD),
-                    ExtendedPrice = new Money(10m, Currency.USD)
+                    PlacedPrice = 10,
+                    ExtendedPrice = new Money(10, Currency.USD)
                 }
             };
             result.ShouldAllBeEquivalentTo(expectedResult);
@@ -45,8 +44,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         Mock<SearchViewModelFactory> _searchViwModelFactoryMock;
         Mock<ISearchService> _searchServiceMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public SearchControllerTests()
         {
             _searchServiceMock = new Mock<ISearchService>();
             _searchViwModelFactoryMock = new Mock<SearchViewModelFactory>(null,null);
@@ -65,8 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                     new ProductViewModel
                     {
                         DisplayName = "Test",
-                        PlacedPrice = new Money(10m, Currency.USD),
-                        ExtendedPrice = new Money(10m, Currency.USD)
+                        PlacedPrice = 10,
+                        ExtendedPrice = new Money(10, Currency.USD)
                     }
                 });
             _subject = new SearchController(_searchViwModelFactoryMock.Object, _searchServiceMock.Object);

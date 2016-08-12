@@ -1,28 +1,28 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 {
-    [TestClass]
     public class CategoryControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenNotAjaxRequest_ShouldReturnViewResult()
         {
             // Act
             var result = _subject.Index(null, null);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsType(typeof(ViewResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenAjaxRequest_ShouldReturnPartialView()
         {
             // Arrange
@@ -33,10 +33,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             var result = _subject.Index(null, null);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsType(typeof(PartialViewResult), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenPassingFashionNode_ShouldPassItOnToFactory()
         {
             // Arrange
@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             _viewModelFactoryMock.Verify(v => v.Create(fashionNode, It.IsAny<FilterOptionFormModel>()));
         }
 
-        [TestMethod]
+        [Fact]
         public void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
         {
             // Arrange
@@ -66,8 +66,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         Mock<SearchViewModelFactory> _viewModelFactoryMock;
         Mock<HttpRequestBase> _httpRequestMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public CategoryControllerTests()
         {
             _viewModelFactoryMock = new Mock<SearchViewModelFactory>(null, null);
             _httpRequestMock = new Mock<HttpRequestBase>();

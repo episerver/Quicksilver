@@ -1,14 +1,15 @@
-using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
+using System;
+using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
     public interface ICartService
     {
         decimal GetLineItemsTotalQuantity();
-        IEnumerable<CartItem> GetCartItems();
+        CartItem[] GetCartItems();
         Money GetSubTotal();
         Money GetTotal();
         Money GetShippingSubTotal();
@@ -20,14 +21,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         Money GetShippingDiscountTotal();
         Money ConvertToMoney(decimal amount);
         IEnumerable<OrderForm> GetOrderForms();
+        IEnumerable<Shipment> GetShipments();
         bool AddToCart(string code, out string warningMessage);
         void ChangeQuantity(string code, decimal quantity);
         void RemoveLineItem(string code);
         void RunWorkflow(string workFlowName);
+        void RunWorkflow(string workFlowName, Dictionary<string, object> context);
         void SaveCart();
         void DeleteCart();
         void InitializeAsWishList();
         void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
         void SetCartCurrency(Currency currency);
+        void ResetLineItemAddresses();
+        void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems);
+        OrderAddress GetOrderAddress(Guid addressId);
     }
 }

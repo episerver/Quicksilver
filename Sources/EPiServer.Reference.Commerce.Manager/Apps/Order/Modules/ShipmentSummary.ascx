@@ -13,7 +13,23 @@
 						<asp:Label ID="Label4" runat="server" Text="<%$ Resources:OrderStrings, Item_Subtotal %>"></asp:Label>:
 					</td>
 					<td valign="top">
-						<asp:Label ID="lblSubTotal" runat="server"></asp:Label>
+						<asp:Label ID="lblItemsSubTotal" runat="server"></asp:Label>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="font-weight:bold; text-align:right;">
+						<asp:Label ID="Label5" runat="server" Text="<%$ Resources:OrderStrings, Order_Level_Discounts %>"></asp:Label>:
+					</td>
+					<td valign="top">
+						<asp:Label ID="lblOrderLevelDiscount" runat="server"></asp:Label>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="font-weight:bold; text-align:right;">
+						<asp:Label ID="Label9" runat="server" Text="<%$ Resources:OrderStrings, Order_Subtotal %>"></asp:Label>:
+					</td>
+					<td valign="top">
+						<asp:Label ID="lblOrderSubTotal" runat="server"></asp:Label>
 					</td>
 				</tr>
 				<tr>

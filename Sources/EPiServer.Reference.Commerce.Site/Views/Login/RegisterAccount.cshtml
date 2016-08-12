@@ -71,12 +71,13 @@
                 @Html.ValidationMessageFor(x => x.Address.City)
             </div>
         </div>
-        { Html.RenderPartial("_AddressRegion", Model.Address); }
+        @Html.EditorFor(model => model.Address.CountryRegion, Model.Address.CountryRegion)
 
         <div class="form-group">
             @Html.LabelFor(x => x.Address.CountryCode)
             @Html.DropDownListFor(x => x.Address.CountryCode, new SelectList(Model.Address.CountryOptions, "Code", "Name", Model.Address.CountryCode), new { @class = "form-control jsChangeCountry" })
             @Html.ValidationMessageFor(x => x.Address.CountryCode)
+            @Html.Hidden("address-htmlfieldprefix", "Address")
         </div>
         <div class="checkbox">
             <label>

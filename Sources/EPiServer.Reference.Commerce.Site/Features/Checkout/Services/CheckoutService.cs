@@ -1,4 +1,8 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -10,8 +14,6 @@ using Mediachase.MetaDataPlus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
@@ -24,9 +26,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         private readonly CountryManagerFacade _countryManager;
 
         public CheckoutService(
-            Func<string, CartHelper> cartHelper, 
-            ICurrentMarket currentMarket, 
-            LanguageService languageService, 
+            Func<string, CartHelper> cartHelper,
+            ICurrentMarket currentMarket,
+            LanguageService languageService,
             CountryManagerFacade countryManager)
         {
             _cartHelper = cartHelper;
@@ -35,7 +37,67 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             _countryManager = countryManager;
         }
 
-        public Shipment CreateShipment()
+        /// <summary>
+        /// Removes any existing shipments from the order form and then creates a new
+        /// shipment for each unique address in the <paramref name="cartItems"/> collection.
+        /// </summary>
+        /// <param name="cartItems">The items in the current cart.</param>
+        /// <param name="shippingAddresses">The shipping addresses for the current order.</param>
+        /// <returns>A collection of the created shipment.</returns>
+        public IEnumerable<Shipment> CreateShipments(IEnumerable<CartItem> cartItems, IEnumerable<ShippingAddress> shippingAddresses)
+        {
+            var orderForm = InitializeOrderForm();
+
+            foreach (var address in shippingAddresses)
+            {
+                CreateShipment(orderForm, address.AddressId, address.ShippingMethodId);
+            }
+
+            for (int shipmentIndex = 0; shipmentIndex < orderForm.Shipments.Count; shipmentIndex++)
+            {
+                for (int index = 0; index < orderForm.LineItems.Count; index++)
+                {
+                    if (orderForm.LineItems[index].ShippingAddressId == shippingAddresses.ElementAt(shipmentIndex).AddressId.ToString()
+                        || orderForm.LineItems[index].ShippingAddressId == string.Empty)
+                    {
+                        orderForm.Shipments[shipmentIndex].AddLineItemIndex(index, orderForm.LineItems[index].Quantity);
+                    }
+                }
+            }
+
+            orderForm.AcceptChanges();
+
+            CartHelper.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
+
+            return orderForm.Shipments;
+        }
+
+        private void CreateShipment(OrderForm orderForm, Guid? addressId, Guid shippingMethodId)
+        {
+            var shipment = orderForm.Shipments.AddNew();
+            ShippingRate rate = null;
+
+            if (shippingMethodId != Guid.Empty)
+            {
+                rate = GetShippingRate(shipment, shippingMethodId);
+            }
+            else
+            {
+                var existingRates = this.GetShippingRates(shipment);
+                var defaultRate = existingRates.First();
+
+                rate = defaultRate;
+            }
+
+            if (addressId.HasValue)
+            {
+                shipment.ShippingAddressId = addressId.Value.ToString();
+            }
+
+            UpdateShipment(shipment, rate);
+        }
+
+        private OrderForm InitializeOrderForm()
         {
             if (CartHelper.Cart.ObjectState == MetaObjectState.Added)
             {
@@ -49,24 +111,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 orderForms.Single().Name = CartHelper.Cart.Name;
             }
 
-            var orderForm = orderForms.First();
+            OrderForm orderForm = orderForms.First();
 
-            var shipments = orderForm.Shipments;
-            if (shipments.Count != 0)
+            if (orderForm.Shipments.Count != 0)
             {
-                shipments.Clear();
+                orderForm.Shipments.Clear();
             }
 
-            var shipment = shipments.AddNew();
-            for (var i = 0; i < orderForm.LineItems.Count; i++)
-            {
-                var item = orderForm.LineItems[i];
-                shipment.AddLineItemIndex(i, item.Quantity);
-            }
-
-            orderForm.AcceptChanges();
-
-            return shipment;
+            return orderForm;
         }
 
         public void UpdateShipment(Shipment shipment, ShippingRate shippingCost)
@@ -139,7 +191,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             {
                 address.Delete();
             }
-            
+
             CartHelper.Delete();
 
             cart.AcceptChanges();
@@ -162,7 +214,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
         public OrderAddress AddNewOrderAddress()
         {
-            return  CartHelper.Cart.OrderAddresses.AddNew();
+            return CartHelper.Cart.OrderAddresses.AddNew();
         }
 
         public void UpdateBillingAddressId(string addressId)
@@ -174,6 +226,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         public void ClearOrderAddresses()
         {
             CartHelper.Cart.OrderAddresses.Clear();
+            CartHelper.Cart.OrderAddresses.AcceptChanges();
         }
 
         public PurchaseOrder SaveCartAsPurchaseOrder()

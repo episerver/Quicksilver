@@ -9,67 +9,68 @@ using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce.Website.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using Mediachase.Commerce.Orders;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 {
-    [TestClass]
     public class CheckoutControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void OnException_ShouldDelegateToExceptionHandler()
         {
             var testController = CreateTestController();
             testController.CallOnException(_exceptionContext);
 
-            _controllerExceptionHandler.Verify(x => x.HandleRequestValidationException(_exceptionContext, "purchase", testController.OnPurchaseException));
+            _controllerExceptionHandlerMock.Verify(x => x.HandleRequestValidationException(_exceptionContext, "purchase", testController.OnPurchaseException));
         }
 
-        [TestMethod]
+        [Fact]
         public void OnPurchaseException_WhenRoutedDataIsntSet_ShouldReturnEmptyResult()
         {
             Setup_RequestContext_to_contain_routed_data(null);
             Setup_exception(new HttpRequestValidationException());
 
             var result = _subject.OnPurchaseException(_exceptionContext);
-            Assert.IsInstanceOfType(result, typeof(EmptyResult));
+            Assert.IsType(typeof(EmptyResult), result);
         }
 
-        Mock<HttpRequestBase> _httpRequestBase;
-        Mock<HttpContextBase> _httpContextBase;
-        Mock<RequestContext> _requestContext;
+        Mock<HttpRequestBase> _httpRequestBaseMock;
+        Mock<HttpContextBase> _httpContextBaseMock;
+        Mock<RequestContext> _requestContextMock;
         ExceptionContext _exceptionContext;
-        Mock<ControllerExceptionHandler> _controllerExceptionHandler;
+        Mock<ControllerExceptionHandler> _controllerExceptionHandlerMock;
         CheckoutController _subject;
 
-        [TestInitialize]
-        public void Setup()
-        {
-            _controllerExceptionHandler = new Mock<ControllerExceptionHandler>();
-            _requestContext = new Mock<RequestContext>();
-            _httpRequestBase = new Mock<HttpRequestBase>();
 
-            _httpContextBase = new Mock<HttpContextBase>();
-            _httpContextBase.Setup(x => x.Request).Returns(_httpRequestBase.Object);
+        public CheckoutControllerTests()
+        {
+            _controllerExceptionHandlerMock = new Mock<ControllerExceptionHandler>();
+            _requestContextMock = new Mock<RequestContext>();
+            _httpRequestBaseMock = new Mock<HttpRequestBase>();
+
+            _httpContextBaseMock = new Mock<HttpContextBase>();
+            _httpContextBaseMock.Setup(x => x.Request).Returns(_httpRequestBaseMock.Object);
 
             _exceptionContext = new ExceptionContext
             {
-                HttpContext = _httpContextBase.Object,
-                RequestContext = _requestContext.Object
+                HttpContext = _httpContextBaseMock.Object,
+                RequestContext = _requestContextMock.Object
             };
 
-            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null, null);
+            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null);
         }
 
         private CheckoutControllerForTest CreateTestController()
         {
-            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandler.Object, null, null);
+            return new CheckoutControllerForTest(null, null, null, null, null, null, null, null, null, null, null, _controllerExceptionHandlerMock.Object, null, null);
         }
 
         private void Setup_RequestContext_to_contain_routed_data(object rotedData)
@@ -77,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             var routeData = new RouteData();
             routeData.DataTokens.Add(RoutingConstants.RoutedDataKey, rotedData);
 
-            _requestContext.Setup(x => x.RouteData).Returns(routeData);
+            _requestContextMock.Setup(x => x.RouteData).Returns(routeData);
         }
 
         private void Setup_exception(Exception exception)
@@ -97,8 +98,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 IPaymentService paymentService, 
                 LocalizationService localizationService, 
                 Func<string, CartHelper> cartHelper, 
-                CurrencyService currencyService, 
-                AddressBookService addressBookService, 
+                ICurrencyService currencyService, 
+                IAddressBookService addressBookService, 
                 ControllerExceptionHandler controllerExceptionHandler, 
                 CustomerContextFacade customerContextFacade,
                 CookieService cookieService)

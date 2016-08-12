@@ -24,5 +24,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
         void MapModelToOrderAddress(Address viewModel, OrderAddress orderAddress);
         void MapOrderAddressToModel(Address viewModel, OrderAddress orderAddress);
         void MapCustomerAddressToModel(Address address, CustomerAddress customerAddress);
+        IList<ShippingAddress> GetAvailableShippingAddresses();
     }
 }

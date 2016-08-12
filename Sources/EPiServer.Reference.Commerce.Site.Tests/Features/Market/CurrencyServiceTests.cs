@@ -1,25 +1,24 @@
 ﻿using System.Linq;
 using Mediachase.Commerce;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 {
-    [TestClass]
     public class CurrencyServiceTests
     {
-        [TestMethod]
+        [Fact]
         public void GetAvailableCurrencies_ShouldReturnAllCurrenciesForCurrentMarket()
         {
             _marketMock.Setup(x => x.Currencies).Returns(() => new[] { new Currency("USD"), new Currency("SEK") });
           
             var currencies = _subject.GetAvailableCurrencies();
 
-            Assert.AreEqual<int>(2, currencies.Count());
+            Assert.Equal<int>(2, currencies.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCurrentCurrency_WhenCookieDoesNotExist_ShouldReturnDefaultCurrency()
         {
             _cookieServiceMock.Setup(x => x.Get(It.IsAny<string>())).Returns(() => null);
@@ -27,10 +26,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 
             var currentCurrency = _subject.GetCurrentCurrency();
 
-            Assert.AreEqual<Currency>(new Currency("USD"), currentCurrency);
+            Assert.Equal<Currency>(new Currency("USD"), currentCurrency);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCurrentCurrency_WhenCookieExist_ShouldReturnTheCookieValue()
         {
             _cookieServiceMock.Setup(x => x.Get(It.IsAny<string>())).Returns("SEK");
@@ -38,27 +37,27 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 
             var currentCurrency = _subject.GetCurrentCurrency();
 
-            Assert.AreEqual<Currency>(new Currency("SEK"), currentCurrency);
+            Assert.Equal<Currency>(new Currency("SEK"), currentCurrency);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentCurrency_WhenCurrencyDoesNotExist_ReturnsFalse()
         {
             _marketMock.Setup(x => x.Currencies).Returns(() => new[] { new Currency("GBP"), new Currency("SEK") });
 
             var result = _subject.SetCurrentCurrency("USD");
             
-            Assert.AreEqual<bool>(false, result);
+            Assert.Equal<bool>(false, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetCurrentCurrency_WhenCurrencyExists_ReturnsTrue()
         {
             _marketMock.Setup(x => x.Currencies).Returns(() => new[] { new Currency("GBP"), new Currency("SEK") });
 
             var result = _subject.SetCurrentCurrency("GBP");
 
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
         private Mock<ICurrentMarket> _currentMarketMock;
@@ -66,8 +65,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
         private Mock<CookieService> _cookieServiceMock;
         private CurrencyService _subject;
 
-        [TestInitialize]
-        public void Setup()
+
+        public CurrencyServiceTests()
         {
             _marketMock = new Mock<IMarket>();
             _marketMock.Setup(x => x.Currencies).Returns(() => new[] { new Currency("USD"), new Currency("SEK") });

@@ -14,7 +14,7 @@ using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -23,13 +23,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
 {
-    [TestClass]
+
     public class SearchDocumentControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddOriginalUSDPrice()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -39,7 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((1000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddOriginalGBPPrice()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -49,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((2000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddDicountUSDPrice()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -59,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((1000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddDiscountGBPPrice()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -69,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Equals((2000m).ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddColor()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -77,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.First(x => x.Name.Equals("color")).Values.First().Should().Equals("Green");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddSize()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -85,7 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.First(x => x.Name.Equals("size")).Values.First().Should().Equals("Small");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddCode()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -93,7 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.First(x => x.Name.Equals("code")).Values.First().Should().Equals("Variant 1");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddDisplayName()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -101,7 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.Single(x => x.Name.Equals("displayname")).Values.First().Should().Equals("DisplayName");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddContentLink()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -109,7 +110,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.Single(x => x.Name.Equals("content_link")).Values.First().Should().Equals(GetContentReference(444, CatalogContentType.CatalogEntry).ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddCreated()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -117,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.Single(x => x.Name.Equals("created")).Values.First().Should().Equals(new DateTime(2012, 4, 4).ToString("yyyyMMddhhmmss"));
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddBrand()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -125,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.Single(x => x.Name.Equals("brand")).Values.First().Should().Equals("Brand");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddTopCategory()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
@@ -134,7 +135,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             document.Content.Fields.Single(x => x.Name.Equals("top_category_name")).Values.First().Should().Equals("Catalog");
         }
 
-        [TestMethod]
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddImageUrl()
         {
             _urlResolverMock.Setup(x => x.GetUrl(new ContentReference(5, 0)))
@@ -163,8 +164,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         private Money _discountPriceUSD;
         private Money _discountPriceGBP;
 
-        [TestInitialize]
-        public void Setup()
+
+        public SearchDocumentControllerTests()
         {
             var synchronizedObjectInstanceCache = new Mock<ISynchronizedObjectInstanceCache>();
 

@@ -4,40 +4,38 @@ using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 {
-    [TestClass]
     public class PricingServiceTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void GetPriceList_WhenCodeIsInvalid_ShouldThrow()
         {
-            _subject.GetPriceList("", new MarketId(), new PriceFilter());
+            Assert.Throws<ArgumentNullException>(() => _subject.GetPriceList("", new MarketId(), new PriceFilter()));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void GetPriceList_WhenCatalogKeysAreInvalid_ShouldThrow()
         {
-            _subject.GetPriceList( null as IEnumerable<CatalogKey>, new MarketId(), new PriceFilter());
+            Assert.Throws<ArgumentNullException>(() => _subject.GetPriceList( null as IEnumerable<CatalogKey>, new MarketId(), new PriceFilter()));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetPriceList_WhenPassingCode_ShouldReturnPriceListOrderedByAmount()
         {
             var prices = _subject.GetPriceList("code", new MarketId(), new PriceFilter());
 
-            Assert.IsTrue(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
+            Assert.True(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetPriceList_WhenPassingCatalogKeys_ShouldReturnPriceListOrderedByAmount()
         {
             var catalogKeys = new[]
@@ -48,25 +46,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 
             var prices = _subject.GetPriceList(catalogKeys, new MarketId(), new PriceFilter());
 
-            Assert.IsTrue(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
+            Assert.True(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void GetCurrentPrice_WhenCodeIsInvalid_ShouldThrow()
         {
-            _subject.GetCurrentPrice("");
+            Assert.Throws<ArgumentNullException>(() => _subject.GetCurrentPrice(""));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCurrentPrice_WhenPricesExist_ShouldReturnCheapestPrice()
         {
             Money? price = _subject.GetCurrentPrice("code");
 
-            Assert.AreEqual<Money>(_cheapPriceUSD, price.Value);
+            Assert.Equal<Money>(_cheapPriceUSD, price.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCurrentPrice_WhenPricesDoNotExist_ShouldReturnNull()
         {
             _priceServiceMock.Setup(
@@ -80,7 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 
             Money? price = _subject.GetCurrentPrice("code");
 
-            Assert.AreEqual(price.HasValue, false);            
+            Assert.Equal(price.HasValue, false);            
         }
 
         private Mock<IPriceService> _priceServiceMock;
@@ -90,8 +87,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         private Money _cheapPriceUSD;
         private Money _expensivePriceGBP;
 
-        [TestInitialize]
-        public void Setup()
+
+        public PricingServiceTests()
         {
             _cheapPriceUSD = new Money(1, "USD");
             _expensivePriceGBP = new Money(2, "GBP");

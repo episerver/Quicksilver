@@ -942,6 +942,9 @@
   <data name="Item_Subtotal" xml:space="preserve">
     <value>Delsumma artikel</value>
   </data>
+  <data name="Order_Subtotal" xml:space="preserve">
+    <value>Orderdelsumma</value>
+  </data>
   <data name="Item_Taxes" xml:space="preserve">
     <value>Moms på artikel</value>
   </data>

@@ -4,17 +4,17 @@ using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Models;
 using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Web.Mvc;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Controllers
 {
-    [TestClass]
+
     public class ErrorHandlingControllerTests
     {
-        [TestMethod]
+        [Fact]
         public void Index_WhenPassingPage_ShouldUseItOnModel()
         {
             // Arrange
@@ -24,10 +24,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (ViewResult)_subject.Index(errorPage);
 
             // Assert
-            Assert.AreEqual<ErrorPage>(errorPage, ((ErrorViewModel)result.Model).CurrentPage);
+            Assert.Equal<ErrorPage>(errorPage, ((ErrorViewModel)result.Model).CurrentPage);
         }
 
-        [TestMethod]
+        [Fact]
         public void PageNotFound_WhenUrlCanBeResolved_ShouldRedirectToUrl()
         {
             // Arrange
@@ -38,10 +38,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.AreEqual<string>(resolvedUrl, result.Url);
+            Assert.Equal<string>(resolvedUrl, result.Url);
         }
 
-        [TestMethod]
+        [Fact]
         public void PageNotFound_WhenUrlResolvingThrows_ShouldRedirectToFallback()
         {
             // Arrange
@@ -51,10 +51,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.AreEqual<string>(_fallbackUrl, result.Url);
+            Assert.Equal<string>(_fallbackUrl, result.Url);
         }
 
-        [TestMethod]
+        [Fact]
         public void PageNotFound_WhenUrlResolvingReturnsNull_ShouldRedirectToFallback()
         {
             // Arrange
@@ -64,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.AreEqual<string>(_fallbackUrl, result.Url);
+            Assert.Equal<string>(_fallbackUrl, result.Url);
         }
 
         ErrorHandlingController _subject;
@@ -72,8 +72,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
         Mock<UrlResolver> _urlResolver;
         string _fallbackUrl = "~/Features/ErrorHandling/Pages/ErrorFallback.html";
 
-        [TestInitialize]
-        public void Setup()
+
+        public ErrorHandlingControllerTests()
         {
             _contentLoaderMock = new Mock<IContentLoader>();
             _contentLoaderMock.Setup(c => c.Get<StartPage>(It.IsAny<ContentReference>())).Returns(new StartPage());

@@ -6,14 +6,22 @@ This repository is the starter site for EPiServer Commerce based on MVC, aka "Qu
 Release Notes
 -------------
 
-This is release 1.3 of Quicksilver and more features will be added over time.
+This is release 1.4 of Quicksilver and more features will be added over time.
 The following is a list of features to be added in the future:
 
 * In-store pickup.
-* Multi-shipment support.
 * Package and bundle support.
+* Using the new campaigns and promotion system.
 
 Changes in this release
+-----------------------
+* COM-76   Support for multi-shipment checkout
+* COM-1551 Server error when delete item in shopping cart
+* COM-1549 Clarify requirement to change fake credentials in Startup.cs
+* COM-1932 Items disappears from cart after confirming updated quantity with Enter
+* Updated to Episerver Commerce 9.16.0
+
+Changes Quicksilver 1.3
 -----------------------
 * COM-122  Item in wishlist should show discounted price
 * COM-868  Inconsistent price when change currency for current market

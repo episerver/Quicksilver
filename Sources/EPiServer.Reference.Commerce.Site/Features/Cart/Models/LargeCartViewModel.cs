@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using Mediachase.Commerce;
+using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Models
 {

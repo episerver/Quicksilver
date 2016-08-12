@@ -1,7 +1,13 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.IProductModel
 
 @{    
-    bool hasDiscount = Model.IsAvailable && Model.ExtendedPrice.Value.Amount < Model.PlacedPrice.Value.Amount;
+
+    if (Model == null)
+    {
+        return;
+    }
+
+    bool hasDiscount = Model.IsAvailable && Model.ExtendedPrice.Value.Amount < Model.PlacedPrice;
     string productLevelClass = hasDiscount ? "product has-discount" : "product";
     bool renderWishListButtons = Model.IsAvailable ? User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true : false;
 }
@@ -15,15 +21,15 @@
         <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
 
         @if (Model.IsAvailable)
-        { 
+        {
             if (hasDiscount)
             {
-                <h4 class="product-price">@Html.PropertyFor(model => model.PlacedPrice, new { tag = "StyledMoney" })</h4>
-                <h4 class="product-price product-price--discount">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+                <h4 class="product-price">@Helpers.RenderMoney(Model.PlacedPrice, Model.ExtendedPrice.Value.Currency)</h4>
+                <h4 class="product-price product-price--discount">@Helpers.RenderMoney(Model.ExtendedPrice.Value)</h4>
             }
             else
             {
-                <h4 class="product-price">@Html.PropertyFor(model => model.ExtendedPrice, new { tag = "StyledMoney" })</h4>
+                <h4 class="product-price">@Helpers.RenderMoney(Model.ExtendedPrice.Value)</h4>
             }
         }
         else
@@ -51,5 +57,5 @@
 </div>
 
 <div class="quick-view-btn-container">
-    <button type="button" data-toggle="modal" data-target="#Quickview" data-url="@Model.Url" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
+    <button type="button" data-toggle="modal" data-target="#ModalDialog" data-url="@Model.Url" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
 </div>

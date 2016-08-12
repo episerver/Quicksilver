@@ -11,7 +11,7 @@
         $.ajax({
             type: "POST",
             url: form[0].action,
-            data: form.serialize().replace("&Region=", "&Address.Region="),
+            data: form.serialize().replace("&CountryRegion=", "&Address.CountryRegion="),
             success: function (result, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
                 if (ct.indexOf('json') > -1) {

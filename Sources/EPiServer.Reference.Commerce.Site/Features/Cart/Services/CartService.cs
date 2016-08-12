@@ -5,7 +5,6 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
@@ -18,7 +17,6 @@ using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Managers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Pricing;
 using Mediachase.Commerce.Website.Helpers;
 using System;
 using System.Collections.Generic;
@@ -78,11 +76,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             return CartHelper.Cart.GetAllLineItems().Sum(x => x.Quantity);
         }
 
-        public IEnumerable<CartItem> GetCartItems()
+        public CartItem[] GetCartItems()
         {
             if (CartHelper.IsEmpty)
             {
-                return Enumerable.Empty<CartItem>();
+                return new CartItem[0];
             }
 
             var cartItems = new List<CartItem>();
@@ -98,19 +96,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             foreach (var lineItem in lineItems)
             {
                 VariationContent variant = variants.FirstOrDefault(x => x.Code == lineItem.Code);
-                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());                
+
+                if (variant == null)
+                {
+                    RemoveLineItem(lineItem.Code);
+                    continue;
+                }
+
                 CartItem item = new CartItem
                 {
                     Code = lineItem.Code,
                     DisplayName = lineItem.DisplayName,
                     ImageUrl = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
+                    Currency = currency,
                     ExtendedPrice = GetExtendedPrice(lineItem, marketId, currency),
-                    PlacedPrice = lineItem.ToMoney(lineItem.PlacedPrice),
-                    DiscountPrice = lineItem.ToMoney(currency.Round(((lineItem.PlacedPrice * lineItem.Quantity) - lineItem.Discounts.Cast<LineItemDiscount>().Sum(x => x.DiscountValue)) / lineItem.Quantity)),
+                    PlacedPrice = lineItem.PlacedPrice,
                     Quantity = lineItem.Quantity,
                     Url = lineItem.GetUrl(),
                     Variant = variant,
-                    Discounts = lineItem.Discounts.Cast<LineItemDiscount>().Select(x => new OrderDiscountModel
+                    Discounts = lineItem.Discounts.Select(x => new OrderDiscountModel
                     {
                         Discount = new Money(x.DiscountAmount, new Currency(CartHelper.Cart.BillingCurrency)),
                         Displayname = x.DisplayMessage
@@ -118,6 +122,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                     IsAvailable = _pricingService.GetCurrentPrice(variant.Code).HasValue
                 };
 
+                var discountAmount = currency.Round(lineItem.Discounts.Sum(x => x.DiscountValue) / lineItem.Quantity);
+                if (discountAmount > 0)
+                {
+                    item.DiscountPrice = lineItem.ToMoney(lineItem.PlacedPrice - discountAmount);
+                }
+
+                if (!string.IsNullOrEmpty(lineItem.ShippingAddressId))
+                {
+                    item.AddressId = new Guid(lineItem.ShippingAddressId);
+                }
+
+                ProductContent product = _contentLoader.Get<ProductContent>(variant.GetParentProducts().FirstOrDefault());
                 if (product is FashionProduct)
                 {
                     var fashionProduct = (FashionProduct)product;
@@ -130,7 +146,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 cartItems.Add(item);
             }
 
-            return cartItems;
+            return cartItems.ToArray();
         }
 
         private Money? GetExtendedPrice(LineItem lineItem, MarketId marketId, Currency currency)
@@ -228,8 +244,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             if (lineItem != null)
             {
                 lineItem.Quantity = quantity;
+                UpdateLineItemQuantityToShipments(lineItem);
                 ValidateCart();
                 CartHelper.Cart.AcceptChanges();
+            }
+        }
+
+        private void UpdateLineItemQuantityToShipments(LineItem lineItem)
+        {
+            var shipment = lineItem.Parent.Shipments.FirstOrDefault(); //It look not nice but should be OK for now because quicksilver only able to updated quantity of line items with single shipment even checkout with multi shipments.
+            int lineItemIndex = lineItem.Parent.LineItems.IndexOf(lineItem);
+            if (shipment != null && shipment.LineItemIndexes.Contains(lineItemIndex.ToString()))
+            {
+                shipment.SetLineItemQuantity(lineItemIndex, lineItem.Quantity);
             }
         }
 
@@ -280,7 +307,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public Money GetSubTotal()
         {
-            decimal amount = CartHelper.Cart.SubTotal + CartHelper.Cart.OrderForms.SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountAmount);
+            decimal amount = CartHelper.Cart.SubTotal + CartHelper.Cart.OrderForms.SelectMany(x => x.Discounts).Sum(x => x.DiscountAmount);
 
             return ConvertToMoney(amount);
         }
@@ -311,14 +338,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         public Money GetOrderDiscountTotal()
         {
-            decimal amount = GetOrderForms().SelectMany(x => x.Discounts.Cast<OrderFormDiscount>()).Sum(x => x.DiscountValue);
+            decimal amount = GetOrderForms().SelectMany(x => x.Discounts).Sum(x => x.DiscountValue);
 
             return ConvertToMoney(amount);
         }
 
         public Money GetShippingDiscountTotal()
         {
-            decimal amount = GetOrderForms().SelectMany(x => x.Shipments).SelectMany(x => x.Discounts.Cast<ShipmentDiscount>()).Sum(x => x.DiscountValue);
+            decimal amount = GetOrderForms().SelectMany(x => x.Shipments).SelectMany(x => x.Discounts).Sum(x => x.DiscountValue);
 
             return ConvertToMoney(amount);
         }
@@ -328,14 +355,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             return CartHelper.Cart.OrderForms.Count == 0 ? new[] { new OrderForm() } : CartHelper.Cart.OrderForms.ToArray();
         }
 
+        public IEnumerable<Shipment> GetShipments()
+        {
+            return CartHelper.Cart.OrderForms.SelectMany(x => x.Shipments);
+        }
+
         public void RunWorkflow(string workFlowName)
         {
-            if (_cartName == Mediachase.Commerce.Website.Helpers.CartHelper.WishListName)
+            RunWorkflow(workFlowName, null);
+        }
+
+        public void RunWorkflow(string workFlowName, Dictionary<string, object> context)
+        {
+            if (_cartName == CartHelper.WishListName)
             {
                 throw new ArgumentException("Running workflows are not supported for wishlist carts.");
             }
 
-            CartHelper.RunWorkflow(workFlowName);
+            CartHelper.RunWorkflow(workFlowName, context);
         }
 
         public void SaveCart()
@@ -347,6 +384,60 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         {
             CartHelper.Cart.Delete();
             CartHelper.Cart.AcceptChanges();
+        }
+
+        public void ResetLineItemAddresses()
+        {
+            foreach (var item in CartHelper.Cart.GetAllLineItems())
+            {
+                item.ShippingAddressId = string.Empty;
+            }
+
+            //clear shipments and recreate it when recreating line items
+            GetOrderForms().First().Shipments.Clear();
+
+            RecreateLineItemsBasedOnAddresses(GetCartItems().ToList());
+        }
+
+        public void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems)
+        {
+            var form = GetOrderForms().First();
+
+            var oldLineItems = form.LineItems.ToArray();
+
+            var newCartItems = cartItems
+                .GroupBy(x => new { x.AddressId, x.Code })
+                .Select(x => new
+                {
+                    Code = x.Key.Code,
+                    AddressId = x.Key.AddressId,
+                    Quantity = x.Sum(item => item.Quantity),
+                    DisplayName = oldLineItems.FirstOrDefault(c => c.Code.Equals(x.Key.Code, StringComparison.OrdinalIgnoreCase)).DisplayName,
+                    PlacedPrice = oldLineItems.FirstOrDefault(c => c.Code.Equals(x.Key.Code, StringComparison.OrdinalIgnoreCase)).PlacedPrice
+                });
+
+            foreach (var item in oldLineItems)
+            {
+                item.Delete();
+            }
+
+            foreach (var item in newCartItems)
+            {
+                LineItem lineItem = form.LineItems.AddNew();
+                lineItem.Code = item.Code;
+                lineItem.Quantity = item.Quantity;
+                lineItem.PlacedPrice = item.PlacedPrice;
+                lineItem.DisplayName = item.DisplayName;
+                lineItem.ShippingAddressId = item.AddressId.ToString();
+            }
+
+            RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
+            SaveCart();
+        }
+
+        public OrderAddress GetOrderAddress(Guid addressId)
+        {
+            return CartHelper.Cart.OrderAddresses.FirstOrDefault(a => a.Name == addressId.ToString());
         }
 
         private CartHelper CartHelper

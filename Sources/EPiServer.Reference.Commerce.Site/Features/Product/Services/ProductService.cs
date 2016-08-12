@@ -155,7 +155,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             return new ProductViewModel
             {
                 DisplayName = product != null ? product.DisplayName : variation.DisplayName,
-                PlacedPrice = originalPrice,
+                PlacedPrice = originalPrice.HasValue ? originalPrice.Value.Amount : 0,
                 ExtendedPrice = discountPrice,
                 ImageUrl = image,
                 Url = variation.GetUrl(),

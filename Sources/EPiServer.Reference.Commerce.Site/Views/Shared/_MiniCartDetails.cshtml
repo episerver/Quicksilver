@@ -33,22 +33,15 @@
 
                                 <div class="row">
                                     <div class="col-md-5">
-                                        @if (cartItem.Variant is EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)
-                                        {
-                                            var fashionVariant = (EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionVariant)cartItem.Variant;
-                                            var size = fashionVariant.Size;
-                                            @Html.Hidden("size", size.Trim())
-
                                             <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                            if ((bool)ViewData["IsReadOnly"])
+                                            @if ((bool)ViewData["IsReadOnly"])
                                             {
-                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem", disabled = "disabled" })
+                                                @Helpers.RenderSize(cartItem.Variant);
                                             }
                                             else
                                             {
-                                                @Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, "", "", size), null, new { @class = "form-control cart-control jsChangeCartItem" })
+                                                @Helpers.RenderSizeDropDown(cartItem);
                                             }
-                                        }
                                     </div>
                                     <div class="col-md-3">
                                         <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
@@ -62,7 +55,7 @@
                                         }
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
-                                        <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
+                                        <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(cartItem.ExtendedPrice.Value)</h4>
                                     </div>
                                 </div>
                             </div>

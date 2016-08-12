@@ -1,15 +1,14 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
+using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 {
-    [TestClass]
     public class ContentLoaderExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void GetFirstChild_WhenNoChildren_ShouldReturnNull()
         {
             // Arrange
@@ -21,10 +20,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = ContentLoaderExtensions.GetFirstChild<IContentData>(_contentLoaderMock.Object, null);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetFirstChild_WhenOneChild_ShouldReturnThatChild()
         {
             // Arrange
@@ -37,10 +36,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = ContentLoaderExtensions.GetFirstChild<IContentData>(_contentLoaderMock.Object, null);
 
             // Assert
-            Assert.AreSame(child, result);
+            Assert.Same(child, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetFirstChild_WhenMultipleChildren_ShouldReturnFirst()
         {
             // Arrange
@@ -54,13 +53,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = ContentLoaderExtensions.GetFirstChild<IContentData>(_contentLoaderMock.Object, null);
 
             // Assert
-            Assert.AreSame(firstChild, result);
+            Assert.Same(firstChild, result);
         }
 
         Mock<IContentLoader> _contentLoaderMock;
 
-        [TestInitialize]
-        public void Setup()
+
+        public ContentLoaderExtensionsTests()
         {
             _contentLoaderMock = new Mock<IContentLoader>();
         }

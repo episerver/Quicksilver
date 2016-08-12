@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using Moq;
 using EPiServer.Framework.Localization;
 using EPiServer.Core;
@@ -8,13 +7,14 @@ using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using Mediachase.Search;
 using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
+using Xunit;
+
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
 {
-    [TestClass]
     public class SearchViewModelFactoryTests
     {
-        [TestMethod]
+        [Fact]
         public void Create_WhenQStartsWithLetter_ShouldNotReportAsError()
         {
             // Arrange
@@ -24,10 +24,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.IsFalse(result.HasError);
+            Assert.False(result.HasError);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenQStartsWithQuestionmark_ShouldReportAsError()
         {
             // Arrange
@@ -37,10 +37,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel); 
 
             // Assert
-            Assert.IsTrue(result.HasError);
+            Assert.True(result.HasError);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenQStartsWithStar_ShouldReportAsError()
         {
             // Arrange
@@ -50,10 +50,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.IsTrue(result.HasError);
+            Assert.True(result.HasError);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenPassingContent_ShouldUseItAsCurrentContent()
         {
             // Arrange
@@ -64,10 +64,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(content, formModel);
 
             // Assert
-            Assert.AreEqual<IContent>(content, result.CurrentContent);
+            Assert.Equal<IContent>(content, result.CurrentContent);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenPassingFormModel_ShouldUseItAsFormModel()
         {
             // Arrange
@@ -77,10 +77,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.AreEqual<FilterOptionFormModel>(formModel, result.FormModel);
+            Assert.Equal<FilterOptionFormModel>(formModel, result.FormModel);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenSearching_ShouldGetProductViewModelsFromSearchResult()
         {
             // Arrange
@@ -90,10 +90,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.AreEqual<IEnumerable<ProductViewModel>>(_productViewModels, result.ProductViewModels);
+            Assert.Equal<IEnumerable<ProductViewModel>>(_productViewModels, result.ProductViewModels);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenSearching_ShouldGetFacetsFromSearchResult()
         {
             // Arrange
@@ -103,10 +103,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.AreEqual<ISearchFacetGroup[]>(_facetGroups, result.Facets);
+            Assert.Equal<ISearchFacetGroup[]>(_facetGroups, result.Facets);
         }
 
-        [TestMethod]
+        [Fact]
         public void Create_WhenSearching_ShouldSetTotalCountOnFormModel()
         {
             // Arrange
@@ -119,7 +119,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.AreEqual<int>(666, result.FormModel.TotalCount);
+            Assert.Equal<int>(666, result.FormModel.TotalCount);
         }
 
         SearchViewModelFactory _subject;
@@ -128,8 +128,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         IEnumerable<ProductViewModel> _productViewModels = Enumerable.Empty<ProductViewModel>();
         ISearchFacetGroup[] _facetGroups = new ISearchFacetGroup[0];
 
-        [TestInitialize]
-        public void Setup()
+
+        public SearchViewModelFactoryTests()
         {
             _searchServiceMock = new Mock<ISearchService>();
             _searchResultsMock = new Mock<ISearchResults>();

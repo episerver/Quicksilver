@@ -1,0 +1,47 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using EPiServer.Commerce.Catalog.ContentTypes
+@using EPiServer.Reference.Commerce.Site.Features.Product.Models
+@using EPiServer.Reference.Commerce.Site.Features.Cart.Models
+@using Mediachase.Commerce
+
+@functions
+{
+    private static WebViewPage page { get { return PageContext.Page as WebViewPage; } }
+}
+
+
+@helper RenderMoney(decimal amount, Currency currency)
+{
+    Money money = new Money(amount, currency);
+    @Helpers.RenderMoney(money);
+}
+
+@helper RenderMoney(Money money)
+{
+    <span>
+        @page.Html.Raw(money.ToString().Replace(money.Currency.Format.CurrencySymbol, @"<span class=""product-price__currency-marker"">" + money.Currency.Format.CurrencySymbol + "</span>"))
+    </span>
+}
+
+@helper RenderSize(VariationContent content)
+{
+    var variant = content as FashionVariant;
+    if (variant != null)
+    {
+        @page.Html.Hidden("size", variant.Size.Trim())
+        <span>@variant.Size</span>
+    }
+}
+
+@helper RenderSizeDropDown(CartItem cartItem)
+{
+    var variant = cartItem.Variant as FashionVariant;
+    if (variant != null)
+    {
+        <span>
+            @page.Html.Hidden("size", variant.Size.Trim())
+            @page.Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, variant.Size), new { @class = "form-control cart-control jsChangeCartItem" })
+        </span>
+    }
+}

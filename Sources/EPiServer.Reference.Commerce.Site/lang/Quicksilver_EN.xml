@@ -60,6 +60,7 @@
       </VariationSelection>
     </ProductPage>
     <Checkout>
+      <EmptyCart>Your cart is empty.</EmptyCart>
       <Coupons>
         <Heading>Coupons and Promotional Codes</Heading>
         <CouponCode>
@@ -160,6 +161,22 @@
           <ZipCode>Zip code is required</ZipCode>
         </Empty>
       </Address>
+      <MultiShipment>
+        <Heading>Ship to multiple addresses</Heading>
+        <SubheadingFirst>Addresses need to be saved in your</SubheadingFirst>
+        <SubheadingAddress>address book</SubheadingAddress>
+        <SubheadingSecond>before being available.</SubheadingSecond>
+        <Item>Item</Item>
+        <Continue>Continue</Continue>
+        <DeliveryAddress>Delivery address</DeliveryAddress>
+        <SelectDeliveryAddress>Select delivery address</SelectDeliveryAddress>
+        <AddNewAddress>Add new address</AddNewAddress>
+        <DeliveryOption>Choose delivery option</DeliveryOption>
+        <NoAddressFound>No addresses exists</NoAddressFound>
+        <Empty>
+          <AddressId>Address is required</AddressId>
+        </Empty>
+      </MultiShipment>
     </Checkout>
     <OrderConfirmationMail>
       <OrderDate>Order date:</OrderDate>
@@ -396,7 +413,7 @@
           <Line1>Line 1 *:</Line1>
           <Line2>Line 2 :</Line2>
           <City>City *:</City>
-          <Region>Region</Region>
+          <CountryRegion>CountryRegion</CountryRegion>
           <PostalCode>Zip code *:</PostalCode>
           <CountryCode>Country *:</CountryCode>
           <DaytimePhoneNumber>Phone number:</DaytimePhoneNumber>
@@ -419,7 +436,7 @@
           <LastName>Last name is required</LastName>
           <Line1>Line1 is required</Line1>
           <City>City is required</City>
-          <Region>Region is required</Region>
+          <CountryRegion>CountryRegion is required</CountryRegion>
           <PostalCode>Postal code is required</PostalCode>
           <CountryCode>Country name is required</CountryCode>
         </Empty>
@@ -473,7 +490,7 @@
             <Line1>Line 1 *:</Line1>
             <Line2>Line 2:</Line2>
             <City>City *:</City>
-            <Region>Region</Region>
+            <CountryRegion>CountryRegion</CountryRegion>
             <PostalCode>Zip code *:</PostalCode>
             <CountryCode>Country :</CountryCode>
             <Address>Address *:</Address>

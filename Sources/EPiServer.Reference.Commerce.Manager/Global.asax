@@ -3,12 +3,14 @@
 <%@ Import Namespace="System.Web.Routing" %>
 <%@ Import Namespace="EPiServer.Security" %>
 <%@ Import Namespace="Mediachase.Commerce.Core.Dto" %>
+<%@ Import Namespace="EPiServer.Data" %>
 <%@ Import Namespace="EPiServer.Logging" %>
 <%@ Import Namespace="Mediachase.Commerce.Security" %>
 
 <script RunAt="server">
 
     private static AuthenticationMode _authenticationMode;
+    private static DatabaseMode _databaseMode;
 
     void Application_Start(object sender, EventArgs e)
     {
@@ -35,6 +37,7 @@
         var configuration = WebConfigurationManager.OpenWebConfiguration("/");
         var authenticationSection = (AuthenticationSection)configuration.GetSection("system.web/authentication");
         _authenticationMode = authenticationSection.Mode;
+        _databaseMode = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode;
     }
 
     void Application_End(object sender, EventArgs e)
@@ -88,9 +91,13 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
+        if (_databaseMode == DatabaseMode.ReadOnly)
+        {
+            Response.Redirect("~/Apps/Shell/Pages/Readonly.html");
+        }
         // Bug fix for MS SSRS Blank.gif 500 server error missing parameter IterationId
-        if (HttpContext.Current.Request.Url.PathAndQuery.StartsWith("/Reserved.ReportViewerWebControl.axd") &&
-         !String.IsNullOrEmpty(HttpContext.Current.Request.QueryString["ResourceStreamID"]) &&
+        else if (HttpContext.Current.Request.Url.PathAndQuery.StartsWith("/Reserved.ReportViewerWebControl.axd") &&
+            !String.IsNullOrEmpty(HttpContext.Current.Request.QueryString["ResourceStreamID"]) &&
             HttpContext.Current.Request.QueryString["ResourceStreamID"].ToLower().Equals("blank.gif"))
         {
             Context.RewritePath(String.Concat(HttpContext.Current.Request.Url.PathAndQuery, "&IterationId=0"));

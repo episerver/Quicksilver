@@ -118,8 +118,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Google.
             GoogleOAuth2AuthenticationOptions googleOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "823672138190-qis91jbrccj3jat5rsmdmeb5k60n4rs9.apps.googleusercontent.com",
-                ClientSecret = "usz9HoxNvedgSw1QZpwaGw1C",
+                ClientId = "<ChangeThis>",
+                ClientSecret = "<ChangeThis>",
             };
             googleOptions.Scope.Add("email");
             app.UseGoogleAuthentication(googleOptions);
@@ -141,8 +141,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Facebook.
             FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
             {
-                AppId = "805286916226866",
-                AppSecret = "34e50b02be4f1a7c62364c9fe89dcfd"
+                AppId = "<ChangeThis>",
+                AppSecret = "<ChangeThis>"
             };
             facebookOptions.Scope.Add("email");
             app.UseFacebookAuthentication(facebookOptions);
@@ -164,8 +164,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Twitter.
             TwitterAuthenticationOptions twitterOptions = new TwitterAuthenticationOptions
             {
-                ConsumerKey = "CqbBBscRO1jFbdr4CGRTiQFj",
-                ConsumerSecret = "dh82r3SHGbL4ADgj6EJavdNGxFyx4YRX7QPyngBjKhV2bCdRrY"
+                ConsumerKey = "<ChangeThis>",
+                ConsumerSecret = "<ChangeThis>"
             };
             app.UseTwitterAuthentication(twitterOptions);
         }
@@ -186,8 +186,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Note that the id and secret code below are fictitious and will not work when calling Microsoft.
             MicrosoftAccountAuthenticationOptions microsoftOptions = new MicrosoftAccountAuthenticationOptions
             {
-                ClientId = "0000000049673D31",
-                ClientSecret = "hkQB8uwZ55HrkIcpeU9J6tXXebrMUpOS"
+                ClientId = "<ChangeThis>",
+                ClientSecret = "<ChangeThis>"
             };
             microsoftOptions.Scope.Add("email");
             app.UseMicrosoftAccountAuthentication(microsoftOptions);

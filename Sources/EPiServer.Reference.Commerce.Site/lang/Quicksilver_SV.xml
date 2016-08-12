@@ -60,6 +60,7 @@
       </VariationSelection>
     </ProductPage>
     <Checkout>
+      <EmptyCart>Din varukorg är tom.</EmptyCart>
       <Coupons>
         <Heading>Kuponger och Kampanjkoder</Heading>
         <CouponCode>
@@ -161,6 +162,22 @@
           <ZipCode>Postnummer krävs</ZipCode>
         </Empty>
       </Address>
+      <MultiShipment>
+        <Heading>Leverera till olika adresser</Heading>
+        <SubheadingFirst>Adresser behöver sparas i din</SubheadingFirst>
+        <SubheadingAddress>adressbok</SubheadingAddress>
+        <SubheadingSecond>innan de blir tillgängliga.</SubheadingSecond>
+        <Item>Vara</Item>
+        <Continue>Fortsätt</Continue>
+        <DeliveryAddress>Leveransadress</DeliveryAddress>
+        <SelectDeliveryAddress>Välj leveransadress</SelectDeliveryAddress>
+        <AddNewAddress>Lägg till ny adress</AddNewAddress>
+        <DeliveryOption>Välj fraktalternativ</DeliveryOption>
+        <NoAddressFound>Inga adresser finns</NoAddressFound>
+        <Empty>
+          <AddressId>Adress krävs</AddressId>
+        </Empty>
+      </MultiShipment>
     </Checkout>
     <OrderConfirmationMail>
       <OrderDate>Orderdatum:</OrderDate>
@@ -393,7 +410,7 @@
           <Line1>Adressrad 1 *:</Line1>
           <Line2>Adressrad 2 :</Line2>
           <City>Stad *:</City>
-          <Region>Region</Region>
+          <CountryRegion>CountryRegion</CountryRegion>
           <PostalCode>Postnummer *:</PostalCode>
           <CountryCode>Land *:</CountryCode>
           <DaytimePhoneNumber>Telefonnummer:</DaytimePhoneNumber>
@@ -401,7 +418,7 @@
           <Submit>Spara</Submit>
           <Delete>Radera</Delete>
           <Edit>Ändra</Edit>
-          <Cancel>Avboka</Cancel>
+          <Cancel>Avbryt</Cancel>
           <EditAddress>Ändra</EditAddress>
           <NewAddress>Ny</NewAddress>
           <PrimaryAddress>Primär adress</PrimaryAddress>
@@ -416,7 +433,7 @@
           <LastName>Efternamn krävs</LastName>
           <Line1>Adressrad1 krävs</Line1>
           <City>Stad krävs</City>
-          <Region>Region krävs</Region>
+          <CountryRegion>CountryRegion krävs</CountryRegion>
           <PostalCode>Postnummer krävs</PostalCode>
           <CountryCode>Land krävs</CountryCode>
         </Empty>
@@ -470,7 +487,7 @@
             <Line1>Adressrad 1 *:</Line1>
             <Line2>Adressrad 2:</Line2>
             <City>Stad *:</City>
-            <Region>Region:</Region>
+            <CountryRegion>CountryRegion:</CountryRegion>
             <PostalCode>Postnummer *:</PostalCode>
             <CountryCode>Land :</CountryCode>
             <Address>Address *:</Address>

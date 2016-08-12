@@ -50,25 +50,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 Address = new Address
                 {
                     AddressId = addressId,
-                    HtmlFieldPrefix = "Address"
                 },
                 CurrentPage = currentPage
             };
 
             _addressBookService.LoadAddress(viewModel.Address);
 
-            return View(viewModel);
+            return AddressEditView(viewModel);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult GetRegionsForCountry(string countryCode, string region)
+        public ActionResult GetRegionsForCountry(string countryCode, string region, string htmlPrefix)
         {
-            var address = new Address();
-            address.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
-            address.Region = region;
+            ViewData.TemplateInfo.HtmlFieldPrefix = htmlPrefix;
+            var countryRegion = new CountryRegion();
+            countryRegion.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
+            countryRegion.Region = region;
 
-            return PartialView("_AddressRegion", address);
+            return PartialView("~/Views/Shared/EditorTemplates/AddressRegion.cshtml", countryRegion);
         }
 
         [HttpPost]
@@ -90,10 +90,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 _addressBookService.LoadAddress(viewModel.Address);
                 viewModel.CurrentPage = currentPage;
 
-                return View("EditForm", viewModel);
+                return AddressEditView(viewModel);
             }
 
             _addressBookService.Save(viewModel.Address);
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json(viewModel.Address);
+            }
 
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
@@ -122,21 +127,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
         }
 
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            _controllerExceptionHandler.HandleRequestValidationException(filterContext, "save", OnSaveException);
-        }
-
         public ActionResult OnSaveException(ExceptionContext filterContext)
         {
             Guid addressId;
             Guid.TryParse(filterContext.HttpContext.Request.Form["addressId"], out addressId);
 
             var currentPage = filterContext.RequestContext.GetRoutedData<AddressBookPage>();
-            if (currentPage == null)
-            {
-                return new EmptyResult();
-            }
 
             AddressViewModel viewModel = new AddressViewModel
             {
@@ -144,12 +140,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
                 {
                     AddressId = addressId != Guid.Empty ? (Guid?)addressId : null,
                     ErrorMessage = filterContext.Exception.Message,
-                    HtmlFieldPrefix = "Address"
                 },
                 CurrentPage = currentPage
             };
 
             _addressBookService.LoadAddress(viewModel.Address);
+
+            return AddressEditView(viewModel);
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            _controllerExceptionHandler.HandleRequestValidationException(filterContext, "save", OnSaveException);
+        }
+
+        private ActionResult AddressEditView(AddressViewModel viewModel)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("ModalAddressDialog", viewModel);
+            }
 
             return View("EditForm", viewModel);
         }
