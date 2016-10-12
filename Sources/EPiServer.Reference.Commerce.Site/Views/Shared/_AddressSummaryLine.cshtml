@@ -1,0 +1,5 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.AddressModel
+
+<address>
+    <strong>@Html.Translate("/Shipment/ShippingTo")</strong> @String.Format("{0}, {1} {2}", Model.Line1, Model.PostalCode, Model.City)
+</address>

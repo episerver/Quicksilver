@@ -47,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         /// to an existing one.
         /// </summary>
         /// <param name="currentPage">An instance of the PageData object for the view.</param>
-        /// <param name="returnUrl">The user´s previous URL location. When logging in the user will be redirected back to this URL.</param>
+        /// <param name="returnUrl">The userï¿½s previous URL location. When logging in the user will be redirected back to this URL.</param>
         /// <returns>The default login and user account registration view.</returns>
         [HttpGet]
         public ActionResult Index(LoginRegistrationPage currentPage, string returnUrl)
@@ -82,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             viewModel.Address.Email = viewModel.Email;
 
             var customerAddress = CustomerAddress.CreateInstance();
-            _addressBookService.MapModelToCustomerAddress(viewModel.Address, customerAddress);
+            _addressBookService.MapToAddress(viewModel.Address, customerAddress);
 
             var user = new ApplicationUser
             {
@@ -139,7 +139,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             RegisterAccountViewModel viewModel = new RegisterAccountViewModel
             {
                 ErrorMessage = filterContext.Exception.Message,
-                Address = new Shared.Models.Address()
+                Address = new Shared.Models.AddressModel()
             };
 
             _addressBookService.LoadAddress(viewModel.Address);
@@ -228,7 +228,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel viewModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -256,7 +256,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     FirstName = firstName,
                     LastName = lastName,
                     RegistrationSource = "Social login",
-                    NewsLetter = model.Newsletter
+                    NewsLetter = viewModel.Newsletter
                 };
 
                 var result = await UserManager.CreateAsync(user);
@@ -266,14 +266,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(model.ReturnUrl);
+                        return RedirectToLocal(viewModel.ReturnUrl);
                     }
                 }
 
                 AddErrors(result.Errors);
             }
 
-            return View(model);
+            return View(viewModel);
         }
     }
 }

@@ -4,6 +4,7 @@
 
 	// Properties
 	this.BASE_URL = ''; // CommerceManager root; shoud be initialized in the code
+	this.HELP_URL = '';
 	this.PageTitleControlId = '';
 	this.ContentFrame = contentFrame;
 	this.CenterCmpId = centerCmpId;
@@ -170,7 +171,7 @@
 
 	this.OpenHelp = function()
 	{
-	    this.OpenExternal('http://webhelp.episerver.com/16-3/home.htm');
+	    this.OpenExternal(this.HELP_URL);
     };
 
     this.getEcfMainFrame = function() {

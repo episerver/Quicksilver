@@ -3,10 +3,6 @@ using EPiServer.Framework.DataAnnotations;
 using EPiServer.Framework.Web;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers

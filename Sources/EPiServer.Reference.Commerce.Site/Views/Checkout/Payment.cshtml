@@ -1,9 +1,23 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
 @{
     Layout = null;
 }
 <div class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-xs-12">
+        <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
+        @foreach (var method in Model.PaymentMethodViewModels)
+        {
+            <div class="radio">
+                <label>
+                    @{ string checkState = method.SystemName == Model.Payment.SystemName ? "checked" : string.Empty; }
+                    <input type="radio" class="jsChangePayment" name="SystemName" value="@method.SystemName" @checkState/> @method.FriendlyName
+                </label>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
         <div class="jsPaymentMethod">
             @if (Model.Payment != null)
             {
@@ -12,17 +26,5 @@
                 Html.RenderPartial(controller, Model.Payment);
             }
         </div>
-    </div>
-    <div class="col-md-6 col-sm-12">
-        <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
-        @foreach (var method in Model.PaymentMethodViewModels)
-        {
-            <div class="radio">
-                <label>
-                    @{ string checkState = method.SystemName == Model.Payment.SystemName ? "checked" : string.Empty; }
-                    <input type="radio" class="jsChangePayment" name="SystemName" value="@method.SystemName" @checkState /> @method.FriendlyName
-                </label>
-            </div>
-        }
     </div>
 </div>

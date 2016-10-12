@@ -1,13 +1,44 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Start.Pages.StartPage
+﻿@using EPiServer.Commerce.Marketing
+@using EPiServer.Reference.Commerce.Site.Features.Start.Models
+@model StartPageViewModel
+@{
+    IEnumerable<PromotionViewModel> promotions = Model.Promotions;
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <h1>@Html.PropertyFor(x => x.MainBody)</h1>
+            @if (promotions.Any())
+            {
+                <div id="promotion-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        @for (var i = 0; i < promotions.Count(); i++)
+                        {
+                            <div class="item" data-slide-number="@i">
+                                <img src="@Url.ContentUrl(promotions.ElementAt(i).BannerImage)" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @Html.PropertyFor(x => x.StartPage.MainBody)
         </div>
     </div>
 </div>
-<div class="container-fluid product-row">
-    <div class="row">
-        @Html.PropertyFor(x => x.ProductArea, new { ChildrenCssClass = "jsProductTile product-row__tile col-xs-12 col-sm-6 col-lg-4" })
+@foreach (var promotion in promotions)
+{
+    <div class="container-fluid product-row">
+        <div class="row">
+            <div>
+                <h2>@promotion.Name</h2>
+                @if (promotion.SelectionType == CatalogItemSelectionType.All)
+                {
+                    <span class="product-brand">@Html.Translate("/StartPage/Promotion/AllItems")</span><br />
+                }
+                @foreach (var promotionItem in promotion.Items)
+                {
+                    <div class="jsProductTile product-row__tile col-xs-12 col-sm-6 col-lg-4">@{Html.RenderContentData(promotionItem, false);}</div>
+                }
+            </div>
+        </div>
     </div>
-</div>
+}

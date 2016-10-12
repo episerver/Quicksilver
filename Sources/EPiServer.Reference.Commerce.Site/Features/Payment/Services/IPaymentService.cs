@@ -1,14 +1,10 @@
-﻿using Mediachase.Commerce.Website;
-using System;
+using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
 {
     public interface IPaymentService
     {
-        void ProcessPayment(IPaymentOption method);
+        IEnumerable<PaymentMethodModel> GetPaymentMethodsByMarketIdAndLanguageCode(string marketId, string languageCode);
     }
 }

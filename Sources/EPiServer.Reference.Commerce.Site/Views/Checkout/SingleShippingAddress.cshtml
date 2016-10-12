@@ -1,0 +1,109 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
+@model CheckoutViewModel
+@{
+    Layout = null;
+}
+
+<div id="AddressContainer">
+    <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <a href="#" id="AlternativeAddressButton">@Html.Translate("/Checkout/Shipment/AlternativeAddress")</a><br/>
+                <div class="shipping-address">
+                    <div class="section-box">
+                        <button type="button" class="btn btn-default btn--blue remove-shipping-address pull-right clearfix">@Html.Translate("/Shared/Address/RemoveAddress")</button>
+                        <h4>@Html.Translate("/Checkout/Shipment/AlternativeAddress")</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="jsCheckoutAddress" data-url="@Url.Action("ChangeAddress", "Checkout", new {@node = @Model.StartPage.CheckoutPage})">
+
+                                @Html.HiddenFor(model => model.Shipments[0].Address.Name)
+                                @Html.HiddenFor(model => model.Shipments[0].Address.DaytimePhoneNumber)
+                                @Html.HiddenFor(model => model.Shipments[0].Address.BillingDefault)
+                                @Html.HiddenFor(model => model.Shipments[0].Address.ShippingDefault)
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="form-group">                                        
+                                        @Html.DropDownListFor(model => model.Shipments[0].Address.AddressId,
+                                            new SelectList(Model.AvailableAddresses, "AddressId", "Name", !string.IsNullOrEmpty(Model.Shipments[0].Address.AddressId) ? Model.Shipments[0].Address.AddressId : string.Empty),
+                                            new {@class = "form-control jsChangeAddress address-dropdown" })
+                                        <br />
+										<button class="btn btn-default btn--blue jsNewAddress" data-url="@Url.Action("EditForm", "AddressBook")" data-toggle="modal" data-target="#AddressDialog">@Html.Translate("/Checkout/MultiShipment/AddNewAddress")</button>
+                                        @Html.ValidationMessageFor(model => Model.Shipments[0].Address.AddressId)
+									</div>
+                                }
+								else
+								{
+									<div class="row">
+										<div class="form-group col-md-6">
+											@Html.LabelFor(model => model.Shipments[0].Address.FirstName)
+											@Html.TextBoxFor(model => model.Shipments[0].Address.FirstName, new {@class = "form-control"})
+											@Html.ValidationMessageFor(model => model.Shipments[0].Address.FirstName)
+										</div>
+
+										<div class="form-group col-md-6">
+											@Html.LabelFor(model => model.Shipments[0].Address.LastName)
+											@Html.TextBoxFor(model => model.Shipments[0].Address.LastName, new {@class = "form-control"})
+											@Html.ValidationMessageFor(model => model.Shipments[0].Address.LastName)
+										</div>
+									</div>
+
+									<div class="form-group">
+										@Html.LabelFor(model => model.Shipments[0].Address.Email)
+										@Html.TextBoxFor(model => model.Shipments[0].Address.Email, new {@class = "form-control"})
+										@Html.ValidationMessageFor(model => model.Shipments[0].Address.Email)
+									</div>
+
+									<div class="form-group">
+										@Html.LabelFor(model => model.Shipments[0].Address.Line1)
+										@Html.TextBoxFor(model => model.Shipments[0].Address.Line1, new {@class = "form-control"})
+										@Html.ValidationMessageFor(model => model.Shipments[0].Address.Line1)
+									</div>
+
+									<div class="row">
+										<div class="form-group col-md-4">
+											@Html.LabelFor(model => model.Shipments[0].Address.PostalCode)
+											@Html.TextBoxFor(model => model.Shipments[0].Address.PostalCode, new {@class = "form-control"})
+											@Html.ValidationMessageFor(model => model.Shipments[0].Address.PostalCode)
+										</div>
+
+										<div class="form-group col-md-8">
+											@Html.LabelFor(model => model.Shipments[0].Address.City)
+											@Html.TextBoxFor(model => model.Shipments[0].Address.City, new {@class = "form-control"})
+											@Html.ValidationMessageFor(model => model.Shipments[0].Address.City)
+										</div>
+									</div>
+
+									@Html.EditorFor(model => model.Shipments[0].Address.CountryRegion, Model.Shipments[0].Address.CountryRegion)
+
+									<div class="form-group">
+										@Html.LabelFor(model => model.Shipments[0].Address.CountryCode)
+										@Html.DropDownListFor(model => model.Shipments[0].Address.CountryCode,
+											new SelectList(Model.Shipments[0].Address.CountryOptions, "Code", "Name", Model.Shipments[0].Address.CountryCode), new {@class = "form-control jsChangeCountry"})
+										@Html.ValidationMessageFor(model => model.Shipments[0].Address.CountryCode)
+										@Html.Hidden("address-htmlfieldprefix", "Shipments[0].Address.CountryRegion")
+									</div>
+								}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <h4>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h4>
+            @foreach (var shippingMethodViewModel in Model.Shipments.First().ShippingMethods ?? Enumerable.Empty<ShippingMethodViewModel>())
+            {
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(model => model.Shipments[0].ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
+                        @shippingMethodViewModel.DisplayName
+                        @shippingMethodViewModel.Price.ToString()
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+</div>

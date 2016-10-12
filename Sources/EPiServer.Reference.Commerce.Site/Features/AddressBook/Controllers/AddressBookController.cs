@@ -5,6 +5,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
@@ -43,11 +44,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditForm(AddressBookPage currentPage, Guid? addressId)
+        public ActionResult EditForm(AddressBookPage currentPage, string addressId)
         {
             AddressViewModel viewModel = new AddressViewModel
             {
-                Address = new Address
+                Address = new AddressModel
                 {
                     AddressId = addressId,
                 },
@@ -64,8 +65,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         public ActionResult GetRegionsForCountry(string countryCode, string region, string htmlPrefix)
         {
             ViewData.TemplateInfo.HtmlFieldPrefix = htmlPrefix;
-            var countryRegion = new CountryRegion();
-            countryRegion.RegionOptions = _addressBookService.GetRegionOptionsByCountryCode(countryCode);
+            var countryRegion = new CountryRegionViewModel();
+            countryRegion.RegionOptions = _addressBookService.GetRegionsByCountryCode(countryCode);
             countryRegion.Region = region;
 
             return PartialView("~/Views/Shared/EditorTemplates/AddressRegion.cshtml", countryRegion);
@@ -73,7 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult Save(AddressBookPage currentPage, AddressViewModel viewModel)
+        public ActionResult Save(AddressViewModel viewModel)
         {
             if (String.IsNullOrEmpty(viewModel.Address.Name))
             {
@@ -88,7 +89,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
             if (!ModelState.IsValid)
             {
                 _addressBookService.LoadAddress(viewModel.Address);
-                viewModel.CurrentPage = currentPage;
 
                 return AddressEditView(viewModel);
             }
@@ -105,7 +105,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult Remove(Guid addressId)
+        public ActionResult Remove(string addressId)
         {
             _addressBookService.Delete(addressId);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
@@ -113,7 +113,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult SetPreferredShippingAddress(Guid addressId)
+        public ActionResult SetPreferredShippingAddress(string addressId)
         {
             _addressBookService.SetPreferredShippingAddress(addressId);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
@@ -121,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult SetPreferredBillingAddress(Guid addressId)
+        public ActionResult SetPreferredBillingAddress(string addressId)
         {
             _addressBookService.SetPreferredBillingAddress(addressId);
             return RedirectToAction("Index", new { node = GetStartPage().AddressBookPage });
@@ -129,16 +129,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
 
         public ActionResult OnSaveException(ExceptionContext filterContext)
         {
-            Guid addressId;
-            Guid.TryParse(filterContext.HttpContext.Request.Form["addressId"], out addressId);
-
             var currentPage = filterContext.RequestContext.GetRoutedData<AddressBookPage>();
 
-            AddressViewModel viewModel = new AddressViewModel
+            var viewModel = new AddressViewModel
             {
-                Address = new Address
+                Address = new AddressModel
                 {
-                    AddressId = addressId != Guid.Empty ? (Guid?)addressId : null,
+                    AddressId = filterContext.HttpContext.Request.Form["addressId"],
                     ErrorMessage = filterContext.Exception.Message,
                 },
                 CurrentPage = currentPage

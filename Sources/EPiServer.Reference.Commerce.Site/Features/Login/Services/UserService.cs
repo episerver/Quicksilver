@@ -121,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 
             if (_userManager.FindByEmail(user.Email) != null)
             {
-                result = new IdentityResult(new string[] { _localizationService.GetString("/Registration/Form/Error/UsedEmail") });
+                result = new IdentityResult(_localizationService.GetString("/Registration/Form/Error/UsedEmail"));
             }
             else
             {
@@ -159,7 +159,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
                 contact.FullName = String.Format("{0} {1}", user.FirstName, user.LastName);
             }
 
-            contact.PrimaryKeyId = new Mediachase.BusinessFoundation.Data.PrimaryKeyId(new Guid(user.Id));
+            contact.PrimaryKeyId = new PrimaryKeyId(new Guid(user.Id));
             contact.FirstName = user.FirstName;
             contact.LastName = user.LastName;
             contact.Email = user.Email;
@@ -179,20 +179,41 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             // will still be null.
             contact.SaveChanges();
 
-            // Once the contact has been saved we can look for any existing addresses.
-            CustomerAddress defaultAddress = contact.ContactAddresses.FirstOrDefault();
-            if (defaultAddress != null)
-            {
-                // If an addresses was found, it will be used as default for shipping and billing.
-                contact.PreferredShippingAddress = defaultAddress;
-                contact.PreferredBillingAddress = defaultAddress;
-
-                // Save the address preferences also.
-                contact.SaveChanges();
-            }
-
+            SetPreferredAddresses(contact);
 
             return contact;
+        }
+
+        private void SetPreferredAddresses(CustomerContact contact)
+        {
+            var changed = false;
+
+            var publicAddress = contact.ContactAddresses.FirstOrDefault(a => a.AddressType == CustomerAddressTypeEnum.Public);
+            var preferredBillingAddress = contact.ContactAddresses.FirstOrDefault(a => a.AddressType == CustomerAddressTypeEnum.Billing);
+            var preferredShippingAddress = contact.ContactAddresses.FirstOrDefault(a => a.AddressType == CustomerAddressTypeEnum.Shipping);
+
+            if (publicAddress != null)
+            {
+                contact.PreferredShippingAddress = contact.PreferredBillingAddress = publicAddress;
+                changed = true;
+            }
+
+            if (preferredBillingAddress != null)
+            {
+                contact.PreferredBillingAddress = preferredBillingAddress;
+                changed = true;
+            }
+
+            if (preferredShippingAddress != null)
+            {
+                contact.PreferredShippingAddress = preferredShippingAddress;
+                changed = true;
+            }
+
+            if (changed)
+            {
+                contact.SaveChanges();
+            }
         }
 
         public void SignOut()

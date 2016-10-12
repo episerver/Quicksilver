@@ -1,10 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
 using EPiServer.SpecializedProperties;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 {
@@ -51,20 +55,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 6)]
         public virtual XhtmlString MainBody { get; set; }
 
-        [CultureSpecific]
-        [Display(
-            Name = "Product area",
-            Description = "",
-            GroupName = SystemTabNames.Content,
-            Order = 7)]
-        [AllowedTypes(typeof(EntryContentBase))]
-        public virtual ContentArea ProductArea { get; set; }
-
         [Display(
             Name = "Checkout page",
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 1)]
+        [AllowedTypes(typeof(CheckoutPage))]
         public virtual ContentReference CheckoutPage { get; set; }
 
         [Display(
@@ -72,49 +68,54 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 3)]
-        public virtual PageReference AddressBookPage { get; set; }
+        [AllowedTypes(typeof(AddressBookPage))]
+        public virtual ContentReference AddressBookPage { get; set; }
 
         [Display(
             Name = "Wish list page",
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 4)]
-        public virtual PageReference WishListPage { get; set; }
+        [AllowedTypes(typeof(WishListPage))]
+        public virtual ContentReference WishListPage { get; set; }
 
         [Display(
             Name = "Search page",
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 5)]
-        public virtual PageReference SearchPage { get; set; }
+        [AllowedTypes(typeof(SearchPage))]
+        public virtual ContentReference SearchPage { get; set; }
 
         [Display(
             Name = "Reset password page",
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
-        public virtual PageReference ResetPasswordPage { get; set; }
+        [AllowedTypes(typeof(ResetPasswordPage))]
+        public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
             Name = "Order confirmation mail",
             Description = "",
             GroupName = SiteTabs.MailTemplates,
             Order = 1)]
-        public virtual PageReference OrderConfirmationMail { get; set; }
+        [AllowedTypes(typeof(OrderConfirmationMailPage))]
+        public virtual ContentReference OrderConfirmationMail { get; set; }
 
         [Display(
             Name = "Reset password mail",
             Description = "",
             GroupName = SiteTabs.MailTemplates,
             Order = 2)]
-        public virtual PageReference ResetPasswordMail { get; set; }
+        public virtual ContentReference ResetPasswordMail { get; set; }
 
         [Display(
             Name = "Resource not found page",
             Description = "",
             GroupName = SiteTabs.SiteStructure,
             Order = 10)]
-        public virtual PageReference PageNotFound { get; set; }
+        public virtual ContentReference PageNotFound { get; set; }
 
     }
 }

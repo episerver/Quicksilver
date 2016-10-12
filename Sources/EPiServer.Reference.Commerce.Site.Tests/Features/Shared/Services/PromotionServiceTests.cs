@@ -1,8 +1,7 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Cache;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
@@ -12,6 +11,9 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Commerce.Marketing;
+using EPiServer.Commerce.Order;
+using EPiServer.Commerce.Order.Internal;
 using Xunit;
 
 
@@ -80,13 +82,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         private List<VariationContent> _variations;
         private Mock<IMarketService> _marketServiceMock;
         private Mock<IContentLoader> _contentLoaderMock;
-        private Mock<IPromotionEntryService> _promotionEntryServiceMock;
         private Mock<ReferenceConverter> _referenceConverterMock;
         private decimal _discountAmount;
         private Mock<IMarket> _USMarketMock;
         private Mock<IMarket> _SEKMarketMock;
         private VariationContent _variation1;
         private VariationContent _variation2;
+        private Mock<ILineItemCalculator> _lineItemcalculatorMock;
+        private Mock<IPromotionEngine> _promotionEngineMock;
 
 
         public PromotionServiceTests()
@@ -97,15 +100,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             SetupPricing();
             SetupMarkets();
             SetupReferenceConverter();
-            SetupPromotionEntryService();
+            SetupPromotionEngine();
+            _lineItemcalculatorMock = new Mock<ILineItemCalculator>();
+            SetupDiscountedPrice();
             
             _subject = new PromotionService(
                 _pricingServiceMock.Object,
                 _marketServiceMock.Object,
                 _contentLoaderMock.Object,
                 _referenceConverterMock.Object,
-                new FakePromotionHelper(), 
-                _promotionEntryServiceMock.Object);
+                _lineItemcalculatorMock.Object,
+                _promotionEngineMock.Object
+                );
         }
 
         private void SetupReferenceConverter()
@@ -122,26 +128,47 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 .Setup(x => x.GetContentLink(It.IsAny<string>(), CatalogContentType.CatalogEntry))
                 .Returns((string catalogEntryCode, CatalogContentType type) => 
                         _variations.FirstOrDefault(x => x.Code == catalogEntryCode).ContentLink);
-        }
+            _referenceConverterMock
+               .Setup(x => x.GetContentLink(It.IsAny<string>()))
+               .Returns((string catalogEntryCode) =>
+                       _variations.FirstOrDefault(x => x.Code == catalogEntryCode).ContentLink);
+            _referenceConverterMock
+                .Setup(x => x.GetCode(It.IsAny<ContentReference>()))
+                .Returns((ContentReference catalogContentReference) =>
+                       _variations.FirstOrDefault(x => x.ContentLink == catalogContentReference).Code);
+         }
 
-        private void SetupPromotionEntryService()
+        private void SetupPromotionEngine()
         {
-            _promotionEntryServiceMock = new Mock<IPromotionEntryService>();
+            _promotionEngineMock = new Mock<IPromotionEngine>();
+            
 
             _discountAmount = 0.3m;
+            var lineItem = new InMemoryLineItem
+            {
+                Code = "code1",
+                Quantity = 1, 
+                LineItemDiscountAmount = _discountAmount
+            };
+            var affectedItems = new[] {lineItem};
+            var redemptionDescription = new FakeRedemptionDescription(affectedItems.Select(item => new AffectedEntries(new List<PriceEntry> { new PriceEntry(item) })));
 
-            var price = CreatePriceList(_variation1.Code, Currency.USD).OrderBy(x => x.UnitPrice.Amount).First();
-
-            _promotionEntryServiceMock
-                .Setup(x => x.GetDiscountPrice(
-                    It.IsAny<IPriceValue>(),
-                    It.IsAny<EntryContentBase>(),
+            var rewardDescription = RewardDescription.CreateMoneyReward(FulfillmentStatus.Fulfilled, new [] {redemptionDescription}, null, 0m, null);
+            _promotionEngineMock
+                .Setup(x => x.Evaluate(
+                    It.IsAny<IEnumerable<ContentReference>>(),
+                    It.IsAny<IMarket>(),
                     It.IsAny<Currency>(),
-                    It.IsAny<PromotionHelperFacade>()))
-                .Returns((IPriceValue priceValue, EntryContentBase entry, Currency currency, PromotionHelperFacade promotionHelper) =>  new PriceValue
-                    {
-                        UnitPrice = new Money(price.UnitPrice.Amount - _discountAmount, currency)
-                    });
+                    RequestFulfillmentStatus.Fulfilled
+                    ))
+                .Returns(new RewardDescription[] { rewardDescription  });
+        }
+
+        private void SetupDiscountedPrice()
+        {
+            var price = CreatePriceList(_variation1.Code, Currency.USD).OrderBy(x => x.UnitPrice.Amount).First();
+            _lineItemcalculatorMock.Setup(x => x.GetExtendedPrice(It.IsAny<ILineItem>(), It.IsAny<Currency>()))
+               .Returns((ILineItem item, Currency currency) => new Money(price.UnitPrice.Amount - _discountAmount, currency));
         }
 
         private void SetupMarkets()

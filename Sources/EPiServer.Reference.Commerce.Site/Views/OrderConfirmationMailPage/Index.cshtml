@@ -1,7 +1,9 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using Mediachase.Commerce.Orders
+﻿@using EPiServer.Commerce.Order
+@using EPiServer.Commerce.Order.Internal
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages
-@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationViewModel<OrderConfirmationMailPage>
+@using Mediachase.Commerce
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.OrderConfirmationViewModel<OrderConfirmationMailPage>
 @{
     Layout = null;
     string fontFamily = @"font-family: ""Helvetica Neue"", Helvetica, Arial, sans-serif; font-size: 10pt; line-height: 1.5em;";
@@ -37,15 +39,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (LineItem lineItem in Model.Items)
+                            @foreach (ILineItem lineItem in Model.Items)
                             {
                                 <tr>
-                                    <td style="@horizontalLineStyle @cellPadding"><a href="@lineItem.GetFullUrl()">@lineItem.DisplayName</a></td>
+                                    <td style="@horizontalLineStyle @cellPadding"><a href="@lineItem.GetFullUrl()">@lineItem.GetEntryContent().DisplayName</a></td>
                                     <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.Quantity.ToString("0")</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.PlacedPrice).ToString()</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.PlacedPriceTotal().ToString()</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ToMoney(lineItem.LineItemDiscountAmount).ToString()</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.ExtendedPriceTotal().ToString()</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice, Model.Currency)</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice * lineItem.Quantity, Model.Currency)</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.GetEntryDiscount(), Model.Currency)</td>
+                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.GetDiscountedPrice(Model.Currency)</td>
                                 </tr>
                             }
                         </tbody>
@@ -98,7 +100,7 @@
                                 }
                             </td>
                             <td style="vertical-align:top; width:50%;">
-                                @foreach (Payment payment in Model.Payments)
+                                @foreach (var payment in Model.Payments)
                                 {
                                     Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
                                 }

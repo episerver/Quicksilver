@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,12 +45,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\AjaxControlToolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AuthorizeNet">
-      <HintPath>..\..\packages\AuthorizeNet.1.8.5\lib\AuthorizeNet.dll</HintPath>
+    <Reference Include="AuthorizeNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AuthorizeNet.1.8.10\lib\AuthorizeNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Core">
@@ -61,10 +57,6 @@
       <HintPath>..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ComponentArt.Web.UI, Version=2012.1.1016.35, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CommerceManager.9.16.0\lib\net45\ComponentArt.Web.UI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -73,72 +65,64 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.dll</HintPath>
+    <Reference Include="EPiServer, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.ApplicationModules, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.ApplicationModules.dll</HintPath>
+    <Reference Include="EPiServer.ApplicationModules, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.ApplicationModules.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Business.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\EPiServer.Business.Commerce.dll</HintPath>
+    <Reference Include="EPiServer.Configuration, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Commerce.Internal.Migration, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\EPiServer.Commerce.Internal.Migration.dll</HintPath>
+    <Reference Include="EPiServer.Data, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Configuration, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.Configuration.dll</HintPath>
+    <Reference Include="EPiServer.Data.Cache, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Data.Cache.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Data, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Data.dll</HintPath>
+    <Reference Include="EPiServer.Enterprise, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.Enterprise.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Data.Cache, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Data.Cache.dll</HintPath>
+    <Reference Include="EPiServer.Events, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Events.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Enterprise, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.Enterprise.dll</HintPath>
+    <Reference Include="EPiServer.Framework, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Events, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Events.dll</HintPath>
+    <Reference Include="EPiServer.ImageLibrary, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.ImageLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Framework, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Framework.dll</HintPath>
+    <Reference Include="EPiServer.Licensing, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Licensing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.ImageLibrary, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.ImageLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EPiServer.Licensing, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Licensing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EPiServer.LinkAnalyzer, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.LinkAnalyzer.dll</HintPath>
+    <Reference Include="EPiServer.LinkAnalyzer, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.LinkAnalyzer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Logging.Log4Net">
       <HintPath>..\..\packages\EPiServer.Logging.Log4Net.2.0.0\lib\net45\EPiServer.Logging.Log4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Shell, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Framework.9.9.0\lib\net45\EPiServer.Shell.dll</HintPath>
+    <Reference Include="EPiServer.Shell, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Framework.9.12.2\lib\net45\EPiServer.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Web.WebControls, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.Web.WebControls.dll</HintPath>
+    <Reference Include="EPiServer.Web.WebControls, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.Web.WebControls.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.XForms, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CMS.Core.9.9.0\lib\net45\EPiServer.XForms.dll</HintPath>
+    <Reference Include="EPiServer.XForms, Version=9.12.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CMS.Core.9.12.2\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -151,74 +135,6 @@
     </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Mediachase.BusinessFoundation, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.BusinessFoundation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.BusinessFoundation.Data, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.BusinessFoundation.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce.Marketing.Validators, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce.Plugins.Payment, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce.Plugins.Shipping, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce.Website, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.Website.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Commerce.Workflow, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Commerce.Workflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.ConsoleManager, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CommerceManager.9.16.0\lib\net45\Mediachase.ConsoleManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.DataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.DataProvider.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.FileUploader, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.FileUploader.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.MetaDataPlus, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.MetaDataPlus.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Search, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Search.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Search.Extensions, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Search.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.Search.LuceneSearchProvider, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.SqlDataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.SqlDataProvider.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mediachase.WebConsoleLib, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\Mediachase.WebConsoleLib.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -277,16 +193,8 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nsoftware.IBizPay, Version=4.1.3575.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.16.0\lib\net45\nsoftware.IBizPay.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RssToolkit, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CommerceManager.9.16.0\lib\net45\RssToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap">
@@ -346,14 +254,26 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Validators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.CommerceManager.9.16.0\lib\net45\Validators.dll</HintPath>
+    <Reference Include="Mediachase.ConsoleManager">
+      <!--
+        Don't use project reference for manager project since it is a web application project, which will make
+        web deploy trigger and try to find pubxml file for the publish profile which does not exist in the
+        commerce code (and we don't want to pollute it with quicksilver-specific stuff). Instead use a direct
+        dll reference to the projects output folder. This could be changed if Mediachase.ConsoleManager is
+        cleaned up to not be a web project, like e.g. EPiServer.Commerce.UI was.
+      -->
+      <!--
+      <ProjectReference Include="..\..\ECF\Mediachase.ConsoleManager\Mediachase.ConsoleManager.csproj">
+          <Project>{a35c48fb-0869-4893-a929-14b6c68795aa}</Project>
+          <Name>Mediachase.ConsoleManager</Name>
+        </ProjectReference>
+      -->
+      <HintPath>..\..\ECF\Mediachase.ConsoleManager\bin\Mediachase.ConsoleManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\log\placeholder.txt" />
-    <Content Include="App_Data\SiteTemplates\Business To Consumer Site.xml" />
     <Content Include="BlobStorage\Public\placeholder.txt" />
     <Content Include="Default.aspx" />
     <Content Include="EPiServerDefault.aspx" />
@@ -363,815 +283,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Asset\AssetStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssetStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Catalog\CatalogStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CatalogStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.en.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.en.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\CommerceManager.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommerceManager.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\ConsoleResources.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConsoleResources.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Content\ContentStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Core\CoreStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CoreStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\Customer.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customer.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Customer\ProfileStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProfileStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\DashboardStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DashboardStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GlobalResources.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResources.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Common.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\Global.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Global.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFieldManageControls.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalFilterControls.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalFilterControls.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalMetaInfo.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.Filter.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IbnFramework.GlobalMetaInfo.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\IbnFramework\MetaForm.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MetaForm.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Marketing\MarketingStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MarketingStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Order\OrderStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Reporting\ReportingStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportingStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\SharedStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SharedStrings.sv.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.da.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.da.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.fi.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.fi.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.fr.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.nl.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.nl.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.no.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.no.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Shell\ShellStrings.sv.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShellStrings.sv.resx</DependentUpon>
+    <Compile Include="..\AssemblyVersionAuto.cs">
+      <Link>AssemblyVersionAuto.cs</Link>
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx.cs</DependentUpon>
@@ -1196,16 +309,6 @@
     <Content Include="Configs\ecf.security.config" />
     <Content Include="Configs\ecf.ssl.config" />
     <Content Include="Configs\ecf.workflow.config" />
-    <Content Include="App_Data\de-DE.dic" />
-    <Content Include="App_Data\en-AU.dic" />
-    <Content Include="App_Data\en-CA.dic" />
-    <Content Include="App_Data\en-GB.dic" />
-    <Content Include="App_Data\en-UK.dic" />
-    <Content Include="App_Data\en-US.dic" />
-    <Content Include="App_Data\es-ES.dic" />
-    <Content Include="App_Data\es-MX.dic" />
-    <Content Include="App_Data\fr-FR.dic" />
-    <Content Include="App_Data\it-IT.dic" />
     <None Include="Configs\EcfGridFull.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1231,656 +334,6 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Asset\AssetStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AssetStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Catalog\CatalogStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CatalogStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.en.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.en.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\CommerceManager.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CommerceManager.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\ConsoleResources.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ConsoleResources.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Content\ContentStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ContentStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Core\CoreStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>CoreStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\Customer.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Customer.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Customer\ProfileStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ProfileStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Dashboard\DashboardStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>DashboardStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GlobalResources.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalResources.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Common.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\Global.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Global.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFieldManageControls.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFieldManageControls.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalFilterControls.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalFilterControls.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\GlobalMetaInfo.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GlobalMetaInfo.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.Filter.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.Filter.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\IbnFramework.GlobalMetaInfo.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>IbnFramework.GlobalMetaInfo.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\IbnFramework\MetaForm.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MetaForm.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Marketing\MarketingStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MarketingStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Order\OrderStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>OrderStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Reporting\ReportingStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ReportingStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\SharedStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>SharedStrings.sv.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.da.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.da.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.fi.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.fi.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.fr.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.fr.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.nl.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.nl.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.no.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.no.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Shell\ShellStrings.sv.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>ShellStrings.sv.designer.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="modulesbin\" />
@@ -1946,11 +399,111 @@
   <Target Name="AfterBuild">
     <UpdateLoginPage ProjectPath="$(ProjectDir)" />
   </Target>
-  <Import Project="..\..\packages\EPiServer.CommerceManager.9.16.0\build\EPiServer.CommerceManager.targets" Condition="Exists('..\..\packages\EPiServer.CommerceManager.9.16.0\build\EPiServer.CommerceManager.targets')" />
+  <ItemGroup>
+    <Reference Include="EPiServer.Business.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\EPiServer.Business.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.Internal.Migration, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\EPiServer.Commerce.Internal.Migration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.BusinessFoundation, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.BusinessFoundation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.BusinessFoundation.Data, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.BusinessFoundation.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Marketing.Validators, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Plugins.Payment, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Plugins.Shipping, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Website, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.Website.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Workflow, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Commerce.Workflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.DataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.DataProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.FileUploader, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.FileUploader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.MetaDataPlus, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.MetaDataPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Search.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.Extensions, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Search.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Search.LuceneSearchProvider, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.SqlDataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.SqlDataProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.WebConsoleLib, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\Mediachase.WebConsoleLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.ConsoleManager, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CommerceManager.9.24.1\lib\net45\Mediachase.ConsoleManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ComponentArt.Web.UI, Version=2012.1.1016.35, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CommerceManager.9.24.1\lib\net45\ComponentArt.Web.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nsoftware.IBizPay, Version=4.1.3575.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\nsoftware.IBizPay.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RssToolkit, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CommerceManager.9.24.1\lib\net45\RssToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Validators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.CommerceManager.9.24.1\lib\net45\Validators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\..\packages\EPiServer.CommerceManager.9.24.1\build\EPiServer.CommerceManager.targets"
+    Condition="Exists('..\..\packages\EPiServer.CommerceManager.9.24.1\build\EPiServer.CommerceManager.targets')"/>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\EPiServer.CommerceManager.9.16.0\build\EPiServer.CommerceManager.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EPiServer.CommerceManager.9.16.0\build\EPiServer.CommerceManager.targets'))" />
+    <Error Condition="!Exists('..\..\packages\EPiServer.CommerceManager.9.24.1\build\EPiServer.CommerceManager.targets')"
+      Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EPiServer.CommerceManager.9.24.1\build\EPiServer.CommerceManager.targets'))"/>
   </Target>
 </Project>

@@ -1,5 +1,5 @@
 ﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@model EPiServer.Reference.Commerce.Site.Features.Cart.Models.WishListMiniCartViewModel
+@model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListMiniCartViewModel
 
 <div class="product-dropdown cart-dropdown product-row list-unstyled">
 
@@ -37,7 +37,7 @@
                                         }
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
-                                        <h4 class="product-row__item__price product-price">@cartItem.ExtendedPrice.ToString()</h4>
+                                        <h4 class="product-row__item__price product-price">@cartItem.DiscountedPrice.ToString()</h4>
                                     </div>
                                     <div class="col-md-2 product-col-remove">
                                         @if (!(bool)ViewData["IsReadOnly"])
@@ -49,7 +49,6 @@
                             </div>
                             @Html.Hidden("quantity", cartItem.Quantity.ToString("0"), new { @class = "jsChangeCartItem" })
                             @Html.Hidden("code", cartItem.Code)
-                            @Html.Hidden("miniCart", true)
                         </div>
                     }
                 </li>
@@ -63,7 +62,7 @@
                 <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
             </li>
             <li class="cart-item">
-                <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/ContinueShopping")</button>
+                <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/Close")</button>
             </li>
         </ul>
     </div>

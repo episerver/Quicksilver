@@ -1,24 +1,19 @@
-﻿using System;
-using System.Web.Mvc;
-using EPiServer.Core;
-using EPiServer.Editor;
+﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Models;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
-using System.Threading.Tasks;
-using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
-using System.Collections.Specialized;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
-using Microsoft.Owin;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
+using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {
@@ -70,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
             var body = _mailService.GetHtmlBodyForMail(startPage.ResetPasswordMail, new NameValueCollection(), language);
             var mailPage = _contentLoader.Get<MailBasePage>(startPage.ResetPasswordMail);
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-            var url = Url.Action("ResetPassword", "ResetPassword", new { userId = user.Id, code, langauge = language }, Request.Url.Scheme);
+            var url = Url.Action("ResetPassword", "ResetPassword", new { userId = user.Id, code = HttpUtility.UrlEncode(code), language = language }, Request.Url.Scheme);
 
             body = body.Replace("[MailUrl]",
                 String.Format("{0}<a href=\"{1}\">{2}</a>",
@@ -114,7 +109,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
                 return RedirectToAction("ResetPasswordConfirmation");
             }
 
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(user.Id, HttpUtility.UrlDecode(model.Code), model.Password);
 
             if (result.Succeeded)
             {

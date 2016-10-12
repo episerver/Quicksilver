@@ -16,7 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         private readonly IPriceService _priceService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
-        private AppContextFacade _appContext;
+        private readonly AppContextFacade _appContext;
 
         public PricingService(IPriceService priceService,
             ICurrentMarket currentMarket, 
@@ -64,12 +64,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
-            var prices = GetPriceList(code, market.MarketId,
+            return GetPrice(code, market.MarketId, currency);
+        }
+
+        public Money? GetPrice(string code, MarketId marketId, Currency currency)
+        {
+            var prices = GetPriceList(code, marketId,
                 new PriceFilter
                 {
                     Currencies = new[] { currency }
                 });
-            
+
             return prices.Any() ? prices.First().UnitPrice : (Money?)null;
         }
     }

@@ -32,7 +32,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
             set
             {
                 _preferredBillingAddress = value;
-                PreferredBillingAddressId = value.AddressId;
+
+                if (value == null)
+                {
+                    PreferredBillingAddressId = null;
+                }
+                else
+                {
+                    PreferredBillingAddressId = value.AddressId;
+                }
             }
         }
 
@@ -47,7 +55,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
             set
             {
                 _preferredShippingAddress = value;
-                PreferredBillingAddressId = value.AddressId;
+
+                if (value == null)
+                {
+                    PreferredShippingAddressId = null;
+                }
+                else
+                {
+                    PreferredShippingAddressId = value.AddressId;
+                }
             }
         }
 

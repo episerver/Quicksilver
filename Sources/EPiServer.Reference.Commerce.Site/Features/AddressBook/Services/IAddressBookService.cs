@@ -1,10 +1,9 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Orders.Dto;
-using System;
 using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
@@ -12,18 +11,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
     public interface IAddressBookService
     {
         AddressCollectionViewModel GetAddressBookViewModel(AddressBookPage addressBookPage);
-        bool CanSave(Address address);
-        void Save(Address viewModel);
-        void Delete(Guid addressId);
-        void SetPreferredBillingAddress(Guid addressId);
-        void SetPreferredShippingAddress(Guid addressId);
-        void LoadAddress(Address address);
-        void GetCountriesAndRegionsForAddress(Address address);
-        IEnumerable<CountryDto.StateProvinceRow> GetRegionOptionsByCountryCode(string countryCode);
-        void MapModelToCustomerAddress(Address viewModel, CustomerAddress customerAddress);
-        void MapModelToOrderAddress(Address viewModel, OrderAddress orderAddress);
-        void MapOrderAddressToModel(Address viewModel, OrderAddress orderAddress);
-        void MapCustomerAddressToModel(Address address, CustomerAddress customerAddress);
-        IList<ShippingAddress> GetAvailableShippingAddresses();
+        IList<AddressModel> List();
+        bool CanSave(AddressModel addressModel);
+        void Save(AddressModel addressModel);
+        void Delete(string addressId);
+        void SetPreferredBillingAddress(string addressId);
+        void SetPreferredShippingAddress(string addressId);
+        CustomerAddress GetPreferredBillingAddress();
+        void LoadAddress(AddressModel addressModel);
+        void LoadCountriesAndRegionsForAddress(AddressModel addressModel);
+        IEnumerable<string> GetRegionsByCountryCode(string countryCode);
+        void MapToAddress(AddressModel addressModel, IOrderAddress orderAddress);
+        void MapToAddress(AddressModel addressModel, CustomerAddress customerAddress);
+        void MapToModel(CustomerAddress customerAddress, AddressModel addressModel);
+        IOrderAddress ConvertToAddress(AddressModel addressModel);
+        AddressModel ConvertToModel(IOrderAddress orderAddress);
+        IList<AddressModel> MergeAnonymousShippingAddresses(IList<AddressModel> addresses, IEnumerable<CartItemViewModel> cartItems);
+        bool UseBillingAddressForShipment();
     }
 }

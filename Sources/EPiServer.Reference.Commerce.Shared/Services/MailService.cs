@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Shared.Services
             _htmlDownloader = htmlDownloader;
         }
 
-        public void Send(PageReference mailReference, NameValueCollection nameValueCollection, string toEmail, string language)
+        public void Send(ContentReference mailReference, NameValueCollection nameValueCollection, string toEmail, string language)
         {
             var body = GetHtmlBodyForMail(mailReference, nameValueCollection, language);
             var mailPage = _contentLoader.Get<MailBasePage>(mailReference);
@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Shared.Services
             Send(mailPage.MailTitle, body, toEmail);
         }
 
-        public string GetHtmlBodyForMail(PageReference mailReference, NameValueCollection nameValueCollection, string language)
+        public string GetHtmlBodyForMail(ContentReference mailReference, NameValueCollection nameValueCollection, string language)
         {
             var urlBuilder = new UrlBuilder(_urlResolver.GetUrl(mailReference, language))
             {
@@ -58,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Shared.Services
 
         public void Send(string subject, string body, string recipientMailAddress)
         {
-            MailMessage message = new MailMessage()
+            var message = new MailMessage
             {
                 Subject = subject,
                 Body = body,

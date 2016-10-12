@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Mediachase.Commerce;
+﻿using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 {

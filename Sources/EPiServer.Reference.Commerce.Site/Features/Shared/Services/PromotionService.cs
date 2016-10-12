@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Commerce.Marketing;
+using EPiServer.Commerce.Order;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Pricing;
 
@@ -19,28 +19,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         private readonly IPricingService _pricingService;
         private readonly IMarketService _marketService;
         private readonly ReferenceConverter _referenceConverter;
-        private readonly IPromotionEntryService _promotionEntryService;
-        private readonly PromotionHelperFacade _promotionHelper;
+        private readonly ILineItemCalculator _lineItemCalculator;
+        private readonly IPromotionEngine _promotionEngine;
 
         public PromotionService(
             IPricingService pricingService, 
             IMarketService marketService, 
             IContentLoader contentLoader, 
-            ReferenceConverter referenceConverter, 
-            PromotionHelperFacade promotionHelper,
-            IPromotionEntryService promotionEntryService)
+            ReferenceConverter referenceConverter,
+            ILineItemCalculator lineItemCalculator,
+            IPromotionEngine promotionEngine)
         {
             _contentLoader = contentLoader;
             _marketService = marketService;
             _pricingService = pricingService;
             _referenceConverter = referenceConverter;
-            _promotionEntryService = promotionEntryService;
-            _promotionHelper = promotionHelper;
+            _lineItemCalculator = lineItemCalculator;
+            _promotionEngine = promotionEngine;
         }
         
         public IList<IPriceValue> GetDiscountPriceList(IEnumerable<CatalogKey> catalogKeys, MarketId marketId, Currency currency)
         {
-            if (_marketService.GetMarket(marketId) == null)
+            var market = _marketService.GetMarket(marketId);
+            if (market == null)
             {
                 throw new ArgumentException(string.Format("market '{0}' does not exist", marketId));
             }
@@ -57,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             }
             var prices = catalogKeys.SelectMany(x => _pricingService.GetPriceList(x.CatalogEntryCode, marketId, priceFilter));
 
-            return GetDiscountPrices(prices.ToList(), marketId, currency);
+            return GetDiscountPrices(prices.ToList(), market, currency);
         }
 
         public IPriceValue GetDiscountPrice(CatalogKey catalogKey, MarketId marketId, Currency currency)
@@ -65,10 +66,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             return GetDiscountPriceList(new[] { catalogKey }, marketId, currency).FirstOrDefault();
         }
 
-        private IList<IPriceValue> GetDiscountPrices(IList<IPriceValue> prices, MarketId marketId, Currency currency)
-        {
-            currency = GetCurrency(currency, marketId);
 
+        public IPriceValue GetDiscountPrice(IPriceValue price, EntryContentBase entry, Currency currency, IMarket market)
+        {
+            var discountedPrice = _promotionEngine.GetDiscountPrices(new[] { entry.ContentLink }, market, currency, _referenceConverter, _lineItemCalculator);
+            if (discountedPrice.Any())
+            {
+                var highestDiscount = discountedPrice.SelectMany(x => x.DiscountPrices).OrderBy(x => x.Price).FirstOrDefault().Price;
+                return new PriceValue
+                {
+                    CatalogKey = price.CatalogKey,
+                    CustomerPricing = CustomerPricing.AllCustomers,
+                    MarketId = price.MarketId,
+                    MinQuantity = 1,
+                    UnitPrice = highestDiscount,
+                    ValidFrom = DateTime.UtcNow,
+                    ValidUntil = null
+                };
+            }
+            return price;
+        }
+
+        private IList<IPriceValue> GetDiscountPrices(IList<IPriceValue> prices, IMarket market, Currency currency)
+        {
+            currency = GetCurrency(currency, market);
             var priceValues = new List<IPriceValue>();
             
             foreach (var entry in GetEntries(prices))
@@ -82,16 +103,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
                     continue;
                 }
 
-                priceValues.Add(_promotionEntryService.GetDiscountPrice(
-                    price, entry, currency, _promotionHelper));
+                priceValues.Add(GetDiscountPrice(
+                    price, entry, currency, market));
                 
             }
             return priceValues;
         }
-       
-        private Currency GetCurrency(Currency currency, MarketId marketId)
+
+        private Currency GetCurrency(Currency currency, IMarket market)
         {
-            return currency == Currency.Empty ? _marketService.GetMarket(marketId).DefaultCurrency : currency;
+            return currency == Currency.Empty ? market.DefaultCurrency : currency;
         }
 
         private IEnumerable<EntryContentBase> GetEntries(IEnumerable<IPriceValue> prices)

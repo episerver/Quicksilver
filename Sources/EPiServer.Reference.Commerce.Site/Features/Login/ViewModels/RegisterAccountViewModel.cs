@@ -5,7 +5,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {
     public class RegisterAccountViewModel 
     {
-        public Address Address { get; set; }
+        public AddressModel Address { get; set; }
 
         [LocalizedDisplay("/Registration/Form/Label/Email")]
         [LocalizedRequired("/Registration/Form/Empty/Email")]

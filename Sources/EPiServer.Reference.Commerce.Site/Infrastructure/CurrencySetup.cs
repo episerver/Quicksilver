@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mediachase.Commerce.Catalog.Managers;
 using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Commerce.Core;
@@ -25,7 +23,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             public decimal Factor;
         }
 
-        private CurrencyConversion[] _conversionRatesToUsd = new CurrencyConversion[] {
+        private readonly CurrencyConversion[] _conversionRatesToUsd = new [] {
             new CurrencyConversion("USD", "US dollar", 1m),
             new CurrencyConversion("SEK", "Swedish krona", 0.12m),
             new CurrencyConversion("AUD", "Australian dollar", 0.78m),

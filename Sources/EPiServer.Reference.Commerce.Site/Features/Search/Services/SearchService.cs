@@ -2,8 +2,9 @@
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Indexing;
 using EPiServer.ServiceLocation;
@@ -55,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             _localizationService = localizationService;
         }
 
-        public CustomSearchResult Search(IContent currentContent, FilterOptionFormModel filterOptions)
+        public CustomSearchResult Search(IContent currentContent, FilterOptionViewModel filterOptions)
         {
             if (filterOptions == null)
             {
@@ -69,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 
         public IEnumerable<ProductViewModel> QuickSearch(string query)
         {
-            var filterOptions = new FilterOptionFormModel
+            var filterOptions = new FilterOptionViewModel
             {
                 Q = query,
                 PageSize = 5,
@@ -78,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return QuickSearch(filterOptions);
         }
 
-        public IEnumerable<ProductViewModel> QuickSearch(FilterOptionFormModel filterOptions)
+        public IEnumerable<ProductViewModel> QuickSearch(FilterOptionViewModel filterOptions)
         {
             if (String.IsNullOrEmpty(filterOptions.Q))
             {
@@ -111,7 +112,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             };
         }
 
-        private CatalogEntrySearchCriteria CreateCriteriaForQuickSearch(FilterOptionFormModel filterOptions)
+        private CatalogEntrySearchCriteria CreateCriteriaForQuickSearch(FilterOptionViewModel filterOptions)
         {
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == filterOptions.Sort) ?? GetSortOrder().First();
             var market = _currentMarket.GetCurrentMarket();
@@ -130,7 +131,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return criteria;
         }
 
-        private CatalogEntrySearchCriteria CreateCriteria(IContent currentContent, FilterOptionFormModel filterOptions)
+        private CatalogEntrySearchCriteria CreateCriteria(IContent currentContent, FilterOptionViewModel filterOptions)
         {
             var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : _defaultPageSize;
             var sortOrder = GetSortOrder().FirstOrDefault(x => x.Name.ToString() == filterOptions.Sort) ?? GetSortOrder().First();
@@ -263,8 +264,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 Brand = GetString(document, "brand"),
                 Code = GetString(document, "code"),
                 DisplayName = GetString(document, "displayname"),
-                PlacedPrice = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)),
-                ExtendedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
+                PlacedPrice = new Money(GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)), currency),
+                DiscountedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
                 ImageUrl = GetString(document, "image_url"),
                 Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link"))),
                 IsAvailable = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)) > 0                

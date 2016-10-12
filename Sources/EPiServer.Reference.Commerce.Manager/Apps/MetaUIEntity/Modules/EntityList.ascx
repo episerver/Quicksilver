@@ -172,7 +172,7 @@ function appendLinkRss(obj)
 		<td style="padding-left: 5px;" class="filter">
 			<asp:UpdatePanel ID="grdMainPanel" runat="server" UpdateMode="Conditional">
 				<ContentTemplate>
-					<mc:EntityGrid ID="grdMain" runat="server" />	
+					<mc:EntityGrid ID="grdMain" runat="server" />
 					<mc:MCGridAction runat="server" ID="ctrlGridEventUpdater"  />
 				</ContentTemplate>
 			</asp:UpdatePanel>

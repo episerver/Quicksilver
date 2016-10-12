@@ -10,8 +10,9 @@ using Mediachase.Commerce.Markets;
 using Moq;
 using System.Collections;
 using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.Features.Market.Models;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
 using Xunit;
 
 
@@ -24,8 +25,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         {
             const string expectedUrl = "https://github.com/episerver/Quicksilver";
 
-            _mockMarketService.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
-            _mockUrlResolver.Setup(x => x.GetUrl(_contentLink, _language)).Returns(expectedUrl);
+            _marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
+            _urlResolverMock.Setup(x => x.GetUrl(_contentLink, _language)).Returns(expectedUrl);
 
             var controller = CreateController();
             var result = controller.Set(_language, _contentLink);
@@ -36,23 +37,23 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         [Fact]
         public void Set_ShouldCallSetCurrentLanguageOnLanguageService()
         {
-            _mockMarketService.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
+            _marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
 
             var controller = CreateController();
             controller.Set(_language, _contentLink);
 
-            _mockLanguageService.Verify(x => x.SetCurrentLanguage(_language), Times.Once);
+            _languageServiceMock.Verify(x => x.SetCurrentLanguage(_language), Times.Once);
         }
 
         [Fact]
         public void Set_ShouldCallSetCurrentMarket()
         {
-            _mockMarketService.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
+            _marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
 
             var controller = CreateController();
             controller.Set(_language, _contentLink);
             
-            _mockCurrentMarket.Verify(x => x.SetCurrentMarket(_language), Times.Once);
+            _currentMarketMock.Verify(x => x.SetCurrentMarket(_language), Times.Once);
         }
 
         [Fact]
@@ -76,8 +77,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
                })
             };
 
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
-            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+            _marketServiceMock.Setup(x => x.GetAllMarkets()).Returns(markets);
 
             var subject = CreateController();
             var result = ((PartialViewResult)subject.Index(_contentLink)).Model as MarketViewModel;
@@ -90,8 +91,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var disabledMarket = CreateMarketImpl("myMarket", "myMarket", false);
 
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, disabledMarket };
-            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+            _marketServiceMock.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
 
             var subject = CreateController();
             var result = subject.Index(_contentLink);
@@ -102,11 +103,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         [Fact]
         public void Index_ShouldReturnModelWithSortedMarkets()
         {
-            var contentLink = new ContentReference(11);
-            
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
-            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+            _marketServiceMock.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
 
             var subject = CreateController();
             var result = subject.Index(_contentLink);
@@ -118,8 +117,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         public void Index_ShouldReturnPartialViewResultType()
         {
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
-            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+            _marketServiceMock.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
 
             var contentLink = new ContentReference(11);
             var subject = CreateController();
@@ -131,8 +130,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         public void Index_ShouldReturnModelType()
         {
             IEnumerable<IMarket> markets = new MarketImpl[] { _currentMarket, _market };
-            _mockMarketService.Setup(x => x.GetAllMarkets()).Returns(markets);
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
+            _marketServiceMock.Setup(x => x.GetAllMarkets()).Returns(markets);
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_currentMarket);
 
             var contentLink = new ContentReference(11);
             var subject = CreateController();
@@ -140,10 +139,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             Assert.IsType(typeof(MarketViewModel), (result as ViewResultBase).Model);
         }
 
-        private Mock<ICurrentMarket> _mockCurrentMarket;
-        private Mock<IMarketService> _mockMarketService;
-        private Mock<UrlResolver> _mockUrlResolver;
-        private Mock<LanguageService> _mockLanguageService;
+        private Mock<ICurrentMarket> _currentMarketMock;
+        private Mock<IMarketService> _marketServiceMock;
+        private Mock<UrlResolver> _urlResolverMock;
+        private Mock<LanguageService> _languageServiceMock;
+        private Mock<ICurrencyService> _currencyServiceMock;
+        private Mock<ICartService> _cartServiceMock;
         private MarketImpl _currentMarket;
         private MarketImpl _market;
         private string _language;
@@ -157,17 +158,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             _currentMarket = CreateMarketImpl( "currentMarket", "currentMarket", true);
             _market = CreateMarketImpl("myMarket", "myMarket", true);
                         
-            _mockCurrentMarket = new Mock<ICurrentMarket>();
-            _mockMarketService = new Mock<IMarketService>();
-            _mockUrlResolver = new Mock<UrlResolver>();
+            _currentMarketMock = new Mock<ICurrentMarket>();
+            _marketServiceMock = new Mock<IMarketService>();
+            _urlResolverMock = new Mock<UrlResolver>();
+            _currencyServiceMock = new Mock<ICurrencyService>();
+            _cartServiceMock = new Mock<ICartService>();
 
-            _mockLanguageService = new Mock<LanguageService>(null, null, null, null);
-            _mockLanguageService.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(true);
+            _languageServiceMock = new Mock<LanguageService>(null, null, null, null);
+            _languageServiceMock.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(true);
         }
 
         private MarketController CreateController()
         {
-            return new MarketController(_mockMarketService.Object, _mockCurrentMarket.Object, _mockUrlResolver.Object, _mockLanguageService.Object);
+            return new MarketController(_marketServiceMock.Object, _currentMarketMock.Object, _urlResolverMock.Object, _languageServiceMock.Object, _cartServiceMock.Object, _currencyServiceMock.Object);
         }
         
         private MarketImpl CreateMarketImpl(MarketId marketId,string marketName, bool isEnabled )

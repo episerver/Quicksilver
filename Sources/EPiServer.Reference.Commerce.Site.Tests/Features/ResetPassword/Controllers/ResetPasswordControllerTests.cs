@@ -91,11 +91,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             Assert.Equal("ResetPasswordConfirmation", result.ViewName);
         }
 
-        ResetPasswordController _subject;
-        private Mock<ApplicationUserManager> _userManagerMock;
-        private Mock<UserService> _userServiceMock;
-        private Mock<ResetPasswordPage> _resetPasswordPageMock;
-
+        private readonly ResetPasswordController _subject;
+        private readonly Mock<ApplicationUserManager> _userManagerMock;
+        private readonly Mock<UserService> _userServiceMock;
+        private readonly Mock<ResetPasswordPage> _resetPasswordPageMock;
 
         public ResetPasswordControllerTests()
         {

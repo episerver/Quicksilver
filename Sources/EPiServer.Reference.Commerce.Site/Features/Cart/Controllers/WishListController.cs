@@ -1,12 +1,12 @@
-﻿using EPiServer.Core;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,32 +17,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICartService _cartService;
-        private readonly LocalizationService _localizationService;
-        private readonly IProductService _productService;
+        private ICart _wishlist;
+        private readonly IOrderRepository _orderRepository;
+        readonly CartViewModelFactory _cartViewModelFactory;
 
         public WishListController(
             IContentLoader contentLoader,
             ICartService cartService,
-            LocalizationService localizationService,
-            IProductService productService)
+            IOrderRepository orderRepository,
+            CartViewModelFactory cartViewModelFactory)
         {
             _contentLoader = contentLoader;
-            _localizationService = localizationService;
             _cartService = cartService;
-            _productService = productService;
-            _cartService.InitializeAsWishList();
+            _orderRepository = orderRepository;
+            _cartViewModelFactory = cartViewModelFactory;
         }
 
         [HttpGet]
         public ActionResult Index(WishListPage currentPage)
         {
-            WishListViewModel viewModel = new WishListViewModel
-            {
-                ItemCount = _cartService.GetLineItemsTotalQuantity(),
-                CurrentPage = currentPage,
-                CartItems = _cartService.GetCartItems(),
-                Total = _cartService.GetSubTotal()
-            };
+            var viewModel = _cartViewModelFactory.CreateWishListViewModel(WishList);
+            viewModel.CurrentPage = currentPage;
 
             return View(viewModel);
         }
@@ -50,14 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult WishListMiniCartDetails()
         {
-            WishListMiniCartViewModel viewModel = new WishListMiniCartViewModel
-            {
-                ItemCount = _cartService.GetLineItemsTotalQuantity(),
-                WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
-                CartItems = _cartService.GetCartItems(),
-                Total = _cartService.GetTotal()
-            };
-
+            var viewModel = _cartViewModelFactory.CreateWishListMiniCartViewModel(WishList);
             return PartialView("_WishListMiniCartDetails", viewModel);
         }
 
@@ -65,11 +53,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AllowDBWrite]
         public ActionResult AddToCart(string code)
         {
-            ModelState.Clear();
-            string warningMessage = null;
+            string warningMessage = string.Empty;
 
-            if (_cartService.GetCartItems().Any(item => item.Code.Equals(code)) || _cartService.AddToCart(code, out warningMessage))
+            ModelState.Clear();
+
+            if (WishList == null)
             {
+                _wishlist = _cartService.LoadOrCreateCart(_cartService.DefaultWishListName);
+            }
+
+            if(WishList.GetAllLineItems().Any(item => item.Code.Equals(code, StringComparison.OrdinalIgnoreCase)))
+            {
+                return WishListMiniCartDetails();
+            }
+
+            if (_cartService.AddToCart(WishList, code, out warningMessage))
+            {
+                _orderRepository.Save(WishList);
                 return WishListMiniCartDetails();
             }
 
@@ -84,23 +84,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         {
             ModelState.Clear();
 
-            if (quantity > 0)
-            {
-                if (size == newSize)
-                {
-                    _cartService.ChangeQuantity(code, quantity);
-                }
-                else
-                {
-                    var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-                    _cartService.UpdateLineItemSku(code, newCode, quantity);
-                }
-            }
-            else
-            {
-                _cartService.RemoveLineItem(code);
-            }
-
+            _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize);
+            _orderRepository.Save(WishList);
             return WishListMiniCartDetails();
         }
 
@@ -108,10 +93,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AllowDBWrite]
         public ActionResult DeleteWishList()
         {
-            _cartService.DeleteCart();
+            if (WishList != null)
+            {
+                _orderRepository.Delete(WishList.OrderLink);
+            }
             var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
 
             return RedirectToAction("Index", new { Node = startPage.WishListPage });
+        }
+
+        private ICart WishList
+        {
+            get { return _wishlist ?? (_wishlist = _cartService.LoadCart(_cartService.DefaultWishListName)); }
         }
     }
 }

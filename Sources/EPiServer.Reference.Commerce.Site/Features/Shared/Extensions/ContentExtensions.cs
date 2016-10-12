@@ -4,7 +4,6 @@ using EPiServer.Core;
 using EPiServer.Filters;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

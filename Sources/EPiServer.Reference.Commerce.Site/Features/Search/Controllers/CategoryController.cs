@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Web.Mvc;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 {
@@ -17,10 +16,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult Index(FashionNode currentContent, FilterOptionFormModel formModel)
+        public ViewResult Index(FashionNode currentContent, FilterOptionViewModel viewModel)
         {
-            var model = _viewModelFactory.Create(currentContent, formModel);
-            return Request.IsAjaxRequest() ? PartialView(model) : (ActionResult)View(model);
+            var model = _viewModelFactory.Create(currentContent, viewModel);
+            return View(model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult Facet(FashionNode currentContent, FilterOptionViewModel viewModel)
+        {
+            var model = _viewModelFactory.Create(currentContent, viewModel);
+            return PartialView("_Facet", viewModel);
         }
     }
 }

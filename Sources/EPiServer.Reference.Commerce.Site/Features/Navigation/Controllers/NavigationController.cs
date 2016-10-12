@@ -1,8 +1,9 @@
-﻿using EPiServer.Core;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
-using EPiServer.Reference.Commerce.Site.Features.Navigation.Models;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web.Mvc.Html;
@@ -14,48 +15,43 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICartService _cartService;
-        private readonly ICartService _wishListService;
         private readonly UrlHelper _urlHelper;
         private readonly LocalizationService _localizationService;
+        readonly CartViewModelFactory _cartViewModelFactory;
 
-        public NavigationController(IContentLoader contentLoader, ICartService cartService, ICartService wishListService, UrlHelper urlHelper, LocalizationService localizationService)
+        public NavigationController(
+            IContentLoader contentLoader, 
+            ICartService cartService, 
+            UrlHelper urlHelper, 
+            LocalizationService localizationService,
+            CartViewModelFactory cartViewModelFactory)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
-            _wishListService = wishListService;
             _urlHelper = urlHelper;
             _localizationService = localizationService;
-
-            _wishListService.InitializeAsWishList();
+            _cartViewModelFactory = cartViewModelFactory;
         }
 
         public ActionResult Index(IContent currentContent)
         {
-            StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+            var cart = _cartService.LoadCart(_cartService.DefaultCartName);
+
+            var wishlist = _cartService.LoadCart(_cartService.DefaultWishListName);
+            var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+           
             var viewModel = new NavigationViewModel
             {
                 StartPage = startPage,
                 CurrentContentLink = currentContent != null ? currentContent.ContentLink : null,
                 UserLinks = new LinkItemCollection(),
-                MiniCart = new MiniCartViewModel
-                {
-                    ItemCount = _cartService.GetLineItemsTotalQuantity(),
-                    CheckoutPage = startPage.CheckoutPage,
-                    CartItems = _cartService.GetCartItems(),
-                    Total = _cartService.GetSubTotal()
-                },
-                WishListMiniCart = new WishListMiniCartViewModel
-                {
-                    ItemCount = _wishListService.GetLineItemsTotalQuantity(),
-                    WishListPage = startPage.WishListPage,
-                    CartItems = _wishListService.GetCartItems(),
-                    Total = _wishListService.GetSubTotal()
-                }
+                MiniCart = _cartViewModelFactory.CreateMiniCartViewModel(cart),
+                WishListMiniCart = _cartViewModelFactory.CreateWishListMiniCartViewModel(wishlist)
             };
 
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var rightMenuItems = _contentLoader.Get<StartPage>(ContentReference.StartPage).RightMenu;
+                var rightMenuItems = startPage.RightMenu;
                 if (rightMenuItems != null)
                 {
                     viewModel.UserLinks.AddRange(rightMenuItems);

@@ -1,5 +1,4 @@
-﻿@using EPiServer.Shell.Web
-@model EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels.AddressCollectionViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels.AddressCollectionViewModel
 <div class="container-fluid">
     <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
@@ -41,9 +40,6 @@
                                     }
                                 </div>
                                 <div class="col-xs-12 col-md-6">
-                                    <strong class="small">@Html.Translate("/AddressBook/Form/Label/DateModified")</strong>
-                                    <p class="small">@address.Modified.ToFriendlyDateTimeString()</p>
-
                                     @if (address.BillingDefault)
                                     {
                                         <strong class="small text-success">@Html.Translate("/AddressBook/Form/Label/BillingAddress")</strong><br />

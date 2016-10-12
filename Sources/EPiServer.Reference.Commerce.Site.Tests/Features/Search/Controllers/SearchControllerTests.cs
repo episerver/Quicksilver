@@ -1,8 +1,9 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Moq;
@@ -16,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         [Fact]
         public void Index_ShouldReturnViewModel()
         {
-            var result = ((ViewResult)_subject.Index(new SearchPage(), new FilterOptionFormModel())).Model as SearchViewModel<SearchPage>;
+            var result = ((ViewResult)_subject.Index(new SearchPage(), new FilterOptionViewModel())).Model as SearchViewModel<SearchPage>;
             var expectedResult = new SearchViewModel<SearchPage> 
             {
                 ErrorMessage = "Error"
@@ -33,8 +34,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                 new ProductViewModel
                 {
                     DisplayName = "Test",
-                    PlacedPrice = 10,
-                    ExtendedPrice = new Money(10, Currency.USD)
+                    PlacedPrice =  new Money(10, Currency.USD),
+                    DiscountedPrice = new Money(10, Currency.USD)
                 }
             };
             result.ShouldAllBeEquivalentTo(expectedResult);
@@ -44,7 +45,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         Mock<SearchViewModelFactory> _searchViwModelFactoryMock;
         Mock<ISearchService> _searchServiceMock;
 
-
         public SearchControllerTests()
         {
             _searchServiceMock = new Mock<ISearchService>();
@@ -52,8 +52,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 
             _searchViwModelFactoryMock.Setup(
                 x => x.Create(
-                    It.IsAny<SearchPage>(), It.IsAny<FilterOptionFormModel>()))
-                .Returns((SearchPage content, FilterOptionFormModel model) => new SearchViewModel<SearchPage> 
+                    It.IsAny<SearchPage>(), It.IsAny<FilterOptionViewModel>()))
+                .Returns((SearchPage content, FilterOptionViewModel model) => new SearchViewModel<SearchPage> 
                 {
                     ErrorMessage = "Error"
                 });
@@ -64,8 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                     new ProductViewModel
                     {
                         DisplayName = "Test",
-                        PlacedPrice = 10,
-                        ExtendedPrice = new Money(10, Currency.USD)
+                        PlacedPrice =  new Money(10, Currency.USD),
+                        DiscountedPrice = new Money(10, Currency.USD)
                     }
                 });
             _subject = new SearchController(_searchViwModelFactoryMock.Object, _searchServiceMock.Object);

@@ -30,6 +30,14 @@
 						<asp:Label ID="lblStatus" runat="server"></asp:Label>
 					</td>
 				</tr>
+                <tr>
+					<td class="orderform-label">
+						<asp:Label ID="Label3" runat="server" Text="<%$ Resources:SharedStrings, Discount_Total %>"></asp:Label>:
+					</td>
+					<td class="orderform-field">
+						<asp:Label ID="lblDiscountTotal" runat="server"></asp:Label>
+					</td>
+				</tr>
 				<tr>
 					<td class="orderform-label">
 						<asp:Label ID="Label11" runat="server" Text="<%$ Resources:OrderStrings, Return_Total %>"></asp:Label>:

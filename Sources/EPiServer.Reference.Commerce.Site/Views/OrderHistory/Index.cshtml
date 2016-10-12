@@ -1,6 +1,6 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using Mediachase.Commerce.Orders
-@model EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models.OrderHistoryViewModel
+﻿@using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
 
 <div class="container-fluid">
@@ -14,21 +14,19 @@
 
             @foreach (var order in Model.Orders)
             {
-                var orderForm = order.PurchaseOrder.OrderForms.FirstOrDefault() ?? new OrderForm();
-                var address = order.PurchaseOrder.OrderAddresses.FirstOrDefault() ?? new OrderAddress();
-
+                var orderForm = order.PurchaseOrder.GetFirstForm();
                 <hr />
                 <div class="row section-box">
                     <div class="col-xs-12 col-sm-6">
-                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.TrackingNumber</h3>
-                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.Status</strong></p>
+                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.OrderNumber</h3>
+                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.OrderStatus</strong></p>
                         @Html.Translate("/OrderHistory/Labels/Payment")
                         @if (orderForm.Payments.Any())
                         {
                             @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
                         }
                         <br>
-                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @order.PurchaseOrder.ToMoney(order.PurchaseOrder.Total).ToString()
+                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @order.PurchaseOrder.GetTotal().ToString()
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>
@@ -44,7 +42,7 @@
                         <ul class="list-unstyled">
                             @foreach (var item in order.Items)
                             {
-                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName</a></li>
+                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.GetEntryContent().DisplayName</a></li>
                             }
                         </ul>
                     </div>

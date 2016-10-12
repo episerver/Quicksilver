@@ -7,7 +7,7 @@
         return;
     }
 
-    bool hasDiscount = Model.IsAvailable && Model.ExtendedPrice.Value.Amount < Model.PlacedPrice;
+    bool hasDiscount = Model.IsAvailable && Model.DiscountedPrice.GetValueOrDefault().Amount < Model.PlacedPrice.Amount;
     string productLevelClass = hasDiscount ? "product has-discount" : "product";
     bool renderWishListButtons = Model.IsAvailable ? User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true : false;
 }
@@ -24,12 +24,12 @@
         {
             if (hasDiscount)
             {
-                <h4 class="product-price">@Helpers.RenderMoney(Model.PlacedPrice, Model.ExtendedPrice.Value.Currency)</h4>
-                <h4 class="product-price product-price--discount">@Helpers.RenderMoney(Model.ExtendedPrice.Value)</h4>
+                <h4 class="product-price">@Helpers.RenderMoney(Model.PlacedPrice)</h4>
+                <h4 class="product-price product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
             }
             else
             {
-                <h4 class="product-price">@Helpers.RenderMoney(Model.ExtendedPrice.Value)</h4>
+                <h4 class="product-price">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
             }
         }
         else

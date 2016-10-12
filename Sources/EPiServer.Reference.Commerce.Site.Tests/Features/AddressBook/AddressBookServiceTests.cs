@@ -6,6 +6,8 @@ using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
 using System;
 using System.Linq;
+using EPiServer.Commerce.Order;
+using Moq;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
@@ -15,9 +17,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void CanSave_WhenAddressWithSameNameExists_ShouldReturnFalse()
         {
-            var model = new Address
+            var model = new AddressModel
             {
-                AddressId = Guid.NewGuid(),
+                AddressId = Guid.NewGuid().ToString(),
                 Name = _address1.Name
             };
 
@@ -28,9 +30,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         public void CanSave_WhenAddressWithSameNameDoesNotExist_ShouldReturnTrue()
         {
             var guid = Guid.NewGuid();
-            var model = new Address
+            var model = new AddressModel
             {
-                AddressId = guid,
+                AddressId = guid.ToString(),
                 Name = guid.ToString()
             };
 
@@ -41,22 +43,22 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         public void Save_WhenSavingNewAddress_ShouldAddAddressToCurrentContact()
         {
             var guid = Guid.NewGuid();
-            var model = new Address
+            var model = new AddressModel
             {
                 Name = guid.ToString()
             };
 
             _subject.Save(model);
 
-            Assert.NotNull(_currentContact.ContactAddresses.SingleOrDefault(x => x.AddressId == model.AddressId));
+            Assert.NotNull(_currentContact.ContactAddresses.SingleOrDefault(x => x.AddressId == Guid.Parse(model.AddressId)));
         }
 
         [Fact]
         public void Save_WhenSavingExistingAddress_ShouldUpdateAddressInCurrentContact()
         {
-            var model = new Address
+            var model = new AddressModel
             {
-                AddressId = _address1.AddressId,
+                AddressId = ((Guid)_address1.AddressId).ToString(),
                 Name = _address1.AddressId.ToString()
             };
 
@@ -68,8 +70,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void Save_WhenSavingNewAddress_ShouldUpdatePreferredBillingAddress()
         {
-            var guid = Guid.NewGuid();
-            var model = new Address
+            var guid = Guid.NewGuid().ToString();
+            var model = new AddressModel
             {
                 AddressId = guid,
                 Name = guid.ToString(),
@@ -78,94 +80,99 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 
             _subject.Save(model);
 
-            Assert.Equal<Guid?>(model.AddressId, _currentContact.PreferredBillingAddress.AddressId);
+            Assert.Equal<Guid?>(Guid.Parse(model.AddressId), _currentContact.PreferredBillingAddress.AddressId);
         }
 
         [Fact]
         public void Save_WhenSavingNewAddress_ShouldUpdatePreferredShippingAddress()
         {
-            var guid = Guid.NewGuid();
-            var model = new Address
+            var guid = Guid.NewGuid().ToString();
+            var model = new AddressModel
             {
                 AddressId = guid,
-                Name = guid.ToString(),
+                Name = guid,
                 ShippingDefault = true
             };
 
             _subject.Save(model);
 
-            Assert.Equal<Guid?>(model.AddressId, _currentContact.PreferredShippingAddress.AddressId);
+            Assert.Equal<Guid?>(Guid.Parse(model.AddressId), _currentContact.PreferredShippingAddress.AddressId);
         }
 
         [Fact]
         public void Save_WhenSavingExistingAddress_ShouldUpdatePreferredBillingAddress()
         {
-            var model = new Address
+            var model = new AddressModel
             {
-                AddressId = _address1.AddressId,
+                AddressId = _address1.AddressId.ToString(),
                 Name = _address1.AddressId.ToString(),
                 BillingDefault = true,
             };
 
             _subject.Save(model);
 
-            Assert.Equal<Guid?>(model.AddressId, _currentContact.PreferredBillingAddress.AddressId);
+            Assert.Equal<Guid?>(Guid.Parse(model.AddressId), _currentContact.PreferredBillingAddress.AddressId);
         }
 
         [Fact]
         public void Save_WhenSavingExistingAddress_ShouldUpdatePreferredShippingAddress()
         {
-            var model = new Address
+            var model = new AddressModel
             {
-                AddressId = _address1.AddressId,
+                AddressId = _address1.AddressId.ToString(),
                 Name = _address1.AddressId.ToString(),
                 ShippingDefault = true
             };
 
             _subject.Save(model);
 
-            Assert.Equal<Guid?>(model.AddressId, _currentContact.PreferredShippingAddress.AddressId);
+            Assert.Equal<Guid?>(Guid.Parse(model.AddressId), _currentContact.PreferredShippingAddress.AddressId);
         }
 
         [InlineData(_address1Id)]
         [InlineData(_address2Id)]
-        public void GetAvailableShippingAddresses_ShouldReturnExistingAddresses(string addressId)
+        [Theory]
+        public void List_ShouldReturnExistingAddresses(string addressId)
         {
             var id = new Guid(addressId);
-            var result = _subject.GetAvailableShippingAddresses();
+            var result = _subject.List();
 
             Assert.Equal<int>(2, result.Count());
-            Assert.NotNull(result.Single(x => x.AddressId == id));
+            Assert.NotNull(result.Single(x => x.AddressId == id.ToString()));
         }
 
         [Fact]
-        public void SetPrimaryBillingAddress_WhenAddressIsInvalid_ShouldNotUpdatePreferredBillingAddress()
+        public void SetPreferredBillingAddress_WhenAddressIsInvalid_ShouldNotUpdatePreferredBillingAddress()
         {
-            _subject.SetPreferredBillingAddress(Guid.Empty);
+            _currentContact.PreferredBillingAddress = null;
+
+            _subject.SetPreferredBillingAddress(Guid.Empty.ToString());
 
             Assert.Null(_currentContact.PreferredBillingAddress);
         }
 
         [Fact]
-        public void SetPrimaryBillingAddress_WhenAddressExists_ShouldUpdatePreferredBillingAddress()
+        public void SetPreferredBillingAddress_WhenAddressExists_ShouldUpdatePreferredBillingAddress()
         {
-            _subject.SetPreferredBillingAddress(_address1.AddressId);
+            _subject.SetPreferredBillingAddress(_address1.AddressId.ToString());
 
             Assert.Equal<Guid?>(_address1.AddressId, _currentContact.PreferredBillingAddress.AddressId);
         }
 
         [Fact]
-        public void SetPrimaryShippingAddress_WhenAddressIsInvalid_ShouldNotUpdatePreferredShippingAddress()
+        public void SetPreferredShippingAddress_WhenAddressIsInvalid_ShouldNotUpdatePreferredShippingAddress()
         {
-            _subject.SetPreferredShippingAddress(Guid.Empty);
+            _currentContact.PreferredShippingAddress = null;
+
+            _subject.SetPreferredShippingAddress(Guid.Empty.ToString());
 
             Assert.Null(_currentContact.PreferredShippingAddress);
         }
 
         [Fact]
-        public void SetPrimaryShippingAddress_WhenAddressExists_ShouldUpdatePreferredShippingAddress()
+        public void SetPreferredShippingAddress_WhenAddressExists_ShouldUpdatePreferredShippingAddress()
         {
-            _subject.SetPreferredShippingAddress(_address1.AddressId);
+            _subject.SetPreferredShippingAddress(_address1.AddressId.ToString());
 
             Assert.Equal<Guid?>(_address1.AddressId, _currentContact.PreferredShippingAddress.AddressId);
         }
@@ -173,7 +180,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void Delete_WhenAddressDoesNotExist_ShouldNotDeleteAddress()
         {
-            _subject.Delete(Guid.Empty);
+            _subject.Delete(Guid.Empty.ToString());
 
             Assert.Equal<int>(2, _currentContact.ContactAddresses.Count());
         }
@@ -181,7 +188,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void Delete_WhenAddressExists_ShouldDeleteAddress()
         {
-            _subject.Delete(_address1.AddressId);
+            _subject.Delete(_address1.AddressId.ToString());
 
             Assert.Equal<int>(1, _currentContact.ContactAddresses.Count());
         }
@@ -189,9 +196,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void Delete_WhenAddressExistsAndIsSetAsPreferredBillingAddress_ShouldDeleteAddressAndUpdatePreferredBillingAddress()
         {
-            _subject.SetPreferredBillingAddress(_address1.AddressId);
+            _subject.SetPreferredBillingAddress(_address1.AddressId.ToString());
 
-            _subject.Delete(_address1.AddressId);
+            _subject.Delete(_address1.AddressId.ToString());
 
             Assert.Null(_currentContact.PreferredBillingAddressId);
         }
@@ -199,15 +206,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void Delete_WhenAddressExistsAndIsSetAsPreferredShippingAddress_ShouldDeleteAddressAndUpdatePreferredShippingAddress()
         {
-            _subject.SetPreferredShippingAddress(_address1.AddressId);
+            _subject.SetPreferredShippingAddress(_address1.AddressId.ToString());
 
-            _subject.Delete(_address1.AddressId);
+            _subject.Delete(_address1.AddressId.ToString());
 
             Assert.Null(_currentContact.PreferredShippingAddressId);
         }
 
         [Fact]
-        public void GetViewModel_WhenPassingPage_ShouldReturnModel()
+        public void GetAddressBookViewModel_WhenPassingPage_ShouldReturnModel()
         {
             var page = new AddressBookPage();
             var result = _subject.GetAddressBookViewModel(page);
@@ -218,18 +225,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         [Fact]
         public void LoadAddress_WhenModelHasNoAddressId_ShouldReturnEmptyModel()
         {
-            var model = new Address();
+            var model = new AddressModel();
             _subject.LoadAddress(model);
 
             Assert.Null(model.AddressId);
         }
-
-        private AddressBookService _subject;
-        private CustomerAddress _address1;
+        
+        private readonly AddressBookService _subject;
+        private readonly CustomerAddress _address1;
         private const string _address1Id = "6BB9294A-F25F-4145-A225-F8F4D675377B";
-        private CustomerAddress _address2;
         private const string _address2Id = "B374E959-B221-4B3C-ACC6-CE0B837C5765";
-        private FakeCurrentContact _currentContact;
+        private readonly FakeCurrentContact _currentContact;
 
         public AddressBookServiceTests()
         {
@@ -237,15 +243,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             _address1.AddressId = new PrimaryKeyId(new Guid(_address1Id));
             _address1.Name = _address1.AddressId.ToString();
 
-            _address2 = CustomerAddress.CreateInstance();
-            _address2.AddressId = new PrimaryKeyId(new Guid(_address2Id));
-            _address2.Name = _address2.AddressId.ToString();
+            var address2 = CustomerAddress.CreateInstance();
+            address2.AddressId = new PrimaryKeyId(new Guid(_address2Id));
+            address2.Name = address2.AddressId.ToString();
 
-            _currentContact = new FakeCurrentContact(new[] { _address1, _address2 });
+            _currentContact = new FakeCurrentContact(new[] { _address1, address2 })
+            {
+                PreferredBillingAddress = _address1,
+                PreferredShippingAddress = _address1
+            };
             var customerContext = new FakeCustomerContext(_currentContact);
             var countryManager = new FakeCountryManager();
 
-            _subject = new AddressBookService(customerContext, countryManager);
+            _subject = new AddressBookService(customerContext, countryManager, new Mock<IOrderFactory>().Object);
         }
     }
 }
