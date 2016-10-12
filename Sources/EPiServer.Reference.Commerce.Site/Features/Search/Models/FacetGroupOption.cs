@@ -6,7 +6,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
     {
         public string GroupName { get; set; }
         public List<FacetOption> Facets { get; set; }
-
         public string GroupFieldName { get; set; }
     }
 }

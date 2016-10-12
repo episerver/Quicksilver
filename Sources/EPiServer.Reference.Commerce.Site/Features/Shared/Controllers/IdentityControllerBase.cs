@@ -18,31 +18,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
     [VisitorGroupImpersonation]
     public abstract class IdentityControllerBase<T> : ActionControllerBase, IRenderTemplate<T> where T : IContentData
     {
-        private readonly ApplicationSignInManager _signInManager;
-        private readonly ApplicationUserManager _userManager;
-        private readonly UserService _userService;
-
         protected IdentityControllerBase(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService)
         {
-            _signInManager = applicationSignInManager;
-            _userManager = applicationUserManager;
-            _userService = userService;
+            SignInManager = applicationSignInManager;
+            UserManager = applicationUserManager;
+            UserService = userService;
         }
 
-        public UserService UserService
-        {
-            get { return _userService; }
-        }
+        public UserService UserService { get; private set; }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get { return _signInManager; }
-        }
+        public ApplicationSignInManager SignInManager { get; private set; }
 
-        public ApplicationUserManager UserManager
-        {
-            get { return _userManager; }
-        }
+        public ApplicationUserManager UserManager { get; private set; }
 
         /// <summary>
         /// Redirects the request to the original URL.
@@ -82,19 +69,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
                 return;
             }
 
-            if (_userManager != null)
+            if (UserManager != null)
             {
-                _userManager.Dispose();
+                UserManager.Dispose();
             }
 
-            if (_signInManager != null)
+            if (SignInManager != null)
             {
-                _signInManager.Dispose();    
+                SignInManager.Dispose();    
             }
 
-            if (_userService != null)
+            if (UserService != null)
             {
-                _userService.Dispose();
+                UserService.Dispose();
             }
 
             base.Dispose(disposing);

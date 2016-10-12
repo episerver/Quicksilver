@@ -6795,4 +6795,7 @@
   <data name="CURRENCY_IS_BEING_USED" xml:space="preserve">
     <value>Selected currency is being used in market {0}</value>
   </data>
+  <data name="USE_OLD_PROMOTION_SYSTEM_WARNING" xml:space="preserve">
+    <value>Episerver Commerce is configured to use new promotion system. Use Marketing UI to manage campaigns and promotions instead.</value>
+  </data>
 </root>

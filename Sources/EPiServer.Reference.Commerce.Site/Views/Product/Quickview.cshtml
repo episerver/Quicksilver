@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionProductViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
 
 <div class="modal-content jsProductDetails">
 
@@ -29,14 +29,14 @@
                     <h2 class="product-brand">@Html.PropertyFor(x => x.Product.Brand)</h2>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    @if (Model.Price < Model.OriginalPrice)
+                    @if (Model.DiscountedPrice < Model.ListingPrice)
                     {
-                        <h4 class="product-price">@Model.OriginalPrice.ToString()</h4>
-                        <h4 class="product-price--discount">@Model.Price.ToString()</h4>
+                        <h4 class="product-price">@Model.ListingPrice.ToString()</h4>
+                        <h4 class="product-price--discount">@Model.DiscountedPrice.ToString()</h4>
                     }
                     else
                     {
-                        <h4 class="product-price">@Model.Price.ToString()</h4>
+                        <h4 class="product-price">@Model.DiscountedPrice.ToString()</h4>
                     }
                 </div>
             </div>

@@ -1,13 +1,21 @@
-﻿using Mediachase.Commerce.Plugins.Payment;
+﻿using Mediachase.Commerce.Orders;
+using Mediachase.Commerce.Plugins.Payment;
 
 namespace EPiServer.Reference.Commerce.Shared
 {
     public class GenericCreditCardPaymentGateway : AbstractPaymentGateway
     {
         /// <inheritdoc/>
-        public override bool ProcessPayment(Mediachase.Commerce.Orders.Payment payment, ref string message)
+        public override bool ProcessPayment(Payment payment, ref string message)
         {
-            //Simply accept the payment gateway.
+            var creditCardPayment = (CreditCardPayment)payment;
+
+            if (!creditCardPayment.CreditCardNumber.EndsWith("4"))
+            {
+                message = "Invalid credit card number.";
+                return false;
+            }
+
             return true;
         }
     }

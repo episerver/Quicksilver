@@ -125,7 +125,6 @@
             <Column width="70" allowSorting="false" dataField="LineItemId"  headingText="{SharedStrings:Total}" Align="Center" columnType="CustomTemplate">
               <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
             </Column>
-            <Column width="180" visible="true" allowSorting="true" dataField="Warehouse" headingText="{OrderStrings:Fulfillment_Warehouse}"></Column>
           </Columns>
 				</Grid>
 				<Grid placeName="OrderPayment-List">

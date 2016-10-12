@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
 using Xunit;
 
 
@@ -65,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         {
             _currencyServiceMock = new Mock<ICurrencyService>();
             _cartService = new Mock<ICartService>();
-            _subject = new CurrencyController(_currencyServiceMock.Object, _cartService.Object);
+            _subject = new CurrencyController(_currencyServiceMock.Object, _cartService.Object, new Mock<IOrderRepository>().Object);
         }
     }
 }

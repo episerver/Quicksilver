@@ -15,7 +15,7 @@
       </Account>
       <MiniCart>
         <Button>
-          <ContinueShopping>Continue shopping</ContinueShopping>
+          <Close>Close</Close>
           <GoToCheckout>Proceed to checkout</GoToCheckout>
         </Button>
       </MiniCart>
@@ -51,8 +51,8 @@
       <NotAddedToWishList>The item could not be added to wish list</NotAddedToWishList>
       <Price>Price</Price>
       <Size>Size</Size>
-      <OriginalPrice>Original Price</OriginalPrice>
-      <DiscountPrice>Discount Price</DiscountPrice>
+      <ListingPrice>Listing Price</ListingPrice>
+      <DiscountedPrice>Discounted Price</DiscountedPrice>
       <PriceMissing>Not set for this market</PriceMissing>
       <VariationSelection>
         <Color>Select Color</Color>
@@ -85,8 +85,15 @@
           <ChoosePayment>Payment is required</ChoosePayment>
         </Empty>
         <Errors>
-          <PreProcessingFailure>Failed to pre-process the payment.</PreProcessingFailure>
+          <PreProcessingFailure>There was some issue with product {0} in your cart.</PreProcessingFailure>
           <NoShippingRate>No shipping rate found for this shipment.</NoShippingRate>
+          <RemovedDueToUnavailableItem>The product {0} is not available in store and was removed from your cart.</RemovedDueToUnavailableItem>
+          <RemovedDueToInsufficientQuantityInInventory>The product {0} is sold out and was removed from your cart.</RemovedDueToInsufficientQuantityInInventory>
+          <RemovedDueToInvalidPrice>The product {0} does not have a valid price and was removed from your cart.</RemovedDueToInvalidPrice>
+          <CannotProcessDueToMissingOrderStatus>Cannot process product {0} because of missing order status.</CannotProcessDueToMissingOrderStatus>
+          <PlacedPricedChanged>The price for product {0} has changed since it was added to your cart.</PlacedPricedChanged>
+          <AdjustedQuantity>The quantity of product {0} has changed.</AdjustedQuantity>
+          <ProcessingPaymentFailure>Failed to process your payment.</ProcessingPaymentFailure>
         </Errors>
         <Methods>
           <CashOnDelivery>
@@ -120,6 +127,8 @@
         <Heading>Billing address</Heading>
       </Billing>
       <Shipment>
+        <ShippingTo>Shipping to:</ShippingTo>
+        <SingleShipment>Ship to single address</SingleShipment>
         <AlternativeAddress>Alternative shipping address</AlternativeAddress>
         <Heading>Shipping details</Heading>
         <Labels>
@@ -170,6 +179,7 @@
         <Continue>Continue</Continue>
         <DeliveryAddress>Delivery address</DeliveryAddress>
         <SelectDeliveryAddress>Select delivery address</SelectDeliveryAddress>
+        <SelectAddress>Select address</SelectAddress>
         <AddNewAddress>Add new address</AddNewAddress>
         <DeliveryOption>Choose delivery option</DeliveryOption>
         <NoAddressFound>No addresses exists</NoAddressFound>
@@ -483,6 +493,8 @@
             <PostalCode>Zip code is required</PostalCode>
             <Email>Email is required</Email>
             <Name>Name is required</Name>
+            <BillingAddress>Billing address is required</BillingAddress>
+            <ShippingAddress>Shipping address is required</ShippingAddress>
           </Empty>
           <Label>
             <FirstName>First name *:</FirstName>
@@ -495,7 +507,6 @@
             <CountryCode>Country :</CountryCode>
             <Address>Address *:</Address>
             <Name>Name *:</Name>
-            <DateModified>Date Modified</DateModified>
             <ShippingAddress>Preferred shipping address</ShippingAddress>
             <BillingAddress>Preferred billing address</BillingAddress>
             <DaytimePhoneNumber>Phone number:</DaytimePhoneNumber>
@@ -512,5 +523,10 @@
       <Message>The site is currently undergoing maintenance.  Certain features are disabled until the maintenance has completed.</Message>
       <Login>Login has been disabled because the site is currently undergoing maintenance</Login>
     </Readonly>
+    <StartPage>
+      <Promotion>
+        <AllItems>Applies to all items</AllItems>
+      </Promotion>
+    </StartPage>
   </language>
 </languages>

@@ -1239,9 +1239,6 @@
   <data name="Entry_Dynamic_Package_Cannot_Configure" xml:space="preserve">
     <value>Les packages dynamiques ne peuvent pas être ajoutés à partir de Commerce Manager</value>
   </data>
-  <data name="Fulfillment_Warehouse" xml:space="preserve">
-    <value>Entrepôt de distribution</value>
-  </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Indisponible</value>
   </data>

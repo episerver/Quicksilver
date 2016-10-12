@@ -1,8 +1,8 @@
 ﻿@using System.Web.Mvc
 @using System.Web.Mvc.Html
 @using EPiServer.Commerce.Catalog.ContentTypes
+@using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
 @using EPiServer.Reference.Commerce.Site.Features.Product.Models
-@using EPiServer.Reference.Commerce.Site.Features.Cart.Models
 @using Mediachase.Commerce
 
 @functions
@@ -34,7 +34,7 @@
     }
 }
 
-@helper RenderSizeDropDown(CartItem cartItem)
+@helper RenderSizeDropDown(CartItemViewModel cartItem)
 {
     var variant = cartItem.Variant as FashionVariant;
     if (variant != null)

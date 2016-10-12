@@ -1,39 +1,25 @@
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Orders;
-using System;
 using System.Collections.Generic;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
     public interface ICartService
     {
-        decimal GetLineItemsTotalQuantity();
-        CartItem[] GetCartItems();
-        Money GetSubTotal();
-        Money GetTotal();
-        Money GetShippingSubTotal();
-        Money GetShippingTotal();
-        Money GetTaxTotal();
-        Money GetShippingTaxTotal();
-        Money GetTotalDiscount();
-        Money GetOrderDiscountTotal();
-        Money GetShippingDiscountTotal();
-        Money ConvertToMoney(decimal amount);
-        IEnumerable<OrderForm> GetOrderForms();
-        IEnumerable<Shipment> GetShipments();
-        bool AddToCart(string code, out string warningMessage);
-        void ChangeQuantity(string code, decimal quantity);
-        void RemoveLineItem(string code);
-        void RunWorkflow(string workFlowName);
-        void RunWorkflow(string workFlowName, Dictionary<string, object> context);
-        void SaveCart();
-        void DeleteCart();
-        void InitializeAsWishList();
-        void UpdateLineItemSku(string oldCode, string newCode, decimal quantity);
-        void SetCartCurrency(Currency currency);
-        void ResetLineItemAddresses();
-        void RecreateLineItemsBasedOnAddresses(IEnumerable<CartItem> cartItems);
-        OrderAddress GetOrderAddress(Guid addressId);
+        bool AddToCart(ICart cart, string code, out string warningMessage);
+        void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize);
+        void SetCartCurrency(ICart cart, Currency currency);
+        Dictionary<ILineItem, List<ValidationIssue>> ValidateCart(ICart cart);
+        Dictionary<ILineItem, List<ValidationIssue>> RequestInventory(ICart cart);
+        string DefaultCartName { get; }
+        string DefaultWishListName { get; }
+        ICart LoadCart(string name);
+        ICart LoadOrCreateCart(string name);
+        bool AddCouponCode(ICart cart, string couponCode);
+        void RemoveCouponCode(ICart cart, string couponCode);
+        void RecreateLineItemsBasedOnShipments(ICart cart, IEnumerable<CartItemViewModel> cartItems, IEnumerable<AddressModel> addresses);
+        void MergeShipments(ICart cart);
     }
 }

@@ -16,22 +16,20 @@
     initializeAddressAreas: function () {
 
         if ($("#UseBillingAddressForShipment").val() == "False") {
-            $("#AlternativeAddressButton").click();
+            Checkout.doEnableShippingAddress();
         }
         else {
-            $(".shipping-address").css("display", "none");
-            $(".remove-shipping-address").click();
+            Checkout.doRemoveShippingAddress();
         }
     },
     addCouponCode: function (e) {
         e.preventDefault();
         var couponCode = $(inputCouponCode).val();
-        var viewName = $(ViewName).val();
         if (couponCode.trim()) {
             $.ajax({
                 type: "POST",
                 url: $(this).data("url"),
-                data: { couponCode: couponCode, viewName: viewName },
+                data: { couponCode: couponCode },
                 success: function (result) {
                     if (!result) {
                         $('.couponcode-errormessage').show();
@@ -46,11 +44,10 @@
     },
     removeCouponCode: function (e) {
         e.preventDefault();
-        var viewName = $(ViewName).val();
         $.ajax({
             type: "POST",
             url: $(this).attr("href"),
-            data: { couponCode: $(this).siblings().text(), viewName: viewName },
+            data: { couponCode: $(this).siblings().text() },
             success: function (result) {
                 $("#CheckoutView").replaceWith($(result));
                 Checkout.initializeAddressAreas();
@@ -82,22 +79,27 @@
     changeAddress: function () {
 
         var form = $('.jsCheckoutForm');
-        $("#ShippingAddressIndex").val($(".jsChangeAddress").index($(this)) - 1);
+        var id = $(this).attr("id");
+        var isBilling = id.indexOf("Billing") > -1;
+        if (isBilling) {
+            $("#ShippingAddressIndex").val(-1);
+        } else {
+            $("#ShippingAddressIndex").val($(".jsChangeAddress").index($(this)) - 1);
+        }
 
         $.ajax({
             type: "POST",
+            cache: false,
             url: $(this).closest('.jsCheckoutAddress').data('url'),
             data: form.serialize(),
             success: function (result) {
-                $("#AddressContainer").html($(result));
+                if (isBilling) {
+                    $("#billingAddressContainer").html($(result));
+                } else {
+                    $("#AddressContainer").html($(result));
+                }
                 Checkout.initializeAddressAreas();
-                $.ajax({
-                    type: "POST",
-                    url: $('.jsOrderSummary').data('url'),
-                    success: function (result) {
-                        $(".jsOrderSummary").html($(result));
-                    }
-                });
+                Checkout.updateOrderSummary();
             }
         });
     },
@@ -121,7 +123,6 @@
             url: form.data("updateurl"),
             data: form.serialize(),
             success: function (result) {
-                $('.jsPaymentMethod').replaceWith($(result).find('.jsPaymentMethod'));
                 Checkout.updateOrderSummary();
             }
         });
@@ -136,30 +137,58 @@
             }
         });
     },
+    doEnableShippingAddress: function () {
+        $("#AlternativeAddressButton").hide();
+        $(".shipping-address:hidden").slideToggle(300);
+        $(".shipping-address").css("display", "block");
+        $("#UseBillingAddressForShipment").val("False");        
+    },
     enableShippingAddress: function (event) {
 
         event.preventDefault();
 
-        var $billingShippingMethods = $(".billing-shipping-method");
-        var $selectedShippingMethodId = $(".jsChangeShipment:checked", $billingShippingMethods).val();
-        $("input[value='" + $selectedShippingMethodId + "']").prop('checked', true);
-        $("#AlternativeAddressButton").hide();
-        $(".billing-shipping-method").hide();
-        $(".shipping-address:hidden").slideToggle(300);
-        $("#UseBillingAddressForShipment").val("False");
+        Checkout.doEnableShippingAddress();
+        
+        var form = $('.jsCheckoutForm');
+        $("#ShippingAddressIndex").val(0);
 
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: $('.jsCheckoutAddress').data('url'),
+            data: form.serialize(),
+            success: function (result) {
+                $("#AddressContainer").html($(result)); 
+                Checkout.initializeAddressAreas();
+                Checkout.updateOrderSummary();
+            }
+        });
+    },
+    doRemoveShippingAddress: function() {
+        $("#AlternativeAddressButton").show();
+        $(".shipping-address:visible").slideToggle(300);
+        $(".shipping-address").css("display", "none");
+        $("#UseBillingAddressForShipment").val("True");        
     },
     removeShippingAddress: function (event) {
 
         event.preventDefault();
 
-        var $billingShippingMethods = $(".billing-shipping-method");
-        var $selectedShippingMethodId = $(".jsChangeShipment:checked", $(this).closest(".shipping-address")).val();
-        $("#" + $selectedShippingMethodId).prop('checked', true);
-        $("#AlternativeAddressButton").show();
-        $(".billing-shipping-method").show();
-        $(".shipping-address:visible").slideToggle(300);
-        $("#UseBillingAddressForShipment").val("True");
+        Checkout.doRemoveShippingAddress();
 
+        var form = $('.jsCheckoutForm');
+        $("#ShippingAddressIndex").val(-1);
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: $('.jsCheckoutAddress').data('url'),
+            data: form.serialize(),
+            success: function (result) {
+                $("#billingAddressContainer").html($(result));
+                Checkout.initializeAddressAreas();
+                Checkout.updateOrderSummary();
+            }
+        });
     }
 };

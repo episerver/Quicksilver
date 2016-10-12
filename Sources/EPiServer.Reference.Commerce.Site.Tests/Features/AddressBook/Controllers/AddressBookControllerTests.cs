@@ -39,19 +39,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var page = new AddressBookPage();
             var guid = Guid.NewGuid();
 
-            _subject.EditForm(page, guid);
+            _subject.EditForm(page, guid.ToString());
 
-            _addressBookServiceMock.Verify(s => s.LoadAddress(It.IsAny<Address>()));
+            _addressBookServiceMock.Verify(s => s.LoadAddress(It.IsAny<AddressModel>()));
         }
 
         [Fact]
         public void Save_WhenModelStateIsValid_ShouldCallSaveOnService()
         {
-            var viewModel = new AddressViewModel { Address = new Address() };
-            AddressBookPage currentPage = new AddressBookPage();
-            viewModel.Address.Name = "name";
+            var viewModel = new AddressViewModel
+            {
+                CurrentPage = new AddressBookPage(),
+                Address = new AddressModel
+                {
+                    Name = "name"
+                }
+            };
 
-            _subject.Save(currentPage, viewModel);
+            _subject.Save(viewModel);
 
             _addressBookServiceMock.Verify(s => s.Save(viewModel.Address));
         }
@@ -59,11 +64,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         [Fact]
         public void Save_WhenModelStateIsNotValid_ShouldNotCallSaveOnService()
         {
-            AddressBookPage currentPage = new AddressBookPage();
-            var viewModel = new AddressViewModel { Address = new Address() };
+            var viewModel = new AddressViewModel
+            {
+                CurrentPage = new AddressBookPage(),
+                Address = new AddressModel()
+            };
+
             _subject.ModelState.AddModelError("test", "not valid");
 
-            _subject.Save(currentPage, viewModel);
+            _subject.Save(viewModel);
 
             _addressBookServiceMock.Verify(s => s.Save(viewModel.Address), Times.Never);
         }
@@ -71,11 +80,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         [Fact]
         public void Save_WhenAnotherAddressWithSameNameExists_ShouldNotSave()
         {
-            AddressBookPage currentPage = new AddressBookPage();
-            var viewModel = new AddressViewModel { Address = new Address() };
-            _addressBookServiceMock.Setup(x => x.CanSave(It.IsAny<Address>())).Returns(false);
+            var viewModel = new AddressViewModel
+            {
+                CurrentPage = new AddressBookPage(),
+                Address = new AddressModel()
+            };
 
-            _subject.Save(currentPage, viewModel);
+            _addressBookServiceMock.Setup(x => x.CanSave(It.IsAny<AddressModel>())).Returns(false);
+
+            _subject.Save(viewModel);
 
             _addressBookServiceMock.Verify(s => s.Save(viewModel.Address), Times.Never);
         }
@@ -86,9 +99,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         {
             var guid = Guid.NewGuid();
 
-            _subject.Remove(guid);
+            _subject.Remove(guid.ToString());
 
-            _addressBookServiceMock.Verify(s => s.Delete(guid));
+            _addressBookServiceMock.Verify(s => s.Delete(guid.ToString()));
         }
 
         [Fact]
@@ -96,9 +109,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         {
             var guid = Guid.NewGuid();
 
-            _subject.SetPreferredShippingAddress(guid);
+            _subject.SetPreferredShippingAddress(guid.ToString());
 
-            _addressBookServiceMock.Verify(s => s.SetPreferredShippingAddress(guid));
+            _addressBookServiceMock.Verify(s => s.SetPreferredShippingAddress(guid.ToString()));
         }
 
         [Fact]
@@ -106,9 +119,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
         {
             var guid = Guid.NewGuid();
 
-            _subject.SetPreferredBillingAddress(guid);
+            _subject.SetPreferredBillingAddress(guid.ToString());
 
-            _addressBookServiceMock.Verify(s => s.SetPreferredBillingAddress(guid));
+            _addressBookServiceMock.Verify(s => s.SetPreferredBillingAddress(guid.ToString()));
         }
 
         [Fact]
@@ -167,7 +180,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var result = _subject.OnSaveException(_exceptionContext);
 
             var model = ((ViewResult)result).Model as AddressViewModel;
-            Assert.Equal<Guid?>(guid, model.Address.AddressId);
+            Assert.Equal<Guid?>(guid, Guid.Parse(model.Address.AddressId));
         }
 
         [Fact]
@@ -264,7 +277,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             _contentLoaderMock = new Mock<IContentLoader>();
             _addressBookServiceMock = new Mock<IAddressBookService>();
-            _addressBookServiceMock.Setup(x => x.CanSave(It.IsAny<Address>())).Returns(true);
+            _addressBookServiceMock.Setup(x => x.CanSave(It.IsAny<AddressModel>())).Returns(true);
 
             _contentLoaderMock.Setup(c => c.Get<StartPage>(ContentReference.StartPage)).Returns(new StartPage());
 

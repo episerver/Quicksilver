@@ -1,8 +1,8 @@
-﻿using System;
-using System.Web;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Web.Routing;
 using Moq;
+using System;
+using System.Web;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
@@ -13,18 +13,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
         public void UrlResolverExtensions_WhenContentLinkIsNull_ShouldReturnPathAndQueryFromRequestUrlReferrer()
         {
             var expectedUrlReferrer = new Uri("https://github.com/episerver/Quicksilver");
-            _mockHttpRequestBase.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
+            _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
 
-            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_mockUrlResolver.Object, _mockHttpRequestBase.Object, null, "en");
+            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, null, "en");
             Assert.Equal<string>(expectedUrlReferrer.PathAndQuery, result);
         }
 
         [Fact]
         public void UrlResolverExtensions_WhenContentLinkIsNullAndUrlReferrerOnRequestIsNull_ShouldReturnSlash()
         {
-            _mockHttpRequestBase.Setup(x => x.UrlReferrer).Returns((Uri)null);
+            _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns((Uri)null);
 
-            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_mockUrlResolver.Object, _mockHttpRequestBase.Object, null, "en");
+            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, null, "en");
             Assert.Equal<string>("/", result);
         }
 
@@ -32,9 +32,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
         public void UrlResolverExtensions_WhenContentLinkIsEmpty_ShouldReturnPathAndQueryFromRequestUrlReferrer()
         {
             var expectedUrlReferrer = new Uri("https://github.com/episerver/Quicksilver");
-            _mockHttpRequestBase.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
+            _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
 
-            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_mockUrlResolver.Object, _mockHttpRequestBase.Object, ContentReference.EmptyReference, "en");
+            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, ContentReference.EmptyReference, "en");
             Assert.Equal<string>(expectedUrlReferrer.PathAndQuery, result);
         }
 
@@ -46,20 +46,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var contentLink = new ContentReference(11);
             const string language = "en";
 
-            _mockUrlResolver.Setup(x => x.GetUrl(contentLink, language)).Returns(expectedUrl);
+            _urlResolverMock.Setup(x => x.GetUrl(contentLink, language)).Returns(expectedUrl);
 
-            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_mockUrlResolver.Object, _mockHttpRequestBase.Object, contentLink, language);
+            var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, contentLink, language);
             Assert.Equal<string>(expectedUrl, result);
         }
 
-        private Mock<UrlResolver> _mockUrlResolver;
-        private Mock<HttpRequestBase> _mockHttpRequestBase;
-
+        private Mock<UrlResolver> _urlResolverMock;
+        private Mock<HttpRequestBase> _httpRequestBaseMock;
 
         public UrlResolverExtensionsTests()
         {
-            _mockUrlResolver = new Mock<UrlResolver>();
-            _mockHttpRequestBase = new Mock<HttpRequestBase>();
+            _urlResolverMock = new Mock<UrlResolver>();
+            _httpRequestBaseMock = new Mock<HttpRequestBase>();
         }
     }
 }

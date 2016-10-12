@@ -1,12 +1,11 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Web.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
@@ -35,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 
         protected virtual SearchViewModel<NodeContent> GetSearchModel(NodeContent currentContent, int pageSize)
         {
-            return _viewModelFactory.Create(currentContent, new FilterOptionFormModel
+            return _viewModelFactory.Create(currentContent, new FilterOptionViewModel
             {
                 FacetGroups = new List<FacetGroupOption>(),
                 Page = 1,

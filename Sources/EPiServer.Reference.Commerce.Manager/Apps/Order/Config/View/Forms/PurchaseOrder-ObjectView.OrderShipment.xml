@@ -11,7 +11,7 @@
 						<Control id="LineItemsGrid" path="~/Apps/Order/Modules/RelatedEntityView.ascx">
 							<Property name="RelatedClassName" value="LineItem" />
 							<Property name="RelatedToClassName" value="Order"/>
-							<Property name="LeftPadding" value="15px"/>
+							<Property name="LeftPadding" value="5px"/>
 						</Control>
 						<Control id="ShippingInfo" path="~/Apps/Order/Modules/ShippingInformation.ascx">
 						</Control>

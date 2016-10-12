@@ -1,14 +1,15 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
-using Moq;
+﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Core;
-using System.Linq;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using Mediachase.Search;
-using System.Collections.Generic;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
+using Mediachase.Search;
+using Moq;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
-
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
 {
@@ -18,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenQStartsWithLetter_ShouldNotReportAsError()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
 
             // Act
             var result = _subject.Create<IContent>(null, formModel);
@@ -31,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenQStartsWithQuestionmark_ShouldReportAsError()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "?query" };
+            var formModel = new FilterOptionViewModel() { Q = "?query" };
             
             // Act
             var result = _subject.Create<IContent>(null, formModel); 
@@ -44,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenQStartsWithStar_ShouldReportAsError()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "*query" };
+            var formModel = new FilterOptionViewModel() { Q = "*query" };
             
             // Act
             var result = _subject.Create<IContent>(null, formModel);
@@ -57,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenPassingContent_ShouldUseItAsCurrentContent()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
             var content = new Mock<IContent>().Object;
 
             // Act
@@ -71,20 +72,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenPassingFormModel_ShouldUseItAsFormModel()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
 
             // Act
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.Equal<FilterOptionFormModel>(formModel, result.FormModel);
+            Assert.Equal<FilterOptionViewModel>(formModel, result.FilterOption);
         }
 
         [Fact]
         public void Create_WhenSearching_ShouldGetProductViewModelsFromSearchResult()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
 
             // Act
             var result = _subject.Create<IContent>(null, formModel);
@@ -97,7 +98,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenSearching_ShouldGetFacetsFromSearchResult()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
 
             // Act
             var result = _subject.Create<IContent>(null, formModel);
@@ -110,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         public void Create_WhenSearching_ShouldSetTotalCountOnFormModel()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel() { Q = "query" };
+            var formModel = new FilterOptionViewModel() { Q = "query" };
             _searchResultsMock
                 .Setup(s => s.TotalCount)
                 .Returns(666);
@@ -119,7 +120,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.Equal<int>(666, result.FormModel.TotalCount);
+            Assert.Equal<int>(666, result.FilterOption.TotalCount);
         }
 
         SearchViewModelFactory _subject;
@@ -127,7 +128,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         Mock<ISearchResults> _searchResultsMock;
         IEnumerable<ProductViewModel> _productViewModels = Enumerable.Empty<ProductViewModel>();
         ISearchFacetGroup[] _facetGroups = new ISearchFacetGroup[0];
-
 
         public SearchViewModelFactoryTests()
         {
@@ -139,7 +139,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
                 .Returns(_facetGroups);
 
             _searchServiceMock
-                .Setup(s => s.Search(It.IsAny<IContent>(), It.IsAny<FilterOptionFormModel>()))
+                .Setup(s => s.Search(It.IsAny<IContent>(), It.IsAny<FilterOptionViewModel>()))
                 .Returns(new CustomSearchResult() { 
                     FacetGroups = Enumerable.Empty<FacetGroupOption>(),
                     ProductViewModels = _productViewModels,

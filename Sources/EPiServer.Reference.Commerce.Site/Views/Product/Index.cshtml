@@ -1,10 +1,10 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionProductViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
 
 <div class="row jsProductDetails">
     <div class="col-xs-12 col-sm-4 col--leading">
         <div id="product-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner" role="listbox">
-                @for (var i = 0; i < Model.Images.Count(); i++)
+                @for (var i = 0; i < Model.Images.Count; i++)
                 {
                     <div class="item" data-slide-number="@i">
                         <img src="@Model.Images.ElementAt(i)" />
@@ -14,7 +14,7 @@
         </div>
         <div class="row" id="carousel-thumbs">
             <ul class="carousel-thumbs js-carousel-thumbs">
-                @for (var i = 0; i < Model.Images.Count(); i++)
+                @for (var i = 0; i < Model.Images.Count; i++)
                 {
                     <li class="col-xs-3">
                         <a href="#" class="thumbnail js-thumbnail" id="@i"><img src="@Model.Images.ElementAt(i)" /></a>
@@ -34,14 +34,14 @@
             <div class="col-xs-12 col-sm-6">
                 @if (Model.IsAvailable)
                 { 
-                    if (Model.Price.HasValue && Model.Price.Value < Model.OriginalPrice)
+                    if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value < Model.ListingPrice)
                     {
-                        <h4 class="product-price">@Helpers.RenderMoney(Model.OriginalPrice)</h4>
-                        <h4 class="product-price--discount">@Helpers.RenderMoney(Model.Price.Value)</h4>
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
+                        <h4 class="product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</h4>
                     }
                     else
                     {
-                        <h4 class="product-price">@Helpers.RenderMoney(Model.OriginalPrice)</h4>
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
                     }
                 }
                 else

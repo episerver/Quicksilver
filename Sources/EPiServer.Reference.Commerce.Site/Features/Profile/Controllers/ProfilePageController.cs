@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.Features.Profile.Pages;
 using EPiServer.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Profile.Controllers
 {
@@ -9,7 +10,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Profile.Controllers
     {
         public ActionResult Index(ProfilePage currentPage)
         {
-            return View(currentPage);
+            var viewModel = new ProfilePageViewModel { CurrentPage = currentPage };
+            return View(viewModel);
         }
     }
 }

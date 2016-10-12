@@ -19,8 +19,8 @@
 						<Template id="OrderStatusTemplate" controlUrl="GridTemplates/OrderStatusTemplate.ascx"></Template>
 					</Column>
 					<Column width="100" allowSorting="true" dataField="MarketId" headingText="{SharedStrings:Market_Id}"></Column>
-					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>
 					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Created" headingText="{SharedStrings:Created}"></Column>
+					<Column width="200" columnType="DateTime" allowSorting="false" dataField="Modified" headingText="{SharedStrings:Last_Modified}"></Column>
 					<Column width="200" allowSorting="false" dataField="OrderGroupId" headingText="Order Id"></Column>
 					<Column width="200" allowSorting="false" dataField="Name" headingText="{SharedStrings:Name}"></Column>
 					<Column width="200" allowSorting="false" dataField="ProviderId" headingText="ProviderId"></Column>

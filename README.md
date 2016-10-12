@@ -1,27 +1,36 @@
-Quicksilver
+Quicksilver 
 ===========
+[![GitHub version](https://badge.fury.io/gh/episerver%2Fquicksilver.svg)](https://badge.fury.io/gh/episerver%2Fquicksilver)
+[![License](http://img.shields.io/:license-apache-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-This repository is the starter site for EPiServer Commerce based on MVC, aka "Quicksilver".
+This repository is the starter site for the EPiServer Commerce reference implementation, aka "Quicksilver".
 
-Release Notes
+Roadmap
 -------------
 
-This is release 1.4 of Quicksilver and more features will be added over time.
+More features will be added over time.
 The following is a list of features to be added in the future:
 
 * In-store pickup.
 * Package and bundle support.
-* Using the new campaigns and promotion system.
+* Multi-payment support.
 
-Changes in this release
+Changes in latest release
 -----------------------
-* COM-76   Support for multi-shipment checkout
-* COM-1551 Server error when delete item in shopping cart
-* COM-1549 Clarify requirement to change fake credentials in Startup.cs
-* COM-1932 Items disappears from cart after confirming updated quantity with Enter
-* Updated to Episerver Commerce 9.16.0
+* COM-2014 Quicksilver 2.0
+* Added usage of the new order system abstractions.
+* A number of fixes and improvements.
+* Added a simple developer guide to familiarize new users with Quicksilver.
 
-Changes Quicksilver 1.3
+Changes in [1.4](https://github.com/episerver/Quicksilver/releases/tag/v1.4.0)
+-----------------------
+-* COM-76   Support for multi-shipment checkout
+-* COM-1551 Server error when delete item in shopping cart
+-* COM-1549 Clarify requirement to change fake credentials in Startup.cs
+-* COM-1932 Items disappears from cart after confirming updated quantity with Enter
+-* Updated to Episerver Commerce 9.16.0
+
+Changes in [1.3](https://github.com/episerver/Quicksilver/releases/tag/v1.3.0)
 -----------------------
 * COM-122  Item in wishlist should show discounted price
 * COM-868  Inconsistent price when change currency for current market
@@ -36,7 +45,7 @@ Changes Quicksilver 1.3
 * COM-1489 Coupon codes may be dropped
 * Updated to Episerver Commerce 9.11.1
 
-Changes in Quicksilver 1.2
+Changes in Quicksilver [1.2](https://github.com/episerver/Quicksilver/releases/tag/v1.2.0)
 --------------------------
 * COM-111 Support for Commerce 9
 * COM-259 GitIgnore file on Quicksilver / GitHub excludes too much. Fixed.
@@ -48,7 +57,7 @@ Changes in Quicksilver 1.2
 * COM-240 Missing shipping address in order detail when select "Save address" option in checkout page. Fixed.
 * COM-137 Navigation Icon to edit mode overlay mini cart and wishlist in mobile view. Fixed.
 
-Changes in Quicksilver 1.1
+Changes in Quicksilver  [1.1](https://github.com/episerver/Quicksilver/releases/tag/v1.1.0)
 --------------------------
 * Improved support for ASP.NET identity in Commerce Manager.
 * Bug #126401 - Null reference exception when rendering address in some cases. Fixed.
@@ -82,8 +91,18 @@ msbuild -t:BuildLessFiles
 Compiling the razor views
 -------------------------
 
-If you want to build the view to validate their correctness you can set the MvcBuildViews parameter to true.
+If you want to build the views to validate their correctness you can set the MvcBuildViews parameter to true.
 
 ```
 msbuild -p:MvcBuildViews=true
+```
+
+
+SQL Server authentication
+-------------------------
+
+If you don't have mixed mode authentication enabled you can edit this line in SetupDatabases.cmd and provide username and password.
+
+```
+set sql=sqlcmd -S . -U username -P password
 ```

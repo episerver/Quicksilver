@@ -1,11 +1,11 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Profile.Pages.ProfilePage
+﻿@model EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels.ProfilePageViewModel
 <div class="container-fluid">
     <div class="row myPage">
-        @Html.Partial("_CmsNavigation", Model)
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
 
         <div class="col-xs-12 col-md-9">
-            <h2>@Html.PropertyFor(x => x.Name)</h2>
-            @Html.PropertyFor(x => x.MainBody)
+            <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
+            @Html.PropertyFor(x => x.CurrentPage.MainBody)
         </div>
     </div>
 </div>

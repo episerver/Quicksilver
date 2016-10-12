@@ -6,6 +6,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.ViewModels
 {
     public class AddressViewModel : PageViewModel<AddressBookPage>
     {
-        public Address Address { get; set; }
+        public AddressModel Address { get; set; }
     }
 }

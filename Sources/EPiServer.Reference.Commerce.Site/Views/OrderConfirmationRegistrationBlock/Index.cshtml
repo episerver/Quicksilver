@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Registration.Models.OrderConfirmationRegistrationModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Registration.Models.OrderConfirmationRegistrationFormModel
 @{
     Layout = null;
 }
@@ -6,8 +6,8 @@
     <h3>@Html.Translate("/Registration/OrderConfirmation/Heading2")</h3>
     @using (Html.BeginForm("Assign", "OrderConfirmationRegistrationBlock", FormMethod.Post, new {@class = "form jsOrderConfirmationRegistrationAssign", @role = "form"}))
     {
-        @Html.HiddenFor(x => x.FormModel.OrderNumber)
-        @Html.HiddenFor(x => x.FormModel.ContactId)
+        @Html.HiddenFor(x => x.OrderNumber)
+        @Html.HiddenFor(x => x.ContactId)
         <button type="submit" class="btn btn-default">@Html.Translate("/Registration/OrderConfirmation/Assign")</button>
     }
 </div>

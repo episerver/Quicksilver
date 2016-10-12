@@ -1,8 +1,9 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using Mediachase.Commerce.Customers
-@using Mediachase.Commerce.Orders
+﻿@using EPiServer.Commerce.Order
+@using EPiServer.Commerce.Order.Internal
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages
-@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.OrderConfirmationViewModel<OrderConfirmationPage>
+@using Mediachase.Commerce
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.OrderConfirmationViewModel<OrderConfirmationPage>
 
 <div class="row checkout">
     <div class="col-md-12">
@@ -34,7 +35,7 @@
                 <div class="col-md-1 text-right">@Html.Translate("/OrderConfirmation/Labels/Total")</div>
             </div>
 
-            foreach (LineItem lineItem in Model.Items)
+            foreach (ILineItem lineItem in Model.Items)
             {
                 <hr />
                 <div class="row">
@@ -42,7 +43,7 @@
                         <a href="@lineItem.GetUrl()" class="link--black"><img src="@lineItem.GetThumbnailUrl()" /></a>
                     </div>
                     <div class="col-md-6 col-xs-9">
-                        <a href="@lineItem.GetUrl()" class="link--black">@lineItem.DisplayName</a>
+                        <a href="@lineItem.GetUrl()" class="link--black">@lineItem.GetEntryContent().DisplayName</a>
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm">@Html.Translate("/OrderConfirmation/Labels/Quantity")</label>
@@ -50,19 +51,19 @@
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm text-right">@Html.Translate("/OrderConfirmationMail/UnitPrice")</label>
-                        @lineItem.ToMoney(lineItem.PlacedPrice).ToString()
+                        @Helpers.RenderMoney(lineItem.PlacedPrice, Model.Currency)
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm text-right">@Html.Translate("/OrderConfirmationMail/Price")</label>
-                        @lineItem.PlacedPriceTotal().ToString()
+                        @Helpers.RenderMoney(lineItem.PlacedPrice * lineItem.Quantity, Model.Currency)
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm text-right">@Html.Translate("/OrderConfirmationMail/Discount")</label>
-                        @lineItem.ToMoney(lineItem.LineItemDiscountAmount).ToString()
+                        @Helpers.RenderMoney(lineItem.GetEntryDiscount(), Model.Currency)
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm text-right">@Html.Translate("/OrderConfirmation/Labels/Total")</label>
-                        @lineItem.ExtendedPriceTotal().ToString()
+                        @lineItem.GetDiscountedPrice(Model.Currency)
                     </div>
                 </div>
             }
@@ -118,7 +119,7 @@
 
                 <div class="col-md-6">
 
-                    @foreach (Payment payment in Model.Payments)
+                    @foreach (var payment in Model.Payments)
                     {
                         Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
                     }
@@ -129,7 +130,7 @@
             <hr>
 
             <div class="row">
-                @Html.PropertyFor(x => x.CurrentPage.RegistrationArea, new { ContactId = Model.ContactId, OrderNumber = Model.GroupId })
+                @Html.PropertyFor(x => x.CurrentPage.RegistrationArea, new { ContactId = Model.ContactId, OrderNumber = Model.OrderGroupId })
             </div>
         }
         else

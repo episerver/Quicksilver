@@ -17,7 +17,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using Xunit;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 {
@@ -39,7 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnSameSearchResult()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -50,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnPopulatedProductViewModel()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -59,8 +61,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                PlacedPrice = 1,
-                ExtendedPrice = new Money(1, _currentCurrency),
+                PlacedPrice = new Money(1, _currentCurrency),
+                DiscountedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
                 Code = "Code",
@@ -75,7 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         public void Search_ShouldReturnPopulatedFacetGroupOption()
         {
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { FacetGroups = new List<FacetGroupOption>() };
 
             var result = _subject.Search(content, filterOptions);
 
@@ -103,7 +105,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [Fact]
         public void QuickSearch_WhenQueryIsEmpty_ShouldReturnEmptyList()
         {
-            var filterOptions = new FilterOptionFormModel();
+            var filterOptions = new FilterOptionViewModel();
 
             var result = _subject.QuickSearch(filterOptions);
 
@@ -113,7 +115,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [Fact]
         public void QuickSearch_ShouldReturnPopulatedProductViewModel()
         {
-            var filterOptions = new FilterOptionFormModel();
+            var filterOptions = new FilterOptionViewModel();
             filterOptions.Q = "query";
 
             var result = _subject.QuickSearch(filterOptions);
@@ -123,8 +125,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             var expected = new ProductViewModel
             {
                 DisplayName = "DisplayName",
-                PlacedPrice = 1,
-                ExtendedPrice = new Money(1, _currentCurrency),
+                PlacedPrice = new Money(1, _currentCurrency),
+                DiscountedPrice = new Money(1, _currentCurrency),
                 ImageUrl = "/image.jpg",
                 Url = "http://domain.com",
                 Brand = "Brand",
@@ -138,7 +140,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [Fact]
         public void QuickSearch_ShouldFilterByCurrentMarket()
         {
-            var filterOptions = new FilterOptionFormModel { Q = "query" };
+            var filterOptions = new FilterOptionViewModel { Q = "query" };
             _subject.QuickSearch(filterOptions);
 
             var expected = _currentMarketMock.Object.GetCurrentMarket().MarketId;
@@ -152,7 +154,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start+end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -164,7 +166,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start!end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -176,7 +178,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start[end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -188,7 +190,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start]end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -200,7 +202,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start:end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -212,7 +214,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start?end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -224,7 +226,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start{end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -236,7 +238,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start}end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -248,7 +250,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start*end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -260,7 +262,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start&end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -272,7 +274,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start|end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -284,7 +286,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string searchQuery = "start~end";
             const string expectedResult = "startend*";
 
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery };
             _subject.QuickSearch(filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -293,7 +295,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         [Fact]
         public void Search_ShouldFilterByCurrentMarket()
         {
-            var filterOptions = new FilterOptionFormModel { Q = "query", FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = "query", FacetGroups = new List<FacetGroupOption>() };
             var content = new NodeContent();
             _subject.Search(content, filterOptions);
 
@@ -309,7 +311,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -322,7 +324,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -335,7 +337,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -348,7 +350,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -361,7 +363,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -374,7 +376,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -387,7 +389,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -400,7 +402,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -413,7 +415,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -426,7 +428,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -439,7 +441,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));
@@ -452,7 +454,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             const string expectedResult = "startend*";
 
             var content = new NodeContent();
-            var filterOptions = new FilterOptionFormModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
+            var filterOptions = new FilterOptionViewModel { Q = searchQuery, FacetGroups = new List<FacetGroupOption>() };
             _subject.Search(content, filterOptions);
 
             _searchFacadeMock.Verify(x => x.Search(It.Is<CatalogEntrySearchCriteria>(y => y.SearchPhrase.Equals(expectedResult))));

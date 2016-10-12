@@ -53,6 +53,9 @@
                 formContainer.change();
 
                 if (formContainer.is($('#WishListMiniCart'))) {
+                    if (result.indexOf('list-group-item') === -1) {
+                        $('.delete-wishlist').hide();
+                    }
                     // If items where removed from the wishlist cart from the wishlist view, they should be removed from the view.
                     var wishListAction = form.closest(".wishlist-actions");
                     if (wishListAction.length > 0) {

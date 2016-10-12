@@ -1,32 +1,54 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Linq;
-using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Orders.Search;
+using EPiServer.Commerce.Order;
+using EPiServer.Commerce.Order.Internal;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
     public class ConfirmationService
     {
-        public PurchaseOrder GetOrder(int orderNumber, bool mock = false)
+        private readonly IOrderRepository _orderRepository;
+        readonly ICurrentMarket _currentMarket;
+
+        public ConfirmationService(
+            IOrderRepository orderRepository,
+            ICurrentMarket currentMarket)
         {
-            return !mock ? OrderContext.Current.GetPurchaseOrder(orderNumber) : GetMockOrder();
+            _orderRepository = orderRepository;
+            _currentMarket = currentMarket;
         }
 
-        private PurchaseOrder GetMockOrder()
+        public IPurchaseOrder GetOrder(int orderNumber)
         {
-            var parameters = new OrderSearchParameters
+            return _orderRepository.Load<IPurchaseOrder>(orderNumber);
+        }
+
+        public IPurchaseOrder CreateFakePurchaseOrder()
+        {
+            var form = new InMemoryOrderForm
             {
-                SqlMetaWhereClause = "[ObjectId] = (SELECT TOP 1 OrderGroupId FROM OrderGroup order by Total desc)"
+                Payments =
+                {
+                    new InMemoryPayment
+                    {
+                        BillingAddress = new InMemoryOrderAddress(),
+                        PaymentMethodName = "CashOnDelivery"
+                    }
+                }
             };
 
-            var options = new OrderSearchOptions
+            form.Shipments.First().ShippingAddress = new InMemoryOrderAddress();
+
+            var purchaseOrder = new InMemoryPurchaseOrder
             {
-                RecordsToRetrieve = 1,
-                Classes = new StringCollection { "PurchaseOrder" }
+                Forms = new[] { form },
+                Currency = _currentMarket.GetCurrentMarket().DefaultCurrency,
+                Market = _currentMarket.GetCurrentMarket(),
+                OrderLink = new OrderReference(0, string.Empty, Guid.Empty, typeof(IPurchaseOrder))
             };
 
-            return OrderContext.Current.FindPurchaseOrders(parameters, options).FirstOrDefault();
+            return purchaseOrder;
         }
     }
 }

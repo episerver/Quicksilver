@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Filters;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -16,7 +13,11 @@ using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {
@@ -73,6 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 };
                 return Request.IsAjaxRequest() ? PartialView("ProductWithoutVariation", productWithoutVariation) : (ActionResult)View("ProductWithoutVariation", productWithoutVariation);
             }
+
             FashionVariant variation;
             if (!TryGetFashionVariant(variations, variationCode, out variation))
             {
@@ -83,25 +85,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var currency = _currencyservice.GetCurrentCurrency();
 
             var defaultPrice = GetDefaultPrice(variation, market, currency);
-            var discountPrice = GetDiscountPrice(defaultPrice, market, currency);
+            var discountedPrice = GetDiscountPrice(defaultPrice, market, currency);
 
             var viewModel = new FashionProductViewModel
             {
                 Product = currentContent,
                 Variation = variation,
-                OriginalPrice = defaultPrice != null ? defaultPrice.UnitPrice : new Money(0, currency),
-                Price = discountPrice,
+                ListingPrice = defaultPrice != null ? defaultPrice.UnitPrice : new Money(0, currency),
+                DiscountedPrice = discountedPrice,
                 Colors = variations
-                    .Where(x => x.Size != null && x.Size == variation.Size)
-                    .Select(x => new SelectListItem
+                    .Where(x => x.Size != null)
+                    .GroupBy(x => x.Color)
+                    .Select(g => new SelectListItem                    
                     {
                         Selected = false,
-                        Text = x.Color,
-                        Value = x.Color
+                        Text = g.First().Color,
+                        Value = g.First().Color
                     })
                     .ToList(),
                 Sizes = variations
-                    .Where(x => x.Color != null && x.Color == variation.Color)
+                    .Where(x => x.Color != null && x.Color.Equals(variation.Color, StringComparison.OrdinalIgnoreCase))
                     .Select(x => new SelectListItem
                     {
                         Selected = false,
@@ -129,12 +132,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var variations = GetVariations(currentContent);
 
             FashionVariant variation;
-            if (!TryGetFashionVariantByColorAndSize(variations, color, size, out variation))
+            if (TryGetFashionVariantByColorAndSize(variations, color, size, out variation)
+                || TryGetFashionVariantByColorAndSize(variations, color, string.Empty, out variation))//if we cannot find variation with exactly both color and size then we will try to get variation by color only
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { variationCode = variation.Code, quickview });
             }
 
-            return RedirectToAction("Index", new { variationCode = variation.Code, quickview });
+            return HttpNotFound();
         }
 
         private IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
@@ -157,8 +161,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private static bool TryGetFashionVariantByColorAndSize(IEnumerable<FashionVariant> variations, string color, string size, out FashionVariant variation)
         {
             variation = variations.FirstOrDefault(x =>
-                x.Color.Equals(color, StringComparison.OrdinalIgnoreCase) &&
-                x.Size.Equals(size, StringComparison.OrdinalIgnoreCase));
+                (string.IsNullOrEmpty(color) || x.Color.Equals(color, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(size) || x.Size.Equals(size, StringComparison.OrdinalIgnoreCase)));
 
             return variation != null;
         }

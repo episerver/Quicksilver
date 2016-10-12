@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Search.Models.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
+﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
 @{
     if (Request.IsAjaxRequest())
     {
@@ -12,13 +12,13 @@
     }
     else
     {
-        @Html.Partial("_Facet", Model.FormModel)
+        @Html.Partial("_Facet", Model.FilterOption)
         using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
         {
             <div class="col-md-9">
                 @Html.Partial("_ProductList", Model.ProductViewModels)
             </div>
-            <input class="jsSearchPage" id="FormModel_Page" name="FormModel.Page" type="hidden" value="@(Model.FormModel.Page + 1)" />
+            <input class="jsSearchPage" id="FilterOption_Page" name="FilterOption.Page" type="hidden" value="@(Model.FilterOption.Page + 1)" />
         }
     }
 </div>

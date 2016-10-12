@@ -15,7 +15,7 @@
       </Account>
       <MiniCart>
         <Button>
-          <ContinueShopping>Fortsätt handla</ContinueShopping>
+          <Close>Stäng</Close>
           <GoToCheckout>Fortsätt till utcheckningen</GoToCheckout>
         </Button>
       </MiniCart>
@@ -51,8 +51,8 @@
       <NotAddedToWishList>Kunde inte lägga varan i önskelistan</NotAddedToWishList>
       <Price>Pris</Price>
       <Size>Storlek</Size>
-      <OriginalPrice>Ursprungliga Pris</OriginalPrice>
-      <DiscountPrice>Rabatterat Pris</DiscountPrice>
+      <ListingPrice>Listpris</ListingPrice>
+      <DiscountedPrice>Rabatterat Pris</DiscountedPrice>
       <PriceMissing>Inte tillgänglig för denna marknad</PriceMissing>
       <VariationSelection>
         <Color>Välj Färg</Color>
@@ -85,8 +85,15 @@
           <ChoosePayment>Betalning krävs</ChoosePayment>
         </Empty>
         <Errors>
-          <PreProcessingFailure>Förbehandlingen av betalningen misslyckades.</PreProcessingFailure>
+          <PreProcessingFailure>Något blev fel för artikel {0} i din varukorg.</PreProcessingFailure>
           <NoShippingRate>Ingen fraktkonstad finns för denna leverans.</NoShippingRate>
+          <RemovedDueToUnavailableItem>Artikel {0} är inte tillgänglig i butik och har därför tagits bort från din varukorg.</RemovedDueToUnavailableItem>
+          <RemovedDueToInsufficientQuantityInInventory>Artikel {0} är slutsåld och har därför tagits bort från din varukorg.</RemovedDueToInsufficientQuantityInInventory>
+          <RemovedDueToInvalidPrice>Artikel {0} har inget giltigt pris och har därför tagits bort från din varukorg.</RemovedDueToInvalidPrice>
+          <CannotProcessDueToMissingOrderStatus>Kan inte behandla artikel {0} på grund av saknad beställningsstatus.</CannotProcessDueToMissingOrderStatus>
+          <PlacedPricedChanged>Priset för artikel {0} har förändrats sedan den lades till din varukorg.</PlacedPricedChanged>
+          <AdjustedQuantity>Antalet av artikel {0} har förändrats.</AdjustedQuantity>
+          <ProcessingPaymentFailure>Behandlingen av din betalning misslyckades.</ProcessingPaymentFailure>
         </Errors>
         <Methods>
           <CashOnDelivery>
@@ -120,6 +127,8 @@
         <Heading>Faktureringsadress</Heading>
       </Billing>
       <Shipment>
+        <ShippingTo>Levereras till:</ShippingTo>
+        <SingleShipment>Leverera till bara en adress</SingleShipment>
         <AlternativeAddress>Annan leveransadress</AlternativeAddress>
         <Heading>Leveransadress</Heading>
         <Labels>
@@ -171,6 +180,7 @@
         <Continue>Fortsätt</Continue>
         <DeliveryAddress>Leveransadress</DeliveryAddress>
         <SelectDeliveryAddress>Välj leveransadress</SelectDeliveryAddress>
+		<SelectAddress>Välj adress</SelectAddress>
         <AddNewAddress>Lägg till ny adress</AddNewAddress>
         <DeliveryOption>Välj fraktalternativ</DeliveryOption>
         <NoAddressFound>Inga adresser finns</NoAddressFound>
@@ -480,6 +490,8 @@
             <PostalCode>Postnummer krävs</PostalCode>
             <Email>Email krävs</Email>
             <Name>Namn krävs</Name>
+            <BillingAddress>Faktureringsadress krävs</BillingAddress>
+            <ShippingAddress>Leveransadress krävs</ShippingAddress>
           </Empty>
           <Label>
             <FirstName>Förnamn *:</FirstName>
@@ -492,7 +504,6 @@
             <CountryCode>Land :</CountryCode>
             <Address>Address *:</Address>
             <Name>Namn *:</Name>
-            <DateModified>Date Modified</DateModified>
             <ShippingAddress>Standardleveransadress</ShippingAddress>
             <BillingAddress>Standardfaktureringsadress</BillingAddress>
             <DaytimePhoneNumber>Telefonnummer:</DaytimePhoneNumber>
@@ -509,5 +520,10 @@
       <Message>Underhållsarbete utförs på webbplatsen. Vissa funktioner är avstängda tills arbetet är slutfört.</Message>
       <Login>Inloggningen är tillfälligt avstängd medan underhållsarbete utförs på webbplatsen.</Login>
     </Readonly>
+    <StartPage>
+      <Promotion>
+        <AllItems>Gäller alla artiklar</AllItems>
+      </Promotion>
+    </StartPage>
   </language>
 </languages>

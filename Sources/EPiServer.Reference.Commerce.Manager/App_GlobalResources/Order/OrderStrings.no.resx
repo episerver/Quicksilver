@@ -1227,9 +1227,6 @@
   <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
     <value>Totalt før merverdiavgift og frakt</value>
   </data>
-  <data name="Fulfillment_Warehouse" xml:space="preserve">
-    <value>Oppfyllelseslager</value>
-  </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Utilgjengelig</value>
   </data>

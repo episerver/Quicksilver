@@ -4,7 +4,7 @@
     @using (Html.BeginForm("Save", "AddressBook", FormMethod.Post))
             {
         <h2>
-            @if (Model.Address.AddressId.HasValue)
+            @if (!string.IsNullOrEmpty(Model.Address.AddressId))
             {
                 @Html.Translate("/AddressBook/Edit/Header")
             }
@@ -63,7 +63,7 @@
                     @Html.LabelFor(x => x.Address.CountryCode)
                     @Html.DropDownListFor(x => x.Address.CountryCode, new SelectList(Model.Address.CountryOptions, "Code", "Name", Model.Address.CountryCode), new { @class = "form-control jsChangeCountry" })
                     @Html.ValidationMessageFor(x => x.Address.CountryCode)
-                    @Html.Hidden("address-htmlfieldprefix", "Address")
+                    @Html.Hidden("address-htmlfieldprefix", "Address.CountryRegion")
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(x => x.Address.DaytimePhoneNumber)
@@ -92,7 +92,7 @@
             <button type="submit" class="btn btn-primary btn--blue">@Html.Translate("/AddressBook/Form/Label/Submit")</button>
         }
 
-        if (Model.Address.AddressId.HasValue)
+        if (!string.IsNullOrEmpty(Model.Address.AddressId))
         {
             @Html.ActionLink(Html.Translate("/AddressBook/Form/Label/Cancel"), "Index", "AddressBook", new { }, new { @class = "btn btn-default" })
         }

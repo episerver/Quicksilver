@@ -214,7 +214,7 @@
                         </tr>
                         <tr>
                             <td class="wh100"> 
-                                <ComponentArt:Grid Debug="false" AllowEditing="true" RunningMode="Callback" EditOnClickSelectedItem="False" ClientSideOnDoubleClick="SalePriceItem_EditOnDoubleClick"
+                                <ComponentArt:Grid Debug="false" AllowEditing="true" RunningMode="Callback" EditOnClickSelectedItem="false" ClientSideOnDoubleClick="SalePriceItem_EditOnDoubleClick"
                                     AutoFocusSearchBox="false" ShowHeader="false" ShowFooter="true" 
                                     Width="100%" SkinID="Inline" runat="server" ID="SalePricesGrid" 
                                     AutoPostBackOnInsert="false" AutoPostBackOnDelete="false" AutoPostBackOnUpdate="false" 
@@ -243,6 +243,9 @@
                                           <ComponentArt:ClientTemplate Id="EditTemplate">
                                             <a href="javascript:SalePriceItem_Edit(SalePricesGrid.getItemFromClientId('## DataItem.ClientId ##').getMember('PriceValueId').get_text());"><img alt="edit" title="edit" src="../../../Apps/Shell/Styles/Images/edit.gif" /></a> | 
                                             <a href="javascript:SalePriceItem_Delete('## DataItem.ClientId ##');"><img alt="delete" title="delete" src="../../../Apps/Shell/Styles/Images/toolbar/delete.gif" /></a>
+                                          </ComponentArt:ClientTemplate>
+                                          <ComponentArt:ClientTemplate ID="EditCommandTemplate">
+                                            <a href="javascript:SalePricesGrid.editComplete();">Update</a> | <a href="javascript:SalePricesGrid.editCancel();">Cancel</a>
                                           </ComponentArt:ClientTemplate>
                                           <ComponentArt:ClientTemplate ID="LoadingFeedbackTemplate">
                                             <table cellspacing="0" cellpadding="0" border="0">

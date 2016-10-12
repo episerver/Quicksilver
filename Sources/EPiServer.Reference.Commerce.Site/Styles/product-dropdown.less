@@ -11,13 +11,17 @@
     display: none;
     z-index: 10000;
 
-    &.js-cart-container { display: block; }
+    &.js-cart-container {
+        display: block;
+    }
 
     &.dropdown-menu {
         padding: 0;
     }
 
-    &.cart-dropdown-container { top: 75px; }
+    &.cart-dropdown-container {
+        top: 75px;
+    }
 }
 
 .product-dropdown {
@@ -33,22 +37,28 @@
                 background-color: lighten(@gray-base, 98.5%);
                 transition: background-color .2s;
             }
+
             &__item {
                 &__image {
                     max-width: 60px;
                 }
+
                 &__price {
                     display: inline-block;
                     float: right;
                     margin-left: @padding-base-horizontal;
 
                     &.product-price {
-                        &--discount { clear: right; }
+                        &--discount {
+                            clear: right;
+                        }
                     }
                 }
+
                 &__brand {
                     clear: left;
                 }
+
                 &__description {
                     clear: left;
                     color: @product-dropdown-bg;
@@ -67,25 +77,40 @@
             li {
                 padding: 10px;
 
-                &:last-child { padding-top: 0; }
+                &:last-child {
+                    padding-top: 0;
+                }
             }
         }
-        .product-row__item__image { max-width: 100px; }
-    } 
+
+        .product-row__item__image {
+            max-width: 100px;
+        }
+    }
+
+    .cart-dropdown {
+        &__product-container ul li address {
+            margin: 15px 10px;
+        }
+    }
 }
 
-.cart-control { padding: 5px; }
+.cart-control  {
+    padding: 5px;
+}
 
 
 // Palm only
 @media (max-width: @screen-xs-max) {
     .product-dropdown.product-row {
-        .product-row__item__title { font-size: 20px; }
+        .product-row__item__title {
+            font-size: 20px;
+        }
+
         .product-row__item__price {
             clear: left;
             display: block;
         }
-
     }
 }
 
@@ -98,7 +123,10 @@
         right: 0;
         top: 37px;
     }
-    .search-dropdown { max-height: 500px; }
+
+    .search-dropdown {
+        max-height: 500px;
+    }
 
     .product-dropdown {
         &.product-row {
@@ -106,6 +134,7 @@
                 color: @text-color;
                 max-height: 40px;
             }
+
             .product-row__item {
                 &__title {
                     float: left;
@@ -124,5 +153,4 @@
 
 // Desktop and up
 @media (min-width: @screen-lg-min) {
-
 }

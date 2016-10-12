@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Routing;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {

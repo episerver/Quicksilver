@@ -1,10 +1,10 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.CountryRegion
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels.CountryRegionViewModel
 
 <div class="form-group address-region">
     @Html.LabelFor(formModel => formModel.Region)
     @if (Model.RegionOptions != null && Model.RegionOptions.Any())
     {
-        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, "Name", "Name", Model.Region), new {@class = "form-control address-region-input"})
+        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, Model.Region), new {@class = "form-control address-region-input"})
         ;
     }
     else

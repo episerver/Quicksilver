@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Market.Models;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Web.Routing;
 using FluentAssertions;
@@ -9,6 +8,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
@@ -27,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
                 Value = x.Name
             });
 
-            _mockLanguageService
+            _languageServiceMock
                 .Setup(l => l.GetAvailableLanguages())
                 .Returns(availableLanguages);
 
@@ -78,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         public void Set_WhenSetCurrentLanguageFails_ShouldReturnHttpStatusUnsupported()
         {
             // Arrange
-            _mockLanguageService.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(false);
+            _languageServiceMock.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(false);
 
             // Act
             var result = _subject.Set("en", new ContentReference(11));
@@ -95,7 +95,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var contentLink = new ContentReference(11);
             const string language = "en";
 
-            _mockUrlResolver.Setup(x => x.GetUrl(contentLink, language)).Returns(expectedUrl);
+            _urlResolverMock.Setup(x => x.GetUrl(contentLink, language)).Returns(expectedUrl);
 
             // Act
             var result = _subject.Set(language, contentLink);
@@ -114,24 +114,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             _subject.Set(language, new ContentReference(11));
 
             // Assert
-            _mockLanguageService.Verify(x => x.SetCurrentLanguage(language), Times.Once);
+            _languageServiceMock.Verify(x => x.SetCurrentLanguage(language), Times.Once);
         }
 
-        private Mock<UrlResolver> _mockUrlResolver;
-        private Mock<LanguageService> _mockLanguageService;
+        private Mock<UrlResolver> _urlResolverMock;
+        private Mock<LanguageService> _languageServiceMock;
         private LanguageController _subject;
         private CultureInfo _currentLanguage = CultureInfo.GetCultureInfo("en");
 
 
         public LanguageControllerTests()
         {
-            _mockUrlResolver = new Mock<UrlResolver>();
+            _urlResolverMock = new Mock<UrlResolver>();
 
-            _mockLanguageService = new Mock<LanguageService>(null, null, null, null);
-            _mockLanguageService.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(true);
-            _mockLanguageService.Setup(l => l.GetCurrentLanguage()).Returns(_currentLanguage);
+            _languageServiceMock = new Mock<LanguageService>(null, null, null, null);
+            _languageServiceMock.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(true);
+            _languageServiceMock.Setup(l => l.GetCurrentLanguage()).Returns(_currentLanguage);
 
-            _subject = new LanguageController(_mockLanguageService.Object, _mockUrlResolver.Object);
+            _subject = new LanguageController(_languageServiceMock.Object, _urlResolverMock.Object);
         }
     }
 }

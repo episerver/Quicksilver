@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Registration.Models.OrderConfirmationRegistrationModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Registration.Models.OrderConfirmationRegistrationFormModel
 @{
     Layout = null;
 }
@@ -7,17 +7,17 @@
     @using (Html.BeginForm("Register", "OrderConfirmationRegistrationBlock", FormMethod.Post, new { @class = "form jsOrderConfirmationRegistration", @role = "form" }))
     {
         <div class="form-group">
-            @Html.LabelFor(x => x.FormModel.Password)
-            @Html.PasswordFor(x => x.FormModel.Password, new { @class = "form-control", @placeholder = Html.Translate("/Registration/Form/Label/Password") })
-            @Html.ValidationMessageFor(x => x.FormModel.Password)
+            @Html.LabelFor(x => x.Password)
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = Html.Translate("/Registration/Form/Label/Password") })
+            @Html.ValidationMessageFor(x => x.Password)
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => x.FormModel.Password2)
-            @Html.PasswordFor(x => x.FormModel.Password2, new { @class = "form-control", @placeholder = Html.Translate("/Registration/Form/Label/Password2") })
-            @Html.ValidationMessageFor(x => x.FormModel.Password2)
+            @Html.LabelFor(x => x.Password2)
+            @Html.PasswordFor(x => x.Password2, new { @class = "form-control", @placeholder = Html.Translate("/Registration/Form/Label/Password2") })
+            @Html.ValidationMessageFor(x => x.Password2)
         </div>
-        @Html.HiddenFor(x => x.FormModel.OrderNumber)
-        @Html.HiddenFor(x => x.FormModel.ContactId)
+        @Html.HiddenFor(x => x.OrderNumber)
+        @Html.HiddenFor(x => x.ContactId)
 
         <button type="submit" class="btn btn-primary">@Html.Translate("/Registration/Form/Label/Submit")</button>
     }

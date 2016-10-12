@@ -1,6 +1,6 @@
 ﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Models;
 using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Pages;
+using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;

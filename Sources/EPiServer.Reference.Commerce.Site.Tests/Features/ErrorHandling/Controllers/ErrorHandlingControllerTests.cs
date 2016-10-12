@@ -1,12 +1,12 @@
 ﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Models;
 using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Routing;
 using Moq;
 using System;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.ViewModels;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Controllers

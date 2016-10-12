@@ -13,7 +13,7 @@
 						<Control id="LineItemsGrid" path="~/Apps/Order/Modules/RelatedEntityView.ascx">
 							<Property name="RelatedClassName" value="LineItem" />
 							<Property name="RelatedToClassName" value="ReturnOrder"/>
-							<Property name="LeftPadding" value="15px"/>
+							<Property name="LeftPadding" value="5px"/>
 						</Control>
 					</Placeholder>
 					<Placeholder id="Placeholder_2">

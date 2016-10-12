@@ -47,6 +47,7 @@
 <script type="text/javascript">
     var CSManagementClient = new ManagementClient('right', 'center_div');
     CSManagementClient.BASE_URL = '<%= ResolveUrl("~/Apps/Shell/Pages/") %>';
+    CSManagementClient.HELP_URL = '<%= ConfigurationManager.AppSettings.Get("epi:HelpUrl") %>';
     
     function GetManagementClient() {
         return CSManagementClient;

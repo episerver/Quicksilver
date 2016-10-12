@@ -1,5 +1,6 @@
 ﻿@using EPiServer.Editor
-@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages.ResetPasswordMailPage
+@using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages
+@model EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels.ResetPasswordMailPageViewModel
 @{
     Layout = null;
 }
@@ -8,6 +9,6 @@
        @Html.Translate("/ResetPassword/Mail/Instructions")
    }
 }
-@Html.PropertyFor(x => x.MailBody)
+@Html.PropertyFor(x => x.CurrentPage.MailBody)
 
 
