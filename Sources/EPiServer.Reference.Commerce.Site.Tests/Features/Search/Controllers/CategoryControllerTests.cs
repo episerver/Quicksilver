@@ -1,7 +1,8 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using Moq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -13,7 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
     public class CategoryControllerTests
     {
         [Fact]
-        public void Index_WhenNotAjaxRequest_ShouldReturnViewResult()
+        public void Index_ShouldReturnViewResult()
         {
             // Act
             var result = _subject.Index(null, null);
@@ -23,14 +24,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public void Index_WhenAjaxRequest_ShouldReturnPartialView()
+        public void Facet_ShouldReturnPartialView()
         {
-            // Arrange
-            _httpRequestMock.SetupGet(x => x.Headers)
-                .Returns(new WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } }); // This will make Request.IsAjaxRequest return true.
-
             // Act
-            var result = _subject.Index(null, null);
+            var result = _subject.Facet(null, null);
 
             // Assert
             Assert.IsType(typeof(PartialViewResult), result);
@@ -46,14 +43,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             _subject.Index(fashionNode, null);
 
             // Assert
-            _viewModelFactoryMock.Verify(v => v.Create(fashionNode, It.IsAny<FilterOptionFormModel>()));
+            _viewModelFactoryMock.Verify(v => v.Create(fashionNode, It.IsAny<FilterOptionViewModel>()));
         }
 
         [Fact]
         public void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
         {
             // Arrange
-            var formModel = new FilterOptionFormModel();
+            var formModel = new FilterOptionViewModel();
 
             // Act
             _subject.Index(null, formModel);
@@ -65,7 +62,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         CategoryController _subject;
         Mock<SearchViewModelFactory> _viewModelFactoryMock;
         Mock<HttpRequestBase> _httpRequestMock;
-
 
         public CategoryControllerTests()
         {

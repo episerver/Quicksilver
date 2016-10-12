@@ -1,9 +1,8 @@
-﻿using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Features.Payment.Exceptions;
+using EPiServer.Reference.Commerce.Site.Features.Payment.Models;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce.Website;
-using Mediachase.Commerce.Website.Helpers;
+using Mediachase.Commerce.Orders.Managers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
@@ -11,35 +10,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
     [ServiceConfiguration(typeof(IPaymentService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class PaymentService : IPaymentService
     {
-        private readonly Func<string, CartHelper> _cartHelper;
-        private readonly LocalizationService _localizationService;
-
-        public PaymentService(Func<string, CartHelper> cartHelper, LocalizationService localizationService)
+        public IEnumerable<PaymentMethodModel> GetPaymentMethodsByMarketIdAndLanguageCode(string marketId, string languageCode)
         {
-            _cartHelper = cartHelper;
-            _localizationService = localizationService;
-        }
+            var methods = PaymentManager.GetPaymentMethodsByMarket(marketId)
+                .PaymentMethod
+                .Where(x => x.IsActive && languageCode.Equals(x.LanguageId, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(x => x.Ordering)
+                .Select(x => new PaymentMethodModel
+                {
+                    PaymentMethodId = x.PaymentMethodId,
+                    SystemName = x.SystemKeyword,
+                    FriendlyName = x.Name,
+                    Description = x.Description,
+                    LanguageId = x.LanguageId 
+                });
 
-        public void ProcessPayment(IPaymentOption method)
-        {
-            var cart = _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart;
-
-            if (!cart.OrderForms.Any())
-            {
-                cart.OrderForms.AddNew();
-            }
-
-            var payment = method.PreProcess(cart.OrderForms[0]);
-
-            if (payment == null)
-            {
-                throw new PreProcessException();
-            }
-
-            cart.OrderForms[0].Payments.Add(payment);
-            cart.AcceptChanges();
-
-            method.PostProcess(cart.OrderForms[0]);
+            return methods;
         }
     }
 }

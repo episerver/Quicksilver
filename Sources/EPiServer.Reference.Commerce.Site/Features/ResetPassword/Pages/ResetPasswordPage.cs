@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.SpecializedProperties;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages
 {

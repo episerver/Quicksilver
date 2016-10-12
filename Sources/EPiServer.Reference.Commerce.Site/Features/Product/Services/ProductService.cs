@@ -14,6 +14,9 @@ using System.Linq;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
+using Mediachase.Commerce.Inventory;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 {
@@ -72,11 +75,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
             IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
 
-            var siblingVariant = siblingVariations.OfType<FashionVariant>().FirstOrDefault(x => x.Code == siblingCode);
+            var siblingVariant = siblingVariations.OfType<FashionVariant>().First(x => x.Code == siblingCode);
 
             foreach (var variant in siblingVariations.OfType<FashionVariant>())
             {
-                if (variant.Size == size && variant.Code != siblingCode && variant.Color == siblingVariant.Color)
+                if (variant.Size.Equals(size, StringComparison.OrdinalIgnoreCase) && variant.Code != siblingCode
+                    && variant.Color.Equals(siblingVariant.Color, StringComparison.OrdinalIgnoreCase))
                 {
                     return variant.Code;
                 }
@@ -147,7 +151,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var currency = _currencyService.GetCurrentCurrency();
 
             var originalPrice = _pricingService.GetCurrentPrice(variation.Code);
-            var discountPrice = originalPrice.HasValue ? GetDiscountPrice(variation, market, currency, originalPrice.Value) : (Money?)null;
+            var discountedPrice = originalPrice.HasValue ? GetDiscountPrice(variation, market, currency, originalPrice.Value) : (Money?)null;
 
             var image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
             var brand = product is FashionProduct ? ((FashionProduct)product).Brand : string.Empty;
@@ -155,8 +159,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             return new ProductViewModel
             {
                 DisplayName = product != null ? product.DisplayName : variation.DisplayName,
-                PlacedPrice = originalPrice.HasValue ? originalPrice.Value.Amount : 0,
-                ExtendedPrice = discountPrice,
+                PlacedPrice = originalPrice.HasValue ? originalPrice.Value : new Money(0, currency),
+                DiscountedPrice = discountedPrice,
                 ImageUrl = image,
                 Url = variation.GetUrl(),
                 Brand = brand,
@@ -166,10 +170,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money originalPrice)
         {
-            var discountPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
-            if (discountPrice != null)
+            var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
+            if (discountedPrice != null)
             {
-                return discountPrice.UnitPrice;
+                return discountedPrice.UnitPrice;
             }
 
             return originalPrice;

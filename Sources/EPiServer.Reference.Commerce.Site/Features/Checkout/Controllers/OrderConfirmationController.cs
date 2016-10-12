@@ -1,43 +1,48 @@
-﻿using EPiServer.Core;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc.Html;
-using Mediachase.Commerce.Orders;
-using System;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
     public class OrderConfirmationController : OrderConfirmationControllerBase<OrderConfirmationPage>
     {
-
-        public OrderConfirmationController(ConfirmationService confirmationService, AddressBookService addressBookService, CustomerContextFacade customerContextFacade)
-            : base(confirmationService, addressBookService, customerContextFacade)
+        public OrderConfirmationController(
+            ConfirmationService confirmationService,
+            AddressBookService addressBookService,
+            CustomerContextFacade customerContextFacade,
+            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
+            : base(confirmationService, addressBookService, customerContextFacade, orderGroupTotalsCalculator)
         {
         }
 
         [HttpGet]
-        public ActionResult Index(OrderConfirmationPage currentPage, string notificationMessage, Guid? contactId = null, int orderNumber = 0)
+        public ActionResult Index(OrderConfirmationPage currentPage, string notificationMessage, int? orderNumber)
         {
-            PurchaseOrder order = _confirmationService.GetOrder(orderNumber, PageEditing.PageIsInEditMode);
-            
-            if (order == null && !PageEditing.PageIsInEditMode)
+            IPurchaseOrder order = null;
+            if (PageEditing.PageIsInEditMode)
             {
-                return Redirect(Url.ContentUrl(ContentReference.StartPage));
+                order = _confirmationService.CreateFakePurchaseOrder();
             }
-            if (order.CustomerId != _customerContext.CurrentContactId && !PageEditing.PageIsInEditMode)
+            else if (orderNumber.HasValue)
             {
-                return Redirect(Url.ContentUrl(ContentReference.StartPage));
+                order = _confirmationService.GetOrder(orderNumber.Value);
             }
 
-            OrderConfirmationViewModel<OrderConfirmationPage> viewModel = CreateViewModel(currentPage, order);
-            viewModel.NotificationMessage = notificationMessage;
+            if (order != null && order.CustomerId == _customerContext.CurrentContactId)
+            {
+                var viewModel = CreateViewModel(currentPage, order);
+                viewModel.NotificationMessage = notificationMessage;
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+
+            return Redirect(Url.ContentUrl(ContentReference.StartPage));
         }
     }
 }

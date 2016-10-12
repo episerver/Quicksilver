@@ -1,19 +1,13 @@
-﻿using EPiServer.Core;
-using EPiServer.Editor;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
-using EPiServer.Web.Mvc.Html;
-using Mediachase.Commerce.Orders;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -22,15 +16,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         protected readonly ConfirmationService _confirmationService;
         private readonly AddressBookService _addressBookService;
         protected readonly CustomerContextFacade _customerContext;
+        private readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
 
-        protected OrderConfirmationControllerBase(ConfirmationService confirmationService, AddressBookService addressBookService, CustomerContextFacade customerContextFacade)
+        protected OrderConfirmationControllerBase(
+            ConfirmationService confirmationService, 
+            AddressBookService addressBookService, 
+            CustomerContextFacade customerContextFacade,
+            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
         {
             _confirmationService = confirmationService;
             _addressBookService = addressBookService;
             _customerContext = customerContextFacade;
+            _orderGroupTotalsCalculator = orderGroupTotalsCalculator;
         }
 
-        protected OrderConfirmationViewModel<T> CreateViewModel(T currentPage, PurchaseOrder order)
+        protected OrderConfirmationViewModel<T> CreateViewModel(T currentPage, IPurchaseOrder order)
         {
             var hasOrder = order != null;
 
@@ -38,41 +38,42 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 return new OrderConfirmationViewModel<T> { CurrentPage = currentPage };
             }
-
-            var form = order.OrderForms.First();
-
-            OrderConfirmationViewModel<T> viewModel = new OrderConfirmationViewModel<T>
+            
+            var lineItems = order.GetFirstForm().Shipments.SelectMany(x => x.LineItems);
+            var totals = _orderGroupTotalsCalculator.GetTotals(order);
+            
+            var viewModel = new OrderConfirmationViewModel<T>
             {
+                Currency = order.Currency,
                 CurrentPage = currentPage,
                 HasOrder = hasOrder,
-                OrderId = order.TrackingNumber,
+                OrderId = order.OrderNumber,
                 Created = order.Created,
-                Items = form.LineItems,
-                BillingAddress = new Address(),
-                ShippingAddresses = new List<Address>(),
+                Items = lineItems,
+                BillingAddress = new AddressModel(),
+                ShippingAddresses = new List<AddressModel>(),
                 ContactId = _customerContext.CurrentContactId,
-                Payments = form.Payments,
-                GroupId = order.OrderGroupId,
-                OrderLevelDiscountTotal = order.ToMoney(form.LineItems.Sum(x=>x.OrderLevelDiscountAmount)),
-                ShippingSubTotal = order.ToMoney(form.Shipments.Sum(s => s.ShippingSubTotal)),
-                ShippingDiscountTotal = order.ToMoney(form.Shipments.Sum(s => s.ShippingDiscountAmount)),
-                ShippingTotal = order.ToMoney(form.ShippingTotal),
-                HandlingTotal = order.ToMoney(form.HandlingTotal),
-                TaxTotal = order.ToMoney(form.TaxTotal),
-                CartTotal = order.ToMoney(form.Total)
+                Payments = order.GetFirstForm().Payments,
+                OrderGroupId = order.OrderLink.OrderGroupId,
+                OrderLevelDiscountTotal = order.GetOrderDiscountTotal(order.Currency),
+                ShippingSubTotal = order.GetShippingSubTotal(),
+                ShippingDiscountTotal = order.GetShippingDiscountTotal(), 
+                ShippingTotal = totals.ShippingTotal,
+                HandlingTotal = totals.HandlingTotal, 
+                TaxTotal = totals.TaxTotal,
+                CartTotal = totals.Total
             };
-
-            // Identify the id for all shipping addresses.
-            IEnumerable<string> shippingAddressIdCollection = order.OrderForms.SelectMany(x => x.Shipments).Select(s => s.ShippingAddressId);
-
+            
+            var billingAddress = order.GetFirstForm().Payments.First().BillingAddress; 
+            
             // Map the billing address using the billing id of the order form.
-            _addressBookService.MapOrderAddressToModel(viewModel.BillingAddress, order.OrderAddresses.Single(x => x.Name == form.BillingAddressId));
+            _addressBookService.MapToModel(billingAddress, viewModel.BillingAddress);
 
             // Map the remaining addresses as shipping addresses.
-            foreach (OrderAddress orderAddress in order.OrderAddresses.Where(x => shippingAddressIdCollection.Contains(x.Name)))
+            foreach (var orderAddress in order.Forms.SelectMany(x => x.Shipments).Select(s => s.ShippingAddress))
             {
-                ShippingAddress shippingAddress = new ShippingAddress();
-                _addressBookService.MapOrderAddressToModel(shippingAddress, orderAddress);
+                var shippingAddress = new AddressModel();
+                _addressBookService.MapToModel(orderAddress, shippingAddress);
                 viewModel.ShippingAddresses.Add(shippingAddress);
             }
 

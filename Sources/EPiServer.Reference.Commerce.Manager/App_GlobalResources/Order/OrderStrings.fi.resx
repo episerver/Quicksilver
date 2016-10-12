@@ -1227,9 +1227,6 @@
   <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
     <value>Yhteensä ilman ALV:tä tai toimituskuluja</value>
   </data>
-  <data name="Fulfillment_Warehouse" xml:space="preserve">
-    <value>Toimittava varasto</value>
-  </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Ei käytettävissä</value>
   </data>

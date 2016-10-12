@@ -1,5 +1,4 @@
 ﻿using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using System.ComponentModel.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {

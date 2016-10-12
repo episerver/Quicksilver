@@ -3,7 +3,7 @@
 	Assembly="Mediachase.ConsoleManager" %>
 <table cellpadding="0" cellspacing="0" width="100%">
 	<tr>
-		<td style="padding: 5px 5px 5px 15px;">
+		<td style="padding: 5px;">
 			<mc2:BlockHeaderLight HeaderCssClass="ibn-toolbar-light" ID="bhl" runat="server" Title="<%$ Resources:OrderStrings, Shipping_Information %>"></mc2:BlockHeaderLight>
 			<table class="orderform-blockheaderlight-datatable">
                 <colgroup style="width: 300px; text-align: left;"></colgroup>

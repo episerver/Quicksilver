@@ -1,26 +1,27 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
-using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Orders;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
 {
     public class OrderConfirmationRegistrationBlockController : IdentityControllerBase<OrderConfirmationRegistrationBlock>
     {
         private readonly CustomerContextFacade _customerContext;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService, CustomerContextFacade customerContextFacade)
+        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService, CustomerContextFacade customerContextFacade, IOrderRepository orderRepository)
             : base(applicationSignInManager, applicationUserManager, userService)
         {
             _customerContext = customerContextFacade;
+            _orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -29,14 +30,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
             OrderConfirmationRegistrationModel model = null;
             var orderNumber = ControllerContext.ParentActionViewContext.ViewData["OrderNumber"] as int? ?? -1;
             var contactId = ControllerContext.ParentActionViewContext.ViewData["ContactId"] as Guid? ?? Guid.Empty;
-            var order = OrderContext.Current.GetPurchaseOrder(orderNumber);
+            var order = _orderRepository.Load<IPurchaseOrder>(orderNumber);
 
             if (order == null || _customerContext.GetContactById(order.CustomerId) != null)
             {
                 return null;
             }
 
-            ApplicationUser user = UserService.GetUser(order.OrderAddresses.First().Email);
+            ApplicationUser user = UserService.GetUser(order.GetFirstForm().Payments.First().BillingAddress.Email);
 
             if (user != null)
             {
@@ -50,7 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                     }
                 };
 
-                return PartialView(model);
+                return PartialView(model.FormModel);
             }
 
             model = new OrderConfirmationRegistrationModel
@@ -63,33 +64,33 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                 }
             };
 
-            return PartialView("NewCustomer", model);
+            return PartialView("NewCustomer", model.FormModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(OrderConfirmationRegistrationBlock currentBlock, OrderConfirmationRegistrationFormModel formModel)
+        public async Task<ActionResult> Register(OrderConfirmationRegistrationBlock currentBlock, OrderConfirmationRegistrationFormModel viewModel)
         {
-            var purchaseOrder = OrderContext.Current.GetPurchaseOrder(formModel.OrderNumber);
+            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(viewModel.OrderNumber); 
             
             var model = new OrderConfirmationRegistrationModel
             {
                 CurrentBlock = currentBlock,
-                FormModel = formModel
+                FormModel = viewModel
             };
 
             if (purchaseOrder == null)
             {
-                ModelState.AddModelError("FormModel.Password2", "Something went wrong");
+                ModelState.AddModelError("Password2", "Something went wrong");
             }
 
             if (!ModelState.IsValid || purchaseOrder == null)
             {
-                return PartialView("NewCustomer", model);
+                return PartialView("NewCustomer", model.FormModel);
             }
 
             ContactIdentityResult registration = await UserService.RegisterAccount(new ApplicationUser(purchaseOrder)
             { 
-                Password = formModel.Password, 
+                Password = viewModel.Password, 
                 RegistrationSource = "Order confirmation page"
             });
 
@@ -98,31 +99,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                 if (registration.Contact.PrimaryKeyId.HasValue)
                 {
                     purchaseOrder.CustomerId = registration.Contact.PrimaryKeyId.Value;
-                    purchaseOrder.CustomerName = registration.Contact.FullName;
-                    purchaseOrder.AcceptChanges();
+                    
+                    _orderRepository.Save(purchaseOrder);
                 }
                 return PartialView("Complete", registration.Contact.Email);
             }
 
             if (registration.Result.Errors.Any())
             {
-                registration.Result.Errors.ToList().ForEach(x => ModelState.AddModelError("FormModel.Password2", x));
-                return PartialView("NewCustomer", model);
+                registration.Result.Errors.ToList().ForEach(x => ModelState.AddModelError("Password2", x));
+                return PartialView("NewCustomer", model.FormModel);
             }
 
-            return PartialView("Index", model);
+            return PartialView("Index", model.FormModel);
         }
 
         [HttpPost]
-        public ActionResult Assign(OrderConfirmationRegistrationBlock currentBlock, OrderConfirmationRegistrationFormModelBase formModel)
+        public ActionResult Assign(OrderConfirmationRegistrationFormModelBase viewModel)
         {
-            var purchaseOrder = OrderContext.Current.GetPurchaseOrder(formModel.OrderNumber);
-            var contact = UserService.GetCustomerContact(purchaseOrder.OrderAddresses.First().Email);
+            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(viewModel.OrderNumber);
+            var contact = UserService.GetCustomerContact(purchaseOrder.GetFirstForm().Payments.First().BillingAddress.Email);
             if (contact.PrimaryKeyId.HasValue)
             {
                 purchaseOrder.CustomerId = contact.PrimaryKeyId.Value;
-                purchaseOrder.CustomerName = contact.FullName;
-                purchaseOrder.AcceptChanges();
+                _orderRepository.Save(purchaseOrder);
             }
             return PartialView("Complete2");
         }

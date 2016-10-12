@@ -1,5 +1,4 @@
-﻿@using EPiServer.Web.Routing
-@model EPiServer.Reference.Commerce.Site.Features.Market.Models.MarketViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Market.ViewModels.MarketViewModel
 @using (Html.BeginForm("Set", "Market", new { contentLink = @Model.ContentLink }))
 {
     @Html.DropDownListFor(x => x.MarketId, Model.Markets, new { @class = "form-control input-sm jsMarketSelector" })

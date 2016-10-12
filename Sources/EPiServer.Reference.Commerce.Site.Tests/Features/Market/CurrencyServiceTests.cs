@@ -60,11 +60,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             Assert.True(result);
         }
 
-        private Mock<ICurrentMarket> _currentMarketMock;
-        private Mock<IMarket> _marketMock;
-        private Mock<CookieService> _cookieServiceMock;
-        private CurrencyService _subject;
-
+        private readonly Mock<ICurrentMarket> _currentMarketMock;
+        private readonly Mock<IMarket> _marketMock;
+        private readonly Mock<CookieService> _cookieServiceMock;
+        private readonly CurrencyService _subject;
 
         public CurrencyServiceTests()
         {
@@ -80,6 +79,5 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 
             _subject = new CurrencyService(_currentMarketMock.Object, _cookieServiceMock.Object);
         }
-
     }
 }

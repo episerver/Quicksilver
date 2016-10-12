@@ -1,6 +1,7 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Search.Models;
-using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+﻿using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
 
@@ -19,9 +20,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         [ValidateInput(false)]
-        public ActionResult Index(SearchPage currentPage, FilterOptionFormModel formModel)
+        public ActionResult Index(SearchPage currentPage, FilterOptionViewModel viewModel)
         {
-            var model = _viewModelFactory.Create(currentPage, formModel);
+            var model = _viewModelFactory.Create(currentPage, viewModel);
 
             return View(model);
         }

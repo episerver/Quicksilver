@@ -26,6 +26,14 @@
 			<asp:Label ID="lblCreated" runat="server"></asp:Label>
 		</td>
 	</tr>
+    <tr>
+		<td valign="top" style="width: 140px; font-weight:bold; text-align:right;padding: 5px;">
+			<asp:Label runat="server" ID="Label5" Text="<%$ Resources:OrderStrings, Order_Level_Discounts %>"></asp:Label>:
+		</td>
+		<td style="padding: 5px;">
+			<asp:Label ID="lblOrderLevelDiscount" runat="server"></asp:Label>
+		</td>
+	</tr>
 	<tr>
 		<td valign="top" style="width: 140px; font-weight:bold; text-align:right;padding: 5px;">
 			<asp:Label runat="server" ID="Label3" Text="<%$ Resources:OrderStrings, Cart_Total %>"></asp:Label>:

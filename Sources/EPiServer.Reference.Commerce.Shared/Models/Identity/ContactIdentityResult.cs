@@ -8,9 +8,6 @@ namespace EPiServer.Reference.Commerce.Shared.Models.Identity
     /// </summary>
     public class ContactIdentityResult
     {
-        private readonly CustomerContact _contact;
-        private readonly IdentityResult _result;
-
         /// <summary>
         /// Returns a new instance of a ContactIdentityResult.
         /// </summary>
@@ -18,24 +15,18 @@ namespace EPiServer.Reference.Commerce.Shared.Models.Identity
         /// <param name="contact">A CustomerContact entity related to the IdentityResult.</param>
         public ContactIdentityResult(IdentityResult result, CustomerContact contact)
         {
-            _contact = contact;
-            _result = result;
+            Contact = contact;
+            Result = result;
         }
 
         /// <summary>
         /// Gets the CustomerContact involved in the Identity action.
         /// </summary>
-        public CustomerContact Contact
-        {
-            get { return _contact; }
-        }
+        public CustomerContact Contact { get; private set; }
 
         /// <summary>
         /// Gets the outcome of the related identity action.
         /// </summary>
-        public IdentityResult Result
-        {
-            get { return _result; }
-        }
+        public IdentityResult Result { get; private set; }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Market.Models;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
+using Mediachase.Commerce;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
@@ -10,11 +12,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
     {
         private readonly ICurrencyService _currencyService;
         private readonly ICartService _cartService;
+        private readonly IOrderRepository _orderRepository;
 
-        public CurrencyController(ICurrencyService currencyService, ICartService cartService)
+        public CurrencyController(ICurrencyService currencyService, 
+            ICartService cartService, 
+            IOrderRepository orderRepository)
         {
             _currencyService = currencyService;
             _cartService = cartService;
+            _orderRepository = orderRepository;
         }
 
         [ChildActionOnly]
@@ -22,7 +28,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
         {
             var model = new CurrencyViewModel
             {
-               
                 Currencies = _currencyService.GetAvailableCurrencies()
                     .Select(x => new SelectListItem
                 {
@@ -42,12 +47,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
             {
                 return new HttpStatusCodeResult(400, "Unsupported");
             }
-            
-            var currentCurrency = _currencyService.GetCurrentCurrency();
-            _cartService.SetCartCurrency(currentCurrency);
+
+            var cart = _cartService.LoadCart(_cartService.DefaultCartName);
+            if (cart != null)
+            {
+                var currentCurrency = new Currency(currencyCode);
+                if (currentCurrency != cart.Currency)
+                {
+                    _cartService.SetCartCurrency(cart, currentCurrency);
+                    _orderRepository.Save(cart);
+                }
+            }
             
             return Json(new { returnUrl = Request.UrlReferrer.ToString() });
         }
     }
-
 }

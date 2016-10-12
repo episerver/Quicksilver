@@ -1,15 +1,15 @@
-﻿using EPiServer.Framework.Localization;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Website;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Text.RegularExpressions;
+using EPiServer.ServiceLocation;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
-    public class GenericCreditCardPaymentMethod : PaymentMethodBase, IPaymentOption, IDataErrorInfo
+    public class GenericCreditCardPaymentMethod : PaymentMethodBase, IDataErrorInfo
     {
         static readonly string[] ValidatedProperties = 
         {
@@ -19,14 +19,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             "ExpirationMonth",
         };
 
+        private readonly IOrderFactory _orderFactory;
+
         public GenericCreditCardPaymentMethod()
-            : this(LocalizationService.Current)
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderFactory>())
         {
         }
 
-        public GenericCreditCardPaymentMethod(LocalizationService localizationService)
+        public GenericCreditCardPaymentMethod(IOrderFactory orderFactory)
+            : this(LocalizationService.Current, orderFactory)
+        {
+        }
+
+        public GenericCreditCardPaymentMethod(LocalizationService localizationService, IOrderFactory orderFactory)
             : base(localizationService)
         {
+            _orderFactory = orderFactory;
             ExpirationMonth = DateTime.Now.Month;
             CreditCardSecurityCode = "212";
             CardType = "Generic";
@@ -78,7 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
         string IDataErrorInfo.this[string propertyName]
         {
-            get { return this.GetValidationError(propertyName); }
+            get { return GetValidationError(propertyName); }
         }
 
         private string GetValidationError(string property)
@@ -160,47 +168,35 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        public bool ValidateData()
+        public override IPayment CreatePayment(decimal amount)
         {
-            return IsValid;
-        }
-
-        public Mediachase.Commerce.Orders.Payment PreProcess(OrderForm orderForm)
-        {
-            if (orderForm == null) throw new ArgumentNullException("orderForm");
-
-            if (!ValidateData())
-                return null;
-
-            var payment = new CreditCardPayment
-                {
-                    CardType = "Credit card",
-                    PaymentMethodId = PaymentMethodId,
-                    PaymentMethodName = "GenericCreditCard",
-                    OrderFormId = orderForm.OrderFormId,
-                    OrderGroupId = orderForm.OrderGroupId,
-                    Amount = orderForm.Total,
-                    CreditCardNumber = CreditCardNumber,
-                    CreditCardSecurityCode = CreditCardSecurityCode,
-                    ExpirationMonth = ExpirationMonth,
-                    ExpirationYear = ExpirationYear,
-                    Status = PaymentStatus.Pending.ToString(),
-                    CustomerName = CreditCardName,
-                    TransactionType = TransactionType.Authorization.ToString()
-            };
-
+            var payment = _orderFactory.CreateCardPayment();
+            payment.CardType = "Credit card";
+            payment.PaymentMethodId = PaymentMethodId;
+            payment.PaymentMethodName = "GenericCreditCard";
+            payment.Amount = amount;
+            payment.CreditCardNumber = CreditCardNumber;
+            payment.CreditCardSecurityCode = CreditCardSecurityCode;
+            payment.ExpirationMonth = ExpirationMonth;
+            payment.ExpirationYear = ExpirationYear;
+            payment.Status = PaymentStatus.Pending.ToString();
+            payment.CustomerName = CreditCardName;
+            payment.TransactionType = TransactionType.Authorization.ToString();
             return payment;
         }
 
-        public bool PostProcess(OrderForm orderForm)
+        public override void PostProcess(IPayment payment)
         {
-            var card = orderForm.Payments.ToArray().FirstOrDefault(x => x.PaymentType == PaymentType.CreditCard);
-            if (card == null)
-                return false;
+            var creditCardPayment = (ICreditCardPayment)payment;
+            var visibleDigits = 4;
+            var cardNumberLength = creditCardPayment.CreditCardNumber.Length;
+            creditCardPayment.CreditCardNumber = new string('*', cardNumberLength - visibleDigits) 
+                + creditCardPayment.CreditCardNumber.Substring(cardNumberLength - visibleDigits, visibleDigits);
+        }
 
-            card.Status = PaymentStatus.Processed.ToString();
-            card.AcceptChanges();
-            return true;
+        public override bool ValidateData()
+        {
+            return IsValid;
         }
     }
 }

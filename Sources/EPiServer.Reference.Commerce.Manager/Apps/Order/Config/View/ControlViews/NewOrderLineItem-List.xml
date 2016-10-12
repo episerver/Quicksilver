@@ -25,9 +25,6 @@
           <Column width="70" visible="true" allowSorting="false" dataField="LineItemId" headingText="{SharedStrings:Total}" columnType="CustomTemplate">
             <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
           </Column>
-          <Column width="180" visible="true" allowSorting="true" dataField="LineItemId" headingText="{OrderStrings:Fulfillment_Warehouse}" columnType="CustomTemplate">
-            <Template id="DiscountNamesTemplate" controlUrl="GridTemplates/LineItemFulfillmentWarehouseTemplate.ascx"></Template>
-          </Column>
         </Columns>
 			</add>
 		</Grid>

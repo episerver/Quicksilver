@@ -1,65 +1,39 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Models;
+using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
-using EPiServer.Reference.Commerce.Site.Features.Product.Services;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IContentLoader _contentLoader;
         private readonly ICartService _cartService;
-        private readonly ICartService _wishListService;
-        private readonly IProductService _productService;
-        private readonly IAddressBookService _addressBookService;
+        private ICart _cart;
+        private readonly IOrderRepository _orderRepository;
+        readonly CartViewModelFactory _cartViewModelFactory;
 
-        public CartController(IContentLoader contentLoader,
-                              ICartService cartService,
-                              ICartService wishListService,
-                              IProductService productService,
-                              IAddressBookService addressBookService)
+        public CartController(
+            ICartService cartService,
+            IOrderRepository orderRepository,
+            CartViewModelFactory cartViewModelFactory)
         {
-            _contentLoader = contentLoader;
             _cartService = cartService;
-            _wishListService = wishListService;
-            _productService = productService;
-            _wishListService.InitializeAsWishList();
-            _addressBookService = addressBookService;
+            _orderRepository = orderRepository;
+            _cartViewModelFactory = cartViewModelFactory;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult MiniCartDetails()
         {
-            var viewModel = new MiniCartViewModel
-            {
-                ItemCount = _cartService.GetLineItemsTotalQuantity(),
-                CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
-                CartItems = _cartService.GetCartItems(),
-                Total = _cartService.GetSubTotal()
-            };
-
+            var viewModel = _cartViewModelFactory.CreateMiniCartViewModel(Cart);
             return PartialView("_MiniCartDetails", viewModel);
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LargeCart()
         {
-            var items = _cartService.GetCartItems();
-            var viewModel = new LargeCartViewModel
-            {
-                CartItems = items,
-                Total = _cartService.ConvertToMoney(items.Where(x => x.ExtendedPrice.HasValue).Sum(x => x.ExtendedPrice.Value.Amount)),
-                TotalDiscount = _cartService.GetTotalDiscount()
-            };
-
+            var viewModel = _cartViewModelFactory.CreateLargeCartViewModel(Cart);
             return PartialView("LargeCart", viewModel);
         }
 
@@ -67,44 +41,41 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AllowDBWrite]
         public ActionResult AddToCart(string code)
         {
-            ModelState.Clear();
-            string warningMessage = null;
+            string warningMessage = string.Empty;
 
-            if (_cartService.AddToCart(code, out warningMessage))
+            ModelState.Clear();
+
+            if (Cart == null)
             {
-                _wishListService.RemoveLineItem(code);
+                _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
+            }
+
+            if (_cartService.AddToCart(Cart, code, out warningMessage))
+            {
+                _orderRepository.Save(Cart);
                 return MiniCartDetails();
             }
 
             // HttpStatusMessage can't be longer than 512 characters.
             warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
+
             return new HttpStatusCodeResult(500, warningMessage);
         }
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult ChangeCartItem(string code, decimal quantity, string size, string newSize)
+        public ActionResult ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
 
-            if (quantity > 0)
-            {
-                if (size == newSize)
-                {
-                    _cartService.ChangeQuantity(code, quantity);
-                }
-                else
-                {
-                    var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-                    _cartService.UpdateLineItemSku(code, newCode, quantity);
-                }
-            }
-            else
-            {
-                _cartService.RemoveLineItem(code);
-            }
-
+            _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
+            _orderRepository.Save(Cart);
             return MiniCartDetails();
+        }
+
+        private ICart Cart
+        {
+            get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName)); }
         }
     }
 }

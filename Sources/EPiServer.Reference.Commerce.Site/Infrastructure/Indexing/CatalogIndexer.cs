@@ -161,11 +161,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                     var variationPrice = new SearchField(IndexingHelper.GetOriginalPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
                         topPrice.UnitPrice.Amount);
 
-                    var discountPrice = new SearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
+                    var discountedPrice = new SearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
                         _promotionService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount);
 
                     document.Add(variationPrice);
-                    document.Add(discountPrice);
+                    document.Add(discountedPrice);
                 }
             }
         }

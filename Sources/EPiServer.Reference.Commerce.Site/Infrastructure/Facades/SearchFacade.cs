@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Web;
 using EPiServer.ServiceLocation;
-using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Website.Search;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
-using System.Collections.Specialized;
 using StringCollection = System.Collections.Specialized.StringCollection;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades

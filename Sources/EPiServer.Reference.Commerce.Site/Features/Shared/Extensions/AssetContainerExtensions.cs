@@ -5,7 +5,6 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using EPiServer.Web;
 using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions

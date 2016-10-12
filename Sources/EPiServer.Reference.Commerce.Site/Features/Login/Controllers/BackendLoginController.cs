@@ -4,7 +4,6 @@ using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 

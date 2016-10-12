@@ -2,7 +2,6 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Reference.Commerce.Shared.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages

@@ -7,27 +7,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
     {
         public virtual string Get(string cookie)
         {
-            if (HttpContext.Current == null || HttpContext.Current.Request.Cookies[cookie] == null)
+            if (HttpContext.Current == null)
             {
                 return null;
             }
 
-            // Because of we can have multiple cookies of the same name, so that, we should get latest value.
-            var lastCookieIndex = Array.FindLastIndex(HttpContext.Current.Request.Cookies.AllKeys, c => c.Equals(cookie, StringComparison.Ordinal));
-
-            return lastCookieIndex == -1 ? null : HttpContext.Current.Request.Cookies[lastCookieIndex].Value;
+            return HttpContext.Current.Request.Cookies[cookie] == null ? null : HttpContext.Current.Request.Cookies[cookie].Value;
         }
 
         public virtual void Set(string cookie, string value)
         {
             if (HttpContext.Current != null)
             {
-                var httpCookie = new HttpCookie(cookie, value)
+                var httpCookie = new HttpCookie(cookie)
                 {
-                    Expires = DateTime.Now.AddYears(1)
+                    Value = value, Expires = DateTime.Now.AddYears(1)
                 };
 
-                Set(httpCookie);
+                Set(HttpContext.Current.Response.Cookies, httpCookie);
+                HttpContext.Current.Request.Cookies.Set(httpCookie);
             }
         }
 
@@ -40,13 +38,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
                     Expires = DateTime.Now.AddDays(-1)
                 };
 
-                Set(httpCookie);
+                Set(HttpContext.Current.Response.Cookies, httpCookie);
             }
         }
 
-        private void Set(HttpCookie cookie)
+        private void Set(HttpCookieCollection cookieCollection, HttpCookie cookie)
         {
-            HttpContext.Current.Response.SetCookie(cookie);
+            cookieCollection.Add(cookie);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using EPiServer.ServiceLocation;
-using System.Linq;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
 

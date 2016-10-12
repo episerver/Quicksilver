@@ -81,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 Password2 = "Passwors@124#212",
             };
 
-            model.Address = new Address
+            model.Address = new AddressModel
             {
                 Line1 = "Address",
                 City = "City",
@@ -122,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 Password2 = "Passwors@124#212",
             };
 
-            model.Address = new Address
+            model.Address = new AddressModel
             {
                 Line1 = "Address",
                 City = "City",
@@ -311,18 +311,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        private LoginControllerForTest _subject;
-        private Mock<IContentLoader> _contentLoaderMock;
-        private Mock<ApplicationUserManager> _userManagerMock;
-        private Mock<UserService> _userServiceMock;
-        private Mock<ApplicationSignInManager> _signinManagerMock;
-        private Mock<HttpContextBase> _httpContextMock;
-        private Mock<ControllerExceptionHandler> _controllerExceptionHandler;
-        private Mock<RequestContext> _requestContext;
-        private ExceptionContext _exceptionContext;
-        private CultureInfo _cultureInfo;
+        private readonly LoginControllerForTest _subject;
+        private readonly Mock<IContentLoader> _contentLoaderMock;
+        private readonly Mock<ApplicationUserManager> _userManagerMock;
+        private readonly Mock<UserService> _userServiceMock;
+        private readonly Mock<ApplicationSignInManager> _signinManagerMock;
+        private readonly Mock<HttpContextBase> _httpContextMock;
+        private readonly Mock<ControllerExceptionHandler> _controllerExceptionHandler;
+        private readonly Mock<RequestContext> _requestContext;
+        private readonly ExceptionContext _exceptionContext;
+        private readonly CultureInfo _cultureInfo;
         private const string _testUrl = "http://test.com";
-
 
         public LoginControllerTests()
         {
@@ -343,7 +342,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var customercontextFacadeMock = new Mock<CustomerContextFacade>();
             var countryManagerFacadeMock = new Mock<CountryManagerFacade>();
             countryManagerFacadeMock.Setup(x => x.GetCountries()).Returns(() => new CountryDto());
-            var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object);
+            var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object, null);
             var request = new Mock<HttpRequestBase>();
             _httpContextMock = new Mock<HttpContextBase>();
             _requestContext = new Mock<RequestContext>();

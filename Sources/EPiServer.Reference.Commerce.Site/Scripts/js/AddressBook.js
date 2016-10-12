@@ -23,7 +23,7 @@ var AddressBook = {
     },
     showNewAddressDialog: function (sender) {
 
-        addressDropDown = $(sender).siblings(".shippingaddress-dropdown");
+        addressDropDown = $(sender).siblings(".address-dropdown");
 
         var url = $(sender).data("url");
 
@@ -32,7 +32,6 @@ var AddressBook = {
             cache: false,
             url: url,
             success: function (result) {
-
                 AddressBook.setAddressFormAsModalContent(result);
             }
         });
@@ -56,9 +55,13 @@ var AddressBook = {
             success: function (result) {
 
                 if (result.AddressId) {
+                    $('.address-dropdown').each(function () {
+                        $('option[value=""]', this).remove();
+                    });
+
                     var option = $('<option>');
-                    option.attr('value', result.AddressId).text(result.Name);
-                    $('.shippingaddress-dropdown').append(option);
+                    option.attr('value', result.AddressId).text(result.Name);                    
+                    $('.address-dropdown').append(option);
                     $("#AddressDialog").modal("hide");
 
                     if (addressDropDown) {

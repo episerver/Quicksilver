@@ -2,14 +2,11 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
-using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.CatalogIndexer;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Pricing;
 using Mediachase.Search.Extensions;
 using System;
@@ -139,11 +136,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                     var variationPrice = new RestSearchField(IndexingHelper.GetOriginalPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
                         topPrice.UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
-                    var discountPrice = new RestSearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
+                    var discountedPrice = new RestSearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
                         _promotionService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
                     document.Fields.Add(variationPrice);
-                    document.Fields.Add(discountPrice);
+                    document.Fields.Add(discountedPrice);
                 }
             }
         }

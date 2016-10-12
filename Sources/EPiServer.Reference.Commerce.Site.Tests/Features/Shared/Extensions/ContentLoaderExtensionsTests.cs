@@ -8,6 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 {
     public class ContentLoaderExtensionsTests
     {
+        
         [Fact]
         public void GetFirstChild_WhenNoChildren_ShouldReturnNull()
         {
@@ -15,10 +16,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             _contentLoaderMock
                 .Setup(c => c.GetChildren<IContentData>(It.IsAny<ContentReference>()))
                 .Returns(Enumerable.Empty<IContentData>());
-
+            
             // Act
             var result = ContentLoaderExtensions.GetFirstChild<IContentData>(_contentLoaderMock.Object, null);
-
+            
             // Assert
             Assert.Null(result);
         }
@@ -57,8 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
         }
 
         Mock<IContentLoader> _contentLoaderMock;
-
-
+       
         public ContentLoaderExtensionsTests()
         {
             _contentLoaderMock = new Mock<IContentLoader>();

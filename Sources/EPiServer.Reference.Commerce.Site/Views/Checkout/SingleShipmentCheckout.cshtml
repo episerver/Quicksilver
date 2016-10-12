@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
 @{
     if (Request.IsAjaxRequest())
     {
@@ -7,13 +7,16 @@
 }
 
 <div class="container-fluid" id="CheckoutView" data-url="@Url.Action("Index")">
-    @Html.HiddenFor(model => model.ViewName)
+
     <div class="row section-box checkout jsCheckout">
         <div class="col-xs-12 col-sm-6">
             <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
         </div>
         <div class="col-xs-12 col-sm-6">
-            <a class="btn btn-primary pull-right" href="@Url.Action("MultiShipment", "Checkout")">@Html.Translate("/Checkout/MultiShipment/Heading")</a>
+            @if (Model.CurrentPage.MultiShipmentPage != null)
+            {
+                <a class="btn btn-primary pull-right" href="@Url.ContentUrl(Model.CurrentPage.MultiShipmentPage)">@Html.Translate("/Checkout/MultiShipment/Heading")</a>
+            }
         </div>
     </div>
     <div class="row section-box">
@@ -80,30 +83,35 @@
         </div>
     }
 
-    @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
-    {
-        if (!(bool)ViewData["IsReadOnly"])
+    <form class="jsCheckoutForm" action="@Url.Action("Purchase", "Checkout")" method="post" novalidate data-updateurl="@Url.Action("Update", null, null)">
+
+        @if (!(bool)ViewData["IsReadOnly"])
         {
+            <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
             <div class="row section-box">
-                <div class="col-xs-12">
-                   @{ Html.RenderPartial("AllAddresses", Model); }
+                <div id="billingAddressContainer" class="col-md-6 col-xs-12">
+                    @{ Html.RenderPartial("BillingAddress", Model); }
                 </div>
-            </div>
-            <div class="row section-box">
-                <div class="col-xs-12">
-                    <h4>@Html.Translate("/Checkout/Payment/Heading")</h4>
+                <div class="col-md-6 col-xs-12">
                     @{ Html.RenderPartial("Payment", Model); }
                 </div>
             </div>
-         }
-         <div class="row section-box">
-             <div class="col-xs-12">
-                 @{ Html.RenderAction("OrderSummary"); }
-                 @if (!(bool)ViewData["IsReadOnly"])
-                 {
-                     <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-                 }
-             </div>
-         </div>
-     }
+            <h2>@Html.Translate("/Checkout/Shipment/Heading")</h2>
+            <div class="row section-box">
+                <div class="col-xs-12">
+                    @{ Html.RenderPartial("SingleShippingAddress", Model); }
+                </div>
+            </div>
+        }
+
+        <div class="row section-box">
+            <div class="col-xs-12">
+                @{ Html.RenderAction("OrderSummary"); }
+                @if (!(bool)ViewData["IsReadOnly"])
+                {
+                    <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
+                }
+            </div>
+        </div>
+    </form>
 </div>

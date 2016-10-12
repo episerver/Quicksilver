@@ -1,26 +1,27 @@
-﻿using System;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
+using EPiServer.Commerce.SpecializedProperties;
+using EPiServer.Core;
+using EPiServer.Filters;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Web.Routing;
+using FluentAssertions;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Pricing;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using EPiServer.Commerce.Catalog.Linking;
-using EPiServer.Commerce.SpecializedProperties;
-using EPiServer.Core;
-using EPiServer.Filters;
-using EPiServer.Reference.Commerce.Site.Features.Product.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
-using EPiServer.Web.Routing;
-using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Pricing;
-using Moq;
-using FluentAssertions;
-using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using Xunit;
 
 
@@ -224,7 +225,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.Equal<Money>(mockDefaultPrice.Object.UnitPrice, model.OriginalPrice);
+                Assert.Equal<Money>(mockDefaultPrice.Object.UnitPrice, model.ListingPrice);
             }
         }
 
@@ -260,7 +261,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                Assert.Equal<Money>(mockDiscountPrice.Object.UnitPrice, model.Price.Value);
+                Assert.Equal<Money>(mockDiscountPrice.Object.UnitPrice, model.DiscountedPrice.Value);
             }
         }
 
@@ -438,22 +439,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         public void Index_WhenAvailableColorsContainsItems_ShouldSetTextToItemValue()
         {
             FashionProduct fashionProduct = null;
-            FashionVariant fashionVariant = null;
+            FashionVariant fashionVariant1 = null;
+            FashionVariant fashionVariant2 = null;
+            FashionVariant fashionVariant3 = null;
             ProductController productController = null;
             ItemCollection<string> colors = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                colors = new ItemCollection<string>() { "green" };
+                colors = new ItemCollection<string>() { "green", "red" };
 
                 fashionProduct = CreateFashionProduct();
                 SetAvailableColors(fashionProduct, colors);
-                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small", "medium" });
 
-                fashionVariant = CreateFashionVariant("small", "green");
+                fashionVariant1 = CreateFashionVariant("small", "green");
+                fashionVariant2 = CreateFashionVariant("medium", "red");
+                fashionVariant3 = CreateFashionVariant("medium", "green");
 
-                SetRelation(fashionProduct, fashionVariant);
+                SetRelation(fashionProduct, new[] { fashionVariant1, fashionVariant2, fashionVariant3 });
                 MockPrices();
 
                 productController = CreateController();
@@ -461,7 +466,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant1.Code);
             }
 
             // Assert
@@ -478,22 +483,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         public void Index_WhenAvailableColorsContainsItems_ShouldSetValueToItemValue()
         {
             FashionProduct fashionProduct = null;
-            FashionVariant fashionVariant = null;
+            FashionVariant fashionVariant1 = null;
+            FashionVariant fashionVariant2 = null;
+            FashionVariant fashionVariant3 = null;
             ProductController productController = null;
             ItemCollection<string> colors = null;
             ActionResult actionResult = null;
 
             // Setup
             {
-                colors = new ItemCollection<string>() { "green" };
+                colors = new ItemCollection<string>() { "green", "red" };
 
                 fashionProduct = CreateFashionProduct();
                 SetAvailableColors(fashionProduct, colors);
-                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small", "medium" });
 
-                fashionVariant = CreateFashionVariant("small", "green");
+                fashionVariant1 = CreateFashionVariant("small", "green");
+                fashionVariant2 = CreateFashionVariant("medium", "red");
+                fashionVariant3 = CreateFashionVariant("medium", "green");
 
-                SetRelation(fashionProduct, fashionVariant);
+                SetRelation(fashionProduct, new[] { fashionVariant1, fashionVariant2, fashionVariant3 });
                 MockPrices();
 
                 productController = CreateController();
@@ -501,7 +510,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant1.Code);
             }
 
             // Assert
@@ -518,7 +527,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         public void Index_WhenAvailableColorsContainsItems_ShouldSetSelectedToFalse()
         {
             FashionProduct fashionProduct = null;
-            FashionVariant fashionVariant = null;
+            FashionVariant fashionVariant1 = null;
+            FashionVariant fashionVariant2 = null;
+            FashionVariant fashionVariant3 = null;
             ProductController productController = null;
             ActionResult actionResult = null;
 
@@ -526,12 +537,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             {
 
                 fashionProduct = CreateFashionProduct();
-                SetAvailableColors(fashionProduct, new ItemCollection<string>() { "green" });
-                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small" });
+                SetAvailableColors(fashionProduct, new ItemCollection<string>() { "green", "red" });
+                SetAvailableSizes(fashionProduct, new ItemCollection<string> { "small", "medium" });
 
-                fashionVariant = CreateFashionVariant("small", "green");
+                fashionVariant1 = CreateFashionVariant("small", "green");
+                fashionVariant2 = CreateFashionVariant("medium", "red");
+                fashionVariant3 = CreateFashionVariant("medium", "green");
 
-                SetRelation(fashionProduct, fashionVariant);
+                SetRelation(fashionProduct, new[] { fashionVariant1, fashionVariant2, fashionVariant3 });
                 MockPrices();
 
                 productController = CreateController();
@@ -539,13 +552,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             // Execute
             {
-                actionResult = productController.Index(fashionProduct, fashionVariant.Code);
+                actionResult = productController.Index(fashionProduct, fashionVariant1.Code);
             }
 
             // Assert
             {
                 var model = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
-                var expectedColors = String.Join(";", new[] { false });
+                var expectedColors = String.Join(";", new[] { false, false });
                 var modelColorsSelected = String.Join(";", model.Colors.Select(x => x.Selected));
 
                 Assert.Equal<string>(expectedColors, modelColorsSelected);
@@ -967,36 +980,116 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             }
         }
 
-        private Mock<IPromotionService> _mockPromotionService;
-        private Mock<IContentLoader> _mockContentLoader;
-        private Mock<IPriceService> _mockPriceService;
-        private Mock<ICurrentMarket> _mockCurrentMarket;
-        private FilterPublished _filterPublished;
-        private Mock<CurrencyService> _mockCurrencyservice;
-        private Mock<IRelationRepository> _mockRelationRepository;
-        private Mock<CookieService> _mockCookieService;
-        private Mock<UrlResolver> _mockUrlResolver;
+        [Fact]
+        public void SelectVariant_WhenCanNotFoundBySize_ShouldTryGetVariantWithSelectedColorOnly()
+        {
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariantSmallGreen = null;
+            FashionVariant fashionVariantMediumRed = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
 
-        private Mock<HttpContextBase> _mockHttpContextBase;
-        private Mock<IMarket> _mockMarket;
-        private Mock<AppContextFacade> _appContextFacade;
+            // Setup
+            {
+                var sizes = new ItemCollection<string>() { "small", "medium" };
+                var colors = new ItemCollection<string>() { "green", "red" };
 
-        private Currency _defaultCurrency;
-        private CultureInfo _preferredCulture;
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
+                SetAvailableColors(fashionProduct, colors);
+
+                fashionVariantSmallGreen = CreateFashionVariant("small", "green");
+                fashionVariantMediumRed = CreateFashionVariant("medium", "red");
+
+                SetRelation(fashionProduct, new[]
+                {
+                    fashionVariantSmallGreen,
+                    fashionVariantMediumRed,
+                });
+
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.SelectVariant(fashionProduct, "red", "small");
+            }
+
+            // Assert
+            {
+                var selectedCode = ((RedirectToRouteResult)actionResult).RouteValues["variationCode"] as string;
+                Assert.Equal<string>("redmedium", selectedCode);
+            }
+        }
+
+        [Fact]
+        public void SelectVariant_WhenCanNotFoundBySizeOrColor_ShouldReturnHttpNotFoundResult()
+        {
+            FashionProduct fashionProduct = null;
+            FashionVariant fashionVariantSmallGreen = null;
+            FashionVariant fashionVariantMediumRed = null;
+            ProductController productController = null;
+            ActionResult actionResult = null;
+
+            // Setup
+            {
+                var sizes = new ItemCollection<string>() { "small", "medium" };
+                var colors = new ItemCollection<string>() { "green", "red" };
+
+                fashionProduct = CreateFashionProduct();
+                SetAvailableSizes(fashionProduct, sizes);
+                SetAvailableColors(fashionProduct, colors);
+
+                fashionVariantSmallGreen = CreateFashionVariant("small", "green");
+                fashionVariantMediumRed = CreateFashionVariant("medium", "red");
+
+                SetRelation(fashionProduct, new[]
+                {
+                    fashionVariantSmallGreen,
+                    fashionVariantMediumRed,
+                });
+
+                productController = CreateController();
+            }
+
+            // Execute
+            {
+                actionResult = productController.SelectVariant(fashionProduct, "yellow", "small");
+            }
+
+            // Assert
+            {
+                Assert.IsType<HttpNotFoundResult>(actionResult);
+            }
+        }
+
+        private readonly Mock<IPromotionService> _promotionServiceMock;
+        private readonly Mock<IContentLoader> _contentLoaderMock;
+        private readonly Mock<IPriceService> _priceServiceMock;
+        private readonly Mock<ICurrentMarket> _currentMarketMock;
+        private readonly FilterPublished _filterPublished;
+        private readonly Mock<CurrencyService> _currencyserviceMock;
+        private readonly Mock<IRelationRepository> _relationRepositoryMock;
+        private readonly Mock<CookieService> _cookieServiceMock;
+        private readonly Mock<UrlResolver> _urlResolverMock;
+        private readonly Mock<HttpContextBase> _httpContextBaseMock;
+        private readonly Mock<IMarket> _marketMock;
+        private readonly Mock<AppContextFacade> _appContextFacadeMock;
+        private readonly Currency _defaultCurrency;
+        private readonly CultureInfo _preferredCulture;
         private bool _isInEditMode;
-
 
         public ProductControllerTests()
         {
             _defaultCurrency = Currency.USD;
             _preferredCulture = CultureInfo.GetCultureInfo("en");
 
-            _mockUrlResolver = new Mock<UrlResolver>();
-            _mockContentLoader = new Mock<IContentLoader>();
-            _mockCookieService = new Mock<CookieService>();
-            _mockPriceService = new Mock<IPriceService>();
-            _mockRelationRepository = new Mock<IRelationRepository>();
-            _mockPromotionService = new Mock<IPromotionService>();
+            _urlResolverMock = new Mock<UrlResolver>();
+            _contentLoaderMock = new Mock<IContentLoader>();
+            _cookieServiceMock = new Mock<CookieService>();
+            _priceServiceMock = new Mock<IPriceService>();
+            _relationRepositoryMock = new Mock<IRelationRepository>();
+            _promotionServiceMock = new Mock<IPromotionService>();
 
             var mockPublishedStateAssessor = new Mock<IPublishedStateAssessor>();
             mockPublishedStateAssessor.Setup(x => x.IsPublished(It.IsAny<IContent>(), It.IsAny<PublishedStateCondition>()))
@@ -1018,21 +1111,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             _filterPublished = new FilterPublished(mockPublishedStateAssessor.Object);
 
-            _mockMarket = new Mock<IMarket>();
-            _mockMarket.Setup(x => x.DefaultCurrency).Returns(_defaultCurrency);
-            _mockMarket.Setup(x => x.MarketId).Returns(new MarketId("Default"));
-            _mockMarket.Setup(x => x.MarketName).Returns("Default");
-            _mockMarket.Setup(x => x.IsEnabled).Returns(true);
-            _mockMarket.Setup(x => x.DefaultLanguage).Returns(new CultureInfo("en"));
+            _marketMock = new Mock<IMarket>();
+            _marketMock.Setup(x => x.DefaultCurrency).Returns(_defaultCurrency);
+            _marketMock.Setup(x => x.MarketId).Returns(new MarketId("Default"));
+            _marketMock.Setup(x => x.MarketName).Returns("Default");
+            _marketMock.Setup(x => x.IsEnabled).Returns(true);
+            _marketMock.Setup(x => x.DefaultLanguage).Returns(new CultureInfo("en"));
 
-            _mockCurrentMarket = new Mock<ICurrentMarket>();
-            _mockCurrentMarket.Setup(x => x.GetCurrentMarket()).Returns(_mockMarket.Object);
+            _currentMarketMock = new Mock<ICurrentMarket>();
+            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
 
-            _mockCurrencyservice = new Mock<CurrencyService>(_mockCurrentMarket.Object, _mockCookieService.Object);
-            _mockCurrencyservice.Setup(x => x.GetCurrentCurrency()).Returns(_defaultCurrency);
+            _currencyserviceMock = new Mock<CurrencyService>(_currentMarketMock.Object, _cookieServiceMock.Object);
+            _currencyserviceMock.Setup(x => x.GetCurrentCurrency()).Returns(_defaultCurrency);
 
-            _appContextFacade = new Mock<AppContextFacade>();
-            _appContextFacade.Setup(x => x.ApplicationId).Returns(Guid.NewGuid);
+            _appContextFacadeMock = new Mock<AppContextFacade>();
+            _appContextFacadeMock.Setup(x => x.ApplicationId).Returns(Guid.NewGuid);
 
             var request = new Mock<HttpRequestBase>();
             request.SetupGet(x => x.Headers).Returns(
@@ -1040,8 +1133,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 {"X-Requested-With", "XMLHttpRequest"}
             });
 
-            _mockHttpContextBase = new Mock<HttpContextBase>();
-            _mockHttpContextBase.SetupGet(x => x.Request).Returns(request.Object);
+            _httpContextBaseMock = new Mock<HttpContextBase>();
+            _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
 
             SetGetItems(Enumerable.Empty<ContentReference>(), Enumerable.Empty<IContent>());
             SetDefaultCurrency(null);
@@ -1055,19 +1148,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         private ProductController CreateController()
         {
             var controller = new ProductController(
-                _mockPromotionService.Object,
-                _mockContentLoader.Object,
-                _mockPriceService.Object,
-                _mockCurrentMarket.Object,
-                _mockCurrencyservice.Object,
-                _mockRelationRepository.Object,
-                _appContextFacade.Object,
-                _mockUrlResolver.Object,
+                _promotionServiceMock.Object,
+                _contentLoaderMock.Object,
+                _priceServiceMock.Object,
+                _currentMarketMock.Object,
+                _currencyserviceMock.Object,
+                _relationRepositoryMock.Object,
+                _appContextFacadeMock.Object,
+                _urlResolverMock.Object,
                 _filterPublished,
                 () => _preferredCulture,
                 () => _isInEditMode);
 
-            controller.ControllerContext = new ControllerContext(_mockHttpContextBase.Object, new RouteData(), controller);
+            controller.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), controller);
 
             return controller;
         }
@@ -1153,29 +1246,29 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
         private void SetRelation(IContent setup, IEnumerable<ProductVariation> result)
         {
-            _mockRelationRepository.Setup(x => x.GetRelationsBySource<ProductVariation>(setup.ContentLink)).Returns(result);
+            _relationRepositoryMock.Setup(x => x.GetRelationsBySource<ProductVariation>(setup.ContentLink)).Returns(result);
         }
 
         private void SetGetItems(IEnumerable<ContentReference> setup, IEnumerable<IContent> result)
         {
-            _mockContentLoader.Setup(x => x.GetItems(setup, _preferredCulture)).Returns(result);
+            _contentLoaderMock.Setup(x => x.GetItems(setup, _preferredCulture)).Returns(result);
         }
 
         private void SetDefaultCurrency(string currency)
         {
-            _mockCookieService.Setup(x => x.Get("Currency")).Returns(currency);
+            _cookieServiceMock.Setup(x => x.Get("Currency")).Returns(currency);
         }
 
         private void SetDefaultPriceService(IPriceValue returnedPrice)
         {
-            _mockPriceService
+            _priceServiceMock
                 .Setup(x => x.GetDefaultPrice(It.IsAny<MarketId>(), It.IsAny<DateTime>(), It.IsAny<CatalogKey>(), _defaultCurrency))
                 .Returns(returnedPrice);
         }
 
         private void SetDiscountPriceService(IPriceValue returnedPrice)
         {
-            _mockPromotionService
+            _promotionServiceMock
                 .Setup(x => x.GetDiscountPrice(It.IsAny<CatalogKey>(), It.IsAny<MarketId>(), _defaultCurrency))
                 .Returns(returnedPrice);
         }
@@ -1204,8 +1297,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             IContentImage contentImage;
 
             var imageMedia = new CommerceMedia { AssetLink = contentLink };
-            _mockContentLoader.Setup(x => x.TryGet(imageMedia.AssetLink, out contentImage)).Returns(true);
-            _mockUrlResolver.Setup(x => x.GetUrl(imageMedia.AssetLink)).Returns(imageLink);
+            _contentLoaderMock.Setup(x => x.TryGet(imageMedia.AssetLink, out contentImage)).Returns(true);
+            _urlResolverMock.Setup(x => x.GetUrl(imageMedia.AssetLink)).Returns(imageLink);
 
             return imageMedia;
         }
