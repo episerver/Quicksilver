@@ -1,6 +1,6 @@
 Quicksilver 
 ===========
-[![GitHub version](https://badge.fury.io/gh/episerver%2Fquicksilver.svg)](https://badge.fury.io/gh/episerver%2Fquicksilver)
+[![GitHub version](https://badge.fury.io/gh/episerver%2FQuicksilver.svg)](https://github.com/episerver/Quicksilver)
 [![License](http://img.shields.io/:license-apache-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 This repository is the starter site for the EPiServer Commerce reference implementation, aka "Quicksilver".
@@ -24,11 +24,11 @@ Changes in latest release
 
 Changes in [1.4](https://github.com/episerver/Quicksilver/releases/tag/v1.4.0)
 -----------------------
--* COM-76   Support for multi-shipment checkout
--* COM-1551 Server error when delete item in shopping cart
--* COM-1549 Clarify requirement to change fake credentials in Startup.cs
--* COM-1932 Items disappears from cart after confirming updated quantity with Enter
--* Updated to Episerver Commerce 9.16.0
+* COM-76   Support for multi-shipment checkout
+* COM-1551 Server error when delete item in shopping cart
+* COM-1549 Clarify requirement to change fake credentials in Startup.cs
+* COM-1932 Items disappears from cart after confirming updated quantity with Enter
+* Updated to Episerver Commerce 9.16.0
 
 Changes in [1.3](https://github.com/episerver/Quicksilver/releases/tag/v1.3.0)
 -----------------------
