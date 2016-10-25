@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
@@ -18,9 +19,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
-using StructureMap.Web;
-using System;
-using System.Globalization;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -51,33 +49,34 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
-            context.Container.Configure(c =>
-            {
-                c.For<ICurrentMarket>().Singleton().Use<CurrentMarket>();
+            var services = context.Services;
 
-                //Register for auto injection of edit mode check, should be default life cycle (per request)
-                c.For<Func<bool>>()
-                .Use(() => new Func<bool>(() => PageEditing.PageIsInEditMode));
+            services.AddSingleton<ICurrentMarket, CurrentMarket>();
 
-                c.For<IUpdateCurrentLanguage>()
-                    .Singleton()
-                    .Use<LanguageService>()
-                    .Setter<IUpdateCurrentLanguage>()
-                    .Is(x => x.GetInstance<UpdateCurrentLanguage>());
-                c.For<IOrderGroupCalculator>().Use<SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
-                c.For<IOrderFormCalculator>().Use<SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+            //Register for auto injection of edit mode check, should be default life cycle (per request to service locator)
+            services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);
 
-                c.For<Func<CultureInfo>>().Use(() => new Func<CultureInfo>(() => ContentLanguage.PreferredCulture));
+            services.Intercept<IUpdateCurrentLanguage>(
+                (locator, defaultImplementation) =>
+                    new LanguageService(
+                        locator.GetInstance<ICurrentMarket>(),
+                        locator.GetInstance<CookieService>(),
+                        defaultImplementation,
+                        locator.GetInstance<RequestContext>()));
 
-                Func<IOwinContext> owinContextFunc = () => HttpContext.Current.GetOwinContext();
-                c.For<ApplicationUserManager>().Use(() => owinContextFunc().GetUserManager<ApplicationUserManager>());
-                c.For<ApplicationSignInManager>().Use(() => owinContextFunc().Get<ApplicationSignInManager>());
-                c.For<IAuthenticationManager>().Use(() => owinContextFunc().Authentication);
-                c.For<IOwinContext>().Use(() => owinContextFunc());
-                c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
-                c.For<SiteContext>().HybridHttpOrThreadLocalScoped().Use<CustomCurrencySiteContext>();
-                c.For<HttpContextBase>().Use(() => HttpContext.Current.ContextBaseOrNull());
-            });
+            services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+            services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+
+            services.AddTransient<PreferredCultureAccessor>(locator => () => ContentLanguage.PreferredCulture);
+
+            services.AddTransient<IOwinContext>(locator => HttpContext.Current.GetOwinContext());
+            services.AddTransient<ApplicationUserManager>(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager>());
+            services.AddTransient<ApplicationSignInManager>(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager>());
+            services.AddTransient<IAuthenticationManager>(locator => locator.GetInstance<IOwinContext>().Authentication);
+
+            services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
+            services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
+            services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));
             GlobalConfiguration.Configure(config =>

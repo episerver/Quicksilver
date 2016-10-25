@@ -166,7 +166,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             return _contentLoaderMock;
         }
 
-        Mock<ContentRouteHelper> _contentRouteHelperMock;
+        Mock<IContentRouteHelper> _contentRouteHelperMock;
         Mock<StartPage> _startPageMock;
         Mock<NodeContent> _nodeContentMock;
         Mock<EntryContentBase> _entryContentMock;
@@ -176,7 +176,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
 
         public HeadControllerTests()
         {
-            _contentRouteHelperMock = new Mock<ContentRouteHelper>(null, null, null, null);
+            _contentRouteHelperMock = new Mock<IContentRouteHelper>();
             _startPageMock = new Mock<StartPage>();
             _entryContentMock = new Mock<EntryContentBase>();
             _nodeContentMock = new Mock<NodeContent>();

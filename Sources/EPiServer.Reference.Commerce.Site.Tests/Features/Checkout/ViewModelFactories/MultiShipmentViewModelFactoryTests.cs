@@ -21,6 +21,7 @@ using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Markets;
 using Moq;
 using Xunit;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFactories
 {
@@ -78,8 +79,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
 
-            Func<CultureInfo> func = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, func, null);
+            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, accessor, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {CartItems = new[]

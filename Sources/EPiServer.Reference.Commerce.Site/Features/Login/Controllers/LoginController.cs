@@ -47,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         /// to an existing one.
         /// </summary>
         /// <param name="currentPage">An instance of the PageData object for the view.</param>
-        /// <param name="returnUrl">The userï¿½s previous URL location. When logging in the user will be redirected back to this URL.</param>
+        /// <param name="returnUrl">The user´s previous URL location. When logging in the user will be redirected back to this URL.</param>
         /// <returns>The default login and user account registration view.</returns>
         [HttpGet]
         public ActionResult Index(LoginRegistrationPage currentPage, string returnUrl)

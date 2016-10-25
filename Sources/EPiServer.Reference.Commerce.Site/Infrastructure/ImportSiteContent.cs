@@ -43,6 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         private Injected<IContentRepository> _contentRepository { get; set; }
         private Injected<ReferenceConverter> _referenceConverter { get; set; }
+        private Injected<IDataImporter> DataImporter { get; set; }
 
         public int Order
         {
@@ -267,17 +268,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         private void ImportAssets(string path)
         {
-            var importer = new DataImporter { DestinationRoot = ContentReference.GlobalBlockFolder };
-            importer.Stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var destinationRoot = ContentReference.GlobalBlockFolder;
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
             CacheManager.Clear();
-            importer.KeepIdentity = true;
-            importer.Import();
 
-            if (importer.Log.Errors.Count > 0)
+            var options = new ImportOptions {KeepIdentity = true};
+
+            var log = DataImporter.Service.Import(stream, destinationRoot, options);
+
+            if (log.Errors.Any())
             {
-                throw new Exception("Content could not be imported. " + GetStatus(importer));
+                throw new Exception("Content could not be imported. " + GetStatus(log));
             }
         }
 
@@ -344,7 +347,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             var tasks = new List<Task>();
 
-            var contentScanner = ServiceLocator.Current.GetInstance<ContentTypeModelScanner>();
+            var contentScanner = ServiceLocator.Current.GetInstance<IContentTypeModelScanner>();
             tasks.AddRange(contentScanner.RegisterModels());
             tasks.AddRange(contentScanner.Sync(Settings.Instance.EnableModelSyncCommit));
 
@@ -352,22 +355,22 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         }
 
 
-        private string GetStatus(ITransferContext importer)
+        private string GetStatus(ITransferLog log)
         {
             var logMessage = new StringBuilder();
             var lineBreak = "<br>";
 
-            if (importer.Log.Errors.Count > 0)
+            if (log.Errors.Any())
             {
-                foreach (string err in importer.Log.Errors)
+                foreach (string err in log.Errors)
                 {
                     logMessage.Append(err).Append(lineBreak);
                 }
             }
 
-            if (importer.Log.Warnings.Count > 0)
+            if (log.Warnings.Any())
             {
-                foreach (string err in importer.Log.Warnings)
+                foreach (string err in log.Warnings)
                 {
                     logMessage.Append(err).Append(lineBreak);
                 }

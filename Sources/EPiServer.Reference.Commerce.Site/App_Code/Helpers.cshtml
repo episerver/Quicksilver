@@ -4,12 +4,52 @@
 @using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
 @using EPiServer.Reference.Commerce.Site.Features.Product.Models
 @using Mediachase.Commerce
+@using EPiServer.ServiceLocation
+@using Mediachase.Commerce.Markets
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using EPiServer.Core;
+@using EPiServer.Web.Routing
 
 @functions
 {
     private static WebViewPage page { get { return PageContext.Page as WebViewPage; } }
+
+    private static MvcHtmlString CreateAlternateLinkWithHrefLang(string pageUrl, string lang)
+    {
+        var tagBuilder = new TagBuilder("link");
+        tagBuilder.MergeAttribute("rel", "alternate");
+        tagBuilder.MergeAttribute("href", pageUrl);
+        tagBuilder.MergeAttribute("hreflang", lang);
+        return new MvcHtmlString(tagBuilder.ToString(TagRenderMode.SelfClosing) + Environment.NewLine);
+    }
+
+    private static string GetAbsoluteUrl(ContentReference requestContentLink, string language)
+    {
+        return Request.Url.GetLeftPart(UriPartial.Authority) + UrlResolver.Current.GetUrl(Request, requestContentLink, language);
+    }
+
+    private static IEnumerable<string> GetAllSiteAvailableLanguages()
+    {
+        var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
+        var allMarkets = marketService.GetAllMarkets().Where(x => x.IsEnabled).ToList();
+        var languages = allMarkets.SelectMany(x => x.Languages).Distinct();
+        return languages.Select(l => l.Name);
+    }
 }
 
+@helper RenderHrefLangs(ContentReference requestContentLink, string defaultLanguage)
+{
+    var languages = GetAllSiteAvailableLanguages();
+    if (languages.Count() <= 1)
+    {
+        return;
+    }
+    foreach (var lang in languages)
+    {
+        @page.Html.Raw(CreateAlternateLinkWithHrefLang(GetAbsoluteUrl(requestContentLink, lang), lang));
+    }
+    @page.Html.Raw(CreateAlternateLinkWithHrefLang(GetAbsoluteUrl(requestContentLink, defaultLanguage), "x-default"));
+}
 
 @helper RenderMoney(decimal amount, Currency currency)
 {

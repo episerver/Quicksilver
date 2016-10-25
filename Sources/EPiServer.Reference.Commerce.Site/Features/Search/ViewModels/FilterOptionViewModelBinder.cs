@@ -2,6 +2,7 @@
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce.Website.Search;
 using Mediachase.Search;
@@ -22,7 +23,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
 
         public FilterOptionViewModelBinder(IContentLoader contentLoader, 
             LocalizationService localizationService,
-            Func<CultureInfo> preferredCulture)
+            PreferredCultureAccessor preferredCulture)
         {
             _contentLoader = contentLoader;
             _localizationService = localizationService;

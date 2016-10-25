@@ -17,6 +17,12 @@ The following is a list of features to be added in the future:
 
 Changes in latest release
 -----------------------
+* CMS 10 and Commerce 10 support
+* Quicksilver now follows version cadence of the main Commerce project, so this is version 10.0.0.
+* A few minor fixes and improvements.
+
+Changes in [2.0](https://github.com/episerver/Quicksilver/releases/tag/v2.0.0)
+-----------------------
 * COM-2014 Quicksilver 2.0
 * Added usage of the new order system abstractions.
 * A number of fixes and improvements.
