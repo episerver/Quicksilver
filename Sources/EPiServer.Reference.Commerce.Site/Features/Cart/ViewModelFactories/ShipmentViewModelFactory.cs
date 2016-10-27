@@ -15,6 +15,7 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
@@ -37,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             ReferenceConverter referenceConverter,
             IAddressBookService addressBookService,
             CartItemViewModelFactory cartItemViewModelFactory,
-            Func<CultureInfo> preferredCulture,
+            PreferredCultureAccessor preferredCulture,
             IRelationRepository relationRepository)
         {
             _contentLoader = contentLoader;

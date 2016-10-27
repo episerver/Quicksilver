@@ -2,7 +2,6 @@
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
-using EPiServer.Shell;
 using EPiServer.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -14,8 +13,11 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using EPiServer.Framework.Modules;
+using EPiServer.Shell;
 
 [assembly: OwinStartupAttribute(typeof(EPiServer.Reference.Commerce.Site.Infrastructure.Owin.Startup))]
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
@@ -48,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
                     OnApplyRedirect = ApplyRedirect,
-                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<SynchronizingUserService>().SynchronizeAsync(context.Identity)
+                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<ISynchronizingUserService>().SynchronizeAsync(context.Identity, Enumerable.Empty<string>())
                 }
             });
 

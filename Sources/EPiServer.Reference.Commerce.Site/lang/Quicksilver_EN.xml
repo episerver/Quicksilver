@@ -479,6 +479,9 @@
       <BadFirstCharacter>'*' or '?' is not allowed as the first character in a search query</BadFirstCharacter>
     </Search>
     <Shared>
+      <Common>
+        <DeleteItemConfirmation>Do you really want to delete this item?</DeleteItemConfirmation>
+      </Common>
       <Address>
         <DefaultAddressName>Default</DefaultAddressName>
         <NewAddress>New address</NewAddress>

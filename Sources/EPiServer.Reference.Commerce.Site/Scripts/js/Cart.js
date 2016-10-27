@@ -97,24 +97,6 @@
                 $('.cartTotalAmountLabel', formContainer.parent()).text($('#CartTotalAmount', formContainer).val());
 
                 formContainer.change();
-
-                if (formContainer.is($('#MiniCart'))) {
-                    // If items where added to the cart from the wishlist view, they should be removed from the view.
-                    var wishListAction = form.closest(".wishlist-actions");
-                    if (wishListAction.length > 0) {
-                        wishListAction.closest(".jsProductTile").remove();
-                        if (!$(".jsProductTile").length) {
-                            $(".wishlist-noitem").show();
-                        }
-                    }
-
-                    // If items were added to the cart while the same item exists in the wishlist, they should be removed
-                    // from the wishlist.
-                    var wishListItems = $("." + skuCode, $('#WishListMiniCart'));
-                    if (wishListItems.length > 0) {
-                        Cart.refreshWishList();
-                    }
-                }
             },
             error: function (xhr, status, error) {
                 $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
@@ -126,32 +108,5 @@
         if (e.keyCode == 13) {
             e.preventDefault();
         }
-    },
-    refreshWishList: function () {
-
-        $.ajax({
-            type: "GET",
-            url: "/WishList/WishListMiniCartDetails",
-            cache: false,
-            success: function (result) {
-                var formContainer = $('#WishListMiniCart');
-                formContainer.html($(result));
-                $('.cartItemCountLabel', formContainer.parent()).text($('#CartItemCount', formContainer).val());
-            }
-        });
-
-    },
-    removeFromWishlist: function (e) {
-
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: this.action,
-            data: $(this).serialize(),
-            context: this,
-            success: function () {
-                $(this).closest('.jsProductTile').remove();
-            }
-        });
     }
 };

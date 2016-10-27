@@ -11,10 +11,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
     public class HeadController : ActionControllerBase
     {
         private readonly IContentLoader _contentLoader;
-        private readonly ContentRouteHelper _contentRouteHelper;
+        private readonly IContentRouteHelper _contentRouteHelper;
         private const string FormatPlaceholder = "{title}";
 
-        public HeadController(IContentLoader contentLoader, ContentRouteHelper contentRouteHelper)
+        public HeadController(IContentLoader contentLoader, IContentRouteHelper contentRouteHelper)
         {
             _contentLoader = contentLoader;
             _contentRouteHelper = contentRouteHelper;

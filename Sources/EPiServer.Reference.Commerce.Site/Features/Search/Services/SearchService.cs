@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             ICurrencyService currencyService, 
             UrlResolver urlResolver, 
             SearchFacade search,
-            Func<CultureInfo> preferredCulture,
+            PreferredCultureAccessor preferredCulture,
             IContentLoader contentLoader,
             LocalizationService localizationService)
         {

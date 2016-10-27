@@ -16,6 +16,7 @@ using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
@@ -131,8 +132,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
 
-            Func<CultureInfo> func = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, func, null);
+            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, accessor, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {

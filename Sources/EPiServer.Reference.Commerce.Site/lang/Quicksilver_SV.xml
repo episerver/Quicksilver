@@ -476,6 +476,9 @@
       <BadFirstCharacter>'*' eller '?' är inte tillåtet som första tecken i en sökning</BadFirstCharacter>
     </Search>
     <Shared>
+      <Common>
+        <DeleteItemConfirmation>Vill du radera den här artikeln?</DeleteItemConfirmation>
+      </Common>
       <Address>
         <DefaultAddressName>Standard</DefaultAddressName>
         <NewAddress>Ny adress</NewAddress>

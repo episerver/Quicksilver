@@ -10,7 +10,7 @@
                 <div class="col-xs-12 col-md-3">
                     @if (!(bool)ViewData["IsReadOnly"])
                     {
-                        <button type="button" class="btn btn-default btn--blue btn-sm mypages-new-address-btn" onclick="window.location.href='@Url.Action("EditForm", "AddressBook")';">@Html.Translate("/AddressBook/Form/Label/NewAddress")</button>
+                        <a class="btn btn-default btn--blue btn-sm mypages-new-address-btn" href="@Url.Action("EditForm", "AddressBook")">@Html.Translate("/AddressBook/Form/Label/NewAddress")</a>
                     }
                 </div>
             </div>
@@ -32,10 +32,10 @@
                                     @Html.Partial("_Address", address)
                                     @if (!(bool)ViewData["IsReadOnly"])
                                     {
-                                        <button type="button" class="btn btn-default btn-xs btn--blue" onclick="window.location.href='@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })';">@Html.Translate("/AddressBook/Form/Label/Edit")</button>
+                                        <a class="btn btn-default btn-xs btn--blue" href="@Url.Action("EditForm", "AddressBook", new { addressid = address.AddressId })">@Html.Translate("/AddressBook/Form/Label/Edit")</a>
                                         using (Html.BeginForm("Remove", "AddressBook", new { addressId = address.AddressId }, FormMethod.Post, new { @class = "form-inline" }))
                                         {
-                                            <button type="submit" class="btn btn-default btn-xs">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
+                                            <button type="submit" class="btn btn-default btn-xs" onclick="return confirm('@Html.Translate("/Shared/Common/DeleteItemConfirmation")');">@Html.Translate("/AddressBook/Form/Label/Delete")</button>
                                         }
                                     }
                                 </div>

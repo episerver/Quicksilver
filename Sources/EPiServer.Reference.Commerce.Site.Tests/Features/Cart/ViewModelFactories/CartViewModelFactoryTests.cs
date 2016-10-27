@@ -5,6 +5,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using FluentAssertions;
 using Mediachase.Commerce;
@@ -160,8 +161,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(_startPage);
 
-            Func<CultureInfo> func = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,func,null);
+            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,accessor,null);
             _cartItems = new List<CartItemViewModel> {new CartItemViewModel {DiscountedPrice = new Money(100, Currency.USD), Quantity = 1} };
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[] { new ShipmentViewModel {CartItems = _cartItems} });
 

@@ -45,8 +45,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             AppContextFacade appContext,
             UrlResolver urlResolver,
             FilterPublished filterPublished,
-            Func<CultureInfo> preferredCulture,
-            Func<bool> isInEditMode)
+            PreferredCultureAccessor preferredCultureAccessor,
+            IsInEditModeAccessor isInEditModeAccessor)
         {
             _promotionService = promotionService;
             _contentLoader = contentLoader;
@@ -56,8 +56,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             _relationRepository = relationRepository;
             _appContext = appContext;
             _urlResolver = urlResolver;
-            _preferredCulture = preferredCulture();
-            _isInEditMode = isInEditMode();
+            _preferredCulture = preferredCultureAccessor();
+            _isInEditMode = isInEditModeAccessor();
             _filterPublished = filterPublished;
         }
 

@@ -2,15 +2,16 @@
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
-using EPiServer.Shell;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using EPiServer.Framework.Modules;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace EPiServer.Reference.Commerce.Manager
@@ -43,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Manager
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
                     OnApplyRedirect = ApplyRedirect,
-                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<SynchronizingUserService>().SynchronizeAsync(context.Identity)
+                    OnResponseSignedIn = context => ServiceLocator.Current.GetInstance<ISynchronizingUserService>().SynchronizeAsync(context.Identity, Enumerable.Empty<string>())
                 }
             });
 
@@ -70,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Manager
         /// <param name="context"></param>
         private static void ApplyRedirect(CookieApplyRedirectContext context)
         {
-            string backendPath = Paths.ProtectedRootPath.TrimEnd('/');
+            string backendPath = ServiceLocator.Current.GetInstance<IModuleResourceResolver>().ProtectedRootPath.TrimEnd('/');
 
             // We use the method for transferring the user to the backend login pages if she tries to go
             // to the Edit views without being navigated.
