@@ -330,9 +330,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>välj detaljhandel</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Tillåt förbeställning</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Ett obligatoriskt fält saknas&lt;/b&gt;&lt;br /&gt;Vikt krävs.</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>välj skattekategori</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Tillåt restorder</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>välj lager</value>

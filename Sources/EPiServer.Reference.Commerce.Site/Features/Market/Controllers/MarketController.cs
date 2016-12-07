@@ -71,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
                 _currencyService.SetCurrentCurrency(currentMarket.DefaultCurrency);
             }
 
-            _languageService.SetCurrentLanguage(currentMarket.DefaultLanguage.Name);
+            _languageService.UpdateLanguage(currentMarket.DefaultLanguage.Name);
 
             var returnUrl = _urlResolver.GetUrl(Request, contentLink, currentMarket.DefaultLanguage.Name);       
             return Json(new { returnUrl });

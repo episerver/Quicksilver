@@ -4,12 +4,12 @@
     @Html.LabelFor(formModel => formModel.Region)
     @if (Model.RegionOptions != null && Model.RegionOptions.Any())
     {
-        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, Model.Region), new {@class = "form-control address-region-input"})
+        @Html.DropDownListFor(formModel => formModel.Region, new SelectList(Model.RegionOptions, Model.Region), new {@class = "form-control address-region-input jsChangeTaxAddress" })
         ;
     }
     else
     {
-        @Html.TextBoxFor(formModel => formModel.Region, new {@class = "form-control address-region-input"})
+        @Html.TextBoxFor(formModel => formModel.Region, new {@class = "form-control address-region-input jsChangeTaxAddress" })
     }
     @Html.ValidationMessageFor(formModel => formModel.Region)
 </div>

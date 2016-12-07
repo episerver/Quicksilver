@@ -9,6 +9,8 @@ using System.Linq;
 using EPiServer.Commerce.Order;
 using Moq;
 using Xunit;
+using System.Collections;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 {
@@ -230,7 +232,29 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 
             Assert.Null(model.AddressId);
         }
-        
+
+        [Fact]
+        public void ConvertToModel_WhenOrderAddressIsNull_ShouldNotSetAddressIdOnModel()
+        {
+            var model = _subject.ConvertToModel(null);
+            Assert.Null(model.AddressId);
+        }
+
+        [Fact]
+        public void ConvertToModel_WhenOrderAddressIsNotNull_ShouldReturnModelWithSameValueAsOrderAddress()
+        {
+            var orderAddress = new FakeOrderAddress()
+            {
+                Id = "SampleId",
+                FirstName = "first",
+                LastName = "last"
+            };
+            var model = _subject.ConvertToModel(orderAddress);
+            Assert.Equal(model.AddressId, orderAddress.Id);
+            Assert.Equal(model.FirstName, orderAddress.FirstName);
+            Assert.Equal(model.LastName, orderAddress.LastName);
+        }
+
         private readonly AddressBookService _subject;
         private readonly CustomerAddress _address1;
         private const string _address1Id = "6BB9294A-F25F-4145-A225-F8F4D675377B";
@@ -245,7 +269,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 
             var address2 = CustomerAddress.CreateInstance();
             address2.AddressId = new PrimaryKeyId(new Guid(_address2Id));
-            address2.Name = address2.AddressId.ToString();
+            address2.Name = address2.AddressId.ToString();            
 
             _currentContact = new FakeCurrentContact(new[] { _address1, address2 })
             {

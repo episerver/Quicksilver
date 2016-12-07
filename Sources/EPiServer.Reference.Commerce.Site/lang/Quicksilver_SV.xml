@@ -19,6 +19,13 @@
           <GoToCheckout>Fortsätt till utcheckningen</GoToCheckout>
         </Button>
       </MiniCart>
+      <Market>
+        <Labels>
+          <Market>Marknad</Market>
+          <Language>Språk</Language>
+          <Currency>Valutaslag</Currency>
+        </Labels>
+      </Market>
     </Header>
     <Facet>
       <Choices>Artiklar:</Choices>
@@ -180,7 +187,7 @@
         <Continue>Fortsätt</Continue>
         <DeliveryAddress>Leveransadress</DeliveryAddress>
         <SelectDeliveryAddress>Välj leveransadress</SelectDeliveryAddress>
-		<SelectAddress>Välj adress</SelectAddress>
+        <SelectAddress>Välj adress</SelectAddress>
         <AddNewAddress>Lägg till ny adress</AddNewAddress>
         <DeliveryOption>Välj fraktalternativ</DeliveryOption>
         <NoAddressFound>Inga adresser finns</NoAddressFound>
@@ -495,6 +502,7 @@
             <Name>Namn krävs</Name>
             <BillingAddress>Faktureringsadress krävs</BillingAddress>
             <ShippingAddress>Leveransadress krävs</ShippingAddress>
+            <ShippingMethod>Fraktalternativ krävs</ShippingMethod>
           </Empty>
           <Label>
             <FirstName>Förnamn *:</FirstName>

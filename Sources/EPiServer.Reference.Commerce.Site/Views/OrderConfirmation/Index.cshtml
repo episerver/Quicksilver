@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-md-1 col-xs-12 text-right">
                         <label class="col-xs-8 visible-xs visible-sm text-right">@Html.Translate("/OrderConfirmation/Labels/Total")</label>
-                        @lineItem.GetDiscountedPrice(Model.Currency)
+                        @Helpers.RenderMoney(lineItem.GetDiscountedPrice(Model.Currency))
                     </div>
                 </div>
             }

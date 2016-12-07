@@ -19,6 +19,13 @@
           <GoToCheckout>Proceed to checkout</GoToCheckout>
         </Button>
       </MiniCart>
+      <Market>
+        <Labels>
+          <Market>Market</Market>
+          <Language>Language</Language>
+          <Currency>Currency</Currency>
+        </Labels>
+      </Market>
     </Header>
     <Facet>
       <Choices>Products:</Choices>
@@ -498,6 +505,7 @@
             <Name>Name is required</Name>
             <BillingAddress>Billing address is required</BillingAddress>
             <ShippingAddress>Shipping address is required</ShippingAddress>
+            <ShippingMethod>Delivery option is required</ShippingMethod>
           </Empty>
           <Label>
             <FirstName>First name *:</FirstName>

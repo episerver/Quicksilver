@@ -23,15 +23,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
     public class CartServiceTests
     {
         [Fact]
-        public void AddCouponCode_WhenPromotionWithCodeExists_ShouldReturnTrue()
+        public void AddCouponCode_WhenCouponCodeIsAppliedToPromotion_ShouldReturnTrue()
         {
             var couponCode = "IBUYALOT";
 
+            var rewardDescription = RewardDescription.CreatePercentageReward(FulfillmentStatus.Fulfilled, null, new PromotionForTest(), 10, string.Empty);
+            rewardDescription.AppliedCoupon = couponCode;
             _promotionEngineMock
                 .Setup(x => x.Run(It.IsAny<IOrderGroup>(), It.IsAny<PromotionEngineSettings>()))
-                .Returns(new[] {
-                    RewardDescription.CreatePercentageReward(FulfillmentStatus.Fulfilled, null, new PromotionForTest { Coupon = new CouponData { Code = couponCode } }, 10, string.Empty)
-                });
+                .Returns(new[] { rewardDescription });
 
             var result = _subject.AddCouponCode(_cart, couponCode);
 
@@ -39,14 +39,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         }
 
         [Fact]
-        public void AddCouponCode_WhenPromotionWithCodeDoesNotExists_ShouldReturnFalse()
+        public void AddCouponCode_WhenCouponCodeIsNotAppliedToPromotion_ShouldReturnFalse()
         {
             var couponCode = "IDONTEXIST";
 
             _promotionEngineMock
                 .Setup(x => x.Run(It.IsAny<IOrderGroup>(), It.IsAny<PromotionEngineSettings>()))
                 .Returns(new[] {
-                    RewardDescription.CreatePercentageReward(FulfillmentStatus.Fulfilled, null, new PromotionForTest { Coupon = new CouponData() }, 10, string.Empty)
+                    RewardDescription.CreatePercentageReward(FulfillmentStatus.Fulfilled, null, new PromotionForTest(), 10, string.Empty)
                 });
 
             var result = _subject.AddCouponCode(_cart, couponCode);

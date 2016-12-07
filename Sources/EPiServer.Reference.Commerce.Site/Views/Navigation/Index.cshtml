@@ -87,7 +87,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <div class="form-group">
-                                        <label for="market">Market</label>
+                                        <label for="market">@Html.Translate("/Header/Market/Labels/Market")</label>
                                         @{
                                             Html.RenderAction("Index", "Market", new { contentLink = ViewContext.RequestContext.GetContentLink() });
                                         }
@@ -95,7 +95,7 @@
                                 </li>
                                 <li>
                                     <div class="form-group">
-                                        <label for="language">Language</label>
+                                        <label for="language">@Html.Translate("/Header/Market/Labels/Language")</label>
                                         @{
                                             Html.RenderAction("Index", "Language", new { contentLink = ViewContext.RequestContext.GetContentLink(), language = ViewContext.RequestContext.GetLanguage() });
                                         }
@@ -103,7 +103,7 @@
                                 </li>
                                 <li>
                                     <div class="form-group">
-                                        <label for="Currency">Currency</label>
+                                        <label for="Currency">@Html.Translate("/Header/Market/Labels/Currency")</label>
                                         @{
                                             Html.RenderAction("Index", "Currency");
                                         }

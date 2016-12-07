@@ -37,48 +37,24 @@
 							<!-- BEGIN: totals -->
 							<table class="orderform-blockheaderlight-datatable">
 								<tr>
-									<td class="orderform-label label-divider" style="width: 150px;">
-										<asp:Label ID="Label1" runat="server" Text="<%$ Resources:SharedStrings, Sub_Total %>"></asp:Label>:
-									</td>
-									<td class="orderform-field label-divider">
-										<asp:Label ID="OrderSubTotal" runat="server" Text="0"></asp:Label>
-									</td>
-								</tr>
-								<tr>
 									<td class="orderform-label orderform-label-normal">
-										<asp:Label ID="Label8" runat="server" Text="<%$ Resources:SharedStrings, Tax_Total %>"></asp:Label>:
+										<asp:Label runat="server" Text="<%$ Resources:SharedStrings, Line_Items %>"></asp:Label>:
 									</td>
 									<td class="orderform-field">
-										<asp:Label ID="OrderTaxTotal" runat="server" Text="0"></asp:Label>
-									</td>
-								</tr>
-								<tr>
-									<td class="orderform-label orderform-label-normal">
-										<asp:Label ID="Label10" runat="server" Text="<%$ Resources:SharedStrings, Shipping_Total %>"></asp:Label>:
-									</td>
-									<td class="orderform-field">
-										<asp:Label ID="OrderShippingTotal" runat="server" Text="0"></asp:Label>
-									</td>
-								</tr>
-								<tr>
-									<td class="orderform-label orderform-label-normal">
-										<asp:Label ID="Label2" runat="server" Text="<%$ Resources:SharedStrings, Handling_Total %>"></asp:Label>:
-									</td>
-									<td class="orderform-field">
-										<asp:Label ID="OrderHandlingTotal" runat="server" Text="0"></asp:Label>
+										<asp:Label ID="ItemsTotal" runat="server" Text="0"></asp:Label>
 									</td>
 								</tr>
 								<tr>
 									<td class="orderform-label label-divider orderform-label-normal">
-										<asp:Label ID="Label13" runat="server" Text="<%$ Resources:SharedStrings, Discount_Total %>"></asp:Label>:
+										<asp:Label ID="Label13" runat="server" Text="<%$ Resources:SharedStrings, Invalidated_Discounts %>"></asp:Label>:
 									</td>
 									<td class="orderform-field label-divider">
-										<asp:Label ID="DiscountTotal" runat="server" Text="0"></asp:Label>
+										<asp:Label ID="InvalidDiscountsTotal" runat="server" Text="0"></asp:Label>
 									</td>
 								</tr>
 								<tr>
 									<td class="orderform-label">
-										<asp:Label ID="Label12" runat="server" Text="<%$ Resources:SharedStrings, Total_Return_Amount %>"></asp:Label>:
+										<asp:Label ID="Label12" runat="server" Text="<%$ Resources:OrderStrings, Return_Total %>"></asp:Label>:
 									</td>
 									<td class="orderform-field">
 										<asp:Label ID="OrderTotal" runat="server" Text="0"></asp:Label>
@@ -112,6 +88,34 @@
 					</tr>
 				</table>
 				<div style="clear: both;"></div>
+                <table width="400px">
+                    <tr>
+					    <td style="padding: 3px;" valign="top" class="episerveroverwriteimage">
+				        <mc2:BlockHeaderLight HeaderCssClass="ibn-toolbar-light" ID="InvalidDiscountsBlockHeader" runat="server" Title="<%$ Resources:SharedStrings, Invalidated_Discounts %>"></mc2:BlockHeaderLight>
+                        <table class="orderform-blockheaderlight-datatable">
+                            <asp:PlaceHolder runat="server" ID="NoInvalidatedDiscounts">
+                                <tr>
+                                    <td class="orderform-field centertext">
+                                        <asp:Label runat="server" Text="None"/>
+                                    </td>
+                                </tr>
+                            </asp:PlaceHolder>
+                            <asp:Repeater runat="server" ID="rptInvalidDiscounts">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td class="orderform-label orderform-label-normal">
+                                            <asp:Label runat="server" Text='<%# Eval("Name") + ":" %>'/>
+                                        </td>
+                                        <td class="orderform-field">
+                                            <asp:Label runat="server" Text='<%# ((decimal)Eval("SavedAmount")).ToString("#0.00") %>'></asp:Label>
+                                        </td>
+                                    </tr>    
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>        
+                        </td>
+                    </tr>
+                </table>                    
 				</div>
 			
 				<div style="position: absolute; left: 0px; right: 0px; bottom: 0px; height: 45px;">

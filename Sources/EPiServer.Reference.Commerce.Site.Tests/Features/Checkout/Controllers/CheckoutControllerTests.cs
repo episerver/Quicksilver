@@ -68,6 +68,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _subject.ChangeAddress(viewModel);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("Sample billing address")]
+        public void ChangeAddress_ShouldReturnModelWithSameBillingAddress(string addressId)
+        {
+            var viewModel = new UpdateAddressViewModel
+            {
+                CurrentPage = new CheckoutPage(),
+                BillingAddress = new AddressModel() { AddressId = addressId },
+                Shipments = _cart.GetFirstForm().Shipments.Select(x => new ShipmentViewModel()).ToList(),
+                ShippingAddressIndex = -1,
+                UseBillingAddressForShipment = true
+            };
+
+            var model = ((PartialViewResult)_subject.ChangeAddress(viewModel)).Model as CheckoutViewModel;
+            Assert.Equal(model.BillingAddress.AddressId, addressId);
+        }
+
         [Fact]
         public void Index()
         {

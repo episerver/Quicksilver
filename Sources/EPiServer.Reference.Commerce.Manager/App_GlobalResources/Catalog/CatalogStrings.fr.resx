@@ -333,9 +333,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>sélectionner commerçant</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Autoriser la pré-commande</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Champ obligatoire manquant&lt;/b&gt;&lt;br/&gt;Un poids est requis.</value>
   </data>
@@ -356,9 +353,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>sélectionner la catégorie de taxe</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Autoriser les commandes ouvertes</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>sélectionner un entrepôt</value>

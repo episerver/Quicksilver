@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="WarehouseInventoryEditTab.ascx.cs" Inherits="Mediachase.Commerce.Manager.Apps.Catalog.Tabs.WarehouseInventoryEditTab" %>
-<%@ Register Src="~/Apps/Core/Controls/BooleanEditControl.ascx" TagName="BooleanEditControl" TagPrefix="ecf" %>
 <%@ Register Src="~/Apps/Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker" TagPrefix="ecf" %>
 
 <asp:UpdatePanel ID="WarehouseUpdatePanel" UpdateMode="Conditional" RenderMode="Inline" runat="server">
@@ -46,6 +45,8 @@
                             ErrorMessage="<%$ Resources:CatalogStrings, Entry_Reserved_Quantity_Required %>" />
                         <asp:RangeValidator runat="server" ID="ReservedQtyRange" ControlToValidate="ReservedQty" MinimumValue="0" MaximumValue="1000000000" Type="Double" 
                             Display="Dynamic" ErrorMessage="<%$ Resources:CatalogStrings, Entry_Enter_Valid_Quantity %>"></asp:RangeValidator>
+                        <asp:CompareValidator ID="ReservedQtyValidator" ControlToValidate="ReservedQty" runat="server"  Type="Double"
+                            ControlToCompare="InStockQty" Operator="LessThanEqual" ErrorMessage="<%$ Resources:CatalogStrings, Entry_Inventory_ReservedQty_Invalid %>"></asp:CompareValidator>
                     </td>
                 </tr>
                 <tr>
@@ -65,13 +66,6 @@
                 </tr>
                 <tr>
                     <td colspan="5" class="FormSpacerCell">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="FormLabelCell">
-                        <asp:Label ID="Label5" runat="server" Text="<%$ Resources:CatalogStrings, Entry_Allow_Preorder %>"></asp:Label>:</td>
-                    <td class="FormFieldCell">
-                        <ecf:BooleanEditControl ID="AllowPreorder" runat="server" MDContext="<%# Mediachase.Commerce.Catalog.CatalogContext.MetaDataContext %>"></ecf:BooleanEditControl>
                     </td>
                 </tr>
                 <tr>
@@ -100,13 +94,6 @@
                 </tr>
                 <tr>
                     <td colspan="5" class="FormSpacerCell">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="FormLabelCell">
-                        <asp:Label ID="Label8" runat="server" Text="<%$ Resources:CatalogStrings, Entry_Allow_Backorder %>"></asp:Label>:</td>
-                    <td class="FormFieldCell">
-                        <ecf:BooleanEditControl ID="AllowBackorder" runat="server"></ecf:BooleanEditControl>
                     </td>
                 </tr>
                 <tr>

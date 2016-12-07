@@ -64,6 +64,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
         }
 
         [Fact]
+        public void CreateCheckoutViewModel_WithNonePreferredAddress_ShouldSetDefaultBillingAddressToGuid()
+        {
+            var checkoutPage = new CheckoutPage();
+            _addressBookServiceMock.Setup(x => x.GetPreferredBillingAddress()).Returns((CustomerAddress)null);
+            var viewModel = _subject.CreateCheckoutViewModel(_cart, checkoutPage);
+
+            Assert.IsType(typeof(Guid), Guid.Parse(viewModel.BillingAddress.Name));
+        }
+
+        [Fact]
         public void CreateCheckoutViewModel_WhenCartIsNull_ShouldReturnEmptyViewModel()
         {
             var checkoutPage = new CheckoutPage();
@@ -88,6 +98,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
         private readonly StartPage _startPage;
         private const string cashPaymentName = "CashOnDelivery";
         private const string creditPaymentName = "GenericCreditCard";
+        private Mock<IAddressBookService> _addressBookServiceMock;
 
         public CheckoutViewModelFactoryTests()
         {
@@ -100,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var paymentServiceMock = new Mock<IPaymentService>();
             var marketMock = new Mock<IMarket>();
             var currentMarketMock = new Mock<ICurrentMarket>();
-            var languageServiceMock = new Mock<LanguageService>(null, null, null, null);
+            var languageServiceMock = new Mock<LanguageService>(null, null, null);
             var paymentMethodViewModelFactory = new PaymentMethodViewModelFactory(currentMarketMock.Object, languageServiceMock.Object, paymentServiceMock.Object);
 
             currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(marketMock.Object);
@@ -112,12 +123,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                     new PaymentMethodModel { Description = "Lorem ipsum", FriendlyName = "payment method 2", LanguageId = "en", PaymentMethodId = Guid.NewGuid(), SystemName = creditPaymentName }
                });
 
-            var addressBookServiceMock = new Mock<IAddressBookService>();
-            addressBookServiceMock.Setup(x => x.List()).Returns(() => new List<AddressModel> { new AddressModel { AddressId = "addressid" } });
+            _addressBookServiceMock = new Mock<IAddressBookService>();
+            _addressBookServiceMock.Setup(x => x.List()).Returns(() => new List<AddressModel> { new AddressModel { AddressId = "addressid" } });
             _preferredBillingAddress = CustomerAddress.CreateInstance();
             _preferredBillingAddress.Name = "preferredBillingAddress";
-            addressBookServiceMock.Setup(x => x.GetPreferredBillingAddress()).Returns(_preferredBillingAddress);
-            addressBookServiceMock.Setup(x => x.UseBillingAddressForShipment()).Returns(true);
+            _addressBookServiceMock.Setup(x => x.GetPreferredBillingAddress()).Returns(_preferredBillingAddress);
+            _addressBookServiceMock.Setup(x => x.UseBillingAddressForShipment()).Returns(true);
 
             _startPage = new StartPage();
             var contentLoaderMock = new Mock<IContentLoader>();
@@ -147,7 +158,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             _subject = new CheckoutViewModelFactory(
                 new MemoryLocalizationService(),
                 paymentMethodViewModelFactory,
-                addressBookServiceMock.Object,
+                _addressBookServiceMock.Object,
                 contentLoaderMock.Object,
                 orderFactoryMock.Object,
                 urlResolverMock.Object,
