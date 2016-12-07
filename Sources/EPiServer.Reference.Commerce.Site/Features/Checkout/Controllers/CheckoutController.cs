@@ -261,6 +261,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 checkoutViewModel.Shipments.Single().Address = checkoutViewModel.BillingAddress;
             }
 
+            ValidateShippingMethod(checkoutViewModel);
+
             ValidateBillingAddress(checkoutViewModel);
 
             HandleValidationIssues(_cartService.ValidateCart(Cart));
@@ -314,6 +316,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
+        private void ValidateShippingMethod(CheckoutViewModel checkoutViewModel)
+        {
+            if (checkoutViewModel.Shipments.Any(s => s.ShippingMethodId == Guid.Empty))
+            {
+                ModelState.AddModelError("Shipment.ShippingMethod", _localizationService.GetString("/Shared/Address/Form/Empty/ShippingMethod"));
+            }
+        }
         private void ValidateBillingAddress(CheckoutViewModel checkoutViewModel)
         {
             if (User.Identity.IsAuthenticated)
@@ -526,14 +535,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var shippingAddressUpdated = updateViewModel.ShippingAddressIndex > -1;
             var updatedAddress = shippingAddressUpdated ? updateViewModel.Shipments[updateViewModel.ShippingAddressIndex].Address : updateViewModel.BillingAddress;
 
-            if (updatedAddress.AddressId == null)
-            {
-                updatedAddress = new AddressModel
-                {
-                    Name = Guid.NewGuid().ToString(),
-                };
-            }
-            else
+            if (updatedAddress.AddressId != null)
             {
                 _addressBookService.LoadAddress(updatedAddress);
             }

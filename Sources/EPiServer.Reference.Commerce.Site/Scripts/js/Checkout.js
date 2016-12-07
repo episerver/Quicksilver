@@ -4,6 +4,7 @@
             .on('change', '.jsChangePayment', Checkout.changePayment)
             .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
+            .on('change', '.jsChangeTaxAddress', Checkout.changeTaxAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
             .on('click', '.jsNewAddress', Checkout.newAddress)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
@@ -103,6 +104,25 @@
             }
         });
     },
+
+    changeTaxAddress: function () {
+        var id = $(this).attr("id");
+        if ((id.indexOf("Billing") > -1) && $("#UseBillingAddressForShipment").val() == "False") {
+            return;
+        }
+        var form = $('.jsCheckoutForm');
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: $(this).closest('.jsCheckoutAddress').data('url'),
+            data: form.serialize(),
+            success: function (result) {
+                Checkout.updateOrderSummary();
+            }
+        });
+    },
+
     changePayment: function () {
         var form = $('.jsCheckoutForm');
         $.ajax({
@@ -185,7 +205,6 @@
             url: $('.jsCheckoutAddress').data('url'),
             data: form.serialize(),
             success: function (result) {
-                $("#billingAddressContainer").html($(result));
                 Checkout.initializeAddressAreas();
                 Checkout.updateOrderSummary();
             }

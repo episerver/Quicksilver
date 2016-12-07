@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Business
         
         protected override Money CalculateTotal(IOrderGroup orderGroup)
         {
-            var result = GetSubTotal(orderGroup) - GetOrderDiscountTotal(orderGroup, orderGroup.Currency);
+            var result = GetSubTotal(orderGroup) + GetHandlingTotal(orderGroup) - GetOrderDiscountTotal(orderGroup, orderGroup.Currency);
             result +=
                 _shippingCalculator.GetShippingCost(orderGroup, orderGroup.Market, orderGroup.Currency) +
                 _taxCalculator.GetTaxTotal(orderGroup, orderGroup.Market, orderGroup.Currency);

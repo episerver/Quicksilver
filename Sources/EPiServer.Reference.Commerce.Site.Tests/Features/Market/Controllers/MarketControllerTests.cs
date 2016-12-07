@@ -1,20 +1,19 @@
-﻿using System.Globalization;
-using System.Web.Mvc;
-using System.Linq;
-using EPiServer.Core;
+﻿using EPiServer.Core;
+using EPiServer.Globalization;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
 using EPiServer.Web.Routing;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using Moq;
-using System.Collections;
 using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 using Xunit;
-
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 {
@@ -35,17 +34,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         }
 
         [Fact]
-        public void Set_ShouldCallSetCurrentLanguageOnLanguageService()
-        {
-            _marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
-
-            var controller = CreateController();
-            controller.Set(_language, _contentLink);
-
-            _languageServiceMock.Verify(x => x.SetCurrentLanguage(_language), Times.Once);
-        }
-
-        [Fact]
         public void Set_ShouldCallSetCurrentMarket()
         {
             _marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(_market);
@@ -60,10 +48,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         public void Index_WhenCreatingViewModel_ShouldCreateModel()
         {
             var markets = new List<IMarket>
-             {
+            {
                 _currentMarket,
                 _market
-              };
+            };
 
             var expectedModel = new MarketViewModel()
             {
@@ -149,7 +137,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         private MarketImpl _market;
         private string _language;
         private ContentReference _contentLink;
-        
+        private Mock<CookieService> _cookieServiceMock;
+        private Mock<IUpdateCurrentLanguage> _updateCurrentLanguageMock;
 
         public MarketControllerTests()
         {
@@ -164,8 +153,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             _currencyServiceMock = new Mock<ICurrencyService>();
             _cartServiceMock = new Mock<ICartService>();
 
-            _languageServiceMock = new Mock<LanguageService>(null, null, null, null);
-            _languageServiceMock.Setup(x => x.SetCurrentLanguage(It.IsAny<string>())).Returns(true);
+            _updateCurrentLanguageMock = new Mock<IUpdateCurrentLanguage>();
+            _cookieServiceMock = new Mock<CookieService>();
+
+            _languageServiceMock = new Mock<LanguageService>(null, _cookieServiceMock.Object, _updateCurrentLanguageMock.Object);
         }
 
         private MarketController CreateController()

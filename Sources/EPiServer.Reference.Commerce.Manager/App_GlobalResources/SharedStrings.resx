@@ -2145,9 +2145,9 @@
   <data name="Purchase_Order_Details" xml:space="preserve">
     <value>Purchase Order Details</value>
   </data>
-	<data name="Filter_By_Market" xml:space="preserve">
-		<value>Filter by market:</value>
-	</data>
+  <data name="Filter_By_Market" xml:space="preserve">
+    <value>Filter by market:</value>
+  </data>
   <data name="Markets" xml:space="preserve">
     <value>Markets</value>
   </data>
@@ -2246,5 +2246,14 @@
   </data>
   <data name="Restrictions" xml:space="preserve">
     <value>Restrictions</value>
+  </data>
+  <data name="Invalidated_Discounts" xml:space="preserve">
+    <value>Invalidated Discounts</value>
+  </data>
+  <data name="Complete_Return_Value_Verification_Warning" xml:space="preserve">
+    <value>Please review this return. The calculated return total is different from total set on return creation. This is caused either by promotions having been deleted from the system or return orders completed out of sequence.</value>
+  </data>
+  <data name="Complete_Return_Discount_Verification_Warning" xml:space="preserve">
+    <value>The Invalidated Discounts value does not consider the exchange items. If the exchange contains items similar to the returned items you may want to adjust the return amount to ignore the Invalidated Discounts value.</value>
   </data>
 </root>

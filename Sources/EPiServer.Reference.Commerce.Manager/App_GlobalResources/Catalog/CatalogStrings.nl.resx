@@ -330,9 +330,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>verkoper selecteren</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Vooruitbestelling toelaten</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Verplicht veld ontbreekt&lt;/b&gt;&lt;br /&gt;Gewicht is verplicht.</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>belastingscategorie selecteren</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Nabestelling toelaten</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>magazijn selecteren</value>

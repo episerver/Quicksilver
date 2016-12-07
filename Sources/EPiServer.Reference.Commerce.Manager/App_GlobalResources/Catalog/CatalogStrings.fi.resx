@@ -330,9 +330,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>valitse myyjä</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Salli ennakkotilaus</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Pakollinen kenttä puuttuu&lt;/b&gt;&lt;br /&gt;Paino on pakollinen.</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>valitse veroluokka</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Salli jälkitilaus</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>valitse varasto</value>

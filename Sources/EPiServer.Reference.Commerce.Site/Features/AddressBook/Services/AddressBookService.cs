@@ -59,6 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
         public void MapToModel(IOrderAddress orderAddress, AddressModel addressModel)
         {
+            addressModel.AddressId = orderAddress.Id;
             addressModel.Name = orderAddress.Id;
             addressModel.Line1 = orderAddress.Line1;
             addressModel.Line2 = orderAddress.Line2;
@@ -129,7 +130,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
         public AddressModel ConvertToModel(IOrderAddress orderAddress)
         {
-            var address = new AddressModel { AddressId = Guid.NewGuid().ToString() };
+            var address = new AddressModel();
 
             if (orderAddress != null)
             {

@@ -63,7 +63,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ShippingMethods = CreateShippingMethodViewModels(cart.Market, cart.Currency, shipment)
                 };
 
-                shipmentModel.ShippingMethodId = shipment.ShippingMethodId == Guid.Empty ? shipmentModel.ShippingMethods.First().Id : shipment.ShippingMethodId;
+                shipmentModel.ShippingMethodId = shipment.ShippingMethodId == Guid.Empty && shipmentModel.ShippingMethods.Any() ? 
+                                                 shipmentModel.ShippingMethods.First().Id 
+                                               : shipment.ShippingMethodId;
 
                 var variants = _contentLoader.GetItems(shipment.LineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
                     _preferredCulture).OfType<VariationContent>();

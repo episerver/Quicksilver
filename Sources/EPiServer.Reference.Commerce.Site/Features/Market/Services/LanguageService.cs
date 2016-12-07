@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using Mediachase.Commerce;
@@ -14,21 +13,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
         private readonly ICurrentMarket _currentMarket;
         private readonly CookieService _cookieService;
         private readonly IUpdateCurrentLanguage _defaultUpdateCurrentLanguage;
-        private readonly RequestContext _requestContext;
 
-        public LanguageService(ICurrentMarket currentMarket, CookieService cookieService, IUpdateCurrentLanguage defaultUpdateCurrentLanguage, RequestContext requestContext)
+        public LanguageService(ICurrentMarket currentMarket, CookieService cookieService, IUpdateCurrentLanguage defaultUpdateCurrentLanguage)
         {
             _currentMarket = currentMarket;
             _cookieService = cookieService;
             _defaultUpdateCurrentLanguage = defaultUpdateCurrentLanguage;
-            _requestContext = requestContext;
         }
 
         public virtual IEnumerable<CultureInfo> GetAvailableLanguages()
         {
             return CurrentMarket.Languages;
         }
-        
+
         public virtual CultureInfo GetCurrentLanguage()
         {
             CultureInfo cultureInfo;
@@ -37,17 +34,38 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
                 : CurrentMarket.DefaultLanguage;
         }
 
-        public virtual bool SetCurrentLanguage(string language)
+        public void UpdateLanguage(string languageId)
         {
-            CultureInfo cultureInfo;
-            if (!TryGetLanguage(language, out cultureInfo))
+            var chosenLanguage = languageId;
+            var cookieLanguage = _cookieService.Get(LanguageCookie);
+
+            if (string.IsNullOrEmpty(chosenLanguage))
             {
-                return false;
+                if (cookieLanguage != null)
+                {
+                    chosenLanguage = cookieLanguage;
+                }
+                else
+                {
+                    var currentMarket = _currentMarket.GetCurrentMarket();
+                    if (currentMarket != null && currentMarket.DefaultLanguage != null)
+                    {
+                        chosenLanguage = currentMarket.DefaultLanguage.Name;
+                    }
+                }
             }
 
-            _defaultUpdateCurrentLanguage.UpdateLanguage(language);
-            _cookieService.Set(LanguageCookie, language);
-            return true;
+            _defaultUpdateCurrentLanguage.UpdateLanguage(chosenLanguage);
+
+            if (cookieLanguage == null || cookieLanguage != chosenLanguage)
+            {
+                _cookieService.Set(LanguageCookie, chosenLanguage);
+            }
+        }
+
+        public void UpdateReplacementLanguage(IContent currentContent, string requestedLanguage)
+        {
+            _defaultUpdateCurrentLanguage.UpdateReplacementLanguage(currentContent, requestedLanguage);
         }
 
         private bool TryGetLanguage(string language, out CultureInfo cultureInfo)
@@ -74,34 +92,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
         private IMarket CurrentMarket
         {
             get { return _currentMarket.GetCurrentMarket(); }
-        }
-
-        public void UpdateLanguage(string languageId)
-        {
-
-            if (_requestContext.HttpContext != null && _requestContext.HttpContext.Request.Url != null && _requestContext.HttpContext.Request.Url.AbsolutePath == "/")
-            {
-                var languageCookie = _cookieService.Get(LanguageCookie);
-                if (languageCookie != null)
-                {
-                    _defaultUpdateCurrentLanguage.UpdateLanguage(languageCookie);
-                    return;
-                }
-
-                var currentMarket = _currentMarket.GetCurrentMarket();
-                if (currentMarket != null && currentMarket.DefaultLanguage != null)
-                {
-                    _defaultUpdateCurrentLanguage.UpdateLanguage(currentMarket.DefaultLanguage.Name);
-                    return;
-                }
-            }
-
-            _defaultUpdateCurrentLanguage.UpdateLanguage(languageId);
-        }
-
-        public void UpdateReplacementLanguage(IContent currentContent, string requestedLanguage)
-        {
-            _defaultUpdateCurrentLanguage.UpdateReplacementLanguage(currentContent, requestedLanguage);
         }
     }
 }

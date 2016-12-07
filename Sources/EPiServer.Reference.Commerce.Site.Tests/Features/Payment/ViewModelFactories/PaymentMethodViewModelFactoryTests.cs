@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Payment.ViewModelFact
             _paymentServiceMock = new Mock<IPaymentService>();
             _marketMock = new Mock<IMarket>();
             _currentMarketMock = new Mock<ICurrentMarket>();
-            _languageServiceMock = new Mock<LanguageService>(null, null, null, null);
+            _languageServiceMock = new Mock<LanguageService>(null, null, null);
 
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
             _languageServiceMock.Setup(x => x.GetCurrentLanguage()).Returns(new CultureInfo("en-US"));

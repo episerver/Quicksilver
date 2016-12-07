@@ -345,9 +345,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>select merchant</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Allow Preorder</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Required Field Missing&lt;/b&gt;&lt;br /&gt;Weight is required.</value>
   </data>
@@ -377,9 +374,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>select tax category</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Allow Backorder</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>select warehouse</value>
@@ -839,5 +833,8 @@
   </data>
   <data name="Catalog_Language_Warning" xml:space="preserve">
     <value>Selected/enabled languages must match enabled languages defined in CMS Admin view under Config and Manage website languages. Use CTRL + click to select multiple languages.</value>
+  </data>
+  <data name="Entry_Inventory_ReservedQty_Invalid" xml:space="preserve">
+    <value>Reserved Quantity cannot be greater than In Stock Quantity.</value>
   </data>
 </root>

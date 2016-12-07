@@ -11,7 +11,7 @@
 		string retval = String.Empty;
 		if (DataItem != null && DataItem.Properties[FieldName] != null && DataItem[FieldName] != null)
 			retval = HttpUtility.HtmlEncode(DataItem[FieldName].ToString());
-		return String.Format("<div>{0}</div>", retval, GetGlobalResourceObject("Global", "DoubleClick").ToString());
+		return String.Format("<div>{0}</div>", retval);
 	}
 </script>
 <%# GetValue(DataItem, FieldName) %>

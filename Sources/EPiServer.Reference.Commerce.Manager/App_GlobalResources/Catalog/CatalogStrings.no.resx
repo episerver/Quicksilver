@@ -330,9 +330,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>velg butikk</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Tillat forhåndsbestilling</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Påkrevd felt mangler&lt;/b&gt;&lt;br /&gt;Det kreves vekt.</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>velg merverdiavgiftskategori</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Tillat restordre</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>velg varehus</value>

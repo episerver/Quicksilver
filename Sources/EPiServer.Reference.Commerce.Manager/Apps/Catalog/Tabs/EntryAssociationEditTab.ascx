@@ -1,21 +1,6 @@
 <%@ Control Language="C#" EnableViewState="true" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Catalog.Tabs.EntryAssociationEditTab" Codebehind="EntryAssociationEditTab.ascx.cs" %>
 <%@ Register Src="../../Core/Controls/DialogControl.ascx" TagName="DialogControl" TagPrefix="uc1" %>
 <script type="text/javascript">
-    function childPageLoad(childPageLoad, args) {
-        if (Sys.Browser.agent == Sys.Browser.Firefox) {
-//            //AssociationsFilter.style.display = '';
-            //AssociationsFilter.style.visibility = 'visible';
-//            var obj = $get('<%= AssociationsFilter.ClientID %>');
-//            if (obj) {
-//                obj.style.display = '';
-//                obj.style.visibility = 'visible';
-//            }
-//            else
-//                alert('obj not found!');
-        }
-    }
-    
-    //window.alert = new Function('x', 'document.getElementById("debugInfo").value = document.getElementById("debugInfo").value+" | "+x;');
 
     var SelectedAssociationId = 0;
     var SelectedEntryItem = null;
@@ -93,7 +78,6 @@
     // returns item index
     function FindComboBoxItem(itemValue)
     {
-        //var item = null;
         var itemIndex = -1;
         
         var itemCount = AssociationsFilter.get_itemCount();
@@ -104,10 +88,8 @@
             for(var i=0; i<itemCount; i++)
             {
                 var itemTmp = AssociationsFilter.getItem(i);
-                //alert('itemTmp='+itemTmp+'   itemTmp2='+AssociationsFilter.getItem(i));
                 if(itemTmp!=null && itemTmp.get_value()==itemValue)
                 {
-                    //item = itemTmp;
                     itemIndex = i;
                     break;
                 }
@@ -172,13 +154,11 @@
 
     function AssociationsFilter_indexChanged()
     {   
-        //alert('AssociationsFilter_indexChanged');
         ToggleLoadDetailsButton(true);
         
         var item = AssociationsFilter.getSelectedItem();
         if(item!=null)
         {
-            // alert('AssociationsFilter_indexChanged item='+item.get_value());
              SetSelectedAssociationId(item.get_value());
          }
     }
@@ -226,7 +206,6 @@
             }
             
             var rowCount = AssociationItemsGrid.Table.getRowCount();
-            //var recordCount = AssociationItemsGrid.get_recordCount();
             
             // add new item
             var row = AssociationItemsGrid.Table.addEmptyRow(); 
@@ -263,7 +242,6 @@
 
 <asp:HiddenField ID="SelectedAssociationIdField" runat="server" /> <!-- used for displaying selected association info -->
 <asp:HiddenField runat="server" id="ItemsPanelTrigger"/>
-<%--<textarea id="debugInfo" rows="30" cols="100"></textarea>--%>
 <div id="DataForm">
  <table class="DataForm">
     <tr>
@@ -277,35 +255,33 @@
                 <tr>
                     <td><asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:CatalogStrings, Entry_Modify_Existing_Association %>" />:</td>
                     <td>
-                          <ComponentArt:ComboBox id="AssociationsFilter" runat="server"  RunningMode="CallBack"
-                            AutoHighlight="false"
-                            AutoComplete="true"
-                            AutoFilter="true"
-                            CssClass="comboBox"
-                            HoverCssClass="comboBoxHover"
-                            FocusedCssClass="comboBoxHover"
-                            TextBoxCssClass="comboTextBox"
-                            TextBoxHoverCssClass="comboBoxHover"
-                            DropDownCssClass="comboDropDown"
-                            ItemCssClass="comboItem"
-                            ItemHoverCssClass="comboItemHover"
-                            SelectedItemCssClass="comboItemHover"
-                            DropHoverImageUrl="~/Apps/Shell/Styles/images/combobox/drop_hover.gif"
-                            DropImageUrl="~/Apps/Shell/Styles/images/combobox/drop.gif"
-                            DropDownPageSize="10"
-                            Width="350"
-                            Debug="False">
-                            <%--
-                            FilterCacheSize="0"
-                            CacheSize="0" 
-                            CacheMapEnabled="false"
-                            CacheMapWidth="0" --%>
-                            <ClientEvents>
-                                <Change EventHandler="AssociationsFilter_indexChanged" />
-                            </ClientEvents>
-                            <Items>
-                                <ComponentArt:ComboBoxItem Text="" />
-                            </Items>
+                          <ComponentArt:ComboBox 
+                              id="AssociationsFilter" 
+                              runat="server"  
+                              RunningMode="CallBack"
+                              AutoHighlight ="false"
+                              AutoComplete="true"
+                              AutoFilter="true"
+                              CssClass="comboBox"
+                              HoverCssClass="comboBoxHover"
+                              FocusedCssClass="comboBoxHover"
+                              TextBoxCssClass="comboTextBox"
+                              TextBoxHoverCssClass="comboBoxHover"
+                              DropDownCssClass="comboDropDown"
+                              ItemCssClass="comboItem"
+                              ItemHoverCssClass="comboItemHover"
+                              SelectedItemCssClass="comboItemHover"
+                              DropHoverImageUrl="~/Apps/Shell/Styles/images/combobox/drop_hover.gif"
+                              DropImageUrl="~/Apps/Shell/Styles/images/combobox/drop.gif"
+                              DropDownPageSize="10"
+                              Width="350"
+                              Debug="False">
+                              <ClientEvents>
+                                  <Change EventHandler="AssociationsFilter_indexChanged" />
+                              </ClientEvents>
+                              <Items>
+                                  <ComponentArt:ComboBoxItem Text="" />
+                              </Items>
                           </ComponentArt:ComboBox>
                     </td>
                     <td>

@@ -188,8 +188,8 @@
                     httpApplication.CompleteRequest();
                 }
             }
-            else if (!Mediachase.Commerce.Security.SecurityContext.Current.CheckCurrentUserInAnyGlobalRoles(
-                new string[] { Mediachase.Commerce.Core.AppRoles.AdminRole, Mediachase.Commerce.Core.AppRoles.ManagerUserRole }))
+            else if(PrincipalInfo.CurrentPrincipal.IsInRole(Mediachase.Commerce.Core.AppRoles.AdminRole) || 
+                    PrincipalInfo.CurrentPrincipal.IsInRole(Mediachase.Commerce.Core.AppRoles.ManagerUserRole)) 
             {
                 FormsAuthentication.SignOut();
                 this.Response.Redirect("~/Apps/Shell/Pages/Unauthorized.html");

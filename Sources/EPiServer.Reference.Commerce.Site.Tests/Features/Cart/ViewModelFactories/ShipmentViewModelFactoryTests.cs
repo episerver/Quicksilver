@@ -44,11 +44,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
         }
 
+        [Fact]
+        public void CreateShipmentsViewModel_WithoutAvailableShippingMethod_ShouldNotThrowException()
+        {
+            _shippingManagerFacadeMock.Setup(x => x.GetShippingMethodsByMarket(It.IsAny<string>(), It.IsAny<bool>())).Returns(new List<ShippingMethodInfoModel>());
+            var viewModel = _subject.CreateShipmentsViewModel(_cart).First();
+            Assert.Equal(viewModel.ShippingMethodId, Guid.Empty);
+        }
+
         private readonly ShipmentViewModelFactory _subject;
         private readonly ICart _cart;
         private readonly AddressModel _addressModel;
         private readonly CartItemViewModel _cartItem;
         private readonly ShippingRate _shippingRate;
+
+        private Mock<ShippingManagerFacade> _shippingManagerFacadeMock;
 
         public ShipmentViewModelFactoryTests()
         {
@@ -56,8 +66,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             _cart.Forms.Single().Shipments.Single().LineItems.Add(new InMemoryLineItem { Code = "code"});
             _cart.Forms.Single().CouponCodes.Add("couponcode");
 
-            var shippingManagerFacadeMock = new Mock<ShippingManagerFacade>();
-            shippingManagerFacadeMock.Setup(x => x.GetShippingMethodsByMarket(It.IsAny<string>(), It.IsAny<bool>())).Returns(() => new List<ShippingMethodInfoModel>
+            _shippingManagerFacadeMock = new Mock<ShippingManagerFacade>();
+            _shippingManagerFacadeMock.Setup(x => x.GetShippingMethodsByMarket(It.IsAny<string>(), It.IsAny<bool>())).Returns(() => new List<ShippingMethodInfoModel>
             {
                 new ShippingMethodInfoModel
                 {
@@ -66,10 +76,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 }
             });
             _shippingRate = new ShippingRate(Guid.NewGuid(), "name", new Money(10, Currency.USD));
-            shippingManagerFacadeMock.Setup(x => x.GetRate(It.IsAny<IShipment>(), It.IsAny<ShippingMethodInfoModel>(), It.IsAny<IMarket>()))
+            _shippingManagerFacadeMock.Setup(x => x.GetRate(It.IsAny<IShipment>(), It.IsAny<ShippingMethodInfoModel>(), It.IsAny<IMarket>()))
                 .Returns(_shippingRate);
 
-            var languageServiceMock = new Mock<LanguageService>(null, null, null, null);
+            var languageServiceMock = new Mock<LanguageService>(null, null, null);
             languageServiceMock.Setup(x => x.GetCurrentLanguage()).Returns(CultureInfo.InvariantCulture);
 
             var referenceConverterMock = new Mock<ReferenceConverter>(null,null);
@@ -92,7 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
 
             _subject = new ShipmentViewModelFactory(
                 contentLoaderMock.Object,
-                shippingManagerFacadeMock.Object,
+                _shippingManagerFacadeMock.Object,
                 languageServiceMock.Object,
                 referenceConverterMock.Object,
                 addressBookServiceMock.Object,

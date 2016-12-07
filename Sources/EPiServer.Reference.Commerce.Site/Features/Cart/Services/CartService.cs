@@ -274,8 +274,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
             couponCodes.Add(couponCode);
             var rewardDescriptions = cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
-            var appliedCoupons = rewardDescriptions.Where(r => r.Status == FulfillmentStatus.Fulfilled && !string.IsNullOrEmpty(r.Promotion.Coupon.Code))
-                                                   .Select(c => c.Promotion.Coupon.Code);
+            var appliedCoupons = rewardDescriptions
+                .Where(r => r.AppliedCoupon != null)
+                .Select(r => r.AppliedCoupon);
+
             var couponApplied = appliedCoupons.Any(c => c.Equals(couponCode, StringComparison.OrdinalIgnoreCase));
             if (!couponApplied)
             {

@@ -1,3 +1,5 @@
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Routing;
 using EPiServer.Editor;
@@ -19,6 +21,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -45,6 +48,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             AreaRegistration.RegisterAllAreas();
 
             DisablePromotionTypes(context);
+
+            SetupExcludedPromotionEntries(context);
         }
 
         public void ConfigureContainer(ServiceConfigurationContext context)
@@ -61,8 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     new LanguageService(
                         locator.GetInstance<ICurrentMarket>(),
                         locator.GetInstance<CookieService>(),
-                        defaultImplementation,
-                        locator.GetInstance<RequestContext>()));
+                        defaultImplementation));
 
             services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
             services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
@@ -100,6 +104,28 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             // To disable all built-in promotion types, comment out the following codes:
             //promotionTypeHandler.DisableBuiltinPromotions();
+        }
+
+        private void SetupExcludedPromotionEntries(InitializationEngine context)
+        {
+            //To exclude some entries from promotion engine we need an implementation of IEntryFilter.
+            //In most cases you can just use EntryFilterSettings to configure the default implementation. Otherwise you can create your own implementation of IEntryFilter if needed.
+
+            //var filterSettings = context.Locate.Advanced.GetInstance<EntryFilterSettings>();
+            //filterSettings.ClearFilters();
+
+            //Add filter predicates for a whole content type.
+            //filterSettings.AddFilter<TypeThatShouldNeverBeIncluded>(x => false);
+
+            //Add filter predicates based on any property of the content type, including implemented interfaces.
+            //filterSettings.AddFilter<IInterfaceThatCanBeImplementedToDetermineExclusion>(x => !x.ShouldBeExcluded);
+
+            //Add filter predicates based on meta fields that are not part of the content type models, e.g. if the field is dynamically added to entries in an import or integration.
+            //filterSettings.AddFilter<EntryContentBase>(x => !(bool)(x["ShouldBeExcludedPromotionMetaField"] ?? false));
+
+            //Add filter predicates base on codes like below.
+            //var ExcludingCodes = new string[] { "SKU-36127195", "SKU-39850363", "SKU-39101253" };
+            //filterSettings.AddFilter<EntryContentBase>(x => !ExcludingCodes.Contains(x.Code));
         }
     }
 }
