@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,13 +7,13 @@ using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Reference.Commerce.Site.Tests.Features.Cart;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
@@ -21,7 +21,6 @@ using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Markets;
 using Moq;
 using Xunit;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFactories
 {
@@ -53,6 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
         private readonly MultiShipmentViewModelFactory _subject;
         private readonly ICart _cart;
         private readonly StartPage _startPage;
+        private Mock<LanguageResolver> _languageResolverMock;
 
         public MultiShipmentViewModelFactoryTests()
         {
@@ -78,9 +78,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
+            _languageResolverMock = new Mock<LanguageResolver>();
+            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
 
-            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, accessor, null);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null,_languageResolverMock.Object, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {CartItems = new[]

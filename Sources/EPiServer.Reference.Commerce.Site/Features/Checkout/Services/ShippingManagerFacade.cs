@@ -29,9 +29,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         public virtual ShippingRate GetRate(IShipment shipment, ShippingMethodInfoModel shippingMethodInfoModel, IMarket currentMarket)
         {
             var type = Type.GetType(shippingMethodInfoModel.ClassName);
-            var shippingGateway = (IShippingGateway)Activator.CreateInstance(type, currentMarket);
+            var shippingGateway = (IShippingPlugin)Activator.CreateInstance(type, currentMarket);
             string message = null;
-            return shippingGateway.GetRate(shippingMethodInfoModel.MethodId, (Shipment)shipment, ref message);
+            return shippingGateway.GetRate(shippingMethodInfoModel.MethodId, shipment, ref message);
         }
 
     }

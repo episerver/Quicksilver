@@ -1,4 +1,4 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Globalization;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -59,6 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
         private readonly ShippingRate _shippingRate;
 
         private Mock<ShippingManagerFacade> _shippingManagerFacadeMock;
+        private Mock<LanguageResolver> _languageResolverMock;
 
         public ShipmentViewModelFactoryTests()
         {
@@ -100,6 +102,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             relationRepositoryMock.Setup(x => x.GetRelationsByTarget<ProductVariation>(It.IsAny<ContentReference>()))
                 .Returns(() => new[] {new ProductVariation {Source = new ContentReference(1)}});
 
+            _languageResolverMock = new Mock<LanguageResolver>();
+            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
+
             _subject = new ShipmentViewModelFactory(
                 contentLoaderMock.Object,
                 _shippingManagerFacadeMock.Object,
@@ -107,7 +112,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 referenceConverterMock.Object,
                 addressBookServiceMock.Object,
                 cartItemViewModelFactoryMock.Object,
-                () => CultureInfo.GetCultureInfo("en"),
+                _languageResolverMock.Object,
                 relationRepositoryMock.Object);    
         }
     }

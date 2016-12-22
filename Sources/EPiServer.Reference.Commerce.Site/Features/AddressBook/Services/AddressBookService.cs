@@ -12,7 +12,6 @@ using Mediachase.Commerce.Orders.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 {
@@ -21,16 +20,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
     {
         private readonly CustomerContextFacade _customerContext;
         private readonly CountryManagerFacade _countryManager;
-        readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
 
         public AddressBookService(
             CustomerContextFacade customerContext,
             CountryManagerFacade countryManager,
-            IOrderFactory orderFactory)
+            IOrderGroupFactory orderGroupFactory)
         {
             _customerContext = customerContext;
             _countryManager = countryManager;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
         }
 
         public void MapToModel(CustomerAddress customerAddress, AddressModel addressModel)
@@ -119,9 +118,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
                 (addressModel.BillingDefault ? CustomerAddressTypeEnum.Billing : 0);
         }
 
-        public IOrderAddress ConvertToAddress(AddressModel model)
+        public IOrderAddress ConvertToAddress(AddressModel model, IOrderGroup orderGroup)
         {
-            var address = _orderFactory.CreateOrderAddress();
+            var address = orderGroup.CreateOrderAddress(_orderGroupFactory);
             address.Id = model.Name;
             MapToAddress(model, address);
 

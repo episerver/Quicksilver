@@ -1,4 +1,4 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
@@ -22,6 +22,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Globalization;
 using Xunit;
 
 
@@ -1075,15 +1076,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         private readonly Mock<HttpContextBase> _httpContextBaseMock;
         private readonly Mock<IMarket> _marketMock;
         private readonly Mock<AppContextFacade> _appContextFacadeMock;
+        private readonly Mock<LanguageResolver> _languageResolverMock;
         private readonly Currency _defaultCurrency;
-        private readonly CultureInfo _preferredCulture;
         private bool _isInEditMode;
 
         public ProductControllerTests()
         {
             _defaultCurrency = Currency.USD;
-            _preferredCulture = CultureInfo.GetCultureInfo("en");
-
+        
             _urlResolverMock = new Mock<UrlResolver>();
             _contentLoaderMock = new Mock<IContentLoader>();
             _cookieServiceMock = new Mock<CookieService>();
@@ -1136,6 +1136,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _httpContextBaseMock = new Mock<HttpContextBase>();
             _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
 
+            _languageResolverMock = new Mock<LanguageResolver>();
+            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
+
             SetGetItems(Enumerable.Empty<ContentReference>(), Enumerable.Empty<IContent>());
             SetDefaultCurrency(null);
         }
@@ -1157,7 +1160,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 _appContextFacadeMock.Object,
                 _urlResolverMock.Object,
                 _filterPublished,
-                () => _preferredCulture,
+                _languageResolverMock.Object,
                 () => _isInEditMode);
 
             controller.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), controller);
@@ -1251,7 +1254,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
         private void SetGetItems(IEnumerable<ContentReference> setup, IEnumerable<IContent> result)
         {
-            _contentLoaderMock.Setup(x => x.GetItems(setup, _preferredCulture)).Returns(result);
+            _contentLoaderMock.Setup(x => x.GetItems(setup, CultureInfo.GetCultureInfo("en"))).Returns(result);
         }
 
         private void SetDefaultCurrency(string currency)

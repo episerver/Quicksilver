@@ -1,4 +1,4 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.Helpers;
+using EPiServer.Globalization;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
@@ -31,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
         private readonly UrlResolver _urlResolver;
-        private readonly CultureInfo _preferredCulture;
+        private readonly LanguageResolver _languageResolver;
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
 
@@ -43,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             ICurrencyService currencyService, 
             UrlResolver urlResolver, 
             SearchFacade search,
-            PreferredCultureAccessor preferredCulture,
+            LanguageResolver languageResolver,
             IContentLoader contentLoader,
             LocalizationService localizationService)
         {
@@ -51,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             _currentMarket = currentMarket;
             _currencyService = currencyService;
             _urlResolver = urlResolver;
-            _preferredCulture = preferredCulture();
+            _languageResolver = languageResolver;
             _contentLoader = contentLoader;
             _localizationService = localizationService;
         }
@@ -120,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var criteria = new CatalogEntrySearchCriteria
             {
                 ClassTypes = new StringCollection { "product" },
-                Locale = _preferredCulture.Name,
+                Locale = _languageResolver.GetPreferredCulture().Name,
                 MarketId = market.MarketId,
                 StartingRecord = 0,
                 RecordsToRetrieve = filterOptions.PageSize,
@@ -140,7 +141,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var criteria = new CatalogEntrySearchCriteria
             {
                 ClassTypes = new StringCollection { "product" },
-                Locale = _preferredCulture.Name,
+                Locale = _languageResolver.GetPreferredCulture().Name,
                 MarketId = market.MarketId,
                 StartingRecord = pageSize * (filterOptions.Page - 1),
                 RecordsToRetrieve = pageSize,
@@ -340,7 +341,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 field = BaseCatalogIndexBuilder.FieldConstants.Node,
                 Descriptions = new Descriptions
                 {
-                    defaultLocale = _preferredCulture.Name
+                    defaultLocale = _languageResolver.GetPreferredCulture().Name
                 },
                 Values = new SearchFilterValues()
             };
@@ -363,12 +364,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                     value = node.Code,
                     Descriptions = new Descriptions
                     {
-                        defaultLocale = _preferredCulture.Name
+                        defaultLocale = _languageResolver.GetPreferredCulture().Name
                     }
                 };
                 var desc2 = new Description
                 {
-                    locale = _preferredCulture.Name,
+                    locale = _languageResolver.GetPreferredCulture().Name,
                     Value = node.DisplayName
                 };
                 val.Descriptions.Description = new[] { desc2 };

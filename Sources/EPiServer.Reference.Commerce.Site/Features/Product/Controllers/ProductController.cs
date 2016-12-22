@@ -1,4 +1,4 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Filters;
@@ -15,9 +15,9 @@ using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Globalization;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {
@@ -32,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private readonly AppContextFacade _appContext;
         private readonly UrlResolver _urlResolver;
         private readonly FilterPublished _filterPublished;
-        private readonly CultureInfo _preferredCulture;
+        private readonly LanguageResolver _languageResolver;
         private readonly bool _isInEditMode;
 
         public ProductController(
@@ -45,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             AppContextFacade appContext,
             UrlResolver urlResolver,
             FilterPublished filterPublished,
-            PreferredCultureAccessor preferredCultureAccessor,
+            LanguageResolver languageResolver,
             IsInEditModeAccessor isInEditModeAccessor)
         {
             _promotionService = promotionService;
@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             _relationRepository = relationRepository;
             _appContext = appContext;
             _urlResolver = urlResolver;
-            _preferredCulture = preferredCultureAccessor();
+            _languageResolver = languageResolver;
             _isInEditMode = isInEditModeAccessor();
             _filterPublished = filterPublished;
         }
@@ -144,7 +144,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
         {
             return _contentLoader
-                .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
+                .GetItems(currentContent.GetVariants(_relationRepository), _languageResolver.GetPreferredCulture())
                 .Cast<FashionVariant>()
                 .Where(v => v.IsAvailableInCurrentMarket(_currentMarket) && !_filterPublished.ShouldFilter(v));
         }

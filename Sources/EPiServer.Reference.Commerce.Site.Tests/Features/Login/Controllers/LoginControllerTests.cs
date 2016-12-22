@@ -1,20 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using FluentAssertions;
@@ -24,9 +18,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Moq;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Xunit;
-
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 {
@@ -300,7 +300,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))
-                .ReturnsAsync((null));
+                .Returns(Task.FromResult<ApplicationUser>(null));
 
             var result = ((ViewResult)_subject.ExternalLoginCallback("http://test.com/redirect").Result).Model as ExternalLoginConfirmationViewModel;
 
@@ -313,6 +313,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
         private readonly LoginControllerForTest _subject;
         private readonly Mock<IContentLoader> _contentLoaderMock;
+        private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
         private readonly Mock<ApplicationUserManager> _userManagerMock;
         private readonly Mock<UserService> _userServiceMock;
         private readonly Mock<ApplicationSignInManager> _signinManagerMock;
@@ -338,11 +339,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var startPageMock = new Mock<StartPage>();
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             var authenticationManager = new Mock<IAuthenticationManager>();
+            _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
 
             var customercontextFacadeMock = new Mock<CustomerContextFacade>();
             var countryManagerFacadeMock = new Mock<CountryManagerFacade>();
             countryManagerFacadeMock.Setup(x => x.GetCountries()).Returns(() => new CountryDto());
-            var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object, null);
+            var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object, _orderGroupFactoryMock.Object);
             var request = new Mock<HttpRequestBase>();
             _httpContextMock = new Mock<HttpContextBase>();
             _requestContext = new Mock<RequestContext>();

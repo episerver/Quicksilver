@@ -1,16 +1,14 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
+﻿using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
+using Moq;
 using System;
 using System.Linq;
-using EPiServer.Commerce.Order;
-using Moq;
 using Xunit;
-using System.Collections;
-using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
 {
@@ -278,8 +276,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             };
             var customerContext = new FakeCustomerContext(_currentContact);
             var countryManager = new FakeCountryManager();
+            var fakeOrderGroupFactory = new FakeOrderGroupFactory();
 
-            _subject = new AddressBookService(customerContext, countryManager, new Mock<IOrderFactory>().Object);
+            _subject = new AddressBookService(customerContext, countryManager, fakeOrderGroupFactory);
         }
     }
 }

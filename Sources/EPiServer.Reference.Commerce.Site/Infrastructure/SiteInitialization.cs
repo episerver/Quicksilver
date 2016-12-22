@@ -1,5 +1,3 @@
-using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Routing;
 using EPiServer.Editor;
@@ -21,7 +19,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -71,8 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
             services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
 
-            services.AddTransient<PreferredCultureAccessor>(locator => () => ContentLanguage.PreferredCulture);
-
+            
             services.AddTransient<IOwinContext>(locator => HttpContext.Current.GetOwinContext());
             services.AddTransient<ApplicationUserManager>(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager>());
             services.AddTransient<ApplicationSignInManager>(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager>());
