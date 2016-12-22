@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IPromotionEngine _promotionEngine;
         private readonly ICartService _cartService;
         private readonly IAddressBookService _addressBookService;
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
         private ICart _cart;
 
         public CheckoutController(IContentRepository contentRepository,
@@ -65,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ICartService cartService,
             IAddressBookService addressBookService,
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
-            IOrderFactory orderFactory)
+            IOrderGroupFactory orderGroupFactory)
         {
             _contentRepository = contentRepository;
             _mailService = mailService;
@@ -81,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _cartService = cartService;
             _addressBookService = addressBookService;
             _orderSummaryViewModelFactory = orderSummaryViewModelFactory;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
         }
 
         [HttpGet]
@@ -121,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 if (!string.IsNullOrEmpty(viewModel.BillingAddress.AddressId))
                 {
-                    Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress);
+                    Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress, Cart);
                     cartChanged = true;
                 }
             }
@@ -179,7 +179,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             if (viewModel.UseBillingAddressForShipment)
             {
-                Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress);
+                Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress, Cart);
             }
             else
             {
@@ -312,7 +312,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             };
 
             SendConfirmationEmail(checkoutViewModel.BillingAddress.Email, startpage.OrderConfirmationMail, confirmationPage.Language.Name, queryCollection);
-
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
@@ -446,16 +445,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var shipments = Cart.GetFirstForm().Shipments;
             for (int index = 0; index < shipments.Count; index++)
             {
-                shipments.ElementAt(index).ShippingAddress = _addressBookService.ConvertToAddress(shipmentViewModels[index].Address);
+                shipments.ElementAt(index).ShippingAddress = _addressBookService.ConvertToAddress(shipmentViewModels[index].Address, Cart);
             }
         }
 
         private void CreatePayment(IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel, AddressModel billingAddress)
         {
-            IOrderAddress address = _addressBookService.ConvertToAddress(billingAddress);
+            var address = _addressBookService.ConvertToAddress(billingAddress, Cart);
             var total = Cart.GetTotal(_orderGroupCalculator);
-            var payment = paymentViewModel.PaymentMethod.CreatePayment(total.Amount);
-            Cart.AddPayment(payment, _orderFactory);
+            var payment = paymentViewModel.PaymentMethod.CreatePayment(total.Amount, Cart);
+            Cart.AddPayment(payment, _orderGroupFactory);
             payment.BillingAddress = address;
         }
                 

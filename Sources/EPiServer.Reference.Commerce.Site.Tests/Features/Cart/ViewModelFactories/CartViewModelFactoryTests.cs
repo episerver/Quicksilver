@@ -1,20 +1,19 @@
-﻿using EPiServer.Commerce.Order;
+using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Globalization;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -160,9 +159,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             _startPage = new StartPage() { CheckoutPage = new ContentReference(1), WishListPage = new ContentReference(1) };
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(_startPage);
+            var languageResolverMock = new Mock<LanguageResolver>();
+            languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
 
-            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,accessor,null);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,languageResolverMock.Object,null);
             _cartItems = new List<CartItemViewModel> {new CartItemViewModel {DiscountedPrice = new Money(100, Currency.USD), Quantity = 1} };
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[] { new ShipmentViewModel {CartItems = _cartItems} });
 

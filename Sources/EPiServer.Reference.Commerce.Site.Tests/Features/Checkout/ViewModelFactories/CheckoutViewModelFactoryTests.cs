@@ -1,4 +1,4 @@
-﻿using EPiServer.Commerce.Order;
+using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
@@ -18,6 +18,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
+using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
@@ -28,6 +29,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using EPiServer.Globalization;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFactories
@@ -123,6 +125,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                     new PaymentMethodModel { Description = "Lorem ipsum", FriendlyName = "payment method 2", LanguageId = "en", PaymentMethodId = Guid.NewGuid(), SystemName = creditPaymentName }
                });
 
+            var orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
+            orderGroupFactoryMock.Setup(x => x.CreatePayment(It.IsAny<IOrderGroup>())).Returns((IOrderGroup orderGroup) => new FakePayment());
+            var serviceLocatorMock = new Mock<IServiceLocator>();
+            serviceLocatorMock.Setup(x => x.GetInstance<IOrderGroupFactory>()).Returns(orderGroupFactoryMock.Object);
+            ServiceLocator.SetLocator(serviceLocatorMock.Object);
+
             _addressBookServiceMock = new Mock<IAddressBookService>();
             _addressBookServiceMock.Setup(x => x.List()).Returns(() => new List<AddressModel> { new AddressModel { AddressId = "addressid" } });
             _preferredBillingAddress = CustomerAddress.CreateInstance();
@@ -134,17 +142,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<PageReference>())).Returns(_startPage);
 
-            var orderFactoryMock = new Mock<IOrderFactory>();
             var urlResolverMock = new Mock<UrlResolver>();
             var httpcontextMock = new Mock<HttpContextBase>();
             var requestMock = new Mock<HttpRequestBase>();
+            var languageResolverMock = new Mock<LanguageResolver>();
 
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
+            languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
 
-            PreferredCultureAccessor accessor = () => CultureInfo.InvariantCulture;
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, accessor, null);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, languageResolverMock.Object, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {
@@ -160,7 +168,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                 paymentMethodViewModelFactory,
                 _addressBookServiceMock.Object,
                 contentLoaderMock.Object,
-                orderFactoryMock.Object,
                 urlResolverMock.Object,
                 (() => httpcontextMock.Object),
                 shipmentViewModelFactoryMock.Object);

@@ -1,11 +1,11 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using EPiServer.ServiceLocation;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
@@ -19,22 +19,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             "ExpirationMonth",
         };
 
-        private readonly IOrderFactory _orderFactory;
-
         public GenericCreditCardPaymentMethod()
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderFactory>())
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
         {
         }
 
-        public GenericCreditCardPaymentMethod(IOrderFactory orderFactory)
-            : this(LocalizationService.Current, orderFactory)
+        public GenericCreditCardPaymentMethod(LocalizationService localizationService, IOrderGroupFactory orderGroupFactory)
+            : base(localizationService, orderGroupFactory)
         {
-        }
-
-        public GenericCreditCardPaymentMethod(LocalizationService localizationService, IOrderFactory orderFactory)
-            : base(localizationService)
-        {
-            _orderFactory = orderFactory;
             ExpirationMonth = DateTime.Now.Month;
             CreditCardSecurityCode = "212";
             CardType = "Generic";
@@ -168,9 +160,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        public override IPayment CreatePayment(decimal amount)
+        public override IPayment CreatePayment(decimal amount, IOrderGroup orderGroup)
         {
-            var payment = _orderFactory.CreateCardPayment();
+            var payment = orderGroup.CreateCardPayment(_orderGroupFactory);
             payment.CardType = "Credit card";
             payment.PaymentMethodId = PaymentMethodId;
             payment.PaymentMethodName = "GenericCreditCard";

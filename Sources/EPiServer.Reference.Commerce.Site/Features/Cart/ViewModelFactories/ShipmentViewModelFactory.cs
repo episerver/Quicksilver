@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
@@ -15,7 +15,6 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
@@ -28,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private readonly ReferenceConverter _referenceConverter;
         private readonly IAddressBookService _addressBookService;
         readonly CartItemViewModelFactory _cartItemViewModelFactory;
-        private readonly CultureInfo _preferredCulture;
+        private readonly LanguageResolver _languageResolver;
         readonly IRelationRepository _relationRepository;
 
         public ShipmentViewModelFactory(
@@ -38,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             ReferenceConverter referenceConverter,
             IAddressBookService addressBookService,
             CartItemViewModelFactory cartItemViewModelFactory,
-            PreferredCultureAccessor preferredCulture,
+            LanguageResolver languageResolver,
             IRelationRepository relationRepository)
         {
             _contentLoader = contentLoader;
@@ -48,11 +47,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _addressBookService = addressBookService;
             _cartItemViewModelFactory = cartItemViewModelFactory;
             _relationRepository = relationRepository;
-            _preferredCulture = preferredCulture();
+            _languageResolver = languageResolver;
         }
 
         public virtual IEnumerable<ShipmentViewModel> CreateShipmentsViewModel(ICart cart)
         {
+            var preferredCulture = _languageResolver.GetPreferredCulture();
             foreach (var shipment in cart.GetFirstForm().Shipments)
             {
                 var shipmentModel = new ShipmentViewModel
@@ -68,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                                                : shipment.ShippingMethodId;
 
                 var variants = _contentLoader.GetItems(shipment.LineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
-                    _preferredCulture).OfType<VariationContent>();
+                    preferredCulture).OfType<VariationContent>();
 
                 foreach (var lineItem in shipment.LineItems)
                 {
@@ -101,7 +101,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             return methods.Where(shippingMethodRow => currentLanguage.Equals(shippingMethodRow.LanguageId, StringComparison.OrdinalIgnoreCase)
                 && string.Equals(currency, shippingMethodRow.Currency, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(shippingMethodRow => shippingMethodRow.Ordering)
-                .Select(shippingMethodRow => _shippingManagerFacade.GetRate(shipment, shippingMethodRow,market));
+                .Select(shippingMethodRow => _shippingManagerFacade.GetRate(shipment, shippingMethodRow, market));
         }
     }
 }

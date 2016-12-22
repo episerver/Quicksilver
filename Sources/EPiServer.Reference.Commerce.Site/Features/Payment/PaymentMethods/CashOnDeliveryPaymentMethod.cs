@@ -7,22 +7,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
     public class CashOnDeliveryPaymentMethod : PaymentMethodBase
     {
-        private readonly IOrderFactory _orderFactory;
-
         public CashOnDeliveryPaymentMethod()
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderFactory>())
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
         {
         }
 
-        public CashOnDeliveryPaymentMethod(IOrderFactory orderFactory)
-            : this(LocalizationService.Current, orderFactory)
+        public CashOnDeliveryPaymentMethod(LocalizationService localizationService, IOrderGroupFactory orderGroupFactory)
+            : base(localizationService, orderGroupFactory)
         {
-        }
-
-        public CashOnDeliveryPaymentMethod(LocalizationService localizationService, IOrderFactory orderFactory)
-            : base(localizationService)
-        {
-            _orderFactory = orderFactory;
         }
 
         public override bool ValidateData()
@@ -30,9 +22,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return true;
         }
         
-        public override IPayment CreatePayment(decimal amount)
+        public override IPayment CreatePayment(decimal amount, IOrderGroup orderGroup)
         {
-            var payment = _orderFactory.CreatePayment();
+            var payment = orderGroup.CreatePayment(_orderGroupFactory);
+            payment.PaymentType = PaymentType.Other;
             payment.PaymentMethodId = PaymentMethodId;
             payment.PaymentMethodName = "CashOnDelivery";
             payment.Amount = amount;

@@ -24,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
         void MapToAddress(AddressModel addressModel, IOrderAddress orderAddress);
         void MapToAddress(AddressModel addressModel, CustomerAddress customerAddress);
         void MapToModel(CustomerAddress customerAddress, AddressModel addressModel);
-        IOrderAddress ConvertToAddress(AddressModel addressModel);
+        IOrderAddress ConvertToAddress(AddressModel addressModel, IOrderGroup orderGroup);
         AddressModel ConvertToModel(IOrderAddress orderAddress);
         IList<AddressModel> MergeAnonymousShippingAddresses(IList<AddressModel> addresses, IEnumerable<CartItemViewModel> cartItems);
         bool UseBillingAddressForShipment();

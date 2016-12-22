@@ -1,8 +1,7 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -17,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using Xunit;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
@@ -469,6 +469,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
         private Currency _currentCurrency;
         private Facet _facet;
         private Mock<SearchFacade> _searchFacadeMock;
+        private Mock<LanguageResolver> _languageResolverMock;
 
 
         public SearchServiceTests()
@@ -493,6 +494,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
             _searchFacadeMock.Setup(x => x.GetOutlinesForNode(It.IsAny<string>())).Returns(new StringCollection());
             _searchFacadeMock.Setup(x => x.GetSearchProvider()).Returns(SearchFacade.SearchProviderType.Lucene);
 
+            _languageResolverMock = new Mock<LanguageResolver>();
+            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
+
             _localizationService = new MemoryLocalizationService();
             _localizationService.AddString(CultureInfo.GetCultureInfo("en"), "/Facet/Category", "Category");
 
@@ -508,7 +512,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 _currencyServiceMock.Object,
                 urlResolverMock.Object,
                 _searchFacadeMock.Object,
-                () => CultureInfo.GetCultureInfo("en"),
+               _languageResolverMock.Object,
                 _contentLoaderMock.Object,
                 _localizationService);
         }

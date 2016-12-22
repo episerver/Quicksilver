@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
     {
         private readonly IProductService _productService;
         private readonly IPricingService _pricingService;
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
         private readonly CustomerContextFacade _customerContext;
         private readonly IPlacedPriceProcessor _placedPriceProcessor;
         private readonly IInventoryProcessor _inventoryProcessor;
@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         public CartService(
             IProductService productService,
             IPricingService pricingService,
-            IOrderFactory orderFactory,
+            IOrderGroupFactory orderGroupFactory,
             CustomerContextFacade customerContext,
             IPlacedPriceProcessor placedPriceProcessor,
             IInventoryProcessor inventoryProcessor,
@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         {
             _productService = productService;
             _pricingService = pricingService;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
             _customerContext = customerContext;
             _placedPriceProcessor = placedPriceProcessor;
             _inventoryProcessor = inventoryProcessor;
@@ -112,13 +112,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             foreach (var address in addresses)
             {
-                IShipment shipment = _orderFactory.CreateShipment();
+                var shipment = cart.CreateShipment(_orderGroupFactory);
                 form.Shipments.Add(shipment);
-                shipment.ShippingAddress = _addressBookService.ConvertToAddress(address);
+                shipment.ShippingAddress = _addressBookService.ConvertToAddress(address, cart);
 
                 foreach (var item in items.Where(x => x.AddressId == address.AddressId))
                 {
-                    var lineItem = _orderFactory.CreateLineItem(item.Code);
+                    var lineItem = cart.CreateLineItem(item.Code, _orderGroupFactory);
                     lineItem.IsGift = item.IsGift;
                     lineItem.Quantity = item.Quantity;
                     shipment.LineItems.Add(lineItem);
@@ -166,9 +166,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             if (lineItem == null)
             {
-                lineItem = _orderFactory.CreateLineItem(code);
+                lineItem = cart.CreateLineItem(code, _orderGroupFactory);
                 lineItem.Quantity = 1;
-                cart.AddLineItem(lineItem, _orderFactory);
+                cart.AddLineItem(lineItem, _orderGroupFactory);
             }
             else
             {
@@ -323,9 +323,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
             else
             {
-                newLineItem = _orderFactory.CreateLineItem(newCode);
+                newLineItem = cart.CreateLineItem(newCode, _orderGroupFactory);
                 newLineItem.Quantity = quantity;
-                cart.AddLineItem(newLineItem, _orderFactory);
+                cart.AddLineItem(newLineItem, _orderGroupFactory);
 
                 var price = _pricingService.GetCurrentPrice(newCode);
                 if (price.HasValue)

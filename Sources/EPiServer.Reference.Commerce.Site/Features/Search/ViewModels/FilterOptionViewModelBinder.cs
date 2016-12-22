@@ -1,15 +1,13 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce.Website.Search;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,15 +17,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
     {
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
-        private readonly CultureInfo _preferredCulture;
+        private readonly LanguageResolver _languageResolver;
 
         public FilterOptionViewModelBinder(IContentLoader contentLoader, 
             LocalizationService localizationService,
-            PreferredCultureAccessor preferredCulture)
+            LanguageResolver languageResolver)
         {
             _contentLoader = contentLoader;
             _localizationService = localizationService;
-            _preferredCulture = preferredCulture();
+            _languageResolver = languageResolver;
         }
 
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
@@ -170,7 +168,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
                 field = BaseCatalogIndexBuilder.FieldConstants.Node,
                 Descriptions = new Descriptions
                 {
-                    defaultLocale = _preferredCulture.Name
+                    defaultLocale = _languageResolver.GetPreferredCulture().Name
                 },
                 Values = new SearchFilterValues()
             };
@@ -185,6 +183,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
             var nodes = _contentLoader.GetChildren<NodeContent>(nodeContent.ContentLink).ToList();
             var nodeValues = new SimpleValue[nodes.Count];
             var index = 0;
+            var preferredCultureName = _languageResolver.GetPreferredCulture().Name;
             foreach (var node in nodes)
             {
                 var val = new SimpleValue
@@ -193,12 +192,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
                     value = node.Code,
                     Descriptions = new Descriptions
                     {
-                        defaultLocale = _preferredCulture.Name
+                        defaultLocale = preferredCultureName
                     }
                 };
                 var desc2 = new Description
                 {
-                    locale = _preferredCulture.Name,
+                    locale = preferredCultureName,
                     Value = node.DisplayName
                 };
                 val.Descriptions.Description = new[] { desc2 };
