@@ -1,13 +1,9 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Catalog;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
@@ -46,8 +42,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
             {
                 // Assume there is only one form per purchase.
                 var form = purchaseOrder.GetFirstForm();
-                var billingAddress = form.Payments.First().BillingAddress;
-
+				var billingAddress = new AddressModel();
+                var payment = form.Payments.FirstOrDefault();
+				if (payment != null)
+				{
+					billingAddress = _addressBookService.ConvertToModel(payment.BillingAddress);
+				}
                 var orderViewModel = new OrderViewModel
                 {
                     PurchaseOrder = purchaseOrder,
@@ -55,7 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
                     {
                         LineItem = lineItem,
                     }).GroupBy(x => x.LineItem.Code).Select(group => group.First()),
-                    BillingAddress = _addressBookService.ConvertToModel(billingAddress),
+                    BillingAddress = billingAddress,
                     ShippingAddresses = new List<AddressModel>()
                 };
 

@@ -1,5 +1,4 @@
-﻿using EPiServer.Commerce.Order;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;

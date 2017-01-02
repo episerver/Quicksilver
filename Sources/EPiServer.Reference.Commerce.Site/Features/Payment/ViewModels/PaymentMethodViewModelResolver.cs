@@ -1,7 +1,6 @@
 ﻿using System;
-using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
-using EPiServer.ServiceLocation;
+
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 {

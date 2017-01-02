@@ -1,8 +1,5 @@
 ﻿using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using Mediachase.Commerce.Orders.Dto;
-using System;
 using System.Collections.Generic;
-using EPiServer.Web;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 

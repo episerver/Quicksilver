@@ -125,7 +125,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AppliedCouponCodes = new List<string>(),
                 StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
                 AvailableAddresses = new List<AddressModel>(),
-                PaymentMethodViewModels = Enumerable.Empty<PaymentMethodViewModel<Payment.PaymentMethods.PaymentMethodBase>>(),
+                PaymentMethodViewModels = Enumerable.Empty<PaymentMethodViewModel<PaymentMethodBase>>(),
                 UseBillingAddressForShipment = true
             };
         }

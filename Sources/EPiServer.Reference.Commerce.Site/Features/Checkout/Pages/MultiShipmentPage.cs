@@ -1,5 +1,4 @@
 ﻿using EPiServer.Core;
-using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Pages

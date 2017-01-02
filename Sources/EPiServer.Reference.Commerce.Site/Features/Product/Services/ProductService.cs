@@ -15,7 +15,6 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
-using Mediachase.Commerce.Inventory;
 using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Services

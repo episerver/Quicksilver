@@ -115,7 +115,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             var userManager = new Mock<ApplicationUserManager>(userStore.Object);
             var signInManager = new Mock<ApplicationSignInManager>(userManager.Object, authenticationManager.Object);
-            _subject = new BackendLoginController(localizationService, signInManager.Object, new FakeUrlAuthorization());
+            _subject = new BackendLoginController(localizationService, signInManager.Object);
 
             var request = new Mock<HttpRequestBase>();
             request.Setup(x => x.Url).Returns(new Uri("http://test.com"));
