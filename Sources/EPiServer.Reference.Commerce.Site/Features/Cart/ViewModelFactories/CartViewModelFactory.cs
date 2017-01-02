@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
@@ -16,20 +14,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICurrencyService _currencyService;
-        readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
         readonly IOrderGroupCalculator _orderGroupCalculator;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
 
         public CartViewModelFactory(
             IContentLoader contentLoader, 
             ICurrencyService currencyService, 
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator, 
             IOrderGroupCalculator orderGroupCalculator, 
             ShipmentViewModelFactory shipmentViewModelFactory)
         {
             _contentLoader = contentLoader;
             _currencyService = currencyService;
-            _orderGroupTotalsCalculator = orderGroupTotalsCalculator;
             _orderGroupCalculator = orderGroupCalculator;
             _shipmentViewModelFactory = shipmentViewModelFactory;
         }

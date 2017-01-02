@@ -22,15 +22,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
     {
         private readonly LocalizationService _localizationService;
         private readonly ApplicationSignInManager _signInManager;
-        private readonly UrlAuthorizationFacade _urlAuthorization;
+        
 
         public BackendLoginController(LocalizationService localizationService,
-            ApplicationSignInManager signInManager,
-            UrlAuthorizationFacade urlAuthorization)
+            ApplicationSignInManager signInManager)
         {
             _localizationService = localizationService;
             _signInManager = signInManager;
-            _urlAuthorization = urlAuthorization;
+            
         }
 
         /// <summary>

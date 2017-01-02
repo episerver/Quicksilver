@@ -70,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         {
             string warningMessage = null;
             _cartServiceMock = new Mock<ICartService>();
-            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null, null);
+            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", out warningMessage)).Returns(true).Verifiable();
             _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object);

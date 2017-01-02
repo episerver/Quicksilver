@@ -177,8 +177,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 new Money(100, Currency.USD),
                 new Dictionary<IOrderForm, OrderFormTotals>());
 
-            var orderGroupTotalsCalculatorMock = new Mock<IOrderGroupTotalsCalculator>();
-            orderGroupTotalsCalculatorMock.Setup(x => x.GetTotals(It.IsAny<ICart>())).Returns(_totals);
+           
 
             _orderDiscountTotal = new Money(5, Currency.USD);
             var orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();
@@ -190,7 +189,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             _subject = new CartViewModelFactory(
                 contentLoaderMock.Object,
                 currencyServiceMock.Object,
-                orderGroupTotalsCalculatorMock.Object,
                 orderGroupCalculatorMock.Object,
                 shipmentViewModelFactoryMock.Object);
         }
