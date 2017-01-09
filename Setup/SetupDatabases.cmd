@@ -1,10 +1,10 @@
 :: Setup EPiServer CMS and Commerce databases
 @echo off
 
-set cms_db=Quicksilver.Cms
-set commerce_db=Quicksilver.Commerce
-set user=Quicksilver
-set password=Episerver15
+set cms_db=ForkQuicksilver.Cms
+set commerce_db=ForkQuicksilver.Commerce
+set user=ForkQuicksilver
+set password=ForkEpiserver15
 
 :: Determine package folders
 for /F " tokens=*" %%i in ('dir "..\Packages\EPiServer.CMS.Core*" /b /o:d') do (set cms_core=%%i) 
