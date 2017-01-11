@@ -411,9 +411,11 @@
     <Compile Include="Features\Folder\Editorial\Controllers\MapBlockController.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
+    <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
     <Compile Include="Features\Payment\Services\PaymentService.cs" />
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
+    <Compile Include="Features\Payment\ViewModels\AuthorizeViewModel.cs" />
     <Compile Include="Features\Profile\Controllers\ContactPageController.cs" />
     <Compile Include="Features\Profile\Pages\ContactPage.cs" />
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
@@ -779,6 +781,8 @@
     <Content Include="Styles\bootswatch.less" />
     <Content Include="Views\ContactPage\Index.cshtml" />
     <Content Include="Views\MapBlock\Index.cshtml" />
+    <Content Include="Views\Checkout\_AuthorizePaymentMethod.cshtml" />
+    <Content Include="Views\OrderConfirmation\_AuthorizeConfirmation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
