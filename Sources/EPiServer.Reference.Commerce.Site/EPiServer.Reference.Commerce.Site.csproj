@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -344,6 +344,7 @@
     <Content Include="Scripts\js\Cart.js" />
     <Content Include="Scripts\js\Checkout.js" />
     <Content Include="Scripts\js\Login.js" />
+    <Content Include="Scripts\js\maps.min.js" />
     <Content Include="Scripts\js\Market.js" />
     <Content Include="Scripts\js\Misc.js" />
     <Content Include="Scripts\js\Navigation.js" />
@@ -406,11 +407,17 @@
     <Compile Include="Features\Checkout\Models\ShippingMethodInfoModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
+    <Compile Include="Features\Folder\Editorial\Blocks\MapBlock.cs" />
+    <Compile Include="Features\Folder\Editorial\Controllers\MapBlockController.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
+    <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
     <Compile Include="Features\Payment\Services\PaymentService.cs" />
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
+    <Compile Include="Features\Payment\ViewModels\AuthorizeViewModel.cs" />
+    <Compile Include="Features\Profile\Controllers\ContactPageController.cs" />
+    <Compile Include="Features\Profile\Pages\ContactPage.cs" />
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryRegionViewModel.cs" />
@@ -771,6 +778,11 @@
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="App_Data\GeoLiteCity.dat" />
+    <Content Include="Styles\bootswatch.less" />
+    <Content Include="Views\ContactPage\Index.cshtml" />
+    <Content Include="Views\MapBlock\Index.cshtml" />
+    <Content Include="Views\Checkout\_AuthorizePaymentMethod.cshtml" />
+    <Content Include="Views\OrderConfirmation\_AuthorizeConfirmation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -900,6 +912,10 @@
     <Content Include="Views\Shared\_Facet.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj">
+      <Project>{4598e546-7d4e-44b5-8d77-ff69cb6d8e30}</Project>
+      <Name>EPiServer.Reference.Customization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
@@ -958,9 +974,9 @@
     <Exec WorkingDirectory="$(ProjectDir)" Command="&#xD;&#xA;          WHERE npm&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 ECHO nodejs is not installed. You need to install nodejs for changes in less files to appear in the css on the site. The old styles will still work.&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 GOTO :EOF&#xD;&#xA;          npm install &amp;&amp; npm run buildless" />
   </Target>
   <ItemGroup>
-    <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip"/>
-    <Content Include="modules\_protected\Commerce\Commerce.zip"/>
-    <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip"/>
+    <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
+    <Content Include="modules\_protected\Commerce\Commerce.zip" />
+    <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EPiServer.Business.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">

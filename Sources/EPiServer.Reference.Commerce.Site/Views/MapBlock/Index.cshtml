@@ -1,0 +1,10 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Folder.Editorial.Blocks
+@model MapBlock
+<style>
+    .gmap {
+       height: 500px;
+       width: 100%;
+    }
+</style>
+<script src='https://maps.googleapis.com/maps/api/js?key=yourapikey&callback=gmapInit'></script>
+<div id="mapHolder" data-lat="@Html.DisplayFor(x => x.Latitude)" data-lng="@Html.DisplayFor(x => x.Longitude)" data-info="@Html.DisplayFor(x => x.Description)" class="gmap">Loading...</div>
