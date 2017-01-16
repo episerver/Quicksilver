@@ -130,6 +130,14 @@
       <HintPath>..\..\packages\EPiServer.Packaging.UI.3.3.0\lib\net45\EPiServer.Packaging.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPiServer.ServiceApi, Version=2.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.ServiceApi.2.1.0\lib\net451\EPiServer.ServiceApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.ServiceApi.Commerce, Version=2.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.ServiceApi.Commerce.2.1.0\lib\net451\EPiServer.ServiceApi.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EPiServer.Shell, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.UI.Core.10.2.0\lib\net45\EPiServer.Shell.dll</HintPath>
       <Private>True</Private>
@@ -261,6 +269,10 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.3.0.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -912,9 +924,9 @@
     <Content Include="Views\Shared\_Facet.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj">
-      <Project>{4598e546-7d4e-44b5-8d77-ff69cb6d8e30}</Project>
-      <Name>EPiServer.Reference.Customization</Name>
+    <ProjectReference Include="..\..\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj">
+      <Project>{64a74d7f-4058-4f28-abd5-3486c2469ae2}</Project>
+      <Name>EPiServer.Reference.Commerce.ServiceApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
