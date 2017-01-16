@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Shared", "Sources\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj", "{341C8E14-4EAE-4946-9841-45F9818265A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.ServiceApi", "EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj", "{64A74D7F-4058-4F28-ABD5-3486C2469AE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.ServiceApi", "Sources\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj", "{64A74D7F-4058-4F28-ABD5-3486C2469AE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
