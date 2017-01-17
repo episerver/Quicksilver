@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
@@ -331,6 +331,10 @@
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Site\EPiServer.Reference.Commerce.Site.csproj">
       <Project>{9ac1dc21-c56d-49eb-a264-9441d8602f1a}</Project>
       <Name>EPiServer.Reference.Commerce.Site</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj">
+      <Project>{4598e546-7d4e-44b5-8d77-ff69cb6d8e30}</Project>
+      <Name>EPiServer.Reference.Customization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
