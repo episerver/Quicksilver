@@ -924,13 +924,17 @@
     <Content Include="Views\Shared\_Facet.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj">
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj">
       <Project>{64a74d7f-4058-4f28-abd5-3486c2469ae2}</Project>
       <Name>EPiServer.Reference.Commerce.ServiceApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj">
+      <Project>{4598e546-7d4e-44b5-8d77-ff69cb6d8e30}</Project>
+      <Name>EPiServer.Reference.Customization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

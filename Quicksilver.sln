@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.ServiceApi", "Sources\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj", "{64A74D7F-4058-4F28-ABD5-3486C2469AE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Customization", "Sources\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj", "{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediachase.Commerce.Workflow.Customization", "Sources\Mediachase.Commerce.Workflow\Mediachase.Commerce.Workflow.Customization.csproj", "{413287F6-D606-4F42-BA25-4377A2C581F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
