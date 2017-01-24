@@ -2,7 +2,7 @@
 using Mediachase.Commerce.Inventory;
 using System.Collections.Generic;
 
-namespace Mediachase.Commerce.Workflow.Customization.PurchaseOrderActivities
+namespace Mediachase.Commerce.Workflow.PurchaseOrderActivities
 {
     public abstract class HandoffActivityBase : OrderGroupActivityBase
     {

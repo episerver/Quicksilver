@@ -3,7 +3,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System.Linq;
 using EPiServer.Commerce.Order;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     /// <summary>
     /// Activity for removing discounts.

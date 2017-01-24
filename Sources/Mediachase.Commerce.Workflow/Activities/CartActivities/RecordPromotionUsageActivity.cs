@@ -7,7 +7,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Collections.Generic;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     /// <summary>
     /// This activity records the usage of the promotions so this information can be used to inforce various customer and application based limits.

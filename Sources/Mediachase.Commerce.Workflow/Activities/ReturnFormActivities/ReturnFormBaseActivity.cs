@@ -3,7 +3,7 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.WorkflowCompatibility;
 
-namespace Mediachase.Commerce.Workflow.Customization.ReturnForm
+namespace Mediachase.Commerce.Workflow.ReturnForm
 {
     public abstract class ReturnFormBaseActivity: Activity
     {

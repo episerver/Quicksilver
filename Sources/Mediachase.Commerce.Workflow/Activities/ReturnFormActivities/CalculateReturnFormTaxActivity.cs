@@ -1,6 +1,6 @@
 ﻿using Mediachase.Commerce.WorkflowCompatibility;
 
-namespace Mediachase.Commerce.Workflow.Customization.ReturnForm
+namespace Mediachase.Commerce.Workflow.ReturnForm
 {
     public class CalculateReturnFormTaxActivity : ReturnFormBaseActivity
     {

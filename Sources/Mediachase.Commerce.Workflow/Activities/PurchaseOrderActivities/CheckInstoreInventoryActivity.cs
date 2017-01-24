@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.PurchaseOrderActivities
+namespace Mediachase.Commerce.Workflow.PurchaseOrderActivities
 {
     public class CheckInstoreInventoryActivity : HandoffActivityBase
     {

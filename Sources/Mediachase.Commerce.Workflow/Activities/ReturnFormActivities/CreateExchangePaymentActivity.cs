@@ -1,11 +1,11 @@
 ﻿using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Workflow.Activities.ReturnForm;
+using Mediachase.Commerce.Workflow.ReturnForm;
 using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 
-namespace Mediachase.Commerce.Workflow.Customization.ReturnFormActivities
+namespace Mediachase.Commerce.Workflow.ReturnFormActivities
 {
     public class CreateExchangePaymentActivity : ReturnFormBaseActivity
     {

@@ -1,12 +1,12 @@
 ﻿using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Managers;
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Workflow.Activities.PurchaseOrderActivities;
+using Mediachase.Commerce.Workflow.PurchaseOrderActivities;
 using Mediachase.Commerce.WorkflowCompatibility;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     public class GetFulfillmentWarehouseActivity : HandoffActivityBase
     {

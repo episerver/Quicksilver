@@ -1,6 +1,6 @@
 ﻿using Mediachase.Commerce.Engine;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Workflow.Activities.Cart;
+using Mediachase.Commerce.Workflow.Cart;
 
 namespace Mediachase.Commerce.Workflow
 {

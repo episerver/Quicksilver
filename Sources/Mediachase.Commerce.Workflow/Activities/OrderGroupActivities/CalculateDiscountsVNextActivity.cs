@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     /// <summary>
     /// Calculate discounts using the new promotion engine

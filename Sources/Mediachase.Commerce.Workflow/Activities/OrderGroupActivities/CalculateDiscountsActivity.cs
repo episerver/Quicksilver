@@ -22,7 +22,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     /// <summary>
     /// This is an activity that calculates and applies discounts to a particular order group.

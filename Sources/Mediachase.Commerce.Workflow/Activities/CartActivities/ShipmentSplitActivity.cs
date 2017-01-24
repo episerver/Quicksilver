@@ -3,7 +3,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     /// <summary>
     /// This activity will look into LineItems defined and will split items based on the address and shipping method id specified 

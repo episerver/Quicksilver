@@ -2,7 +2,7 @@
 using Mediachase.Commerce.Orders.Managers;
 using System;
 
-namespace Mediachase.Commerce.Workflow.Customization.PurchaseOrderActivities
+namespace Mediachase.Commerce.Workflow.PurchaseOrderActivities
 {
     public abstract class PurchaseOrderBaseActivity : OrderGroupActivityBase
     {

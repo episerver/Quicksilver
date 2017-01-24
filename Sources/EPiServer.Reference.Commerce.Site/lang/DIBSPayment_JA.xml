@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="日本語 (Japanese)" id="ja">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>お支払いは拒否またはキャンセルされます。 もう一度やり直すか、別のお支払い方法を選択してください</Cancelled>
+          <DIBSSettingsError>DIBS API 設定のエラーです。 管理者に問い合わせてください。</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

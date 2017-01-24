@@ -18,7 +18,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     public abstract class OrderGroupActivityBase : Activity
     {

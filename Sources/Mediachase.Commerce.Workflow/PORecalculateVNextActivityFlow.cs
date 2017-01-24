@@ -1,9 +1,9 @@
 ﻿using Mediachase.Commerce.Engine;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Workflow.Activities;
-using Mediachase.Commerce.Workflow.Activities.Cart;
-using Mediachase.Commerce.Workflow.Activities.OrderGroupActivities;
-using Mediachase.Commerce.Workflow.Activities.PurchaseOrderActivities;
+using Mediachase.Commerce.Workflow;
+using Mediachase.Commerce.Workflow.Cart;
+using Mediachase.Commerce.Workflow.OrderGroupActivities;
+using Mediachase.Commerce.Workflow.PurchaseOrderActivities;
 
 namespace Mediachase.Commerce.Workflow
 {

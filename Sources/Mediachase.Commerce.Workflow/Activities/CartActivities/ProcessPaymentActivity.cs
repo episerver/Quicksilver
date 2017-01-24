@@ -8,7 +8,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Collections.Generic;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     /// <summary>
     /// This activity handles processing different types of payments. It will call the appropriate 

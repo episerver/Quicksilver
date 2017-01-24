@@ -3,7 +3,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.PurchaseOrderActivities
+namespace Mediachase.Commerce.Workflow.PurchaseOrderActivities
 {
     public class CalculatePurchaseOrderStatusActivity : PurchaseOrderBaseActivity
     {

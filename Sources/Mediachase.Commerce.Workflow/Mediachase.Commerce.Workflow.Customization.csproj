@@ -163,10 +163,6 @@
       <HintPath>..\..\packages\EPiServer.Commerce.Core.10.2.2\lib\net45\Mediachase.Commerce.Website.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Workflow, Version=10.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.10.2.2\lib\net45\Mediachase.Commerce.Workflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Mediachase.DataProvider, Version=10.2.2.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Commerce.Core.10.2.2\lib\net45\Mediachase.DataProvider.dll</HintPath>
       <Private>True</Private>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="norsk" id="no">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>Din betaling er avvist eller avbrutt. Prøv igjen, eller velg en annen betalingsmåte.</Cancelled>
+          <DIBSSettingsError>Feil i DIBS API-innstillinger. Kontakt administrator.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

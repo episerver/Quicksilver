@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     public class AdjustInventoryActivity : CartActivityBase
     {

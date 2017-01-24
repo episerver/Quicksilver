@@ -4,7 +4,7 @@ using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.WorkflowCompatibility;
 using System.Collections.Generic;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     public class RemoveDiscountsActivity : OrderGroupActivityBase
     {

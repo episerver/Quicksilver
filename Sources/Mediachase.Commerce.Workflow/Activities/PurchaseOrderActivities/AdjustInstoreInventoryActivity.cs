@@ -3,7 +3,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.PurchaseOrderActivities
+namespace Mediachase.Commerce.Workflow.PurchaseOrderActivities
 {
     [Obsolete("The AdjustInventoryActivity handled in store inventory adjustment now. Use the AdjustInventoryActivity instead. This activity will be removed in version 10.")]
     public partial class AdjustInstoreInventoryActivity : HandoffActivityBase

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="中文 (Chinese)" id="zh-CN">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>您的付款被拒绝或取消。 请重试或选择其他支付方式</Cancelled>
+          <DIBSSettingsError>DIBS API 设置出错。 请与管理员联系。</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

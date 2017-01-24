@@ -1,7 +1,7 @@
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.WorkflowCompatibility;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     public class CalculateTaxActivity : OrderGroupActivityBase
     {

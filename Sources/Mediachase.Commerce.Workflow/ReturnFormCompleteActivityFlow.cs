@@ -1,6 +1,6 @@
 ﻿using Mediachase.Commerce.Engine;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Workflow.Activities.ReturnFormActivities;
+using Mediachase.Commerce.Workflow.ReturnFormActivities;
 
 namespace Mediachase.Commerce.Workflow
 {

@@ -5,7 +5,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using Mediachase.MetaDataPlus;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     public class CalculateTotalsActivity : OrderGroupActivityBase
     {

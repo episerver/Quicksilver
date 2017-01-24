@@ -1,6 +1,6 @@
 using Mediachase.Commerce.WorkflowCompatibility;
 
-namespace Mediachase.Commerce.Workflow.Customization.Cart
+namespace Mediachase.Commerce.Workflow.Cart
 {
     public class ProcessHandlingActivity : CartActivityBase
     {

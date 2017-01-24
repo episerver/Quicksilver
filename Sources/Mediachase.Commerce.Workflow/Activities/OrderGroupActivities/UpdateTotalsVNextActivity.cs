@@ -7,7 +7,7 @@ using Mediachase.MetaDataPlus;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization.OrderGroupActivities
+namespace Mediachase.Commerce.Workflow.OrderGroupActivities
 {
     public class UpdateTotalsVNextActivity : OrderGroupActivityBase
     {

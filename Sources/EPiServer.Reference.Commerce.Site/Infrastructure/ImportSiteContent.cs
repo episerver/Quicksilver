@@ -143,6 +143,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
                     "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
                     false, 3, allMarkets, language, paymentMethodDto);
+
+                AddPaymentMethod(Guid.NewGuid(),
+                    "DIBS",
+                    "DIBS",
+                    "DIBS payment.",
+                    "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
+                    "EPiServer.Business.Commerce.Payment.DIBS.DIBSPaymentGateway, EPiServer.Business.Commerce.Payment.DIBS",
+                    false, 4, allMarkets, language, paymentMethodDto);
             }
         }
 

@@ -347,6 +347,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\Payment\DIBSPayment.aspx" />
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
     <Content Include="Scripts\jquery-1.11.1.js" />
@@ -424,10 +425,12 @@
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
     <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
+    <Compile Include="Features\Payment\PaymentMethods\DIBSPaymentMethod.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
     <Compile Include="Features\Payment\Services\PaymentService.cs" />
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
     <Compile Include="Features\Payment\ViewModels\AuthorizeViewModel.cs" />
+    <Compile Include="Features\Payment\ViewModels\DIBSViewModel.cs" />
     <Compile Include="Features\Profile\Controllers\ContactPageController.cs" />
     <Compile Include="Features\Profile\Pages\ContactPage.cs" />
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />

@@ -1,7 +1,7 @@
 ﻿using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Engine;
 using Mediachase.Commerce.Orders.Managers;
-using Mediachase.Commerce.Workflow.Activities.PurchaseOrderActivities;
+using Mediachase.Commerce.Workflow.PurchaseOrderActivities;
 using Mediachase.Commerce.WorkflowCompatibility;
 using System.Collections.Specialized;
 

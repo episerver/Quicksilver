@@ -9,7 +9,7 @@ using Mediachase.Commerce.WorkflowCompatibility;
 using System;
 using System.Linq;
 
-namespace Mediachase.Commerce.Workflow.Customization
+namespace Mediachase.Commerce.Workflow
 {
     /// <summary>
     /// This activity is responsible for calculating the shipping prices for shipments defined for order group.
