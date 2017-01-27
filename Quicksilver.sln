@@ -16,6 +16,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Customization", "Sources\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj", "{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediachase.Commerce.Workflow.Customization", "Sources\Mediachase.Commerce.Workflow\Mediachase.Commerce.Workflow.Customization.csproj", "{413287F6-D606-4F42-BA25-4377A2C581F9}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
