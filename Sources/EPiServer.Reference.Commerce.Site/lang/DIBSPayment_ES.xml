@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="español" id="es">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>Su pago ha sido rechazado o cancelado. Por favor, inténtelo de nuevo o elija otra forma de pago</Cancelled>
+          <DIBSSettingsError>Error en la configuración de la API de DIBS. Póngase en contacto con el administrador.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -8,14 +8,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 {
     public class AuthorizeViewModel : PaymentMethodViewModel<AuthorizePaymentMethod>
     {
-        public IList<SelectListItem> Months { get; set; }
-
-        public IList<SelectListItem> Years { get; set; }
-
         public AuthorizeViewModel()
         {
             InitializeValues();
         }
+
+        public List<SelectListItem> Months { get; set; }
+
+        public List<SelectListItem> Years { get; set; }
 
         public void InitializeValues()
         {
