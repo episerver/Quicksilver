@@ -6,40 +6,40 @@ using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 {
-public class AuthorizeViewModel : PaymentMethodViewModel<AuthorizePaymentMethod>
-{
-    public AuthorizeViewModel()
+    public class AuthorizeViewModel : PaymentMethodViewModel<AuthorizePaymentMethod>
     {
-        InitializeValues();
-    }
-
-    public List<SelectListItem> Months { get; set; }
-
-    public List<SelectListItem> Years { get; set; }
-
-    public void InitializeValues()
-    {
-        Months = new List<SelectListItem>();
-        Years = new List<SelectListItem>();
-
-        for (var i = 1; i < 13; i++)
+        public AuthorizeViewModel()
         {
-            Months.Add(new SelectListItem
-            {
-                Text = i.ToString(CultureInfo.InvariantCulture),
-                Value = i.ToString(CultureInfo.InvariantCulture)
-            });
+            InitializeValues();
         }
 
-        for (var i = 0; i < 7; i++)
+        public List<SelectListItem> Months { get; set; }
+
+        public List<SelectListItem> Years { get; set; }
+
+        public void InitializeValues()
         {
-            var year = (DateTime.Now.Year + i).ToString(CultureInfo.InvariantCulture);
-            Years.Add(new SelectListItem
+            Months = new List<SelectListItem>();
+            Years = new List<SelectListItem>();
+
+            for (var i = 1; i < 13; i++)
             {
-                Text = year,
-                Value = year
-            });
+                Months.Add(new SelectListItem
+                {
+                    Text = i.ToString(CultureInfo.InvariantCulture),
+                    Value = i.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+
+            for (var i = 0; i < 7; i++)
+            {
+                var year = (DateTime.Now.Year + i).ToString(CultureInfo.InvariantCulture);
+                Years.Add(new SelectListItem
+                {
+                    Text = year,
+                    Value = year
+                });
+            }
         }
     }
-}
 }

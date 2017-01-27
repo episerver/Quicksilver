@@ -75,7 +75,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             payment.ExpirationYear = ExpirationYear;
             payment.Status = PaymentStatus.Pending.ToString();
             payment.CustomerName = CreditCardName;
-            payment.TransactionType = TransactionType.Authorization.ToString();
             return payment;
         }
 

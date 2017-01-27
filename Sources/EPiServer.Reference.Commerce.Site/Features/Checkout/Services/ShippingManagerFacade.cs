@@ -29,10 +29,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         public virtual ShippingRate GetRate(IShipment shipment, ShippingMethodInfoModel shippingMethodInfoModel, IMarket currentMarket)
         {
             var type = Type.GetType(shippingMethodInfoModel.ClassName);
-            var shippingGateway = (IShippingPlugin)Activator.CreateInstance(type, currentMarket);
-            string message = null;
-            return shippingGateway.GetRate(shippingMethodInfoModel.MethodId, shipment, ref message);
-        }
+            if (type == null)
+            {
+                throw new TypeInitializationException(shippingMethodInfoModel.ClassName, null);
+            }
 
+            string message = null;
+
+            var shippingInstance = Activator.CreateInstance(type, currentMarket);
+            var shippingPlugin = shippingInstance as IShippingPlugin;
+            if (shippingPlugin != null)
+            {
+                return shippingPlugin.GetRate(shippingMethodInfoModel.MethodId, shipment, ref message);
+            }
+            return ((IShippingGateway)shippingInstance).GetRate(shippingMethodInfoModel.MethodId, (Shipment)shipment, ref message);
+        }
     }
 }
