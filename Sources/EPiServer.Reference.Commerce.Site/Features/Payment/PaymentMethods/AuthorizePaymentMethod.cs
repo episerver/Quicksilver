@@ -1,11 +1,11 @@
-﻿using System;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Framework.Localization;
-using EPiServer.ServiceLocation;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
-using System.Text.RegularExpressions;
+using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
@@ -13,11 +13,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
     {
         static readonly string[] ValidatedProperties =
         {
-        "CreditCardNumber",
-        "CreditCardSecurityCode",
-        "ExpirationYear",
-        "ExpirationMonth",
-    };
+            "CreditCardNumber",
+            "CreditCardSecurityCode",
+            "ExpirationYear",
+            "ExpirationMonth",
+        };
 
         public AuthorizePaymentMethod()
         : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
@@ -75,7 +75,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             payment.ExpirationYear = ExpirationYear;
             payment.Status = PaymentStatus.Pending.ToString();
             payment.CustomerName = CreditCardName;
-            payment.TransactionType = TransactionType.Authorization.ToString();
             return payment;
         }
 
