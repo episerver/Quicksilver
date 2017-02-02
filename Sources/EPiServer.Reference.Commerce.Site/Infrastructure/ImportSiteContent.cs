@@ -100,8 +100,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         }
 
         /// <summary>
-        /// This method deletes all enabled payment methods and creates a new credit card payment method and a cash on delivery payment method for every language
-        /// and associates it with all available markets.
+        /// This method deletes all enabled payment methods and creates a new credit card payment method, 
+        /// a cash on delivery payment method and a authorize - Pay by credit card payment method for 
+        /// every language and associates it with all available markets.
         /// </summary>
         /// <remarks>
         /// This will ensure we have at least two different working payment methods available.
@@ -121,12 +122,20 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 PaymentManager.SavePayment(paymentMethodDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
+                    "Pay By Credit Card",
+                    "Authorize",
+                    "Authorize - Pay By Credit Card.",
+                    "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
+                    "Mediachase.Commerce.Plugins.Payment.Authorize.AuthorizePaymentGateway, Mediachase.Commerce.Plugins.Payment",
+                    true, 1, allMarkets, language, paymentMethodDto);
+
+                AddPaymentMethod(Guid.NewGuid(),
                     "Credit card",
                     "GenericCreditCard",
                     "Credit card payment",
                     "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
                     "EPiServer.Reference.Commerce.Shared.GenericCreditCardPaymentGateway, EPiServer.Reference.Commerce.Shared",
-                    true, 1, allMarkets, language, paymentMethodDto);
+                    false, 2, allMarkets, language, paymentMethodDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
                     "Cash on delivery",
@@ -134,7 +143,24 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "The payment is settled as part of the order delivery.",
                     "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
                     "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
-                    false, 2, allMarkets, language, paymentMethodDto);
+                    false, 3, allMarkets, language, paymentMethodDto);
+
+                AddPaymentMethod(Guid.NewGuid(),
+                    "Pay By Credit Card",
+                    "Authorize",
+                    "Authorize - Pay By Credit Card.",
+                    "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
+                    "Mediachase.Commerce.Plugins.Payment.Authorize.AuthorizePaymentGateway, Mediachase.Commerce.Plugins.Payment",
+                    false, 3, allMarkets, language, paymentMethodDto);
+                    
+               AddPaymentMethod(Guid.NewGuid(),
+                    "DIBS",
+                    "DIBS",
+                    "DIBS payment.",
+                    "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
+                    "EPiServer.Business.Commerce.Payment.DIBS.DIBSPaymentGateway, EPiServer.Business.Commerce.Payment.DIBS",
+                    false, 4, allMarkets, language, paymentMethodDto);
+            
             }
         }
 

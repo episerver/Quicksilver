@@ -1,0 +1,8 @@
+@model EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels.DIBSViewModel
+
+@Html.HiddenFor(model => model.PaymentMethod.PaymentMethodId)
+
+<div id='Paymentdibs'>
+    <img src="https://cdn.dibspayment.com/logo/checkout/combo/horiz/DIBS_checkout_kombo_horizontal_14.png" />
+    <span class="text-error"><asp:Literal runat="server" ID="ConfigMessage"></asp:Literal></span>
+</div>

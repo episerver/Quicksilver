@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="svenska" id="sv">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>Din betalning nekades eller avbröts. Försök igen eller ange annat betalningssätt.</Cancelled>
+          <DIBSSettingsError>Fel i DIBS API-inställningar. Kontakta administratören.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>
