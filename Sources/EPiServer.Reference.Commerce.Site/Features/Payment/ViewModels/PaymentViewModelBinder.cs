@@ -6,7 +6,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            string controllerName = controllerContext.HttpContext.Request.Form.Get("SystemName");
+            string controllerName = bindingContext.ValueProvider.GetValue("SystemName").AttemptedValue;
             bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, PaymentMethodViewModelResolver.Resolve(controllerName).GetType());
             object model = base.BindModel(controllerContext, bindingContext);
 
