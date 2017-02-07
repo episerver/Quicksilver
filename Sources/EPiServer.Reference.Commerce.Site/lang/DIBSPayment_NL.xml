@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Nederlands" id="nl">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>Uw betaling is geweigerd of geannuleerd. Probeer het opnieuw of kies een andere betalingsmethode</Cancelled>
+          <DIBSSettingsError>Fout in API-instellingen DIBS. Neem contact op met de beheerder.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

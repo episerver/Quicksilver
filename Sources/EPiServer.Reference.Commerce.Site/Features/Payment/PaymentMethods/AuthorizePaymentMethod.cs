@@ -1,11 +1,11 @@
-﻿using EPiServer.Commerce.Order;
+﻿using System;
+using EPiServer.Commerce.Order;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.ServiceLocation;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using Mediachase.Commerce.Orders;
-using System;
-using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
@@ -13,11 +13,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
     {
         static readonly string[] ValidatedProperties =
         {
-            "CreditCardNumber",
-            "CreditCardSecurityCode",
-            "ExpirationYear",
-            "ExpirationMonth",
-        };
+        "CreditCardNumber",
+        "CreditCardSecurityCode",
+        "ExpirationYear",
+        "ExpirationMonth",
+    };
 
         public AuthorizePaymentMethod()
         : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())

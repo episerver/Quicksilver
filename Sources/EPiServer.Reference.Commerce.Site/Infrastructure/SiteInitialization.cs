@@ -11,6 +11,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
+using EPiServer.Reference.Customization;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using Mediachase.Commerce;
@@ -87,6 +88,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 config.DependencyResolver = new StructureMapResolver(context.Container);
                 config.MapHttpAttributeRoutes();
             });
+
+            services.AddTransient<ILineItemValidator, CustomizedLineItemValidator>();
+            services.AddTransient<ITaxCalculator, CustomizedTaxCalculator>();
         }
 
         public void Uninitialize(InitializationEngine context) { }

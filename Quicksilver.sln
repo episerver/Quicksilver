@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site", "Sources\EPiServer.Reference.Commerce.Site\EPiServer.Reference.Commerce.Site.csproj", "{9AC1DC21-C56D-49EB-A264-9441D8602F1A}"
 EndProject
@@ -10,6 +10,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site.Tests", "Sources\EPiServer.Reference.Commerce.Site.Tests\EPiServer.Reference.Commerce.Site.Tests.csproj", "{A0E4E9A1-9518-4691-BAAB-EEA66C1C02F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Shared", "Sources\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj", "{341C8E14-4EAE-4946-9841-45F9818265A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.ServiceApi", "Sources\EPiServer.Reference.Commerce.ServiceApi\EPiServer.Reference.Commerce.ServiceApi.csproj", "{64A74D7F-4058-4F28-ABD5-3486C2469AE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Customization", "Sources\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj", "{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediachase.Commerce.Workflow.Customization", "Sources\Mediachase.Commerce.Workflow\Mediachase.Commerce.Workflow.Customization.csproj", "{413287F6-D606-4F42-BA25-4377A2C581F9}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +40,18 @@ Global
 		{341C8E14-4EAE-4946-9841-45F9818265A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{341C8E14-4EAE-4946-9841-45F9818265A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{341C8E14-4EAE-4946-9841-45F9818265A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A74D7F-4058-4F28-ABD5-3486C2469AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4598E546-7D4E-44B5-8D77-FF69CB6D8E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413287F6-D606-4F42-BA25-4377A2C581F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

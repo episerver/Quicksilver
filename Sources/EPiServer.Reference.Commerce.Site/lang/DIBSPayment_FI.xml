@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="suomi" id="fi">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <Cancelled>Maksusi hylättiin tai peruutettiin. Yritä uudelleen tai valitse toinen maksutapa.</Cancelled>
+          <DIBSSettingsError>Virhe DIBS:n API-asetuksissa. Ota yhteys järjestelmänvalvojaan.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>
