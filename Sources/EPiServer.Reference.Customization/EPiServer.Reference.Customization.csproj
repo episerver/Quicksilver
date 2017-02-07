@@ -241,6 +241,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomizedTaxCalculator.cs" />
     <Compile Include="CustomizedLineItemValidator.cs" />
     <Compile Include="Product\Models\FashionProduct.cs" />
     <Compile Include="Product\Models\SportsWearVariant.cs" />

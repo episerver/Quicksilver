@@ -113,9 +113,6 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.10.2.0\lib\net45\EPiServer.LinkAnalyzer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Logging.Log4Net">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="EPiServer.Web.WebControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.Core.10.2.0\lib\net45\EPiServer.Web.WebControls.dll</HintPath>
       <Private>True</Private>
@@ -330,6 +327,10 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EPiServer.Reference.Customization\EPiServer.Reference.Customization.csproj">
+      <Project>{4598e546-7d4e-44b5-8d77-ff69cb6d8e30}</Project>
+      <Name>EPiServer.Reference.Customization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

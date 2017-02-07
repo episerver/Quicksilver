@@ -90,6 +90,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             });
 
             services.AddTransient<ILineItemValidator, CustomizedLineItemValidator>();
+            services.AddTransient<ITaxCalculator, CustomizedTaxCalculator>();
         }
 
         public void Uninitialize(InitializationEngine context) { }

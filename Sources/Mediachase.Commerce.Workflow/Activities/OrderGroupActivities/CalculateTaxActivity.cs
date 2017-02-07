@@ -1,3 +1,6 @@
+using EPiServer.Commerce.Order;
+using EPiServer.ServiceLocation;
+using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.WorkflowCompatibility;
 
@@ -5,6 +8,9 @@ namespace Mediachase.Commerce.Workflow
 {
     public class CalculateTaxActivity : OrderGroupActivityBase
     {
+        private readonly Injected<ITaxCalculator> _taxCalculator;
+        private readonly Injected<IMarketService> _marketService;
+
         /// <summary>
         /// Called by the workflow runtime to execute an activity.
         /// </summary>
@@ -31,10 +37,16 @@ namespace Mediachase.Commerce.Workflow
         {
             // Get the property, since it is expensive process, make sure to get it once
             OrderGroup order = OrderGroup;
+            Currency currency = order.BillingCurrency;
+            var market = _marketService.Service.GetMarket(order.MarketId);
 
             foreach (OrderForm form in order.OrderForms)
             {
-                OrderFormHelper.CalculateTaxes(form, order.MarketId, order.BillingCurrency);
+                foreach (Shipment shipment in form.Shipments)
+                {
+                    shipment.ShippingTax = currency.Round(_taxCalculator.Service.GetShippingTaxTotal(shipment, market, currency).Amount);
+                }
+                form.TaxTotal = currency.Round(_taxCalculator.Service.GetTaxTotal(form, market, currency).Amount);
             }
         }
     }
