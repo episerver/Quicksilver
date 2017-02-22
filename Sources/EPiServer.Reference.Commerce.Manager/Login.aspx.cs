@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using Mediachase.Commerce.Core;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -22,16 +23,16 @@ namespace EPiServer.Reference.Commerce.Manager
     {
         private const string UserLoginFailureMessage = "Login failed. Please try again.";
 
-        private ApplicationSignInManager _signInManager;
+        private ApplicationSignInManager<SiteUser> _signInManager;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Header.DataBind();
 
-            _signInManager = Request.GetOwinContext().Get<ApplicationSignInManager>();
+            _signInManager = Request.GetOwinContext().Get<ApplicationSignInManager<SiteUser>>();
             LoginCtrl.Authenticate += LoginCtrl_Authenticate;
 
-            if (IsPostBack) 
+            if (IsPostBack)
             {
                 return;
             }
@@ -46,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Manager
             var remember = ((CheckBox)LoginCtrl.FindControl("RememberMe")).Checked;
 
             var validated = _signInManager.PasswordSignInAsync(userName, password, remember, false).Result == SignInStatus.Success;
-            if (validated) 
+            if (validated)
             {
                 HandleLoginSuccess(userName, remember);
             }
@@ -61,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Manager
             string url = FormsAuthentication.GetRedirectUrl(userName, remember);
             if (url.Equals(FormsAuthentication.DefaultUrl, StringComparison.OrdinalIgnoreCase) ||
                 url.Contains(".axd") ||
-                url.Contains("/Apps/Core/Controls/Uploader/")) 
+                url.Contains("/Apps/Core/Controls/Uploader/"))
             {
                 url = "~/Apps/Shell/Pages/default.aspx";
             }

@@ -1,5 +1,6 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Core;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web;
@@ -18,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
     [VisitorGroupImpersonation]
     public abstract class IdentityControllerBase<T> : ActionControllerBase, IRenderTemplate<T> where T : IContentData
     {
-        protected IdentityControllerBase(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService)
+        protected IdentityControllerBase(ApplicationSignInManager<SiteUser> applicationSignInManager, ApplicationUserManager<SiteUser> applicationUserManager, UserService userService)
         {
             SignInManager = applicationSignInManager;
             UserManager = applicationUserManager;
@@ -27,9 +28,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
 
         public UserService UserService { get; private set; }
 
-        public ApplicationSignInManager SignInManager { get; private set; }
+        public ApplicationSignInManager<SiteUser> SignInManager { get; private set; }
 
-        public ApplicationUserManager UserManager { get; private set; }
+        public ApplicationUserManager<SiteUser> UserManager { get; private set; }
 
         /// <summary>
         /// Redirects the request to the original URL.

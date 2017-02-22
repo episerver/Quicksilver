@@ -798,4 +798,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Order kan läggas från det här lagret för lagerpickup.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Varning! Om det här objektet uppdateras i Commerce Manager kommer alla tidigare och pågående innehållsversioner att skrivas över. Dessa innehållsversioner kan ha skapats i andra gränssnitt.</value>
+  </data>
 </root>

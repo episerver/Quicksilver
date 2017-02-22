@@ -1293,4 +1293,31 @@
   <data name="Warehouse_PickFulfillment_Already_Exist" xml:space="preserve">
     <value>Order already contains other pick-up warehouse.</value>
   </data>
+  <data name="LineItem_AdjustedQuantity" xml:space="preserve">
+    <value>The quantity of product {0} has changed.</value>
+  </data>
+  <data name="LineItem_CannotProcessDueToMissingOrderStatus" xml:space="preserve">
+    <value>Cannot process product {0} because of missing order status.</value>
+  </data>
+  <data name="LineItem_PlacedPricedChanged" xml:space="preserve">
+    <value>The price for product {0} has changed since it was added to your cart.</value>
+  </data>
+  <data name="LineItem_PreProcessingFailure" xml:space="preserve">
+    <value>There was some issue with product {0} in your cart.</value>
+  </data>
+  <data name="LineItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>The product {0} is sold out and was removed from your cart.</value>
+  </data>
+  <data name="LineItem_RemovedDueToInvalidPrice" xml:space="preserve">
+    <value>The product {0} does not have a valid price and was removed from your cart.</value>
+  </data>
+  <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
+    <value>The product {0} is not available in store and was removed from your cart.</value>
+  </data>
+  <data name="Currency_Change_Warning" xml:space="preserve">
+    <value>Changing currency will set placed price to list price for all items.</value>
+  </data>
+  <data name="Market_Change_Warning" xml:space="preserve">
+    <value>If the new market does not support the current currency, the currency will be changed to the new market's default and placed price to list price for all items.</value>
+  </data>
 </root>

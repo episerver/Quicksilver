@@ -11,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 {
     public static class AssetContainerExtensions
     {
-        private static Injected<AssetUrlResolver> _assetUrlResolver;
+        private static Injected<AssetUrlResolver> _assetUrlResolver = default(Injected<AssetUrlResolver>);
 
         public static string GetDefaultAsset<TContentMedia>(this IAssetContainer assetContainer)
             where TContentMedia : IContentMedia

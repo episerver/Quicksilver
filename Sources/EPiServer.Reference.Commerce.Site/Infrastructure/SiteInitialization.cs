@@ -5,7 +5,6 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
@@ -15,9 +14,6 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using System.Web;
 using System.Web.Http;
@@ -67,13 +63,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
             services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
-
-            
-            services.AddTransient<IOwinContext>(locator => HttpContext.Current.GetOwinContext());
-            services.AddTransient<ApplicationUserManager>(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager>());
-            services.AddTransient<ApplicationSignInManager>(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager>());
-            services.AddTransient<IAuthenticationManager>(locator => locator.GetInstance<IOwinContext>().Authentication);
-
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());

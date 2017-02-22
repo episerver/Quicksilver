@@ -1,7 +1,8 @@
-﻿using EPiServer.Core;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Shared.Models;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
@@ -23,8 +24,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
         private readonly IMailService _mailService;
         private readonly LocalizationService _localizationService;
 
-        public ResetPasswordController(ApplicationSignInManager signinManager,
-            ApplicationUserManager userManager,
+        public ResetPasswordController(ApplicationSignInManager<SiteUser> signinManager,
+            ApplicationUserManager<SiteUser> userManager,
             UserService userService,
             IContentLoader contentLoader,
             IMailService mailService,

@@ -149,10 +149,10 @@
             </Column>
             <Column visible="false" allowSorting="false" dataField="OrderNoteId" headingText="{SharedStrings:Id}"></Column>
             <Column visible="false" allowSorting="false" dataField="CustomerId" headingText="{SharedStrings:Id}"></Column>
-            <Column width="100" visible="true" allowSorting="false" dataField="UserName" headingText="Originated By"></Column>
-            <Column width="165" visible="true" allowSorting="false" dataField="Created" headingText="Date/Time" columnType="DateTime"></Column>
+            <Column width="100" visible="true" allowSorting="false" dataField="UserName" headingText="{SharedStrings:Originated_By}"></Column>
+            <Column width="165" visible="true" allowSorting="false" dataField="Created" headingText="{SharedStrings:Date_Slash_Time}" columnType="DateTime"></Column>
             <!--<Column width="200" visible="true" allowSorting="false" dataField="Title" headingText="{SharedStrings:Title}"></Column>-->
-            <Column width="920" visible="true" allowSorting="false" dataField="Detail" headingText="Note Text"></Column>
+            <Column width="920" visible="true" allowSorting="false" dataField="Detail" headingText="{SharedStrings:Note_Text}"></Column>
           </Columns>
         </Grid>
         <Grid placeName="OrderPromotion-List">

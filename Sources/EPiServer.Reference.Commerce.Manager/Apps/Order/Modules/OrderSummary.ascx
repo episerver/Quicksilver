@@ -39,7 +39,6 @@
     <table cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;">
 		<tr>
 			<td colspan="2" style="border: solid 1px #999999;">
-			    
 				<asp:DataGrid runat="server" ID="MainGrid" Width="100%" AutoGenerateColumns="false" AllowPaging="false"
 				 AllowSorting="false" CellSpacing="0" CellPadding="5" CssClass="Grid" GridLines="None">
 					<HeaderStyle BackColor="#eeeeee" />
@@ -58,12 +57,10 @@
 			</td>
 		</tr>
         </table>
-    <h3>Payments</h3>
+    <h3 id="PaymentsHeader" runat="server">Payments</h3>
     <table cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;">
         <tr>
             <td colspan="2" style="border: solid 1px #999999;">
-                
-                
 				<asp:DataGrid runat="server" ID="PaymentsGrid" Width="100%" AutoGenerateColumns="false" AllowPaging="false"
 				 AllowSorting="false" CellSpacing="0" CellPadding="5" CssClass="Grid" GridLines="None">
 					<HeaderStyle BackColor="#eeeeee" />
@@ -78,13 +75,12 @@
 				</asp:DataGrid>
 			</td>
         </tr>
-        </table>
+    </table>
     
-     <h3>Returns</h3>
+    <h3 id="ReturnHeader" runat="server">Returns</h3>
     <table cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;">
 		<tr>
-			<td colspan="2" style="border: solid 1px #999999;">
-			    
+			<td colspan="2" style="border: solid 1px #999999;">			    
 				<asp:DataGrid runat="server" ID="ReturnGrid" Width="100%" AutoGenerateColumns="false" AllowPaging="false"
 				 AllowSorting="false" CellSpacing="0" CellPadding="5" CssClass="Grid" GridLines="None">
 					<HeaderStyle BackColor="#eeeeee" />

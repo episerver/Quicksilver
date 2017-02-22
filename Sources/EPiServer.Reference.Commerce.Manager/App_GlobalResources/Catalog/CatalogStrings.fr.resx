@@ -804,4 +804,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Les commandes peuvent passées depuis cet entrepôt pour les retraits en magasin.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Avertissement. La mise à jour de cet élément à travers Commerce Manager remplacera toutes les versions de contenu précédentes et en attente. Ces versions peuvent avoir été créées à travers d'autres interfaces.</value>
+  </data>
 </root>

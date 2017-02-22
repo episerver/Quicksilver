@@ -82,7 +82,13 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [LockoutEnabled]       BIT            NOT NULL,
     [AccessFailedCount]    INT            NOT NULL,
     [UserName]             NVARCHAR (256) NOT NULL,
-	[NewsLetter]           BIT            NOT NULL
+	[NewsLetter]           BIT            NOT NULL,
+	[IsApproved]	       BIT            NOT NULL,
+	[IsLockedOut]          BIT            NOT NULL,
+	[Comment]              NVARCHAR(MAX)  NULL,
+	[CreationDate]         DATETIME2(7)   NOT NULL,
+	[LastLoginDate]        DATETIME2(7)   NULL,
+	[LastLockoutDate]      DATETIME2(7)   NULL
 );
 
 GO
@@ -90,6 +96,8 @@ GO
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex]
     ON [dbo].[AspNetUsers]([UserName] ASC);
 GO
+
+update aspnet_Users set UserName = 'admin@example.com', LoweredUserName = 'admin@example.com' where UserName = 'admin';
 
 ALTER TABLE [dbo].[AspNetUsers]
     ADD CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC);
@@ -111,39 +119,75 @@ ALTER TABLE [dbo].[AspNetUserRoles]
     ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 GO
 
-declare @AdminRoleId as uniqueidentifier;
-declare @AdminUserId as uniqueidentifier;
-declare @WebAdminRoleId as uniqueidentifier;
-declare @WebAdminUserId as uniqueidentifier;
-declare @EditorRoleId as uniqueidentifier;
-declare @EditorUserId as uniqueidentifier;
 
-set @AdminRoleId = NEWID();
-set @WebAdminRoleId = NEWID();
-set @EditorRoleId = NEWID();
-set @AdminUserId = NEWID();
-set @EditorUserId = NEWID();
-set @WebAdminUserId = NEWID();
-
-insert into AspNetRoles(Id, Name) Values(@AdminRoleId, 'Administrators');
-insert into AspNetRoles(Id, Name) Values(@WebAdminRoleId, 'WebAdmins');
-insert into AspNetRoles(Id, Name) Values(@EditorRoleId, 'WebEditors');
-
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
-values (@AdminUserId, 'admin', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'admin', 0, 0, 0, 0, 0);
-
-insert into AspNetUserRoles (RoleId, UserId) values (@AdminRoleId, @AdminUserId);
+declare @RoleId as uniqueidentifier;
+declare @UserId as uniqueidentifier;
+declare @Email as nvarchar(25);
 
 
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
-values (@EditorUserId, 'editor@quicksilver.com', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'editor@quicksilver.com', 0, 0, 0, 0, 0);
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'admin@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'Administrators');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
 
-insert into AspNetUserRoles (RoleId, UserId) values (@EditorRoleId, @EditorUserId);
+
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'editor@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'WebAdmins');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
 
 
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter)
-values (@WebAdminUserId, 'webaadmin@quicksilver.com', 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', 'webaadmin@quicksilver.com', 0, 0, 0, 0, 0);
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'webaadmin@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'WebEditors');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
 
-insert into AspNetUserRoles (RoleId, UserId) values (@WebAdminRoleId, @WebAdminUserId);
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'manager@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'Order Managers');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
+
+
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'shipping@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'Shipping Manager');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
+
+
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'supervisor@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'Order Supervisor');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
+
+
+set @RoleId = NEWID();
+set @UserId = NEWID();
+set @Email = 'receiving@example.com';
+insert into AspNetRoles(Id, Name) Values(@RoleId, 'Receiving Manager');
+insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
+insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
+
+
+insert into AspNetRoles(Id, Name) Values(NEWID(), 'Management Users');
+insert into AspNetRoles(Id, Name) Values(NEWID(), 'Registered');
 
 GO

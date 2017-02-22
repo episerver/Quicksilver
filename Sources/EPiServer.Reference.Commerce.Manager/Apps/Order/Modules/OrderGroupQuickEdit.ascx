@@ -15,7 +15,7 @@
 		</tr>
         <tr>
             <td>
-                <asp:Label ID="Label1" runat="server" Text="Please make sure the order currency is compatible with the order market." />
+                <asp:Label runat="server" Text="<%$ Resources:OrderStrings, Currency_Change_Warning %>" />
             </td>
         </tr>
 		<tr>

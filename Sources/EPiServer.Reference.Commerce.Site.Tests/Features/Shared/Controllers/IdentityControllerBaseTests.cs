@@ -1,10 +1,10 @@
-﻿using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Moq;
 using System;
@@ -45,23 +45,23 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Controllers
         }
 
         private FakeLoginController _subject;
-        
+
 
         public IdentityControllerBaseTests()
         {
             var authenticationManager = new Mock<IAuthenticationManager>();
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var userManager = new Mock<ApplicationUserManager>(userStore.Object);
+            var userStore = new Mock<IUserStore<SiteUser>>();
+            var userManager = new Mock<ApplicationUserManager<SiteUser>>(userStore.Object);
             var customercontextFacadeMock = new Mock<CustomerContextFacade>();
-            var signInManager = new Mock<ApplicationSignInManager>(userManager.Object, authenticationManager.Object);
+            var signInManager = new Mock<ApplicationSignInManager<SiteUser>>(userManager.Object, authenticationManager.Object, new ApplicationOptions());
             var request = new Mock<HttpRequestBase>();
             var httpContext = new Mock<HttpContextBase>();
             var userService = new UserService(userManager.Object, signInManager.Object, authenticationManager.Object, null, customercontextFacadeMock.Object);
-            
+
             request.Setup(
                 x => x.Url)
                 .Returns(new Uri("http://test.com"));
-            
+
             httpContext.SetupGet(
                 x => x.Request)
                 .Returns(request.Object);
@@ -72,8 +72,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Controllers
 
         private class FakeLoginController : IdentityControllerBase<LoginRegistrationPage>
         {
-            public FakeLoginController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService)
-                : base(applicationSignInManager, applicationUserManager, userService)
+            public FakeLoginController(ApplicationSignInManager<SiteUser> applicationSignInManager, ApplicationUserManager<SiteUser> userManager, UserService userService)
+                : base(applicationSignInManager, userManager, userService)
             {
 
             }

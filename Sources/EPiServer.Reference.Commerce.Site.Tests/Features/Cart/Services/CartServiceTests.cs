@@ -1,6 +1,9 @@
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
+using EPiServer.Core;
+using EPiServer.Framework.Cache;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
@@ -11,6 +14,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Customers;
 using Moq;
 using System;
@@ -81,6 +85,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _subject.AddToCart(_cart, "code", out warningMessage);
 
             Assert.Equal(1, _cart.GetAllLineItems().Single(x => x.Code == "code").Quantity);
+        }
+
+        [Fact]
+        public void AddToCart_WhenLineItemNotInCart_ShouldAddLineItemDisplayName()
+        {
+            _variationContent.DisplayName = "sample-name";
+            string warningMessage;
+
+            _subject.AddToCart(_cart, "code", out warningMessage);
+
+            Assert.Equal("sample-name", _cart.GetAllLineItems().Single(x => x.Code == "code").DisplayName);
         }
 
         [Fact]
@@ -394,8 +409,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         private readonly Mock<ICurrentMarket> _currentMarketMock;
         private readonly Mock<IMarket> _marketMock;
         private readonly Mock<ICurrencyService> _currencyServiceMock;
+        private readonly Mock<ReferenceConverter> _referenceConverterMock;
+        private readonly Mock<IContentLoader> _contentLoaderMock;
+
         private readonly CartService _subject;
         private readonly ICart _cart;
+
+        private VariationContent _variationContent;
 
         public CartServiceTests()
         {
@@ -413,10 +433,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _marketMock = new Mock<IMarket>();
             _currentMarketMock = new Mock<ICurrentMarket>();
             _currencyServiceMock = new Mock<ICurrencyService>();
+            _contentLoaderMock = new Mock<IContentLoader>();
+            _variationContent = new VariationContent();
+
+            var synchronizedObjectInstanceCacheMock = new Mock<ISynchronizedObjectInstanceCache>();
+            _referenceConverterMock = new Mock<ReferenceConverter>(new EntryIdentityResolver(synchronizedObjectInstanceCacheMock.Object), new NodeIdentityResolver(synchronizedObjectInstanceCacheMock.Object));
+
             _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderGroupFactoryMock.Object, 
                 _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object, _inventoryProcessorMock.Object, 
                 _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object, 
-                _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object);
+                _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object,
+                _referenceConverterMock.Object, _contentLoaderMock.Object);
             _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
 
             _orderGroupFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>(), It.IsAny<IOrderGroup>())).Returns((string code, IOrderGroup group) => new FakeLineItem() { Code = code });
@@ -426,6 +453,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
             _lineItemValidatorMock.Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
             _placedPriceProcessorMock.Setup(x => x.UpdatePlacedPrice(It.IsAny<ILineItem>(), It.IsAny<CustomerContact>(), It.IsAny<IMarket>(), _cart.Currency, It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
+            _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(It.IsAny<ContentReference>())).Returns(_variationContent);
         }
 
         class PromotionForTest : EntryPromotion

@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace EPiServer.Reference.Commerce.Shared.Models.Identity
+namespace EPiServer.Reference.Commerce.Shared.Identity
 {
     /// <summary>
     /// Result class used for authenticating users against external login providers such as Facebook

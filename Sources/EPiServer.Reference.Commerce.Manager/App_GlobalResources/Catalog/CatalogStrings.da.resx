@@ -798,4 +798,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Ordrer på varer, der skal afhentes i butikken, kan afgives fra dette lager.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Advarsel. Hvis du opdaterer dette element via Commerce Manager, bliver tidligere og afventende indholdsversioner overskrevet. Disse indholdsversioner kan være blevet oprettet via andre brugergrænseflader.</value>
+  </data>
 </root>

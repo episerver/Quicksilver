@@ -6,13 +6,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {
     public class LoginPageViewModel : PageViewModel<LoginRegistrationPage>
     {
-        public InternalLoginViewModel LoginViewModel { get; set; }
+        public LoginViewModel LoginViewModel { get; set; }
         public RegisterAccountViewModel RegisterAccountViewModel { get; set; }
 
         public LoginPageViewModel(LoginRegistrationPage currentPage, string returnUrl)
         {
             CurrentPage = currentPage;
-            LoginViewModel = new InternalLoginViewModel() { ReturnUrl = returnUrl };
+            LoginViewModel = new LoginViewModel() { ReturnUrl = returnUrl };
             RegisterAccountViewModel = new RegisterAccountViewModel
             {
                 Address = new AddressModel ()

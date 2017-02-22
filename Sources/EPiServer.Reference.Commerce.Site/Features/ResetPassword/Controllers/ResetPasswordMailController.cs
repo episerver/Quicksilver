@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.ViewModels;
@@ -10,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
 {
     public class ResetPasswordMailController : IdentityControllerBase<ResetPasswordMailPage>
     {
-        public ResetPasswordMailController(ApplicationSignInManager signinManager, ApplicationUserManager userManager, UserService userService)
+        public ResetPasswordMailController(ApplicationSignInManager<SiteUser> signinManager, ApplicationUserManager<SiteUser> userManager, UserService userService)
             : base(signinManager, userManager, userService)
         {
         }

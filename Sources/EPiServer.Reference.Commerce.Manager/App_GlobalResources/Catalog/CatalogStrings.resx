@@ -837,4 +837,7 @@
   <data name="Entry_Inventory_ReservedQty_Invalid" xml:space="preserve">
     <value>Reserved Quantity cannot be greater than In Stock Quantity.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Warning. Updating this item through Commerce Manager will overwrite any previous and pending content versions. Such content versions may have been created through other interfaces.</value>
+  </data>
 </root>

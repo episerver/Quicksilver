@@ -39,6 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
         [ChildActionOnly]
         public ActionResult Index(ContentReference contentLink)
         {
+            var currentMarket = _currentMarket.GetCurrentMarket();
             var model = new MarketViewModel
             {
                 Markets = _marketService.GetAllMarkets().Where(x => x.IsEnabled).OrderBy(x => x.MarketName)
@@ -48,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
                     Text = x.MarketName,
                     Value = x.MarketId.Value
                 }),
-                MarketId = _currentMarket.GetCurrentMarket().MarketId.Value,
+                MarketId = currentMarket != null ? currentMarket.MarketId.Value : string.Empty,
                 ContentLink = contentLink
             };
             return PartialView(model);

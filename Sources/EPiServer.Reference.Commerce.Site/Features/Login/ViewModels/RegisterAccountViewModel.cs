@@ -3,7 +3,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {
-    public class RegisterAccountViewModel 
+    public class RegisterAccountViewModel
     {
         public AddressModel Address { get; set; }
 

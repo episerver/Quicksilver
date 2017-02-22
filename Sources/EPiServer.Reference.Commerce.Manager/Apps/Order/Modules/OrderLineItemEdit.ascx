@@ -102,9 +102,6 @@
             </td>
         </tr>
 	</table>
-	<asp:HiddenField runat="server" ID="hfListPrice" />
-    <asp:HiddenField runat="server" ID="hfIsCustomDiscount" />
-    <asp:HiddenField runat="server" ID="hfLineItemDiscountId" />
 </div>
 <div id="DataForm">
     <table class="DataForm"> 

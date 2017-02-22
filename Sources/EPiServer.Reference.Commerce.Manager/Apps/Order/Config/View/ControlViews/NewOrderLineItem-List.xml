@@ -60,7 +60,7 @@
 				<Command id="cmdNewOrderLineItemGridEdit">
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>{OrderStrings:Edit_Line_Item}</PopupTitle>
-					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Order&amp;_v=OrderLineItem-Edit&amp;Id={QueryString:id}&amp;LineItemId=[ClientParam:LineItemId]&amp;ParentOrderId={HttpContext:ParentOrderId}&amp;ReturnFormId={QueryString:ReturnFormId}&amp;commandName=cmd_NeedRebind</Url>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Order&amp;_v=OrderLineItem-Edit&amp;Id={QueryString:ExchangeOrderGroupId}&amp;LineItemId=[ClientParam:LineItemId]&amp;ParentOrderId={HttpContext:ParentOrderId}&amp;ReturnFormId={QueryString:ReturnFormId}&amp;commandName=cmd_NeedRebind</Url>
 					<Width>590</Width>
 					<Height>250</Height>
 					<Top>170</Top>

@@ -1,4 +1,5 @@
-﻿using Mediachase.Commerce;
+﻿using EPiServer.Reference.Commerce.Site.Features.Market.Models;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Markets;
 
@@ -24,6 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
             {
                 _currentMarket = DefaultMarketId.Value;
             }
+
             return GetMarket(new MarketId(_currentMarket));
         }
 
@@ -36,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
 
         private IMarket GetMarket(MarketId marketId)
         {
-            return _marketService.GetMarket(marketId) ?? _marketService.GetMarket(DefaultMarketId);
+            return _marketService.GetMarket(marketId) ?? _marketService.GetMarket(DefaultMarketId) ?? new EmptyMarket();
         }
     }
 }

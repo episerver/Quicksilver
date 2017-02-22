@@ -41,7 +41,7 @@
 				<Command id="cmdOrderSummary">
 					<CommandType>OpenFrameModalPopup</CommandType>
 					<PopupTitle>Order Summary</PopupTitle>
-					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Order&amp;_v=Order-Summary&amp;OrderGroupId=[ClientParam:OrderGroupId]&amp;CustomerId=[ClientParam:CustomerId]&amp;ClassName=[ClientParam:MetaClass.Name]&amp;commandName=cmd_NeedRebind</Url>
+					<Url>~/Apps/Core/Controls/DialogPage.aspx?_a=Order&amp;_v=Order-Summary&amp;id=[ClientParam:OrderGroupId]&amp;CustomerId=[ClientParam:CustomerId]&amp;ClassName=[ClientParam:MetaClass.Name]&amp;commandName=cmd_NeedRebind</Url>
 					<Width>690</Width>
 					<Height>680</Height>
 					<Top>55</Top>

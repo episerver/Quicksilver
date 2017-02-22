@@ -798,4 +798,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Bestellingen kunnen vanuit dit magazijn worden geplaatst om in de winkel te worden opgehaald.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Waarschuwing. Als u dit item bijwerkt via Commerce Manager, worden alle vorige en in behandeling zijnde inhoudsversies overschreven. Die inhoudsversies kunnen zijn aangemaakt via andere interfaces.</value>
+  </data>
 </root>

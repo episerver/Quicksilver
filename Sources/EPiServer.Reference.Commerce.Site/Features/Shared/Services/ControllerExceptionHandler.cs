@@ -9,7 +9,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
     [ServiceConfiguration(Lifecycle = ServiceInstanceScope.Singleton)]
     public class ControllerExceptionHandler
     {
-        private Injected<IDatabaseMode> _databaseMode;
+        private Injected<IDatabaseMode> _databaseMode = default(Injected<IDatabaseMode>);
 
         public virtual void HandleRequestValidationException(ExceptionContext filterContext, string actionName, Func<ExceptionContext, ActionResult> getActionResult)
         {

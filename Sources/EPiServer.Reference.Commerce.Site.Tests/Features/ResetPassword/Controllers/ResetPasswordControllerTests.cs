@@ -1,5 +1,6 @@
-﻿using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers;
@@ -65,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             string code = "A1B2C3";
             string newPassword = "myNewPassword";
             string email = "john.doe@company.com";
-            ApplicationUser user = new ApplicationUser
+            SiteUser user = new SiteUser
             {
                 Email = email,
                 Id = Guid.NewGuid().ToString()
@@ -77,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
                 Password = newPassword,
                 Password2 = newPassword
             };
-            _userManagerMock.Setup(x => x.FindByNameAsync(email)).Returns(Task.FromResult<ApplicationUser>(user));
+            _userManagerMock.Setup(x => x.FindByNameAsync(email)).Returns(Task.FromResult<SiteUser>(user));
             _userManagerMock.Setup(x => x.ResetPasswordAsync(user.Id, code, It.IsAny<string>())).Returns(Task.FromResult<IdentityResult>(IdentityResult.Success));
 
             RedirectToRouteResult result = _subject.ResetPassword(viewModel).Result as RedirectToRouteResult;
@@ -92,14 +93,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
         }
 
         private readonly ResetPasswordController _subject;
-        private readonly Mock<ApplicationUserManager> _userManagerMock;
+        private readonly Mock<ApplicationUserManager<SiteUser>> _userManagerMock;
         private readonly Mock<UserService> _userServiceMock;
         private readonly Mock<ResetPasswordPage> _resetPasswordPageMock;
 
         public ResetPasswordControllerTests()
         {
-            Mock<ApplicationSignInManager> signinManagerMock = null;
-            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            Mock<ApplicationSignInManager<SiteUser>> signinManagerMock = null;
+            var userStoreMock = new Mock<IUserStore<SiteUser>>();
             var authenticationManagerMock = new Mock<IAuthenticationManager>();
             var contentLoaderMock = new Mock<IContentLoader>();
             var mailServiceMock = new Mock<IMailService>();
@@ -107,8 +108,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             var customerContextFacade = new Mock<CustomerContextFacade>();
 
             _resetPasswordPageMock = new Mock<ResetPasswordPage>();
-            _userManagerMock = new Mock<ApplicationUserManager>(userStoreMock.Object);
-            signinManagerMock = new Mock<ApplicationSignInManager>(_userManagerMock.Object, authenticationManagerMock.Object);
+            _userManagerMock = new Mock<ApplicationUserManager<SiteUser>>(userStoreMock.Object);
+            signinManagerMock = new Mock<ApplicationSignInManager<SiteUser>>(_userManagerMock.Object, authenticationManagerMock.Object, new ApplicationOptions());
             _userServiceMock = new Mock<UserService>(_userManagerMock.Object, signinManagerMock.Object, authenticationManagerMock.Object, localizationService, customerContextFacade.Object);
             _subject = new ResetPasswordController(signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, contentLoaderMock.Object, mailServiceMock.Object, new MemoryLocalizationService());
         }

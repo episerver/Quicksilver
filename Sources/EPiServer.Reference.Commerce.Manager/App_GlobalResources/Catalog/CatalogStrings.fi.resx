@@ -798,4 +798,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Tästä varastosta voidaan lähettää myymälästä noudettavia tilauksia.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Varoitus. Tämän kohteen päivittäminen Content Managerin kautta korvaa kaikki aiemmat ja odottavat sisältöversiot. Tällaiset sisältöversiot on voitu luoda muiden käyttöliittymien kautta.</value>
+  </data>
 </root>

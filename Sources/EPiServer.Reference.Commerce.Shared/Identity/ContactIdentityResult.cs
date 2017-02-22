@@ -1,7 +1,7 @@
 ﻿using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
 
-namespace EPiServer.Reference.Commerce.Shared.Models.Identity
+namespace EPiServer.Reference.Commerce.Shared.Identity
 {
     /// <summary>
     /// An IdentityResult in which also a CustomerContact is involved.

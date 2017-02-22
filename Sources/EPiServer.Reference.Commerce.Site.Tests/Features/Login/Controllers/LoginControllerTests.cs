@@ -1,7 +1,8 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
@@ -66,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             typeof(IdentityResult).GetProperty("Succeeded").SetValue(identityResult, true, null);
 
             _userServiceMock.Setup(
-                x => x.RegisterAccount(It.IsAny<ApplicationUser>()))
+                x => x.RegisterAccount(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new ContactIdentityResult
                 (
                     identityResult,
@@ -107,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         public void RegisterAccount_WhenRegisterFails_ShouldReturnModelErrorState()
         {
             _userServiceMock.Setup(
-                x => x.RegisterAccount(It.IsAny<ApplicationUser>()))
+                x => x.RegisterAccount(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new ContactIdentityResult
                 (
                     new IdentityResult("We have an error"),
@@ -169,7 +170,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInStatus.Success));
 
-            var model = new InternalLoginViewModel
+            var model = new LoginViewModel
             {
                 Email = "email@email.com",
                 Password = "Passwors@124#212",
@@ -199,7 +200,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInStatus.LockedOut));
 
-            var model = new InternalLoginViewModel
+            var model = new LoginViewModel
             {
                 Email = "email@email.com",
                 Password = "Passwors@124#212",
@@ -223,7 +224,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInStatus.Failure));
 
-            var model = new InternalLoginViewModel
+            var model = new LoginViewModel
             {
                 Email = "email@email.com",
                 Password = "Passwors@124#212",
@@ -257,7 +258,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))
-                .Returns(Task.FromResult(new ApplicationUser()));
+                .Returns(Task.FromResult(new SiteUser()));
 
             _userManagerMock.Setup(
                 x => x.IsLockedOutAsync(It.IsAny<string>()))
@@ -277,7 +278,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))
-                .Returns(Task.FromResult(new ApplicationUser()));
+                .Returns(Task.FromResult(new SiteUser()));
 
             _userManagerMock.Setup(
                 x => x.IsLockedOutAsync(It.IsAny<string>()))
@@ -300,7 +301,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))
-                .Returns(Task.FromResult<ApplicationUser>(null));
+                .Returns(Task.FromResult<SiteUser>(null));
 
             var result = ((ViewResult)_subject.ExternalLoginCallback("http://test.com/redirect").Result).Model as ExternalLoginConfirmationViewModel;
 
@@ -314,9 +315,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         private readonly LoginControllerForTest _subject;
         private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
-        private readonly Mock<ApplicationUserManager> _userManagerMock;
+        private readonly Mock<ApplicationUserManager<SiteUser>> _userManagerMock;
         private readonly Mock<UserService> _userServiceMock;
-        private readonly Mock<ApplicationSignInManager> _signinManagerMock;
+        private readonly Mock<ApplicationSignInManager<SiteUser>> _signinManagerMock;
         private readonly Mock<HttpContextBase> _httpContextMock;
         private readonly Mock<ControllerExceptionHandler> _controllerExceptionHandler;
         private readonly Mock<RequestContext> _requestContext;
@@ -337,7 +338,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             localizationService.AddString(english, "/Shared/Address/DefaultAddressName", "Default address");
 
             var startPageMock = new Mock<StartPage>();
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            var userStore = new Mock<IUserStore<SiteUser>>();
             var authenticationManager = new Mock<IAuthenticationManager>();
             _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
 
@@ -351,8 +352,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _controllerExceptionHandler = new Mock<ControllerExceptionHandler>();
 
             _contentLoaderMock = new Mock<IContentLoader>();
-            _userManagerMock = new Mock<ApplicationUserManager>(userStore.Object);
-            _signinManagerMock = new Mock<ApplicationSignInManager>(_userManagerMock.Object, authenticationManager.Object);
+            _userManagerMock = new Mock<ApplicationUserManager<SiteUser>>(userStore.Object);
+            _signinManagerMock = new Mock<ApplicationSignInManager<SiteUser>>(_userManagerMock.Object, authenticationManager.Object, new ApplicationOptions());
             _userServiceMock = new Mock<UserService>(_userManagerMock.Object, _signinManagerMock.Object, authenticationManager.Object, localizationService, customercontextFacadeMock.Object);
 
             request.Setup(
@@ -399,7 +400,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
         private class LoginControllerForTest : LoginController
         {
-            public LoginControllerForTest(ApplicationSignInManager signInManager, ApplicationUserManager userManager, UserService userService, LocalizationService localizationService, IContentLoader contentLoader, IAddressBookService addressBookService, ControllerExceptionHandler controllerExceptionHandler)
+            public LoginControllerForTest(ApplicationSignInManager<SiteUser> signInManager,
+                ApplicationUserManager<SiteUser> userManager,
+                UserService userService,
+                LocalizationService localizationService,
+                IContentLoader contentLoader,
+                IAddressBookService addressBookService,
+                ControllerExceptionHandler controllerExceptionHandler)
                 : base(signInManager, userManager, userService, localizationService, contentLoader, addressBookService, controllerExceptionHandler)
             {
             }

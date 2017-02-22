@@ -1269,4 +1269,25 @@
   <data name="Warehouse_Pickup_Fulfillment" xml:space="preserve">
     <value>Kundpickup från {0}</value>
   </data>
+  <data name="LineItem_AdjustedQuantity" xml:space="preserve">
+    <value>Antalet av artikel {0} har förändrats.</value>
+  </data>
+  <data name="LineItem_CannotProcessDueToMissingOrderStatus" xml:space="preserve">
+    <value>Kan inte behandla artikel {0} på grund av saknad beställningsstatus.</value>
+  </data>
+  <data name="LineItem_PlacedPricedChanged" xml:space="preserve">
+    <value>Priset för artikel {0} har förändrats sedan den lades till din varukorg.</value>
+  </data>
+  <data name="LineItem_PreProcessingFailure" xml:space="preserve">
+    <value>Något blev fel för artikel {0} i din varukorg.</value>
+  </data>
+  <data name="LineItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>Artikel {0} är slutsåld och har därför tagits bort från din varukorg.</value>
+  </data>
+  <data name="LineItem_RemovedDueToInvalidPrice" xml:space="preserve">
+    <value>Artikel {0} har inget giltigt pris och har därför tagits bort från din varukorg.</value>
+  </data>
+  <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
+    <value>Artikel {0} är inte tillgänglig i butik och har därför tagits bort från din varukorg.</value>
+  </data>
 </root>

@@ -1,7 +1,7 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,19 +9,20 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace EPiServer.Reference.Commerce.Shared.Models.Identity
+namespace EPiServer.Reference.Commerce.Shared.Identity
 {
-    public class ApplicationUser : IdentityUser
+    public class SiteUser : ApplicationUser
     {
-        public ApplicationUser()
+        public SiteUser()
         {
+
         }
 
         /// <summary>
         /// Returns a new instance of an ApplicationUser based on a previously made purchase order.
         /// </summary>
         /// <param name="purchaseOrder"></param>
-        public ApplicationUser(IPurchaseOrder purchaseOrder)
+        public SiteUser(IPurchaseOrder purchaseOrder)
         {
             Addresses = new List<CustomerAddress>();
 
@@ -65,11 +66,11 @@ namespace EPiServer.Reference.Commerce.Shared.Models.Identity
 
         public bool NewsLetter { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<SiteUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            
+
             // Add custom user claims here
             userIdentity.AddClaim(new Claim(ClaimTypes.Email, Email));
 

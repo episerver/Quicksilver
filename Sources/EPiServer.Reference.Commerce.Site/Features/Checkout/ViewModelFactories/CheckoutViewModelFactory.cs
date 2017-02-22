@@ -154,12 +154,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         private AddressModel CreateBillingAddressModel()
         {
             var preferredBillingAddress = _addressBookService.GetPreferredBillingAddress();
-            var billingAddressName = preferredBillingAddress != null ? preferredBillingAddress.Name : Guid.NewGuid().ToString();
 
             return new AddressModel
             {
-                AddressId = billingAddressName,
-                Name = billingAddressName,
+                AddressId = preferredBillingAddress != null ? preferredBillingAddress.Name : null,
+                Name = preferredBillingAddress != null ? preferredBillingAddress.Name : Guid.NewGuid().ToString(),
             };
         }
 

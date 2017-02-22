@@ -1,21 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+using EPiServer.Reference.Commerce.Shared.Identity;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
@@ -27,8 +28,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
 
         public LoginController(
-            ApplicationSignInManager signinManager,
-            ApplicationUserManager userManager,
+            ApplicationSignInManager<SiteUser> signinManager,
+            ApplicationUserManager<SiteUser> userManager,
             UserService userService,
             LocalizationService localizationService,
             IContentLoader contentLoader,
@@ -60,7 +61,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             return View(viewModel);
         }
 
-        private void InitializeLoginViewModel(InternalLoginViewModel viewModel)
+        private void InitializeLoginViewModel(LoginViewModel viewModel)
         {
             StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
             viewModel.ResetPasswordPage = startPage.ResetPasswordPage;
@@ -84,7 +85,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             var customerAddress = CustomerAddress.CreateInstance();
             _addressBookService.MapToAddress(viewModel.Address, customerAddress);
 
-            var user = new ApplicationUser
+            var user = new SiteUser
             {
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
@@ -93,7 +94,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 LastName = viewModel.Address.LastName,
                 RegistrationSource = "Registration page",
                 NewsLetter = viewModel.Newsletter,
-                Addresses = new List<CustomerAddress>(new[] { customerAddress })
+                Addresses = new List<CustomerAddress>(new[] { customerAddress }),
+                IsApproved = true
             };
 
             registration = await UserService.RegisterAccount(user);
@@ -149,7 +151,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> InternalLogin(InternalLoginViewModel viewModel)
+        public async Task<ActionResult> InternalLogin(LoginViewModel viewModel)
         {
             var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
 
@@ -249,14 +251,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 string firstName = names[0];
                 string lastName = names.Length > 1 ? names[1] : string.Empty;
 
-                var user = new ApplicationUser
+                var user = new SiteUser
                 {
                     UserName = eMail,
                     Email = eMail,
                     FirstName = firstName,
                     LastName = lastName,
                     RegistrationSource = "Social login",
-                    NewsLetter = viewModel.Newsletter
+                    NewsLetter = viewModel.Newsletter,
+                    IsApproved = true
                 };
 
                 var result = await UserManager.CreateAsync(user);

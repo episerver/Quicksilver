@@ -1,5 +1,6 @@
-﻿using EPiServer.Commerce.Order;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.Registration.Models;
@@ -17,7 +18,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
         private readonly CustomerContextFacade _customerContext;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderConfirmationRegistrationBlockController(ApplicationSignInManager applicationSignInManager, ApplicationUserManager applicationUserManager, UserService userService, CustomerContextFacade customerContextFacade, IOrderRepository orderRepository)
+        public OrderConfirmationRegistrationBlockController(
+            ApplicationSignInManager<SiteUser> applicationSignInManager, 
+            ApplicationUserManager<SiteUser> applicationUserManager, 
+            UserService userService, 
+            CustomerContextFacade customerContextFacade, 
+            IOrderRepository orderRepository)
             : base(applicationSignInManager, applicationUserManager, userService)
         {
             _customerContext = customerContextFacade;
@@ -37,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                 return null;
             }
 
-            ApplicationUser user = UserService.GetUser(order.GetFirstForm().Payments.First().BillingAddress.Email);
+            SiteUser user = UserService.GetUser(order.GetFirstForm().Payments.First().BillingAddress.Email);
 
             if (user != null)
             {
@@ -88,7 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
                 return PartialView("NewCustomer", model.FormModel);
             }
 
-            ContactIdentityResult registration = await UserService.RegisterAccount(new ApplicationUser(purchaseOrder)
+            ContactIdentityResult registration = await UserService.RegisterAccount(new SiteUser(purchaseOrder)
             { 
                 Password = viewModel.Password, 
                 RegistrationSource = "Order confirmation page"

@@ -6,7 +6,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Attributes
 {
     public class ReadOnlyFilter : ActionFilterAttribute
     {
-        private Injected<IDatabaseMode> _databaseMode;
+        private Injected<IDatabaseMode> _databaseMode = default(Injected<IDatabaseMode>);
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

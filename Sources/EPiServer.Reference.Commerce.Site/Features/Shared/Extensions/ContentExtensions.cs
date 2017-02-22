@@ -11,11 +11,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 {
     public static class ContentExtensions
     {
-#pragma warning disable 649
-        private static Injected<UrlResolver> _urlResolver;
-        private static Injected<ILinksRepository> _linksRepository;
-        private static Injected<IContentLoader> _contentLoader;
-#pragma warning restore 649
+        private static Injected<UrlResolver> _urlResolver = default(Injected<UrlResolver>);
+        private static Injected<ILinksRepository> _linksRepository = default(Injected<ILinksRepository>);
+        private static Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
 
         public static IEnumerable<PageData> GetSiblings(this PageData pageData)
         {

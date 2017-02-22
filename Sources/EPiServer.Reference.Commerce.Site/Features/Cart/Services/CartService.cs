@@ -1,3 +1,4 @@
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
@@ -10,6 +11,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly IAddressBookService _addressBookService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
+        private readonly ReferenceConverter _referenceConverter;
+        private readonly IContentLoader _contentLoader;
 
         public CartService(
             IProductService productService,
@@ -44,7 +48,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             IPromotionEngine promotionEngine,
             IAddressBookService addressBookService,
             ICurrentMarket currentMarket,
-            ICurrencyService currencyService)
+            ICurrencyService currencyService,
+            ReferenceConverter referenceConverter,
+            IContentLoader contentLoader)
         {
             _productService = productService;
             _pricingService = pricingService;
@@ -58,6 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _addressBookService = addressBookService;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
+            _referenceConverter = referenceConverter;
+            _contentLoader = contentLoader;
         }
 
         public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize)
@@ -157,16 +165,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-
         public bool AddToCart(ICart cart, string code, out string warningMessage)
         {
             warningMessage = string.Empty;
-
+            
             var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
 
             if (lineItem == null)
             {
+                var contentLink = _referenceConverter.GetContentLink(code);
+                var entryContent = _contentLoader.Get<EntryContentBase>(contentLink);
+
                 lineItem = cart.CreateLineItem(code, _orderGroupFactory);
+                lineItem.DisplayName = entryContent.DisplayName;
                 lineItem.Quantity = 1;
                 cart.AddLineItem(lineItem, _orderGroupFactory);
             }
@@ -180,8 +191,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             foreach (var validationIssue in validationIssues)
             {
-                warningMessage += String.Format("Line Item with code {0} ", lineItem.Code);
-                warningMessage = validationIssue.Value.Aggregate(warningMessage, (current, issue) => current + String.Format("{0}, ", issue));
+                warningMessage += string.Format("Line Item with code {0} ", lineItem.Code);
+                warningMessage = validationIssue.Value.Aggregate(warningMessage, (current, issue) => current + issue.ToString());
                 warningMessage = warningMessage.Substring(0, warningMessage.Length - 2);
             }
 

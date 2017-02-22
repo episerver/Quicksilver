@@ -1,5 +1,6 @@
-﻿using EPiServer.Framework.Localization;
-using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
@@ -14,14 +15,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 {
     public class UserService : IDisposable
     {
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationSignInManager _signInManager;
+        private readonly ApplicationUserManager<SiteUser> _userManager;
+        private readonly ApplicationSignInManager<SiteUser> _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly LocalizationService _localizationService;
         private readonly CustomerContextFacade _customerContext;
         
-        public UserService(ApplicationUserManager userManager, 
-            ApplicationSignInManager signInManager, 
+        public UserService(ApplicationUserManager<SiteUser> userManager, 
+            ApplicationSignInManager<SiteUser> signInManager, 
             IAuthenticationManager authenticationManager,
             LocalizationService localizationService,
             CustomerContextFacade customerContextFacade)
@@ -41,7 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             }
 
             CustomerContact contact = null;
-            ApplicationUser user = GetUser(email);
+            SiteUser user = GetUser(email);
 
             if (user != null)
             {
@@ -71,19 +72,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contact.PrimaryKeyId;
         }
 
-        public virtual ApplicationUser GetUser(string email)
+        public virtual SiteUser GetUser(string email)
         {
             if (email == null)
             {
                 throw new ArgumentNullException("email");
             }
 
-            ApplicationUser user = _userManager.FindByEmail(email);
+            SiteUser user = _userManager.FindByEmail(email);
 
             return user;
         }
 
-        public virtual async Task<ApplicationUser> GetUserAsync(string email)
+        public virtual async Task<SiteUser> GetUserAsync(string email)
         {
             if (email == null)
             {
@@ -98,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return await _authenticationManager.GetExternalLoginInfoAsync();
         }
 
-        public virtual async Task<ContactIdentityResult> RegisterAccount(ApplicationUser user)
+        public virtual async Task<ContactIdentityResult> RegisterAccount(SiteUser user)
         {
             if (user == null)
             {
@@ -139,7 +140,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contactResult;
         }
 
-        private CustomerContact CreateCustomerContact(ApplicationUser user)
+        private CustomerContact CreateCustomerContact(SiteUser user)
         {
             if (user == null)
             {

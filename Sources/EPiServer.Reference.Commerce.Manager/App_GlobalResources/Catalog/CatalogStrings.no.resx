@@ -798,4 +798,7 @@
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Bestillinger kan legges inn fra dette lageret for henting i butikk.</value>
   </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Advarsel! Hvis dette elementet oppdateres via Commerce Manager, vil tidligere og ventende innholdsversjoner bli overskrevet. Slike innholdsversjoner kan ha blitt opprettet via andre grensesnitt.</value>
+  </data>
 </root>
