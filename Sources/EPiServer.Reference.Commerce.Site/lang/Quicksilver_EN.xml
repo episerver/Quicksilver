@@ -539,5 +539,10 @@
         <AllItems>Applies to all items</AllItems>
       </Promotion>
     </StartPage>
+  <ProductRecommendations>
+    <Label>
+      <RecommendedProducts>Recommended products</RecommendedProducts>
+    </Label>
+  </ProductRecommendations>
   </language>
 </languages>

@@ -1,13 +1,15 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Search.Models;
+﻿using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
+using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
+using Mediachase.Commerce.Catalog;
 using Moq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Xunit;
-
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 {
@@ -58,20 +60,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             // Assert
             _viewModelFactoryMock.Verify(v => v.Create(It.IsAny<FashionNode>(), formModel));
         }
-
-        CategoryController _subject;
-        Mock<SearchViewModelFactory> _viewModelFactoryMock;
-        Mock<HttpRequestBase> _httpRequestMock;
+        
+        private readonly CategoryController _subject;
+        private readonly Mock<SearchViewModelFactory> _viewModelFactoryMock;
+        private readonly Mock<HttpRequestBase> _httpRequestMock;
 
         public CategoryControllerTests()
         {
+            var referenceConverterMock = new Mock<ReferenceConverter>(null, null);
+            referenceConverterMock.Setup(x => x.GetContentLink(It.IsAny<string>()))
+                .Returns(() => new ContentReference(1));
             _viewModelFactoryMock = new Mock<SearchViewModelFactory>(null, null);
             _httpRequestMock = new Mock<HttpRequestBase>();
 
             var context = new Mock<HttpContextBase>();
             context.SetupGet(x => x.Request).Returns(_httpRequestMock.Object);
             
-            _subject = new CategoryController(_viewModelFactoryMock.Object);
+            _subject = new CategoryController(
+                _viewModelFactoryMock.Object, 
+                Mock.Of<IRecommendationService>(),
+                referenceConverterMock.Object);
             _subject.ControllerContext = new ControllerContext(context.Object, new RouteData(), _subject);
         }
     }

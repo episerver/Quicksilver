@@ -58,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 
             var productViewModel = result.ProductViewModels.First();
 
-            var expected = new ProductViewModel
+            var expected = new ProductTileViewModel
             {
                 DisplayName = "DisplayName",
                 PlacedPrice = new Money(1, _currentCurrency),
@@ -122,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 
             var productViewModel = result.First();
 
-            var expected = new ProductViewModel
+            var expected = new ProductTileViewModel
             {
                 DisplayName = "DisplayName",
                 PlacedPrice = new Money(1, _currentCurrency),

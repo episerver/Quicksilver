@@ -1,4 +1,5 @@
-﻿@using System.Web.Mvc
+﻿@using System.Linq
+@using System.Web.Mvc
 @using System.Web.Mvc.Html
 @using EPiServer.Commerce.Catalog.ContentTypes
 @using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
@@ -64,7 +65,7 @@
     </span>
 }
 
-@helper RenderSize(VariationContent content)
+@helper RenderSize(EntryContentBase content)
 {
     var variant = content as FashionVariant;
     if (variant != null)
@@ -76,7 +77,7 @@
 
 @helper RenderSizeDropDown(CartItemViewModel cartItem)
 {
-    var variant = cartItem.Variant as FashionVariant;
+    var variant = cartItem.Entry as FashionVariant;
     if (variant != null)
     {
         <span>

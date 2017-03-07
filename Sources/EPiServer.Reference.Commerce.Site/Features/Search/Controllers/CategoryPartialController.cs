@@ -27,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
             return PartialView("_Category", productModels);
         }
 
-        protected IEnumerable<ProductViewModel> GetProductModels(NodeContent currentContent)
+        protected IEnumerable<ProductTileViewModel> GetProductModels(NodeContent currentContent)
         {
             return GetSearchModel(currentContent, 3).ProductViewModels;
         }

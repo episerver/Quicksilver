@@ -1,9 +1,7 @@
-﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ProductViewModel>
-<div class="product-row jsSearch container-fluid">
-    <div class="row">
+﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ProductTileViewModel>
+<div class="product-row jsSearch product-list">
         @foreach (var productModel in Model)
         {
             Html.RenderPartial("_ProductTile", productModel);
         }
-    </div>
 </div>

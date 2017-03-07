@@ -162,7 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             var languageResolverMock = new Mock<LanguageResolver>();
             languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
 
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,languageResolverMock.Object,null);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null,null,null,null,null,null,languageResolverMock.Object);
             _cartItems = new List<CartItemViewModel> {new CartItemViewModel {DiscountedPrice = new Money(100, Currency.USD), Quantity = 1} };
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[] { new ShipmentViewModel {CartItems = _cartItems} });
 
@@ -176,8 +176,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 new Money(100, Currency.USD),
                 new Money(100, Currency.USD),
                 new Dictionary<IOrderForm, OrderFormTotals>());
-
-           
 
             _orderDiscountTotal = new Money(5, Currency.USD);
             var orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();

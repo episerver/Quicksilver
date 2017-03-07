@@ -38,8 +38,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         public CatalogIndexer()
         {
             _priceService = ServiceLocator.Current.GetInstance<IPriceService>();
-            _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>(); 
-            _promotionService = ServiceLocator.Current.GetInstance<IPromotionService>(); 
+            _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            _promotionService = ServiceLocator.Current.GetInstance<IPromotionService>();
             _referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
             _assetUrlResolver = ServiceLocator.Current.GetInstance<AssetUrlResolver>();
             _relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
@@ -47,10 +47,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             _log = LogManager.GetLogger(typeof(CatalogIndexer));
         }
 
-        public CatalogIndexer(ICatalogSystem catalogSystem, 
-            IPriceService priceService, 
-            IInventoryService inventoryService, 
-            MetaDataContext metaDataContext, 
+        public CatalogIndexer(ICatalogSystem catalogSystem,
+            IPriceService priceService,
+            IInventoryService inventoryService,
+            MetaDataContext metaDataContext,
             IContentLoader contentLoader,
             IPromotionService promotionService,
             ReferenceConverter referenceConverter,
@@ -70,7 +70,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             _log = logger;
         }
 
-
         /// <summary>
         ///     Called when a catalog entry is indexed.
         ///     We use this method to load the prices for the variants of a product and store
@@ -78,42 +77,75 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         /// </summary>
         protected override void OnCatalogEntryIndex(ref SearchDocument document, CatalogEntryDto.CatalogEntryRow entry, string language)
         {
-            if (!entry.ClassTypeId.Equals(EntryType.Product))
+            switch (entry.ClassTypeId)
             {
-                return;
+                case EntryType.Package:
+                case EntryType.Bundle:
+                case EntryType.Product:
+                    UpdateSearchDocument(ref document, entry.Code, language);
+                    break;
             }
-            UpdateSearchDocument(ref document, entry, language);
         }
 
-        public void UpdateSearchDocument(ref SearchDocument document, CatalogEntryDto.CatalogEntryRow entry, string language)
+        public void UpdateSearchDocument(ref SearchDocument document, string entryCode, string language)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            var contentLink = _referenceConverter.GetContentLink(entry.Code);
-            var productContent = _contentLoader.Get<FashionProduct>(contentLink);
-            var variants = _contentLoader.GetItems(productContent.GetVariants(_relationRepository), CultureInfo.GetCultureInfo(language)).OfType<FashionVariant>().ToList();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var languageCulture = CultureInfo.GetCultureInfo(language);
+            var contentLink = _referenceConverter.GetContentLink(entryCode);
+            var entryContent = _contentLoader.Get<EntryContentBase>(contentLink, languageCulture);
+            var relatedProducts = GetProducts(entryContent, languageCulture).ToArray();
+            var relatedVariants = GetVariants(relatedProducts, languageCulture).ToArray();
 
-            AddPrices(document, variants);
-            AddColors(document, variants);
-            AddSizes(document, variants);
-            AddCodes(document, variants);
-            document.Add(new SearchField("code", productContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
-            document.Add(new SearchField("displayname", productContent.DisplayName));
-            document.Add(new SearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(productContent)));
-            document.Add(new SearchField("content_link", productContent.ContentLink.ToString()));
-            document.Add(new SearchField("created", productContent.Created.ToString("yyyyMMddhhmmss")));
-            document.Add(new SearchField("brand", productContent.Brand));
-            document.Add(new SearchField("top_category_name", GetTopCategory(productContent).DisplayName));
+            AddPrices(document, new[] { entryContent });
+            AddCodes(document, relatedVariants);
+            AddBrands(document, relatedProducts);
+            AddPrices(document, relatedVariants);
+            AddColors(document, relatedVariants);
+            AddSizes(document, relatedVariants);
 
-            sw.Stop();
-            _log.Debug(string.Format("Indexing of {0} for {1} took {2}", productContent.Code, language, sw.Elapsed.Milliseconds));
+            document.Add(new SearchField("code", entryContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
+            document.Add(new SearchField("displayname", entryContent.DisplayName));
+            document.Add(new SearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(entryContent)));
+            document.Add(new SearchField("content_link", entryContent.ContentLink.ToString()));
+            document.Add(new SearchField("created", entryContent.Created.ToString("yyyyMMddhhmmss")));
+            document.Add(new SearchField("top_category_name", GetTopCategory(entryContent).DisplayName));
+
+            stopwatch.Stop();
+            _log.Debug(string.Format("Indexing of {0} for {1} took {2}", entryContent.Code, language, stopwatch.Elapsed.Milliseconds));
+        }
+
+        private IEnumerable<FashionVariant> GetVariants(IEnumerable<FashionProduct> products, CultureInfo language)
+        {
+            var variants = products
+                .SelectMany(x => _contentLoader.GetItems(x.GetVariants(_relationRepository), language)
+                .OfType<FashionVariant>());
+
+            return variants;
+        }
+
+        private IEnumerable<FashionProduct> GetProducts(EntryContentBase entryContent, CultureInfo language)
+        {
+            switch (entryContent.ClassTypeId)
+            {
+                case EntryType.Package:
+                    return _contentLoader.GetItems(((PackageContent)entryContent).GetEntries(), language).OfType<FashionProduct>();
+
+                case EntryType.Bundle:
+                    return _contentLoader.GetItems(((BundleContent)entryContent).GetEntries(), language).OfType<FashionProduct>();
+
+                case EntryType.Product:
+                    return new[] { entryContent as FashionProduct };
+            }
+
+            return Enumerable.Empty<FashionProduct>();
         }
 
         private NodeContent GetTopCategory(CatalogContentBase nodeContent)
         {
             var category = _contentLoader.Get<CatalogContentBase>(nodeContent.ParentLink);
             if (category.ContentType == CatalogContentType.Catalog)
-            { 
+            {
                 return (NodeContent)nodeContent;
             }
             return GetTopCategory(category);
@@ -145,9 +177,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
         }
 
-        private void AddPrices(ISearchDocument document, IEnumerable<FashionVariant> variants)
+        private void AddPrices(ISearchDocument document, IEnumerable<EntryContentBase> skuEntries)
         {
-            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(_appContext.ApplicationId, x.Code))).ToList();
+            var prices = _priceService.GetCatalogEntryPrices(skuEntries.Select(x => new CatalogKey(_appContext.ApplicationId, x.Code))).ToList();
             var validPrices = prices.Where(x => x.ValidFrom <= DateTime.Now && (x.ValidUntil == null || x.ValidUntil >= DateTime.Now));
 
             foreach (var marketPrices in validPrices.GroupBy(x => x.MarketId))
@@ -175,6 +207,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             foreach (var variant in variants)
             {
                 document.Add(new SearchField("code", variant.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
+            }
+        }
+
+        private void AddBrands(ISearchDocument document, IEnumerable<FashionProduct> products)
+        {
+            foreach (var brand in products
+                .Where(x => !String.IsNullOrEmpty(x.Brand))
+                .Select(x => x.Brand.ToLower())
+                .Distinct())
+            {
+                document.Add(new SearchField("brand", brand));
             }
         }
     }

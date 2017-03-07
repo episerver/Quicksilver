@@ -536,5 +536,10 @@
         <AllItems>Gäller alla artiklar</AllItems>
       </Promotion>
     </StartPage>
+    <ProductRecommendations>
+      <Label>
+        <RecommendedProducts>Rekommenderade produkter</RecommendedProducts>
+      </Label>
+    </ProductRecommendations>
   </language>
 </languages>

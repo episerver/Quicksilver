@@ -15,7 +15,7 @@
                     {
                         <div class="media">
                             <div class="media-left">
-                                <a href="@cartItem.Url"><img src="@(cartItem.Variant.GetDefaultAsset<IContentImage>())" alt="@cartItem.DisplayName" class="media-object product-row__item__image" /></a>
+                                <a href="@cartItem.Url"><img src="@(cartItem.Entry.GetDefaultAsset<IContentImage>())" alt="@cartItem.DisplayName" class="media-object product-row__item__image" /></a>
                             </div>
                             <div class="media-body">
                                 <div class="row">
@@ -29,7 +29,7 @@
                                         <strong>@Html.Translate("/ProductPage/Size")</strong>
                                         @if ((bool)ViewData["IsReadOnly"])
                                         {
-                                            @Helpers.RenderSize(cartItem.Variant)
+                                            @Helpers.RenderSize(cartItem.Entry)
                                         }
                                         else
                                         {

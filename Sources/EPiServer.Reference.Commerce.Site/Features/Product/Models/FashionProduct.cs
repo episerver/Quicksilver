@@ -7,7 +7,8 @@ using EPiServer.DataAnnotations;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
-    [CatalogContentType(GUID = "550ebcfc-c989-4272-8f94-c6d079f56181", 
+    [CatalogContentType(
+        GUID = "550ebcfc-c989-4272-8f94-c6d079f56181", 
         MetaClassName = "FashionProduct", 
         DisplayName = "Fashion product", 
         Description = "Display fashion product")]

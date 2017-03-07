@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ProductTileViewModel>
+@{
+    Layout = null;
+}
+
+<ul class="product-dropdown product-row list-unstyled">
+    @foreach (var product in Model.Where(x => x.DiscountedPrice.HasValue))
+    {
+        bool hasDiscount = product.DiscountedPrice.GetValueOrDefault() < product.PlacedPrice;
+        string productLevelClass = hasDiscount ? "list-group-item product-item has-discount" : "list-group-item product-item";
+        bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
+
+        <li class="@productLevelClass">
+            <a href="@product.Url" class="link--black">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="@product.ImageUrl" alt="@product.DisplayName" class="media-object product-row__item__image" />
+                    </div>
+                    <div class="media-body">
+                        <h3 class="product-row__item__title">@product.DisplayName</h3>
+                        @if (hasDiscount)
+                        {
+                            <h4 class="product-row__item__price product-price--discount">@Helpers.RenderMoney(product.DiscountedPrice.GetValueOrDefault())</h4>
+                        }
+                        <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(product.PlacedPrice)</h4>
+                        <span class="product-row__item__brand product-brand text-muted">Lyle &amp; Scott</span>
+                        <p class="product-row__item__description">Jacket from Lyle &amp; Scott. Rounded neckline with collar and button closure. Zipper closure and two pockets at front. Elastic at each cuff and hem. Lined. Made of 100% Cotton.</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

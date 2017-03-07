@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Models.FashionNode>
+﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionNode>
 
 @{
     if (Request.IsAjaxRequest())
@@ -22,7 +22,10 @@
                 </div>
                 @Html.Partial("_ProductList", Model.ProductViewModels)
             </div>
-            <input class="jsSearchPage" hidden id="FilterOption_Page" name="FilterOption.Page" type="text" value="@(Model.FilterOption.Page + 1)" />
+            <input class="jsSearchPage" hidden id="FilterOption_Page" name="FilterOption.Page" type="text" value="@(Model.FilterOption.Page + 1)"/>
+            <input class="jsSelectedFacet" hidden id="FilterOption_SelectedFacet" name="FilterOption.SelectedFacet" type="text" />
         }
     </div>
 </div>
+
+@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.Recommendations });}}

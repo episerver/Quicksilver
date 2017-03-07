@@ -21,7 +21,7 @@ using Mediachase.Commerce.Catalog;
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
     [ServiceConfiguration(typeof(CartItemViewModelFactory), Lifecycle = ServiceInstanceScope.Singleton)]
-    public class CartItemViewModelFactory 
+    public class CartItemViewModelFactory
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPricingService _pricingService;
@@ -33,6 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private readonly ILineItemCalculator _lineItemCalculator;
         private readonly IProductService _productService;
         private readonly IRelationRepository _relationRepository;
+        private readonly ILinksRepository _linksRepository;
         readonly ICartService _cartService;
 
         public CartItemViewModelFactory(
@@ -44,8 +45,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             IPromotionService promotionService,
             AppContextFacade appContext,
             ILineItemCalculator lineItemCalculator,
-            IProductService productService, 
-            IRelationRepository relationRepository, 
+            IProductService productService,
+            IRelationRepository relationRepository,
+            ILinksRepository linksRepository,
             ICartService cartService)
         {
             _contentLoader = contentLoader;
@@ -59,29 +61,43 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _productService = productService;
             _relationRepository = relationRepository;
             _cartService = cartService;
+            _linksRepository = linksRepository;
         }
 
-        public virtual CartItemViewModel CreateCartItemViewModel(ICart cart, ILineItem lineItem, VariationContent variant)
+        public virtual CartItemViewModel CreateCartItemViewModel(ICart cart, ILineItem lineItem, EntryContentBase entry)
         {
-            var productLink = variant.GetParentProducts(_relationRepository).FirstOrDefault();
-            var product = _contentLoader.Get<ProductContent>(productLink) as FashionProduct;
-
-            return new CartItemViewModel
+            var viewModel = new CartItemViewModel
             {
                 Code = lineItem.Code,
-                DisplayName = variant.DisplayName,
-                ImageUrl = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
+                DisplayName = entry.DisplayName,
+                ImageUrl = entry.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "",
                 DiscountedPrice = GetDiscountedPrice(cart, lineItem),
                 PlacedPrice = new Money(lineItem.PlacedPrice, _currencyService.GetCurrentCurrency()),
                 Quantity = lineItem.Quantity,
-                Url = lineItem.GetUrl(),
-                Variant = variant,
-                IsAvailable = _pricingService.GetCurrentPrice(variant.Code).HasValue,
-                Brand = GetBrand(product),
-                AvailableSizes = GetAvailableSizes(product, variant),
+                Url = entry.GetUrl(_linksRepository, _urlResolver),
+                Entry = entry,
+                IsAvailable = _pricingService.GetCurrentPrice(entry.Code).HasValue,
                 DiscountedUnitPrice = GetDiscountedUnitPrice(cart, lineItem),
                 IsGift = lineItem.IsGift
             };
+
+            var productLink = entry is VariationContent ?
+                entry.GetParentProducts(_relationRepository).FirstOrDefault() :
+                entry.ContentLink;
+
+            FashionProduct product;
+            if (_contentLoader.TryGet<FashionProduct>(productLink, out product))
+            {
+                viewModel.Brand = GetBrand(product);
+            }
+
+            var variant = entry as FashionVariant;
+            if (variant != null)
+            {
+                viewModel.AvailableSizes = GetAvailableSizes(product, variant);
+            }
+
+            return viewModel;
         }
 
         private Money? GetDiscountedUnitPrice(ICart cart, ILineItem lineItem)
@@ -90,10 +106,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             return discountedPrice.GetValueOrDefault().Amount < lineItem.PlacedPrice ? discountedPrice : null;
         }
 
-        private IEnumerable<string> GetAvailableSizes(FashionProduct product, VariationContent variant)
+        private IEnumerable<string> GetAvailableSizes(FashionProduct product, FashionVariant entry)
         {
             return product != null ?
-                _productService.GetVariations(product).Where(x => x.Color.Equals(((FashionVariant)variant).Color, StringComparison.OrdinalIgnoreCase)).Select(x => x.Size)
+                _productService.GetVariants(product).Where(x => x.Color.Equals(entry.Color, StringComparison.OrdinalIgnoreCase)).Select(x => x.Size)
                 : Enumerable.Empty<string>();
         }
 
@@ -106,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         {
             var marketId = _currentMarket.GetCurrentMarket().MarketId;
             var currency = _currencyService.GetCurrentCurrency();
-            if (cart.Name.Equals(_cartService.DefaultWishListName)) 
+            if (cart.Name.Equals(_cartService.DefaultWishListName))
             {
                 var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
                 return discountedPrice != null ? discountedPrice.UnitPrice : (Money?)null;

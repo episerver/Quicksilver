@@ -61,26 +61,36 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 
         protected RestSearchDocument PopulateRestSearchDocument(string code, string language)
         {
-            
+
             var contentLink = _referenceConverter.GetContentLink(code);
             if (ContentReference.IsNullOrEmpty(contentLink))
             {
                 return null;
             }
             var document = new RestSearchDocument();
-            var productContent = _contentLoader.Get<FashionProduct>(contentLink);
-            var variants = _contentLoader.GetItems(productContent.GetVariants(_relationRepository), CultureInfo.GetCultureInfo(language)).OfType<FashionVariant>().ToList();
-            AddPrices(document, variants);
-            AddColors(document, variants);
-            AddSizes(document, variants);
-            AddCodes(document, variants);
-            document.Fields.Add(new RestSearchField("code", productContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
-            document.Fields.Add(new RestSearchField("displayname", productContent.DisplayName));
-            document.Fields.Add(new RestSearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(productContent)));
-            document.Fields.Add(new RestSearchField("content_link", productContent.ContentLink.ToString()));
-            document.Fields.Add(new RestSearchField("created", productContent.Created.ToString("yyyyMMddhhmmss")));
-            document.Fields.Add(new RestSearchField("brand", productContent.Brand));
-            document.Fields.Add(new RestSearchField("top_category_name", GetTopCategory(productContent).DisplayName));
+            var entryContent = _contentLoader.Get<EntryContentBase>(contentLink);
+            var fashionProduct = entryContent as FashionProduct;
+            var fashionPackage = entryContent as FashionPackage;
+            if (fashionProduct != null)
+            {
+                var variants = _contentLoader.GetItems(fashionProduct.GetVariants(_relationRepository), CultureInfo.GetCultureInfo(language)).OfType<FashionVariant>().ToList();
+                AddPrices(document, variants.Select(v => new CatalogKey(_appContext.ApplicationId, v.Code)));
+                AddColors(document, variants);
+                AddSizes(document, variants);
+                AddCodes(document, variants);
+                document.Fields.Add(new RestSearchField("brand", fashionProduct.Brand));
+            }
+            else if (fashionPackage != null)
+            {
+                AddPrices(document, new [] { new CatalogKey(_appContext.ApplicationId, fashionPackage.Code) });
+            }
+            document.Fields.Add(new RestSearchField("code", entryContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
+            document.Fields.Add(new RestSearchField("displayname", entryContent.DisplayName));
+            document.Fields.Add(new RestSearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(entryContent)));
+            document.Fields.Add(new RestSearchField("content_link", entryContent.ContentLink.ToString()));
+            document.Fields.Add(new RestSearchField("created", entryContent.Created.ToString("yyyyMMddhhmmss")));
+            document.Fields.Add(new RestSearchField("top_category_name", GetTopCategory(entryContent).DisplayName));
+
             return document;
         }
 
@@ -120,9 +130,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
         }
 
-        private void AddPrices(RestSearchDocument document, IEnumerable<FashionVariant> variants)
+        private void AddPrices(RestSearchDocument document, IEnumerable<CatalogKey> catalogKeys)
         {
-            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(_appContext.ApplicationId, x.Code))).ToList();
+            var prices = _priceService.GetCatalogEntryPrices(catalogKeys).ToList();
             var validPrices = prices.Where(x => x.ValidFrom <= DateTime.Now && (x.ValidUntil == null || x.ValidUntil >= DateTime.Now));
 
             foreach (var marketPrices in validPrices.GroupBy(x => x.MarketId))
@@ -149,7 +159,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         {
             foreach (var variant in variants)
             {
-                document.Fields.Add(new RestSearchField("code", variant.Code, new [] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
+                document.Fields.Add(new RestSearchField("code", variant.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
             }
         }
     }

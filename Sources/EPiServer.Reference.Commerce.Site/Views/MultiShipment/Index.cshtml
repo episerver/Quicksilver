@@ -15,7 +15,7 @@
         <div class="row section-box checkout jsCheckout">
             <div class="col-xs-12">
                 <h1>@Html.Translate("/Checkout/MultiShipment/Heading")</h1>
-                @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated)
                 {
                     <h4>@Html.Translate("/Checkout/MultiShipment/SubheadingFirst") <a href="@Url.ContentUrl(Model.StartPage.AddressBookPage)">@Html.Translate("/Checkout/MultiShipment/SubheadingAddress")</a> @Html.Translate("/Checkout/MultiShipment/SubheadingSecond")</h4>
                 }
@@ -58,7 +58,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-4 xs-vertical-margin">
                                             <strong>@Html.Translate("/ProductPage/Size")</strong><br />
-                                            @Helpers.RenderSize(Model.CartItems[index].Variant)
+                                            @Helpers.RenderSize(Model.CartItems[index].Entry)
                                         </div>
 
                                         <div class="col-xs-12 col-sm-8 xs-vertical-margin">

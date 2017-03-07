@@ -8,7 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
     public interface ICartService
     {
-        bool AddToCart(ICart cart, string code, out string warningMessage);
+        AddToCartResult AddToCart(ICart cart, string code, decimal quantity);
         void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize);
         void SetCartCurrency(ICart cart, Currency currency);
         Dictionary<ILineItem, List<ValidationIssue>> ValidateCart(ICart cart);

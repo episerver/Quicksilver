@@ -5,6 +5,10 @@ using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Business
 {
+    /// <summary>
+    ///     This custom calculator extends the default one in order to 
+    ///     exclude order level discounts from subtotal and instead include only in total.
+    /// </summary>
     public class SiteOrderFormCalculator : DefaultOrderFormCalculator
     {
         private ILineItemCalculator _lineItemCalculator;

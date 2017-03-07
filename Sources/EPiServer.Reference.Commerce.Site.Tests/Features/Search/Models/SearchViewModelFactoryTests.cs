@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             var result = _subject.Create<IContent>(null, formModel);
 
             // Assert
-            Assert.Equal<IEnumerable<ProductViewModel>>(_productViewModels, result.ProductViewModels);
+            Assert.Equal<IEnumerable<ProductTileViewModel>>(_productViewModels, result.ProductViewModels);
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         SearchViewModelFactory _subject;
         Mock<ISearchService> _searchServiceMock;
         Mock<ISearchResults> _searchResultsMock;
-        IEnumerable<ProductViewModel> _productViewModels = Enumerable.Empty<ProductViewModel>();
+        IEnumerable<ProductTileViewModel> _productViewModels = Enumerable.Empty<ProductTileViewModel>();
         ISearchFacetGroup[] _facetGroups = new ISearchFacetGroup[0];
 
         public SearchViewModelFactoryTests()

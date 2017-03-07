@@ -34,9 +34,9 @@
                                 </span>
                             </div>
                         </div>
-                                <div class="alert alert-danger couponcode-errormessage" style="display: none">
-                                    <p>@Html.Translate("/Checkout/Coupons/CouponCode/ErrorMessage")</p>
-                                </div>
+                        <div class="alert alert-danger couponcode-errormessage" style="display: none">
+                            <p>@Html.Translate("/Checkout/Coupons/CouponCode/ErrorMessage")</p>
+                        </div>
                     }
                     @if (Model.AppliedCouponCodes != null && Model.AppliedCouponCodes.Any())
                     {
@@ -62,134 +62,134 @@
         </div>
     </div>
 
-@using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
-{
-    <div class="row section-box">
-        <div class="col-xs-12">
-            <div class="checkout-cart jsLargeCart">
-                @{
-                    for (int shipmentIndex = 1; shipmentIndex <= Model.Shipments.Count(); shipmentIndex++)
-                    {
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.AddressId)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.Name)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.FirstName)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.LastName)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.PostalCode)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.City)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.CountryCode)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.CountryRegion.Region)
-                        @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.Line1)
+    @using (Html.BeginForm("Purchase", "Checkout", FormMethod.Post, new { @class = "jsCheckoutForm", @data_UpdateUrl = Url.Action("Update", null, null) }))
+    {
+        <div class="row section-box">
+            <div class="col-xs-12">
+                <div class="checkout-cart jsLargeCart">
+                    @{
+                        for (int shipmentIndex = 1; shipmentIndex <= Model.Shipments.Count(); shipmentIndex++)
+                        {
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.AddressId)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.Name)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.FirstName)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.LastName)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.PostalCode)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.City)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.CountryCode)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.CountryRegion.Region)
+                            @Html.HiddenFor(model => model.Shipments[shipmentIndex - 1].Address.Line1)
 
-                        <div class="row shipment-summary-container">
-                            <div class="col-xs-12 col-sm-8">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h2>Shipment @shipmentIndex of @Model.Shipments.Count()</h2>
-                                        @{ Html.RenderPartial("_AddressSummaryLine", Model.Shipments[shipmentIndex - 1].Address); }
-                                    </div>
-                                </div>
-
-                                @foreach (var cartItem in Model.Shipments[shipmentIndex - 1].CartItems)
-                                {
-                                    string productLevelClass = cartItem.DiscountedUnitPrice.HasValue ? "has-discount" : string.Empty;
-
-                                    <div class="row cart-row @productLevelClass">
-
-                                        <div class="col-xs-4 col-sm-2">
-                                            <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image" /></a>
+                            <div class="row shipment-summary-container">
+                                <div class="col-xs-12 col-sm-8">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h2>Shipment @shipmentIndex of @Model.Shipments.Count()</h2>
+                                            @{ Html.RenderPartial("_AddressSummaryLine", Model.Shipments[shipmentIndex - 1].Address); }
                                         </div>
-                                        <div class="col-xs-8 col-sm-10">
-                                            <div class="row">
+                                    </div>
 
-                                                <div class="col-sm-4">
-                                                    <a href="@cartItem.Url" class="link--black">@cartItem.DisplayName</a><br />
+                                    @foreach (var cartItem in Model.Shipments[shipmentIndex - 1].CartItems)
+                                    {
+                                        string productLevelClass = cartItem.DiscountedUnitPrice.HasValue ? "has-discount" : string.Empty;
 
-                                                    <span class="product-brand xs-vertical-margin">@cartItem.Brand</span>
-                                                    @if (cartItem.DiscountedUnitPrice.HasValue)
-                                                    {
-                                                        <span class="product-price">@Helpers.RenderMoney(cartItem.PlacedPrice)</span>
+                                        <div class="row cart-row @productLevelClass">
+
+                                            <div class="col-xs-4 col-sm-2">
+                                                <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image" /></a>
+                                            </div>
+                                            <div class="col-xs-8 col-sm-10">
+                                                <div class="row">
+
+                                                    <div class="col-sm-4">
+                                                        <a href="@cartItem.Url" class="link--black">@cartItem.DisplayName</a><br />
+
+                                                        <span class="product-brand xs-vertical-margin">@cartItem.Brand</span>
+                                                        @if (cartItem.DiscountedUnitPrice.HasValue)
+                                                        {
+                                                            <span class="product-price">@Helpers.RenderMoney(cartItem.PlacedPrice)</span>
                                                             <span class="product-price product-price--discount xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountedUnitPrice.Value)</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountedPrice.Value)</span>
-                                                    }
-                                                </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountedPrice.Value)</span>
+                                                        }
+                                                    </div>
 
-                                                <div class="col-xs-6 col-sm-2">
-                                                    <strong>@Html.Translate("/ProductPage/Size")</strong><br />
-                                                    @Helpers.RenderSize(cartItem.Variant)
-                                                </div>
+                                                    <div class="col-xs-6 col-sm-2">
+                                                        <strong>@Html.Translate("/ProductPage/Size")</strong><br />
+                                                        @Helpers.RenderSize(cartItem.Entry)
+                                                    </div>
 
-                                                <div class="col-xs-6 col-sm-2">
-                                                    <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br />
-                                                    @cartItem.Quantity.ToString("0")
-                                                </div>
+                                                    <div class="col-xs-6 col-sm-2">
+                                                        <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br />
+                                                        @cartItem.Quantity.ToString("0")
+                                                    </div>
 
-                                                <div class="col-xs-6 col-sm-2 product-col-price text-right">
-                                                    @cartItem.DiscountedPrice.ToString()
-                                                </div>
+                                                    <div class="col-xs-6 col-sm-2 product-col-price text-right">
+                                                        @cartItem.DiscountedPrice.ToString()
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
+                                </div>
+                                <div class="col-xs-12 col-sm-4">
+                                    <h2>&nbsp;</h2>
+                                    <strong>@Html.Translate("/Checkout/MultiShipment/DeliveryOption")</strong><br />
+                                    @foreach (var shippingMethodViewModel in Model.Shipments[shipmentIndex - 1].ShippingMethods)
+                                    {
+                                        <div class="radio">
+                                            <label>
+                                                @Html.RadioButtonFor(model => Model.Shipments[shipmentIndex - 1].ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
+                                                @shippingMethodViewModel.DisplayName
+                                                @shippingMethodViewModel.Price.ToString()
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <h2>&nbsp;</h2>
-                                <strong>@Html.Translate("/Checkout/MultiShipment/DeliveryOption")</strong><br />
-                                @foreach (var shippingMethodViewModel in Model.Shipments[shipmentIndex - 1].ShippingMethods)
-                                {
-                                    <div class="radio">
-                                        <label>
-                                            @Html.RadioButtonFor(model => Model.Shipments[shipmentIndex - 1].ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
-                                            @shippingMethodViewModel.DisplayName
-                                            @shippingMethodViewModel.Price.ToString()
-                                        </label>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                                            }
-                }
+                                                }
+                    }
+                </div>
             </div>
         </div>
-    </div>
-                                            if (!ViewData.ModelState.IsValid)
-                                            {
-                                                <div class="alert alert-danger">
-                                                    @foreach (var item in ViewData.ModelState)
-                                                    {
-                                                        foreach (var error in item.Value.Errors)
+                                                if (!ViewData.ModelState.IsValid)
+                                                {
+                                                    <div class="alert alert-danger">
+                                                        @foreach (var item in ViewData.ModelState)
                                                         {
-                                                            <p>@error.ErrorMessage</p>
-                                                        }
-                                                    }
-                                                </div>
-                                            }
-
-                                            if (!(bool)ViewData["IsReadOnly"])
-                                            {
-                                                <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
-                                                <div class="row section-box">
-                                                    <div id="billingAddressContainer" class="col-md-6 col-xs-12">
-                                                        @{ Html.RenderPartial("BillingAddress", Model); }
-                                                    </div>
-                                                    <div class="col-md-6 col-xs-12">
-                                                        @{ Html.RenderPartial("Payment", Model); }
-                                                    </div>
-                                                    <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
-                                                </div>
+                                                            foreach (var error in item.Value.Errors)
+                                                            {
+                                                                <p>@error.ErrorMessage</p>
                                                             }
+                                                        }
+                                                    </div>
+                                                }
 
-                                                            <div class="row section-box">
-                                                                <div class="col-xs-12">
-                                                                    @{ Html.RenderAction("OrderSummary"); }
-                                                                    @if (!(bool)ViewData["IsReadOnly"])
+                                                if (!(bool)ViewData["IsReadOnly"])
+                                                {
+                                                    <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
+                                                    <div class="row section-box">
+                                                        <div id="billingAddressContainer" class="col-md-6 col-xs-12">
+                                                            @{ Html.RenderPartial("BillingAddress", Model); }
+                                                        </div>
+                                                        <div class="col-md-6 col-xs-12">
+                                                            @{ Html.RenderPartial("Payment", Model); }
+                                                        </div>
+                                                        <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
+                                                    </div>
+                                                                }
+
+                                                                <div class="row section-box">
+                                                                    <div class="col-xs-12">
+                                                                        @{ Html.RenderAction("OrderSummary"); }
+                                                                        @if (!(bool)ViewData["IsReadOnly"])
                 {
-                                                                        <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-                                                                    }
-                                                                </div>
-                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
                                                                         }
+                                                                    </div>
+                                                                </div>
+                                                                            }
 </div>

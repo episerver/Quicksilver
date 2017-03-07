@@ -1,4 +1,5 @@
 ﻿using Mediachase.Commerce.Catalog.Dto;
+using Mediachase.Commerce.Catalog.Objects;
 using Mediachase.Search.Extensions;
 using Mediachase.Search.Extensions.Indexers;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Shared.CatalogIndexer
         
         protected override void OnCatalogEntryIndex(ref SearchDocument document, CatalogEntryDto.CatalogEntryRow entry, string language)
         {
-            if (entry.ClassTypeId != "Product")
+            if (entry.ClassTypeId == EntryType.Variation)
             {
                 return;
             }

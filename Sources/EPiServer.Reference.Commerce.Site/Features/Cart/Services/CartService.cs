@@ -1,4 +1,5 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
@@ -15,6 +16,7 @@ using Mediachase.Commerce.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
@@ -35,6 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly ICurrencyService _currencyService;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IContentLoader _contentLoader;
+        private readonly IRelationRepository _relationRepository;
 
         public CartService(
             IProductService productService,
@@ -50,7 +53,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ICurrentMarket currentMarket,
             ICurrencyService currencyService,
             ReferenceConverter referenceConverter,
-            IContentLoader contentLoader)
+            IContentLoader contentLoader,
+            IRelationRepository relationRepository)
         {
             _productService = productService;
             _pricingService = pricingService;
@@ -66,6 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _currencyService = currencyService;
             _referenceConverter = referenceConverter;
             _contentLoader = contentLoader;
+            _relationRepository = relationRepository;
         }
 
         public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize)
@@ -165,43 +170,52 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-        public bool AddToCart(ICart cart, string code, out string warningMessage)
+        public AddToCartResult AddToCart(ICart cart, string code, decimal quantity)
         {
-            warningMessage = string.Empty;
-            
+            var result = new AddToCartResult();
+            var contentLink = _referenceConverter.GetContentLink(code);
+            var entryContent = _contentLoader.Get<EntryContentBase>(contentLink);
+
+            if (entryContent is BundleContent)
+            {
+                foreach (var relation in _relationRepository.GetRelationsBySource<BundleEntry>(contentLink))
+                {
+                    var entry = _contentLoader.Get<EntryContentBase>(relation.Target);
+                    var recursiveResult = AddToCart(cart, entry.Code, relation.Quantity ?? 1);
+                    if (recursiveResult.EntriesAddedToCart)
+                    {
+                        result.EntriesAddedToCart = true;
+                    }
+
+                    foreach (var message in recursiveResult.ValidationMessages)
+                    {
+                        result.ValidationMessages.Add(message);
+                    }
+                }
+
+                return result;
+            }
+
             var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
 
             if (lineItem == null)
             {
-                var contentLink = _referenceConverter.GetContentLink(code);
-                var entryContent = _contentLoader.Get<EntryContentBase>(contentLink);
-
                 lineItem = cart.CreateLineItem(code, _orderGroupFactory);
                 lineItem.DisplayName = entryContent.DisplayName;
-                lineItem.Quantity = 1;
+                lineItem.Quantity = quantity;
                 cart.AddLineItem(lineItem, _orderGroupFactory);
             }
             else
             {
                 var shipment = cart.GetFirstShipment();
-                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + 1);
+                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
             }
 
             var validationIssues = ValidateCart(cart);
 
-            foreach (var validationIssue in validationIssues)
-            {
-                warningMessage += string.Format("Line Item with code {0} ", lineItem.Code);
-                warningMessage = validationIssue.Value.Aggregate(warningMessage, (current, issue) => current + issue.ToString());
-                warningMessage = warningMessage.Substring(0, warningMessage.Length - 2);
-            }
+            AddValidationMessagesToResult(result, lineItem, validationIssues);
 
-            if (validationIssues.HasItemBeenRemoved(lineItem))
-            {
-                return false;
-            }
-
-            return GetFirstLineItem(cart, code) != null;
+            return result;
         }
 
         public void SetCartCurrency(ICart cart, Currency currency)
@@ -214,9 +228,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             cart.Currency = currency;
             foreach (var lineItem in cart.GetAllLineItems())
             {
-                //If there is an item which has no price in the new currency, a NullReference exception will be thrown.
-                //Mixing currencies in cart is not allowed.
-                //It's up to site's managers to ensure that all items have prices in allowed currency.
+                // If there is an item which has no price in the new currency, a NullReference exception will be thrown.
+                // Mixing currencies in cart is not allowed.
+                // It's up to site's managers to ensure that all items have prices in allowed currency.
                 lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).Value.Amount;
             }
 
@@ -319,6 +333,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
 
             ValidateCart(cart);
+        }
+
+        private static void AddValidationMessagesToResult(AddToCartResult result, ILineItem lineItem, Dictionary<ILineItem, List<ValidationIssue>> validationIssues)
+        {
+            foreach (var validationIssue in validationIssues)
+            {
+                var warning = new StringBuilder();
+                warning.Append(string.Format("Line Item with code {0} ", lineItem.Code));
+                validationIssue.Value.Aggregate(warning, (current, issue) => current.Append(issue));
+
+                result.ValidationMessages.Add(warning.ToString());
+            }
+
+            if (!validationIssues.HasItemBeenRemoved(lineItem))
+            {
+                result.EntriesAddedToCart = true;
+            }
         }
 
         private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity)

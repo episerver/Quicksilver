@@ -1,13 +1,16 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
+﻿@using EPiServer.Reference.Commerce.Site.Features.Recommendations
+
+@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
 
 <div class="row jsProductDetails">
+
     <div class="col-xs-12 col-sm-4 col--leading">
         <div id="product-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner" role="listbox">
                 @for (var i = 0; i < Model.Images.Count; i++)
                 {
                     <div class="item" data-slide-number="@i">
-                        <img src="@Model.Images.ElementAt(i)" />
+                        <img src="@Model.Images.ElementAt(i)" alt="@Model.Product.Code" />
                     </div>
                 }
             </div>
@@ -23,17 +26,18 @@
             </ul>
         </div>
     </div>
+
     <div class="col-xs-12 col-sm-8 product-info">
         <div class="row">
             <div class="col-xs-12">
-                <h1>@Html.PropertyFor(x => x.Variation.DisplayName)</h1>
+                <h1>@Html.PropertyFor(x => x.Variant.DisplayName)</h1>
             </div>
             <div class="col-xs-12 col-sm-6">
                 <h2 class="product-brand">@Html.PropertyFor(x => x.Product.Brand)</h2>
             </div>
             <div class="col-xs-12 col-sm-6">
                 @if (Model.IsAvailable)
-                { 
+                {
                     if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value < Model.ListingPrice)
                     {
                         <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
@@ -70,7 +74,7 @@
                     @Html.PropertyFor(x => x.Product.Description)
                 </p>
                 <p>
-                    <strong>SKU:</strong> @Html.PropertyFor(x => x.Variation.Code)
+                    <strong>SKU:</strong> @Html.PropertyFor(x => x.Variant.Code)
                 </p>
             </div>
         </div>
@@ -78,17 +82,17 @@
         <div class="row">
             <div class="col-md-7">
                 @if (Model.IsAvailable && !(bool)ViewData["IsReadOnly"])
-                { 
+                {
                     using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
                     {
-                        @Html.Hidden("code", Model.Variation.Code)
+                        @Html.Hidden("code", Model.Variant.Code)
                         <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
                     }
                     if (User.Identity.IsAuthenticated)
                     {
                         using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
                         {
-                            @Html.Hidden("code", Model.Variation.Code)
+                            @Html.Hidden("code", Model.Variant.Code)
                             <button type="submit" role="button" class="btn btn-default btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
                         }
                     }
@@ -100,12 +104,10 @@
             </div>
         </div>
     </div>
-
 </div>
 
 @section Meta {
-    @if (Model != null)
-    {
+    @{
         if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Description))
         {
             <meta property="description" content="@Html.AttributeEncode(Model.Product.SeoInformation.Description)" />
@@ -120,3 +122,8 @@
         }
     }
 }
+
+
+@section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.AlternativeProducts });}}
+
+@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.CrossSellProducts });}}

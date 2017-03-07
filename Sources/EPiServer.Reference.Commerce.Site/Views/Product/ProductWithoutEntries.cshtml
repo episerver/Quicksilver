@@ -1,0 +1,63 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
+
+<div class="row">
+    <div class="product-details jsProductDetails">
+
+        <div class="col-xs-12 col-sm-4 col--leading">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    @for (var i = 0; i < Model.Images.Count; i++)
+                    {
+                        <div class="item" data-slide-number="@i">
+                            <img src="@Model.Images.ElementAt(i)" alt="@Model.Product.Code" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row" id="carousel-thumbs">
+                <ul class="carousel-thumbs js-carousel-thumbs">
+                    @for (var i = 0; i < Model.Images.Count; i++)
+                    {
+                        <li class="col-xs-3">
+                            <a href="#" class="thumbnail js-thumbnail" id="@i"><img src="@Model.Images.ElementAt(i)" /></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>         
+            
+        <div class="col-md-6 product-info">
+            
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <h3>@Html.DisplayFor(x => x.Product.DisplayName)</h3>
+                </div>
+            </div>
+            <p>
+                <strong>Code:</strong> @Html.DisplayFor(x => x.Product.Code)
+            </p>
+            <ul class="block-list">
+                <li>@Html.PropertyFor(x => x.Product.Brand)</li>
+                <li>@Html.PropertyFor(x => x.Product.LongDescription)</li>
+            </ul>                
+        </div>      
+    </div>
+</div>
+
+@section Meta {
+    @if (Model != null)
+    {
+        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Description))
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Product.SeoInformation.Description)" />
+        }
+        else if (Model.Product.Description!= null && !Model.Product.Description.IsEmpty)
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Product.Description)" />
+        }
+        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Keywords))
+        {
+            <meta property="keywords" content="@Html.AttributeEncode(Model.Product.SeoInformation.Keywords)" />
+        }
+    }
+}

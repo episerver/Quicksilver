@@ -1,8 +1,12 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+﻿using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
+using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Web.Mvc;
+using Mediachase.Commerce.Catalog;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
@@ -11,20 +15,31 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
     {
         private readonly SearchViewModelFactory _viewModelFactory;
         private readonly ISearchService _searchService;
+        private readonly IRecommendationService _recommendationService;
+        private readonly ReferenceConverter _referenceConverter;
 
-        public SearchController(SearchViewModelFactory viewModelFactory, ISearchService searchService)
+        public SearchController(
+            SearchViewModelFactory viewModelFactory, 
+            ISearchService searchService,
+            IRecommendationService recommendationService,
+            ReferenceConverter referenceConverter)
         {
             _viewModelFactory = viewModelFactory;
             _searchService = searchService;
+            _recommendationService = recommendationService;
+            _referenceConverter = referenceConverter;
         }
 
-        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         [ValidateInput(false)]
-        public ActionResult Index(SearchPage currentPage, FilterOptionViewModel viewModel)
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult Index(SearchPage currentPage, FilterOptionViewModel filterOptions)
         {
-            var model = _viewModelFactory.Create(currentPage, viewModel);
+            var viewModel = _viewModelFactory.Create(currentPage, filterOptions);
+            viewModel.Recommendations = _recommendationService
+                .SendSearchTracking(HttpContext, filterOptions.Q, viewModel.ProductViewModels.Select(x => x.Code))
+                .GetSearchResultRecommendations(_referenceConverter);
 
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -32,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult QuickSearch(string q = "")
         {
             var result = _searchService.QuickSearch(q);
-            return View(result);
+            return View("_QuickSearch", result);
         }
     }
 }

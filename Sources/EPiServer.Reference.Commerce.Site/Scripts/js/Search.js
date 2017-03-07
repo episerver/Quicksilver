@@ -87,6 +87,7 @@
         Search.lastPage = false;
         var form = $(document).find('.jsSearchForm');
         $('.jsSearchPage').val(1);
+        $('.jsSelectedFacet').val($(this).data('facetgroup') + ':' + $(this).data('facetkey'));
         var url = Search.getUrlWithFacets();
         Search.updatePage(url, form.serialize(), function () {
             history.pushState({ url: url }, "", url); //put the new url to browser history

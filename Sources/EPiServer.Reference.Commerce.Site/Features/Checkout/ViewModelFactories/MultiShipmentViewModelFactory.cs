@@ -119,7 +119,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                         PlacedPrice = item.PlacedPrice,
                         AddressId = item.AddressId,
                         Url = item.Url,
-                        Variant = item.Variant,
+                        Entry = item.Entry,
                         DiscountedUnitPrice = item.DiscountedUnitPrice,
                         DiscountedPrice = item.DiscountedPrice,
                         IsGift = item.IsGift

@@ -4,6 +4,7 @@ Update-Package EPiServer.Commerce -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.Commerce.UI.ManagerIntegration -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.CommerceManager -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.Commerce.Core -Source http://nuget.episerver.com/nuget
+Update-Package EPiServer.Recommendations.Commerce -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.CMS -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.CMS.UI -Source http://nuget.episerver.com/nuget
 Update-Package EPiServer.CMS.Core -Source http://nuget.episerver.com/nuget

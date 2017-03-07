@@ -26,14 +26,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             return contentLoader.GetChildren<PageData>(pageData.ParentLink).Where(page => !filter.ShouldFilter(page));
         }
 
-        public static string GetUrl(this VariationContent variant)
+        public static string GetUrl(this EntryContentBase entry)
         {
-            return GetUrl(variant, _linksRepository.Service, _urlResolver.Service);
+            return GetUrl(entry, _linksRepository.Service, _urlResolver.Service);
         }
 
-        public static string GetUrl(this VariationContent variant, ILinksRepository linksRepository, UrlResolver urlResolver)
+        public static string GetUrl(this EntryContentBase entry, ILinksRepository linksRepository, UrlResolver urlResolver)
         {
-            var productLink = variant.GetParentProducts(linksRepository).FirstOrDefault();
+            var productLink = entry is VariationContent ?
+                entry.GetParentProducts(linksRepository).FirstOrDefault() : 
+                entry.ContentLink;
+
             if (productLink == null)
             {
                 return string.Empty;
@@ -41,9 +44,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
             var urlBuilder = new UrlBuilder(urlResolver.GetUrl(productLink));
 
-            if (variant.Code != null)
+            if (entry.Code != null)
             {
-                urlBuilder.QueryCollection.Add("variationCode", variant.Code);
+                urlBuilder.QueryCollection.Add("variationCode", entry.Code);
             }
             
             return urlBuilder.ToString();

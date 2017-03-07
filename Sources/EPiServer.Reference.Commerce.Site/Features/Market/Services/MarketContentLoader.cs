@@ -14,7 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
     /// <remarks>
     ///     Extract some common methods in <cref name="PromotionEngineContentLoader" /> class to this.
     /// </remarks>
-    // TODO: Should move this class to core.
     [ServiceConfiguration(typeof(MarketContentLoader), Lifecycle = ServiceInstanceScope.Singleton)]
     public class MarketContentLoader
     {

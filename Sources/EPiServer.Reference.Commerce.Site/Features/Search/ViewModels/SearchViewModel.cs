@@ -7,7 +7,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
 {
     public class SearchViewModel<T> where T : IContent
     {
-        public IEnumerable<ProductViewModel> ProductViewModels { get; set; }
+        public IEnumerable<ProductTileViewModel> ProductViewModels { get; set; }
+        public IEnumerable<ContentReference> Recommendations { get; set; }
         public T CurrentContent { get; set; }
         public FilterOptionViewModel FilterOption { get; set; }
         public ISearchFacetGroup[] Facets { get; set; }

@@ -19,9 +19,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         public static string GetUrl(this ILineItem lineItem)
         {
-            var variantLink = _referenceConverter.Service.GetContentLink(lineItem.Code);
-            var variant = _contentLoader.Service.Get<VariationContent>(variantLink);
-            return variant.GetUrl();
+            var entryContentLink = _referenceConverter.Service.GetContentLink(lineItem.Code);
+            var entry = _contentLoader.Service.Get<EntryContentBase>(entryContentLink);
+            return entry.GetUrl();
         }
 
         public static string GetFullUrl(this ILineItem lineItem)
@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         private static string GetThumbnailUrl(string code)
         {
-            var content = _contentLoader.Service.Get<VariationContent>(_referenceConverter.Service.GetContentLink(code, CatalogContentType.CatalogEntry));
+            var content = _contentLoader.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(code, CatalogContentType.CatalogEntry));
 
             return _thumbnailUrlResolver.Service.GetThumbnailUrl(content, "thumbnail");
         }    

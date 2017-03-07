@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
@@ -21,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
 
         public string Code { get; set; }
 
-        public VariationContent Variant { get; set; }
+        public EntryContentBase Entry { get; set; }
 
         public decimal Quantity { get; set; }
 

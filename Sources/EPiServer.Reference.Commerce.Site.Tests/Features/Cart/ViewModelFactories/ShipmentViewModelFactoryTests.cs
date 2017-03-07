@@ -1,8 +1,8 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EPiServer.Globalization;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -91,16 +90,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             addressBookServiceMock.Setup(x => x.ConvertToModel(It.IsAny<IOrderAddress>())).Returns(_addressModel);
 
             _cartItem = new CartItemViewModel ();
-            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null,null,null,null,null,null,null,null,null,null, null);
+            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null,null,null,null,null,null,null,null,null,null, null, null);
             cartItemViewModelFactoryMock.Setup(x => x.CreateCartItemViewModel(It.IsAny<ICart>(), It.IsAny<ILineItem>(), It.IsAny<VariationContent>())).Returns(_cartItem);
 
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.GetItems(It.IsAny<IEnumerable<ContentReference>>(), It.IsAny<CultureInfo>()))
                 .Returns(() => new List<VariationContent> {new VariationContent {Code = "code"} });
-
-            var relationRepositoryMock = new Mock<IRelationRepository>();
-            relationRepositoryMock.Setup(x => x.GetRelationsByTarget<ProductVariation>(It.IsAny<ContentReference>()))
-                .Returns(() => new[] {new ProductVariation {Source = new ContentReference(1)}});
 
             _languageResolverMock = new Mock<LanguageResolver>();
             _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
@@ -112,8 +107,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 referenceConverterMock.Object,
                 addressBookServiceMock.Object,
                 cartItemViewModelFactoryMock.Object,
-                _languageResolverMock.Object,
-                relationRepositoryMock.Object);    
+                _languageResolverMock.Object);    
         }
     }
 }

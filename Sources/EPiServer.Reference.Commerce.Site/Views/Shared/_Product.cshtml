@@ -1,6 +1,6 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Models.IProductModel
 
-@{    
+@{
 
     if (Model == null)
     {
@@ -15,27 +15,32 @@
 <div class="@productLevelClass">
     <a href="@Model.Url" class="link--black">
         <div class="view-details"></div>
-        <img src="@Model.ImageUrl" alt="@Model.DisplayName" class="img-responsive">
+        <img src="@Model.ImageUrl" alt="@Model.Code" class="img-responsive">
 
         <h3 class="product-title">@Model.DisplayName</h3>
-        <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
 
-        @if (Model.IsAvailable)
-        {
-            if (hasDiscount)
+        <div>
+            <span class="product-brand">@Html.PropertyFor(x => x.Brand)</span>
+            @if (Model.IsAvailable)
             {
-                <h4 class="product-price">@Helpers.RenderMoney(Model.PlacedPrice)</h4>
-                <h4 class="product-price product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
+                if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value.Amount > 0)
+                {
+                    if (hasDiscount)
+                    {
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.PlacedPrice)</h4>
+                        <h4 class="product-price product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
+                    }
+                    else
+                    {
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
+                    }
+                }
             }
             else
             {
-                <h4 class="product-price">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
+                <h4 class="product-price">@Html.Translate("/Product/NotAvailable")</h4>
             }
-        }
-        else
-        { 
-            <h4 class="product-price">@Html.Translate("/Product/NotAvailable")</h4>
-        }
+        </div>
     </a>
 
     @if (renderWishListButtons && !(bool)ViewData["IsReadOnly"])

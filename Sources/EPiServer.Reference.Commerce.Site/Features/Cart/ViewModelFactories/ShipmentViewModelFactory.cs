@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
-using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
@@ -15,6 +10,9 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
@@ -28,7 +26,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private readonly IAddressBookService _addressBookService;
         readonly CartItemViewModelFactory _cartItemViewModelFactory;
         private readonly LanguageResolver _languageResolver;
-        readonly IRelationRepository _relationRepository;
 
         public ShipmentViewModelFactory(
             IContentLoader contentLoader,
@@ -37,8 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             ReferenceConverter referenceConverter,
             IAddressBookService addressBookService,
             CartItemViewModelFactory cartItemViewModelFactory,
-            LanguageResolver languageResolver,
-            IRelationRepository relationRepository)
+            LanguageResolver languageResolver)
         {
             _contentLoader = contentLoader;
             _shippingManagerFacade = shippingManagerFacade;
@@ -46,7 +42,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _referenceConverter = referenceConverter;
             _addressBookService = addressBookService;
             _cartItemViewModelFactory = cartItemViewModelFactory;
-            _relationRepository = relationRepository;
             _languageResolver = languageResolver;
         }
 
@@ -67,20 +62,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                                                  shipmentModel.ShippingMethods.First().Id 
                                                : shipment.ShippingMethodId;
 
-                var variants = _contentLoader.GetItems(shipment.LineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
-                    preferredCulture).OfType<VariationContent>();
+                var entries = _contentLoader.GetItems(shipment.LineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
+                    preferredCulture).OfType<EntryContentBase>();
 
                 foreach (var lineItem in shipment.LineItems)
                 {
-                    var variant = variants.Single(x => x.Code == lineItem.Code);
+                    var entry = entries.Single(x => x.Code == lineItem.Code);
 
-                    var productLink = variant.GetParentProducts(_relationRepository).FirstOrDefault();
-                    if (ContentReference.IsNullOrEmpty(productLink))
-                    {
-                        continue;
-                    }
-
-                    shipmentModel.CartItems.Add(_cartItemViewModelFactory.CreateCartItemViewModel(cart, lineItem, variant));
+                    shipmentModel.CartItems.Add(_cartItemViewModelFactory.CreateCartItemViewModel(cart, lineItem, entry));
                 }
 
                 yield return shipmentModel;

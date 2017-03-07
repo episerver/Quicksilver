@@ -1,6 +1,7 @@
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
 
@@ -11,15 +12,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly ICartService _cartService;
         private ICart _cart;
         private readonly IOrderRepository _orderRepository;
+        private readonly IRecommendationService _recommendationService;
         readonly CartViewModelFactory _cartViewModelFactory;
+        
 
         public CartController(
             ICartService cartService,
             IOrderRepository orderRepository,
+            IRecommendationService recommendationService,
             CartViewModelFactory cartViewModelFactory)
         {
             _cartService = cartService;
             _orderRepository = orderRepository;
+            _recommendationService = recommendationService;
             _cartViewModelFactory = cartViewModelFactory;
         }
 
@@ -50,16 +55,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
             }
 
-            if (_cartService.AddToCart(Cart, code, out warningMessage))
+            var result = _cartService.AddToCart(Cart, code, 1);
+            if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(Cart);
+                _recommendationService.SendCartTrackingData(HttpContext);
                 return MiniCartDetails();
             }
-
-            // HttpStatusMessage can't be longer than 512 characters.
-            warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
-
-            return new HttpStatusCodeResult(500, warningMessage);
+            
+            return new HttpStatusCodeResult(500, result.GetComposedValidationMessage());
         }
 
         [HttpPost]
@@ -70,6 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
             _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
             _orderRepository.Save(Cart);
+            _recommendationService.SendCartTrackingData(HttpContext);
             return MiniCartDetails();
         }
 

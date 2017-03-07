@@ -3,12 +3,11 @@ using EPiServer.Commerce.Marketing.Promotions;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
 using Mediachase.Commerce;
 using Moq;
 using System.Linq;
-using EPiServer.Framework.Localization;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers

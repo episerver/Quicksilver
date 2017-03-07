@@ -63,7 +63,7 @@
                     <label style="font-weight: normal; display: block;">
                         @Html.CheckBox(string.Format("FilterOption.FacetGroups[{0}].Facets[{1}].Selected", i, j),
                     facet.Selected,
-                    new { @class = "jsSearchFacet", @style = "position: absolute;z-index: -100;", data_facetkey = @facet.Key })
+                    new { @class = "jsSearchFacet", @style = "position: absolute;z-index: -100;", data_facetgroup = @facetGroup.GroupFieldName, data_facetkey = @facet.Key })
                         @facet.Name <span class="counter counter--medium">@facet.Count</span>
                     </label>
                     @Html.TextBox(string.Format("FilterOption.FacetGroups[{0}].Facets[{1}].Key", i, j), facet.Key, new { @hidden = "true" })

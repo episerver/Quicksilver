@@ -2,6 +2,7 @@ using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using Moq;
 using Xunit;
 
@@ -39,10 +40,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         public void AddToCart_ShouldCallAddToCartOnCartService()
         {
             string code = "Code 1";
-            string warningMessage = null;
 
             _subject.AddToCart(code);
-            _cartServiceMock.Verify(s => s.AddToCart(It.IsAny<ICart>(), code, out warningMessage));
+            _cartServiceMock.Verify(s => s.AddToCart(It.IsAny<ICart>(), code, 1));
         }
 
         [Fact]
@@ -57,8 +57,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         public void AddToCart_WhenFailedToAdd_ShouldNotSaveCart()
         {
             string code = "Non-existing-code";
+
+            _cartServiceMock
+                .Setup(x => x.AddToCart(It.IsAny<ICart>(), It.IsAny<string>(), It.IsAny<decimal>()))
+                .Returns(new AddToCartResult
+                {
+                    EntriesAddedToCart = false
+                })
+                .Verifiable();
+
             _subject.AddToCart(code);
-            _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Never); 
+            _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Never);
         }
 
         private readonly CartController _subject;
@@ -68,12 +77,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
 
         public CartControllerTests()
         {
-            string warningMessage = null;
             _cartServiceMock = new Mock<ICartService>();
             _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
-            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", out warningMessage)).Returns(true).Verifiable();
-            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object);
+            _cartServiceMock
+                .Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", It.IsAny<decimal>()))
+                .Returns((ICart cart, string code, decimal quantity) =>
+                {
+                    return new AddToCartResult
+                    {
+                        EntriesAddedToCart = true
+                    };
+                })
+                .Verifiable();
+            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, Mock.Of<IRecommendationService>(), _cartViewModelFactoryMock.Object);
         }
     }
 }

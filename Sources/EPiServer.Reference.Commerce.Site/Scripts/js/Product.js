@@ -16,6 +16,7 @@
         });
     },
     resetCarousel: function () {
+        $('.carousel-inner .item').removeClass("active");
         $('.carousel-inner .item:first-child()').addClass("active");
     },
     switchVariant: function () {
@@ -25,7 +26,7 @@
             url: form[0].action,
             data: form.serialize(),
             success: function (result) {
-                $('.jsProductDetails').replaceWith($(result));
+                form.closest('.jsProductDetails').replaceWith($(result));
                 ProductPage.resetCarousel();
             },
             error: function () {
@@ -42,7 +43,7 @@
             type: "GET",
             cache: false,
             url: url,
-            data: { variationCode: skuCode, quickview: true },
+            data: { variantCode: skuCode, useQuickview: true },
             success: function (result) {
                 $(".modal-dialog", $("#ModalDialog")).html($(result));
             }

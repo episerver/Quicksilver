@@ -61,9 +61,29 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         }
 
         [Fact]
+        public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddUSDPriceForPackage()
+        {
+            var result = _subject.PopulateSearchDocument("en", "Package");
+            var document = result as OkNegotiatedContentResult<RestSearchDocument>;
+            document.Content.Fields.First(x => x.Name.Equals(IndexingHelper.GetPriceField(MarketId.Default, Currency.USD))).Values.First()
+                .Should()
+                .Equals((1000m).ToString(CultureInfo.InvariantCulture));
+        }
+
+        [Fact]
         public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddDiscountGBPPrice()
         {
             var result = _subject.PopulateSearchDocument("en", "Product");
+            var document = result as OkNegotiatedContentResult<RestSearchDocument>;
+            document.Content.Fields.First(x => x.Name.Equals(IndexingHelper.GetPriceField(MarketId.Default, Currency.GBP))).Values.First()
+                .Should()
+                .Equals((2000m).ToString(CultureInfo.InvariantCulture));
+        }
+
+        [Fact]
+        public void PopulateSearchDocument_WhenPopulatingDocument_ShouldAddDiscountUSDPrice()
+        {
+            var result = _subject.PopulateSearchDocument("en", "Package");
             var document = result as OkNegotiatedContentResult<RestSearchDocument>;
             document.Content.Fields.First(x => x.Name.Equals(IndexingHelper.GetPriceField(MarketId.Default, Currency.GBP))).Values.First()
                 .Should()
@@ -164,7 +184,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         private Money _discountPriceUSD;
         private Money _discountPriceGBP;
 
-
         public SearchDocumentControllerTests()
         {
             var synchronizedObjectInstanceCache = new Mock<ISynchronizedObjectInstanceCache>();
@@ -173,7 +192,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             _expensivePriceGBP = new Money(2000, "GBP");
             _discountPriceUSD = new Money(500, "USD");
             _discountPriceGBP = new Money(500, "GBP");
-            var catalogSystemMock = new Mock<ICatalogSystem>();
             _promotionServiceMock = new Mock<IPromotionService>();
             _contentLoaderMock = new Mock<IContentLoader>();
             _priceServiceMock = new Mock<IPriceService>();
@@ -207,6 +225,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             };
 
             var productReference = GetContentReference(444, CatalogContentType.CatalogEntry);
+            var packageReference = GetContentReference(666, CatalogContentType.CatalogEntry);
             var greenVariantReference = GetContentReference(445, CatalogContentType.CatalogEntry);
             var bluevariantReference = GetContentReference(446, CatalogContentType.CatalogEntry);
             var rootNodeReference = GetContentReference(10, CatalogContentType.CatalogNode);
@@ -214,9 +233,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             var variants = new[] { bluevariantReference, greenVariantReference };
             var greenCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 1");
             var blueCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 2");
+            var packageCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Package");
 
             SetupGetContentLink("Product", productReference);
             SetupGetFashionProduct(productReference, rootNodeReference);
+
+            SetupGetContentLink("Package", packageReference);
+            SetupGetFashionPackage(packageReference, rootNodeReference);
+
             SetupGetVariants(productReference, variants);
             SetupGetRootNode(rootNodeReference, catalogReference);
             SetupGetCatalog(catalogReference);
@@ -246,6 +270,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 greenCatalogKey, 
                 blueCatalogKey
             });
+
+            SetupGetCatalogEntryPrices(new[] { packageCatalogKey});
+            SetupGetDiscountPrice(packageCatalogKey, MarketId.Default, _discountPriceGBP);
+            SetupGetDiscountPrice(packageCatalogKey, MarketId.Default, _discountPriceUSD);
         }
 
         private ContentReference GetContentReference(int contentId, CatalogContentType catalogContentType)
@@ -253,7 +281,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             return _referenceConverterMock.Object.GetContentLink(contentId, catalogContentType, 0);
         }
 
-        private void SetupGetContentLink(String code, ContentReference productReference)
+        private void SetupGetContentLink(string code, ContentReference productReference)
         {
             _referenceConverterMock.Setup(x => x.GetContentLink(code))
                 .Returns(productReference);
@@ -263,7 +291,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         {
             _contentLoaderMock.Setup(
                 x =>
-                    x.Get<FashionProduct>(productReference))
+                    x.Get<EntryContentBase>(productReference))
                 .Returns(new FashionProduct
                 {
                     Code = "Product",
@@ -272,6 +300,25 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                     ContentLink = productReference,
                     Created = new DateTime(2012, 4, 4),
                     Brand = "Brand",
+                    CommerceMediaCollection = new ItemCollection<CommerceMedia>()
+                    {
+                        new CommerceMedia(new ContentReference(5, 0), "episerver.core.icontentimage", "default", 0)
+                    }
+                });
+        }
+
+        private void SetupGetFashionPackage(ContentReference packageReference, ContentReference rootNodeReference)
+        {
+            _contentLoaderMock.Setup(
+                x =>
+                    x.Get<EntryContentBase>(packageReference))
+                .Returns(new FashionPackage
+                {
+                    Code = "Package",
+                    DisplayName = "DisplayName",
+                    ParentLink = rootNodeReference,
+                    ContentLink = packageReference,
+                    Created = new DateTime(2012, 4, 4),
                     CommerceMediaCollection = new ItemCollection<CommerceMedia>()
                     {
                         new CommerceMedia(new ContentReference(5, 0), "episerver.core.icontentimage", "default", 0)

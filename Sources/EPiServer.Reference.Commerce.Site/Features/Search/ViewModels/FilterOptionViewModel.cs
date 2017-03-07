@@ -8,6 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
     public class FilterOptionViewModel
     {
         public List<FacetGroupOption> FacetGroups { get; set; }
+        public string SelectedFacet { get; set; }
         public IEnumerable<SelectListItem> Sorting { get; set; }
         public string Sort { get; set; }
         public int Page { get; set; }

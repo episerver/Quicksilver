@@ -61,8 +61,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         locator.GetInstance<CookieService>(),
                         defaultImplementation));
 
-            services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
-            services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+            services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>();
+            services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>();
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());

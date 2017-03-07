@@ -3,6 +3,7 @@ using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
@@ -19,17 +20,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly ICartService _cartService;
         private ICart _wishlist;
         private readonly IOrderRepository _orderRepository;
+        private readonly IRecommendationService _recommendationService;
         readonly CartViewModelFactory _cartViewModelFactory;
 
         public WishListController(
             IContentLoader contentLoader,
             ICartService cartService,
             IOrderRepository orderRepository,
+            IRecommendationService recommendationService,
             CartViewModelFactory cartViewModelFactory)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
             _orderRepository = orderRepository;
+            _recommendationService = recommendationService;
             _cartViewModelFactory = cartViewModelFactory;
         }
 
@@ -53,8 +57,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AllowDBWrite]
         public ActionResult AddToCart(string code)
         {
-            string warningMessage = string.Empty;
-
             ModelState.Clear();
 
             if (WishList == null)
@@ -62,20 +64,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 _wishlist = _cartService.LoadOrCreateCart(_cartService.DefaultWishListName);
             }
 
-            if(WishList.GetAllLineItems().Any(item => item.Code.Equals(code, StringComparison.OrdinalIgnoreCase)))
+            if (WishList.GetAllLineItems().Any(item => item.Code.Equals(code, StringComparison.OrdinalIgnoreCase)))
             {
                 return WishListMiniCartDetails();
             }
 
-            if (_cartService.AddToCart(WishList, code, out warningMessage))
+            var result = _cartService.AddToCart(WishList, code, 1);
+            if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(WishList);
+                _recommendationService.SendWishListTrackingData(HttpContext);
                 return WishListMiniCartDetails();
             }
 
-            // HttpStatusMessage can't be longer than 512 characters.
-            warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
-            return new HttpStatusCodeResult(500, warningMessage);
+            return new HttpStatusCodeResult(500, result.GetComposedValidationMessage());
         }
 
         [HttpPost]
@@ -86,6 +88,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
             _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize);
             _orderRepository.Save(WishList);
+            _recommendationService.SendWishListTrackingData(HttpContext);
             return WishListMiniCartDetails();
         }
 

@@ -19,7 +19,7 @@
                         @Html.Hidden("shipmentId", shipment.ShipmentId)
                         <div class="row cart-row @productLevelClass">
                             <div class="col-xs-4 col-sm-2">
-                                <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image"/></a>
+                                <a href="@cartItem.Url"><img src="@cartItem.ImageUrl" alt="@cartItem.Code" class="product-image"/></a>
                             </div>
                             <div class="col-xs-8 col-sm-10">
                                 <div class="row">
@@ -44,13 +44,11 @@
                                                 <strong>@Html.Translate("/ProductPage/Size")</strong><br/>
                                                 @if ((bool) ViewData["IsReadOnly"])
                                                 {
-                                                    @Helpers.RenderSize(cartItem.Variant)
-                                                    ;
+                                                    @Helpers.RenderSize(cartItem.Entry);
                                                 }
                                                 else
                                                 {
-                                                    @Helpers.RenderSizeDropDown(cartItem)
-                                                    ;
+                                                    @Helpers.RenderSizeDropDown(cartItem);
                                                 }
                                             </div>
                                             <div class="col-xs-6 xs-vertical-margin">

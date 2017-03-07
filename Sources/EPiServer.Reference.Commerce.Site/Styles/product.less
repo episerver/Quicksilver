@@ -1,0 +1,158 @@
+.product-brand { color: @gray-light; }
+
+.product-price {
+    display: block;
+    
+    h4& { font-size: @font-size-h3; }
+
+    &__currency-marker { color: @gray-light; }
+    &--discount {
+        color: @brand-danger;
+    }
+
+    .has-discount &:not(.product-price--discount) { text-decoration: line-through; }
+}
+
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    .product-col-price { padding-top: 28px; }
+    .product-col-remove { padding-top: 22px; }
+}
+
+.product-list {
+    display: flex;
+    flex-wrap:wrap;
+}
+
+.product-row {
+
+    .product.has-discount {
+        position: relative;
+
+        &::before {
+            @object-size: 60px;
+            background: @brand-primary;
+            border-radius: 2000px;
+            color: #fff;
+            content: "Sale!";
+            height: @object-size;
+            line-height: @object-size;
+            position: absolute;
+            text-align: center;
+            top: -10px;
+            transform: rotate(-10deg);
+            width: @object-size;
+            right: -10px;
+        }
+    }
+
+    .product-title {
+        margin-top: @padding-large-vertical;
+    }
+
+    .product-title,
+    .product-brand {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        font-size: @font-size-h4;
+        margin-bottom: 0;
+    }
+
+    &__tile {
+        overflow: hidden;
+        padding: @padding-large-vertical*2 @padding-large-horizontal*2 0 @padding-large-horizontal*2;
+        position: relative;
+        transition: box-shadow .15s ease-out;
+
+        .quick-view-btn-container {
+            bottom: 0;
+            box-sizing: border-box;
+            height: auto;
+            left: 0;
+            max-height: 0;
+            overflow: hidden;
+            position: absolute;
+            transition: max-height .1s ease-out;
+            width: 100%;
+
+            .btn {
+                background: @gray;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.action-buttons {
+    margin-top: @padding-large-vertical;
+}
+
+// Quickview
+.quickview-button {
+    &:focus,
+    &:active {
+        outline: none;
+    }
+}
+
+.modal-backdrop {
+    z-index: -1;
+}
+
+// Palm
+@media (max-width: @screen-xs-max) {
+}
+
+// Lap
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    .product-row {
+        .col-sm-6:nth-of-type(2n+1) {
+            clear: left;
+        }
+    }
+}
+
+//medium
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    .product-row {
+        .col-lg-4:nth-of-type(2n+1) {
+            clear: left;
+        }
+    }
+}
+
+// Lap and up
+@media (min-width: @screen-sm-min) {
+    .product-row {
+        &__tile {
+            padding-bottom: @padding-large-horizontal*3;
+
+            &:hover {
+                box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+                transition: box-shadow .1s ease-out;
+
+                .quick-view-btn-container {
+                    max-height: 100px;
+                    transition: max-height .2s ease-out;
+                }
+            }
+        }
+    }
+
+    .modal.in .modal-dialog {
+        transform: translate(0, 40%);
+    }
+}
+
+// Desktop
+@media (min-width: @screen-lg-min) {
+    .product-row {
+        .col-lg-4:nth-of-type(3n+1) {
+            clear: left;
+        }
+    }
+}

@@ -1,0 +1,88 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionBundleViewModel
+
+<div class="row jsProductDetails">
+    <div class="col-xs-12 col-sm-4 col--leading">
+        <div id="product-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                @for (var i = 0; i < Model.Images.Count; i++)
+                {
+                    <div class="item" data-slide-number="@i">
+                        <img src="@Model.Images.ElementAt(i)" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row" id="carousel-thumbs">
+            <ul class="carousel-thumbs js-carousel-thumbs">
+                @for (var i = 0; i < Model.Images.Count; i++)
+                {
+                    <li class="col-xs-3">
+                        <a href="#" class="thumbnail js-thumbnail" id="@i"><img src="@Model.Images.ElementAt(i)" /></a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 product-info">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>@Html.PropertyFor(x => x.Bundle.DisplayName)</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.PropertyFor(x => x.Bundle.Description)
+                <p>
+                    <strong>SKU:</strong> @Html.PropertyFor(x => x.Bundle.Code)
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                @if (!(bool)ViewData["IsReadOnly"])
+                {
+                    using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
+                    {
+                        @Html.Hidden("code", Model.Bundle.Code)
+                        <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                    }
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
+                        {
+                            @Html.Hidden("code", Model.Bundle.Code)
+                            <button type="submit" role="button" class="btn btn-default btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                        }
+                    }
+                }
+            </div>
+            <div id="CartWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
+                <button type="button" class="close" data-hide="alert">&times;</button>
+                <span class="warning-message"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Meta {
+    @{
+        if (!String.IsNullOrEmpty(Model.Bundle.SeoInformation.Description))
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Bundle.SeoInformation.Description)" />
+        }
+        else if (Model.Bundle.Description != null && !Model.Bundle.Description.IsEmpty)
+        {
+            <meta property="description" content="@Html.AttributeEncode(Model.Bundle.Description)" />
+        }
+        if (!String.IsNullOrEmpty(Model.Bundle.SeoInformation.Keywords))
+        {
+            <meta property="keywords" content="@Html.AttributeEncode(Model.Bundle.SeoInformation.Keywords)" />
+        }
+    }
+}
+
+@section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.AlternativeProducts });}}
+
+@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.CrossSellProducts });}}

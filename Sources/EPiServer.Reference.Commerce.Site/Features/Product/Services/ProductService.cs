@@ -2,20 +2,20 @@
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Globalization;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
-using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 {
@@ -33,6 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly ICurrencyService _currencyService;
         private readonly AppContextFacade _appContext;
         private readonly ReferenceConverter _referenceConverter;
+        private readonly LanguageService _languageService;
+
 
         public ProductService(IContentLoader contentLoader,
             IPromotionService promotionService,
@@ -43,7 +45,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             ICurrentMarket currentMarket,
             ICurrencyService currencyService,
             AppContextFacade appContext,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter, 
+            LanguageService languageService)
         {
             _contentLoader = contentLoader;
             _promotionService = promotionService;
@@ -56,9 +59,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _currencyService = currencyService;
             _appContext = appContext;
             _referenceConverter = referenceConverter;
+            _languageService = languageService;
         }
 
-        public IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
+        public IEnumerable<FashionVariant> GetVariants(FashionProduct currentContent)
         {
             return _contentLoader
                 .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
@@ -72,11 +76,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<Relation> productRelations = _linksRepository.GetRelationsByTarget(variationReference).ToList();
             IEnumerable<ProductVariation> siblingsRelations = _relationRepository.GetRelationsBySource<ProductVariation>(productRelations.First().Source);
             IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
-            IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
+            IEnumerable<IContent> siblingVariants = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
 
-            var siblingVariant = siblingVariations.OfType<FashionVariant>().First(x => x.Code == siblingCode);
+            var siblingVariant = siblingVariants.OfType<FashionVariant>().First(x => x.Code == siblingCode);
 
-            foreach (var variant in siblingVariations.OfType<FashionVariant>())
+            foreach (var variant in siblingVariants.OfType<FashionVariant>())
             {
                 if (variant.Size.Equals(size, StringComparison.OrdinalIgnoreCase) && variant.Code != siblingCode
                     && variant.Color.Equals(siblingVariant.Color, StringComparison.OrdinalIgnoreCase))
@@ -88,88 +92,75 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             return null;
         }
 
-        public IEnumerable<ProductViewModel> GetVariationsAndPricesForProducts(IEnumerable<ProductContent> products)
+        public IEnumerable<ProductTileViewModel> GetProductTileViewModels(IEnumerable<ContentReference> entryLinks)
         {
-            var variationsToLoad = new Dictionary<ContentReference, ContentReference>();
-            var fashionProducts = products.ToList();
-            foreach (var product in fashionProducts)
-            {
-                var relations = _linksRepository.GetRelationsBySource(product.VariantsReference).OfType<ProductVariation>();
-                variationsToLoad.Add(relations.First().Target, product.ContentLink);
-            }
-
-            var variations = _contentLoader.GetItems(variationsToLoad.Select(x => x.Key), _preferredCulture).Cast<FashionVariant>();
-
-            var productModels = new List<ProductViewModel>();
-
-            foreach (var variation in variations)
-            {
-                var productContentReference = variationsToLoad.First(x => x.Key == variation.ContentLink).Value;
-                var product = fashionProducts.First(x => x.ContentLink == productContentReference);
-                productModels.Add(CreateProductViewModel(product, variation));
-            }
-            return productModels;
+            var language = _languageService.GetCurrentLanguage();
+            var contentItems = _contentLoader.GetItems(entryLinks, language);
+            return contentItems.OfType<EntryContentBase>().Select(GetProductTileViewModel);
         }
 
-        public virtual ProductViewModel GetProductViewModel(ProductContent product)
+        public virtual ProductTileViewModel GetProductTileViewModel(EntryContentBase entry)
         {
-            var variations = _contentLoader.GetItems(product.GetVariants(), _preferredCulture).
-                                            Cast<VariationContent>()
-                                           .ToList();
+            if (entry is PackageContent)
+            {
+                return CreateProductViewModelForEntry((PackageContent)entry);
+            }
 
-            var variation = variations.FirstOrDefault();
-            return CreateProductViewModel(product, variation);
+            if (entry is ProductContent)
+            {
+                var product = (ProductContent)entry;
+                var variant = _contentLoader.GetItems(product.GetVariants(), _preferredCulture).
+                                Cast<VariationContent>().FirstOrDefault();
+
+                return CreateProductViewModelForVariant(product, variant);
+            }
+
+            if (entry is VariationContent)
+            {
+                var parentLink = entry.GetParentProducts(_relationRepository).SingleOrDefault();
+                var product = _contentLoader.Get<ProductContent>(parentLink);
+
+                return CreateProductViewModelForVariant(product, (VariationContent)entry);
+            }
+
+            throw new ArgumentException("BundleContent is not supported", "entry");
         }
 
-        public virtual ProductViewModel GetProductViewModel(VariationContent variation)
+        private ProductTileViewModel CreateProductViewModelForEntry(EntryContentBase entry)
         {
-            return CreateProductViewModel(null, variation);
-        }
-
-        private ProductViewModel CreateProductViewModel(ProductContent product, VariationContent variation)
-        {
-            if (variation == null)
-            {
-                return null;
-            }
-
-            ContentReference productContentReference;
-            if (product != null)
-            {
-                productContentReference = product.ContentLink;
-            }
-            else
-            {
-                productContentReference = variation.GetParentProducts(_relationRepository).FirstOrDefault();
-                if (ContentReference.IsNullOrEmpty(productContentReference))
-                {
-                    return null;
-                }
-            }
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
+            var originalPrice = _pricingService.GetCurrentPrice(entry.Code);
+            var discountedPrice = originalPrice.HasValue ? GetDiscountPrice(entry, market, currency, originalPrice.Value) : (Money?)null;
+            var image = entry.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
 
-            var originalPrice = _pricingService.GetCurrentPrice(variation.Code);
-            var discountedPrice = originalPrice.HasValue ? GetDiscountPrice(variation, market, currency, originalPrice.Value) : (Money?)null;
-
-            var image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
-            var brand = product is FashionProduct ? ((FashionProduct)product).Brand : string.Empty;
-
-            return new ProductViewModel
+            return new ProductTileViewModel
             {
-                DisplayName = product != null ? product.DisplayName : variation.DisplayName,
+                DisplayName = entry.DisplayName,
                 PlacedPrice = originalPrice.HasValue ? originalPrice.Value : new Money(0, currency),
                 DiscountedPrice = discountedPrice,
                 ImageUrl = image,
-                Url = variation.GetUrl(),
-                Brand = brand,
+                Url = entry.GetUrl(),
                 IsAvailable = originalPrice.HasValue
             };
         }
 
-        private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money originalPrice)
+        private ProductTileViewModel CreateProductViewModelForVariant(ProductContent product, VariationContent variant)
         {
-            var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
+            if (variant == null)
+            {
+                return null;
+            }
+
+            var viewModel = CreateProductViewModelForEntry(variant);
+            viewModel.Brand = product is FashionProduct ? ((FashionProduct)product).Brand : string.Empty;
+
+            return viewModel;
+        }
+
+        private Money GetDiscountPrice(EntryContentBase entry, IMarket market, Currency currency, Money originalPrice)
+        {
+            var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, entry.Code), market.MarketId, currency);
             if (discountedPrice != null)
             {
                 return discountedPrice.UnitPrice;

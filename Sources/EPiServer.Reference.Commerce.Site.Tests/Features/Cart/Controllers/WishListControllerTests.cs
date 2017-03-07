@@ -5,6 +5,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
@@ -44,16 +45,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         public void AdddToCart_ShouldCallAddToCartOnCartService()
         {
             string code = "Code 1";
-            string warningMessage = null;
 
             _subject.AddToCart(code);
-            _cartServiceMock.Verify(s => s.AddToCart(It.IsAny<ICart>(), code, out warningMessage));
+            _cartServiceMock.Verify(s => s.AddToCart(It.IsAny<ICart>(), code, 1));
         }
 
         [Fact]
         public void AdddToCart_WhenSuccessfullyAdded_ShouldSaveCart()
         {
             string code = "Code 1";
+
             _subject.AddToCart(code);
             _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Once);
         }
@@ -62,6 +63,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         public void AdddToCart_WhenFailedToAdd_ShouldNotSaveCart()
         {
             string code = "Non-existing-code";
+
+            _cartServiceMock
+                .Setup(x => x.AddToCart(It.IsAny<ICart>(), It.IsAny<string>(), It.IsAny<decimal>()))
+                .Returns(new AddToCartResult());
             _subject.AddToCart(code);
             _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Never);
         }
@@ -81,7 +86,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
 
         public WishListControllerTests()
         {
-            string warningMessage = null;
             _marketMock = new Mock<IMarket>();
             _cartServiceMock = new Mock<ICartService>();
             _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null);
@@ -90,11 +94,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
 
             _cartViewModelFactoryMock.Setup(x => x.CreateWishListMiniCartViewModel(It.IsAny<ICart>())).Returns(new WishListMiniCartViewModel());
             _cartViewModelFactoryMock.Setup(x => x.CreateWishListViewModel(It.IsAny<ICart>())).Returns(new WishListViewModel());
-            _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", out warningMessage)).Returns(true).Verifiable();
-            _cartServiceMock.Setup(x => x.LoadOrCreateCart(It.IsAny<string>())).Returns(new FakeCart(_marketMock.Object, new Currency("USD")));
             _contentLoaderMock.Setup(x => x.Get<StartPage>(ContentReference.StartPage)).Returns(new StartPage());
+            _cartServiceMock.Setup(x => x.LoadOrCreateCart(It.IsAny<string>())).Returns(new FakeCart(_marketMock.Object, new Currency("USD")));
+            _cartServiceMock
+                .Setup(x => x.AddToCart(It.IsAny<ICart>(), It.IsAny<string>(), It.IsAny<decimal>()))
+                .Returns((ICart cart, string code, decimal quantity) =>
+                {
+                    return new AddToCartResult
+                    {
+                        EntriesAddedToCart = true
+                    };
+                })
+                .Verifiable();
 
-            _subject = new WishListController(_contentLoaderMock.Object, _cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object);
+            _subject = new WishListController(_contentLoaderMock.Object, _cartServiceMock.Object, _orderRepositoryMock.Object, Mock.Of<IRecommendationService>(), _cartViewModelFactoryMock.Object);
         }
     }
 }
