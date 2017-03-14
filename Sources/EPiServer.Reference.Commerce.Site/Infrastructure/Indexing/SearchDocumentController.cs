@@ -89,19 +89,28 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             document.Fields.Add(new RestSearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(entryContent)));
             document.Fields.Add(new RestSearchField("content_link", entryContent.ContentLink.ToString()));
             document.Fields.Add(new RestSearchField("created", entryContent.Created.ToString("yyyyMMddhhmmss")));
-            document.Fields.Add(new RestSearchField("top_category_name", GetTopCategory(entryContent).DisplayName));
+            document.Fields.Add(new RestSearchField("top_category_name", GetTopCategoryName(entryContent)));
 
             return document;
         }
 
-        private NodeContent GetTopCategory(CatalogContentBase nodeContent)
+        private string GetTopCategoryName(EntryContentBase content)
         {
-            var category = _contentLoader.Get<CatalogContentBase>(nodeContent.ParentLink);
-            if (category.ContentType == CatalogContentType.Catalog)
+            var parent = _contentLoader.Get<CatalogContentBase>(content.ParentLink);
+            var catalog = parent as CatalogContent;
+            if (catalog != null)
             {
-                return (NodeContent)nodeContent;
+                return catalog.Name; 
             }
-            return GetTopCategory(category);
+
+            var node = parent as NodeContent;
+            return node != null ? GetTopCategory(node).DisplayName : String.Empty;
+        }
+
+        private NodeContent GetTopCategory(NodeContent node)
+        {
+            var parentNode = _contentLoader.Get<CatalogContentBase>(node.ParentLink) as NodeContent;
+            return parentNode != null ? GetTopCategory(parentNode) : node;
         }
 
         private void AddSizes(RestSearchDocument document, IEnumerable<FashionVariant> variants)

@@ -22,9 +22,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 
         [HttpGet]
         [Tracking(TrackingType.Product)]
-        public ActionResult Index(FashionProduct currentContent, string variantCode = "", bool useQuickview = false)
+        public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool useQuickview = false)
         {
-            var viewModel = _viewModelFactory.Create(currentContent, variantCode);
+            var viewModel = _viewModelFactory.Create(currentContent, variationCode);
            
             if (_isInEditMode && viewModel.Variant == null)
             {

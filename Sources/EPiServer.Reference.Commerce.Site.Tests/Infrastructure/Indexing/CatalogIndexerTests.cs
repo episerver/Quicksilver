@@ -153,6 +153,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             var document = new SearchDocument();
             _subject.UpdateSearchDocument(ref document, entry.Code, "en");
 
+            document["top_category_name"].Should().Equals("Category");
+        }
+
+        [Fact]
+        public void UpdateSearchDocument_WhenPopulatingDocumentUnderCatalog_ShouldAddTopCategory()
+        {
+            var entry = GetCatalogEntryRow("Product", "catalogProductCode");
+            var document = new SearchDocument();
+            _subject.UpdateSearchDocument(ref document, entry.Code, "en");
+
             document["top_category_name"].Should().Equals("Catalog");
         }
 
@@ -188,6 +198,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         private Money _discountPriceUSD;
         private Money _discountPriceGBP;
         private FashionProduct _fashionProduct;
+        private FashionProduct _catalogProduct;
 
 
         public CatalogIndexerTests()
@@ -231,6 +242,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 _fakeAppContext,
                 new Mock<ILogger>().Object);
             var productReference = GetContentReference(444, CatalogContentType.CatalogEntry);
+            var catalogProductReference = GetContentReference(888, CatalogContentType.CatalogEntry);
             var greenVariantReference = GetContentReference(445, CatalogContentType.CatalogEntry);
             var bluevariantReference = GetContentReference(446, CatalogContentType.CatalogEntry);
             var rootNodeReference = GetContentReference(10, CatalogContentType.CatalogNode);
@@ -239,10 +251,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             var greenCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 1");
             var blueCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 2");
 
-            CreateFashionProduct(productReference, rootNodeReference);
+            _fashionProduct = new FashionProduct();
+            CreateFashionProduct(productReference, rootNodeReference, _fashionProduct, "ProductCode");
 
-            SetupGetContentLink("code", productReference);
-            SetupGetFashionProduct(productReference, rootNodeReference);
+            _catalogProduct = new FashionProduct();
+            CreateFashionProduct(catalogProductReference, catalogReference, _catalogProduct, "CatalogProductCode");
+
+            SetupGetContentLink("productCode", productReference);
+            SetupGetContentLink("catalogProductCode", catalogProductReference);
+
+            var enCultureInfo = CultureInfo.GetCultureInfo("en");
+
+            SetupGetFashionProduct(productReference, enCultureInfo, _fashionProduct);
+            SetupGetFashionProduct(catalogProductReference, enCultureInfo, _catalogProduct);
             SetupGetVariants(productReference, variants);
             SetupGetRootNode(rootNodeReference, catalogReference);
             SetupGetCatalog(catalogReference);
@@ -250,9 +271,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             SetupGetDiscountPrice(blueCatalogKey, MarketId.Default, _discountPriceGBP);
             SetupGetDiscountPrice(blueCatalogKey, MarketId.Default, _discountPriceUSD);
             SetupGetDiscountPrice(greenCatalogKey, MarketId.Default, _discountPriceGBP);
-            SetupGetDiscountPrice(greenCatalogKey, MarketId.Default, _discountPriceUSD);
+            SetupGetDiscountPrice(greenCatalogKey, MarketId.Default, _discountPriceUSD); 
 
-            SetupGetItems(variants, CultureInfo.GetCultureInfo("en"), new List<FashionVariant>
+            SetupGetItems(variants, enCultureInfo, new List<FashionVariant>
             {
                 new FashionVariant
                 {
@@ -273,31 +294,28 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             });
         }
 
-        private void CreateFashionProduct(ContentReference productReference, ContentReference rootNodeReference)
+        private void CreateFashionProduct(ContentReference productReference, ContentReference parentReference, FashionProduct fashionProduct, string code)
         {
-            _fashionProduct = new FashionProduct
+            fashionProduct.Code = code;
+            fashionProduct.DisplayName = "DisplayName";
+            fashionProduct.ParentLink = parentReference;
+            fashionProduct.ContentLink = productReference;
+            fashionProduct.Created = new DateTime(2012, 4, 4);
+            fashionProduct.Brand = "Brand";
+            fashionProduct.CommerceMediaCollection = new ItemCollection<CommerceMedia>()
             {
-                Code = "Product",
-                DisplayName = "DisplayName",
-                ParentLink = rootNodeReference,
-                ContentLink = productReference,
-                Created = new DateTime(2012, 4, 4),
-                Brand = "Brand",
-                CommerceMediaCollection = new ItemCollection<CommerceMedia>()
-                {
-                    new CommerceMedia(new ContentReference(5, 0), "episerver.core.icontentimage", "default", 0)
-                }
+                new CommerceMedia(new ContentReference(5, 0), "episerver.core.icontentimage", "default", 0)
             };
         }
 
-        private CatalogEntryDto.CatalogEntryRow GetCatalogEntryRow(string classTypeId)
+        private CatalogEntryDto.CatalogEntryRow GetCatalogEntryRow(string classTypeId, string code = "productCode")
         {
             var dataTable = new CatalogEntryDto.CatalogEntryDataTable();
             var newEntryRow = dataTable.NewCatalogEntryRow();
             newEntryRow.ApplicationId = Guid.NewGuid();
             newEntryRow.CatalogId = 1;
             newEntryRow.ClassTypeId = classTypeId;
-            newEntryRow.Code = "code";
+            newEntryRow.Code = code;
             newEntryRow.EndDate = DateTime.Now.AddYears(2).ToUniversalTime();
             newEntryRow.IsActive = true;
             newEntryRow.MetaClassId = 700;
@@ -319,12 +337,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 .Returns(productReference);
         }
 
-        private void SetupGetFashionProduct(ContentReference productReference, ContentReference rootNodeReference)
+        private void SetupGetFashionProduct(ContentReference productReference, CultureInfo cultureInfo, FashionProduct fashionProduct)
         {
             _contentLoaderMock.Setup(
                 x =>
-                    x.Get<FashionProduct>(productReference))
-                .Returns(_fashionProduct);
+                    x.Get<ProductContent>(productReference))
+                .Returns(fashionProduct);
+
+            _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(productReference, cultureInfo)).Returns(fashionProduct);
         }
 
         private void SetupGetVariants(ContentReference productReference, IEnumerable<ContentReference> variants)
@@ -345,8 +365,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
 
         private void SetupGetItems(IEnumerable<ContentReference> variantContentReferences, CultureInfo cultureInfo, IEnumerable<FashionVariant> variants)
         {
-            _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(It.IsAny<ContentReference>(), cultureInfo)).Returns(_fashionProduct);
-
             _contentLoaderMock.Setup(
                 x =>
                     x.GetItems(
@@ -362,8 +380,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                     x.Get<CatalogContentBase>(rootNodeReference))
                 .Returns(new NodeContent
                 {
-                    Code = "Catalog",
-                    DisplayName = "Catalog",
+                    Code = "Category",
+                    DisplayName = "Category",
                     ParentLink = catalogReference
                 });
         }
@@ -373,7 +391,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             _contentLoaderMock.Setup(x
                 =>
                     x.Get<CatalogContentBase>(catalogReference))
-                .Returns(new CatalogContent());
+                .Returns(new CatalogContent() { Name = "Catalog"});
         }
 
         private void SetupGetCatalogEntryPrices(IEnumerable<CatalogKey> catalogKeys)

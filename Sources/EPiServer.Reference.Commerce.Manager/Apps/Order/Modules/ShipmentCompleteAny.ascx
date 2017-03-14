@@ -11,7 +11,7 @@
     <ItemTemplate>
     		<tr>
 			<td style="width:200px;"  class="FormLabelCell">
-			<asp:Label ID="Label2" runat="server" Text="<%$ Resources:OrderStrings, Shipment_No_Sign %>"></asp:Label>:
+			<asp:Label ID="Label2" runat="server" Text="<%$ Resources:OrderStrings, Shipment_Id %>"></asp:Label>:
 		    </td>
 			<td class="FormFieldCell">
 				<asp:Label runat="server" ID="ShipmentNoLabel" Text='<%#Eval("ShipmentId") %>'></asp:Label>

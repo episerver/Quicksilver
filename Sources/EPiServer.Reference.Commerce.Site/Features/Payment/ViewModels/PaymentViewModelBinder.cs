@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 {
@@ -6,8 +6,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            string controllerName = controllerContext.HttpContext.Request.Form.Get("SystemName");
-            bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, PaymentMethodViewModelResolver.Resolve(controllerName).GetType());
+            string paymentMethodSystemName = bindingContext.ValueProvider.GetValue("SystemName").AttemptedValue;
+            bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, PaymentMethodViewModelResolver.Resolve(paymentMethodSystemName).GetType());
             object model = base.BindModel(controllerContext, bindingContext);
 
             return model;

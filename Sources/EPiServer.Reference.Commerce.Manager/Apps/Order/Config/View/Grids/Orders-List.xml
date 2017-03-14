@@ -6,7 +6,7 @@
 				<Columns>
 					<Column columnType="CheckBox"/>
 					<Column width="20" headingText="" columnType="Action" dataField="OrderGroupId">
-						<Item imageUrl="~/Apps/Shell/styles/Images/view.gif" commandName="cmdOrderSummary" toolTip="Order Summary" commandParameters="OrderGroupId,CustomerId,MetaClass.Name"></Item>
+						<Item imageUrl="~/Apps/Shell/styles/Images/summary.gif" commandName="cmdOrderSummary" toolTip="Order Summary" commandParameters="OrderGroupId,CustomerId,MetaClass.Name"></Item>
 					</Column>
 					<Column width="80" allowSorting="true" dataField="OrderGroupId"  headingText="{SharedStrings:ID}" columnType="CustomTemplate" permissions="order:mng:view">
 						<Template id="LinkTemplate" controlUrl="GridTemplates/OrderLinkTemplate.ascx"></Template>

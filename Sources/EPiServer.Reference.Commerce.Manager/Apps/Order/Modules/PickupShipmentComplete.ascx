@@ -4,7 +4,7 @@
 	<table cellpadding="0" cellspacing="5" width="100%" runat="server" id="InfoTable">
 		<tr>
 			<td style="width:150px;" class="FormLabelCell">
-			<asp:Label ID="Label1" runat="server" Text="<%$ Resources:OrderStrings, Shipment_No_Sign %>"></asp:Label>:
+			<asp:Label ID="Label1" runat="server" Text="<%$ Resources:OrderStrings, Shipment_Id %>"></asp:Label>:
 			</td>
 			
 			<td class="FormFieldCell">
