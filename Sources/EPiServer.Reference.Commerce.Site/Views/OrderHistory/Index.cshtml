@@ -42,7 +42,7 @@
                         <ul class="list-unstyled">
                             @foreach (var item in order.Items)
                             {
-                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.GetEntryContent().DisplayName</a></li>
+                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName</a></li>
                             }
                         </ul>
                     </div>

@@ -5,6 +5,7 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
+using EPiServer.Recommendations.Widgets;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
@@ -15,6 +16,9 @@ using EPiServer.Web;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -43,6 +47,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             DisablePromotionTypes(context);
 
             SetupExcludedPromotionEntries(context);
+
+            //This method creates and activates the default Recommendations widgets.
+            //It only needs to run once, not every initialization, and only if you use the Recommendations feature.
+            //Instructions:
+            //* Enter the configuration values for Recommendations in web.config
+            //* Make sure that the episerver:RecommendationsSilentMode flag is not set to true.
+            //* Uncomment the following line, compile, start site, commment the line again, compile.
+
+            //SetupRecommendationsWidgets(context);
         }
 
         public void ConfigureContainer(ServiceConfigurationContext context)
@@ -111,6 +124,43 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             //Add filter predicates base on codes like below.
             //var ExcludingCodes = new string[] { "SKU-36127195", "SKU-39850363", "SKU-39101253" };
             //filterSettings.AddFilter<EntryContentBase>(x => !ExcludingCodes.Contains(x.Code));
+        }
+
+        private void SetupRecommendationsWidgets(InitializationEngine context)
+        {
+            var configuration = context.Locate.Advanced.GetInstance<Recommendations.Configuration>();
+
+            if (configuration.SilentMode)
+            {
+                return;
+            }
+
+            var widgetService = context.Locate.Advanced.GetInstance<WidgetService>();
+            var response = widgetService.CreateWidgets();
+
+            if (response.Status != "OK")
+            {
+                var error = response.Errors.First();
+                var message = new StringBuilder($"Code: {error.Code}, Message: {error.Error}");
+                
+                if (error.Field != null)
+                {
+                    message.Append($", Field: {error.Field}");
+                }
+
+                throw new Exception(message.ToString());
+            }
+
+            foreach (var widget in response.EpiPerPage.Pages.SelectMany(x => x.Widgets))
+            {
+                widget.Active = true;
+                var success = widgetService.UpdateWidget(widget);
+
+                if (!success)
+                {
+                    throw new Exception($"Failed to activate widget {widget.WidgetName}");
+                }
+            }
         }
     }
 }

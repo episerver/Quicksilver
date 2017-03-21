@@ -5,6 +5,7 @@ using Mediachase.Commerce.Catalog;
 using System;
 using System.Web;
 using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
@@ -19,9 +20,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         public static string GetUrl(this ILineItem lineItem)
         {
-            var entryContentLink = _referenceConverter.Service.GetContentLink(lineItem.Code);
-            var entry = _contentLoader.Service.Get<EntryContentBase>(entryContentLink);
-            return entry.GetUrl();
+            return GetEntryContent(lineItem.Code)?.GetUrl();
         }
 
         public static string GetFullUrl(this ILineItem lineItem)
@@ -43,9 +42,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         private static string GetThumbnailUrl(string code)
         {
-            var content = _contentLoader.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(code, CatalogContentType.CatalogEntry));
-
+            var content = GetEntryContent(code);
+            if (content == null)
+            {
+                return string.Empty;
+            }
             return _thumbnailUrlResolver.Service.GetThumbnailUrl(content, "thumbnail");
-        }    
+        }
+
+        private static EntryContentBase GetEntryContent(string code)
+        {
+            var entryContentLink = _referenceConverter.Service.GetContentLink(code);
+            if (ContentReference.IsNullOrEmpty(entryContentLink))
+            {
+                return null;
+            }
+            return _contentLoader.Service.Get<EntryContentBase>(entryContentLink);
+        }
     }
 }

@@ -12,7 +12,6 @@ More features will be added over time.
 The following is a list of features to be added in the future:
 
 * In-store pickup.
-* Package and bundle support.
 * Multi-payment support.
 
 Installation

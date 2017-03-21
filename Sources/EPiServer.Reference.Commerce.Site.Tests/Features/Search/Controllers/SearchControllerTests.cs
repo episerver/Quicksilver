@@ -29,9 +29,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public void Index_ShouldSendSearchTracking()
+        public void Index_WhenBrowsingFirstResultPage_ShouldSendSearchTracking()
         {
-            _subject.Index(new SearchPage(), new FilterOptionViewModel());
+            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
                x => x.SendSearchTracking(
                        It.IsAny<HttpContextBase>(),
@@ -39,6 +39,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                        It.Is<IEnumerable<string>>(y => y.Single() == _searchViewModel.ProductViewModels.Single().Code)
                        ),
                Times.Once);
+        }
+
+        [Fact]
+        public void Index_WhenBrowsingNextResultPage_ShouldNotSendSearchTracking()
+        {
+            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 2 });
+            _recommendationServiceMock.Verify(
+               x => x.SendSearchTracking(
+                       It.IsAny<HttpContextBase>(),
+                       It.IsAny<string>(),
+                       It.IsAny<IEnumerable<string>>()
+                       ),
+               Times.Never);
         }
 
         [Fact]
