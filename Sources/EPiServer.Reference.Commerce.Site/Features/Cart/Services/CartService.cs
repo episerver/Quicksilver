@@ -319,7 +319,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         private void RemoveLineItem(ICart cart, int shipmentId, string code)
         {
-            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+            //gets  the shipment for shipment id or for wish list shipment id as a parameter is always equal zero( wish list).
+            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId == 0);
 
             var lineItem = shipment.LineItems.FirstOrDefault(l => l.Code == code);
             if (lineItem != null)
@@ -360,7 +361,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             var newLineItem = GetFirstLineItem(cart, newCode);
             if (newLineItem != null)
             {
-                var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+                var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId == 0);
                 cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
             }
             else
@@ -385,7 +386,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 RemoveLineItem(cart, shipmentId, code);
             }
-            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId);
             var lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code);
             if (lineItem == null)
             {

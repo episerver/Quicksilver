@@ -535,7 +535,7 @@
     <value>OrderGroupAddressId</value>
   </data>
   <data name="Ordering" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="Friendly_Name" xml:space="preserve">
     <value>Eget namn</value>

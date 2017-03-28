@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var variant = _viewModelFactory.SelectVariant(currentContent, color, size);
             if (variant != null)
             {
-                return RedirectToAction("Index", new { variantCode = variant.Code, useQuickview = useQuickview });
+                return RedirectToAction("Index", new { variationCode = variant.Code, useQuickview = useQuickview });
             }
 
             return HttpNotFound();

@@ -6,27 +6,31 @@ using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
     [ServiceConfiguration(typeof(CartViewModelFactory), Lifecycle = ServiceInstanceScope.Singleton)]
-    public class CartViewModelFactory 
+    public class CartViewModelFactory
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICurrencyService _currencyService;
-        readonly IOrderGroupCalculator _orderGroupCalculator;
-        readonly ShipmentViewModelFactory _shipmentViewModelFactory;
+        private readonly IOrderGroupCalculator _orderGroupCalculator;
+        private readonly ShipmentViewModelFactory _shipmentViewModelFactory;
+        private readonly ReferenceConverter _referenceConverter;
 
         public CartViewModelFactory(
-            IContentLoader contentLoader, 
-            ICurrencyService currencyService, 
-            IOrderGroupCalculator orderGroupCalculator, 
-            ShipmentViewModelFactory shipmentViewModelFactory)
+            IContentLoader contentLoader,
+            ICurrencyService currencyService,
+            IOrderGroupCalculator orderGroupCalculator,
+            ShipmentViewModelFactory shipmentViewModelFactory,
+            ReferenceConverter referenceConverter)
         {
             _contentLoader = contentLoader;
             _currencyService = currencyService;
             _orderGroupCalculator = orderGroupCalculator;
             _shipmentViewModelFactory = shipmentViewModelFactory;
+            _referenceConverter = referenceConverter;
         }
 
         public virtual MiniCartViewModel CreateMiniCartViewModel(ICart cart)
@@ -66,9 +70,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 
             return new LargeCartViewModel
             {
-               Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
-               TotalDiscount = new Money(cart.GetAllLineItems().Sum(x => x.GetEntryDiscount()), cart.Currency),
-               Total = _orderGroupCalculator.GetSubTotal(cart)
+                Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
+                TotalDiscount = new Money(cart.GetAllLineItems().Sum(x => x.GetEntryDiscount()), cart.Currency),
+                Total = _orderGroupCalculator.GetSubTotal(cart)
             };
         }
 
@@ -116,7 +120,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 
         private decimal GetLineItemsTotalQuantity(ICart cart)
         {
-            return cart.GetAllLineItems().Sum(x => x.Quantity);
+            var cartItems = cart
+                .GetAllLineItems()
+                .Where(c => !ContentReference.IsNullOrEmpty(_referenceConverter.GetContentLink(c.Code)));
+            return cartItems.Sum(x => x.Quantity);
         }
     }
 }

@@ -260,6 +260,34 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         }
 
         [Fact]
+        public void ChangeCartItemForMultiShipment_WhenQuantityIsZeroInOneShipment_ShouldRemoveTheCorrespondantLineItem()
+        {
+            var quantity = 0;
+            var size = "small";
+            var code = "EAN";
+            var newSize = "small";
+            var lineItem = new InMemoryLineItem
+            {
+                Quantity = 2,
+                Code = code
+            };
+
+            var removedLineItem = new InMemoryLineItem
+            {
+                Quantity = 3,
+                Code = code
+            };
+
+            _cart.GetFirstShipment().LineItems.Add(lineItem);
+            var shipment = new FakeShipment();
+            shipment.LineItems.Add(removedLineItem);
+            _cart.AddShipment(shipment, _orderGroupFactoryMock.Object);
+            _subject.ChangeCartItem(_cart, shipment.ShipmentId, code, quantity, size, newSize);
+
+           Assert.False(_cart.GetFirstForm().Shipments.Any(s => s.ShipmentId == shipment.ShipmentId && s.LineItems.Any(l => l.Code == code)));
+        }
+
+        [Fact]
         public void ChangeCartItem_WhenLineItemToChangeToDoesNotExists_ShouldUpdateLineItem()
         {
             _productServiceMock.Setup(x => x.GetSiblingVariantCodeBySize(It.IsAny<string>(), It.IsAny<string>())).Returns("newcode");

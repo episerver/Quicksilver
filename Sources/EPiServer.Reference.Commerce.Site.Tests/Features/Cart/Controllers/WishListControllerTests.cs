@@ -88,7 +88,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         {
             _marketMock = new Mock<IMarket>();
             _cartServiceMock = new Mock<ICartService>();
-            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null);
+            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _contentLoaderMock = new Mock<IContentLoader>();
 

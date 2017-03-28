@@ -78,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         public CartControllerTests()
         {
             _cartServiceMock = new Mock<ICartService>();
-            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null);
+            _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _cartServiceMock
                 .Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", It.IsAny<decimal>()))

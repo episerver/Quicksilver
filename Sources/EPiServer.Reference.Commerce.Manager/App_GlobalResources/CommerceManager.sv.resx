@@ -2236,7 +2236,7 @@
     <value>lägg till/redigera klasser</value>
   </data>
   <data name="CATEGORY_ATTRIBUTE_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="CATEGORY_DISCOUNT" xml:space="preserve">
     <value>Rabatt</value>
@@ -2980,7 +2980,7 @@
     <value>System'Namn' får inte lämnas tomt.</value>
   </data>
   <data name="GATEWAY_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="GATEWAY_ISACTIVE" xml:space="preserve">
     <value>Visa för kund som alternativ</value>
@@ -4147,7 +4147,7 @@
     <value>lägg till/redigera klasser</value>
   </data>
   <data name="PAGEEDIT_ATTRIBUTE_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="PAGEEDIT_PAGE_TEMPLATE" xml:space="preserve">
     <value>Mall för virtuell sida</value>
@@ -4723,7 +4723,7 @@
     <value>Namn</value>
   </data>
   <data name="PRODUCTSKUS_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="PRODUCTSKUS_PRICE" xml:space="preserve">
     <value>Pris</value>
@@ -5104,7 +5104,7 @@
     <value>Felaktigt pris</value>
   </data>
   <data name="SHIPPINGMETHODEDIT_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="SHIPPINGMETHODEDIT_ISTAXABLE" xml:space="preserve">
     <value>Är skattepliktig</value>
@@ -6022,7 +6022,7 @@
     <value>Beskrivning</value>
   </data>
   <data name="STATSEVENTCATEGORIES_HDR_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="STATSEVENTCATEGORIES_HDR_OPTIONS" xml:space="preserve">
     <value>Alternativ</value>
@@ -6034,7 +6034,7 @@
     <value>Beskrivning</value>
   </data>
   <data name="STATSEVENTCATEGORYNEW_ORDERING" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="STATSEVENTNEW_CATEGORY" xml:space="preserve">
     <value>Category</value>

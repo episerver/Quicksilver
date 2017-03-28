@@ -59,12 +59,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             _languageResolver = languageResolver;
         }
 
-        public virtual FashionProductViewModel Create(FashionProduct currentContent, string variantCode)
+        public virtual FashionProductViewModel Create(FashionProduct currentContent, string variationCode)
         {
             var variants = GetVariants(currentContent).ToList();
 
             FashionVariant variant;
-            if (!TryGetFashionVariant(variants, variantCode, out variant))
+            if (!TryGetFashionVariant(variants, variationCode, out variant))
             {
                 return new FashionProductViewModel
                 {

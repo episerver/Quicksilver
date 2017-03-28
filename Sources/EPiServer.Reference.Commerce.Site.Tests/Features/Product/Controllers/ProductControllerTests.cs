@@ -66,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
            
             var result = CreateController().SelectVariant(new FashionProduct(), "red", "small");
 
-            var selectedCode = ((RedirectToRouteResult)result).RouteValues["variantCode"] as string;
+            var selectedCode = ((RedirectToRouteResult)result).RouteValues["variationCode"] as string;
 
             Assert.Equal<string>("redsmall", selectedCode);
         }

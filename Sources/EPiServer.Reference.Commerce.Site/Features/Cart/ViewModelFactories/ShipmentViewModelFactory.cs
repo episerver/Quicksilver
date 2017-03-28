@@ -67,7 +67,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 
                 foreach (var lineItem in shipment.LineItems)
                 {
-                    var entry = entries.Single(x => x.Code == lineItem.Code);
+                    var entry = entries.FirstOrDefault(x => x.Code == lineItem.Code);
+                    if (entry == null)
+                    {
+                        //Entry was deleted, skip processing.
+                        continue;
+                    }
 
                     shipmentModel.CartItems.Add(_cartItemViewModelFactory.CreateCartItemViewModel(cart, lineItem, entry));
                 }

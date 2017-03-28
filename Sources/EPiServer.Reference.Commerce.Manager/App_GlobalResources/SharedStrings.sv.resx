@@ -949,7 +949,7 @@
     <value>Ny leverans</value>
   </data>
   <data name="Ordering" xml:space="preserve">
-    <value>Beställning</value>
+    <value>Sortering</value>
   </data>
   <data name="Payment_Method_Description" xml:space="preserve">
     <value>konfigurerade betalningsmetoder, vilka normalt motsvarar betalningsprocessorer</value>

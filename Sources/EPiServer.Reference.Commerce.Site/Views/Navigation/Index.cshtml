@@ -39,7 +39,7 @@
 
         <div class="container">
             <div class="row sm-row-1">
-                <div class="col-sm-6 hidden-xs"><h1 class="site-logo"><a href="/">Quicksilver</a></h1></div>
+                <div class="col-sm-6 hidden-xs"><h1 class="site-logo"><a href="@UrlResolver.Current.GetUrl(Model.StartPage.ContentLink)">Quicksilver</a></h1></div>
                 <div class="col-sm-6 hidden-xs text-right">
                     @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
                     {
