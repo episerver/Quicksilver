@@ -277,7 +277,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\log\placeholder.txt" />
     <Content Include="BlobStorage\Public\placeholder.txt" />
     <Content Include="Default.aspx" />
     <Content Include="EPiServerDefault.aspx" />
@@ -342,6 +341,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\log\" />
     <Folder Include="modulesbin\" />
     <Folder Include="Properties\" />
   </ItemGroup>
