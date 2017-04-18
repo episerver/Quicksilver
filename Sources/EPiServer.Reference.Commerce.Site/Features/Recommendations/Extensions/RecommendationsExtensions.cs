@@ -1,5 +1,4 @@
-﻿using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
+﻿using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking.Data;
 using Mediachase.Commerce.Catalog;
 using System.Collections.Generic;
@@ -16,41 +15,41 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions
         private const string Category = "categoryWidget";
         private const string SearchResult = "searchWidget";
 
-        public static IEnumerable<ContentReference> GetAlternativeProductsRecommendations(this ControllerBase controller)
+        public static IEnumerable<Recommendation> GetAlternativeProductsRecommendations(this ControllerBase controller)
         {
-            return controller.GetRecommendations()
+            return controller.GetRecommendationGroups()
                 .Where(x => x.Area == ProductAlternatives)
-                .SelectMany(x => x.RecommendedItems)
+                .SelectMany(x => x.Recommendations)
                 .Take(3);
         }
 
-        public static IEnumerable<ContentReference> GetCrossSellProductsRecommendations(this ControllerBase controller)
+        public static IEnumerable<Recommendation> GetCrossSellProductsRecommendations(this ControllerBase controller)
         {
-            return controller.GetRecommendations()
+            return controller.GetRecommendationGroups()
                 .Where(x => x.Area == ProductCrossSells)
-                .SelectMany(x => x.RecommendedItems);
+                .SelectMany(x => x.Recommendations);
         }
 
-        public static IEnumerable<ContentReference> GetHomeRecommendations(this ControllerBase controller)
+        public static IEnumerable<Recommendation> GetHomeRecommendations(this ControllerBase controller)
         {
-            return controller.GetRecommendations()
+            return controller.GetRecommendationGroups()
                 .Where(x => x.Area == Home)
-                .SelectMany(x => x.RecommendedItems);
+                .SelectMany(x => x.Recommendations);
         }
 
-        public static IEnumerable<ContentReference> GetCategoryRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
+        public static IEnumerable<Recommendation> GetCategoryRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
         {
-            return response.SmartRecs != null ? 
+            return response.SmartRecs != null ?
                 response.SmartRecs.Where(x => x.Position == Category).SelectMany(x => x.Recs)
-                .Select(x => referenceConverter.GetContentLink(x.RefCode)) 
+                .Select(x => new Recommendation(x.Id, referenceConverter.GetContentLink(x.RefCode)))
                 : null;
         }
 
-        public static IEnumerable<ContentReference> GetSearchResultRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
+        public static IEnumerable<Recommendation> GetSearchResultRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
         {
-            return response.SmartRecs != null ? 
+            return response.SmartRecs != null ?
                 response.SmartRecs.Where(x => x.Position == SearchResult).SelectMany(x => x.Recs)
-                .Select(x => referenceConverter.GetContentLink(x.RefCode)) 
+                .Select(x => new Recommendation(x.Id, referenceConverter.GetContentLink(x.RefCode)))
                 : null;
         }
     }

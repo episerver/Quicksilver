@@ -101,6 +101,6 @@
     }
 }
 
-@section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.AlternativeProducts });}}
+@section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.AlternativeProducts });}}
 
-@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { entryLinks = Model.CrossSellProducts });}}
+@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.CrossSellProducts });}}

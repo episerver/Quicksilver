@@ -6,7 +6,6 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
@@ -24,7 +23,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
     public class CheckoutViewModelFactory
     {
         readonly LocalizationService _localizationService;
-        readonly PaymentMethodViewModelFactory _paymentMethodViewModelFactory;
+        readonly ServiceAccessor<PaymentMethodViewModelFactory> _paymentMethodViewModelFactory;
         readonly IAddressBookService _addressBookService;
         readonly IContentLoader _contentLoader;
         readonly UrlResolver _urlResolver;
@@ -33,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 
         public CheckoutViewModelFactory(
             LocalizationService localizationService,
-            PaymentMethodViewModelFactory paymentMethodViewModelFactory,
+            ServiceAccessor<PaymentMethodViewModelFactory> paymentMethodViewModelFactory,
             IAddressBookService addressBookService,
             IContentLoader contentLoader,
             UrlResolver urlResolver,
@@ -49,26 +48,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             _shipmentViewModelFactory = shipmentViewModelFactory;
         }
 
-        public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel = null)
+        public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentOption paymentOption = null)
         {
             if (cart == null)
             {
                 return CreateEmptyCheckoutViewModel(currentPage);
             }
 
+            var currentShippingAddressId = cart.GetFirstShipment()?.ShippingAddress?.Id;
+            var currentBillingAdressId = cart.GetFirstForm().Payments.FirstOrDefault()?.BillingAddress?.Id;
+
             var shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).ToList();
+            var useBillingAddressForShipment = shipments.Count == 1 && currentBillingAdressId == currentShippingAddressId && _addressBookService.UseBillingAddressForShipment();
 
             var viewModel = new CheckoutViewModel
             {
                 CurrentPage = currentPage,
                 Shipments = shipments,
                 BillingAddress = CreateBillingAddressModel(),
-                UseBillingAddressForShipment = shipments.Count == 1 && _addressBookService.UseBillingAddressForShipment(),
+                UseBillingAddressForShipment = useBillingAddressForShipment,
                 StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
                 AppliedCouponCodes = cart.GetFirstForm().CouponCodes.Distinct(),
                 AvailableAddresses = new List<AddressModel>(),
                 ReferrerUrl = GetReferrerUrl(),
-                Payment = paymentViewModel,
+                Payment = paymentOption,
             };
 
             UpdatePayment(viewModel);
@@ -89,7 +92,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 viewModel.AvailableAddresses.Add(new AddressModel { Name = _localizationService.GetString("/Checkout/MultiShipment/NoAddressFound") });
             }
 
-            SetDefaultShipmentAddress(viewModel);
+            SetDefaultShipmentAddress(viewModel, currentShippingAddressId);
 
             _addressBookService.LoadAddress(viewModel.BillingAddress);
             PopulateCountryAndRegions(viewModel);
@@ -97,11 +100,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             return viewModel;
         }
 
-        private void SetDefaultShipmentAddress(CheckoutViewModel viewModel)
+        private void SetDefaultShipmentAddress(CheckoutViewModel viewModel, string shippingAddressId)
         {
             if (viewModel.Shipments.Count == 1)
             {
-                viewModel.Shipments[0].Address = viewModel.AvailableAddresses.SingleOrDefault(x => x.ShippingDefault) ?? viewModel.BillingAddress;
+                viewModel.Shipments[0].Address = viewModel.AvailableAddresses.SingleOrDefault(x => x.AddressId == shippingAddressId) ??
+                                                 viewModel.AvailableAddresses.SingleOrDefault(x => x.ShippingDefault) ?? 
+                                                 viewModel.BillingAddress;
             }
         }
 
@@ -125,7 +130,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AppliedCouponCodes = new List<string>(),
                 StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
                 AvailableAddresses = new List<AddressModel>(),
-                PaymentMethodViewModels = Enumerable.Empty<PaymentMethodViewModel<PaymentMethodBase>>(),
+                PaymentMethodViewModels = Enumerable.Empty<PaymentMethodViewModel>(),
                 UseBillingAddressForShipment = true
             };
         }
@@ -140,15 +145,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 
         private void UpdatePayment(CheckoutViewModel viewModel)
         {
-            viewModel.PaymentMethodViewModels = _paymentMethodViewModelFactory.GetPaymentMethodViewModels();
-            var selectedPaymentMethod = viewModel.Payment == null ? 
-                viewModel.PaymentMethodViewModels.First() :
-                viewModel.PaymentMethodViewModels.Single(p => p.SystemName == viewModel.Payment.SystemName);
+            viewModel.PaymentMethodViewModels = _paymentMethodViewModelFactory().GetPaymentMethodViewModels();
 
-            viewModel.Payment = PaymentMethodViewModelResolver.Resolve(selectedPaymentMethod.SystemName);
-            viewModel.Payment.Description = selectedPaymentMethod.Description;
-            viewModel.Payment.SystemName = selectedPaymentMethod.SystemName;
-            viewModel.Payment.PaymentMethod.PaymentMethodId = selectedPaymentMethod.PaymentMethodId;
+            var defaultPaymentMethod = viewModel.PaymentMethodViewModels.FirstOrDefault(p => p.IsDefault == true) ?? viewModel.PaymentMethodViewModels.First();
+            var selectedPaymentMethod = viewModel.Payment == null ? 
+                defaultPaymentMethod :
+                viewModel.PaymentMethodViewModels.Single(p => p.SystemKeyword == viewModel.Payment.SystemKeyword);
+
+            viewModel.Payment = selectedPaymentMethod.PaymentOption;
         }
 
         private AddressModel CreateBillingAddressModel()

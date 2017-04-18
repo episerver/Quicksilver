@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Commerce.Marketing;
+﻿using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
@@ -19,6 +13,12 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
@@ -100,8 +100,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
         public virtual void CreateAndAddPaymentToCart(ICart cart, CheckoutViewModel viewModel)
         {
+            // Clean up payments in cart on payment provider site.
+            foreach (IOrderForm form in cart.Forms)
+            {
+                form.Payments.Clear();
+            }
+
             var total = cart.GetTotal(_orderGroupCalculator);
-            var payment = viewModel.Payment.PaymentMethod.CreatePayment(total.Amount, cart);
+            var payment = viewModel.Payment.CreatePayment(total.Amount, cart);
             cart.AddPayment(payment, _orderGroupFactory);
             payment.BillingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress, cart);
         }
@@ -112,24 +118,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             {
                 cart.ProcessPayments(_paymentProcessor, _orderGroupCalculator);
 
-                var totalProcessedAmount = cart.GetFirstForm().Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString())).Sum(x => x.Amount);
+                var processedPayments = cart.GetFirstForm().Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString()));
+                if (!processedPayments.Any())
+                {
+                    // Return null in case there is no payment was processed.
+                    return null;
+                }
+
+                var totalProcessedAmount = processedPayments.Sum(x => x.Amount);
                 if (totalProcessedAmount != cart.GetTotal(_orderGroupCalculator).Amount)
                 {
                     throw new InvalidOperationException("Wrong amount");
                 }
-
-                var payment = cart.GetFirstForm().Payments.First();
-                checkoutViewModel.Payment.PaymentMethod.PostProcess(payment);
-
+                
                 var orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
                 var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
                 _orderRepository.Delete(cart.OrderLink);
 
                 return purchaseOrder;
             }
-            catch (PaymentException)
+            catch (PaymentException ex)
             {
-                modelState.AddModelError("", _localizationService.GetString("/Checkout/Payment/Errors/ProcessingPaymentFailure"));
+                modelState.AddModelError("", _localizationService.GetString("/Checkout/Payment/Errors/ProcessingPaymentFailure") + ex.Message);
             }
             return null;
         }
@@ -173,6 +183,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink);
 
             return new UrlBuilder(confirmationPage.LinkURL) {QueryCollection = queryCollection}.ToString();
+        }
+
+        public void ProcessPaymentCancel(CheckoutViewModel viewModel, TempDataDictionary tempData, ControllerContext controlerContext)
+        {
+            var message = tempData["message"] != null ? tempData["message"].ToString() : controlerContext.HttpContext.Request.QueryString["message"];
+            if (!string.IsNullOrEmpty(message))
+            {
+                viewModel.Message = message;
+            }
         }
     }
 }

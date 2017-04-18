@@ -150,46 +150,54 @@
                                     }
                                 </div>
                             </div>
-                                                }
+                        }
                     }
                 </div>
             </div>
         </div>
-                                                if (!ViewData.ModelState.IsValid)
-                                                {
-                                                    <div class="alert alert-danger">
-                                                        @foreach (var item in ViewData.ModelState)
-                                                        {
-                                                            foreach (var error in item.Value.Errors)
-                                                            {
-                                                                <p>@error.ErrorMessage</p>
-                                                            }
-                                                        }
-                                                    </div>
-                                                }
 
-                                                if (!(bool)ViewData["IsReadOnly"])
-                                                {
-                                                    <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
-                                                    <div class="row section-box">
-                                                        <div id="billingAddressContainer" class="col-md-6 col-xs-12">
-                                                            @{ Html.RenderPartial("BillingAddress", Model); }
-                                                        </div>
-                                                        <div class="col-md-6 col-xs-12">
-                                                            @{ Html.RenderPartial("Payment", Model); }
-                                                        </div>
-                                                        <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
-                                                    </div>
-                                                                }
+        if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert alert-warning">
+                @Model.Message
+            </div>
+        }
 
-                                                                <div class="row section-box">
-                                                                    <div class="col-xs-12">
-                                                                        @{ Html.RenderAction("OrderSummary"); }
-                                                                        @if (!(bool)ViewData["IsReadOnly"])
+        if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var item in ViewData.ModelState)
                 {
-                                                                            <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                                            }
+                    foreach (var error in item.Value.Errors)
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                }
+            </div>
+        }
+
+        if (!(bool)ViewData["IsReadOnly"])
+        {
+            <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
+            <div class="row section-box">
+                <div id="billingAddressContainer" class="col-md-6 col-xs-12">
+                    @{ Html.RenderPartial("BillingAddress", Model); }
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    @{ Html.RenderPartial("Payment", Model); }
+                </div>
+                <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
+            </div>
+        }
+
+        <div class="row section-box">
+            <div class="col-xs-12">
+                @{ Html.RenderAction("OrderSummary"); }
+                @if (!(bool)ViewData["IsReadOnly"])
+                {
+                    <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
+                }
+            </div>
+        </div>
+    }
 </div>

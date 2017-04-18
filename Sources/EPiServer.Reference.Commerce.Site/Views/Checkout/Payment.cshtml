@@ -9,8 +9,8 @@
         {
             <div class="radio">
                 <label>
-                    @{ string checkState = method.SystemName == Model.Payment.SystemName ? "checked" : string.Empty; }
-                    <input type="radio" class="jsChangePayment" name="SystemName" value="@method.SystemName" @checkState/> @method.FriendlyName
+                    @{ string checkState = method.SystemKeyword == Model.Payment.SystemKeyword ? "checked" : string.Empty; }
+                    <input type="radio" class="jsChangePayment" name="SystemKeyword" value="@method.SystemKeyword" @checkState/> @method.FriendlyName
                 </label>
             </div>
         }
@@ -21,7 +21,7 @@
         <div class="jsPaymentMethod">
             @if (Model.Payment != null)
             {
-                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
+                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemKeyword);
 
                 Html.RenderPartial(controller, Model.Payment);
             }

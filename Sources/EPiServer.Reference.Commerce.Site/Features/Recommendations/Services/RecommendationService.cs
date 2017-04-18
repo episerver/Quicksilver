@@ -3,10 +3,14 @@ using EPiServer.Commerce.Order;
 using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
 using EPiServer.Recommendations.Tracking.Data;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
@@ -18,17 +22,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
         private readonly TrackingDataFactory _trackingDataFactory;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IContentLoader _contentLoader;
+        private readonly LanguageService _languageService;
+        private readonly IProductService _productService;
 
         public RecommendationService(
             ITrackingService trackingService, 
             TrackingDataFactory trackingDataFactory,
             ReferenceConverter referenceConverter,
-            IContentLoader contentLoader)
+            IContentLoader contentLoader,
+            LanguageService languageService,
+            IProductService productService)
         {
             _trackingService = trackingService;
             _trackingDataFactory = trackingDataFactory;
             _referenceConverter = referenceConverter;
             _contentLoader = contentLoader;
+            _languageService = languageService;
+            _productService = productService;
         }
 
         public TrackingResponseData SendSearchTracking(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes)
@@ -83,6 +93,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
         {
             var trackingData = _trackingDataFactory.CreateWishListTrackingData(httpContext);
             return _trackingService.Send(trackingData, httpContext);
+        }        
+
+        public TrackingResponseData SendCheckoutTrackingData(HttpContextBase httpContext)
+        {
+            var trackingData = _trackingDataFactory.CreateCheckoutTrackingData(httpContext);
+            return _trackingService.Send(trackingData, httpContext);
+        }
+        
+        public IEnumerable<RecommendedProductTileViewModel> GetRecommendedProductTileViewModels(IEnumerable<Recommendation> recommendations)
+        {
+            var language = _languageService.GetCurrentLanguage();
+            return recommendations.Select(x =>
+                new RecommendedProductTileViewModel(
+                    x.RecommendationId, 
+                    _productService.GetProductTileViewModel(_contentLoader.Get<EntryContentBase>(x.ContentLink, language))
+                    )
+            );
         }
     }
 }

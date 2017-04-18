@@ -5,8 +5,10 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
+using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Widgets;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -28,6 +30,7 @@ using System.Web.WebPages;
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
     [ModuleDependency(typeof(EPiServer.Commerce.Initialization.InitializationModule))]
+    [ModuleDependency(typeof(Recommendations.Commerce.InitializationModule))]
     public class SiteInitialization : IConfigurableModule
     {
         public void Initialize(InitializationEngine context)
@@ -61,6 +64,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
             var services = context.Services;
+
+            services.AddSingleton<IClickTrackingService, ClickTrackingService>();
 
             services.AddSingleton<ICurrentMarket, CurrentMarket>();
 

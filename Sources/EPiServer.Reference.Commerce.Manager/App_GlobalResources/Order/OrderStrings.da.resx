@@ -832,25 +832,25 @@
     <value>Forsendelse</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Nyt artikelnummer ({0} af {1}) føjet til forsendelsen (id = {2}), ordretotal ændret til {3}</value>
+    <value>Nyt artikelnummer ({0} af {1}) føjet til forsendelsen #{2}, ordretotal ændret til {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Artikelnummer ({0} af {1}) er blevet ændret på forsendelsen (id = {2}), ordretotal ændret til {3}</value>
+    <value>Artikelnummer ({0} af {1}) er blevet ændret på forsendelsen #{2}, ordretotal ændret til {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Ordre retur med {0}  status ændret til {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Status for forsendelse (id = {0}) ændres til {1}</value>
+    <value>Status for forsendelse {0} ændres til {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Artikelnummer ({0} af {1}) er fjernet fra forsendelsen (id = {2}), ordretotal ændret til {3}</value>
+    <value>Artikelnummer ({0} af {1}) er fjernet fra forsendelsen #{2}, ordretotal ændret til {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Artikelnummer ({0} af {1}) er overført til forsendelse (id = {2})</value>
+    <value>Artikelnummer ({0} af {1}) er overført til forsendelse #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
-    <value>Artikelnummer ({0} af {1}) er returneret til Returnering {2} pga. {3}</value>
+    <value>Artikelnummer ({0} af {1}) er returneret til Returnering #{2} pga. {3}</value>
   </data>
   <data name="OrderNote_ChangeOrderStatusPattern" xml:space="preserve">
     <value>Ordrestatus ændret til {0}</value>

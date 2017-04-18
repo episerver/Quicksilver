@@ -9,15 +9,7 @@ namespace EPiServer.Reference.Commerce.Shared
         /// <inheritdoc/>
         public override bool ProcessPayment(Payment payment, ref string message)
         {
-            var creditCardPayment = (CreditCardPayment)payment;
-
-            if (!creditCardPayment.CreditCardNumber.EndsWith("4"))
-            {
-                message = "Invalid credit card number.";
-                return false;
-            }
-
-            return true;
+            return ProcessPayment(payment as IPayment, ref message);
         }
 
         /// <summary>
@@ -26,9 +18,17 @@ namespace EPiServer.Reference.Commerce.Shared
         /// <param name="payment">The payment.</param>
         /// <param name="message">The message.</param>
         /// <returns><c>True</c> if payment processed successfully, otherwise <c>False</c></returns>
-        bool IPaymentPlugin.ProcessPayment(IPayment payment, ref string message)
+        public bool ProcessPayment(IPayment payment, ref string message)
         {
-            return ProcessPayment((Payment)payment, ref message);
+            var creditCardPayment = (ICreditCardPayment)payment;
+
+            if (!creditCardPayment.CreditCardNumber.EndsWith("4"))
+            {
+                message = "Invalid credit card number.";
+                return false;
+            }
+
+            return true;
         }
     }
 }

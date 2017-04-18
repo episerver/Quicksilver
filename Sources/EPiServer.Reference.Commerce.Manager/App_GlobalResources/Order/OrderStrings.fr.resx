@@ -832,25 +832,25 @@
     <value>Expédition</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Nouvelle UGS ({0} de {1}) ajoutée à l'expédition (id = {2}), le montant total de la commande est passé à {3}</value>
+    <value>Nouvelle UGS ({0} de {1}) ajoutée à l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été modifiée dans l'expédition (id = {2}), le montant total de la commande est passé à {3}</value>
+    <value>L'UGS ({0} de {1}) a été modifiée dans l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Le statut du retour de commande avec le n°{0}  a été remplacé par {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Le statut de l'expédition (id = {0}) a été remplacé par {1}</value>
+    <value>Le statut de l'expédition {0} a été remplacé par {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été supprimée de l'expédition (id = {2}), le montant total de la commande est passé à {3}</value>
+    <value>L'UGS ({0} de {1}) a été supprimée de l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été déplacée dans l'expédition (id = {2})</value>
+    <value>L'UGS ({0} de {1}) a été déplacée dans l'expédition #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été renvoyée avec le n° de retour {2} pour le motif {3}</value>
+    <value>L'UGS ({0} de {1}) a été renvoyée avec le n° de retour #{2} pour le motif {3}</value>
   </data>
   <data name="OrderNote_ChangeOrderStatusPattern" xml:space="preserve">
     <value>Le statut de la commande a été remplacé par {0}</value>

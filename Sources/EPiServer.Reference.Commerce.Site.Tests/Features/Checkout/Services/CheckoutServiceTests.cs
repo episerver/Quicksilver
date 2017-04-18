@@ -14,7 +14,6 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
-using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -101,17 +100,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock.Setup(x => x.GetTotal(It.IsAny<IOrderGroup>())).Returns(() => new Money(1, Currency.USD));
             
-            var paymentMethodMock = new Mock<CashOnDeliveryPaymentMethod>(null, null);
-            paymentMethodMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
+            var paymentOptionMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
+            paymentOptionMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
                 .Returns(() => new FakePayment { Amount = 2 });
 
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel{ AddressId = "billingAddress"},
-                Payment = new PaymentMethodViewModel<PaymentMethodBase>
-                {
-                    PaymentMethod = paymentMethodMock.Object
-                }
+                Payment = paymentOptionMock.Object
             };
 
             _subject.CreateAndAddPaymentToCart(cart, viewModel);
@@ -119,6 +115,31 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             Assert.Equal(1, cart.GetFirstForm().Payments.Count);
             Assert.Equal(2, cart.GetFirstForm().Payments.Single().Amount);
             Assert.Equal(viewModel.BillingAddress.AddressId, cart.GetFirstForm().Payments.Single().BillingAddress.Id);
+        }
+
+        [Fact]
+        public void CreateAndAddSomePaymentToCart_CartShouldContainOnlyOnePayment()
+        {
+            var cart = new FakeCart(new MarketImpl(MarketId.Empty), Currency.SEK);
+
+            _orderGroupCalculatorMock.Setup(x => x.GetTotal(It.IsAny<IOrderGroup>())).Returns(() => new Money(1, Currency.USD));
+
+            var paymentMethodMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
+            paymentMethodMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
+                .Returns(() => new FakePayment { Amount = 2 });
+
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel { AddressId = "billingAddress" },
+                Payment = paymentMethodMock.Object
+            };
+
+            _subject.CreateAndAddPaymentToCart(cart, viewModel);
+            _subject.CreateAndAddPaymentToCart(cart, viewModel);
+            _subject.CreateAndAddPaymentToCart(cart, viewModel);
+            _subject.CreateAndAddPaymentToCart(cart, viewModel);
+
+            Assert.Equal(1, cart.GetFirstForm().Payments.Count);
         }
 
         [Fact]
@@ -141,10 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new PaymentMethodViewModel<PaymentMethodBase>
-                {
-                    PaymentMethod = new Mock<CashOnDeliveryPaymentMethod>(null, null).Object
-                }
+                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);
@@ -175,10 +193,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new PaymentMethodViewModel<PaymentMethodBase>
-                {
-                    PaymentMethod = new Mock<CashOnDeliveryPaymentMethod>(null, null).Object
-                }
+                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
             };
 
             _subject.PlaceOrder(cart, modelState, viewModel);
@@ -198,20 +213,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             _orderRepositoryMock.Setup(x => x.SaveAsPurchaseOrder(It.IsAny<ICart>())).Returns(() => orderReference);
 
             var cart = new FakeCart(new MarketImpl(MarketId.Empty), Currency.SEK);
-            cart.GetFirstForm().Payments.Add(new FakePayment { Status = PaymentStatus.Processed.ToString(), Amount = 1 });
+            cart.GetFirstForm().Payments.Add(new FakePayment { Status = PaymentStatus.Processed.ToString(), Amount = 1 });            
 
             var modelState = new ModelStateDictionary();
 
-            var paymentMethodMock = new Mock<CashOnDeliveryPaymentMethod>(null, null);
-            paymentMethodMock.Setup(x => x.PostProcess(It.IsAny<IPayment>())).Throws(new PaymentException("", "", ""));
+            _orderGroupCalculatorMock.Setup(p => p.GetTotal(It.IsAny<IOrderGroup>())).Throws(new PaymentException("", "", ""));
+
+            var paymentOptionMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
+            paymentOptionMock.Setup(x => x.SystemKeyword).Returns(string.Empty);
 
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new PaymentMethodViewModel<PaymentMethodBase>
-                {
-                    PaymentMethod = paymentMethodMock.Object
-                }
+                Payment = paymentOptionMock.Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);

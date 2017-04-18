@@ -1,5 +1,5 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Product.Services;
+﻿using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +9,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Controllers
 {
     public class RecommendationsController : Controller
     {
-        private readonly IProductService _productService;
+        private readonly IRecommendationService _recommendationService;
 
-        public RecommendationsController(IProductService productService)
+        public RecommendationsController(IRecommendationService recommendationService)
         {
-            _productService = productService;
+            _recommendationService = recommendationService;
         }
 
         [ChildActionOnly]
-        public ActionResult Index(IEnumerable<ContentReference> entryLinks)
+        public ActionResult Index(IEnumerable<Recommendation> recommendations)
         {
-            if (!entryLinks.Any())
+            if (recommendations == null || !recommendations.Any())
             {
                 return new EmptyResult();
             }
 
             var viewModel = new RecommendationsViewModel
             {
-                Products = _productService.GetProductTileViewModels(entryLinks)
+                Products = _recommendationService.GetRecommendedProductTileViewModels(recommendations)
             };
 
             return PartialView("_Recommendations", viewModel);

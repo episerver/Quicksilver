@@ -142,7 +142,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     false, 2, allMarkets, language, paymentMethodDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
-                    "Pay By Credit Card",
+                    "Authorize - Pay By Credit Card",
                     "Authorize",
                     "Authorize - Pay By Credit Card.",
                     "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",

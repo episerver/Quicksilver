@@ -70,6 +70,13 @@
         </div>
     </div>
 
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-warning">
+            @Model.Message
+        </div>
+    }
+
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger">

@@ -1,6 +1,7 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
+using EPiServer.Filters;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
@@ -29,12 +30,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly LinksRepository _linksRepository;
         private readonly IRelationRepository _relationRepository;
         private readonly CultureInfo _preferredCulture;
-        private readonly ICurrentMarket _currentMarket;
+        private readonly ICurrentMarket _currentMarketService;
         private readonly ICurrencyService _currencyService;
         private readonly AppContextFacade _appContext;
         private readonly ReferenceConverter _referenceConverter;
         private readonly LanguageService _languageService;
-
+        private readonly FilterPublished _filterPublished;        
 
         public ProductService(IContentLoader contentLoader,
             IPromotionService promotionService,
@@ -42,11 +43,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             UrlResolver urlResolver,
             LinksRepository linksRepository,
             IRelationRepository relationRepository,
-            ICurrentMarket currentMarket,
+            ICurrentMarket currentMarketService,
             ICurrencyService currencyService,
             AppContextFacade appContext,
-            ReferenceConverter referenceConverter, 
-            LanguageService languageService)
+            ReferenceConverter referenceConverter,
+            LanguageService languageService,
+            FilterPublished filterPublished)
         {
             _contentLoader = contentLoader;
             _promotionService = promotionService;
@@ -55,19 +57,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _linksRepository = linksRepository;
             _relationRepository = relationRepository;
             _preferredCulture = ContentLanguage.PreferredCulture;
-            _currentMarket = currentMarket;
+            _currentMarketService = currentMarketService;
             _currencyService = currencyService;
             _appContext = appContext;
             _referenceConverter = referenceConverter;
             _languageService = languageService;
+            _filterPublished = filterPublished;
         }
 
         public IEnumerable<FashionVariant> GetVariants(FashionProduct currentContent)
         {
-            return _contentLoader
-                .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
-                .Cast<FashionVariant>()
-                .Where(v => v.IsAvailableInCurrentMarket(_currentMarket));
+            return GetAvailableVariants(currentContent.GetVariants(_relationRepository));                
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -76,11 +76,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<Relation> productRelations = _linksRepository.GetRelationsByTarget(variationReference).ToList();
             IEnumerable<ProductVariation> siblingsRelations = _relationRepository.GetRelationsBySource<ProductVariation>(productRelations.First().Source);
             IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
-            IEnumerable<IContent> siblingVariants = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
+            IEnumerable<FashionVariant> siblingVariants = GetAvailableVariants(siblingsReferences);
 
-            var siblingVariant = siblingVariants.OfType<FashionVariant>().First(x => x.Code == siblingCode);
+            var siblingVariant = siblingVariants.First(x => x.Code == siblingCode);
 
-            foreach (var variant in siblingVariants.OfType<FashionVariant>())
+            foreach (var variant in siblingVariants)
             {
                 if (variant.Size.Equals(size, StringComparison.OrdinalIgnoreCase) && variant.Code != siblingCode
                     && variant.Color.Equals(siblingVariant.Color, StringComparison.OrdinalIgnoreCase))
@@ -101,6 +101,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         public virtual ProductTileViewModel GetProductTileViewModel(EntryContentBase entry)
         {
+            if (entry == null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+
             if (entry is PackageContent)
             {
                 return CreateProductViewModelForEntry((PackageContent)entry);
@@ -109,8 +114,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             if (entry is ProductContent)
             {
                 var product = (ProductContent)entry;
-                var variant = _contentLoader.GetItems(product.GetVariants(), _preferredCulture).
-                                Cast<VariationContent>().FirstOrDefault();
+                var variant = GetAvailableVariants(product.GetVariants()).FirstOrDefault();
 
                 return CreateProductViewModelForVariant(product, variant);
             }
@@ -123,12 +127,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 return CreateProductViewModelForVariant(product, (VariationContent)entry);
             }
 
-            throw new ArgumentException("BundleContent is not supported", "entry");
+            throw new ArgumentException("BundleContent is not supported", nameof(entry));
+        }
+
+        private IEnumerable<FashionVariant> GetAvailableVariants(IEnumerable<ContentReference> contentLinks)
+        {
+            return _contentLoader.GetItems(contentLinks, _preferredCulture)
+                                                            .OfType<FashionVariant>()
+                                                            .Where(v => v.IsAvailableInCurrentMarket(_currentMarketService) && !_filterPublished.ShouldFilter(v));
         }
 
         private ProductTileViewModel CreateProductViewModelForEntry(EntryContentBase entry)
         {
-            var market = _currentMarket.GetCurrentMarket();
+            var market = _currentMarketService.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
             var originalPrice = _pricingService.GetCurrentPrice(entry.Code);
             var discountedPrice = originalPrice.HasValue ? GetDiscountPrice(entry, market, currency, originalPrice.Value) : (Money?)null;
@@ -136,6 +147,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
             return new ProductTileViewModel
             {
+                Code = entry.Code,
                 DisplayName = entry.DisplayName,
                 PlacedPrice = originalPrice.HasValue ? originalPrice.Value : new Money(0, currency),
                 DiscountedPrice = discountedPrice,

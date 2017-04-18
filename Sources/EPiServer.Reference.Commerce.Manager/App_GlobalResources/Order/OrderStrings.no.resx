@@ -832,22 +832,22 @@
     <value>Frakt</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Nytt artikkelnummer ({0} av {1}) lagt til forsendelsen (id = {2}), bestilling totalt endret til {3}</value>
+    <value>Nytt artikkelnummer ({0} av {1}) lagt til forsendelsen #{2}, bestilling totalt endret til {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Artikkelnummer ({0} av {1}) er endret i forsendelsen (id = {2}), bestilling totalt endret til {3}</value>
+    <value>Artikkelnummer ({0} av {1}) er endret i forsendelsen #{2}, bestilling totalt endret til {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Bestillingsretur med #{0}  status endret til {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Forsendelse (id = {0}) status endret til {1}</value>
+    <value>Forsendelse {0} status endret til {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Artikkelnummer ({0} av {1}) er fjernet fra forsendelsen (id = {2}), bestilling totalt endret til {3}</value>
+    <value>Artikkelnummer ({0} av {1}) er fjernet fra forsendelsen #{2}, bestilling totalt endret til {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Artikkelnummer ({0} of {1}) er flyttet til forsendelse (id = {2})</value>
+    <value>Artikkelnummer ({0} of {1}) er flyttet til forsendelse #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>Artikkelnummer ({0} av {1}) er flyttet tilbake til retur #{2} på grunn av {3}</value>
@@ -1265,8 +1265,5 @@
   </data>
   <data name="Warehouse_Pickup_Fulfillment" xml:space="preserve">
     <value>Kunde henter på {0}</value>
-  </data>
-  <data name="Shipment_Id" xml:space="preserve">
-    <value>Forsendelsesnr-ID</value>
   </data>
 </root>

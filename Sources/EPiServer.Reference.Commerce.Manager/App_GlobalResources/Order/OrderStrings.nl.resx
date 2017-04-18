@@ -832,22 +832,22 @@
     <value>Verzending</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Nieuwe SKU ({0} van {1}) toegevoegd aan verzending (id = {2}), totaal van bestelling gewijzigd naar {3}</value>
+    <value>Nieuwe SKU ({0} van {1}) toegevoegd aan verzending #{2}, totaal van bestelling gewijzigd naar {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>SKU ({0} van {1}) gewijzigd in verzending (id = {2}), totaal van bestelling gewijzigd naar {3}</value>
+    <value>SKU ({0} van {1}) gewijzigd in verzending #{2}, totaal van bestelling gewijzigd naar {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Retour bestelling met #{0}  status gewijzigd naar {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Verzending (id = {0}) status wijzigt naar {1}</value>
+    <value>Verzending {0} status wijzigt naar {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>SKU ({0} van {1}) verwijderd van verzending (id = {2}), totaal van bestelling gewijzigd naar {3}</value>
+    <value>SKU ({0} van {1}) verwijderd van verzending #{2}, totaal van bestelling gewijzigd naar {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>SKU ({0} van {1}) verplaatst naar verzending (id = {2})</value>
+    <value>SKU ({0} van {1}) verplaatst naar verzending #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>SKU ({0} van {1}) geretourneerd naar Retour #{2} om de reden {3}</value>

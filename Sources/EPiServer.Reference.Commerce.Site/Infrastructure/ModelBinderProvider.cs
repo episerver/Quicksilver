@@ -1,4 +1,4 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ModelBinders;
@@ -13,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private static readonly IDictionary<Type, Type> ModelBinderTypeMappings = new Dictionary<Type, Type>
         {
             {typeof(FilterOptionViewModel), typeof(FilterOptionViewModelBinder)},
-            {typeof(IPaymentMethodViewModel<PaymentMethodBase>), typeof(PaymentViewModelBinder)},
+            {typeof(IPaymentOption), typeof(PaymentOptionViewModelBinder)},
             {typeof(decimal), typeof(DecimalModelBinder)},
             {typeof(decimal?), typeof(DecimalModelBinder)}
         };

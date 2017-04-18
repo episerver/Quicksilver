@@ -2,7 +2,7 @@
 
 @foreach (var product in Model.Products)
 {
-    <div class="jsProductTile product-row__tile">
-        @Html.Partial("_Product", product)
+    <div class="jsProductTile product-row__tile" data-recommendation-id="@product.RecommendationId">
+        @Html.Partial("_Product", product.TileViewModel)
     </div>
 }

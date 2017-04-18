@@ -1,5 +1,6 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels;
 using Mediachase.Commerce;
 using System.Collections.Generic;
 

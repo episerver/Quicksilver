@@ -832,22 +832,22 @@
     <value>Leverans</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Ny artikel ({0} av {1}) lades till i leveransen (id = {2}) vilket ökade totalsumman för ordern till {3}</value>
+    <value>Ny artikel ({0} av {1}) lades till i leveransen #{2} vilket ökade totalsumman för ordern till {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Artikel ({0} av {1}) ändrades i leveransen (id = {2}) och totalsumman för ordern ändrades till {3}</value>
+    <value>Artikel ({0} av {1}) ändrades i leveransen #{2} och totalsumman för ordern ändrades till {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Statusen för orderreturen med #{0} ändrades till {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Statusen för leveransen (id = {0}) ändrades till {1}</value>
+    <value>Statusen för leveransen {0} ändrades till {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Artikel ({0} av {1}) togs bort från leveransen (id = {2}) och totalsumman för ordern ändrades till {3}</value>
+    <value>Artikel ({0} av {1}) togs bort från leveransen #{2} och totalsumman för ordern ändrades till {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Artikel ({0} av {1}) har flyttats till leveransen (id = {2})</value>
+    <value>Artikel ({0} av {1}) har flyttats till leveransen #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>Artikel ({0} av {1}) returnerades till returen #{2} av skälet {3}</value>

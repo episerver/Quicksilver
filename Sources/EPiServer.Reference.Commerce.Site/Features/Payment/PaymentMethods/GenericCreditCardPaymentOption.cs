@@ -1,17 +1,24 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.ServiceLocation;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
-    public class AuthorizePaymentMethod : PaymentMethodBase, IDataErrorInfo
+    [ServiceConfiguration(typeof(IPaymentOption))]
+    public class GenericCreditCardPaymentOption : PaymentOptionBase, IDataErrorInfo
     {
-        static readonly string[] ValidatedProperties =
+        static readonly string[] ValidatedProperties = 
         {
             "CreditCardNumber",
             "CreditCardSecurityCode",
@@ -19,18 +26,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             "ExpirationMonth",
         };
 
-        public AuthorizePaymentMethod()
-        : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
-        {
-        }
+        public override string SystemKeyword => "GenericCreditCard";
 
-        public AuthorizePaymentMethod(LocalizationService localizationService, IOrderGroupFactory orderGroupFactory) : base(localizationService, orderGroupFactory)
-        {
-            ExpirationMonth = DateTime.Now.AddMonths(1).Month;
-            ExpirationYear = DateTime.Now.AddMonths(1).Year;
-            CreditCardSecurityCode = "027";
-            CreditCardNumber = "4007000000027";
-        }
+        public List<SelectListItem> Months { get; set; }
+
+        public List<SelectListItem> Years { get; set; }
 
         [LocalizedDisplay("/Checkout/Payment/Methods/CreditCard/Labels/CreditCardName")]
         [LocalizedRequired("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardName")]
@@ -52,22 +52,41 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         [LocalizedRequired("/Checkout/Payment/Methods/CreditCard/Empty/ExpirationYear")]
         public int ExpirationYear { get; set; }
 
-        public string Error
-        {
-            get { return null; }
-        }
+        public string CardType { get; set; }
+        
+        string IDataErrorInfo.Error => null;
 
-        public string this[string columnName]
+        string IDataErrorInfo.this[string columnName]
         {
             get { return GetValidationError(columnName); }
         }
 
+        public GenericCreditCardPaymentOption()
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>(), ServiceLocator.Current.GetInstance<ICurrentMarket>(), ServiceLocator.Current.GetInstance<LanguageService>(), ServiceLocator.Current.GetInstance<IPaymentService>())
+        {
+        }
+
+        public GenericCreditCardPaymentOption(LocalizationService localizationService,
+            IOrderGroupFactory orderGroupFactory,
+            ICurrentMarket currentMarket,
+            LanguageService languageService,
+            IPaymentService paymentService)
+            : base(localizationService, orderGroupFactory, currentMarket, languageService, paymentService)
+        {
+            InitializeValues();
+
+            ExpirationMonth = DateTime.Now.Month;
+            CreditCardSecurityCode = "212";
+            CardType = "Generic";
+            CreditCardNumber = "4662519843660534";
+        }
+
         public override IPayment CreatePayment(decimal amount, IOrderGroup orderGroup)
         {
-            var payment = orderGroup.CreateCardPayment(_orderGroupFactory);
+            var payment = orderGroup.CreateCardPayment(OrderGroupFactory);
             payment.CardType = "Credit card";
             payment.PaymentMethodId = PaymentMethodId;
-            payment.PaymentMethodName = "Authorize";
+            payment.PaymentMethodName = SystemKeyword;
             payment.Amount = amount;
             payment.CreditCardNumber = CreditCardNumber;
             payment.CreditCardSecurityCode = CreditCardSecurityCode;
@@ -75,29 +94,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             payment.ExpirationYear = ExpirationYear;
             payment.Status = PaymentStatus.Pending.ToString();
             payment.CustomerName = CreditCardName;
+            payment.TransactionType = TransactionType.Authorization.ToString();
             return payment;
         }
-
-        public override void PostProcess(IPayment payment)
-        {
-            var creditCardPayment = (ICreditCardPayment)payment;
-            var visibleDigits = 4;
-            var cardNumberLength = creditCardPayment.CreditCardNumber.Length;
-            creditCardPayment.CreditCardNumber = new string('*', cardNumberLength - visibleDigits)
-                + creditCardPayment.CreditCardNumber.Substring(cardNumberLength - visibleDigits, visibleDigits);
-        }
-
+        
         public override bool ValidateData()
         {
-            foreach (string property in ValidatedProperties)
-            {
-                if (GetValidationError(property) != null)
-                {
-                    return false;
-                }
-            }
+            return IsValid;
+        }
 
-            return true;
+        private bool IsValid
+        {
+            get
+            {
+                foreach (string property in ValidatedProperties)
+                {
+                    if (GetValidationError(property) != null)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
 
         private string GetValidationError(string property)
@@ -129,12 +148,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return error;
         }
 
-
         private string ValidateExpirationMonth()
         {
             if (ExpirationYear == DateTime.Now.Year && ExpirationMonth < DateTime.Now.Month)
             {
-                return _localizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationMonth");
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationMonth");
             }
 
             return null;
@@ -144,7 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         {
             if (ExpirationYear < DateTime.Now.Year)
             {
-                return _localizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationYear");
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationYear");
             }
 
             return null;
@@ -154,12 +172,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         {
             if (string.IsNullOrEmpty(CreditCardSecurityCode))
             {
-                return _localizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardSecurityCode");
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardSecurityCode");
             }
 
             if (!Regex.IsMatch(CreditCardSecurityCode, "^[0-9]{3}$"))
             {
-                return _localizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardSecurityCode");
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardSecurityCode");
             }
 
             return null;
@@ -169,10 +187,40 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         {
             if (string.IsNullOrEmpty(CreditCardNumber))
             {
-                return _localizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber");
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber");
+            }
+
+            if (CreditCardNumber[CreditCardNumber.Length - 1] != '4')
+            {
+                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardNumber");
             }
 
             return null;
+        }
+
+        private void InitializeValues()
+        {
+            Months = new List<SelectListItem>();
+            Years = new List<SelectListItem>();
+
+            for (var i = 1; i < 13; i++)
+            {
+                Months.Add(new SelectListItem
+                {
+                    Text = i.ToString(CultureInfo.InvariantCulture),
+                    Value = i.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+
+            for (var i = 0; i < 7; i++)
+            {
+                var year = (DateTime.Now.Year + i).ToString(CultureInfo.InvariantCulture);
+                Years.Add(new SelectListItem
+                {
+                    Text = year,
+                    Value = year
+                });
+            }
         }
     }
 }

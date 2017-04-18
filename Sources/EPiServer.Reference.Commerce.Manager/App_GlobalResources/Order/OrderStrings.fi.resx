@@ -832,22 +832,22 @@
     <value>Toimitus</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Uusi varastotuote ({0} / {1}) lisätty lähetykseen (id = {2}), tilauksen summa muutettu: {3}</value>
+    <value>Uusi varastotuote ({0} / {1}) lisätty lähetykseen #{2}, tilauksen summa muutettu: {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Varastotuote ({0} / {1}) vaihdettu lähetykseen (id = {2}), tilauksen summa muutettu: {3}</value>
+    <value>Varastotuote ({0} / {1}) vaihdettu lähetykseen #{2}, tilauksen summa muutettu: {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Tilauspalautuksen #{0}  tilaksi muutettu {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Lähetyksen (id = {0}) tilaksi muutettu {1}</value>
+    <value>Lähetyksen {0} tilaksi muutettu {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Varastotuote ({0} / {1}) on poistettu lähetyksestä (id = {2}), tilauksen summa muutettu: {3}</value>
+    <value>Varastotuote ({0} / {1}) on poistettu lähetyksestä #{2}, tilauksen summa muutettu: {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Varastotuote ({0} / {1}) on siirretty lähetykseen (id = {2})</value>
+    <value>Varastotuote ({0} / {1}) on siirretty lähetykseen #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>Varastotuote ({0} / {1}) on palautettu palautukseen #{2}. Palautuksen syy: {3}</value>

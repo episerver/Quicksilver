@@ -776,22 +776,22 @@
     <value>Versand</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Neue SKU ({0} of {1}) hinzugefügt zur Sendung (id = {2}), Auftragssumme geändert auf {3}</value>
+    <value>Neue SKU ({0} of {1}) hinzugefügt zur Sendung #{2}, Auftragssumme geändert auf {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} von {1}) wurde geändert für Sendung (id = {2}), Auftragssumme geändert auf {3}</value>
+    <value>Sku ({0} von {1}) wurde geändert für Sendung #{2}, Auftragssumme geändert auf {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Bestellungsrückgabe mit #{0}  Status geändert nach {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Versand,(id = {0}) Status ändert sich auf {1}</value>
+    <value>Versand,{0} Status ändert sich auf {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} von {1}) wurde entfernt von Sendung (id = {2}), Auftragssumme geändert auf {3}</value>
+    <value>Sku ({0} von {1}) wurde entfernt von Sendung #{2}, Auftragssumme geändert auf {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} von {1}) wurde übertragen auf Sendung (id = {2})</value>
+    <value>Sku ({0} von {1}) wurde übertragen auf Sendung #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>Sku ({0} von{1}) wurde zurückgegeben an Rückgabe #{2} mit der Begründung {3}</value>
