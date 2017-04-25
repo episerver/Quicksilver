@@ -107,10 +107,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         {
             var form = cart.GetFirstForm();
             var items = cartItems
-                .GroupBy(x => new { x.AddressId, x.Code, x.IsGift })
+                .GroupBy(x => new { x.AddressId, x.Code, x.DisplayName, x.IsGift })
                 .Select(x => new
                 {
                     Code = x.Key.Code,
+                    DisplayName = x.Key.DisplayName,
                     AddressId = x.Key.AddressId,
                     Quantity = x.Count(),
                     IsGift = x.Key.IsGift
@@ -132,6 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 foreach (var item in items.Where(x => x.AddressId == address.AddressId))
                 {
                     var lineItem = cart.CreateLineItem(item.Code, _orderGroupFactory);
+                    lineItem.DisplayName = item.DisplayName;
                     lineItem.IsGift = item.IsGift;
                     lineItem.Quantity = item.Quantity;
                     shipment.LineItems.Add(lineItem);
@@ -342,9 +344,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 var warning = new StringBuilder();
                 warning.Append(string.Format("Line Item with code {0} ", lineItem.Code));
-                validationIssue.Value.Aggregate(warning, (current, issue) => current.Append(issue));
+                validationIssue.Value.Aggregate(warning, (current, issue) => current.Append(issue).Append(", "));
 
-                result.ValidationMessages.Add(warning.ToString());
+                result.ValidationMessages.Add(warning.ToString().TrimEnd(',', ' '));
             }
 
             if (!validationIssues.HasItemBeenRemoved(lineItem))

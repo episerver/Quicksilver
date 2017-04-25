@@ -39,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 return PartialView("_Quickview", viewModel);
             }
 
-            viewModel.AlternativeProducts = this.GetAlternativeProductsRecommendations();
+            viewModel.AlternativeProducts = this.GetAlternativeProductsRecommendations().Take(3);
             viewModel.CrossSellProducts = this.GetCrossSellProductsRecommendations();
             return Request.IsAjaxRequest() ? PartialView(viewModel) : (ActionResult)View(viewModel);
         }

@@ -26,6 +26,7 @@
                 @for (int index = 0; index < Model.CartItems.Count(); index++)
                 {
                     @Html.HiddenFor(model => model.CartItems[index].Code);
+					@Html.HiddenFor(model => model.CartItems[index].DisplayName);
                     @Html.HiddenFor(model => model.CartItems[index].Quantity);
                     @Html.HiddenFor(model => model.CartItems[index].IsGift);
 

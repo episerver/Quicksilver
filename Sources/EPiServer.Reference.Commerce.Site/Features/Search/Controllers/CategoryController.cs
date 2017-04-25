@@ -42,11 +42,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         [ChildActionOnly]
         public ActionResult Facet(FashionNode currentContent, FilterOptionViewModel viewModel)
         {
-            if (viewModel != null && !string.IsNullOrEmpty(viewModel.SelectedFacet) && viewModel.Page <= 1)
-            {
-                _recommendationService.SendFacetTrackingData(HttpContext, viewModel.SelectedFacet);
-            }
-
             return PartialView("_Facet", viewModel);
         }
     }

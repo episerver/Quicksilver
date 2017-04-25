@@ -1,10 +1,13 @@
-﻿using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
+﻿using EPiServer.Recommendations.Tracking;
+using EPiServer.Recommendations.Tracking.Data;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
+using Mediachase.Commerce.Catalog;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
@@ -13,16 +16,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
     {
         private readonly bool _isInEditMode;
         private readonly CatalogEntryViewModelFactory _viewModelFactory;
+        private readonly IRecommendationService _recommendationService;
+        private readonly ReferenceConverter _referenceConverter;
 
-        public ProductController(IsInEditModeAccessor isInEditModeAccessor, CatalogEntryViewModelFactory viewModelFactory)
+        public ProductController(IsInEditModeAccessor isInEditModeAccessor, CatalogEntryViewModelFactory viewModelFactory, IRecommendationService recommendationService, ReferenceConverter referenceConverter)
         {
             _isInEditMode = isInEditModeAccessor();
             _viewModelFactory = viewModelFactory;
+            _recommendationService = recommendationService;
+            _referenceConverter = referenceConverter;
         }
 
         [HttpGet]
-        [Tracking(TrackingType.Product)]
-        public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool useQuickview = false)
+        public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool useQuickview = false, bool skipTracking = false)
         {
             var viewModel = _viewModelFactory.Create(currentContent, variationCode);
            
@@ -39,11 +45,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 
             if (useQuickview)
             {
+                _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Disabled);
                 return PartialView("_Quickview", viewModel);
             }
 
-            viewModel.AlternativeProducts = this.GetAlternativeProductsRecommendations();
-            viewModel.CrossSellProducts = this.GetCrossSellProductsRecommendations();
+            var trackingResponse = new TrackingResponseData();
+            if (!skipTracking)
+            {
+                trackingResponse = _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Enabled);
+            }
+
+            viewModel.AlternativeProducts = trackingResponse.GetAlternativeProductsRecommendations(_referenceConverter).Take(3);
+            viewModel.CrossSellProducts = trackingResponse.GetCrossSellProductsRecommendations(_referenceConverter);
 
             return Request.IsAjaxRequest() ? PartialView(viewModel) : (ActionResult)View(viewModel);
         }
@@ -54,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var variant = _viewModelFactory.SelectVariant(currentContent, color, size);
             if (variant != null)
             {
-                return RedirectToAction("Index", new { variationCode = variant.Code, useQuickview = useQuickview });
+                return RedirectToAction("Index", new { variationCode = variant.Code, useQuickview = useQuickview, skipTracking = true });
             }
 
             return HttpNotFound();

@@ -61,30 +61,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             _viewModelFactoryMock.Verify(v => v.Create(It.IsAny<FashionNode>(), formModel));
         }
 
-        [Fact]
-        public void Facet_WhenBrowsingFirstResultPage_ShouldSendFacetTracking()
-        {
-            _subject.Facet(null, new FilterOptionViewModel() {SelectedFacet = "key:value",  Page = 1 });
-            _recommendationServiceMock.Verify(
-               x => x.SendFacetTrackingData(
-                       It.IsAny<HttpContextBase>(),
-                       It.IsAny<string>()
-                       ),
-               Times.Once);
-        }
-
-        [Fact]
-        public void Facet_WhenBrowsingNextResultPage_ShouldNotSendFacetTracking()
-        {
-            _subject.Facet(null, new FilterOptionViewModel() {SelectedFacet = "key:value",  Page = 2 });
-            _recommendationServiceMock.Verify(
-               x => x.SendFacetTrackingData(
-                       It.IsAny<HttpContextBase>(),
-                       It.IsAny<string>()
-                       ),
-               Times.Never);
-        }
-
         private readonly CategoryController _subject;
         private readonly Mock<SearchViewModelFactory> _viewModelFactoryMock;
         private readonly Mock<HttpRequestBase> _httpRequestMock;

@@ -415,6 +415,32 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         }
 
         [Fact]
+        public void RecreateLineItemsBasedOnShipments_WhenHavingLineItemDisplayName_ShouldSaveToCart()
+        {
+            var shipment = _cart.GetFirstShipment();
+            var skuCode = "EAN";
+            var displayName = "display-name";
+
+            shipment.LineItems.Add(new InMemoryLineItem
+            {
+                Code = skuCode,
+                Quantity = 2
+            });
+
+            _subject.RecreateLineItemsBasedOnShipments(_cart, new[]
+            {
+                new CartItemViewModel { Code = skuCode, AddressId = "1", DisplayName = displayName },
+                new CartItemViewModel { Code = skuCode, AddressId = "2", DisplayName = displayName }
+            }, new[]
+            {
+                new AddressModel { AddressId = "1", Line1 = "First street" },
+                new AddressModel { AddressId = "2", Line1 = "Second street" }
+            });
+
+            Assert.Equal<string>(displayName, _cart.GetAllLineItems().First().DisplayName);
+        }
+
+        [Fact]
         public void RecreateLineItemsBasedOnShipments_WhenHavingTwoShippingAddresses_ShouldCreateTwoShipmentLineItems()
         {
             var shipment = _cart.GetFirstShipment();

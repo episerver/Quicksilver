@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 var messageText = message.Length + 2 < allowedMessageLength ? message : message.Substring(allowedMessageLength);
                 allowedMessageLength -= message.Length;
-                composedMessage.AppendLine(messageText);
+                composedMessage.Append(messageText).Append(". ");
 
                 if (allowedMessageLength <= 0)
                 {
@@ -33,7 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 }
             }
 
-            return composedMessage.ToString();
+            return composedMessage.ToString().Trim();
         }
     }
 }

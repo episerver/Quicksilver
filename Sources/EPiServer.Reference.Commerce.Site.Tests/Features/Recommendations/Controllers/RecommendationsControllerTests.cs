@@ -26,8 +26,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Contr
         public void Index_WhenThereAreMultipleEntryLinks_ShouldCreateProductViewModelForEach()
         {
             var recommendations = new Recommendation[] {
-                new Recommendation("123", new ContentReference(1337)),
-                new Recommendation("456", new ContentReference(1338))
+                new Recommendation(123, new ContentReference(1337)),
+                new Recommendation(456, new ContentReference(1338))
             };
 
             _recommendationServiceMock

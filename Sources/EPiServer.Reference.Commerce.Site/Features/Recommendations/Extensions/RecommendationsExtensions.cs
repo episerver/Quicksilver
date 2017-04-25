@@ -19,8 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions
         {
             return controller.GetRecommendationGroups()
                 .Where(x => x.Area == ProductAlternatives)
-                .SelectMany(x => x.Recommendations)
-                .Take(3);
+                .SelectMany(x => x.Recommendations);
         }
 
         public static IEnumerable<Recommendation> GetCrossSellProductsRecommendations(this ControllerBase controller)
@@ -39,18 +38,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions
 
         public static IEnumerable<Recommendation> GetCategoryRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
         {
-            return response.SmartRecs != null ?
-                response.SmartRecs.Where(x => x.Position == Category).SelectMany(x => x.Recs)
-                .Select(x => new Recommendation(x.Id, referenceConverter.GetContentLink(x.RefCode)))
-                : null;
+            return response.GetRecommendationGroups(referenceConverter).Where(x => x.Area == Category).SelectMany(x => x.Recommendations);
         }
 
         public static IEnumerable<Recommendation> GetSearchResultRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
         {
-            return response.SmartRecs != null ?
-                response.SmartRecs.Where(x => x.Position == SearchResult).SelectMany(x => x.Recs)
-                .Select(x => new Recommendation(x.Id, referenceConverter.GetContentLink(x.RefCode)))
-                : null;
+            return response.GetRecommendationGroups(referenceConverter).Where(x => x.Area == SearchResult).SelectMany(x => x.Recommendations);
+        }
+
+        public static IEnumerable<Recommendation> GetAlternativeProductsRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
+        {
+            return response.GetRecommendationGroups(referenceConverter).Where(x => x.Area == ProductAlternatives).SelectMany(x => x.Recommendations);
+        }
+
+        public static IEnumerable<Recommendation> GetCrossSellProductsRecommendations(this TrackingResponseData response, ReferenceConverter referenceConverter)
+        {
+            return response.GetRecommendationGroups(referenceConverter).Where(x => x.Area == ProductCrossSells).SelectMany(x => x.Recommendations);
         }
     }
 }

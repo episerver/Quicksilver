@@ -1,5 +1,7 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Recommendations.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
@@ -38,6 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpGet]
+        [Tracking(TrackingType.Wishlist)]
         public ActionResult Index(WishListPage currentPage)
         {
             var viewModel = _cartViewModelFactory.CreateWishListViewModel(WishList);
