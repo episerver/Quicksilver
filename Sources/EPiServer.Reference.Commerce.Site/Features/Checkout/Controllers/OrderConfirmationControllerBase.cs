@@ -8,6 +8,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -19,8 +20,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
 
         protected OrderConfirmationControllerBase(
-            ConfirmationService confirmationService, 
-            AddressBookService addressBookService, 
+            ConfirmationService confirmationService,
+            AddressBookService addressBookService,
             CustomerContextFacade customerContextFacade,
             IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
         {
@@ -38,10 +39,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 return new OrderConfirmationViewModel<T> { CurrentPage = currentPage };
             }
-            
+
             var lineItems = order.GetFirstForm().Shipments.SelectMany(x => x.LineItems);
             var totals = _orderGroupTotalsCalculator.GetTotals(order);
-            
+
             var viewModel = new OrderConfirmationViewModel<T>
             {
                 Currency = order.Currency,
@@ -53,19 +54,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 BillingAddress = new AddressModel(),
                 ShippingAddresses = new List<AddressModel>(),
                 ContactId = _customerContext.CurrentContactId,
-                Payments = order.GetFirstForm().Payments,
+                Payments = order.GetFirstForm().Payments.Where(c => c.TransactionType == TransactionType.Authorization.ToString() || c.TransactionType == TransactionType.Sale.ToString()),
                 OrderGroupId = order.OrderLink.OrderGroupId,
                 OrderLevelDiscountTotal = order.GetOrderDiscountTotal(order.Currency),
                 ShippingSubTotal = order.GetShippingSubTotal(),
-                ShippingDiscountTotal = order.GetShippingDiscountTotal(), 
+                ShippingDiscountTotal = order.GetShippingDiscountTotal(),
                 ShippingTotal = totals.ShippingTotal,
-                HandlingTotal = totals.HandlingTotal, 
+                HandlingTotal = totals.HandlingTotal,
                 TaxTotal = totals.TaxTotal,
                 CartTotal = totals.Total
             };
-            
-            var billingAddress = order.GetFirstForm().Payments.First().BillingAddress; 
-            
+
+            var billingAddress = order.GetFirstForm().Payments.First().BillingAddress;
+
             // Map the billing address using the billing id of the order form.
             _addressBookService.MapToModel(billingAddress, viewModel.BillingAddress);
 

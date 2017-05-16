@@ -47,12 +47,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [HttpPost]
         public ActionResult Index(MultiShipmentPage currentPage, MultiShipmentViewModel viewModel)
         {
-            if (viewModel.CartItems == null || !viewModel.CartItems.Any())
-            {
-                var home = Url.ContentUrl(ContentReference.StartPage);
-                return Redirect(home);
-            }
-
             for (var i = 0; i < viewModel.CartItems.Count(); i++)
             {
                 if (string.IsNullOrEmpty(viewModel.CartItems[i].AddressId))

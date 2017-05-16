@@ -22,6 +22,8 @@
     </td>
     <td class="FormFieldCell">
         <asp:TextBox runat="server" Width="350" ID="UrlText" MaxLength="255"></asp:TextBox><br />
+        <asp:CustomValidator runat="server" id="UrlValidator"
+                             ControlToValidate="UrlText" OnServerValidate="SeoUrlValidatorCheck" Display="Dynamic" />
 		<asp:RegularExpressionValidator id="RegularExpressionValidator2" runat="server"  ControlToValidate="UrlText" Display="Dynamic"
 		                                ErrorMessage="* Url cannot be longer than 255 characters." ValidationExpression=".{0,255}"></asp:RegularExpressionValidator>
         <asp:CustomValidator runat="server" id="duplicateUrlCheck"

@@ -95,7 +95,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
         public RecommendationServiceTests()
         {
             _trackingServiceMock = new Mock<ITrackingService>();
-            _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null);
+            _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null, null);
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);
             _contentLoaderMock = new Mock<IContentLoader>();
             _languageServiceMock = new Mock<LanguageService>(null, null, null);

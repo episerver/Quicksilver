@@ -840,4 +840,7 @@
   <data name="Delete_Versions_Warning" xml:space="preserve">
     <value>Warning. Updating this item through Commerce Manager will overwrite any previous and pending content versions. Such content versions may have been created through other interfaces.</value>
   </data>
+  <data name="Invalid_Url_Characters" xml:space="preserve">
+    <value>Invalid characters in web address: '{0}'</value>
+  </data>
 </root>

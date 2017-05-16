@@ -111,7 +111,10 @@
             return;
         }
         var form = $('.jsCheckoutForm');
-
+        if (form.length == 0)
+        {
+            return;
+        }
         $.ajax({
             type: "POST",
             cache: false,
