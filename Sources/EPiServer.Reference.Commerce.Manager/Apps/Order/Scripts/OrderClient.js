@@ -292,6 +292,10 @@ function Mediachase_OrderClient()
     this.ImportTaxes = function() {
         CSManagementClient.ChangeView('Order', 'Tax-Import', '');
     };
+
+    this.ExportTaxes = function (params) {
+        CSManagementClient.ChangeView('Order', 'Tax-Export', '');
+    };
     
     //-------------------------- Countries -------------------------------------
     this.NewCountry = function(source) {

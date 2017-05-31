@@ -772,6 +772,9 @@
   <data name="Import_Taxes" xml:space="preserve">
     <value>Import Taxes</value>
   </data>
+  <data name="Export_Taxes" xml:space="preserve">
+    <value>Export Taxes</value>
+  </data>
   <data name="Providers" xml:space="preserve">
     <value>Providers</value>
   </data>
@@ -2172,9 +2175,6 @@
   <data name="Market_New" xml:space="preserve">
     <value>New Market</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="Market_Overview" xml:space="preserve">
     <value>Market Overview</value>
   </data>
@@ -2255,5 +2255,17 @@
   </data>
   <data name="Complete_Return_Discount_Verification_Warning" xml:space="preserve">
     <value>The Invalidated Discounts value does not consider the exchange items. If the exchange contains items similar to the returned items you may want to adjust the return amount to ignore the Invalidated Discounts value.</value>
+  </data>
+  <data name="Click_Button_To_Start" xml:space="preserve">
+    <value>Click the button to start.</value>
+  </data>
+  <data name="Exported_Files" xml:space="preserve">
+    <value>Exported Files List</value>
+  </data>
+  <data name="Exporting_Taxes" xml:space="preserve">
+    <value>Exporting Taxes</value>
+  </data>
+  <data name="Tax_Export_Description" xml:space="preserve">
+    <value>You're about to export taxes.</value>
   </data>
 </root>

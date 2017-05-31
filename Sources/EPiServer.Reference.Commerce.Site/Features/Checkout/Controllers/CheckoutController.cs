@@ -63,11 +63,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var viewModel = CreateCheckoutViewModel(currentPage);
 
             Cart.Currency = _currencyService.GetCurrentCurrency();
-            
-            if (User.Identity.IsAuthenticated)
-            {
-                _checkoutService.UpdateShippingAddresses(Cart, viewModel);
-            }
+
+            _checkoutService.UpdateShippingAddresses(Cart, viewModel);
 
             _checkoutService.UpdateShippingMethods(Cart, viewModel.Shipments);
             _checkoutService.ApplyDiscounts(Cart);
@@ -115,11 +112,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var viewModel = CreateCheckoutViewModel(addressViewModel.CurrentPage);
             _checkoutService.CheckoutAddressHandling.ChangeAddress(viewModel, addressViewModel);
 
-            if (User.Identity.IsAuthenticated)
-            {
-                _checkoutService.UpdateShippingAddresses(Cart, viewModel);
-            }
-            
+            _checkoutService.UpdateShippingAddresses(Cart, viewModel);
+
             _orderRepository.Save(Cart);
 
             var addressViewName = addressViewModel.ShippingAddressIndex > -1 ? "SingleShippingAddress" : "BillingAddress";

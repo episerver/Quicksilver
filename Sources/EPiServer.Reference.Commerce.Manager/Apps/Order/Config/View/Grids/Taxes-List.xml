@@ -22,7 +22,10 @@
 			<add>
 				<Button id="New" text="{SharedStrings:New}" imageUrl="~/Apps/Shell/styles/Images/new.png" commandName="cmdOrderNewTax" permissions="order:admin:taxes:mng:create"/>
 				<Splitter id="ActionsSplitter"/>
-				<Button id="ImportTaxes" text="{SharedStrings:Import_Taxes}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdTaxesImport" permissions="order:admin:taxes:mng:import"/>
+        <Menu id="ImportExportSplitButton" text="{SharedStrings:Import_Export}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="order:admin:taxes:mng:import">
+          <Button id="ImportTaxes" text="{SharedStrings:Import_Taxes}" imageUrl="~/Apps/Shell/styles/Images/toolbar/import.png" commandName="cmdTaxesImport" permissions="order:admin:taxes:mng:import"/>
+          <Button id="ExportTaxes" text="{SharedStrings:Export_Taxes}" imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdTaxesExport" permissions="order:admin:taxes:mng:import"/>
+        </Menu>
 				<Menu id="MoreActionsSplitButton" text="{SharedStrings:More_Actions}" imageUrl="~/Apps/Shell/styles/Images/toolbar/newtask.gif" permissions="order:admin:taxes:mng:delete">
 					<Button id="DeleteSelected" text="{SharedStrings:Delete}" imageUrl="~/Apps/Shell/styles/Images/toolbar/delete.gif" commandName="cmdOrderTaxDelete" permissions="order:admin:taxes:mng:delete"/>
 				</Menu>
@@ -41,6 +44,11 @@
 					<ClientScript>CSOrderClient.ImportTaxes()</ClientScript>
 					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
 				</Command>
+        <Command id="cmdTaxesExport">
+          <CommandType>ClientAction</CommandType>
+          <ClientScript>CSOrderClient.ExportTaxes(params)</ClientScript>
+          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
+        </Command>
 				<Command id="cmdOrderTaxDelete">
 					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>

@@ -11,7 +11,7 @@ using System.Web;
 
 namespace EPiServer.Reference.Commerce.Shared.Services
 {
-    [ServiceConfiguration(typeof(IMailService), Lifecycle = ServiceInstanceScope.PerRequest)]
+    [ServiceConfiguration(typeof(IMailService), Lifecycle = ServiceInstanceScope.Transient)]
     public class MailService : IMailService
     {
         private readonly HttpContextBase _httpContextBase;

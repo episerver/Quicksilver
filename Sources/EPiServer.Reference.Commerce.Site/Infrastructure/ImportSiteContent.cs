@@ -20,10 +20,12 @@ using Mediachase.Commerce.Extensions;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
+using Mediachase.Commerce.Orders.ImportExport;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Shared;
 using Mediachase.Search;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -31,8 +33,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Hosting;
-using Mediachase.Commerce.Orders.ImportExport;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -290,9 +292,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
-            CacheManager.Clear();
+            List<string> keys = new List<string>();
+            foreach (DictionaryEntry entry in HttpRuntime.Cache)
+            {
+                keys.Add((string)entry.Key);
+            }
+            foreach (string key in keys)
+            {
+                HttpRuntime.Cache.Remove(key);
+            }
 
-            var options = new ImportOptions {KeepIdentity = true};
+            var options = new ImportOptions { KeepIdentity = true };
 
             var log = DataImporter.Service.Import(stream, destinationRoot, options);
 
@@ -421,9 +431,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var promotion = _contentRepository.Service.GetDefault<BuyQuantityGetItemDiscount>(campaignLink);
             promotion.IsActive = true;
             promotion.Name = "20 % off Mens Shoes";
-            promotion.Condition.Items = new List<ContentReference> {categoryLink};
+            promotion.Condition.Items = new List<ContentReference> { categoryLink };
             promotion.Condition.RequiredQuantity = 1;
-            promotion.DiscountTarget.Items = new List<ContentReference> {categoryLink};
+            promotion.DiscountTarget.Items = new List<ContentReference> { categoryLink };
             promotion.Discount.UseAmounts = false;
             promotion.Discount.Percentage = 20m;
             promotion.Banner = GetAssetUrl("/Catalog/Promotions/20% off this season's shoes");
@@ -435,9 +445,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var promotion = _contentRepository.Service.GetDefault<SpendAmountGetOrderDiscount>(campaignLink);
             promotion.IsActive = true;
             promotion.Name = "$50 off Order over $500";
-            promotion.Condition.Amounts = new List<Money> {new Money(500m, Currency.USD)};
+            promotion.Condition.Amounts = new List<Money> { new Money(500m, Currency.USD) };
             promotion.Discount.UseAmounts = true;
-            promotion.Discount.Amounts = new List<Money> {new Money(50m, Currency.USD)};
+            promotion.Discount.Amounts = new List<Money> { new Money(50m, Currency.USD) };
             promotion.Banner = GetAssetUrl("/Catalog/Promotions/$50 off orders over $500");
             _contentRepository.Service.Save(promotion, SaveAction.Publish, AccessLevel.NoAccess);
         }
@@ -448,11 +458,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var promotion = _contentRepository.Service.GetDefault<BuyQuantityGetShippingDiscount>(campaignLink);
             promotion.IsActive = true;
             promotion.Name = "$10 off shipping from Women's Shoes";
-            promotion.Condition.Items = new List<ContentReference> {categoryLink};
+            promotion.Condition.Items = new List<ContentReference> { categoryLink };
             promotion.ShippingMethods = GetShippingMethodIds();
             promotion.Condition.RequiredQuantity = 1;
             promotion.Discount.UseAmounts = true;
-            promotion.Discount.Amounts = new List<Money> {new Money(10m, Currency.USD)};
+            promotion.Discount.Amounts = new List<Money> { new Money(10m, Currency.USD) };
             promotion.Banner = GetAssetUrl("/Catalog/Promotions/$10 off shipping on women's shoes");
             _contentRepository.Service.Save(promotion, SaveAction.Publish, AccessLevel.NoAccess);
         }
@@ -482,7 +492,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 return null;
             }
 
-            var slugs = assetPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var slugs = assetPath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var pathDepth = slugs.Length;
             if (pathDepth < 1)
             {
@@ -490,7 +500,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             }
 
             var currentFolder = SiteDefinition.Current.SiteAssetsRoot;
-            foreach (var folderName in slugs.Take(pathDepth -1))
+            foreach (var folderName in slugs.Take(pathDepth - 1))
             {
                 currentFolder = GetChildContentByName<ContentFolder>(currentFolder, folderName);
                 if (currentFolder == null)

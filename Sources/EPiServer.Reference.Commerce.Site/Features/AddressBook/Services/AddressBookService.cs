@@ -271,11 +271,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
             addressModel.CountryOptions = GetAllCountries();
 
-            if (addressModel.CountryCode == null && addressModel.CountryOptions.Any())
-            {
-                addressModel.CountryCode = addressModel.CountryOptions.First().Code;
-            }
-
             if (!string.IsNullOrEmpty(addressModel.AddressId))
             {
                 var existingCustomerAddress = GetAddress(currentContact, addressModel.AddressId);
@@ -286,13 +281,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
                 }
             }
 
-            if (!string.IsNullOrEmpty(addressModel.CountryCode))
+            var countryCode = addressModel.CountryCode;
+            if (countryCode == null && addressModel.CountryOptions.Any())
+            {
+                countryCode = addressModel.CountryOptions.First().Code;
+            }
+
+            if (!string.IsNullOrEmpty(countryCode))
             {
                 if (addressModel.CountryRegion == null)
                 {
                     addressModel.CountryRegion = new CountryRegionViewModel();
                 }
-                addressModel.CountryRegion.RegionOptions = GetRegionsByCountryCode(addressModel.CountryCode);
+                addressModel.CountryRegion.RegionOptions = GetRegionsByCountryCode(countryCode);
             }
         }
 
