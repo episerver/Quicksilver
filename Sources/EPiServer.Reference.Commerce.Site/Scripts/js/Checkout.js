@@ -78,7 +78,6 @@
         AddressBook.showNewAddressDialog($(this));
     },
     changeAddress: function () {
-
         var form = $('.jsCheckoutForm');
         var id = $(this).attr("id");
         var isBilling = id.indexOf("Billing") > -1;
@@ -105,8 +104,11 @@
         });
     },
 
-    changeTaxAddress: function () {
-        var id = $(this).attr("id");
+    changeTaxAddress: function (sender) {
+        if (sender.originalEvent instanceof Event) {
+            sender = $(this);
+        }
+        var id = $(sender).attr("id");
         if ((id.indexOf("Billing") > -1) && $("#UseBillingAddressForShipment").val() == "False") {
             return;
         }
@@ -118,7 +120,7 @@
         $.ajax({
             type: "POST",
             cache: false,
-            url: $(this).closest('.jsCheckoutAddress').data('url'),
+            url: $(sender).closest('.jsCheckoutAddress').data('url'),
             data: form.serialize(),
             success: function (result) {
                 Checkout.updateOrderSummary();

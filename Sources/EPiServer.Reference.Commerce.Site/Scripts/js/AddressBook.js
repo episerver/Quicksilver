@@ -68,6 +68,9 @@ var AddressBook = {
                         addressDropDown.val(result.AddressId);
                     }
 
+                    $('.address-dropdown').each(function () {
+                        Checkout.changeTaxAddress($(this));
+                    });
                     return;
                 }
 

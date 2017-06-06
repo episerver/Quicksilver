@@ -60,13 +60,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 _addressBookService.LoadAddress(updatedAddress);
                 viewModel.Shipments[updateViewModel.ShippingAddressIndex].Address = updatedAddress;
             }
-            else
-            {
-                for (var i = 0; i < viewModel.Shipments.Count; i++)
-                {
-                    viewModel.Shipments[i].Address = updateViewModel.Shipments[i].Address;
-                }
-            }
 
             foreach (var shipment in viewModel.Shipments)
             {

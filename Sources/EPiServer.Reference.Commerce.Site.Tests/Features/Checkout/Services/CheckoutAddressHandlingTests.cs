@@ -99,7 +99,58 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             Assert.Equal(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
         }
-        
+
+        [Fact]
+        public void ChangeAddress_WhenShippingAddressIndexHasValidValue_ShouldUpdateBothBillingAddressAndShippingAddress()
+        {
+            var shipmentModels = new List<ShipmentViewModel>
+            {
+                new ShipmentViewModel {Address = new AddressModel()}
+            };
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel(),
+                Shipments = shipmentModels
+            };
+            var updateModel = new UpdateAddressViewModel
+            {
+                BillingAddress = new AddressModel { AddressId = "BillingAddId" },
+                Shipments = shipmentModels,
+                ShippingAddressIndex = 0
+            };
+            updateModel.Shipments[0].Address.AddressId = "ShipmentAddId";
+
+            _subject.ChangeAddress(viewModel, updateModel);
+
+            Assert.Equal(viewModel.BillingAddress.AddressId, "BillingAddId");
+            Assert.Equal(viewModel.Shipments[0].Address.AddressId, "ShipmentAddId");
+        }
+
+        public void ChangeAddress_WhenShippingAddressIndexHasInValidValue_ShouldUpdateBillingAddressButNotUpdateShippingAddress()
+        {
+            var shipmentModels = new List<ShipmentViewModel>
+            {
+                new ShipmentViewModel {Address = new AddressModel()}
+            };
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel(),
+                Shipments = shipmentModels
+            };
+            var updateModel = new UpdateAddressViewModel
+            {
+                BillingAddress = new AddressModel { AddressId = "BillingAddId" },
+                Shipments = shipmentModels,
+                ShippingAddressIndex = -1
+            };
+            updateModel.Shipments[0].Address.AddressId = "ShipmentAddId";
+
+            _subject.ChangeAddress(viewModel, updateModel);
+
+            Assert.Equal(viewModel.BillingAddress.AddressId, "BillingAddId");
+            Assert.NotEqual(viewModel.Shipments[0].Address.AddressId, "ShipmentAddId");
+        }
+
         private readonly CheckoutAddressHandling _subject;
         private readonly Mock<IAddressBookService> _addressBookServiceMock;
 

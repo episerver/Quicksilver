@@ -50,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart) + _orderGroupCalculator.GetOrderDiscountTotal(cart, cart.Currency)
             };
         }
 
@@ -72,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             {
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                 TotalDiscount = new Money(cart.GetAllLineItems().Sum(x => x.GetEntryDiscount()), cart.Currency),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart) +_orderGroupCalculator.GetOrderDiscountTotal(cart, cart.Currency)
             };
         }
 
@@ -92,7 +92,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             {
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart) + _orderGroupCalculator.GetOrderDiscountTotal(cart, cart.Currency)
             };
         }
 
@@ -114,7 +114,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart) + _orderGroupCalculator.GetOrderDiscountTotal(cart, cart.Currency)
             };
         }
 
