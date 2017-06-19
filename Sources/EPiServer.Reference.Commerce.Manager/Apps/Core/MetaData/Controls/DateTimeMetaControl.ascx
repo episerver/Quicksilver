@@ -6,6 +6,6 @@
      <td class="FormFieldCell">
         <core:CalendarDatePicker id="DTClientControl1" runat="server"/><br />
         <asp:Label id="MetaDescriptionCtrl" runat="server" CssClass="FormFieldDescription" Text="<%$ Resources:SharedStrings, Label %>"></asp:Label>
-        <asp:RequiredFieldValidator runat="server" ID="NameRequired" ControlToValidate="DTClientControl1" Display="Dynamic" ErrorMessage="<%$ Resources:SharedStrings, Required_Field_Missing %>" />
+        <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator1" ControlToValidate="DTClientControl1" Display="Dynamic" ErrorMessage="<%$ Resources:SharedStrings, Required_Field_Missing %>" />
      </td> 
    </tr>

@@ -1323,4 +1323,7 @@
   <data name="Shipment_Id" xml:space="preserve">
     <value>Shipment Id</value>
   </data>
+  <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>The gift {0} has not enough quantity in stock and was removed from your cart.</value>
+  </data>
 </root>

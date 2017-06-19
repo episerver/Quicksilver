@@ -253,6 +253,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
 
+            // Try to validate gift items inventory and don't catch validation issues.
+            cart.UpdateInventoryOrRemoveLineItems((item, issue) => {
+                if (!item.IsGift)
+                {
+                    validationIssues.AddValidationIssues(item, issue);
+                }
+                else
+                {
+                    validationIssues.AddValidationIssues(item, ValidationIssue.RemovedGiftDueToInsufficientQuantityInInventory);
+                }
+            }, _inventoryProcessor);
+
             return validationIssues;
         }
 

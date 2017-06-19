@@ -1293,4 +1293,7 @@
   <data name="Shipment_Id" xml:space="preserve">
     <value>Leverans-ID</value>
   </data>
+  <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>Gåvan {0} är slutsåld och har därför tagits bort från din varukorg.</value>
+  </data>
 </root>

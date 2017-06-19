@@ -28,6 +28,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                     switch (issue)
                     {
                         case ValidationIssue.None:
+                        case ValidationIssue.RemovedGiftDueToInsufficientQuantityInInventory:
                             break;
                         case ValidationIssue.CannotProcessDueToMissingOrderStatus:
                             modelState.AddModelError("",string.Format(LocalizationService.GetString("/Checkout/Payment/Errors/CannotProcessDueToMissingOrderStatus"),
