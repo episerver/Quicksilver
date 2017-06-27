@@ -13,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
     public class CheckoutAddressHandlingTests
     {
         [Fact]
-        public void UpdateAuthenticatedUserAddresses_ShouldLoadAddressesFromAddressBook()
+        public void UpdateUserAddresses_ForAuthenticatedUser_ShouldLoadAddressesFromAddressBook()
         {
             var viewModel = new CheckoutViewModel
             {
@@ -21,34 +21,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
                 Shipments = new List<ShipmentViewModel>
                 {
                     new ShipmentViewModel {Address = new AddressModel()}
-                }
+                },
+                IsAuthenticated = true
             };
 
-            _subject.UpdateAuthenticatedUserAddresses(viewModel);
+            _subject.UpdateUserAddresses(viewModel);
 
             _addressBookServiceMock.Verify(x => x.LoadAddress(viewModel.BillingAddress), Times.Once);
             _addressBookServiceMock.Verify(x => x.LoadAddress(viewModel.Shipments.Single().Address), Times.Once);
         }
 
         [Fact]
-        public void UpdateAuthenticatedUserAddresses_WhenUseBillingAddressForShipmentIsFalse_ShouldNotSetShippingAddressAsBillingAddress()
-        {
-            var viewModel = new CheckoutViewModel
-            {
-                BillingAddress = new AddressModel(),
-                Shipments = new List<ShipmentViewModel>
-                {
-                     new ShipmentViewModel {Address = new AddressModel()}
-                }
-            };
-
-            _subject.UpdateAuthenticatedUserAddresses(viewModel);
-
-            Assert.NotEqual(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
-        }
-
-        [Fact]
-        public void UpdateAnonymousUserAddresses_WhenUseBillingAddressForShipmentIsTrue_ShouldSetShippingAddressAsBillingAddress()
+        public void UpdateUserAddresses_ForAuthenticatedUser_WhenUseBillingAddressForShipmentIsFalse_ShouldNotSetShippingAddressAsBillingAddress()
         {
             var viewModel = new CheckoutViewModel
             {
@@ -57,33 +41,35 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
                 {
                      new ShipmentViewModel {Address = new AddressModel()}
                 },
-                UseBillingAddressForShipment = true
+                IsAuthenticated = true
             };
 
-            _subject.UpdateAnonymousUserAddresses(viewModel);
+            _subject.UpdateUserAddresses(viewModel);
+
+            Assert.NotEqual(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
+        }
+
+        [Fact]
+        public void UpdateUserAddresses_ForAnonymousUser_WhenUseBillingAddressForShipmentIsTrue_ShouldSetShippingAddressAsBillingAddress()
+        {
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel(),
+                Shipments = new List<ShipmentViewModel>
+                {
+                     new ShipmentViewModel {Address = new AddressModel()}
+                },
+                UseBillingAddressForShipment = true,
+                IsAuthenticated = false
+            };
+
+            _subject.UpdateUserAddresses(viewModel);
 
             Assert.Equal(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
         }
 
         [Fact]
-        public void UpdateAnonymousUserAddresses_WhenUseBillingAddressForShipmentIsFalse_ShouldNotSetShippingAddressAsBillingAddress()
-        {
-            var viewModel = new CheckoutViewModel
-            {
-                BillingAddress = new AddressModel(),
-                Shipments = new List<ShipmentViewModel>
-                {
-                     new ShipmentViewModel {Address = new AddressModel()}
-                }
-            };
-
-            _subject.UpdateAnonymousUserAddresses(viewModel);
-
-            Assert.NotEqual(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
-        }
-
-        [Fact]
-        public void UpdateAuthenticatedUserAddresses_WhenUseBillingAddressForShipmentIsTrue_ShouldSetShippingAddressAsBillingAddress()
+        public void UpdateUserAddresses_ForAnonymousUser_WhenUseBillingAddressForShipmentIsFalse_ShouldNotSetShippingAddressAsBillingAddress()
         {
             var viewModel = new CheckoutViewModel
             {
@@ -92,10 +78,29 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
                 {
                      new ShipmentViewModel {Address = new AddressModel()}
                 },
-                UseBillingAddressForShipment = true
+                IsAuthenticated = false
             };
 
-            _subject.UpdateAuthenticatedUserAddresses(viewModel);
+            _subject.UpdateUserAddresses(viewModel);
+
+            Assert.NotEqual(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
+        }
+
+        [Fact]
+        public void UpdateUserAddresses_ForAuthenticatedUser_WhenUseBillingAddressForShipmentIsTrue_ShouldSetShippingAddressAsBillingAddress()
+        {
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel(),
+                Shipments = new List<ShipmentViewModel>
+                {
+                     new ShipmentViewModel {Address = new AddressModel()}
+                },
+                UseBillingAddressForShipment = true,
+                IsAuthenticated = true
+            };
+
+            _subject.UpdateUserAddresses(viewModel);
 
             Assert.Equal(viewModel.BillingAddress, viewModel.Shipments.Single().Address);
         }

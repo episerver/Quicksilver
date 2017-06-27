@@ -5,6 +5,7 @@ using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
@@ -35,6 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         private readonly IMailService _mailService;
         private readonly IPromotionEngine _promotionEngine;
         private readonly ILogger _log = LogManager.GetLogger(typeof(CheckoutService));
+        private readonly ICartService _cartService;
 
         public AuthenticatedPurchaseValidation AuthenticatedPurchaseValidation { get; private set; }
         public AnonymousPurchaseValidation AnonymousPurchaseValidation { get; private set; }
@@ -50,7 +52,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             CustomerContextFacade customerContext,
             LocalizationService localizationService,
             IMailService mailService, 
-            IPromotionEngine promotionEngine)
+            IPromotionEngine promotionEngine,
+            ICartService cartService)
         {
             _addressBookService = addressBookService;
             _orderGroupFactory = orderGroupFactory;
@@ -62,6 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             _localizationService = localizationService;
             _mailService = mailService;
             _promotionEngine = promotionEngine;
+            _cartService = cartService;
 
             AuthenticatedPurchaseValidation = new AuthenticatedPurchaseValidation(_localizationService);
             AnonymousPurchaseValidation = new AnonymousPurchaseValidation(_localizationService);
@@ -130,7 +134,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 {
                     throw new InvalidOperationException("Wrong amount");
                 }
-                
+
+                PurchaseValidation validation = null;
+                if (checkoutViewModel.IsAuthenticated)
+                {
+                    validation = AuthenticatedPurchaseValidation;
+                }
+                else
+                {
+                    validation = AnonymousPurchaseValidation;
+                }
+
+                if (!validation.ValidateOrderOperation(modelState,  _cartService.RequestInventory(cart)))
+                {
+                    return null;
+                }
+
                 var orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
                 var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
                 _orderRepository.Delete(cart.OrderLink);
@@ -183,6 +202,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink);
 
             return new UrlBuilder(confirmationPage.LinkURL) {QueryCollection = queryCollection}.ToString();
+        }
+
+        public virtual bool ValidateOrder(ModelStateDictionary modelState, CheckoutViewModel viewModel, Dictionary<ILineItem, List<ValidationIssue>> validationIssueCollections)
+        {
+            PurchaseValidation validation = null;
+            if (viewModel.IsAuthenticated)
+            {
+                validation = AuthenticatedPurchaseValidation;
+            }
+            else
+            {
+                validation = AnonymousPurchaseValidation;
+            }
+
+            if (!validation.ValidateModel(modelState, viewModel) ||
+                !validation.ValidateOrderOperation(modelState, validationIssueCollections))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void ProcessPaymentCancel(CheckoutViewModel viewModel, TempDataDictionary tempData, ControllerContext controlerContext)

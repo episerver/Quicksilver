@@ -25,6 +25,7 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 using Moq;
 using Xunit;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 {
@@ -200,7 +201,46 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderRepositoryMock.Verify(x => x.Delete(cart.OrderLink), Times.Once);
         }
-        
+
+        [Fact]
+        public void PlaceOrder_WhenRequestInventoryHasAnIssue_ShouldReturnNull()
+        {
+            var cartTotal = new Money(1, Currency.USD);
+            _orderGroupCalculatorMock.Setup(x => x.GetTotal(It.IsAny<IOrderGroup>())).Returns(() => cartTotal);
+
+            _orderRepositoryMock.Setup(x => x.Load<IPurchaseOrder>(It.IsAny<int>())).Returns(new Mock<IPurchaseOrder>().Object);
+
+            _orderRepositoryMock.Setup(x => x.SaveAsPurchaseOrder(It.IsAny<ICart>()))
+                .Returns(() => new OrderReference(0, "", Guid.Empty, null));
+
+            var returnObject = new Mock<Dictionary<ILineItem, List<ValidationIssue>>>();
+            returnObject.Object.Add(new Mock<ILineItem>().Object, new List<ValidationIssue>() {
+                ValidationIssue.AdjustedQuantityByAvailableQuantity
+            });
+            _cartServiceMock
+                .Setup(x => x.RequestInventory(It.IsAny<ICart>()))
+                .Returns(returnObject.Object);
+
+            var cart = new FakeCart(new MarketImpl(MarketId.Empty), Currency.SEK)
+            {
+                OrderLink = new OrderReference(1, "", Guid.Empty, null)
+            };
+            cart.GetFirstForm().Payments.Add(new FakePayment { Status = PaymentStatus.Processed.ToString(), Amount = cartTotal.Amount });
+
+            var modelState = new ModelStateDictionary();
+
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel { AddressId = "billingAddress" },
+                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
+            };
+
+            var result = _subject.PlaceOrder(cart, modelState, viewModel);
+
+            Assert.Null(result);
+            Assert.Equal(1, modelState.Count(x => x.Value.Errors.Count > 0));
+        }
+
         [Fact]
         public void PlaceOrder_WhenPaymentProcessingFails_ShouldReturnNullAndAddModelError()
         {
@@ -302,6 +342,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
         private readonly Mock<IOrderGroupCalculator> _orderGroupCalculatorMock;
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
         private readonly Mock<IMailService> _mailServiceMock;
+        private readonly Mock<ICartService> _cartServiceMock;
         private readonly Mock<IContentRepository> _contentRepositoryMock;
         private readonly Mock<CustomerContextFacade> _customerContextFacadeMock;
         public CheckoutServiceTests()
@@ -317,6 +358,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             _contentRepositoryMock = new Mock<IContentRepository>();
             _customerContextFacadeMock = new Mock<CustomerContextFacade>();
 
+            _cartServiceMock = new Mock<ICartService>();
+            _cartServiceMock.Setup(x => x.RequestInventory(It.IsAny<ICart>())).Returns(new Dictionary<ILineItem, List<ValidationIssue>>());
+
             _subject = new CheckoutService(
               addressBookServiceMock.Object,
               null,
@@ -327,7 +371,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
               _customerContextFacadeMock.Object,
               new MemoryLocalizationService(),
               _mailServiceMock.Object,
-              null);
+              null,
+              _cartServiceMock.Object);
         }
     }
 }

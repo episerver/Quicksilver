@@ -162,32 +162,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.
             viewModel.Payment = paymentOption;
-            
-            if (User.Identity.IsAuthenticated)
+
+            viewModel.IsAuthenticated = User.Identity.IsAuthenticated;
+
+            _checkoutService.CheckoutAddressHandling.UpdateUserAddresses(viewModel);
+            if (!_checkoutService.ValidateOrder(ModelState, viewModel, _cartService.ValidateCart(Cart)))
             {
-                _checkoutService.CheckoutAddressHandling.UpdateAuthenticatedUserAddresses(viewModel);
-
-                var validation = _checkoutService.AuthenticatedPurchaseValidation;
-
-                if (!validation.ValidateModel(ModelState, viewModel) ||
-                    !validation.ValidateOrderOperation(ModelState, _cartService.ValidateCart(Cart)) ||
-                    !validation.ValidateOrderOperation(ModelState, _cartService.RequestInventory(Cart)))
-                {
-                    return View(viewModel);
-                }
-            }
-            else
-            {
-                _checkoutService.CheckoutAddressHandling.UpdateAnonymousUserAddresses(viewModel);
-
-                var validation = _checkoutService.AnonymousPurchaseValidation;
-              
-                if (!validation.ValidateModel(ModelState, viewModel) ||
-                    !validation.ValidateOrderOperation(ModelState, _cartService.ValidateCart(Cart)) ||
-                    !validation.ValidateOrderOperation(ModelState, _cartService.RequestInventory(Cart)))
-                {
-                    return View(viewModel);
-                }
+                return View(viewModel);
             }
             
             if (!paymentOption.ValidateData())

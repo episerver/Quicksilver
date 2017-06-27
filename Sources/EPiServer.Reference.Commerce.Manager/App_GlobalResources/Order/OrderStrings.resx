@@ -1255,7 +1255,7 @@
     <value>Order Market</value>
   </data>
   <data name="Order_PurchaseOrder_PaymentLess" xml:space="preserve">
-    <value>The payment total and the order total do not not match. Please adjust your payment.</value>
+    <value>The payment total and the order total do not match. Please adjust your payment.</value>
   </data>
   <data name="Payment_Market_Selected" xml:space="preserve">
     <value>Selected Markets for Payment Method</value>

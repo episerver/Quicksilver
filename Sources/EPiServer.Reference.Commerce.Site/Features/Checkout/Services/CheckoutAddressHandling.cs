@@ -14,24 +14,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             _addressBookService = addressBookService;
         }
 
-        public virtual void UpdateAuthenticatedUserAddresses(CheckoutViewModel viewModel)
+        public virtual void UpdateUserAddresses(CheckoutViewModel viewModel)
         {
-            LoadBillingAddressFromAddressBook(viewModel);
-            LoadShippingAddressesFromAddressBook(viewModel);
-            if (viewModel.UseBillingAddressForShipment)
+            if (viewModel.IsAuthenticated)
             {
-                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
+                UpdateAuthenticatedUserAddresses(viewModel);
             }
-        }
-
-        public virtual void UpdateAnonymousUserAddresses(CheckoutViewModel viewModel)
-        {
-            SetDefaultBillingAddressName(viewModel);
-          
-            if (viewModel.UseBillingAddressForShipment)
+            else
             {
-                SetDefaultShippingAddressesNames(viewModel);
-                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
+                UpdateAnonymousUserAddresses(viewModel);
             }
         }
 
@@ -98,6 +89,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             foreach (var shipment in checkoutViewModel.Shipments)
             {
                 _addressBookService.LoadAddress(shipment.Address);
+            }
+        }
+
+        private void UpdateAuthenticatedUserAddresses(CheckoutViewModel viewModel)
+        {
+            LoadBillingAddressFromAddressBook(viewModel);
+            LoadShippingAddressesFromAddressBook(viewModel);
+            if (viewModel.UseBillingAddressForShipment)
+            {
+                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
+            }
+        }
+
+        private void UpdateAnonymousUserAddresses(CheckoutViewModel viewModel)
+        {
+            SetDefaultBillingAddressName(viewModel);
+
+            if (viewModel.UseBillingAddressForShipment)
+            {
+                SetDefaultShippingAddressesNames(viewModel);
+                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
             }
         }
     }

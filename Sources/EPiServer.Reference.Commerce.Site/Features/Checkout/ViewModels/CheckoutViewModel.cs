@@ -64,6 +64,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
         public string Message { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the user is anthenticated or anonymous.
+        /// </summary>
+        public bool IsAuthenticated { get; set; }
+
+        /// <summary>
         /// Gets the name of the checkout view required depending on the number of distinct shipping addresses.
         /// </summary>
         public string ViewName
