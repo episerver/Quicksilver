@@ -1,0 +1,30 @@
+﻿﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Warehouse.ViewModels.WarehouseInventoryViewModel>
+
+<div class="warehouse-availability" data-url="@Url.Action("GetAvailability", "Warehouse")">
+
+    <p>@Html.Translate("/Warehouse/Availability")</p>
+
+    <div class="warehouse-container">
+        @foreach (var warehouse in Model)
+        {
+            using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "warehouse", data_container = "MiniCart" }))
+            {
+
+                <div class="btn-group btn-group-sm">
+                    <button type="button"
+                            class="btn btn-sm btn-default warehouse-quickview-button"
+                            data-target="#ModalDialog"
+                            data-toggle="modal"
+                            data-warehouse-code="@warehouse.WarehouseCode"
+                            data-url="@Url.Action("Index", "Warehouse")">
+                        <div class="warehouse__name">@warehouse.WarehouseName</div>
+                        <div class="warehouse__quantity"><i class="glyphicon glyphicon-tag"></i> @warehouse.InStockQuantity</div>
+
+                    </button>
+                    <input type="hidden" class="skuCode" value="@warehouse.SkuCode" />
+                    <input type="hidden" class="warehouseCode" value="@warehouse.WarehouseCode" />
+                </div>
+            }
+        }
+    </div>
+</div>

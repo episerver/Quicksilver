@@ -66,6 +66,9 @@
         <Size>Select Size</Size>
       </VariationSelection>
     </ProductPage>
+    <Warehouse>
+      <Availability>The product is available in the following warehouses:</Availability>
+    </Warehouse>
     <Checkout>
       <EmptyCart>Your cart is empty.</EmptyCart>
       <Coupons>
@@ -140,6 +143,7 @@
         <Heading>Shipping details</Heading>
         <Labels>
           <ChooseDelivery>Choose delivery</ChooseDelivery>
+          <FreeOfCharge>Free</FreeOfCharge>
         </Labels>
         <Empty>
           <ChooseDelivery>Delivery is required</ChooseDelivery>
@@ -539,10 +543,10 @@
         <AllItems>Applies to all items</AllItems>
       </Promotion>
     </StartPage>
-  <ProductRecommendations>
-    <Label>
-      <RecommendedProducts>Recommended products</RecommendedProducts>
-    </Label>
-  </ProductRecommendations>
+    <ProductRecommendations>
+      <Label>
+        <RecommendedProducts>Recommended products</RecommendedProducts>
+      </Label>
+    </ProductRecommendations>
   </language>
 </languages>

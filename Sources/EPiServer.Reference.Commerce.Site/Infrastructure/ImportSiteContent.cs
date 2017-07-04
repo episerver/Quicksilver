@@ -17,6 +17,7 @@ using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.ImportExport;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Extensions;
+using Mediachase.Commerce.Inventory;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
@@ -73,16 +74,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 _progressMessenger.AddProgressMessageText("Importing catalog...", false, 0);
                 ImportCatalog(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Catalog_Fashion.zip"));
 
+                _progressMessenger.AddProgressMessageText("Removing default warehouse...", false, 0);
+                RemoveDefaultWarehouse();
+
                 _progressMessenger.AddProgressMessageText("Disabling default market...", false, 0);
                 DisableDefaultMarket();
 
-                _progressMessenger.AddProgressMessageText("Configuring payment methods", false, 0);
+                _progressMessenger.AddProgressMessageText("Configuring payment methods...", false, 0);
                 ConfigurePaymentMethods();
 
-                _progressMessenger.AddProgressMessageText("Configuring shipment methods", false, 0);
+                _progressMessenger.AddProgressMessageText("Configuring shipment methods...", false, 0);
                 ConfigureShippingMethods();
 
-                _progressMessenger.AddProgressMessageText("Creating marketing campaigns and Promotions", false, 0);
+                _progressMessenger.AddProgressMessageText("Creating marketing campaigns and Promotions...", false, 0);
                 ConfigureMarketing();
 
                 _progressMessenger.AddProgressMessageText("Rebuilding index...", false, 0);
@@ -97,6 +101,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
                 return false;
             }
+        }
+
+        private void RemoveDefaultWarehouse()
+        {
+            var warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
+            var defaultWarehouse = warehouseRepository.Get("default");
+            warehouseRepository.Delete(defaultWarehouse.WarehouseId.Value);
         }
 
         private void EnableCurrencies()

@@ -6,6 +6,7 @@
     Misc.init();
     login.init();
     ProductPage.init();
+    Warehouse.init();
     Registration.init();
     Search.init();
     Navigation.init();

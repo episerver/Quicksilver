@@ -21,6 +21,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
     public class ResetPasswordControllerTests
     {
         [Fact]
+        public void ResetPasswordController_Should_InitEmailServiceForUserManager()
+        {            
+            Assert.NotNull(_subject.UserManager.EmailService);
+        }
+
+        [Fact]
         public void Index_ShouldReturnForgotPasswordView()
         {
             ViewResult result = _subject.Index(_resetPasswordPageMock.Object) as ViewResult;

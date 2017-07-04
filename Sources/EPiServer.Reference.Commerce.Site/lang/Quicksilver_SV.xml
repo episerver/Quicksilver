@@ -66,6 +66,9 @@
         <Size>Välj Storlek</Size>
       </VariationSelection>
     </ProductPage>
+    <Warehouse>
+      <Availability>Produkten är tillgänglig i följande varuhus:</Availability>
+    </Warehouse>
     <Checkout>
       <EmptyCart>Din varukorg är tom.</EmptyCart>
       <Coupons>
@@ -140,6 +143,7 @@
         <Heading>Leveransadress</Heading>
         <Labels>
           <ChooseDelivery>Välj leveranssätt</ChooseDelivery>
+          <FreeOfCharge>Gratis</FreeOfCharge>
         </Labels>
         <Empty>
           <ChooseDelivery>Leveranssätt krävs</ChooseDelivery>

@@ -38,7 +38,11 @@
 </head>
 <body style="overflow: hidden;">
     <form id="DialogForm1" runat="server">
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true" EnableScriptGlobalization="true" LoadScriptsBeforeUI="true" ScriptMode="debug" EnableCdn="true"></asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true" EnableScriptGlobalization="true" LoadScriptsBeforeUI="true" ScriptMode="debug" EnableCdn="true">
+            <Scripts>
+                <asp:ScriptReference Path="~/Apps/Shell/Scripts/AjaxControlToolkit/Resources.js" />
+            </Scripts>
+        </asp:ScriptManager>
         <ibn:CommandManager runat="server" ContainerId="divContainer" ID="CM" />
         <div id="divContainer" runat="server" style="height: 0px;" />
         <asp:Panel runat="server" ID="contentPanel" style="height:100%; overflow:auto;"></asp:Panel>

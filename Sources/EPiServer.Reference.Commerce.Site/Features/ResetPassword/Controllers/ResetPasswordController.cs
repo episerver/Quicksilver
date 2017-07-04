@@ -36,6 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Controllers
             _contentLoader = contentLoader;
             _mailService = mailService;
             _localizationService = localizationService;
+            UserManager.EmailService = mailService;
         }
 
         [AllowAnonymous]

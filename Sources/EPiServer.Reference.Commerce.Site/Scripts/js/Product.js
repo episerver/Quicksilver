@@ -28,6 +28,7 @@
             success: function (result) {
                 form.closest('.jsProductDetails').replaceWith($(result));
                 ProductPage.resetCarousel();
+                Warehouse.showWarehouseAvailability();
             },
             error: function () {
                 $('.jsAddToCart button').addClass('disabled');
@@ -37,13 +38,13 @@
     },
     showQuickview: function (e) {
         e.preventDefault();
-        var skuCode = $(this).data("code");
+        var skuCode = $(this).data("sku-code");
         var url = $(this).data("url");
         $.ajax({
             type: "GET",
             cache: false,
             url: url,
-            data: { variantCode: skuCode, useQuickview: true },
+            data: { entryCode: skuCode, useQuickview: true },
             success: function (result) {
                 $(".modal-dialog", $("#ModalDialog")).html($(result));
             }

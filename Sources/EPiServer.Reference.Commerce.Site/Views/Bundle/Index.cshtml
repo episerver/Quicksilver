@@ -62,8 +62,10 @@
                 <span class="warning-message"></span>
             </div>
         </div>
+        <div class="warehouse-availability-container"
+             data-url="@Url.Action("GetAvailability", "Warehouse")"
+             data-sku-code="@Model.Bundle.Code"></div>
     </div>
-
 </div>
 
 @section Meta {

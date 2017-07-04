@@ -1,0 +1,16 @@
+﻿﻿@model EPiServer.Reference.Commerce.Site.Features.Warehouse.ViewModels.WarehouseViewModel
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        <p>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </p>
+    </div>
+
+    <div class="modal-body">
+        <h1>@Html.PropertyFor(x => x.Warehouse.Name)</h1>
+
+        @Html.Partial("_Address", Model.Warehouse.ContactInformation)
+    </div>
+</div>

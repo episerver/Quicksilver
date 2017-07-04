@@ -1,0 +1,33 @@
+﻿﻿.warehouse-availability {
+    margin-top: 20px;
+    padding: 20px;
+    background: @gray-lighter;
+    outline: 3px solid @gray-lighter;
+    border: 1px dashed @brand-primary;
+
+    .warehouse-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+
+        .warehouse {
+            margin: 5px;
+
+            .quickview-button {
+                display: flex;
+            }
+
+            &__name {
+                margin-right: 10px;
+            }
+
+            &__quantity {
+            }
+
+            &:empty {
+                background: none;
+            }
+        }
+    }
+}

@@ -28,9 +28,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool useQuickview = false, bool skipTracking = false)
+        public ActionResult Index(FashionProduct currentContent, string entryCode = "", bool useQuickview = false, bool skipTracking = false)
         {
-            var viewModel = _viewModelFactory.Create(currentContent, variationCode);
+            var viewModel = _viewModelFactory.Create(currentContent, entryCode);
            
             if (_isInEditMode && viewModel.Variant == null)
             {
@@ -67,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var variant = _viewModelFactory.SelectVariant(currentContent, color, size);
             if (variant != null)
             {
-                return RedirectToAction("Index", new { variationCode = variant.Code, useQuickview = useQuickview, skipTracking = true });
+                return RedirectToAction("Index", new { entryCode = variant.Code, useQuickview = useQuickview, skipTracking = true });
             }
 
             return HttpNotFound();
