@@ -7,10 +7,10 @@
 	<table width="100%" class="DataForm">
 		<tr>
 			<td class="FormLabelCell">
-				<asp:Label ID="Label7" runat="server" Text="<%$ Resources:SharedStrings, ID %>"></asp:Label>:
+				<asp:Label ID="Label7" runat="server" Text="<%$ Resources:SharedStrings, Code %>"></asp:Label>:
 			</td>
 			<td class="FormFieldCell">
-				<asp:Label ID="CatalogEntryIdLabel" runat="server"></asp:Label>
+				<asp:Label ID="CodeLabel" runat="server"></asp:Label>
 			</td>
 		</tr>
 		<tr>

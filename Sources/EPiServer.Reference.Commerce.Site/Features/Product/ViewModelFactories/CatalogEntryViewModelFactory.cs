@@ -30,7 +30,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyservice;
         private readonly IRelationRepository _relationRepository;
-        private readonly AppContextFacade _appContext;
         private readonly UrlResolver _urlResolver;
         private readonly FilterPublished _filterPublished;
         private readonly LanguageResolver _languageResolver;
@@ -42,7 +41,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             ICurrentMarket currentMarket,
             CurrencyService currencyservice,
             IRelationRepository relationRepository,
-            AppContextFacade appContext,
             UrlResolver urlResolver,
             FilterPublished filterPublished,
             LanguageResolver languageResolver)
@@ -53,7 +51,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             _currentMarket = currentMarket;
             _currencyservice = currencyservice;
             _relationRepository = relationRepository;
-            _appContext = appContext;
             _urlResolver = urlResolver;
             _filterPublished = filterPublished;
             _languageResolver = languageResolver;
@@ -199,7 +196,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             return _priceService.GetDefaultPrice(
                 market.MarketId,
                 DateTime.Now,
-                new CatalogKey(_appContext.ApplicationId, entryCode),
+                new CatalogKey(entryCode),
                 currency);
         }
 

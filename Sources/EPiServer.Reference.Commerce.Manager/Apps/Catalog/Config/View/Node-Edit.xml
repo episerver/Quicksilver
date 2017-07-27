@@ -6,7 +6,6 @@
 			<Tabs>
 				<Tab name="{SharedStrings:Overview}" controlUrl="catalog/tabs/NodeOverviewEditTab.ascx"></Tab>
 				<Tab name="{SharedStrings:SEO}" controlUrl="catalog/tabs/NodeSeoTab.ascx"></Tab>
-				<Tab name="{SharedStrings:Assets}" controlUrl="catalog/tabs/ItemAssetsEditTab.ascx"></Tab>
 			</Tabs>
 		</add>
 	</ViewConfig>

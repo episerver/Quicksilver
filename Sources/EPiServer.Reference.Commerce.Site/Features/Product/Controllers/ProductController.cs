@@ -45,7 +45,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 
             if (useQuickview)
             {
-                _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Disabled);
+                if (!skipTracking)
+                {
+                    _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Disabled);
+                }
+
                 return PartialView("_Quickview", viewModel);
             }
 

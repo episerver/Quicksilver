@@ -144,12 +144,6 @@
   <data name="Payment_Fast_Transact" xml:space="preserve">
     <value>Fast Transact</value>
   </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Configure" xml:space="preserve">
-    <value>Konfigurer komponenten IBiz E-Payment Integrator</value>
-  </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Get" xml:space="preserve">
-    <value>Få IBiz E-Payment Integrator fra &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Du kan også se mere dokumentation om, hvordan det skal konfigureres.</value>
-  </data>
   <data name="Payment_iTransact_RediCharge_HTML" xml:space="preserve">
     <value>iTransact RediCharge HTML</value>
   </data>
@@ -206,9 +200,6 @@
   </data>
   <data name="Gateway_eProcessing" xml:space="preserve">
     <value>eProcessing</value>
-  </data>
-  <data name="Order_Configure_IBiz_E_Payment_Integrator_Component" xml:space="preserve">
-    <value>Konfigurer komponenten IBiz E-Payment Integrator</value>
   </data>
   <data name="Order_Pick_a_Gateway" xml:space="preserve">
     <value>Vælg en gateway</value>
@@ -356,9 +347,6 @@
   </data>
   <data name="Gateway_Chase" xml:space="preserve">
     <value>Chase</value>
-  </data>
-  <data name="Order_Get_IBiz_E_Payment_Integrator" xml:space="preserve">
-    <value>Få IBiz E-Payment Integrator fra &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Du finder også mere dokumentation om, hvordan det skal konfigureres.</value>
   </data>
   <data name="Order_Payment_Options" xml:space="preserve">
     <value>Betalingsindstillinger</value>

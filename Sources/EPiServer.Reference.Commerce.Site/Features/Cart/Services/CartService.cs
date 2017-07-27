@@ -180,9 +180,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             if (entryContent is BundleContent)
             {
-                foreach (var relation in _relationRepository.GetRelationsBySource<BundleEntry>(contentLink))
+                foreach (var relation in _relationRepository.GetChildren<BundleEntry>(contentLink))
                 {
-                    var entry = _contentLoader.Get<EntryContentBase>(relation.Target);
+                    var entry = _contentLoader.Get<EntryContentBase>(relation.Child);
                     var recursiveResult = AddToCart(cart, entry.Code, relation.Quantity ?? 1);
                     if (recursiveResult.EntriesAddedToCart)
                     {

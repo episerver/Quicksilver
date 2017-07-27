@@ -62,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         }
 
         [Fact]
-        public void Index_WhenQuickViewIsTrue_ShouldSendTrackingWithoutRetrieveRecommendations()
+        public void Index_WhenQuickViewIsTrue_And_SkipTrackingIsFalse_ShouldSendTrackingWithoutRetrieveRecommendations()
         {
             var fashionProduct = new FashionProduct();
 
@@ -74,6 +74,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             CreateController().Index(fashionProduct, "notexist", true, false);
 
             _recommendationServiceMock.Verify(x => x.SendProductTracking(It.IsAny<HttpContextBase>(), It.IsAny<string>(), RetrieveRecommendationMode.Disabled), Times.Once);
+        }
+
+        [Fact]
+        public void Index_WhenQuickViewIsTrue_And_SkipTrackingIsTrue_ShouldNotSendTracking()
+        {
+            var fashionProduct = new FashionProduct();
+
+            _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
+                .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
+
+            _recommendationServiceMock.Setup(x => x.SendProductTracking(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<RetrieveRecommendationMode>())).Verifiable();
+
+            CreateController().Index(fashionProduct, "notexist", true, true);
+
+            _recommendationServiceMock.Verify(x => x.SendProductTracking(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<RetrieveRecommendationMode>()), Times.Never);
         }
 
         [Fact]
@@ -105,7 +120,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         }
 
         [Fact]
-        public void SelectVariant_ShouldPassSkipTrackingAsFalse()
+        public void SelectVariant_ShouldPassSkipTrackingAsTrue()
         {
             _viewModelFactoryMock.Setup(x => x.SelectVariant(It.IsAny<FashionProduct>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(new FashionVariant { Code = "redsmall" });
@@ -145,7 +160,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _httpContextBaseMock = new Mock<HttpContextBase>();
             _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
 
-            _viewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null, null, null, null, null, null, null);
+            _viewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null, null, null, null, null, null);
             _recommendationServiceMock = new Mock<IRecommendationService>();
 
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);

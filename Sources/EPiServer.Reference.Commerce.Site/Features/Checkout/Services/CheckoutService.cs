@@ -120,7 +120,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             try
             {
-                cart.ProcessPayments(_paymentProcessor, _orderGroupCalculator);
+                var paymentProcessingResults = cart.ProcessPayments(_paymentProcessor, _orderGroupCalculator);
+
+                if (paymentProcessingResults.Any(r => !r.IsSuccessful))
+                {
+                    modelState.AddModelError("", _localizationService.GetString("/Checkout/Payment/Errors/ProcessingPaymentFailure") + string.Join(", ", paymentProcessingResults.Select(p => p.Message)));
+                    return null;
+                }
+
+                var redirectPayment = paymentProcessingResults.FirstOrDefault(r => !string.IsNullOrEmpty(r.RedirectUrl));
+                if (redirectPayment != null)
+                {
+                    checkoutViewModel.RedirectUrl = redirectPayment.RedirectUrl;
+                    return null;
+                }
 
                 var processedPayments = cart.GetFirstForm().Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString()));
                 if (!processedPayments.Any())

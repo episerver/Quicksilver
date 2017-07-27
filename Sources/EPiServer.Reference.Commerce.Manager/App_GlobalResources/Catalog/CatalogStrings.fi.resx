@@ -375,12 +375,6 @@
   <data name="Entry_Find_Item" xml:space="preserve">
     <value>Etsi tuote</value>
   </data>
-  <data name="Item_Find_Assets" xml:space="preserve">
-    <value>Etsi varoja</value>
-  </data>
-  <data name="Item_Add_Asset" xml:space="preserve">
-    <value>Lisää vara</value>
-  </data>
   <data name="Item_Group_Name" xml:space="preserve">
     <value>Ryhmän nimi</value>
   </data>
@@ -623,9 +617,6 @@
   </data>
   <data name="Currency_Edit" xml:space="preserve">
     <value>Muokkaa valuuttaa</value>
-  </data>
-  <data name="Entry_Assets_List" xml:space="preserve">
-    <value>Resurssiluettelo</value>
   </data>
   <data name="Meta_Class_Edit" xml:space="preserve">
     <value>Metaluokan muokkaus</value>

@@ -130,33 +130,33 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             var bundleEntry1 = new BundleEntry
             {
-                Target = new ContentReference(2),
+                Parent = new ContentReference(2),
                 Quantity = 1
             };
 
             var variant1 = new VariationContent
             {
                 Code = "variant1code",
-                ContentLink = bundleEntry1.Target
+                ContentLink = bundleEntry1.Parent
             };
 
             var bundleEntry2 = new BundleEntry
             {
-                Target = new ContentReference(3),
+                Parent = new ContentReference(3),
                 Quantity = 2
             };
           
             var variant2 = new VariationContent
             {
                 Code = "variant2code",
-                ContentLink = bundleEntry2.Target
+                ContentLink = bundleEntry2.Parent
             };
 
             _referenceConverterMock.Setup(x => x.GetContentLink(variant1.Code)).Returns(variant1.ContentLink);
             _referenceConverterMock.Setup(x => x.GetContentLink(variant2.Code)).Returns(variant2.ContentLink);
             _referenceConverterMock.Setup(x => x.GetContentLink(bundle.Code)).Returns(bundle.ContentLink);
 
-            _relationRepositoryMock.Setup(x => x.GetRelationsBySource<BundleEntry>(bundle.ContentLink))
+            _relationRepositoryMock.Setup(x => x.GetChildren<BundleEntry>(bundle.ContentLink))
                 .Returns(() => new List<BundleEntry> { bundleEntry1, bundleEntry2 });
 
             _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(bundle.ContentLink)).Returns(bundle);
@@ -179,33 +179,33 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             var bundleEntry1 = new BundleEntry
             {
-                Target = new ContentReference(2),
+                Parent = new ContentReference(2),
                 Quantity = 1
             };
 
             var variant1 = new VariationContent
             {
                 Code = "variant1code",
-                ContentLink = bundleEntry1.Target
+                ContentLink = bundleEntry1.Parent
             };
 
             var bundleEntry2 = new BundleEntry
             {
-                Target = new ContentReference(3),
+                Parent = new ContentReference(3),
                 Quantity = 2
             };
 
             var package = new PackageContent
             {
                 Code = "packagecode",
-                ContentLink = bundleEntry2.Target
+                ContentLink = bundleEntry2.Parent
             };
 
             _referenceConverterMock.Setup(x => x.GetContentLink(variant1.Code)).Returns(variant1.ContentLink);
             _referenceConverterMock.Setup(x => x.GetContentLink(package.Code)).Returns(package.ContentLink);
             _referenceConverterMock.Setup(x => x.GetContentLink(bundle.Code)).Returns(bundle.ContentLink);
 
-            _relationRepositoryMock.Setup(x => x.GetRelationsBySource<BundleEntry>(bundle.ContentLink))
+            _relationRepositoryMock.Setup(x => x.GetChildren<BundleEntry>(bundle.ContentLink))
                 .Returns(() => new List<BundleEntry> { bundleEntry1, bundleEntry2 });
 
             _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(bundle.ContentLink)).Returns(bundle);

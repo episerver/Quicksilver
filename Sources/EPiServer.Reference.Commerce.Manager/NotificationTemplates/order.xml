@@ -57,7 +57,7 @@
             <Catalog>Everything2</Catalog>
             <CatalogNode>Everything</CatalogNode>
             <ParentCatalogEntryId />
-            <CatalogEntryId>thecode</CatalogEntryId>
+            <Code>thecode</Code>
             <Quantity>2.0000</Quantity>
             <MinQuantity>1.0000</MinQuantity>
             <MaxQuantity>100.0000</MaxQuantity>
@@ -90,7 +90,7 @@
             <Catalog>Everything2</Catalog>
             <CatalogNode>Everything</CatalogNode>
             <ParentCatalogEntryId />
-            <CatalogEntryId>thecode</CatalogEntryId>
+            <Code>thecode</Code>
             <Quantity>2.0000</Quantity>
             <MinQuantity>1.0000</MinQuantity>
             <MaxQuantity>100.0000</MaxQuantity>
@@ -123,7 +123,7 @@
             <Catalog>Everything2</Catalog>
             <CatalogNode>Everything</CatalogNode>
             <ParentCatalogEntryId />
-            <CatalogEntryId>thecode</CatalogEntryId>
+            <Code>thecode</Code>
             <Quantity>2.0000</Quantity>
             <MinQuantity>1.0000</MinQuantity>
             <MaxQuantity>100.0000</MaxQuantity>

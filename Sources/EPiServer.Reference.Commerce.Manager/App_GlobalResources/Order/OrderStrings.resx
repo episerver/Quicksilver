@@ -144,12 +144,6 @@
   <data name="Payment_Fast_Transact" xml:space="preserve">
     <value>Fast Transact</value>
   </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Configure" xml:space="preserve">
-    <value>Configure IBiz E-Payment Integrator Component</value>
-  </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Get" xml:space="preserve">
-    <value>Get IBiz E-Payment Integrator from &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. You will also find there more documentation on how to configure it.</value>
-  </data>
   <data name="Payment_iTransact_RediCharge_HTML" xml:space="preserve">
     <value>iTransact RediCharge HTML</value>
   </data>
@@ -209,9 +203,6 @@
   </data>
   <data name="Gateway_eProcessing" xml:space="preserve">
     <value>eProcessing</value>
-  </data>
-  <data name="Order_Configure_IBiz_E_Payment_Integrator_Component" xml:space="preserve">
-    <value>Configure IBiz E-Payment Integrator Component</value>
   </data>
   <data name="Order_Pick_a_Gateway" xml:space="preserve">
     <value>Pick a Gateway</value>
@@ -359,9 +350,6 @@
   </data>
   <data name="Gateway_Chase" xml:space="preserve">
     <value>Chase</value>
-  </data>
-  <data name="Order_Get_IBiz_E_Payment_Integrator" xml:space="preserve">
-    <value>Get IBiz E-Payment Integrator from &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. You will find more documentation on how to configure it there also.</value>
   </data>
   <data name="Order_Payment_Options" xml:space="preserve">
     <value>Payment Options</value>

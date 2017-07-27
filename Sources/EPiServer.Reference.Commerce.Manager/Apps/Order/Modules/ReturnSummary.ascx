@@ -27,7 +27,7 @@
 					<HeaderStyle BackColor="#eeeeee" />
 					<Columns>
 						<asp:BoundColumn DataField="LineItemId" Visible="false"></asp:BoundColumn>
-						<asp:BoundColumn DataField="CatalogEntryId" HeaderText="ID" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
+						<asp:BoundColumn DataField="Code" HeaderText="Code" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="DisplayName" HeaderText="Name" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="Quantity" HeaderText="Exp Qty" HeaderStyle-Width="60" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2" DataFormatString="{0:F}"></asp:BoundColumn>
 						<asp:TemplateColumn HeaderText="Real Qty" HeaderStyle-Width="80" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"> 

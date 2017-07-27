@@ -1,8 +1,8 @@
-<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Order.OrderSearchList"
-    CodeBehind="OrderSearch.ascx.cs" %>
-<%@ Register Src="../Core/Controls/EcfListViewControl.ascx" TagName="EcfListViewControl"
-    TagPrefix="core" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Order.OrderSearchList" CodeBehind="OrderSearch.ascx.cs" %>
+<%@ Register Src="../Core/Controls/EcfListViewControl.ascx" TagName="EcfListViewControl" TagPrefix="core" %>
 <%@ Register Src="../Core/Controls/CalendarDatePicker.ascx" TagName="CalendarDatePicker" TagPrefix="ecf" %>
+<%@ Register TagPrefix="IbnWebControls" Namespace="Mediachase.BusinessFoundation" Assembly="Mediachase.BusinessFoundation" %>
+<%@ Register TagPrefix="orders" Namespace="Mediachase.Commerce.Orders.DataSources" Assembly="Mediachase.Commerce" %>
 <IbnWebControls:McDock ID="DockTop" runat="server" Anchor="Top" EnableSplitter="False" DefaultSize="75">
     <DockItems>
         <asp:Panel runat="server" ID="pnlMain" DefaultButton="btnSearch" Height="75px" BackColor="#F8F8F8" BorderColor="Gray" BorderWidth="0">
@@ -14,7 +14,7 @@
                             <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:SharedStrings, Class_Type %>" />:</td>
                         <td>
                             <asp:DropDownList ID="ClassType" Width="140" runat="server" AutoPostBack="true">
-                                <asp:ListItem Value="PurchaseOrder" Text="<%$ Resources:OrderStrings, Order_Purchase_Order %>" Selected="True" />
+                                <asp:ListItem Value="PurchaseOrder" Text="<%$ Resources:OrderStrings, Order_Purchase_Order %>" />
                                 <asp:ListItem Value="ShoppingCart" Text="<%$ Resources:OrderStrings, Order_Shopping_Cart %>" />
                                 <asp:ListItem Value="PaymentPlan" Text="<%$ Resources:OrderStrings, Order_Payment_Plan %>" />
                             </asp:DropDownList>
@@ -116,7 +116,5 @@
         </asp:Panel>
     </DockItems>
 </IbnWebControls:McDock>
-<core:EcfListViewControl ID="MyListView" runat="server" AppId="Order" ViewId="OrderSearch-List"
-    ShowTopToolbar="false"></core:EcfListViewControl>
 <orders:OrderDataSource runat="server" ID="OrderListDataSource"></orders:OrderDataSource>
-
+<core:EcfListViewControl ID="MyListView" runat="server" AppId="Order" ViewId="OrderSearch-List" ShowTopToolbar="true"></core:EcfListViewControl>

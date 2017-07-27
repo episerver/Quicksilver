@@ -375,12 +375,6 @@
   <data name="Entry_Find_Item" xml:space="preserve">
     <value>Søg efter element</value>
   </data>
-  <data name="Item_Find_Assets" xml:space="preserve">
-    <value>Søg efter aktiver</value>
-  </data>
-  <data name="Item_Add_Asset" xml:space="preserve">
-    <value>Tilføj aktiv</value>
-  </data>
   <data name="Item_Group_Name" xml:space="preserve">
     <value>Gruppenavn</value>
   </data>
@@ -623,9 +617,6 @@
   </data>
   <data name="Currency_Edit" xml:space="preserve">
     <value>Rediger valuta</value>
-  </data>
-  <data name="Entry_Assets_List" xml:space="preserve">
-    <value>Aktivliste</value>
   </data>
   <data name="Meta_Class_Edit" xml:space="preserve">
     <value>Rediger metaklasse</value>

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
@@ -45,6 +46,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         public void Index_WhenBrowsingNextResultPage_ShouldNotSendSearchTracking()
         {
             _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 2 });
+            _recommendationServiceMock.Verify(
+               x => x.SendSearchTracking(
+                       It.IsAny<HttpContextBase>(),
+                       It.IsAny<string>(),
+                       It.IsAny<IEnumerable<string>>()
+                       ),
+               Times.Never);
+        }
+
+        [Fact]
+        public void Index_WhenUsingFacetFiltersInFirstResultPage_ShouldNotSendSearchTracking()
+        {
+            _httpRequestMock.SetupGet(x => x.HttpMethod).Returns("POST");
+
+            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
                x => x.SendSearchTracking(
                        It.IsAny<HttpContextBase>(),
@@ -88,6 +104,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         Mock<ReferenceConverter> _referenceConverterMock;
         Mock<IRecommendationService> _recommendationServiceMock;
         SearchViewModel<SearchPage> _searchViewModel;
+        Mock<HttpRequestBase> _httpRequestMock;
 
         public SearchControllerTests()
         {
@@ -131,6 +148,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                 _searchServiceMock.Object, 
                 _recommendationServiceMock.Object,
                 _referenceConverterMock.Object);
+
+            _httpRequestMock = new Mock<HttpRequestBase>();
+            _httpRequestMock.SetupGet(x => x.HttpMethod).Returns("GET");
+
+            var context = new Mock<HttpContextBase>();
+            context.SetupGet(x => x.Request).Returns(_httpRequestMock.Object);
+            _subject.ControllerContext = new ControllerContext(context.Object, new RouteData(), _subject);
         }
 
         private TrackingResponseData GetTestResponseData()

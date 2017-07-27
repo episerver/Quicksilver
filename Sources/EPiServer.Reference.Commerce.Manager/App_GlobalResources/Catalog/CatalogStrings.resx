@@ -399,12 +399,6 @@
   <data name="Entry_Find_Item" xml:space="preserve">
     <value>Find Item</value>
   </data>
-  <data name="Item_Find_Assets" xml:space="preserve">
-    <value>Find Assets</value>
-  </data>
-  <data name="Item_Add_Asset" xml:space="preserve">
-    <value>Add Asset</value>
-  </data>
   <data name="Item_Group_Name" xml:space="preserve">
     <value>Group Name</value>
   </data>
@@ -653,9 +647,6 @@
   </data>
   <data name="Currency_Edit" xml:space="preserve">
     <value>Currency Edit</value>
-  </data>
-  <data name="Entry_Assets_List" xml:space="preserve">
-    <value>Assets List</value>
   </data>
   <data name="Meta_Class_Edit" xml:space="preserve">
     <value>Meta Class Edit</value>

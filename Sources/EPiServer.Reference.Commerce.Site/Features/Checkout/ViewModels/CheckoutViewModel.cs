@@ -78,5 +78,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
                 return Shipments.Count() > 1 ? MultiShipmentCheckoutViewName : SingleShipmentCheckoutViewName;
             }
         }
+        /// <summary>
+        /// Gets or sets the payment redirect url.
+        /// </summary>
+        public string RedirectUrl { get; set; }
     }
 }

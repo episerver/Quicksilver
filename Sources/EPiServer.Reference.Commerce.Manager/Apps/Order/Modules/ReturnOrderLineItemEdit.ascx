@@ -17,10 +17,10 @@
 		            </tr>
 		            <tr>
 			            <td class="FormLabelCell">
-				            <asp:Label ID="Label7" runat="server" Text="<%$ Resources:SharedStrings, ID %>"></asp:Label>:
+				            <asp:Label ID="Label7" runat="server" Text="<%$ Resources:SharedStrings, Code %>"></asp:Label>:
 			            </td>
 			            <td class="FormFieldCell">
-				            <asp:Label ID="CatalogEntryIdLabel" runat="server"></asp:Label>
+				            <asp:Label ID="CodeLabel" runat="server"></asp:Label>
 			            </td>
 		            </tr>
 		            <tr>
@@ -74,6 +74,10 @@
 				            <asp:RangeValidator ID="QuantityRangeValidator" runat="server" ValidationGroup="LineItemDetails"
 					            ControlToValidate="ReturnQuantity" Display="Dynamic" ErrorMessage="*" Type="Double"
 					            MinimumValue="0" MaximumValue="1000000000"></asp:RangeValidator>
+                            <asp:CompareValidator ID="CompareValidator" runat="server"
+                                ControlToValidate="ReturnQuantity" ErrorMessage="*"
+                                Operator="GreaterThan" Type="Double"
+                                ValueToCompare="0" />
 			            </td>
 		            </tr>
 		            <tr>

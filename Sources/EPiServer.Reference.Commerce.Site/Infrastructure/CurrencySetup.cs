@@ -57,7 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             {
                 if (GetCurrency(dto, conversion.Currency) == null)
                 {
-                    dto.Currency.AddCurrencyRow(conversion.Currency, conversion.Name, DateTime.Now, AppContext.Current.ApplicationId);
+                    dto.Currency.AddCurrencyRow(conversion.Currency, conversion.Name, DateTime.Now);
                     isDirty = true;
                 }
             }

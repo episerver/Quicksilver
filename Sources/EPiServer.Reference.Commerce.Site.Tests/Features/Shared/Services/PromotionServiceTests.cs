@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         public void GetDiscountPrice_WhenEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnMarket()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.Empty);
+                new CatalogKey(_variation1.Code), _USMarketMock.Object.MarketId, Currency.Empty);
 
             var cheapestPrice = CreatePriceList(_variation1.Code, Currency.USD).OrderBy(x => x.UnitPrice.Amount).First();
             var expectedUnitPrice = new Money(cheapestPrice.UnitPrice.Amount - _discountAmount,
@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         public void GetDiscountPrice_WhenNonEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnProvidedCurrency()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.USD);
+                new CatalogKey(_variation1.Code), _USMarketMock.Object.MarketId, Currency.USD);
 
             var cheapestPrice = CreatePriceList(_variation1.Code, Currency.USD).OrderBy(x => x.UnitPrice.Amount).First();
             var expectedUnitPrice = new Money(cheapestPrice.UnitPrice.Amount - _discountAmount,
@@ -51,7 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         public void GetDiscountPrice_WhenMismatchBetweenCurrencyAndMarketCurrency_ShouldReturnNoPrice()
         {
             var priceWithDiscount = _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.SEK);
+                new CatalogKey(_variation1.Code), _USMarketMock.Object.MarketId, Currency.SEK);
 
             Assert.Null(priceWithDiscount);
         }
@@ -60,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         public void GetDiscountPrice_WhenMarketIsUnknown_ShouldThrow()
         {
             Assert.Throws<ArgumentException>(() => _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), new MarketId("UNKNOWN"), Currency.Empty));
+                new CatalogKey(_variation1.Code), new MarketId("UNKNOWN"), Currency.Empty));
         }
 
         [Fact]
@@ -71,13 +71,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
                 .Returns(() => Enumerable.Empty<IPriceValue>().ToList());
 
             var priceWithDiscount = _subject.GetDiscountPrice(
-                new CatalogKey(_appContext.ApplicationId, _variation1.Code), _USMarketMock.Object.MarketId, Currency.USD);
+                new CatalogKey(_variation1.Code), _USMarketMock.Object.MarketId, Currency.USD);
 
             Assert.Null(priceWithDiscount);
         }
 
         private PromotionService _subject;
-        private FakeAppContext _appContext;
         private Mock<IPricingService> _pricingServiceMock;
         private List<VariationContent> _variations;
         private Mock<IMarketService> _marketServiceMock;
@@ -94,8 +93,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 
         public PromotionServiceTests()
         {
-            _appContext = new FakeAppContext();
-
             SetupContent();
             SetupPricing();
             SetupMarkets();
@@ -228,12 +225,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             {
                 new PriceValue
                 {
-                    CatalogKey = new CatalogKey(_appContext.ApplicationId, code),
+                    CatalogKey = new CatalogKey(code),
                     UnitPrice = new Money(2,currency)
                 },
                 new PriceValue
                 {
-                    CatalogKey = new CatalogKey(_appContext.ApplicationId, code),
+                    CatalogKey = new CatalogKey(code),
                     UnitPrice = new Money(1,currency)
                 },
             };

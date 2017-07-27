@@ -31,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 1,
                 CheckoutPage = _startPage.CheckoutPage,
                 Shipments = new[] { new ShipmentViewModel { CartItems = _cartItems } },
-                Total = _totals.SubTotal + _orderDiscountTotal
+                Total = _totals.SubTotal
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 1,
                 CheckoutPage = _startPage.CheckoutPage,
                 Shipments = new[] { new ShipmentViewModel { CartItems = _cartItems } },
-                Total = _totals.SubTotal + _orderDiscountTotal
+                Total = _totals.SubTotal
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -79,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             var expectedViewModel = new LargeCartViewModel
             {
                 Shipments = new[] { new ShipmentViewModel { CartItems = _cartItems } },
-                Total = new Money(100, Currency.USD) + _orderDiscountTotal,
+                Total = new Money(100, Currency.USD),
                 TotalDiscount = _orderDiscountTotal,
             };
 
@@ -110,7 +110,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             {
                 ItemCount = 1,
                 CartItems = _cartItems,
-                Total = _totals.SubTotal + _orderDiscountTotal
+                Total = _totals.SubTotal
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -141,7 +141,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 1,
                 WishListPage = _startPage.WishListPage,
                 CartItems = _cartItems,
-                Total = _totals.SubTotal + _orderDiscountTotal
+                Total = _totals.SubTotal
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);

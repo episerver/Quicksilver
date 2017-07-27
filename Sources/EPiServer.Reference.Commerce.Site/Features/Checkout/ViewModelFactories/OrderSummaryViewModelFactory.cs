@@ -36,15 +36,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             }
 
             var totals = _orderGroupTotalsCalculator.GetTotals(cart);
-            var orderDiscountTotal = cart.GetOrderDiscountTotal(cart.Currency, _orderGroupCalculator);
 
             return new OrderSummaryViewModel
             {
-                SubTotal = totals.SubTotal + orderDiscountTotal,
+                SubTotal = totals.SubTotal,
                 CartTotal = totals.Total,
                 ShippingTotal = totals.ShippingTotal,
                 ShippingSubtotal = cart.GetShippingSubTotal(_shippingCalculator),
-                OrderDiscountTotal = orderDiscountTotal,
+                OrderDiscountTotal = cart.GetOrderDiscountTotal(cart.Currency, _orderGroupCalculator),
                 ShippingDiscountTotal = cart.GetShippingDiscountTotal(_shippingCalculator),
                 ShippingTaxTotal = totals.ShippingTotal + totals.TaxTotal,
                 TaxTotal = totals.TaxTotal,

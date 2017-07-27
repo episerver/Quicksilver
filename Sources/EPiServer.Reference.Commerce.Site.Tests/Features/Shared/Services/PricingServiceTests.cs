@@ -40,8 +40,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
         {
             var catalogKeys = new[]
             {
-                new CatalogKey(new FakeAppContext().ApplicationId, "code"),
-                new CatalogKey(new FakeAppContext().ApplicationId, "code")
+                new CatalogKey("code"),
+                new CatalogKey("code")
             };
 
             var prices = _subject.GetPriceList(catalogKeys, new MarketId(), new PriceFilter());
@@ -128,8 +128,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
             _subject = new PricingService(
                 _priceServiceMock.Object,
                 _currentMarketMock.Object,
-                _currencyServiceMock.Object,
-                new FakeAppContext());
+                _currencyServiceMock.Object);
         }
 
         

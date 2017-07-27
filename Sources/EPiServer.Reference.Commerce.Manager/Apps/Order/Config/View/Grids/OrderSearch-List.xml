@@ -44,10 +44,6 @@
 					<Drag>True</Drag>
 					<UpdatePanelIds>panelMainListView</UpdatePanelIds>
 				</Command>
-				<Command id="cmdOrderNew">
-					<CommandType>ClientAction</CommandType>
-					<ClientScript>CSOrderClient.NewOrder()</ClientScript>
-				</Command>
 				<Command id="cmdOrderDelete">
 					<EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.CommonEnableHandler, Mediachase.ConsoleManager" />
 					<BeforeClientScript>Toolbar_GridHasItemsSelected</BeforeClientScript>

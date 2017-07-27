@@ -44,6 +44,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
             throw new NotImplementedException();
         }
 
+        public IPayment CreatePayment(IOrderGroup orderGroup, Type paymentType)
+        {
+            throw new NotImplementedException();
+        }
+
         public IShipment CreateShipment(IOrderGroup orderGroup)
         {
             throw new NotImplementedException();

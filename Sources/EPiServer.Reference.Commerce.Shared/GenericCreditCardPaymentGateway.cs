@@ -9,26 +9,27 @@ namespace EPiServer.Reference.Commerce.Shared
         /// <inheritdoc/>
         public override bool ProcessPayment(Payment payment, ref string message)
         {
-            return ProcessPayment(payment as IPayment, ref message);
+            var paymentProcessingResult = ProcessPayment(payment.Parent.Parent as IOrderGroup, payment as IPayment);
+            message = paymentProcessingResult.Message;
+            return paymentProcessingResult.IsSuccessful;
         }
 
         /// <summary>
         /// Processes the payment. Can be used for both positive and negative transactions.
         /// </summary>
+        /// <param name="orderGroup">The order group.</param>
         /// <param name="payment">The payment.</param>
-        /// <param name="message">The message.</param>
-        /// <returns><c>True</c> if payment processed successfully, otherwise <c>False</c></returns>
-        public bool ProcessPayment(IPayment payment, ref string message)
+        /// /// <returns>The payment processing result.</returns>
+        public PaymentProcessingResult ProcessPayment(IOrderGroup orderGroup, IPayment payment)
         {
             var creditCardPayment = (ICreditCardPayment)payment;
 
             if (!creditCardPayment.CreditCardNumber.EndsWith("4"))
             {
-                message = "Invalid credit card number.";
-                return false;
+                return PaymentProcessingResult.CreateUnsuccessfulResult("Invalid credit card number.");
             }
-
-            return true;
+            
+            return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
         }
     }
 }

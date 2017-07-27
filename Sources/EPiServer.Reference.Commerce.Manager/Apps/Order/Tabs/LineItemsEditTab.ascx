@@ -21,7 +21,7 @@
     {
         if(parseInt(id)==0)
         {
-            // need to pass catalogEntryId for the new LineItem
+            // need to pass catalogEntryCode for the new LineItem
             var code = GetCatalogEntryCode();
             if(code!=null)
                 ecf_UpdateLineItemAddressesDialogControl(id+'|'+code);

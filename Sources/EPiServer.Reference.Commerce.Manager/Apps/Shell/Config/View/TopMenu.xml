@@ -13,7 +13,6 @@
 			
 			<Menu id="AboutMenu" text="{SharedStrings:About}">
 					<Button id="FeedbackBtn" text="{ShellStrings:Send_Feedback}" imageUrl="" commandName="ECF_Top_Feedback"></Button>
-				<Button id="InfoBtn" text="{ShellStrings:Database_Schema_Information}" imageUrl="~/Apps/Shell/styles/Images/Shell/Information.png" commandName="ECF_Top_Information" tooltip="{MetaView:ViewDbInfo}"></Button>
 				<Button id="HelpBtn" text="{ShellStrings:Open_Online_Help}" imageUrl="~/Apps/Shell/styles/Images/Shell/help.png" commandName="ECF_Top_Help" tooltip="{Common:Help}"></Button>
 			</Menu>
 

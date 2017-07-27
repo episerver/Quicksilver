@@ -378,12 +378,6 @@
   <data name="Entry_Find_Item" xml:space="preserve">
     <value>Rechercher un article</value>
   </data>
-  <data name="Item_Find_Assets" xml:space="preserve">
-    <value>Recherche des actifs</value>
-  </data>
-  <data name="Item_Add_Asset" xml:space="preserve">
-    <value>Ajouter des actifs</value>
-  </data>
   <data name="Item_Group_Name" xml:space="preserve">
     <value>Nom du groupe</value>
   </data>
@@ -626,9 +620,6 @@
   </data>
   <data name="Currency_Edit" xml:space="preserve">
     <value>Modification de la devise</value>
-  </data>
-  <data name="Entry_Assets_List" xml:space="preserve">
-    <value>Liste d'actifs</value>
   </data>
   <data name="Meta_Class_Edit" xml:space="preserve">
     <value>Modifier la méta-classe</value>

@@ -76,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         locator.GetInstance<ICurrentMarket>(),
                         locator.GetInstance<CookieService>(),
                         defaultImplementation));
-
+            
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());

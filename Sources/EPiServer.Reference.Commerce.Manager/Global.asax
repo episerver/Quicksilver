@@ -149,7 +149,6 @@
                 Membership.Provider.ApplicationName = appName;
                 Roles.Provider.ApplicationName = appName;
                 ProfileManager.ApplicationName = appName;
-                Mediachase.Commerce.Core.AppContext.Current.ApplicationId = dto.Application[0].ApplicationId;
                 Mediachase.Commerce.Core.AppContext.Current.ApplicationName = dto.Application[0].Name;
             }
         }

@@ -187,7 +187,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         private Mock<IRelationRepository> _relationRepositoryMock;
         private Mock<UrlResolver> _urlResolverMock;
         private Mock<AssetUrlConventions> _assetUrlConventionsMock;
-        private FakeAppContext _fakeAppContext;
         private Money _cheapPriceUSD;
         private Money _expensivePriceGBP;
         private Money _discountPriceUSD;
@@ -206,7 +205,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             _priceServiceMock = new Mock<IPriceService>();
             _relationRepositoryMock = new Mock<IRelationRepository>();
             _promotionServiceMock = new Mock<IPromotionService>();
-            _fakeAppContext = new FakeAppContext();
             _referenceConverterMock = new Mock<ReferenceConverter>(
                 new EntryIdentityResolver(synchronizedObjectInstanceCache.Object),
                 new NodeIdentityResolver(synchronizedObjectInstanceCache.Object))
@@ -226,8 +224,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 _contentLoaderMock.Object,
                 _referenceConverterMock.Object,
                 _assetUrlResolverMock.Object,
-                _relationRepositoryMock.Object,
-                _fakeAppContext)
+                _relationRepositoryMock.Object)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -241,9 +238,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             var rootNodeReference = GetContentReference(10, CatalogContentType.CatalogNode);
             var catalogReference = GetContentReference(4, CatalogContentType.Catalog);
             var variants = new[] { bluevariantReference, greenVariantReference };
-            var greenCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 1");
-            var blueCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 2");
-            var packageCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Package");
+            var greenCatalogKey = new CatalogKey("Variant 1");
+            var blueCatalogKey = new CatalogKey("Variant 2");
+            var packageCatalogKey = new CatalogKey("Package");
 
             var productCode = "Product";
             SetupGetContentLink(productCode, productReference);
@@ -345,15 +342,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         {
             _relationRepositoryMock.Setup(
                 x =>
-                    x.GetRelationsBySource<ProductVariation>(productReference))
+                    x.GetChildren<ProductVariation>(productReference))
                 .Returns(variants.Select(x =>
                     new ProductVariation
                     {
                         GroupName = "Default",
                         Quantity = 1,
                         SortOrder = 1,
-                        Source = productReference,
-                        Target = x
+                        Parent = productReference,
+                        Child = x
                     }));
         }
 

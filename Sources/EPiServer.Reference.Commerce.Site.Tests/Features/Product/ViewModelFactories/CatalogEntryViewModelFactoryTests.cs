@@ -555,7 +555,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         private readonly Mock<UrlResolver> _urlResolverMock;
         private readonly Mock<HttpContextBase> _httpContextBaseMock;
         private readonly Mock<IMarket> _marketMock;
-        private readonly Mock<AppContextFacade> _appContextFacadeMock;
         private readonly Mock<LanguageResolver> _languageResolverMock;
         private readonly Currency _defaultCurrency;
 
@@ -603,9 +602,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             _currencyserviceMock = new Mock<CurrencyService>(_currentMarketMock.Object, _cookieServiceMock.Object);
             _currencyserviceMock.Setup(x => x.GetCurrentCurrency()).Returns(_defaultCurrency);
 
-            _appContextFacadeMock = new Mock<AppContextFacade>();
-            _appContextFacadeMock.Setup(x => x.ApplicationId).Returns(Guid.NewGuid);
-
             var request = new Mock<HttpRequestBase>();
             request.SetupGet(x => x.Headers).Returns(
                 new System.Net.WebHeaderCollection {
@@ -631,7 +627,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
                _currentMarketMock.Object,
                _currencyserviceMock.Object,
                _relationRepositoryMock.Object,
-               _appContextFacadeMock.Object,
                _urlResolverMock.Object,
                _filterPublished,
                _languageResolverMock.Object);
@@ -685,7 +680,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
         private void SetRelation(IContent source, IEnumerable<IContent> targets)
         {
-            SetRelation(source, targets.Select(x => new ProductVariation() { Source = source.ContentLink, Target = x.ContentLink }));
+            SetRelation(source, targets.Select(x => new ProductVariation { Parent = source.ContentLink, Child = x.ContentLink }));
 
             SetGetItems(new[] { source.ContentLink }, new[] { source });
             SetGetItems(targets.Select(x => x.ContentLink), targets);
@@ -693,7 +688,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
         private void SetRelation(IContent setup, IEnumerable<ProductVariation> result)
         {
-            _relationRepositoryMock.Setup(x => x.GetRelationsBySource<ProductVariation>(setup.ContentLink)).Returns(result);
+            _relationRepositoryMock.Setup(x => x.GetChildren<ProductVariation>(setup.ContentLink)).Returns(result);
         }
 
         private void SetGetItems(IEnumerable<ContentReference> setup, IEnumerable<IContent> result)

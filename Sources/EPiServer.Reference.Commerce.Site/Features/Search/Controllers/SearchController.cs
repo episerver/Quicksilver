@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult Index(SearchPage currentPage, FilterOptionViewModel filterOptions)
         {
             var viewModel = _viewModelFactory.Create(currentPage, filterOptions);
-            if (filterOptions.Page <= 1)
+            if (filterOptions.Page <= 1 && HttpContext.Request.HttpMethod == "GET")
             {
                 viewModel.Recommendations = _recommendationService
                 .SendSearchTracking(HttpContext, filterOptions.Q, viewModel.ProductViewModels.Select(x => x.Code))

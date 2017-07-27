@@ -45,7 +45,7 @@
 					<Columns>
 					    <asp:BoundColumn DataField="OrderFormId" HeaderText="Form Id" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="LineItemId" Visible="false"></asp:BoundColumn>
-						<asp:BoundColumn DataField="CatalogEntryId" HeaderText="ID" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
+						<asp:BoundColumn DataField="Code" HeaderText="Code" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="DisplayName" HeaderText="Name" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="Quantity" HeaderText="Quantity" HeaderStyle-Width="60" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2" DataFormatString="{0:F}"></asp:BoundColumn>						
                         <asp:BoundColumn DataField="Price" HeaderText="Price" HeaderStyle-Width="60" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2" DataFormatString="{0:F}"></asp:BoundColumn>						
@@ -87,7 +87,7 @@
 					<Columns>
 					    <asp:BoundColumn DataField="OrderFormId" HeaderText="Form Id" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="LineItemId" Visible="false"></asp:BoundColumn>
-						<asp:BoundColumn DataField="CatalogEntryId" HeaderText="ID" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
+						<asp:BoundColumn DataField="Code" HeaderText="Code" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="DisplayName" HeaderText="Name" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2"></asp:BoundColumn>
 						<asp:BoundColumn DataField="Quantity" HeaderText="Quantity" HeaderStyle-Width="60" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2" DataFormatString="{0:F}"></asp:BoundColumn>						
                         <asp:BoundColumn DataField="Price" HeaderText="Price" HeaderStyle-Width="60" ItemStyle-CssClass="ibn-vb2" HeaderStyle-CssClass="ibn-vh2" DataFormatString="{0:F}"></asp:BoundColumn>						

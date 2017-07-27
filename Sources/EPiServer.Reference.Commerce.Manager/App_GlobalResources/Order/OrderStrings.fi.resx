@@ -147,9 +147,6 @@
   <data name="Payment_IBiz_E_Payment_Integrator_Configure" xml:space="preserve">
     <value>Määritä IBiz E-Payment Integrator -komponentti</value>
   </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Get" xml:space="preserve">
-    <value>Hae IBiz E-Payment Integrator osoitteesta&lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Siellä on myös ohjeita sen määrittämiseen.</value>
-  </data>
   <data name="Payment_iTransact_RediCharge_HTML" xml:space="preserve">
     <value>iTransact RediCharge HTML</value>
   </data>
@@ -356,9 +353,6 @@
   </data>
   <data name="Gateway_Chase" xml:space="preserve">
     <value>Chase</value>
-  </data>
-  <data name="Order_Get_IBiz_E_Payment_Integrator" xml:space="preserve">
-    <value>Hae IBiz E-Payment Integrator osoitteesta&lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Siellä on myös ohjeita sen määrittämiseen.</value>
   </data>
   <data name="Order_Payment_Options" xml:space="preserve">
     <value>Maksuvaihtoehdot</value>

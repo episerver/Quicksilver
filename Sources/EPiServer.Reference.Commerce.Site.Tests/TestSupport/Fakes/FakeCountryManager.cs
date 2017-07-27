@@ -11,9 +11,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
         {
             var countryDto = new CountryDto();
 
-            countryDto.Country.AddCountryRow("United States", -1, true, "USA", Guid.Empty);
-            countryDto.Country.AddCountryRow("Australia", 0, true, "AUS", Guid.Empty);
-            countryDto.Country.AddCountryRow("Canada", 1, true, "CAN", Guid.Empty);
+            countryDto.Country.AddCountryRow("United States", -1, true, "USA");
+            countryDto.Country.AddCountryRow("Australia", 0, true, "AUS");
+            countryDto.Country.AddCountryRow("Canada", 1, true, "CAN");
 
             return countryDto;
         }

@@ -129,9 +129,6 @@
   <data name="Send_Feedback" xml:space="preserve">
     <value>Feedback versturen</value>
   </data>
-  <data name="Database_Schema_Information" xml:space="preserve">
-    <value>Databaseschema-informatie</value>
-  </data>
   <data name="Open_Online_Help" xml:space="preserve">
     <value>Online help openen</value>
   </data>

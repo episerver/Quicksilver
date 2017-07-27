@@ -27,7 +27,6 @@
 				<Tab name="{CatalogStrings:Catalog_Variations_SKUs}" controlUrl="catalog/tabs/EntryVariationsEditTab.ascx"></Tab>
 				<Tab name="{SharedStrings:SEO}" controlUrl="catalog/tabs/EntrySeoTab.ascx"></Tab>
 				<Tab name="{CatalogStrings:Catalog_Associations}" controlUrl="catalog/tabs/EntryAssociationEditTab.ascx"></Tab>
-        <Tab name="{SharedStrings:Assets}" controlUrl="catalog/tabs/ItemAssetsEditTab.ascx"></Tab>
         <Tab name="{SharedStrings:Product_Relations_Tab_Label}" controlUrl="catalog/tabs/EditProductRelationTab.ascx"></Tab>
       </Tabs>
 		</add>

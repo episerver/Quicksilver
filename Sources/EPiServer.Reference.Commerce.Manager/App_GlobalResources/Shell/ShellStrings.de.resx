@@ -70,9 +70,6 @@
   <data name="Send_Feedback" xml:space="preserve">
     <value>Feedback senden</value>
   </data>
-  <data name="Database_Schema_Information" xml:space="preserve">
-    <value>Datenbankschema-Informationen</value>
-  </data>
   <data name="Open_Online_Help" xml:space="preserve">
     <value>Online-Hilfe öffnen</value>
   </data>

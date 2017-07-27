@@ -12,7 +12,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
     public static class ContentExtensions
     {
         private static Injected<UrlResolver> _urlResolver = default(Injected<UrlResolver>);
-        private static Injected<ILinksRepository> _linksRepository = default(Injected<ILinksRepository>);
+        private static Injected<IRelationRepository> _relationRepository = default(Injected<IRelationRepository>);
         private static Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
 
         public static IEnumerable<PageData> GetSiblings(this PageData pageData)
@@ -28,13 +28,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         public static string GetUrl(this EntryContentBase entry)
         {
-            return GetUrl(entry, _linksRepository.Service, _urlResolver.Service);
+            return GetUrl(entry, _relationRepository.Service, _urlResolver.Service);
         }
 
-        public static string GetUrl(this EntryContentBase entry, ILinksRepository linksRepository, UrlResolver urlResolver)
+        public static string GetUrl(this EntryContentBase entry, IRelationRepository relationRepository, UrlResolver urlResolver)
         {
             var productLink = entry is VariationContent ?
-                entry.GetParentProducts(linksRepository).FirstOrDefault() : 
+                entry.GetParentProducts(relationRepository).FirstOrDefault() : 
                 entry.ContentLink;
 
             if (productLink == null)

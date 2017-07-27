@@ -181,14 +181,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _checkoutService.CreateAndAddPaymentToCart(Cart, viewModel);
 
             var purchaseOrder = _checkoutService.PlaceOrder(Cart, ModelState, viewModel);
+            if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+            {
+                return Redirect(viewModel.RedirectUrl);
+            }
+
             if (purchaseOrder == null)
             {
                 return View(viewModel);
             }
             
             var confirmationSentSuccessfully = _checkoutService.SendConfirmation(viewModel, purchaseOrder);
-            
-            _recommendationService.SendOrderTracking(HttpContext, purchaseOrder);
 
             return Redirect(_checkoutService.BuildRedirectionUrl(viewModel, purchaseOrder, confirmationSentSuccessfully));
         }

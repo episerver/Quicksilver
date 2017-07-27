@@ -375,12 +375,6 @@
   <data name="Entry_Find_Item" xml:space="preserve">
     <value>Sök artikel</value>
   </data>
-  <data name="Item_Find_Assets" xml:space="preserve">
-    <value>Sök resurser</value>
-  </data>
-  <data name="Item_Add_Asset" xml:space="preserve">
-    <value>Lägg till resurs</value>
-  </data>
   <data name="Item_Group_Name" xml:space="preserve">
     <value>Gruppens namn</value>
   </data>
@@ -623,9 +617,6 @@
   </data>
   <data name="Currency_Edit" xml:space="preserve">
     <value>Redigera valuta</value>
-  </data>
-  <data name="Entry_Assets_List" xml:space="preserve">
-    <value>Resurslista</value>
   </data>
   <data name="Meta_Class_Edit" xml:space="preserve">
     <value>Redigera metaklass</value>

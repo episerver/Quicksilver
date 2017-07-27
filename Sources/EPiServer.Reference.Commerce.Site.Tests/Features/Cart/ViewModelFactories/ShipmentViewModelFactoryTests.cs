@@ -90,7 +90,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             addressBookServiceMock.Setup(x => x.ConvertToModel(It.IsAny<IOrderAddress>())).Returns(_addressModel);
 
             _cartItem = new CartItemViewModel ();
-            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null,null,null,null,null,null,null,null,null,null, null, null);
+            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null, null, null, null, null, null, null, null, null, null);
             cartItemViewModelFactoryMock.Setup(x => x.CreateCartItemViewModel(It.IsAny<ICart>(), It.IsAny<ILineItem>(), It.IsAny<VariationContent>())).Returns(_cartItem);
 
             var contentLoaderMock = new Mock<IContentLoader>();

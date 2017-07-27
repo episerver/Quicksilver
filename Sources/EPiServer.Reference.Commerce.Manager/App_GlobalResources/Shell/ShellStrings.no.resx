@@ -129,9 +129,6 @@
   <data name="Send_Feedback" xml:space="preserve">
     <value>Send tilbakemelding</value>
   </data>
-  <data name="Database_Schema_Information" xml:space="preserve">
-    <value>Informasjon for databaseskjemaer</value>
-  </data>
   <data name="Open_Online_Help" xml:space="preserve">
     <value>Åpne elektronisk hjelp</value>
   </data>
