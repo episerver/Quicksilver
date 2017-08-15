@@ -1,136 +1,163 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Pricing;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Commerce.Marketing;
+using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using Xunit;
-
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Services
 {
     public class PricingServiceTests
     {
         [Fact]
-        public void GetPriceList_WhenCodeIsInvalid_ShouldThrow()
+        public void GetPrice_WhenPricesExist_ShouldReturnCheapestPrice()
         {
-            Assert.Throws<ArgumentNullException>(() => _subject.GetPriceList("", new MarketId(), new PriceFilter()));
+            var price = _subject.GetPrice("code", new MarketId(), Currency.USD);
+
+            Assert.Equal<Money>(new Money(1, "USD"), price.UnitPrice);
         }
 
         [Fact]
-        public void GetPriceList_WhenCatalogKeysAreInvalid_ShouldThrow()
+        public void GetPrice_WhenPricesDoNotExist_ShouldReturnNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _subject.GetPriceList( null as IEnumerable<CatalogKey>, new MarketId(), new PriceFilter()));
-        }
-
-        [Fact]
-        public void GetPriceList_WhenPassingCode_ShouldReturnPriceListOrderedByAmount()
-        {
-            var prices = _subject.GetPriceList("code", new MarketId(), new PriceFilter());
-
-            Assert.True(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
-        }
-
-        [Fact]
-        public void GetPriceList_WhenPassingCatalogKeys_ShouldReturnPriceListOrderedByAmount()
-        {
-            var catalogKeys = new[]
-            {
-                new CatalogKey("code"),
-                new CatalogKey("code")
-            };
-
-            var prices = _subject.GetPriceList(catalogKeys, new MarketId(), new PriceFilter());
-
-            Assert.True(prices[0].UnitPrice.Amount < prices[1].UnitPrice.Amount);
-        }
-
-        [Fact]
-        public void GetCurrentPrice_WhenCodeIsInvalid_ShouldThrow()
-        {
-            Assert.Throws<ArgumentNullException>(() => _subject.GetCurrentPrice(""));
-        }
-
-        [Fact]
-        public void GetCurrentPrice_WhenPricesExist_ShouldReturnCheapestPrice()
-        {
-            Money? price = _subject.GetCurrentPrice("code");
-
-            Assert.Equal<Money>(_cheapPriceUSD, price.Value);
-        }
-
-        [Fact]
-        public void GetCurrentPrice_WhenPricesDoNotExist_ShouldReturnNull()
-        {
-            _priceServiceMock.Setup(
-                x =>
-                    x.GetPrices(
-                        It.IsAny<MarketId>(),
-                        It.IsAny<DateTime>(),
-                        It.IsAny<CatalogKey>(),
-                        It.IsAny<PriceFilter>()))
+            _priceServiceMock
+                .Setup(x => x.GetPrices(It.IsAny<MarketId>(),It.IsAny<DateTime>(),It.IsAny<CatalogKey>(),It.IsAny<PriceFilter>()))
                 .Returns(Enumerable.Empty<IPriceValue>);
 
-            Money? price = _subject.GetCurrentPrice("code");
+            var price = _subject.GetPrice("code");
 
-            Assert.Equal(price.HasValue, false);            
+            Assert.Null(price);
         }
 
-        private Mock<IPriceService> _priceServiceMock;
-        private Mock<ICurrentMarket> _currentMarketMock;
-        private Mock<ICurrencyService> _currencyServiceMock;
-        private PricingService _subject;
-        private Money _cheapPriceUSD;
-        private Money _expensivePriceGBP;
+        [Fact]
+        public void GetDiscountPrice_WhenEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnMarket()
+        {
+            var priceWithDiscount = _subject.GetDiscountPrice(
+                new CatalogKey("code1"), new MarketId("US"), Currency.Empty);
+            
+            var expectedUnitPrice = new Money(1 - 0.3m, Currency.USD);
 
+            Assert.Equal<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
+        }
+
+        [Fact]
+        public void GetDiscountPrice_WhenNonEmptyCurrencyIsProvided_ShouldReturnDiscountedPriceBasedOnProvidedCurrency()
+        {
+            var priceWithDiscount = _subject.GetDiscountPrice(
+                new CatalogKey("code1"), new MarketId("US"), Currency.USD);
+
+            var expectedUnitPrice = new Money(1 - 0.3m, Currency.USD);
+
+            Assert.Equal<Money>(expectedUnitPrice, priceWithDiscount.UnitPrice);
+        }
+
+        [Fact]
+        public void GetDiscountPrice_WhenMismatchBetweenCurrencyAndMarketCurrency_ShouldReturnNoPrice()
+        {
+            var priceWithDiscount = _subject.GetDiscountPrice(
+                new CatalogKey("code1"), new MarketId("US"), Currency.SEK);
+
+            Assert.Null(priceWithDiscount);
+        }
+
+        [Fact]
+        public void GetDiscountPrice_WhenNoPricesAvailableForMarket_ShouldReturnNull()
+        {
+            _priceServiceMock
+                .Setup(x => x.GetPrices(It.IsAny<MarketId>(), It.IsAny<DateTime>(), It.IsAny<CatalogKey>(), It.IsAny<PriceFilter>()))
+                .Returns(() => Enumerable.Empty<IPriceValue>().ToList());
+
+            var priceWithDiscount = _subject.GetDiscountPrice(
+                new CatalogKey("code1"), new MarketId("US"), Currency.USD);
+
+            Assert.Null(priceWithDiscount);
+        }
+
+        private readonly PricingServiceForTest _subject;
+        private readonly Mock<IPriceService> _priceServiceMock;
 
         public PricingServiceTests()
         {
-            _cheapPriceUSD = new Money(1, "USD");
-            _expensivePriceGBP = new Money(2, "GBP");
-
-            _currencyServiceMock = new Mock<ICurrencyService>();
-            _currencyServiceMock.Setup(x => x.GetCurrentCurrency()).Returns(new Currency("USD"));
-
-            _currentMarketMock = new Mock<ICurrentMarket>();
-            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(new Mock<IMarket>().Object);
-
             _priceServiceMock = new Mock<IPriceService>();
-            _priceServiceMock.Setup(
-                x =>
-                    x.GetPrices(
-                        It.IsAny<MarketId>(),
-                        It.IsAny<DateTime>(),
-                        It.IsAny<CatalogKey>(),
-                        It.IsAny<PriceFilter>()))
-                .Returns(() => new[]
-                {
-                    new PriceValue { UnitPrice = _expensivePriceGBP},
-                    new PriceValue { UnitPrice = _cheapPriceUSD}
-                });
-            _priceServiceMock.Setup(
-                x =>
-                    x.GetPrices(
-                        It.IsAny<MarketId>(),
-                        It.IsAny<DateTime>(),
-                        It.IsAny<IEnumerable<CatalogKey>>(),
-                        It.IsAny<PriceFilter>()))
-                .Returns(() => new[]
-                {
-                    new PriceValue { UnitPrice = _expensivePriceGBP},
-                    new PriceValue { UnitPrice = _cheapPriceUSD}
-                });
+            _priceServiceMock
+                .Setup(x => x.GetPrices(It.IsAny<MarketId>(), It.IsAny<DateTime>(), It.IsAny<CatalogKey>(), It.IsAny<PriceFilter>()))
+                .Returns((MarketId marketId, DateTime dateTime, CatalogKey catalogKey, PriceFilter priceFilter) =>
+                    CreatePriceList(catalogKey.CatalogEntryCode, Currency.USD));
 
-            _subject = new PricingService(
+            var usMarketMock = new Mock<IMarket>();
+            usMarketMock.Setup(x => x.MarketId).Returns(new MarketId("US"));
+            usMarketMock.Setup(x => x.DefaultCurrency).Returns(new Currency("USD"));
+
+            var marketServiceMock = new Mock<IMarketService>();
+            marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>()))
+                .Returns((MarketId marketId) => new[] { usMarketMock.Object }.SingleOrDefault(x => x.MarketId == marketId));
+
+            var currentMarketMock = new Mock<ICurrentMarket>();
+            currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(new Mock<IMarket>().Object);
+
+            var currencyServiceMock = new Mock<ICurrencyService>();
+            currencyServiceMock.Setup(x => x.GetCurrentCurrency()).Returns(new Currency("USD"));
+
+            _subject = new PricingServiceForTest(
                 _priceServiceMock.Object,
-                _currentMarketMock.Object,
-                _currencyServiceMock.Object);
+                currentMarketMock.Object,
+                currencyServiceMock.Object,
+                null,
+                null,
+                marketServiceMock.Object,
+                null,
+                null);
         }
 
-        
+        private IEnumerable<IPriceValue> CreatePriceList(string code, Currency currency)
+        {
+            return new []
+            {
+                new PriceValue
+                {
+                    CatalogKey = new CatalogKey(code),
+                    UnitPrice = new Money(2,currency)
+                },
+                new PriceValue
+                {
+                    CatalogKey = new CatalogKey(code),
+                    UnitPrice = new Money(1,currency)
+                },
+            };
+        }
+
+        class PricingServiceForTest : PricingService
+        {
+            public PricingServiceForTest(IPriceService priceService, ICurrentMarket currentMarket, ICurrencyService currencyService, CatalogContentService catalogContentService, ReferenceConverter referenceConverter, IMarketService marketService, ILineItemCalculator lineItemCalculator, IPromotionEngine promotionEngine) 
+                : base(priceService, currentMarket, currencyService, catalogContentService, referenceConverter, marketService, lineItemCalculator, promotionEngine)
+            {
+            }
+
+            protected override IEnumerable<DiscountedEntry> GetDiscountedPrices(ContentReference contentLink, IMarket market, Currency currency)
+            {
+                return new []
+                {
+                    new DiscountedEntry( new ContentReference(1),
+                        new [] 
+                        {
+                            new DiscountPrice(null, new Money(0.7m, Currency.USD), new Money(1, Currency.USD))
+                        })
+                };
+            }
+
+            protected override IEnumerable<EntryContentBase> GetEntries(IEnumerable<IPriceValue> prices)
+            {
+                return new[] {new VariationContent {Code = "code1"}, new VariationContent { Code = "code2" } };
+            }
+        }
     }
 }

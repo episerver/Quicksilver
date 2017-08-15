@@ -52,7 +52,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
         private readonly MultiShipmentViewModelFactory _subject;
         private readonly ICart _cart;
         private readonly StartPage _startPage;
-        private Mock<LanguageResolver> _languageResolverMock;
 
         public MultiShipmentViewModelFactoryTests()
         {
@@ -78,10 +77,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
-            _languageResolverMock = new Mock<LanguageResolver>();
-            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
-
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null,_languageResolverMock.Object);
+       
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {CartItems = new[]

@@ -3,12 +3,10 @@ using EPiServer.Commerce.Order;
 using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
 using EPiServer.Recommendations.Tracking.Data;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
-using Mediachase.Commerce.Catalog;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,26 +18,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
     {
         private readonly ITrackingService _trackingService;
         private readonly TrackingDataFactory _trackingDataFactory;
-        private readonly ReferenceConverter _referenceConverter;
-        private readonly IContentLoader _contentLoader;
-        private readonly LanguageService _languageService;
         private readonly IProductService _productService;
         private readonly IContextModeResolver _contextModeResolver;
 
         public RecommendationService(
             ITrackingService trackingService, 
             TrackingDataFactory trackingDataFactory,
-            ReferenceConverter referenceConverter,
-            IContentLoader contentLoader,
-            LanguageService languageService,
             IProductService productService,
             IContextModeResolver contextModeResolver)
         {
             _trackingService = trackingService;
             _trackingDataFactory = trackingDataFactory;
-            _referenceConverter = referenceConverter;
-            _contentLoader = contentLoader;
-            _languageService = languageService;
             _productService = productService;
             _contextModeResolver = contextModeResolver;
         }
@@ -123,12 +112,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
         
         public IEnumerable<RecommendedProductTileViewModel> GetRecommendedProductTileViewModels(IEnumerable<Recommendation> recommendations)
         {
-            var language = _languageService.GetCurrentLanguage();
             return recommendations.Select(x =>
                 new RecommendedProductTileViewModel(
                     x.RecommendationId, 
-                    _productService.GetProductTileViewModel(_contentLoader.Get<EntryContentBase>(x.ContentLink, language))
-                    )
+                    _productService.GetProductTileViewModel(x.ContentLink))
             );
         }
     }

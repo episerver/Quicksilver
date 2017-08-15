@@ -50,8 +50,6 @@
                 $('.cartItemCountLabel', formContainer.parent()).text($('#CartItemCount', formContainer).val());
                 $('.cartTotalAmountLabel', formContainer.parent()).text($('#CartTotalAmount', formContainer).val());
 
-                formContainer.change();
-
                 if (formContainer.is($('#WishListMiniCart'))) {
                     if (result.indexOf('list-group-item') === -1) {
                         $('.delete-wishlist').hide();

@@ -1,11 +1,9 @@
 ﻿using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
 using EPiServer.Recommendations.Tracking.Data;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Web;
-using Mediachase.Commerce.Catalog;
 using Moq;
 using System.Linq;
 using System.Web;
@@ -86,9 +84,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
 
         private readonly Mock<ITrackingService> _trackingServiceMock;
         private readonly Mock<TrackingDataFactory> _trackingDataFactoryMock;
-        private readonly Mock<ReferenceConverter> _referenceConverterMock;
-        private readonly Mock<IContentLoader> _contentLoaderMock;
-        private readonly Mock<LanguageService> _languageServiceMock;
         private readonly Mock<IProductService> _productServiceMock;
         private readonly Mock<IContextModeResolver> _contextModeResolverMock;
 
@@ -96,9 +91,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
         {
             _trackingServiceMock = new Mock<ITrackingService>();
             _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null, null);
-            _referenceConverterMock = new Mock<ReferenceConverter>(null, null);
-            _contentLoaderMock = new Mock<IContentLoader>();
-            _languageServiceMock = new Mock<LanguageService>(null, null, null);
             _productServiceMock = new Mock<IProductService>();
             _contextModeResolverMock = new Mock<IContextModeResolver>();
             _contextModeResolverMock.SetupGet(x => x.CurrentMode).Returns(ContextMode.Default);
@@ -106,9 +98,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
             _subject = new RecommendationService(
                 _trackingServiceMock.Object,
                 _trackingDataFactoryMock.Object,
-                _referenceConverterMock.Object,
-                _contentLoaderMock.Object,
-                _languageServiceMock.Object,
                 _productServiceMock.Object,
                 _contextModeResolverMock.Object);
         }

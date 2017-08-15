@@ -6,6 +6,8 @@
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
             .on('change', '.jsChangeTaxAddress', Checkout.changeTaxAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
+            .on('change', '#MiniCartResponsive', Checkout.refreshView)
+            .on('change', '#CheckoutView .jsChangeCartItem', Checkout.refreshView)
             .on('click', '.jsNewAddress', Checkout.newAddress)
             .on('click', '#AlternativeAddressButton', Checkout.enableShippingAddress)
             .on('click', '.remove-shipping-address', Checkout.removeShippingAddress)

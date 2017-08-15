@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 TaxTotal = totals.TaxTotal,
                 OrderDiscounts = cart.GetFirstForm().Promotions.Where(x => x.DiscountType == DiscountType.Order).Select(x => new OrderDiscountViewModel
                 {
-                    Discount = new Money(x.SavedAmount, new Currency(cart.Currency)),
+                    Discount = new Money(x.SavedAmount, cart.Currency),
                     DisplayName = x.Description
                 })
             };

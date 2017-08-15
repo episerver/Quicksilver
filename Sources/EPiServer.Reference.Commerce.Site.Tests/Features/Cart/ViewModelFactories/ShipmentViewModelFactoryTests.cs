@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -58,8 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
         private readonly CartItemViewModel _cartItem;
         private readonly ShippingRate _shippingRate;
 
-        private Mock<ShippingManagerFacade> _shippingManagerFacadeMock;
-        private Mock<LanguageResolver> _languageResolverMock;
+        private readonly Mock<ShippingManagerFacade> _shippingManagerFacadeMock;
 
         public ShipmentViewModelFactoryTests()
         {
@@ -83,31 +83,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             var languageServiceMock = new Mock<LanguageService>(null, null, null);
             languageServiceMock.Setup(x => x.GetCurrentLanguage()).Returns(CultureInfo.InvariantCulture);
 
-            var referenceConverterMock = new Mock<ReferenceConverter>(null,null);
-
             var addressBookServiceMock = new Mock<IAddressBookService>();
             _addressModel = new AddressModel();
             addressBookServiceMock.Setup(x => x.ConvertToModel(It.IsAny<IOrderAddress>())).Returns(_addressModel);
 
             _cartItem = new CartItemViewModel ();
-            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null, null, null, null, null, null, null, null, null, null);
+            var cartItemViewModelFactoryMock = new Mock<CartItemViewModelFactory>(null, null, null, null, null, null);
             cartItemViewModelFactoryMock.Setup(x => x.CreateCartItemViewModel(It.IsAny<ICart>(), It.IsAny<ILineItem>(), It.IsAny<VariationContent>())).Returns(_cartItem);
 
-            var contentLoaderMock = new Mock<IContentLoader>();
-            contentLoaderMock.Setup(x => x.GetItems(It.IsAny<IEnumerable<ContentReference>>(), It.IsAny<CultureInfo>()))
+            var catalogContentServiceMock = new Mock<CatalogContentService>(null,null,null,null,null,null,null);
+            catalogContentServiceMock.Setup(x => x.GetItems<EntryContentBase>(It.IsAny<IEnumerable<string>>()))
                 .Returns(() => new List<VariationContent> {new VariationContent {Code = "code"} });
 
-            _languageResolverMock = new Mock<LanguageResolver>();
-            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
-
             _subject = new ShipmentViewModelFactory(
-                contentLoaderMock.Object,
+                catalogContentServiceMock.Object,
                 _shippingManagerFacadeMock.Object,
                 languageServiceMock.Object,
-                referenceConverterMock.Object,
                 addressBookServiceMock.Object,
-                cartItemViewModelFactoryMock.Object,
-                _languageResolverMock.Object);    
+                cartItemViewModelFactoryMock.Object);    
         }
     }
 }

@@ -47,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         private readonly Mock<CatalogEntryViewModelFactory> _catalogEntryViewModelFactoryMock;
         public PackageControllerTests()
         {
-            _catalogEntryViewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null, null, null, null, null, null);
+            _catalogEntryViewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null);
             _catalogEntryViewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionPackage>()))
                 .Returns(() => new FashionPackageViewModel { Entries = Enumerable.Empty<EntryContentBase>() });
         }

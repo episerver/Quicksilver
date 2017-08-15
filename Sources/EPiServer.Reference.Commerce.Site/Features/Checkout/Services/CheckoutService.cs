@@ -185,7 +185,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             };
 
             var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
-            var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(viewModel.CurrentPage.ContentLink);
+            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(viewModel.CurrentPage.ContentLink).FirstOrDefault();
 
             try
             {
@@ -212,7 +212,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 queryCollection.Add("notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), checkoutViewModel.BillingAddress.Email));
             }
 
-            var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink);
+            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink).FirstOrDefault();
 
             return new UrlBuilder(confirmationPage.LinkURL) {QueryCollection = queryCollection}.ToString();
         }

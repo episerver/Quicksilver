@@ -160,7 +160,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _httpContextBaseMock = new Mock<HttpContextBase>();
             _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
 
-            _viewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null, null, null, null, null, null);
+            _viewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null);
             _recommendationServiceMock = new Mock<IRecommendationService>();
 
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);

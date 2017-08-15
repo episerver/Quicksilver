@@ -42,7 +42,7 @@
                                         <div class="row">
                                             <div class="col-xs-6 xs-vertical-margin">
                                                 <strong>@Html.Translate("/ProductPage/Size")</strong><br/>
-                                                @if ((bool) ViewData["IsReadOnly"])
+                                                @if ((bool) ViewData["IsReadOnly"] || cartItem.IsGift)
                                                 {
                                                     @Helpers.RenderSize(cartItem.Entry);
                                                 }
@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="col-xs-6 xs-vertical-margin">
                                                 <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br/>
-                                                @if ((bool) ViewData["IsReadOnly"])
+                                                @if ((bool) ViewData["IsReadOnly"] || cartItem.IsGift)
                                                 {
                                                     @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new {@class = "form-control form-inline form-field--narrow jsChangeCartItem", disabled = "disabled"})
                                                 }
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-1 product-col-remove">
-                                        @if (!(bool) ViewData["IsReadOnly"])
+                                        @if (!(bool) ViewData["IsReadOnly"] && !cartItem.IsGift)
                                         {
                                             <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                         }

@@ -2,11 +2,12 @@
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
+using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
@@ -14,20 +15,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
     public class CartViewModelFactory
     {
         private readonly IContentLoader _contentLoader;
-        private readonly ICurrencyService _currencyService;
+        private readonly IPricingService _pricingService;
         private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly ShipmentViewModelFactory _shipmentViewModelFactory;
         private readonly ReferenceConverter _referenceConverter;
 
         public CartViewModelFactory(
             IContentLoader contentLoader,
-            ICurrencyService currencyService,
+            IPricingService pricingService,
             IOrderGroupCalculator orderGroupCalculator,
             ShipmentViewModelFactory shipmentViewModelFactory,
             ReferenceConverter referenceConverter)
         {
             _contentLoader = contentLoader;
-            _currencyService = currencyService;
+            _pricingService = pricingService;
             _orderGroupCalculator = orderGroupCalculator;
             _shipmentViewModelFactory = shipmentViewModelFactory;
             _referenceConverter = referenceConverter;
@@ -42,12 +43,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ItemCount = 0,
                     CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                     Shipments = Enumerable.Empty<ShipmentViewModel>(),
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = _pricingService.GetMoney(0)
                 };
             }
             return new MiniCartViewModel
             {
-                ItemCount = GetLineItemsTotalQuantity(cart),
+                ItemCount = GetCartLineItems(cart).Sum(x => x.Quantity),
                 CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                 Total = _orderGroupCalculator.GetSubTotal(cart)
@@ -58,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         {
             if (cart == null)
             {
-                var zeroAmount = new Money(0, _currencyService.GetCurrentCurrency());
+                var zeroAmount = _pricingService.GetMoney(0);
 
                 return new LargeCartViewModel
                 {
@@ -84,13 +85,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 {
                     ItemCount = 0,
                     CartItems = new CartItemViewModel[0],
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = _pricingService.GetMoney(0)
                 };
             }
 
             return new WishListViewModel
             {
-                ItemCount = GetLineItemsTotalQuantity(cart),
+                ItemCount = GetCartLineItems(cart).Count(),
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
                 Total = _orderGroupCalculator.GetSubTotal(cart)
             };
@@ -105,25 +106,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ItemCount = 0,
                     WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
                     CartItems = new CartItemViewModel[0],
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = _pricingService.GetMoney(0)
                 };
             }
 
             return new WishListMiniCartViewModel
             {
-                ItemCount = GetLineItemsTotalQuantity(cart),
+                ItemCount = GetCartLineItems(cart).Count(),
                 WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
                 Total = _orderGroupCalculator.GetSubTotal(cart)
             };
         }
 
-        private decimal GetLineItemsTotalQuantity(ICart cart)
+        private IEnumerable<ILineItem> GetCartLineItems(ICart cart)
         {
-            var cartItems = cart
+            return cart
                 .GetAllLineItems()
                 .Where(c => !ContentReference.IsNullOrEmpty(_referenceConverter.GetContentLink(c.Code)));
-            return cartItems.Sum(x => x.Quantity);
         }
     }
 }

@@ -34,7 +34,7 @@
                                                     <a href="@cartItem.Url" class="link--black"><h4 class="product-row__item__title">@cartItem.DisplayName</h4></a>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    @if (!(bool)ViewData["IsReadOnly"])
+                                                    @if (!(bool)ViewData["IsReadOnly"] && !cartItem.IsGift)
                                                     {
                                                         <button role="button" class="btn btn-gray-lighter btn-xs jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                                     }
@@ -44,7 +44,7 @@
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                                    @if ((bool)ViewData["IsReadOnly"])
+                                                    @if ((bool)ViewData["IsReadOnly"] || cartItem.IsGift)
                                                     {
                                                         @Helpers.RenderSize(cartItem.Entry);
                                                     }
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                                                    @if ((bool)ViewData["IsReadOnly"])
+                                                    @if ((bool)ViewData["IsReadOnly"] || cartItem.IsGift)
                                                     {
                                                         <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" disabled="disabled" />
                                                     }

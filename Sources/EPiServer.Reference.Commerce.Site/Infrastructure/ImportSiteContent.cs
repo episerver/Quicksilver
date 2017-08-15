@@ -107,7 +107,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
             var defaultWarehouse = warehouseRepository.Get("default");
-            warehouseRepository.Delete(defaultWarehouse.WarehouseId.Value);
+
+            if (defaultWarehouse != null && defaultWarehouse.WarehouseId.HasValue)
+            {
+                warehouseRepository.Delete(defaultWarehouse.WarehouseId.Value);
+            }
         }
 
         private void EnableCurrencies()

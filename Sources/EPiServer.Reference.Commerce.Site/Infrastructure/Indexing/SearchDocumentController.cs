@@ -1,13 +1,10 @@
 ﻿using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Shared.CatalogIndexer;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Pricing;
 using Mediachase.Search.Extensions;
 using System;
 using System.Collections.Generic;
@@ -21,26 +18,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
     [RoutePrefix("referenceapi")]
     public class SearchDocumentController : ApiController
     {
-        private readonly IPriceService _priceService;
-        private readonly IPromotionService _promotionService;
-        private readonly IContentLoader _contentLoader;
-        private readonly ReferenceConverter _referenceConverter;
+        private readonly IPricingService _pricingService;
+        private readonly CatalogContentService _catalogContentService;
         private readonly AssetUrlResolver _assetUrlResolver;
-        private readonly IRelationRepository _relationRepository;
 
-        public SearchDocumentController(IPriceService priceService,
-            IPromotionService promotionService,
-            IContentLoader contentLoader,
-            ReferenceConverter referenceConverter,
-            AssetUrlResolver assetUrlResolver,
-            IRelationRepository relationRepository)
+        public SearchDocumentController(IPricingService pricingService,
+            CatalogContentService catalogContentService,
+            AssetUrlResolver assetUrlResolver)
         {
-            _priceService = priceService;
-            _promotionService = promotionService;
-            _contentLoader = contentLoader;
-            _referenceConverter = referenceConverter;
+            _pricingService = pricingService;
+            _catalogContentService = catalogContentService;
             _assetUrlResolver = assetUrlResolver;
-            _relationRepository = relationRepository;
         }
 
         [Route("searchdocuments/{language}/{code}", Name = "PopulateSearchDocument")]
@@ -58,20 +46,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 
         protected RestSearchDocument PopulateRestSearchDocument(string code, string language)
         {
-
-            var contentLink = _referenceConverter.GetContentLink(code);
-            if (ContentReference.IsNullOrEmpty(contentLink))
+            EntryContentBase entryContent;
+            if (!_catalogContentService.TryGet(code, out entryContent))
             {
                 return null;
             }
+           
             var document = new RestSearchDocument();
-            var entryContent = _contentLoader.Get<EntryContentBase>(contentLink);
             var fashionProduct = entryContent as FashionProduct;
             var fashionPackage = entryContent as FashionPackage;
             if (fashionProduct != null)
             {
-                var variants = _contentLoader.GetItems(fashionProduct.GetVariants(_relationRepository), CultureInfo.GetCultureInfo(language)).OfType<FashionVariant>().ToList();
-                AddPrices(document, variants.Select(v => new CatalogKey(v.Code)));
+                var variants = _catalogContentService.GetAllVariants<FashionVariant>(fashionProduct, language).ToList();
+                AddPrices(document, variants);
                 AddColors(document, variants);
                 AddSizes(document, variants);
                 AddCodes(document, variants);
@@ -79,37 +66,18 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
             else if (fashionPackage != null)
             {
-                AddPrices(document, new [] { new CatalogKey(fashionPackage.Code) });
+                AddPrices(document, new [] { fashionPackage });
             }
             document.Fields.Add(new RestSearchField("code", entryContent.Code, new[] { SearchField.Store.YES, SearchField.IncludeInDefaultSearch.YES }));
             document.Fields.Add(new RestSearchField("displayname", entryContent.DisplayName));
             document.Fields.Add(new RestSearchField("image_url", _assetUrlResolver.GetAssetUrl<IContentImage>(entryContent)));
             document.Fields.Add(new RestSearchField("content_link", entryContent.ContentLink.ToString()));
             document.Fields.Add(new RestSearchField("created", entryContent.Created.ToString("yyyyMMddhhmmss")));
-            document.Fields.Add(new RestSearchField("top_category_name", GetTopCategoryName(entryContent)));
+            document.Fields.Add(new RestSearchField("top_category_name", _catalogContentService.GetTopCategoryName(entryContent)));
 
             return document;
         }
-
-        private string GetTopCategoryName(EntryContentBase content)
-        {
-            var parent = _contentLoader.Get<CatalogContentBase>(content.ParentLink);
-            var catalog = parent as CatalogContent;
-            if (catalog != null)
-            {
-                return catalog.Name; 
-            }
-
-            var node = parent as NodeContent;
-            return node != null ? GetTopCategory(node).DisplayName : String.Empty;
-        }
-
-        private NodeContent GetTopCategory(NodeContent node)
-        {
-            var parentNode = _contentLoader.Get<CatalogContentBase>(node.ParentLink) as NodeContent;
-            return parentNode != null ? GetTopCategory(parentNode) : node;
-        }
-
+        
         private void AddSizes(RestSearchDocument document, IEnumerable<FashionVariant> variants)
         {
             var sizes = new List<string>();
@@ -136,9 +104,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             }
         }
 
-        private void AddPrices(RestSearchDocument document, IEnumerable<CatalogKey> catalogKeys)
+        private void AddPrices(RestSearchDocument document, IEnumerable<EntryContentBase> entries)
         {
-            var prices = _priceService.GetCatalogEntryPrices(catalogKeys).ToList();
+            var prices = _pricingService.GetCatalogEntryPrices(entries.Select(x => new CatalogKey(x.Code))).ToList();
             var validPrices = prices.Where(x => x.ValidFrom <= DateTime.Now && (x.ValidUntil == null || x.ValidUntil >= DateTime.Now));
 
             foreach (var marketPrices in validPrices.GroupBy(x => x.MarketId))
@@ -153,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
                         topPrice.UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
                     var discountedPrice = new RestSearchField(IndexingHelper.GetPriceField(topPrice.MarketId, topPrice.UnitPrice.Currency),
-                        _promotionService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
+                        _pricingService.GetDiscountPrice(topPrice.CatalogKey, topPrice.MarketId, topPrice.UnitPrice.Currency).UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), true);
 
                     document.Fields.Add(variationPrice);
                     document.Fields.Add(discountedPrice);

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using EPiServer.Globalization;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using Mediachase.Commerce.Catalog;
 using Xunit;
 
@@ -179,18 +180,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             _startPage = new StartPage() { CheckoutPage = new ContentReference(1), WishListPage = new ContentReference(1) };
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(_startPage);
-            var languageResolverMock = new Mock<LanguageResolver>();
-            languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
-
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, languageResolverMock.Object);
+         
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
             _cartItems = new List<CartItemViewModel> { new CartItemViewModel { DiscountedPrice = new Money(100, Currency.USD), Quantity = 1 } };
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[] { new ShipmentViewModel { CartItems = _cartItems } });
 
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);
             _referenceConverterMock.Setup(c => c.GetContentLink(It.IsAny<string>())).Returns(new ContentReference(1));
 
-            var currencyServiceMock = new Mock<ICurrencyService>();
-            currencyServiceMock.Setup(x => x.GetCurrentCurrency()).Returns(Currency.USD);
+            var pricingServiceMock = new Mock<IPricingService>();
+            pricingServiceMock.Setup(x => x.GetMoney(It.IsAny<decimal>())).Returns((decimal amount) => new Money(amount, Currency.USD));
 
             _totals = new OrderGroupTotals(
                 new Money(100, Currency.USD),
@@ -209,7 +208,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
 
             _subject = new CartViewModelFactory(
                 contentLoaderMock.Object,
-                currencyServiceMock.Object,
+                pricingServiceMock.Object,
                 orderGroupCalculatorMock.Object,
                 shipmentViewModelFactoryMock.Object,
                 _referenceConverterMock.Object);

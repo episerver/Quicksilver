@@ -1,19 +1,11 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
-using EPiServer.Core;
-using EPiServer.Filters;
-using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+﻿using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,41 +16,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
     [ServiceConfiguration(Lifecycle = ServiceInstanceScope.Singleton)]
     public class CatalogEntryViewModelFactory
     {
-        private readonly IPromotionService _promotionService;
         private readonly IContentLoader _contentLoader;
-        private readonly IPriceService _priceService;
-        private readonly ICurrentMarket _currentMarket;
-        private readonly ICurrencyService _currencyservice;
-        private readonly IRelationRepository _relationRepository;
+        private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
-        private readonly FilterPublished _filterPublished;
-        private readonly LanguageResolver _languageResolver;
+        private readonly CatalogContentService _catalogContentService;
 
         public CatalogEntryViewModelFactory(
-            IPromotionService promotionService,
             IContentLoader contentLoader,
-            IPriceService priceService,
-            ICurrentMarket currentMarket,
-            CurrencyService currencyservice,
-            IRelationRepository relationRepository,
+            IPricingService pricingService,
             UrlResolver urlResolver,
-            FilterPublished filterPublished,
-            LanguageResolver languageResolver)
+            CatalogContentService catalogContentService)
         {
-            _promotionService = promotionService;
             _contentLoader = contentLoader;
-            _priceService = priceService;
-            _currentMarket = currentMarket;
-            _currencyservice = currencyservice;
-            _relationRepository = relationRepository;
+            _pricingService = pricingService;
             _urlResolver = urlResolver;
-            _filterPublished = filterPublished;
-            _languageResolver = languageResolver;
+            _catalogContentService = catalogContentService;
         }
 
         public virtual FashionProductViewModel Create(FashionProduct currentContent, string variationCode)
         {
-            var variants = GetVariants(currentContent).ToList();
+            var variants = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList();
 
             FashionVariant variant;
             if (!TryGetFashionVariant(variants, variationCode, out variant))
@@ -70,16 +47,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 };
             }
 
-            var market = _currentMarket.GetCurrentMarket();
-            var currency = _currencyservice.GetCurrentCurrency();
-            var defaultPrice = GetDefaultPrice(variant.Code, market, currency);
-            var discountedPrice = GetDiscountPrice(defaultPrice, market, currency);
+            variationCode = variant.Code;
+            var defaultPrice = _pricingService.GetDefaultPrice(variationCode);
+            var discountedPrice = defaultPrice != null ? _pricingService.GetDiscountPrice(variationCode).UnitPrice : (Money?)null;
 
-            var viewModel = new FashionProductViewModel
+            return new FashionProductViewModel
             {
                 Product = currentContent,
                 Variant = variant,
-                ListingPrice = defaultPrice != null ? defaultPrice.UnitPrice : new Money(0, currency),
+                ListingPrice = defaultPrice?.UnitPrice ?? _pricingService.GetMoney(0),
                 DiscountedPrice = discountedPrice,
                 Colors = variants
                     .Where(x => x.Size != null)
@@ -105,45 +81,39 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 IsAvailable = defaultPrice != null
             };
-
-            return viewModel;
         }
 
         public virtual FashionPackageViewModel Create(FashionPackage currentContent)
         {
-            var variants = GetVariants(currentContent).ToList();
-            var market = _currentMarket.GetCurrentMarket();
-            var currency = _currencyservice.GetCurrentCurrency();
-            var defaultPrice = GetDefaultPrice(currentContent.Code, market, currency);
-            var viewModel = new FashionPackageViewModel
+            var defaultPrice = _pricingService.GetDefaultPrice(currentContent.Code);
+            var discountedPrice = defaultPrice != null
+                ? _pricingService.GetDiscountPrice(defaultPrice.CatalogKey.CatalogEntryCode).UnitPrice
+                : (Money?)null;
+
+            return new FashionPackageViewModel
             {
                 Package = currentContent,
-                ListingPrice = defaultPrice != null ? defaultPrice.UnitPrice : new Money(0, currency),
-                DiscountedPrice = GetDiscountPrice(defaultPrice, market, currency),
+                ListingPrice = defaultPrice?.UnitPrice ?? _pricingService.GetMoney(0),
+                DiscountedPrice = discountedPrice,
                 Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 IsAvailable = defaultPrice != null,
-                Entries = variants
+                Entries = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList()
             };
-
-            return viewModel;
         }
 
         public virtual FashionBundleViewModel Create(FashionBundle currentContent)
         {
-            var variants = GetVariants(currentContent).ToList();
-            var viewModel = new FashionBundleViewModel
+            return new FashionBundleViewModel
             {
                 Bundle = currentContent,
                 Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                Entries = variants
+                Entries = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList()
             };
-
-            return viewModel;
         }
 
         public virtual FashionVariant SelectVariant(FashionProduct currentContent, string color, string size)
         {
-            var variants = GetVariants(currentContent);
+            var variants = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList();
 
             FashionVariant variant;
             if (TryGetFashionVariantByColorAndSize(variants, color, size, out variant)
@@ -155,33 +125,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             return null;
         }
 
-        private IEnumerable<FashionVariant> GetVariants(PackageContent currentContent)
-        {
-            return _contentLoader
-                .GetItems(currentContent.GetEntries(_relationRepository), _languageResolver.GetPreferredCulture())
-                .OfType<FashionVariant>()
-                .Where(v => v.IsAvailableInCurrentMarket(_currentMarket) && !_filterPublished.ShouldFilter(v))
-                .ToArray();
-        }
-
-        private IEnumerable<FashionVariant> GetVariants(FashionBundle currentContent)
-        {
-            return _contentLoader
-                .GetItems(currentContent.GetEntries(_relationRepository), _languageResolver.GetPreferredCulture())
-                .OfType<FashionVariant>()
-                .Where(v => v.IsAvailableInCurrentMarket(_currentMarket) && !_filterPublished.ShouldFilter(v))
-                .ToArray();
-        }
-
-        private IEnumerable<FashionVariant> GetVariants(FashionProduct currentContent)
-        {
-            return _contentLoader
-                .GetItems(currentContent.GetVariants(_relationRepository), _languageResolver.GetPreferredCulture())
-                .OfType<FashionVariant>()
-                .Where(v => v.IsAvailableInCurrentMarket(_currentMarket) && !_filterPublished.ShouldFilter(v))
-                .ToArray();
-        }
-
         private static bool TryGetFashionVariant(IEnumerable<FashionVariant> variations, string variationCode, out FashionVariant variation)
         {
             variation = !string.IsNullOrEmpty(variationCode) ?
@@ -189,25 +132,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 variations.FirstOrDefault();
 
             return variation != null;
-        }
-
-        private IPriceValue GetDefaultPrice(string entryCode, IMarket market, Currency currency)
-        {
-            return _priceService.GetDefaultPrice(
-                market.MarketId,
-                DateTime.Now,
-                new CatalogKey(entryCode),
-                currency);
-        }
-
-        private Money? GetDiscountPrice(IPriceValue defaultPrice, IMarket market, Currency currency)
-        {
-            if (defaultPrice == null)
-            {
-                return null;
-            }
-
-            return _promotionService.GetDiscountPrice(defaultPrice.CatalogKey, market.MarketId, currency).UnitPrice;
         }
 
         private static bool TryGetFashionVariantByColorAndSize(IEnumerable<FashionVariant> variants, string color, string size, out FashionVariant variant)

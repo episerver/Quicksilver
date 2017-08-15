@@ -198,7 +198,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 return result;
             }
 
-            var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
+            var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code && !x.IsGift);
 
             if (lineItem == null)
             {
@@ -233,7 +233,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 // If there is an item which has no price in the new currency, a NullReference exception will be thrown.
                 // Mixing currencies in cart is not allowed.
                 // It's up to site's managers to ensure that all items have prices in allowed currency.
-                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).Value.Amount;
+                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).UnitPrice.Amount;
             }
 
             ValidateCart(cart);
@@ -384,10 +384,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 newLineItem.Quantity = quantity;
                 cart.AddLineItem(newLineItem, _orderGroupFactory);
 
-                var price = _pricingService.GetCurrentPrice(newCode);
-                if (price.HasValue)
+                var price = _pricingService.GetPrice(newCode);
+                if (price != null)
                 {
-                    newLineItem.PlacedPrice = price.Value.Amount;
+                    newLineItem.PlacedPrice = price.UnitPrice.Amount;
                 }
             }
 

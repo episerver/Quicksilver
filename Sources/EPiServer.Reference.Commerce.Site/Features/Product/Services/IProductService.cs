@@ -9,8 +9,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
     public interface IProductService
     {
         ProductTileViewModel GetProductTileViewModel(EntryContentBase entry);
-        IEnumerable<ProductTileViewModel> GetProductTileViewModels(IEnumerable<ContentReference> entryLinks);
+        ProductTileViewModel GetProductTileViewModel(ContentReference contentLink);
         string GetSiblingVariantCodeBySize(string siblingCode, string size);
-        IEnumerable<FashionVariant> GetVariants(FashionProduct currentContent);
     }
 }

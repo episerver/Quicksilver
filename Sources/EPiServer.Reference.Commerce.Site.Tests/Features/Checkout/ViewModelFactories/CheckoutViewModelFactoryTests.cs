@@ -150,14 +150,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var urlResolverMock = new Mock<UrlResolver>();
             var httpcontextMock = new Mock<HttpContextBase>();
             var requestMock = new Mock<HttpRequestBase>();
-            var languageResolverMock = new Mock<LanguageResolver>();
 
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
-            languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.InvariantCulture);
 
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, null, languageResolverMock.Object);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {

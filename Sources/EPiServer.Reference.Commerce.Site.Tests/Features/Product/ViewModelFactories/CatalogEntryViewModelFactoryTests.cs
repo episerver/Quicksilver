@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Web;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
-using EPiServer.Filters;
-using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Routing;
+using FluentAssertions;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Pricing;
 using Moq;
 using Xunit;
@@ -27,26 +19,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        [InlineData("something")]
+        [InlineData("doNotExist")]
         public void Create_WhenVariationCodeIsNotValid_ShouldReturnModelWithNoVariation(string variationCode)
         {
             var fashionProduct = CreateFashionProduct();
-            SetRelation(fashionProduct, Enumerable.Empty<ProductVariation>());
             
             var result = CreateSubject().Create(fashionProduct, variationCode);
             
-            Assert.Null(result.Variant);
-        }
-
-        [Fact]
-        public void Create_WhenSelectedVariationDontExist_ShouldReturnModelWithNoVariation()
-        {
-            var fashionProduct = CreateFashionProduct();
-            var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
-
-            var result = CreateSubject().Create(fashionProduct, "doNotExist");
-
             Assert.Null(result.Variant);
         }
 
@@ -55,7 +34,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
+
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
@@ -67,8 +47,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+
+            SetVariantsToReturn(fashionVariant);
             
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
@@ -80,7 +60,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
+
+            SetVariantsToReturn(fashionVariant);
 
             var mockDefaultPrice = CreatePriceValueMock(25);
             SetDefaultPriceService(mockDefaultPrice.Object);
@@ -98,7 +79,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
+
+            SetVariantsToReturn(fashionVariant);
 
             var mockDefaultPrice = CreatePriceValueMock(25);
             SetDefaultPriceService(mockDefaultPrice.Object);
@@ -119,8 +101,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariant = CreateFashionVariant();
             fashionVariant.Color = color;
 
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
@@ -135,8 +116,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariant = CreateFashionVariant();
             fashionVariant.Size = size;
 
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
@@ -149,8 +129,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
 
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
@@ -164,6 +143,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
+            SetVariantsToReturn(fashionVariant);
 
             IContentImage contentImage;
 
@@ -172,9 +152,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             _urlResolverMock.Setup(x => x.GetUrl(imageMedia.AssetLink)).Returns(imageLink);
 
             fashionVariant.CommerceMediaCollection = new ItemCollection<CommerceMedia>() {imageMedia};
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
-
+           
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
             Assert.Equal<string>(imageLink, result.Images.Single());
@@ -185,12 +163,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant();
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            Assert.Equal<int>(0, result.Colors.Count());
+            Assert.Equal<int>(0, result.Colors.Count);
         }
 
         [Fact]
@@ -206,15 +184,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariant2 = CreateFashionVariant("medium", "red");
             var fashionVariant3 = CreateFashionVariant("medium", "green");
 
-            SetRelation(fashionProduct, new[] {fashionVariant1, fashionVariant2, fashionVariant3});
-            MockPrices();
+            SetVariantsToReturn(fashionVariant1, fashionVariant2, fashionVariant3);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
 
-            var expectedColors = String.Join(";", colors);
-            var modelColorTexts = String.Join(";", result.Colors.Select(x => x.Text));
-
-            Assert.Equal<string>(expectedColors, modelColorTexts);
+            result.Colors.Select(x => x.Text).ShouldAllBeEquivalentTo(colors);
         }
 
         [Fact]
@@ -230,15 +204,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariant2 = CreateFashionVariant("medium", "red");
             var fashionVariant3 = CreateFashionVariant("medium", "green");
 
-            SetRelation(fashionProduct, new[] {fashionVariant1, fashionVariant2, fashionVariant3});
-            MockPrices();
+            SetVariantsToReturn(fashionVariant1, fashionVariant2, fashionVariant3);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
-
-            var expectedColors = String.Join(";", colors);
-            var modelColorValues = String.Join(";", result.Colors.Select(x => x.Value));
-
-            Assert.Equal<string>(expectedColors, modelColorValues);
+            
+            result.Colors.Select(x => x.Text).ShouldAllBeEquivalentTo(colors);
         }
 
         [Fact]
@@ -252,15 +222,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariant2 = CreateFashionVariant("medium", "red");
             var fashionVariant3 = CreateFashionVariant("medium", "green");
 
-            SetRelation(fashionProduct, new[] {fashionVariant1, fashionVariant2, fashionVariant3});
-            MockPrices();
+            SetVariantsToReturn(fashionVariant1, fashionVariant2, fashionVariant3);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
 
-            var expectedColors = String.Join(";", new[] {false, false});
-            var modelColorsSelected = String.Join(";", result.Colors.Select(x => x.Selected));
-
-            Assert.Equal<string>(expectedColors, modelColorsSelected);
+            result.Colors.Select(x => x.Selected).ShouldAllBeEquivalentTo(new[] { false, false });
         }
 
         [Fact]
@@ -270,15 +236,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant("medium", "red");
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
+
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
-
-            var expectedSizes = String.Join(";", sizes);
-            var modelSizeTexts = String.Join(";", result.Sizes.Select(x => x.Text));
-
-            Assert.Equal<string>(expectedSizes, modelSizeTexts);
+            
+            result.Sizes.Select(x => x.Text).ShouldAllBeEquivalentTo(sizes);
         }
 
         [Fact]
@@ -288,15 +251,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant("medium", "red");
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            var expectedSizes = String.Join(";", sizes);
-            var modelSizeValues = String.Join(";", result.Sizes.Select(x => x.Value));
-
-            Assert.Equal<string>(expectedSizes, modelSizeValues);
+            result.Sizes.Select(x => x.Value).ShouldAllBeEquivalentTo(sizes);
         }
 
         [Fact]
@@ -304,15 +263,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
         {
             var fashionProduct = CreateFashionProduct();
             var fashionVariant = CreateFashionVariant("medium", "red");
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
+            SetVariantsToReturn(fashionVariant);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            var expectedSizes = String.Join(";", new[] {false});
-            var modelSizesSelected = String.Join(";", result.Sizes.Select(x => x.Selected));
-
-            Assert.Equal<string>(expectedSizes, modelSizesSelected);
+            result.Sizes.Select(x => x.Selected).ShouldAllBeEquivalentTo(new[] { false });
         }
 
         [Fact]
@@ -333,21 +288,16 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             fashionProduct.AvailableSizes = sizes;
-
             fashionProduct.AvailableColors = colors;
 
             var fashionVariantSmallBlue = CreateFashionVariant("small", variationColorBlue);
             var fashionVariantSmallWhite = CreateFashionVariant("small", variationColorWhite);
 
-            SetRelation(fashionProduct, new[] {fashionVariantSmallBlue, fashionVariantSmallWhite});
-            MockPrices();
+            SetVariantsToReturn(fashionVariantSmallBlue, fashionVariantSmallWhite);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariantSmallBlue.Code);
 
-            var expectedColors = String.Join(";", new[] {variationColorBlue, variationColorWhite});
-            var modelColors = String.Join(";", result.Colors.Select(x => x.Value));
-
-            Assert.Equal<string>(expectedColors, modelColors);
+            result.Colors.Select(x => x.Value).ShouldAllBeEquivalentTo(new[] { variationColorBlue, variationColorWhite });
         }
 
         [Fact]
@@ -373,98 +323,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariantMediumRed = CreateFashionVariant(variationSizeMedium, "red");
             var fashionVariantXlargeRed = CreateFashionVariant(variationSizeXlarge, "red");
 
-            SetRelation(fashionProduct, new[] {fashionVariantMediumRed, fashionVariantXlargeRed});
-            MockPrices();
+            SetVariantsToReturn(fashionVariantMediumRed, fashionVariantXlargeRed);
 
             var result = CreateSubject().Create(fashionProduct, fashionVariantMediumRed.Code);
 
-            var expectedSizes = String.Join(";", new[] {variationSizeMedium, variationSizeXlarge});
-            var modelSizes = String.Join(";", result.Sizes.Select(x => x.Value));
-
-            Assert.Equal<string>(expectedSizes, modelSizes);
+            result.Sizes.Select(x => x.Value).ShouldAllBeEquivalentTo(new[] { variationSizeMedium, variationSizeXlarge });
         }
 
-        [Fact]
-        public void Create_WhenAvailableSizesContainsDelayPublishItems_ShouldReturnModelWithNoVariant()
-        {
-            var sizes = new ItemCollection<string>() {"small", "medium"};
-
-            var fashionProduct = CreateFashionProduct();
-            fashionProduct.AvailableSizes = sizes;
-
-            var fashionVariant = CreateFashionVariant();
-            fashionVariant.StartPublish = DateTime.UtcNow.AddDays(7); // pulish date is future
-            fashionVariant.StopPublish = DateTime.UtcNow.AddDays(17);
-            fashionVariant.Status = VersionStatus.DelayedPublish;
-
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
-
-            var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
-
-            Assert.Null(result.Variant);
-        }
-
-        [Fact]
-        public void Create_WhenAvailableSizesContainsExpiredItems_ShouldReturnModelWithNoVariant()
-        {
-            var sizes = new ItemCollection<string>() {"small", "medium"};
-
-            var fashionProduct = CreateFashionProduct();
-            fashionProduct.AvailableSizes = sizes;
-
-            var fashionVariant = CreateFashionVariant();
-            fashionVariant.StartPublish = DateTime.UtcNow.AddDays(-17);
-            fashionVariant.StopPublish = DateTime.UtcNow.AddDays(-7);
-
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
-
-            var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
-
-            Assert.Null(result.Variant);
-        }
-
-        [Fact]
-        public void Create_WhenAvailableSizesContainsUnpublishItems_ShouldReturnModelWithNoVariant()
-        {
-            var sizes = new ItemCollection<string>() {"small", "medium"};
-
-            var fashionProduct = CreateFashionProduct();
-            fashionProduct.AvailableSizes = sizes;
-
-            var fashionVariant = CreateFashionVariant();
-            fashionVariant.IsPendingPublish = true;
-            fashionVariant.Status = VersionStatus.CheckedIn;
-
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
-
-            var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
-
-            Assert.Null(result.Variant);
-        }
-
-        [Fact]
-        public void Create_WhenAvailableSizesContainsItemUnavailabelInCurrentMarket_ShouldReturnModelWithNoVariant()
-        {
-            var sizes = new ItemCollection<string>() {"small", "medium"};
-
-            var fashionProduct = CreateFashionProduct();
-            fashionProduct.AvailableSizes = sizes;
-
-            // setup variant unavailable in default market
-            var fashionVariant = CreateFashionVariant();
-            fashionVariant.MarketFilter = new ItemCollection<string>() {"Default"};
-
-            SetRelation(fashionProduct, fashionVariant);
-            MockPrices();
-
-            var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
-
-            Assert.Null(result.Variant);
-        }
-        
         [Fact]
         public void SelectVariant_WhenColorAndSizeHasValues_ShouldGetVariantWithSelectedColorAndSize()
         {
@@ -473,7 +338,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             fashionProduct.AvailableSizes = sizes;
-
             fashionProduct.AvailableColors = colors;
 
             var fashionVariantSmallGreen = CreateFashionVariant("small", "green");
@@ -481,13 +345,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var fashionVariantMediumGreen = CreateFashionVariant("medium", "green");
             var fashionVariantMediumRed = CreateFashionVariant("medium", "red");
 
-            SetRelation(fashionProduct, new[]
-            {
-                fashionVariantSmallGreen,
-                fashionVariantSmallRed,
-                fashionVariantMediumGreen,
-                fashionVariantMediumRed,
-            });
+            SetVariantsToReturn(fashionVariantSmallGreen, fashionVariantSmallRed, fashionVariantMediumGreen, fashionVariantMediumRed);
 
             var result = CreateSubject().SelectVariant(fashionProduct, "red", "small");
 
@@ -502,17 +360,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             fashionProduct.AvailableSizes = sizes;
-
             fashionProduct.AvailableColors = colors;
 
             var fashionVariantSmallGreen = CreateFashionVariant("small", "green");
             var fashionVariantMediumRed = CreateFashionVariant("medium", "red");
 
-            SetRelation(fashionProduct, new[]
-            {
-                fashionVariantSmallGreen,
-                fashionVariantMediumRed,
-            });
+            SetVariantsToReturn(fashionVariantSmallGreen, fashionVariantMediumRed);
 
             var result = CreateSubject().SelectVariant(fashionProduct, "red", "small");
 
@@ -527,109 +380,43 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var fashionProduct = CreateFashionProduct();
             fashionProduct.AvailableSizes = sizes;
-
             fashionProduct.AvailableColors = colors;
 
             var fashionVariantSmallGreen = CreateFashionVariant("small", "green");
             var fashionVariantMediumRed = CreateFashionVariant("medium", "red");
 
-            SetRelation(fashionProduct, new[]
-            {
-                fashionVariantSmallGreen,
-                fashionVariantMediumRed,
-            });
+            SetVariantsToReturn(fashionVariantSmallGreen, fashionVariantMediumRed);
 
             var result = CreateSubject().SelectVariant(fashionProduct, "yellow", "small");
 
             Assert.Null(result);
         }
 
-        private readonly Mock<IPromotionService> _promotionServiceMock;
         private readonly Mock<IContentLoader> _contentLoaderMock;
-        private readonly Mock<IPriceService> _priceServiceMock;
-        private readonly Mock<ICurrentMarket> _currentMarketMock;
-        private readonly FilterPublished _filterPublished;
-        private readonly Mock<CurrencyService> _currencyserviceMock;
-        private readonly Mock<IRelationRepository> _relationRepositoryMock;
-        private readonly Mock<CookieService> _cookieServiceMock;
+        private readonly Mock<IPricingService> _pricingServiceMock;
         private readonly Mock<UrlResolver> _urlResolverMock;
-        private readonly Mock<HttpContextBase> _httpContextBaseMock;
-        private readonly Mock<IMarket> _marketMock;
-        private readonly Mock<LanguageResolver> _languageResolverMock;
-        private readonly Currency _defaultCurrency;
-
+        private readonly Mock<CatalogContentService> _catalogContentServiceMock;
         public CatalogEntryViewModelFactoryTests()
         {
-            _defaultCurrency = Currency.USD;
-
             _urlResolverMock = new Mock<UrlResolver>();
             _contentLoaderMock = new Mock<IContentLoader>();
-            _cookieServiceMock = new Mock<CookieService>();
-            _priceServiceMock = new Mock<IPriceService>();
-            _relationRepositoryMock = new Mock<IRelationRepository>();
-            _promotionServiceMock = new Mock<IPromotionService>();
-
-            var mockPublishedStateAssessor = new Mock<IPublishedStateAssessor>();
-            mockPublishedStateAssessor.Setup(x => x.IsPublished(It.IsAny<IContent>(), It.IsAny<PublishedStateCondition>()))
-                .Returns((IContent content, PublishedStateCondition condition) =>
-                {
-                    var contentVersionable = content as IVersionable;
-                    if (contentVersionable != null)
-                    {
-                        if (contentVersionable.Status == VersionStatus.Published &&
-                            contentVersionable.StartPublish < DateTime.UtcNow &&
-                            contentVersionable.StopPublish > DateTime.UtcNow)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                );
-
-            _filterPublished = new FilterPublished(mockPublishedStateAssessor.Object);
-
-            _marketMock = new Mock<IMarket>();
-            _marketMock.Setup(x => x.DefaultCurrency).Returns(_defaultCurrency);
-            _marketMock.Setup(x => x.MarketId).Returns(new MarketId("Default"));
-            _marketMock.Setup(x => x.MarketName).Returns("Default");
-            _marketMock.Setup(x => x.IsEnabled).Returns(true);
-            _marketMock.Setup(x => x.DefaultLanguage).Returns(new CultureInfo("en"));
-
-            _currentMarketMock = new Mock<ICurrentMarket>();
-            _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
-
-            _currencyserviceMock = new Mock<CurrencyService>(_currentMarketMock.Object, _cookieServiceMock.Object);
-            _currencyserviceMock.Setup(x => x.GetCurrentCurrency()).Returns(_defaultCurrency);
-
-            var request = new Mock<HttpRequestBase>();
-            request.SetupGet(x => x.Headers).Returns(
-                new System.Net.WebHeaderCollection {
-                {"X-Requested-With", "XMLHttpRequest"}
-            });
-
-            _httpContextBaseMock = new Mock<HttpContextBase>();
-            _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
-
-            _languageResolverMock = new Mock<LanguageResolver>();
-            _languageResolverMock.Setup(x => x.GetPreferredCulture()).Returns(CultureInfo.GetCultureInfo("en"));
-
-            SetGetItems(Enumerable.Empty<ContentReference>(), Enumerable.Empty<IContent>());
-            _cookieServiceMock.Setup(x => x.Get("Currency")).Returns((string)null);
+            _pricingServiceMock = new Mock<IPricingService>();
+            _catalogContentServiceMock = new Mock<CatalogContentService>(null,null,null,null,null,null,null);
         }
-     
+
+        private void SetVariantsToReturn(params FashionVariant[] variants)
+        {
+            _catalogContentServiceMock.Setup(x => x.GetVariants<FashionVariant>(It.IsAny<FashionProduct>()))
+                .Returns(() => variants);
+        }
+
         private CatalogEntryViewModelFactory CreateSubject()
         {
             return new CatalogEntryViewModelFactory(
-               _promotionServiceMock.Object,
                _contentLoaderMock.Object,
-               _priceServiceMock.Object,
-               _currentMarketMock.Object,
-               _currencyserviceMock.Object,
-               _relationRepositoryMock.Object,
+               _pricingServiceMock.Object,
                _urlResolverMock.Object,
-               _filterPublished,
-               _languageResolverMock.Object);
+                _catalogContentServiceMock.Object);
         }
 
         private static FashionVariant CreateFashionVariant(string size, string color)
@@ -673,41 +460,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             };
         }
 
-        private void SetRelation(IContent source, IContent target)
-        {
-            SetRelation(source, new[] { target });
-        }
-
-        private void SetRelation(IContent source, IEnumerable<IContent> targets)
-        {
-            SetRelation(source, targets.Select(x => new ProductVariation { Parent = source.ContentLink, Child = x.ContentLink }));
-
-            SetGetItems(new[] { source.ContentLink }, new[] { source });
-            SetGetItems(targets.Select(x => x.ContentLink), targets);
-        }
-
-        private void SetRelation(IContent setup, IEnumerable<ProductVariation> result)
-        {
-            _relationRepositoryMock.Setup(x => x.GetChildren<ProductVariation>(setup.ContentLink)).Returns(result);
-        }
-
-        private void SetGetItems(IEnumerable<ContentReference> setup, IEnumerable<IContent> result)
-        {
-            _contentLoaderMock.Setup(x => x.GetItems(setup, CultureInfo.GetCultureInfo("en"))).Returns(result);
-        }
-
         private void SetDefaultPriceService(IPriceValue returnedPrice)
         {
-            _priceServiceMock
-                .Setup(x => x.GetDefaultPrice(It.IsAny<MarketId>(), It.IsAny<DateTime>(), It.IsAny<CatalogKey>(), _defaultCurrency))
-                .Returns(returnedPrice);
+            _pricingServiceMock.Setup(x => x.GetDefaultPrice(It.IsAny<string>())).Returns(returnedPrice);
         }
 
         private void SetDiscountPriceService(IPriceValue returnedPrice)
         {
-            _promotionServiceMock
-                .Setup(x => x.GetDiscountPrice(It.IsAny<CatalogKey>(), It.IsAny<MarketId>(), _defaultCurrency))
-                .Returns(returnedPrice);
+            _pricingServiceMock.Setup(x => x.GetDiscountPrice(It.IsAny<string>())).Returns(returnedPrice);
         }
 
         private Mock<IPriceValue> CreatePriceValueMock(decimal amount)
@@ -715,18 +475,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
             var mockPriceValue = new Mock<IPriceValue>();
             mockPriceValue.Setup(x => x.ValidFrom).Returns(DateTime.MinValue);
             mockPriceValue.Setup(x => x.ValidUntil).Returns(DateTime.MaxValue);
-            mockPriceValue.Setup(x => x.UnitPrice).Returns(new Money(amount, _defaultCurrency));
+            mockPriceValue.Setup(x => x.UnitPrice).Returns(new Money(amount, Currency.USD));
 
             return mockPriceValue;
-        }
-
-        private void MockPrices()
-        {
-            var mockDefaultPrice = CreatePriceValueMock(25);
-            SetDefaultPriceService(mockDefaultPrice.Object);
-
-            var mockDiscountPrice = CreatePriceValueMock(20);
-            SetDiscountPriceService(mockDiscountPrice.Object);
         }
     }
 }

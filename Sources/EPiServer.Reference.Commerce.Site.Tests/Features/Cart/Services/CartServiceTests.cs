@@ -557,6 +557,24 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             Assert.Equal<Dictionary<ILineItem, List<ValidationIssue>>>(expectedResult, result);
         }
+        
+        [Fact]
+        public void AddToCart_WhenExistSameItemIsGiftInCart_ShouldAddToCart()
+        {
+            var shipment = _cart.GetFirstShipment();
+            var skuCode = "EAN";
+
+            shipment.LineItems.Add(new InMemoryLineItem
+            {
+                Code = skuCode,
+                Quantity = 1,
+                IsGift = true
+            });
+
+            _subject.AddToCart(_cart, skuCode, 1);
+
+            Assert.Equal(2, _cart.GetAllLineItems().Count());
+        }
 
         private readonly Mock<IAddressBookService> _addressBookServiceMock;
         private readonly Mock<CustomerContextFacade> _customerContextFacaceMock;

@@ -1,6 +1,5 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Order;
-using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
@@ -8,46 +7,39 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
     [ServiceConfiguration(typeof(ShipmentViewModelFactory), Lifecycle = ServiceInstanceScope.Singleton)]
     public class ShipmentViewModelFactory
     {
-        private readonly IContentLoader _contentLoader;
+        private readonly CatalogContentService _catalogContentService;
         private readonly ShippingManagerFacade _shippingManagerFacade;
         private readonly LanguageService _languageService;
-        private readonly ReferenceConverter _referenceConverter;
         private readonly IAddressBookService _addressBookService;
         readonly CartItemViewModelFactory _cartItemViewModelFactory;
-        private readonly LanguageResolver _languageResolver;
 
         public ShipmentViewModelFactory(
-            IContentLoader contentLoader,
+            CatalogContentService catalogContentService,
             ShippingManagerFacade shippingManagerFacade,
             LanguageService languageService,
-            ReferenceConverter referenceConverter,
             IAddressBookService addressBookService,
-            CartItemViewModelFactory cartItemViewModelFactory,
-            LanguageResolver languageResolver)
+            CartItemViewModelFactory cartItemViewModelFactory)
         {
-            _contentLoader = contentLoader;
+            _catalogContentService = catalogContentService;
             _shippingManagerFacade = shippingManagerFacade;
             _languageService = languageService;
-            _referenceConverter = referenceConverter;
             _addressBookService = addressBookService;
             _cartItemViewModelFactory = cartItemViewModelFactory;
-            _languageResolver = languageResolver;
         }
 
         public virtual IEnumerable<ShipmentViewModel> CreateShipmentsViewModel(ICart cart)
         {
-            var preferredCulture = _languageResolver.GetPreferredCulture();
             foreach (var shipment in cart.GetFirstForm().Shipments)
             {
                 var shipmentModel = new ShipmentViewModel
@@ -62,8 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                                                  shipmentModel.ShippingMethods.First().Id 
                                                : shipment.ShippingMethodId;
 
-                var entries = _contentLoader.GetItems(shipment.LineItems.Select(x => _referenceConverter.GetContentLink(x.Code)),
-                    preferredCulture).OfType<EntryContentBase>();
+                var entries = _catalogContentService.GetItems<EntryContentBase>(shipment.LineItems.Select(x => x.Code));
 
                 foreach (var lineItem in shipment.LineItems)
                 {
