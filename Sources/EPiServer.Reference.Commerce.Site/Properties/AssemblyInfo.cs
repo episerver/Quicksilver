@@ -7,9 +7,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("EPiServer.Reference.Commerce.Site")]
 [assembly: AssemblyDescription("The EPiServer Commerce MVC reference site")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPiServer AB")]
+[assembly: AssemblyCompany("Episerver")]
 [assembly: AssemblyProduct("EPiServer.Reference.Commerce.Site")]
-[assembly: AssemblyCopyright("Copyright © 2014-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
