@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Shared
         /// </summary>
         /// <param name="orderGroup">The order group.</param>
         /// <param name="payment">The payment.</param>
-        /// /// <returns>The payment processing result.</returns>
+        /// <returns>The payment processing result.</returns>
         public PaymentProcessingResult ProcessPayment(IOrderGroup orderGroup, IPayment payment)
         {
             var creditCardPayment = (ICreditCardPayment)payment;

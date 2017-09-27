@@ -135,12 +135,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var allMarkets = marketService.GetAllMarkets().Where(x => x.IsEnabled).ToList();
             foreach (var language in allMarkets.SelectMany(x => x.Languages).Distinct())
             {
-                var paymentMethodDto = PaymentManager.GetPaymentMethods(language.TwoLetterISOLanguageName);
-                foreach (var method in paymentMethodDto.PaymentMethod)
+                var dto = PaymentManager.GetPaymentMethods(language.TwoLetterISOLanguageName);
+                var workingDto = (PaymentMethodDto) dto.Copy();
+                foreach (var method in workingDto.PaymentMethod)
                 {
                     method.Delete();
                 }
-                PaymentManager.SavePayment(paymentMethodDto);
+                PaymentManager.SavePayment(workingDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
                     "Credit card",
@@ -148,7 +149,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "Credit card payment",
                     "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
                     "EPiServer.Reference.Commerce.Shared.GenericCreditCardPaymentGateway, EPiServer.Reference.Commerce.Shared",
-                    true, 1, allMarkets, language, paymentMethodDto);
+                    true, 1, allMarkets, language, workingDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
                     "Cash on delivery",
@@ -156,7 +157,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "The payment is settled as part of the order delivery.",
                     "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
                     "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
-                    false, 2, allMarkets, language, paymentMethodDto);
+                    false, 2, allMarkets, language, workingDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
                     "Authorize - Pay By Credit Card",
@@ -164,7 +165,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "Authorize - Pay By Credit Card.",
                     "Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce",
                     "Mediachase.Commerce.Plugins.Payment.Authorize.AuthorizePaymentGateway, Mediachase.Commerce.Plugins.Payment",
-                    false, 3, allMarkets, language, paymentMethodDto);
+                    false, 3, allMarkets, language, workingDto);
             }
         }
 
@@ -211,15 +212,16 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             {
                 var languageId = language.TwoLetterISOLanguageName;
                 var dto = ShippingManager.GetShippingMethods(languageId);
-                DeleteShippingMethods(dto);
-                ShippingManager.SaveShipping(dto);
+                var workingDto = (ShippingMethodDto)dto.Copy();
+                DeleteShippingMethods(workingDto);
+                ShippingManager.SaveShipping(workingDto);
 
                 var marketsForCurrentLanguage = enabledMarkets.Where(x => x.Languages.Contains(language));
-                var shippingSet = CreateShippingMethodsForLanguageAndCurrencies(dto, marketsForCurrentLanguage, languageId);
-                ShippingManager.SaveShipping(dto);
+                var shippingSet = CreateShippingMethodsForLanguageAndCurrencies(workingDto, marketsForCurrentLanguage, languageId);
+                ShippingManager.SaveShipping(workingDto);
 
-                AssociateShippingMethodWithMarkets(dto, marketsForCurrentLanguage, shippingSet);
-                ShippingManager.SaveShipping(dto);
+                AssociateShippingMethodWithMarkets(workingDto, marketsForCurrentLanguage, shippingSet);
+                ShippingManager.SaveShipping(workingDto);
             }
         }
 
