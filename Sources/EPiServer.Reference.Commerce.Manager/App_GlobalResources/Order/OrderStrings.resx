@@ -1302,6 +1302,9 @@
   <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
     <value>The product {0} is not available in store and was removed from your cart.</value>
   </data>
+  <data name="LineItem_RemovedDueToInvalidMaxQuantitySetting" xml:space="preserve">
+    <value>The product {0} does not have a valid max quantity setting and was removed from your cart.</value>
+  </data>
   <data name="Currency_Change_Warning" xml:space="preserve">
     <value>Changing currency will set placed price to list price for all items.</value>
   </data>

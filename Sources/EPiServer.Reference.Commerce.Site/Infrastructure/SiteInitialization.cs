@@ -1,3 +1,5 @@
+using EPiServer.Commerce.Marketing;
+using EPiServer.Commerce.Marketing.Promotions;
 using EPiServer.Commerce.Routing;
 using EPiServer.Editor;
 using EPiServer.Framework;
@@ -45,18 +47,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             AreaRegistration.RegisterAllAreas();
 
+#if DISABLE_PROMOTION_TYPES_FEATURE
             DisablePromotionTypes(context);
+#endif
 
-            SetupExcludedPromotionEntries(context);
+#if EXCLUDE_ITEMS_FROM_PROMOTION_ENGINE_FEATURE
+            SetupExcludePromotionEntries(context);
+#endif
 
-            //This method creates and activates the default Recommendations widgets.
-            //It only needs to run once, not every initialization, and only if you use the Recommendations feature.
-            //Instructions:
-            //* Enter the configuration values for Recommendations in web.config
-            //* Make sure that the episerver:RecommendationsSilentMode flag is not set to true.
-            //* Uncomment the following line, compile, start site, comment the line again, compile.
-
-            //SetupRecommendationsWidgets(context);
+#if ACTIVATE_DEFAULT_RECOMMENDATION_WIDGETS_FEATURE
+            SetupRecommendationsWidgets(context);
+#endif
         }
 
         public void ConfigureContainer(ServiceConfigurationContext context)
@@ -76,7 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         locator.GetInstance<ICurrentMarket>(),
                         locator.GetInstance<CookieService>(),
                         defaultImplementation));
-            
+
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
@@ -91,38 +92,60 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 config.MapHttpAttributeRoutes();
             });
 
-            // To support an extended range of characters (outside of what has been defined in RFC1738) in URLs, define UNICODE_CHARACTERS_IN_URL symbol - this should be done both in Commerce Manager and Front-end site.
-            // More information about this feature: http://world.episerver.com/documentation/developer-guides/CMS/routing/internationalized-resource-identifiers-iris/
-
-            // The code block below will allow general Unicode letter characters. 
-            // To support more Unicode blocks, update the regular expression for ValidUrlCharacters.
-            // For example, to support Thai Unicode block, add \p{IsThai} to it.
-            // The supported Unicode blocks can be found here: https://msdn.microsoft.com/en-us/library/20bw873z(v=vs.110).aspx#Anchor_12
-
-#if UNICODE_CHARACTERS_IN_URL
-            context.Services.RemoveAll<UrlSegmentOptions>();
-            context.Services.AddSingleton<UrlSegmentOptions>(s => new UrlSegmentOptions
-            {
-                Encode = true,
-                ValidUrlCharacters = @"\p{L}0-9\-_~\.\$"
-            });
+#if IRI_CHARACTERS_IN_URL_FEATURE
+            EnableIriCharactersInUrls(context);
 #endif
         }
 
         public void Uninitialize(InitializationEngine context) { }
 
-        private void DisablePromotionTypes(InitializationEngine context)
+        /// <summary>
+        /// Enables the IRI characters in Urls.
+        /// </summary>
+        /// <param name="context">The service configuration context.</param>
+        /// <remarks>
+        /// To use this feature, define IRI_CHARACTERS_IN_URL_FEATURE symbol - this should be done both in Commerce Manager and Front-end sites.
+        /// More information about this feature: http://world.episerver.com/documentation/developer-guides/CMS/routing/internationalized-resource-identifiers-iris/
+        /// To support more Unicode blocks, update the regular expression for ValidCharacters.
+        /// For example, to support Thai Unicode block, add \p{IsThai} to it.
+        /// The supported Unicode blocks can be found here: https://msdn.microsoft.com/en-us/library/20bw873z(v=vs.110).aspx#Anchor_12
+        /// </remarks>
+        private void EnableIriCharactersInUrls(ServiceConfigurationContext context)
         {
-            //var promotionTypeHandler = context.Locate.Advanced.GetInstance<PromotionTypeHandler>();
-
-            // To disable one of built-in promotion types, for example the BuyQuantityGetFreeItems promotion, comment out the following codes:
-            //promotionTypeHandler.DisablePromotions(new[] { typeof(BuyQuantityGetFreeItems) });
-
-            // To disable all built-in promotion types, comment out the following codes:
-            //promotionTypeHandler.DisableBuiltinPromotions();
+            context.Services.RemoveAll<UrlSegmentOptions>();
+            context.Services.AddSingleton(s => new UrlSegmentOptions
+            {
+                SupportIriCharacters = true,
+                ValidCharacters = @"\p{L}0-9\-_~\.\$"
+            });
         }
 
-        private void SetupExcludedPromotionEntries(InitializationEngine context)
+        /// <summary>
+        /// Disables promotion types.
+        /// </summary>
+        /// <param name="context">The initialization engine.</param>
+        /// <remarks>
+        /// To use this feature, define DISABLE_PROMOTION_TYPES_FEATURE symbol.
+        /// </remarks>
+        private void DisablePromotionTypes(InitializationEngine context)
+        {
+            var promotionTypeHandler = context.Locate.Advanced.GetInstance<PromotionTypeHandler>();
+
+            // To disable one of the built-in promotion types, for example the BuyQuantityGetFreeItems promotion.
+            promotionTypeHandler.DisablePromotions(new[] { typeof(BuyQuantityGetFreeItems) });
+
+            // To disable all built-in promotion types.
+            promotionTypeHandler.DisableBuiltinPromotions();
+        }
+
+        /// <summary>
+        /// Excludes items from promotion engine.
+        /// </summary>
+        /// <param name="context">The initialization engine.</param>
+        /// <remarks>
+        /// To use this feature, define EXCLUDE_ITEMS_FROM_PROMOTION_ENGINE_FEATURE symbol.
+        /// </remarks>
+        private void SetupExcludePromotionEntries(InitializationEngine context)
         {
             //To exclude some entries from promotion engine we need an implementation of IEntryFilter.
             //In most cases you can just use EntryFilterSettings to configure the default implementation. Otherwise you can create your own implementation of IEntryFilter if needed.
@@ -144,6 +167,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             //filterSettings.AddFilter<EntryContentBase>(x => !ExcludingCodes.Contains(x.Code));
         }
 
+        /// <summary>
+        /// Creates and activates the default Recommendations widgets.
+        /// </summary>
+        /// <param name="context">The initialization engine.</param>
+        /// <remarks>
+        /// To use this feature, define ACTIVATE_DEFAULT_RECOMMENDATION_WIDGETS_FEATURE symbol.
+        /// It only needs to run once, not upon every initialization, and only if you use the Recommendations feature.
+        /// Instructions:
+        ///     Enter the configuration values for Recommendations in web.config.
+        ///     Make sure that the episerver:RecommendationsSilentMode setting is set to false, and other Recommendations settings have proper values.
+        /// </remarks>
         private void SetupRecommendationsWidgets(InitializationEngine context)
         {
             var configuration = context.Locate.Advanced.GetInstance<Recommendations.Configuration>();
@@ -160,7 +194,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             {
                 var error = response.Errors.First();
                 var message = new StringBuilder($"Code: {error.Code}, Message: {error.Error}");
-                
+
                 if (error.Field != null)
                 {
                     message.Append($", Field: {error.Field}");
