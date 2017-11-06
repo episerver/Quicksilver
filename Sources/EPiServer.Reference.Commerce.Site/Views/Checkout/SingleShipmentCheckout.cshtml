@@ -1,4 +1,6 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
+﻿@using EPiServer.Personalization.Commerce.Extensions
+@using EPiServer.Tracking.Commerce
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
 @{
     if (Request.IsAjaxRequest())
     {
@@ -120,5 +122,10 @@
                 }
             </div>
         </div>
+
+        @if (Request.IsAjaxRequest())
+        {
+            @Html.SetupOnLoadTracking()
+        }
     </form>
 </div>

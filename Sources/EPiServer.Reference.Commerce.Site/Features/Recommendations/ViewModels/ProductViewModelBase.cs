@@ -1,4 +1,4 @@
-﻿using EPiServer.Recommendations.Commerce.Tracking;
+﻿using EPiServer.Personalization.Commerce.Tracking;
 using System.Collections.Generic;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels

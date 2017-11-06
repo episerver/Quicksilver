@@ -1,5 +1,5 @@
 using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using Mediachase.Search;
 using System.Collections.Generic;

@@ -1,14 +1,13 @@
-﻿using EPiServer.Recommendations.Tracking;
-using EPiServer.Recommendations.Tracking.Data;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
-using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Catalog;
-using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {
@@ -28,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(FashionProduct currentContent, string entryCode = "", bool useQuickview = false, bool skipTracking = false)
+        public async Task<ActionResult> Index(FashionProduct currentContent, string entryCode = "", bool useQuickview = false, bool skipTracking = false)
         {
             var viewModel = _viewModelFactory.Create(currentContent, entryCode);
            
@@ -47,20 +46,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             {
                 if (!skipTracking)
                 {
-                    _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Disabled);
+                    await _recommendationService.TrackProduct(HttpContext, currentContent.Code, true);
                 }
 
                 return PartialView("_Quickview", viewModel);
             }
 
-            var trackingResponse = new TrackingResponseData();
             if (!skipTracking)
             {
-                trackingResponse = _recommendationService.SendProductTracking(HttpContext, currentContent.Code, RetrieveRecommendationMode.Enabled);
-            }
+                var trackingResult = await _recommendationService.TrackProduct(HttpContext, currentContent.Code, false);
 
-            viewModel.AlternativeProducts = trackingResponse.GetAlternativeProductsRecommendations(_referenceConverter).Take(3);
-            viewModel.CrossSellProducts = trackingResponse.GetCrossSellProductsRecommendations(_referenceConverter);
+                viewModel.AlternativeProducts =
+                    trackingResult?.GetAlternativeProductsRecommendations(_referenceConverter).Take(3);
+                viewModel.CrossSellProducts =
+                    trackingResult?.GetCrossSellProductsRecommendations(_referenceConverter);
+            }
 
             return Request.IsAjaxRequest() ? PartialView(viewModel) : (ActionResult)View(viewModel);
         }
@@ -75,7 +75,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             }
 
             return HttpNotFound();
-
         }
     }
 }

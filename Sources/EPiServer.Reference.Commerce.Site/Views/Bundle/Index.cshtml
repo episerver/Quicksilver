@@ -1,5 +1,4 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionBundleViewModel
-
 <div class="row jsProductDetails">
     <div class="col-xs-12 col-sm-4 col--leading">
         <div id="product-carousel" class="carousel slide" data-ride="carousel">
@@ -85,6 +84,12 @@
     }
 }
 
-@section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.AlternativeProducts });}}
-
-@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.CrossSellProducts });}}
+@if (@Functions.UseClientSideTracking())
+{
+    @section RecommendationsContextSettings { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 2 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom"}] }
+}
+else
+{
+    @section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.AlternativeProducts}); }}
+    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.CrossSellProducts}); }}
+}

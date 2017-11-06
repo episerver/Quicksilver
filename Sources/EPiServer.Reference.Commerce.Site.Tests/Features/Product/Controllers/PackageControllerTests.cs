@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.Features.Product.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using Moq;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers

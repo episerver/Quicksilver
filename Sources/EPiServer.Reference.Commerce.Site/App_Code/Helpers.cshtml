@@ -7,10 +7,13 @@
 @using Mediachase.Commerce
 @using EPiServer.ServiceLocation
 @using Mediachase.Commerce.Markets
+@using EPiServer.Reference.Commerce.Site.Features.Market.Services
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using EPiServer.Core;
+@using EPiServer.Core
+@using EPiServer.Shell.Web.Mvc.Html
 @using EPiServer.Web.Routing
-
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
 @functions
 {
     private static WebViewPage page { get { return PageContext.Page as WebViewPage; } }
@@ -36,6 +39,45 @@
         var languages = allMarkets.SelectMany(x => x.Languages).Distinct();
         return languages.Select(l => l.Name);
     }
+
+    private static string GetLocaleSettings()
+    {
+        var currencyService = ServiceLocator.Current.GetInstance<ICurrencyService>();
+        var currencyCultureMappings = new Dictionary<string, string>();
+        currencyCultureMappings.Add("AUD", "en-AU");
+        currencyCultureMappings.Add("BRL", "pt-BR");
+        currencyCultureMappings.Add("CAD", "en-CA");
+        currencyCultureMappings.Add("CLP", "arn-CL");
+        currencyCultureMappings.Add("EUR", "de-DE");
+        currencyCultureMappings.Add("JPY", "ja-JP");
+        currencyCultureMappings.Add("NOK", "se-NO");
+        currencyCultureMappings.Add("SAR", "ar-SA");
+        currencyCultureMappings.Add("SEK", "sv-SE");
+        currencyCultureMappings.Add("GBP", "en-GB");
+        currencyCultureMappings.Add("USD", "en-US");
+
+        var currency = currencyService.GetCurrentCurrency();
+        var localeSettings = new
+        {
+            culture = currencyCultureMappings[currency.CurrencyCode],
+            currencyCode = currency.CurrencyCode,
+            currencyDigits = currency.Format.CurrencyDecimalDigits,
+            currencySymbol = currency.Format.CurrencySymbol,
+            notAvailable = page.Html.Translate("/Product/NotAvailable")
+        };
+
+        return "localeSettings: " + Serialize(localeSettings);
+    }
+
+    private static string Serialize(object obj)
+    {
+        return JsonConvert.SerializeObject(obj, SerializerSettings);
+    }
+
+    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+    {
+        ContractResolver = new CamelCasePropertyNamesContractResolver()
+    };
 }
 
 @helper RenderHrefLangs(ContentReference requestContentLink, string defaultLanguage)
@@ -52,6 +94,14 @@
     @page.Html.Raw(CreateAlternateLinkWithHrefLang(GetAbsoluteUrl(requestContentLink, defaultLanguage), "x-default"));
 }
 
+@helper RenderContextSettings()
+{
+    var contextSettingsSection = page.RenderSection("RecommendationsContextSettings", false);
+    var settings = contextSettingsSection == null ? null : contextSettingsSection.ToString().Trim();
+    var contextSettings = "{" + string.Join(",", (new[] { settings, GetLocaleSettings() }).Where(x => !string.IsNullOrEmpty(x))) + "}";
+    @page.Html.Raw(contextSettings)
+}
+
 @helper RenderMoney(decimal amount, Currency currency)
 {
     Money money = new Money(amount, currency);
@@ -60,9 +110,9 @@
 
 @helper RenderMoney(Money money)
 {
-    <span>
-        @page.Html.Raw(money.ToString().Replace(money.Currency.Format.CurrencySymbol, @"<span class=""product-price__currency-marker"">" + money.Currency.Format.CurrencySymbol + "</span>"))
-    </span>
+<span>
+    @page.Html.Raw(money.ToString().Replace(money.Currency.Format.CurrencySymbol, @"<span class=""product-price__currency-marker"">" + money.Currency.Format.CurrencySymbol + "</span>"))
+</span>
 }
 
 @helper RenderSize(EntryContentBase content)
@@ -80,9 +130,9 @@
     var variant = cartItem.Entry as FashionVariant;
     if (variant != null)
     {
-        <span>
-            @page.Html.Hidden("size", variant.Size.Trim())
-            @page.Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, variant.Size), new { @class = "form-control cart-control jsChangeCartItem" })
-        </span>
+    <span>
+        @page.Html.Hidden("size", variant.Size.Trim())
+        @page.Html.DropDownList("newSize", new SelectList(cartItem.AvailableSizes, variant.Size), new { @class = "form-control cart-control jsChangeCartItem" })
+    </span>
     }
 }

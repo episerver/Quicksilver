@@ -6,15 +6,17 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Web;
 using EPiServer.Globalization;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Widgets;
+using EPiServer.Personalization.Commerce;
+using EPiServer.Personalization.Commerce.Widgets;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.ServiceLocation;
+using EPiServer.Tracking.Commerce;
 using EPiServer.Web;
+using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Newtonsoft.Json;
@@ -30,7 +32,6 @@ using System.Web.WebPages;
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
     [ModuleDependency(typeof(EPiServer.Commerce.Initialization.InitializationModule))]
-    [ModuleDependency(typeof(Recommendations.Commerce.InitializationModule))]
     public class SiteInitialization : IConfigurableModule
     {
         public void Initialize(InitializationEngine context)
@@ -64,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var services = context.Services;
 
-            services.AddSingleton<IClickTrackingService, ClickTrackingService>();
+            services.AddSingleton<IRecommendationContext, RecommendationContext>();
 
             services.AddSingleton<ICurrentMarket, CurrentMarket>();
 
@@ -81,6 +82,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
+
+            services.AddSingleton<ServiceAccessor<IContentRouteHelper>>(locator => locator.GetInstance<IContentRouteHelper>);
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.StructureMap()));
             GlobalConfiguration.Configure(config =>
@@ -180,9 +183,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         /// </remarks>
         private void SetupRecommendationsWidgets(InitializationEngine context)
         {
-            var configuration = context.Locate.Advanced.GetInstance<Recommendations.Configuration>();
+            var configuration = context.Locate.Advanced.GetInstance<PersonalizationClientConfiguration>();
 
-            if (configuration.SilentMode)
+            if (!configuration.TrackingEnabled)
             {
                 return;
             }

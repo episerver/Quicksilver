@@ -16,10 +16,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
     public class CategoryControllerTests
     {
         [Fact]
-        public void Index_ShouldReturnViewResult()
+        public async void Index_ShouldReturnViewResult()
         {
             // Act
-            var result = _subject.Index(null, null);
+            var result = await _subject.Index(null, null);
 
             // Assert
             Assert.IsType(typeof(ViewResult), result);
@@ -36,26 +36,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public void Index_WhenPassingFashionNode_ShouldPassItOnToFactory()
+        public async void Index_WhenPassingFashionNode_ShouldPassItOnToFactory()
         {
             // Arrange
             var fashionNode = new FashionNode();
 
             // Act
-            _subject.Index(fashionNode, null);
+            await _subject.Index(fashionNode, null);
 
             // Assert
             _viewModelFactoryMock.Verify(v => v.Create(fashionNode, It.IsAny<FilterOptionViewModel>()));
         }
 
         [Fact]
-        public void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
+        public async void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
         {
             // Arrange
             var formModel = new FilterOptionViewModel();
 
             // Act
-            _subject.Index(null, formModel);
+            await _subject.Index(null, formModel);
 
             // Assert
             _viewModelFactoryMock.Verify(v => v.Create(It.IsAny<FashionNode>(), formModel));

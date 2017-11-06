@@ -251,10 +251,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             cart.UpdatePlacedPriceOrRemoveLineItems(_customerContext.GetContactById(cart.CustomerId), (item, issue) => validationIssues.AddValidationIssues(item, issue), _placedPriceProcessor);
             cart.UpdateInventoryOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _inventoryProcessor);
 
-            cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+            ApplyDiscounts(cart);
 
             // Try to validate gift items inventory and don't catch validation issues.
-            cart.UpdateInventoryOrRemoveLineItems((item, issue) => {
+            cart.UpdateInventoryOrRemoveLineItems((item, issue) =>
+            {
                 if (!item.IsGift)
                 {
                     validationIssues.AddValidationIssues(item, issue);
@@ -312,7 +313,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 return false;
             }
             couponCodes.Add(couponCode);
-            var rewardDescriptions = cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+            var rewardDescriptions = ApplyDiscounts(cart);
             var appliedCoupons = rewardDescriptions
                 .Where(r => r.AppliedCoupon != null)
                 .Select(r => r.AppliedCoupon);
@@ -328,7 +329,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         public void RemoveCouponCode(ICart cart, string couponCode)
         {
             cart.GetFirstForm().CouponCodes.Remove(couponCode);
-            cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+            ApplyDiscounts(cart);
+        }
+
+        public IEnumerable<RewardDescription> ApplyDiscounts(ICart cart)
+        {
+            return cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
         }
 
         private void RemoveLineItem(ICart cart, int shipmentId, string code)

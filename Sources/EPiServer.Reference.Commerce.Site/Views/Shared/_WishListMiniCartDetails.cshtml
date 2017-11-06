@@ -1,4 +1,5 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+﻿@using EPiServer.Personalization.Commerce.Extensions
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListMiniCartViewModel
 
 <div class="product-dropdown cart-dropdown product-row list-unstyled">
@@ -67,3 +68,8 @@
         </ul>
     </div>
 </div>
+
+@if (Request.IsAjaxRequest())
+{
+    @Html.SetupOnLoadTracking()
+}

@@ -1,5 +1,6 @@
 ﻿using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Personalization.Commerce.Tracking;
+using EPiServer.Tracking.Commerce;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using System.Collections.Generic;
 

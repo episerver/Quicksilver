@@ -1,17 +1,16 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
+using EPiServer.Tracking.Commerce;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
 {
@@ -31,16 +30,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             _marketContentFilter = marketContentFilter;
         }
 
-        [Tracking(TrackingType.Home)]
+        [CommerceTracking(TrackingType.Home)]
         public ViewResult Index(StartPage currentPage)
         {
             var viewModel = new StartPageViewModel()
             {
                 StartPage = currentPage,
-                Promotions = GetActivePromotions(),
-                Recommendations = this.GetHomeRecommendations()
+                Recommendations = this.GetHomeRecommendations(),
+                Promotions = GetActivePromotions()
             };
-            
+
             return View(viewModel);
         }
 

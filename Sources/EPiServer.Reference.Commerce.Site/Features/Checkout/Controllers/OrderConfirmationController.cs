@@ -1,4 +1,5 @@
-﻿using EPiServer.Commerce.Order;
+﻿using System.Threading.Tasks;
+using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
@@ -27,7 +28,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(OrderConfirmationPage currentPage, string notificationMessage, int? orderNumber)
+        public async Task<ActionResult> Index(OrderConfirmationPage currentPage, string notificationMessage, int? orderNumber)
         {
             IPurchaseOrder order = null;
             if (PageEditing.PageIsInEditMode)
@@ -40,7 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
                 if (order != null)
                 {
-                    _recommendationService.SendOrderTracking(HttpContext, order);
+                    await _recommendationService.TrackOrder(HttpContext, order);
                 }
             }
 

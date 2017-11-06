@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+﻿using System.Threading.Tasks;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
@@ -17,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
 
         public CategoryController(
             SearchViewModelFactory viewModelFactory,
-            IRecommendationService recommendationService, 
+            IRecommendationService recommendationService,
             ReferenceConverter referenceConverter)
         {
             _viewModelFactory = viewModelFactory;
@@ -26,16 +27,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ViewResult Index(FashionNode currentContent, FilterOptionViewModel viewModel)
+        public async Task<ViewResult> Index(FashionNode currentContent, FilterOptionViewModel viewModel)
         {
             var model = _viewModelFactory.Create(currentContent, viewModel);
 
             if (HttpContext.Request.HttpMethod == "GET")
             {
-                var response = _recommendationService.SendCategoryTracking(HttpContext, currentContent);
-                model.Recommendations = response.GetCategoryRecommendations(_referenceConverter);
+                var trackingResult = await _recommendationService.TrackCategory(HttpContext, currentContent);
+                model.Recommendations = trackingResult.GetCategoryRecommendations(_referenceConverter);
             }
-            
+
             return View(model);
         }
 

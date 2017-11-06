@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
@@ -44,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult AddToCart(string code)
+        public async Task<ActionResult> AddToCart(string code)
         {
             string warningMessage = string.Empty;
 
@@ -59,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(Cart);
-                _recommendationService.SendCartTrackingData(HttpContext);
+                await _recommendationService.TrackCart(HttpContext);
                 return MiniCartDetails();
             }
             
@@ -68,13 +69,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
+        public async Task<ActionResult> ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
 
             _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
             _orderRepository.Save(Cart);
-            _recommendationService.SendCartTrackingData(HttpContext);
+            await _recommendationService.TrackCart(HttpContext);
             return MiniCartDetails();
         }
 

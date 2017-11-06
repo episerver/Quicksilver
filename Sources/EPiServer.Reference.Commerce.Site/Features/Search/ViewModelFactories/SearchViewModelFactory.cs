@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using Mediachase.Search;
+using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
-using EPiServer.Recommendations.Commerce.Tracking;
+using Mediachase.Search;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
 {

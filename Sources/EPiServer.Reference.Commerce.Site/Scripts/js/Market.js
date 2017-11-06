@@ -1,12 +1,12 @@
 ﻿var Market = {
     init: function () {
         $(document)
-            .on('change ', '.jsMarketSelector', Market.setMarket)
-            .on('change ', '.jsLanguageSelector', Market.setLanguage)
-            .on('change ', '.jsCurrencySelector', Market.setCurrency);
+            .on("change ", ".jsMarketSelector", Market.setMarket)
+            .on("change ", ".jsLanguageSelector", Market.setLanguage)
+            .on("change ", ".jsCurrencySelector", Market.setCurrency);
     },
     setMarket: function () {
-        var form = $(this).closest('form');
+        var form = $(this).closest("form");
         $.ajax({
             type: "POST",
             url: form[0].action,
@@ -17,7 +17,7 @@
         });
     },
     setLanguage: function (e) {
-        var form = $(this).closest('form');
+        var form = $(this).closest("form");
         $.ajax({
             type: "POST",
             url: form[0].action,
@@ -28,7 +28,7 @@
         });
     },
     setCurrency: function (e) {
-        var form = $(this).closest('form');
+        var form = $(this).closest("form");
         $.ajax({
             type: "POST",
             url: form[0].action,
@@ -37,5 +37,8 @@
                 document.location = response.returnUrl;
             }
         });
+    },
+    getSelectedCurrency: function () {
+        return $("#CurrencyCode").val() || "USD";
     }
 }

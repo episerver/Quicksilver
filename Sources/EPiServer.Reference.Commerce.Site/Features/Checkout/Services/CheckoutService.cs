@@ -97,11 +97,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             }
         }
 
-        public virtual void ApplyDiscounts(ICart cart)
-        {
-            cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
-        }
-
         public virtual void CreateAndAddPaymentToCart(ICart cart, CheckoutViewModel viewModel)
         {
             // Clean up payments in cart on payment provider site.

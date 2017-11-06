@@ -1,9 +1,8 @@
-﻿using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
-using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Tracking.Commerce;
 using EPiServer.Web.Mvc;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [HttpGet]
-        [Tracking(TrackingType.Product)]
+        [CommerceTracking(TrackingType.Product)]
         public ActionResult Index(FashionPackage currentContent, bool useQuickview = false)
         {
             var viewModel = _viewModelFactory.Create(currentContent);

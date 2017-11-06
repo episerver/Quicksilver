@@ -1,12 +1,10 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionNode>
-
 @{
     if (Request.IsAjaxRequest())
     {
         Layout = null;
     }
 }
-
 <div class="container-fluid">
     <div class="row category-page">
         @using (Html.BeginForm("Index", "Category", FormMethod.Get, new { @class = "jsSearchForm" }))
@@ -28,4 +26,11 @@
     </div>
 </div>
 
-@section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.Recommendations });}}
+@if (@Functions.UseClientSideTracking())
+{
+    @section RecommendationsContextSettings { sectionMappings: [{ area: "categoryWidget", selector: ".recommendations-bottom" }] }
+}
+else
+{
+    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.Recommendations}); }}
+}

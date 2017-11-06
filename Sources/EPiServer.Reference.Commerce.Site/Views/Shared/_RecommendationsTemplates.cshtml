@@ -1,0 +1,25 @@
+﻿<script id="epiRecommendationListTemplate" type="x-tmpl-mustache">
+    {{#recs}}<div class="jsProductTile product-row__tile" data-recommendation-id="{{id}}">{{> epiRecommendationItemTemplate}}</div>{{/recs}}
+</script>
+<script id="epiRecommendationItemTemplate" type="x-tmpl-mustache">
+    {{#hasDiscount}}<div class="product has-discount">{{/hasDiscount}}
+    {{^hasDiscount}}<div class="product">{{/hasDiscount}}
+        <a href="{{#getRelativeUrl}}url{{/getRelativeUrl}}" class="link--black">
+            <div class="view-details"></div>
+            <img src="{{#getRelativeUrl}}img{{/getRelativeUrl}}" alt="{{refCode}}" class="img-responsive" />
+            <h3 class="product-title">{{title}}</h3>
+            <div>
+                {{#hasDiscount}}
+                <h4 class="product-price">{{#formatPrice}}unitPrice{{/formatPrice}}</h4>
+                <h4 class="product-price product-price--discount">{{#formatPrice}}salePrice{{/formatPrice}}</h4>
+                {{/hasDiscount}}
+                {{^hasDiscount}}
+                <h4 class="product-price">{{#formatPrice}}salePrice{{/formatPrice}}</h4>
+                {{/hasDiscount}}
+            </div>
+        </a>
+    </div>
+    <div class="quick-view-btn-container">
+        <button type="button" data-toggle="modal" data-target="#ModalDialog" data-url="{{#getRelativeUrl}}url{{/getRelativeUrl}}" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
+    </div>
+</script>

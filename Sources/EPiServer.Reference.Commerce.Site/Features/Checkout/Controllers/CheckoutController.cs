@@ -1,7 +1,5 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
@@ -15,6 +13,7 @@ using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
@@ -53,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         [HttpGet]
         [OutputCache(Duration = 0, NoStore = true)]
-        public ActionResult Index(CheckoutPage currentPage)
+        public async Task<ActionResult> Index(CheckoutPage currentPage)
         {
             if (CartIsNullOrEmpty())
             {
@@ -67,10 +66,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _checkoutService.UpdateShippingAddresses(Cart, viewModel);
 
             _checkoutService.UpdateShippingMethods(Cart, viewModel.Shipments);
-            _checkoutService.ApplyDiscounts(Cart);
+            _cartService.ApplyDiscounts(Cart);
             _orderRepository.Save(Cart);
 
-            _recommendationService.SendCheckoutTrackingData(HttpContext);
+            await _recommendationService.TrackCheckout(HttpContext);
 
             _checkoutService.ProcessPaymentCancel(viewModel, TempData, ControllerContext);
 
@@ -96,7 +95,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ModelState.Clear();
 
             _checkoutService.UpdateShippingMethods(Cart, shipmentViewModel.Shipments);
-            _checkoutService.ApplyDiscounts(Cart);
+            _cartService.ApplyDiscounts(Cart);
             _orderRepository.Save(Cart);
 
             var viewModel = CreateCheckoutViewModel(currentPage, paymentOption);

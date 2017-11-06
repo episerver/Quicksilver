@@ -1,0 +1,13 @@
+﻿@using EPiServer.ServiceLocation
+@using EPiServer.Personalization.Commerce
+@functions
+{
+
+    private static readonly Injected<PersonalizationClientConfiguration> _personalizationClientConfiguration =
+        default(Injected<PersonalizationClientConfiguration>);
+
+    public static bool UseClientSideTracking()
+    {
+        return _personalizationClientConfiguration.Service.TrackingMode == TrackingMode.ClientSide;
+    }
+}

@@ -1,5 +1,5 @@
 ﻿using EPiServer.Core;
-using EPiServer.Recommendations.Tracking.Data;
+using EPiServer.Tracking.Commerce.Data;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.Controllers;
@@ -23,18 +23,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
     public class SearchControllerTests
     {
         [Fact]
-        public void Index_ShouldReturnViewModel()
+        public async void Index_ShouldReturnViewModel()
         {
-            var result = ((ViewResult)_subject.Index(new SearchPage(), new FilterOptionViewModel())).Model as SearchViewModel<SearchPage>;
+            var result = ((ViewResult) await _subject.Index(new SearchPage(), new FilterOptionViewModel())).Model as SearchViewModel<SearchPage>;
             result.ShouldBeEquivalentTo(_searchViewModel);
         }
 
         [Fact]
-        public void Index_WhenBrowsingFirstResultPage_ShouldSendSearchTracking()
+        public async void Index_WhenBrowsingFirstResultPage_ShouldSendSearchTracking()
         {
-            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
+            await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
-               x => x.SendSearchTracking(
+               x => x.TrackSearch(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.Is<IEnumerable<string>>(y => y.Single() == _searchViewModel.ProductViewModels.Single().Code)
@@ -43,19 +43,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public void Index_WhenBrowsingFirstResultPage_ShouldSetHttpContextVariable()
+        public async void Index_WhenBrowsingFirstResultPage_ShouldSetHttpContextVariable()
         {
-            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
+            await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             Assert.Equal(1, _httpContextMock.Object.Items.Count);
             Assert.True(_httpContextMock.Object.Items.Contains(SearchTrackingData.TotalSearchResultsKey));
         }
 
         [Fact]
-        public void Index_WhenBrowsingNextResultPage_ShouldNotSendSearchTracking()
+        public async void Index_WhenBrowsingNextResultPage_ShouldNotSendSearchTracking()
         {
-            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 2 });
+            await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 2 });
             _recommendationServiceMock.Verify(
-               x => x.SendSearchTracking(
+               x => x.TrackSearch(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.IsAny<IEnumerable<string>>()
@@ -64,13 +64,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public void Index_WhenUsingFacetFiltersInFirstResultPage_ShouldNotSendSearchTracking()
+        public async void Index_WhenUsingFacetFiltersInFirstResultPage_ShouldNotSendSearchTracking()
         {
             _httpRequestMock.SetupGet(x => x.HttpMethod).Returns("POST");
 
-            _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
+            await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
-               x => x.SendSearchTracking(
+               x => x.TrackSearch(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.IsAny<IEnumerable<string>>()
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         {
             var result = ((ViewResult)_subject.QuickSearch("test")).Model as ProductTileViewModel[];           
             _recommendationServiceMock.Verify(
-                x => x.SendSearchTracking(
+                x => x.TrackSearch(
                     It.IsAny<HttpContextBase>(),
                     It.IsAny<string>(),
                     It.IsAny<IEnumerable<string>>()),
@@ -145,10 +145,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                         DiscountedPrice = new Money(10, Currency.USD)
                     }
                 });
-
-            _recommendationServiceMock
-                .Setup(x => x.SendSearchTracking(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
-                .Returns(() => GetTestResponseData());
 
             _referenceConverterMock
                 .Setup(x => x.GetContentLink(It.IsAny<string>()))

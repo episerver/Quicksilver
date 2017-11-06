@@ -1,12 +1,9 @@
 ﻿@using EPiServer.Commerce.Marketing
 @using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels
-@using EPiServer.Reference.Commerce.Site.Features.Recommendations
-
 @model StartPageViewModel
 @{
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
@@ -27,7 +24,6 @@
         </div>
     </div>
 </div>
-
 @foreach (var promotion in promotions)
 {
     <div class="container-fluid product-row">
@@ -41,10 +37,17 @@
                 @foreach (var promotionItem in promotion.Items)
                 {
                     <div class="jsProductTile product-row__tile col-xs-12 col-sm-6 col-lg-4">@{Html.RenderContentData(promotionItem, false);}</div>
-                        }
+                }
             </div>
         </div>
     </div>
-                        }
+}
 
-@section RightMarginRecommendations {@{Html.RenderAction("Index", "Recommendations", new { recommendations = Model.Recommendations });}}
+@if (@Functions.UseClientSideTracking())
+{
+    @section RecommendationsContextSettings { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] }
+}
+else
+{
+    @section RightMarginRecommendations {@{Html.RenderAction("Index", "Recommendations", new { recommendations = Model.Recommendations });}}
+}
