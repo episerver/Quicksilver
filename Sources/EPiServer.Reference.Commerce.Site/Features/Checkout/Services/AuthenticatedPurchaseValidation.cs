@@ -1,7 +1,7 @@
-using System.Linq;
-using System.Web.Mvc;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
@@ -26,6 +26,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             if (string.IsNullOrEmpty(viewModel.BillingAddress.AddressId))
             {
                 modelState.AddModelError("BillingAddress.AddressId", LocalizationService.GetString("/Shared/Address/Form/Empty/BillingAddress"));
+            }
+
+            if (string.IsNullOrEmpty(viewModel.BillingAddress.Email))
+            {
+                modelState.AddModelError("BillingAddress.Email", LocalizationService.GetString("/Checkout/Billing/Errors/EmptyEmail"));
             }
 
             return modelState.IsValid;

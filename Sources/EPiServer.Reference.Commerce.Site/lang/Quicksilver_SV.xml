@@ -135,6 +135,9 @@
       </Payment>
       <Billing>
         <Heading>Faktureringsadress</Heading>
+        <Errors>
+          <EmptyEmail>Faktureringsadress: E-post krävs</EmptyEmail>
+        </Errors>
       </Billing>
       <Shipment>
         <ShippingTo>Levereras till:</ShippingTo>

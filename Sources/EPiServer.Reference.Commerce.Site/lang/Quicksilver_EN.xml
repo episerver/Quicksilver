@@ -135,6 +135,9 @@
       </Payment>
       <Billing>
         <Heading>Billing address</Heading>
+        <Errors>
+          <EmptyEmail>Billing address: Email is required</EmptyEmail>
+        </Errors>
       </Billing>
       <Shipment>
         <ShippingTo>Shipping to:</ShippingTo>

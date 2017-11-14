@@ -145,7 +145,7 @@ insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
 
 set @RoleId = NEWID();
 set @UserId = NEWID();
-set @Email = 'webaadmin@example.com';
+set @Email = 'webadmin@example.com';
 insert into AspNetRoles(Id, Name) Values(@RoleId, 'WebEditors');
 insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
 values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);

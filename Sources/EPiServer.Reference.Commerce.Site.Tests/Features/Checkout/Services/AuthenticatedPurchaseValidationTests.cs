@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using EPiServer.Framework.Localization;
+﻿using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
@@ -18,12 +18,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var modelState = new ModelStateDictionary();
             var viewModel = new CheckoutViewModel
             {
-                BillingAddress = new AddressModel { AddressId = "addressId" },
+                BillingAddress = new AddressModel { AddressId = SampleAddressId, Email = SampleEmail },
                 Shipments = new List<ShipmentViewModel>
                 {
                     new ShipmentViewModel
                     {
-                        Address = new AddressModel { AddressId = "addressId"},
+                        Address = new AddressModel { AddressId = SampleAddressId},
                         ShippingMethodId = Guid.NewGuid()
                     }
                 }
@@ -41,12 +41,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var modelState = new ModelStateDictionary();
             var viewModel = new CheckoutViewModel
             {
-                BillingAddress = new AddressModel { AddressId = "addressId" },
+                BillingAddress = new AddressModel { AddressId = SampleAddressId, Email = SampleEmail },
                 Shipments = new List<ShipmentViewModel>
                 {
                     new ShipmentViewModel
                     {
-                        Address = new AddressModel { AddressId = "addressId"},
+                        Address = new AddressModel { AddressId = SampleAddressId},
                     }
                 }
             };
@@ -63,7 +63,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var modelState = new ModelStateDictionary();
             var viewModel = new CheckoutViewModel
             {
-                BillingAddress = new AddressModel { AddressId = "addressId" },
+                BillingAddress = new AddressModel { AddressId = SampleAddressId, Email = SampleEmail },
                 Shipments = new List<ShipmentViewModel>
                 {
                     new ShipmentViewModel
@@ -81,17 +81,40 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
         }
 
         [Fact]
-        public void ValidateModel_WhenBillingAddressIsInvalid_ShouldFailValidation()
+        public void ValidateModel_WhenBillingAddressIdIsEmpty_ShouldFailValidation()
         {
             var modelState = new ModelStateDictionary();
             var viewModel = new CheckoutViewModel
             {
-                BillingAddress = new AddressModel (),
+                BillingAddress = new AddressModel() { Email = SampleEmail },
                 Shipments = new List<ShipmentViewModel>
                 {
                     new ShipmentViewModel
                     {
-                        Address = new AddressModel { AddressId = "addressId"},
+                        Address = new AddressModel { AddressId = SampleAddressId},
+                        ShippingMethodId = Guid.NewGuid()
+                    }
+                }
+            };
+
+            var result = _subject.ValidateModel(modelState, viewModel);
+
+            Assert.False(modelState.IsValid);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void ValidateModel_WhenBillingAddressEmailIsEmpty_ShouldFailValidation()
+        {
+            var modelState = new ModelStateDictionary();
+            var viewModel = new CheckoutViewModel
+            {
+                BillingAddress = new AddressModel { AddressId = SampleAddressId },
+                Shipments = new List<ShipmentViewModel>
+                {
+                    new ShipmentViewModel
+                    {
+                        Address = new AddressModel { AddressId = SampleAddressId},
                         ShippingMethodId = Guid.NewGuid()
                     }
                 }
@@ -104,6 +127,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
         }
 
         private readonly AuthenticatedPurchaseValidation _subject;
+        private const string SampleAddressId = "addressId";
+        private const string SampleEmail = "email@sample.com";
 
         public AuthenticatedPurchaseValidationTests()
         {
