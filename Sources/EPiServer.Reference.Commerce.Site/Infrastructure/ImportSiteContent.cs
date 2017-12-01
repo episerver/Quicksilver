@@ -36,6 +36,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
+using AppContext = Mediachase.Commerce.Core.AppContext;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {

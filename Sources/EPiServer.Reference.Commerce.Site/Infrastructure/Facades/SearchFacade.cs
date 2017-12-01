@@ -5,6 +5,7 @@ using Mediachase.Commerce.Website.Search;
 using Mediachase.Search;
 using Mediachase.Search.Extensions;
 using StringCollection = System.Collections.Specialized.StringCollection;
+using AppContext = Mediachase.Commerce.Core.AppContext;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 {
