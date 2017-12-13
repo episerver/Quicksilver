@@ -52,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Controllers
             var authenticationManager = new Mock<IAuthenticationManager>();
             var userStore = new Mock<IUserStore<SiteUser>>();
             var userManager = new Mock<ApplicationUserManager<SiteUser>>(userStore.Object);
-            var customercontextFacadeMock = new Mock<CustomerContextFacade>();
+            var customercontextFacadeMock = new Mock<CustomerContextFacade>(null);
             var signInManager = new Mock<ApplicationSignInManager<SiteUser>>(userManager.Object, authenticationManager.Object, new ApplicationOptions());
             var request = new Mock<HttpRequestBase>();
             var httpContext = new Mock<HttpContextBase>();

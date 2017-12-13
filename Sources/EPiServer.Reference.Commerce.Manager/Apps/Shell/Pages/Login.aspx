@@ -1,4 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Login" CodeBehind="Login.aspx.cs" %>
+
 <%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <script runat="server">
     protected override void OnPreInit(EventArgs e)
@@ -7,33 +8,32 @@
         // http://www.p3pwriter.com/LRN_111.asp
         // the compact policy string using here is taken from http://msdn.microsoft.com/en-us/library/ms537341%28v=vs.85%29.aspx
         System.Web.HttpContext.Current.Response.AddHeader("p3p", "CP=\"NOI ADM DEV PSAi COM NAV OUR OTR STP IND DEM\"");
-        
+
         base.OnPreInit(e);
     }
 </script>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head id="Head1" runat="server">
     <title>EPiServer Commerce Manager <%=Mediachase.Commerce.FrameworkContext.ProductVersionDesc%> Login Page</title>
 
     <style type="text/css">
-		table.login
-		{
-		    border-style: none;
-		    border-width: 0;
-		    width: 100%;
-		}
-		table.login td
-		{
-		    padding-top: 1px;
-		    padding-bottom: 1px;
-		}
-	</style>
-	
-	
+        table.login {
+            border-style: none;
+            border-width: 0;
+            width: 100%;
+        }
+
+            table.login td {
+                padding-top: 1px;
+                padding-bottom: 1px;
+            }
+    </style>
+
+
     <script type="text/javascript">
-        getEcfMainFrame = function() {
+        getEcfMainFrame = function () {
             var win = window;
             var retVal = null;
 
@@ -58,139 +58,66 @@
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/GeneralStyle.css") %>" type="text/css" rel="stylesheet" />
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/css/BusinessFoundation/Theme.css") %>" type="text/css" rel="stylesheet" />
-    
+
     <!-- EPi Style START -->
-	<link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
-	<!-- EPi Style END -->	
+    <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
+    <!-- EPi Style END -->
 </head>
 <body>
     <form id="form1" runat="server" autocomplete="off">
         <div id="epi-ecf-banner">
-	        <div style="float:left;width:350px;padding:5px;">
-	        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">
+            <div style="float: left; width: 350px; padding: 5px;">
+                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">
                 <img alt="EPiServer Commerce" src="../EPi/Shell/Light/Resources/EPiServer_ECF-NEG.png" width="300" height="40" />
-	        </asp:HyperLink>
-	        </div>
+                </asp:HyperLink>
+            </div>
         </div>
-    <div class="LoginPanel">
-        <div class="LoginTable">
-            <table cellspacing="0" cellpadding="0" align="left">
-                <tr>
-                    <td>
-                        <h1>Operational Access</h1>
-                        <asp:Label ID="Label2" runat="server" CssClass="text" Text="Secure access to the commerce management tools"></asp:Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text" width="90%">
-                        <br />
-                        Fully integrated commerce tools for creating catalogs, managing products, taking
+        <div class="LoginPanel">
+            <div class="LoginTable">
+                <table cellspacing="0" cellpadding="0" align="left">
+                    <tr>
+                        <td>
+                            <h1>Operational Access</h1>
+                            <asp:Label ID="Label2" runat="server" CssClass="text" Text="Secure access to the commerce management tools"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text" width="90%">
+                            <br />
+                            Fully integrated commerce tools for creating catalogs, managing products, taking
                         orders, processing financial transactions, fulfilling orders, and measuring success.
                         <br />
-                        <br />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <td width="550">
-                        <asp:Panel ID="LoginPanel" runat="server" DefaultButton="LoginCtrl$LoginButton">
-                            <asp:Login ID="LoginCtrl" runat="server" TitleText="" BorderStyle="None" >
-                                <LoginButtonStyle   ></LoginButtonStyle>
-                                <HyperLinkStyle        Font-Size=".9em" Font-Names="Verdana" font-underline="true" ForeColor="#585880" BackColor="transparent"></HyperLinkStyle>
-                                <CheckBoxStyle         CssClass="text" ForeColor="#000000" BorderColor="transparent" BackColor="transparent"></CheckBoxStyle>
-                                <InstructionTextStyle  Font-Size=".9em" Font-Names="Verdana" ForeColor="#585880" font-italic="True" BackColor="transparent"></InstructionTextStyle>
-                                <FailureTextStyle      Font-Size=".9em" Font-Names="Verdana" ForeColor="#585880"  BackColor="transparent" Font-Bold="True"></FailureTextStyle>
-                                <TextBoxStyle          Width="300px"></TextBoxStyle>
-                                <TitleTextStyle        Font-Size=".9em" Font-Names="Verdana" Font-Bold="True" ForeColor="#585880" BorderColor="#CCCCCC" BorderWidth="1pt" cssclass="form-header"></TitleTextStyle>
-                                <LabelStyle        Width="150px" HorizontalAlign="Left" CssClass="text" ForeColor="#000000" BackColor="transparent"></LabelStyle>
-                                <LayoutTemplate>
-                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse"
-                                        width="100%">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <table class="login" cellpadding="0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td width="150px" align="left">
-                                                                    <asp:Label Width="150px" ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:TextBox Width="300px" ID="UserName" runat="server" autocomplete="off" />
-                                                                    <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName"
-                                                                        ErrorMessage="User Name is required." ToolTip="User Name is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="150px" align="left">
-                                                                    <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:TextBox Width="300px" ID="Password" runat="server" TextMode="Password" autocomplete="off" />
-                                                                    <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password"
-                                                                        ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
-                                                                </td>
-                                                            </tr>
-                                                            <tr runat="server" id="ApplicationRow">
-                                                                <td width="150px" align="left">
-                                                                    <asp:Label ID="Label1" runat="server" AssociatedControlID="Application">Application:</asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:TextBox Width="300px" ID="Application" runat="server"></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="Application"
-                                                                        ErrorMessage="Application is required." ToolTip="Application is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2" class="loginText">
-                                                                    <asp:CheckBox ID="RememberMe" runat="server" Text="Remember me next time." />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" colspan="2" style="color: red">
-                                                                    <asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td align="left">
-                                                                    <asp:Button ID="LoginButton" Width="120" runat="server" CommandName="Login" Text="Log In"
-                                                                        ValidationGroup="LoginCtrl" />
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </LayoutTemplate>
-                            </asp:Login>
-                        </asp:Panel>
-                        <asp:Panel ID="RegisterPanel" Visible="false" runat="server">
-                            <asp:CreateUserWizard ID="CreateUserWizard1" runat="server">
-                                <WizardSteps>
-                                    <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server">
-                                        <ContentTemplate>
-                                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse"
-                                                width="100%">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <table border="0" cellpadding="0" width="100%">
-                                                                <tr>
-                                                                    <td align="left" colspan="2">
-                                                                        No accounts have been found in the system for eCommerce Framework administration,
-                                                                        use the form below to create a new administrative account.
-                                                                    </td>
-                                                                </tr>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td width="550">
+                            <asp:Panel ID="LoginPanel" runat="server" DefaultButton="LoginCtrl$LoginButton">
+                                <asp:Login ID="LoginCtrl" runat="server" TitleText="" BorderStyle="None">
+                                    <LoginButtonStyle></LoginButtonStyle>
+                                    <HyperLinkStyle Font-Size=".9em" Font-Names="Verdana" Font-Underline="true" ForeColor="#585880" BackColor="transparent"></HyperLinkStyle>
+                                    <CheckBoxStyle CssClass="text" ForeColor="#000000" BorderColor="transparent" BackColor="transparent"></CheckBoxStyle>
+                                    <InstructionTextStyle Font-Size=".9em" Font-Names="Verdana" ForeColor="#585880" Font-Italic="True" BackColor="transparent"></InstructionTextStyle>
+                                    <FailureTextStyle Font-Size=".9em" Font-Names="Verdana" ForeColor="#585880" BackColor="transparent" Font-Bold="True"></FailureTextStyle>
+                                    <TextBoxStyle Width="300px"></TextBoxStyle>
+                                    <TitleTextStyle Font-Size=".9em" Font-Names="Verdana" Font-Bold="True" ForeColor="#585880" BorderColor="#CCCCCC" BorderWidth="1pt" CssClass="form-header"></TitleTextStyle>
+                                    <LabelStyle Width="150px" HorizontalAlign="Left" CssClass="text" ForeColor="#000000" BackColor="transparent"></LabelStyle>
+                                    <LayoutTemplate>
+                                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse"
+                                            width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <table class="login" cellpadding="0">
+                                                            <tbody>
                                                                 <tr>
                                                                     <td width="150px" align="left">
-                                                                        <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
+                                                                        <asp:Label Width="150px" ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
                                                                     </td>
                                                                     <td>
-                                                                        <asp:TextBox ID="UserName" Width="300px" runat="server"></asp:TextBox>
+                                                                        <asp:TextBox Width="300px" ID="UserName" runat="server" autocomplete="off" />
                                                                         <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName"
-                                                                            ErrorMessage="User Name is required." ToolTip="User Name is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                                                            ErrorMessage="User Name is required." ToolTip="User Name is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -198,82 +125,70 @@
                                                                         <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
                                                                     </td>
                                                                     <td>
-                                                                        <asp:TextBox ID="Password" runat="server" Width="300px" TextMode="Password"></asp:TextBox>
+                                                                        <asp:TextBox Width="300px" ID="Password" runat="server" TextMode="Password" autocomplete="off" />
                                                                         <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password"
-                                                                            ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                                                            ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                <tr runat="server" id="ApplicationRow">
                                                                     <td width="150px" align="left">
-                                                                        <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword">Confirm Password:</asp:Label>
+                                                                        <asp:Label ID="Label1" runat="server" AssociatedControlID="Application">Application:</asp:Label>
                                                                     </td>
                                                                     <td>
-                                                                        <asp:TextBox ID="ConfirmPassword" Width="300px" runat="server" TextMode="Password"></asp:TextBox>
-                                                                        <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword"
-                                                                            ErrorMessage="Confirm Password is required." ToolTip="Confirm Password is required."
-                                                                            ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                                                        <asp:TextBox Width="300px" ID="Application" runat="server"></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="Application"
+                                                                            ErrorMessage="Application is required." ToolTip="Application is required." ValidationGroup="LoginCtrl">*</asp:RequiredFieldValidator>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td width="150px" align="left">
-                                                                        <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="Email">E-mail:</asp:Label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:TextBox ID="Email" runat="server" Width="300px"></asp:TextBox>
-                                                                        <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email"
-                                                                            ErrorMessage="E-mail is required." ToolTip="E-mail is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                                                    <td colspan="2" class="loginText">
+                                                                        <asp:CheckBox ID="RememberMe" runat="server" Text="Remember me next time." />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="center" colspan="2">
-                                                                        <asp:CompareValidator ID="PasswordCompare" runat="server" ControlToCompare="Password"
-                                                                            ControlToValidate="ConfirmPassword" Display="Dynamic" ErrorMessage="The Password and Confirmation Password must match."
-                                                                            ValidationGroup="CreateUserWizard1"></asp:CompareValidator>
+                                                                    <td align="center" colspan="2" style="color: red">
+                                                                        <asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="center" colspan="2" style="color: Red;">
-                                                                        <asp:Literal ID="ErrorMessage" runat="server" EnableViewState="False"></asp:Literal>
-                                                                    </td>
+                                                                    <td></td>
+                                                                    <td align="left">
+                                                                        <asp:Button ID="LoginButton" Width="120" runat="server" CommandName="Login" Text="Log In"
+                                                                            ValidationGroup="LoginCtrl" />
+                                                                    </td>                                                                    
                                                                 </tr>
-                                                                <tr>
-                                                                    <td align="right" colspan="2">
-                                                                        <asp:Button ID="StepNextButton" runat="server" Width="120" CommandName="MoveNext" Text="Create User"
-                                                                            ValidationGroup="CreateUserWizard1" />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </ContentTemplate>
-                                        <CustomNavigationTemplate>
-                                        </CustomNavigationTemplate>
-                                    </asp:CreateUserWizardStep>
-                                </WizardSteps>
-                            </asp:CreateUserWizard>
-                        </asp:Panel>
-                        &nbsp;
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </LayoutTemplate>
+                                </asp:Login>
+                            </asp:Panel>
                     </td>
                 </tr>
                 <tr>
-                    <td class="text">
-                        <p>
-                            <br />
-                            Note: Please click <asp:HyperLink ID="HyperLinkSysReqs" Target="_blank" runat="server" NavigateUrl="http://world.episerver.com/Documentation/">here</asp:HyperLink> for browser requirements.</p>
-                    </td>
-                </tr>
-            </table>
+                        <td class="text">
+                            <p>
+                                <br />
+                                Note: Please click
+                                <asp:HyperLink ID="HyperLinkSysReqs" Target="_blank" runat="server" NavigateUrl="http://world.episerver.com/Documentation/">here</asp:HyperLink>
+                                for browser requirements.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="LoginFooter">
-        <asp:HyperLink Target="_blank" runat="server" NavigateUrl="http://www.episerver.com"><%=Mediachase.Commerce.FrameworkContext.ProductName%></asp:HyperLink>
-        <br />
-        Version:
-        <%=Mediachase.Commerce.FrameworkContext.ProductVersionDesc%><br /><br />
-        &copy; <%=DateTime.Now.Year.ToString()%> EPiServer AB.  All Rights Reserved.
-    </div>
+        <div class="LoginFooter">
+            <asp:HyperLink Target="_blank" runat="server" NavigateUrl="http://www.episerver.com"><%=Mediachase.Commerce.FrameworkContext.ProductName%></asp:HyperLink>
+            <br />
+            Version:
+        <%=Mediachase.Commerce.FrameworkContext.ProductVersionDesc%><br />
+            <br />
+            &copy; <%=DateTime.Now.Year.ToString()%> EPiServer AB.  All Rights Reserved.
+        </div>
     </form>
 </body>
 </html>

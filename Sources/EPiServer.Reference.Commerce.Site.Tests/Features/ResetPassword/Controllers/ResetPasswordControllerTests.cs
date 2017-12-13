@@ -111,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ResetPassword.Control
             var contentLoaderMock = new Mock<IContentLoader>();
             var mailServiceMock = new Mock<IMailService>();
             var localizationService = new MemoryLocalizationService();
-            var customerContextFacade = new Mock<CustomerContextFacade>();
+            var customerContextFacade = new Mock<CustomerContextFacade>(null);
 
             _resetPasswordPageMock = new Mock<ResetPasswordPage>();
             _userManagerMock = new Mock<ApplicationUserManager<SiteUser>>(userStoreMock.Object);

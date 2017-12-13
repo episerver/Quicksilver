@@ -600,7 +600,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         {
             var synchronizedObjectInstanceCacheMock = new Mock<ISynchronizedObjectInstanceCache>();
             _addressBookServiceMock = new Mock<IAddressBookService>();
-            _customerContextFacaceMock = new Mock<CustomerContextFacade>();
+            _customerContextFacaceMock = new Mock<CustomerContextFacade>(null);
             _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             _inventoryProcessorMock = new Mock<IInventoryProcessor>();
             _lineItemValidatorMock = new Mock<ILineItemValidator>();

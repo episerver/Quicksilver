@@ -391,7 +391,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _mailServiceMock = new Mock<IMailService>();
             _contentRepositoryMock = new Mock<IContentRepository>();
-            _customerContextFacadeMock = new Mock<CustomerContextFacade>();
+            _customerContextFacadeMock = new Mock<CustomerContextFacade>(null);
 
             _paymentProcessorMock = new Mock<IPaymentProcessor>();
             _paymentProcessorMock.Setup(x => x.ProcessPayment(It.IsAny<IOrderGroup>(), It.IsAny<IPayment>(), It.IsAny<IShipment>()))

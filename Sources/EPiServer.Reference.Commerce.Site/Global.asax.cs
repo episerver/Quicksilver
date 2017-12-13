@@ -1,9 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using EPiServer.Reference.Commerce.Site.Infrastructure;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.UI;
-using EPiServer.Reference.Commerce.Site.Infrastructure;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site
 {

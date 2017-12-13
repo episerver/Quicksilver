@@ -1,4 +1,5 @@
 using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Commerce.Security;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Identity;
@@ -10,10 +11,12 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using EPiServer.Security;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -200,7 +203,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Index");
+            }
+
+            if (await LoginIfExternalProviderAlreadyAssignedAsync() && User.Identity.IsAuthenticated)
+            {
+                return RedirectToLocal(returnUrl);
             }
 
             // Sign in the user with this external login provider if the user already has a login
@@ -232,13 +240,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel viewModel)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Manage");
-            }
-
             if (ModelState.IsValid)
             {
+                // If the user aleady has an account with any other provider, log them in.
+                if (await LoginIfExternalProviderAlreadyAssignedAsync() && User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Index", "Start");
+                }
+
                 // Get the information about the user from the external login provider
                 var socialLoginDetails = await UserService.GetExternalLoginInfoAsync();
                 if (socialLoginDetails == null)
@@ -246,10 +255,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     return View("ExternalLoginFailure");
                 }
 
+                string firstName = null;
+                string lastName = null;
+                var nameClaim = socialLoginDetails.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
+                if (nameClaim != null)
+                {
+                    string[] names = nameClaim.Value.Split(' ');
+                    firstName = names[0];
+                    lastName = names.Length > 1 ? names[1] : string.Empty;
+                }
                 string eMail = socialLoginDetails.Email;
-                string[] names = socialLoginDetails.ExternalIdentity.Name.Split(' ');
-                string firstName = names[0];
-                string lastName = names.Length > 1 ? names[1] : string.Empty;
+
+                var customerAddress = CustomerAddress.CreateInstance();
+                customerAddress.Line1 = viewModel.Address;
+                customerAddress.PostalCode = viewModel.PostalCode;
+                customerAddress.City = viewModel.City;
+                customerAddress.CountryName = viewModel.Country;
 
                 var user = new SiteUser
                 {
@@ -265,10 +286,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    user.Addresses = new List<CustomerAddress>(new[]
+                    {
+                        customerAddress
+                    });
+                    UserService.CreateCustomerContact(user);
                     result = await UserManager.AddLoginAsync(user.Id, socialLoginDetails.Login);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(viewModel.ReturnUrl);
                     }
                 }
@@ -277,6 +302,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             }
 
             return View(viewModel);
+        }
+
+        private async Task<bool> LoginIfExternalProviderAlreadyAssignedAsync()
+        {
+            var info = await UserService.GetExternalLoginInfoAsync();
+
+            if (info?.Email == null)
+            {
+                return false;
+            }
+
+            if (PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.CommerceAdmins) ||
+            PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.CatalogManagers) ||
+            PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.MarketingManagers))
+            {
+                return true;
+            }
+
+            var user = await UserManager.FindByEmailAsync(info.Email);
+            return user != null;
         }
     }
 }
