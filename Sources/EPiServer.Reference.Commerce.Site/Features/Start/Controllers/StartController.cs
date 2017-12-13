@@ -75,13 +75,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
 
             foreach (var conditionItemReference in itemsOnPromotion.Condition.Items)
             {
-                var conditionItem = _contentLoader.Get<CatalogContentBase>(conditionItemReference);
-                AddIfProduct(conditionItem, conditionProducts);
-
-                var nodeContent = conditionItem as NodeContentBase;
-                if (nodeContent != null)
+                CatalogContentBase conditionItem;
+                if (_contentLoader.TryGet<CatalogContentBase>(conditionItemReference, out conditionItem))
                 {
-                    AddItemsRecursive(nodeContent, itemsOnPromotion, conditionProducts);
+                    AddIfProduct(conditionItem, conditionProducts);
+                    var nodeContent = conditionItem as NodeContentBase;
+                    if (nodeContent != null)
+                    {
+                        AddItemsRecursive(nodeContent, itemsOnPromotion, conditionProducts);
+                    }
                 }
             }
 

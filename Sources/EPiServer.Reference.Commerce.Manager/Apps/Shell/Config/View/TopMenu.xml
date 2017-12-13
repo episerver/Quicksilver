@@ -5,7 +5,6 @@
 		<add>
 			<Menu id="CreateMenu" text="{SharedStrings:Welcome}">
 				<Button id="MySettingsBtn" text="{CommerceManager:USER_SETTINGS}" imageUrl="" commandName="ECF_Top_MySettings"></Button>
-				<Button id="SignInAsDifferentUserBtn" text="{ShellStrings:Sign_In_As_Different_User}" imageUrl="" commandName="ECF_Top_SignInAsDifferentUser"></Button>
 				<Button id="SignOutBtn" text="{ShellStrings:Sign_Out}" imageUrl="~/Apps/Shell/styles/Images/Shell/exit.gif" commandName="ECF_Top_SignOut"></Button>
 			</Menu>
 
@@ -25,10 +24,6 @@
 				<CommandType>ClientAction</CommandType>
         <ClientScript>CSManagementClient.ChangeBafView('Contact', 'View', 'ObjectId={Security:CurrentUserId}')</ClientScript>
       </Command>
-			<Command id="ECF_Top_SignInAsDifferentUser">
-        <CommandType>ServerAction</CommandType>
-					<Handler type="Mediachase.Commerce.Manager.Apps.Shell.CommandHandlers.SignInAsDifferentUserHandler, Mediachase.ConsoleManager" />
-			</Command>
 			<Command id="ECF_Top_SignOut">
 				<CommandType>ClientAction</CommandType>
 				<ClientScript>CSManagementClient.OpenInternal('~/logout.aspx')</ClientScript>

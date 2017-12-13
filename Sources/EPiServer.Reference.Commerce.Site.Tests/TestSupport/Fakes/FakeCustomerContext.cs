@@ -6,12 +6,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
     {
         private readonly CurrentContactFacade _currentContact;
 
-        public FakeCustomerContext(CurrentContactFacade currentContact)
+        public FakeCustomerContext(CurrentContactFacade currentContact) : base(null)
         {
             _currentContact = currentContact;
         }
 
-        public override CurrentContactFacade CurrentContact 
+        public override CurrentContactFacade CurrentContact
         {
             get { return _currentContact; }
         }

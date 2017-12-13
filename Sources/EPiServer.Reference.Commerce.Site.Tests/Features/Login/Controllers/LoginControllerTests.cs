@@ -342,7 +342,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var authenticationManager = new Mock<IAuthenticationManager>();
             _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
 
-            var customercontextFacadeMock = new Mock<CustomerContextFacade>();
+            var customercontextFacadeMock = new Mock<CustomerContextFacade>(null);
             var countryManagerFacadeMock = new Mock<CountryManagerFacade>();
             countryManagerFacadeMock.Setup(x => x.GetCountries()).Returns(() => new CountryDto());
             var addressBookService = new AddressBookService(customercontextFacadeMock.Object, countryManagerFacadeMock.Object, _orderGroupFactoryMock.Object);

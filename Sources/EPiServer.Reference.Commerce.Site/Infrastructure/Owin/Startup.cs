@@ -15,13 +15,19 @@ using Microsoft.Owin.Security.Twitter;
 using Owin;
 using System;
 
+#if !(MIXED_MODE_AUTHENTICATION)
 [assembly: OwinStartup(typeof(EPiServer.Reference.Commerce.Site.Infrastructure.Owin.Startup))]
+#endif
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
 {
     public class Startup
     {
         // For more information on configuring authentication,
         // please visit http://world.episerver.com/documentation/Items/Developers-Guide/Episerver-CMS/9/Security/episerver-aspnetidentity/
+        // For more information on configuring OpenID Connect,
+        // please visit https://world.episerver.com/documentation/developer-guides/commerce/security/support-for-openid-connect-in-episerver-commerce/
+        // Note: The Katana team is working hard on updating performance and security however sometimes bugs are logged.
+        // Please visit https://github.com/aspnet/AspNetKatana/issues to stay on top of issues that could affect your implementation. 
 
         private readonly IConnectionStringHandler _connectionStringHandler;
 
@@ -72,30 +78,18 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
 #if GOOGLE_ACCOUNT_LOGIN_FEATURE
-#if (FACEBOOK_ACCOUNT_LOGIN_FEATURE || TWITTER_ACCOUNT_LOGIN_FEATURE || MICROSOFT_ACCOUNT_LOGIN_FEATURE)
-#error Can not combine the Google authentication with another one.
-#endif
             EnableGoogleAccountLogin(app);
 #endif
 
 #if FACEBOOK_ACCOUNT_LOGIN_FEATURE
-#if (GOOGLE_ACCOUNT_LOGIN_FEATURE || TWITTER_ACCOUNT_LOGIN_FEATURE || MICROSOFT_ACCOUNT_LOGIN_FEATURE)
-#error Can not combine the Facebook authentication with another one.
-#endif
             EnableFacebookAccountLogin(app);
 #endif
 
 #if TWITTER_ACCOUNT_LOGIN_FEATURE
-#if (GOOGLE_ACCOUNT_LOGIN_FEATURE || FACEBOOK_ACCOUNT_LOGIN_FEATURE || MICROSOFT_ACCOUNT_LOGIN_FEATURE)
-#error Can not combine the Twitter authentication with another one.
-#endif
             EnableTwitterAccountLogin(app);
 #endif
 
 #if MICROSOFT_ACCOUNT_LOGIN_FEATURE
-#if (GOOGLE_ACCOUNT_LOGIN_FEATURE || FACEBOOK_ACCOUNT_LOGIN_FEATURE || TWITTER_ACCOUNT_LOGIN_FEATURE)
-#error Can not combine the Microsoft authentication with another one.
-#endif
             EnableMicrosoftAccountLogin(app);
 #endif
         }
@@ -109,6 +103,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
         /// A Google+ developer account and an app needs to be created at https://console.developers.google.com.
         /// Update ClientId and ClientSecret values with provided client id and client secret.
         /// Security note: Never store sensitive data in your source code. The account and credentials are added to the code above to keep the sample simple.
+        /// Note: Please visit https://github.com/aspnet/AspNetKatana/issues to stay on top of issues that could affect your implementation.
         /// </remarks>
         private static void EnableGoogleAccountLogin(IAppBuilder app)
         {
@@ -131,6 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
         /// A Facebook developer account and an app needs to be created at https://developers.facebook.com/apps.
         /// Update AppId and AppSecret values with provided client id and client secret.
         /// Security note: Never store sensitive data in your source code. The account and credentials are added to the code above to keep the sample simple.
+        /// Note: Please visit https://github.com/aspnet/AspNetKatana/issues to stay on top of issues that could affect your implementation.
         /// </remarks>
         private static void EnableFacebookAccountLogin(IAppBuilder app)
         {
@@ -140,7 +136,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                 AppId = "<ChangeThis>",
                 AppSecret = "<ChangeThis>"
             };
+            facebookOptions.Scope.Add("public_profile");
             facebookOptions.Scope.Add("email");
+            facebookOptions.Fields.Add("email");
+            facebookOptions.Fields.Add("name");
             app.UseFacebookAuthentication(facebookOptions);
         }
 
@@ -153,6 +152,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
         /// A Twitter developer account and an app needs to be created at https://dev.twitter.com/apps.
         /// Update ConsumerKey and ConsumerSecret values with provided client id and client secret.
         /// Security note: Never store sensitive data in your source code. The account and credentials are added to the code above to keep the sample simple.
+        /// Note: Please visit https://github.com/aspnet/AspNetKatana/issues to stay on top of issues that could affect your implementation.
         /// </remarks>
         private static void EnableTwitterAccountLogin(IAppBuilder app)
         {
@@ -174,6 +174,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
         /// A Microsoft developer account and an app needs to be created at https://account.live.com/developers/applications.
         /// Update ClientId and ClientSecret values with provided client id and client secret.
         /// Security note: Never store sensitive data in your source code. The account and credentials are added to the code above to keep the sample simple.
+        /// Note: Please visit https://github.com/aspnet/AspNetKatana/issues to stay on top of issues that could affect your implementation.
         /// </remarks>
         private static void EnableMicrosoftAccountLogin(IAppBuilder app)
         {

@@ -17,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Manager
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Header.DataBind();
-            
+
             Request.GetOwinContext().Get<ApplicationSignInManager<SiteUser>>().SignOut();
         }
     }
