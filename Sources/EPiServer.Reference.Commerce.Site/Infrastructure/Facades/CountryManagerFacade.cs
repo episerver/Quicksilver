@@ -17,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
             CountryDto dataset = CountryManager.GetCountry(countryCode, false);
             CountryDto.CountryDataTable table = dataset.Country;
 
-            return (table.Rows.Count == 1) ? table.Rows[0] as CountryDto.CountryRow : null;
+            return table.Rows.Count == 1 ? table.Rows[0] as CountryDto.CountryRow : null;
         }
     }
 }

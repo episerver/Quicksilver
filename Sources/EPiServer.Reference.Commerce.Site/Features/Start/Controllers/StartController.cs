@@ -36,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             var viewModel = new StartPageViewModel()
             {
                 StartPage = currentPage,
-                Recommendations = this.GetHomeRecommendations(),
+                Recommendations = this.GetHomeRecommendations().Take(6),
                 Promotions = GetActivePromotions()
             };
 
@@ -76,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             foreach (var conditionItemReference in itemsOnPromotion.Condition.Items)
             {
                 CatalogContentBase conditionItem;
-                if (_contentLoader.TryGet<CatalogContentBase>(conditionItemReference, out conditionItem))
+                if (_contentLoader.TryGet(conditionItemReference, out conditionItem))
                 {
                     AddIfProduct(conditionItem, conditionProducts);
                     var nodeContent = conditionItem as NodeContentBase;

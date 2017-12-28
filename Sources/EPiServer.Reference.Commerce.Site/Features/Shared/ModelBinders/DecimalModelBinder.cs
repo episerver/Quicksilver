@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.ModelBinders
             // Depending on CultureInfo, the NumberDecimalSeparator can be "," or "."
             // Both "." and "," should be accepted, but aren't.
             string wantedSeperator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
-            string alternateSeperator = (wantedSeperator == "," ? "." : ",");
+            string alternateSeperator = wantedSeperator == "," ? "." : ",";
 
             if (attemptedValue.IndexOf(wantedSeperator) == -1
                 && attemptedValue.IndexOf(alternateSeperator) != -1)

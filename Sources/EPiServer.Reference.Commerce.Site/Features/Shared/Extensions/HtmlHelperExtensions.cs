@@ -11,12 +11,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
     {
         public static IHtmlString RenderReadonlyMessage(this HtmlHelper htmlHelper)
         {
-            if ((ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode == DatabaseMode.ReadWrite))
+            if (ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode == DatabaseMode.ReadWrite)
             {
                 return htmlHelper.Raw(string.Empty);
             }
-            return htmlHelper.Raw(String.Format("<div class=\"container-fluid\"><div class=\"alert alert-info\" role=\"alert\"><p class=\"text-center\">{0}</p></div></div>",
-                LocalizationService.Current.GetString("/Readonly/Message")));
+            return htmlHelper.Raw(
+                $"<div class=\"container-fluid\"><div class=\"alert alert-info\" role=\"alert\"><p class=\"text-center\">{LocalizationService.Current.GetString("/Readonly/Message")}</p></div></div>");
         }
     }
 }

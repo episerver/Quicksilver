@@ -47,11 +47,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         [HttpPost]
         public ActionResult Index(MultiShipmentPage currentPage, MultiShipmentViewModel viewModel)
         {
-            for (var i = 0; i < viewModel.CartItems.Count(); i++)
+            for (var i = 0; i < viewModel.CartItems.Length; i++)
             {
                 if (string.IsNullOrEmpty(viewModel.CartItems[i].AddressId))
                 {
-                    ModelState.AddModelError(string.Format("CartItems[{0}].AddressId", i), _localizationService.GetString("/Checkout/MultiShipment/Empty/AddressId"));
+                    ModelState.AddModelError($"CartItems[{i}].AddressId", _localizationService.GetString("/Checkout/MultiShipment/Empty/AddressId"));
                 }
             }
 

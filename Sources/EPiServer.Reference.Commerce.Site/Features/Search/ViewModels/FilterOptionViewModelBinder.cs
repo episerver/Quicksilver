@@ -34,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
             var model = (FilterOptionViewModel)base.BindModel(controllerContext, bindingContext);
             if (model == null)
             {
-                return model;
+                return null;
             }
 
             var contentLink = controllerContext.RequestContext.GetContentLink();

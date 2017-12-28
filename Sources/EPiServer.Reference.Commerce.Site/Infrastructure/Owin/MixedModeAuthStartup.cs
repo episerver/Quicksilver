@@ -151,8 +151,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager<SiteUser>, SiteUser>(
                        validateInterval: TimeSpan.FromMinutes(30),
                        regenerateIdentity: (manager, user) => manager.GenerateUserIdentityAsync(user)),
-                    OnApplyRedirect = (context => context.Response.Redirect(context.RedirectUri)),
-                    OnResponseSignOut = (context => context.Response.Redirect(UrlResolver.Current.GetUrl(ContentReference.StartPage)))
+                    OnApplyRedirect = context => context.Response.Redirect(context.RedirectUri),
+                    OnResponseSignOut = context => context.Response.Redirect(UrlResolver.Current.GetUrl(ContentReference.StartPage))
                 }
             });
 
@@ -186,11 +186,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             {
                 return false;
             }
-            if (user.Claims.Any(c => c.Type == openIdConnectProviderClaimType))
-            {
-                return true;
-            }
-            return false;
+
+            return user.Claims.Any(c => c.Type == openIdConnectProviderClaimType);
         }
 
         private void HandleMultiSiteReturnUrl(

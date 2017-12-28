@@ -259,9 +259,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
         public CustomerAddress GetPreferredBillingAddress()
         {
-            return _customerContext.CurrentContact.CurrentContact != null ?
-                _customerContext.CurrentContact.CurrentContact.PreferredBillingAddress
-                : null;
+            return _customerContext.CurrentContact.CurrentContact?.PreferredBillingAddress;
         }
 
         public void LoadAddress(AddressModel addressModel)
@@ -354,8 +352,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
         {
             var customer = _customerContext.CurrentContact.CurrentContact;
             return customer == null ||
-                   (customer.PreferredShippingAddressId.HasValue &&
-                    customer.PreferredShippingAddressId == customer.PreferredBillingAddressId);
+                   customer.PreferredShippingAddressId.HasValue &&
+                   customer.PreferredShippingAddressId == customer.PreferredBillingAddressId;
         }
 
         private CountryViewModel GetCountryByCode(AddressModel addressModel)
@@ -380,7 +378,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Services
 
         private IEnumerable<string> GetRegionsForCountry(CountryDto.CountryRow country)
         {
-            return country == null ? Enumerable.Empty<string>() : country.GetStateProvinceRows().Select(x => x.Name).ToList();
+            return country?.GetStateProvinceRows().Select(x => x.Name) ?? Enumerable.Empty<string>();
         }
 
         private CustomerAddress CreateOrUpdateCustomerAddress(CurrentContactFacade contact, AddressModel addressModel)

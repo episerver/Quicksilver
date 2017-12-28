@@ -14,7 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.WebApi
         {
             if (container == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException(nameof(container));
             }
             _container = container;
         }
@@ -49,10 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.WebApi
                 return;
             }
 
-            if (_container != null)
-            {
-                _container.Dispose();
-            }
+            _container?.Dispose();
         }
     }
 }

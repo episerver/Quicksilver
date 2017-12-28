@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         {
             if (email == null)
             {
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
             }
 
             CustomerContact contact = null;
@@ -61,22 +61,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         {
             if (email == null)
             {
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
             }
 
             var contact = GetCustomerContact(email);
-            if(contact == null)
-            {
-                return null;
-            }
-            return contact.PrimaryKeyId;
+            return contact?.PrimaryKeyId;
         }
 
         public virtual SiteUser GetUser(string email)
         {
             if (email == null)
             {
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
             }
 
             SiteUser user = _userManager.FindByEmail(email);
@@ -88,7 +84,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         {
             if (email == null)
             {
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
             }
 
             return await _userManager.FindByNameAsync(email);
@@ -103,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         {
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
 
             ContactIdentityResult contactResult = null;
@@ -144,7 +140,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         {
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
 
             CustomerContact contact = _customerContext.GetContactByUsername(user.UserName);
@@ -162,7 +158,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
             if (!String.IsNullOrEmpty(user.FirstName) || !String.IsNullOrEmpty(user.LastName))
             {
-                contact.FullName = String.Format("{0} {1}", user.FirstName, user.LastName);
+                contact.FullName = $"{user.FirstName} {user.LastName}";
             }
 
             contact.FirstName = user.FirstName;
@@ -227,15 +223,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 
         public void Dispose()
         {
-            if (_userManager != null)
-            {
-                _userManager.Dispose();
-            }
+            _userManager?.Dispose();
 
-            if (_signInManager != null)
-            {
-                _signInManager.Dispose();
-            }
+            _signInManager?.Dispose();
         }
     }
 }

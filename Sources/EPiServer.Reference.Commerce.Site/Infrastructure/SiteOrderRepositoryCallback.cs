@@ -12,32 +12,32 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         public void OnCreating(Guid customerId, string name)
         {
-            _logger.Information(string.Format("Creating order: customer [{0}], name[{1}].", customerId, name));
+            _logger.Information($"Creating order: customer [{customerId}], name[{name}].");
         }
 
         public void OnCreated(OrderReference orderReference)
         {
-            _logger.Information(string.Format("Created order {0}: orderid [{1}], customer [{2}], name[{3}].", orderReference.OrderType, orderReference.OrderGroupId, orderReference.CustomerId, orderReference.Name));
+            _logger.Information($"Created order {orderReference.OrderType}: orderid [{orderReference.OrderGroupId}], customer [{orderReference.CustomerId}], name[{orderReference.Name}].");
         }
         
         public void OnUpdating(OrderReference orderReference)
         {
-            _logger.Information(string.Format("Updating order {0}: orderid [{1}], customer [{2}], name[{3}].", orderReference.OrderType, orderReference.OrderGroupId, orderReference.CustomerId, orderReference.Name));
+            _logger.Information($"Updating order {orderReference.OrderType}: orderid [{orderReference.OrderGroupId}], customer [{orderReference.CustomerId}], name[{orderReference.Name}].");
         }
 
         public void OnUpdated(OrderReference orderReference)
         {
-            _logger.Information(string.Format("Updated order {0}: orderid [{1}], customer [{2}], name[{3}].", orderReference.OrderType, orderReference.OrderGroupId, orderReference.CustomerId, orderReference.Name));
+            _logger.Information($"Updated order {orderReference.OrderType}: orderid [{orderReference.OrderGroupId}], customer [{orderReference.CustomerId}], name[{orderReference.Name}].");
         }
 
         public void OnDeleting(OrderReference orderReference)
         {
-            _logger.Information(string.Format("Deleting order {0}: orderid [{1}], customer [{2}], name[{3}].", orderReference.OrderType, orderReference.OrderGroupId, orderReference.CustomerId, orderReference.Name));
+            _logger.Information($"Deleting order {orderReference.OrderType}: orderid [{orderReference.OrderGroupId}], customer [{orderReference.CustomerId}], name[{orderReference.Name}].");
         }
 
         public void OnDeleted(OrderReference orderReference)
         {
-            _logger.Information(string.Format("Deleted order {0}: orderid [{1}], customer [{2}], name[{3}].", orderReference.OrderType, orderReference.OrderGroupId, orderReference.CustomerId, orderReference.Name));
+            _logger.Information($"Deleted order {orderReference.OrderType}: orderid [{orderReference.OrderGroupId}], customer [{orderReference.CustomerId}], name[{orderReference.Name}].");
         }
     }
 }

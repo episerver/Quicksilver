@@ -70,22 +70,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
                 return;
             }
 
-            if (UserManager != null)
-            {
-                UserManager.Dispose();
-            }
+            UserManager?.Dispose();
+            SignInManager?.Dispose();
+            UserService?.Dispose();
 
-            if (SignInManager != null)
-            {
-                SignInManager.Dispose();    
-            }
-
-            if (UserService != null)
-            {
-                UserService.Dispose();
-            }
-
-            base.Dispose(disposing);
+            base.Dispose(true);
 
             _disposed = true;
         }

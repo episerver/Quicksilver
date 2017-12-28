@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
                 else
                 {
                     var currentMarket = _currentMarket.GetCurrentMarket();
-                    if (currentMarket != null && currentMarket.DefaultLanguage != null)
+                    if (currentMarket?.DefaultLanguage != null)
                     {
                         chosenLanguage = currentMarket.DefaultLanguage.Name;
                     }

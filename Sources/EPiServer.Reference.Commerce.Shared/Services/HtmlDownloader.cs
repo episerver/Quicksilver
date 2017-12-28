@@ -21,8 +21,7 @@ namespace EPiServer.Reference.Commerce.Shared.Services
             if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException(
-                    string.Format("Request to '{0}' was unsuccessful. Content:\n{1}",
-                                    fullUrl, response.Content.ReadAsStringAsync().Result));
+                    $"Request to '{fullUrl}' was unsuccessful. Content:\n{response.Content.ReadAsStringAsync().Result}");
             }
             return response.Content.ReadAsStringAsync().Result;
         }

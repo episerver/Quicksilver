@@ -75,7 +75,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
         {
             get
             {
-                return Shipments.Count() > 1 ? MultiShipmentCheckoutViewName : SingleShipmentCheckoutViewName;
+                return Shipments.Count > 1 ? MultiShipmentCheckoutViewName : SingleShipmentCheckoutViewName;
             }
         }
         /// <summary>

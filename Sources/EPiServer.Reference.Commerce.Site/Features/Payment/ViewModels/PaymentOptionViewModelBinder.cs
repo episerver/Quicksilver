@@ -17,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
         { 
             var systemKeyword = bindingContext.ValueProvider.GetValue("SystemKeyword").AttemptedValue;
             var paymentMethodViewModels = _paymentMethodViewModelFactory.GetPaymentMethodViewModels();
-            var selectedPaymentMethod = paymentMethodViewModels.FirstOrDefault(p => p.SystemKeyword == systemKeyword);
+            var selectedPaymentMethod = paymentMethodViewModels.First(p => p.SystemKeyword == systemKeyword);
 
             bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, selectedPaymentMethod.PaymentOption.GetType());
             return base.BindModel(controllerContext, bindingContext);

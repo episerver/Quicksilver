@@ -1,4 +1,5 @@
-﻿using EPiServer.Commerce.Order;
+﻿using System.Threading.Tasks;
+using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
@@ -31,43 +32,43 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         }
 
         [Fact]
-        public void ChangeCartItem_WhenChangeQuantity_ShouldCallChangeCartItemOnCartService()
+        public async Task ChangeCartItem_WhenChangeQuantity_ShouldCallChangeCartItemOnCartService()
         {
             string code = "Code 1";
             int quantity = 0;
             string size = null;
             string newSize = null;
-            _subject.ChangeCartItem(code, quantity, size, newSize);
+            await _subject.ChangeCartItem(code, quantity, size, newSize);
             _cartServiceMock.Verify(s => s.ChangeCartItem(It.IsAny<ICart>(), 0, code, quantity, size, newSize));
         }
 
         [Fact]
-        public void AdddToCart_ShouldCallAddToCartOnCartService()
+        public async Task AdddToCart_ShouldCallAddToCartOnCartService()
         {
             string code = "Code 1";
 
-            _subject.AddToCart(code);
+            await _subject.AddToCart(code);
             _cartServiceMock.Verify(s => s.AddToCart(It.IsAny<ICart>(), code, 1));
         }
 
         [Fact]
-        public void AdddToCart_WhenSuccessfullyAdded_ShouldSaveCart()
+        public async Task AdddToCart_WhenSuccessfullyAdded_ShouldSaveCart()
         {
             string code = "Code 1";
 
-            _subject.AddToCart(code);
+            await _subject.AddToCart(code);
             _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Once);
         }
 
         [Fact]
-        public void AdddToCart_WhenFailedToAdd_ShouldNotSaveCart()
+        public async Task AdddToCart_WhenFailedToAdd_ShouldNotSaveCart()
         {
             string code = "Non-existing-code";
 
             _cartServiceMock
                 .Setup(x => x.AddToCart(It.IsAny<ICart>(), It.IsAny<string>(), It.IsAny<decimal>()))
                 .Returns(new AddToCartResult());
-            _subject.AddToCart(code);
+            await _subject.AddToCart(code);
             _orderRepositoryMock.Verify(s => s.Save(It.IsAny<IOrderGroup>()), Times.Never);
         }
 

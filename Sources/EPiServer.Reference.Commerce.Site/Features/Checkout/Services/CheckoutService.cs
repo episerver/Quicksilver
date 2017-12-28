@@ -180,7 +180,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             };
 
             var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
-            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(viewModel.CurrentPage.ContentLink).FirstOrDefault();
+            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(viewModel.CurrentPage.ContentLink).First();
 
             try
             {
@@ -188,7 +188,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             }
             catch (Exception e)
             {
-                _log.Warning(string.Format("Unable to send purchase receipt to '{0}'.", viewModel.BillingAddress.Email), e);
+                _log.Warning($"Unable to send purchase receipt to '{viewModel.BillingAddress.Email}'.", e);
                 return false;
             }
             return true;
@@ -207,7 +207,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 queryCollection.Add("notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), checkoutViewModel.BillingAddress.Email));
             }
 
-            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink).FirstOrDefault();
+            var confirmationPage = _contentRepository.GetChildren<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink).First();
 
             return new UrlBuilder(confirmationPage.LinkURL) {QueryCollection = queryCollection}.ToString();
         }
@@ -224,18 +224,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 validation = AnonymousPurchaseValidation;
             }
 
-            if (!validation.ValidateModel(modelState, viewModel) ||
-                !validation.ValidateOrderOperation(modelState, validationIssueCollections))
-            {
-                return false;
-            }
-
-            return true;
+            return validation.ValidateModel(modelState, viewModel) && validation.ValidateOrderOperation(modelState, validationIssueCollections);
         }
 
         public void ProcessPaymentCancel(CheckoutViewModel viewModel, TempDataDictionary tempData, ControllerContext controlerContext)
         {
-            var message = tempData["message"] != null ? tempData["message"].ToString() : controlerContext.HttpContext.Request.QueryString["message"];
+            var message = tempData["message"]?.ToString() ?? controlerContext.HttpContext.Request.QueryString["message"];
             if (!string.IsNullOrEmpty(message))
             {
                 viewModel.Message = message;

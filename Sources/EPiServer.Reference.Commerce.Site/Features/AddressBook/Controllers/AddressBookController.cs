@@ -65,9 +65,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         public ActionResult GetRegionsForCountry(string countryCode, string region, string htmlPrefix)
         {
             ViewData.TemplateInfo.HtmlFieldPrefix = htmlPrefix;
-            var countryRegion = new CountryRegionViewModel();
-            countryRegion.RegionOptions = _addressBookService.GetRegionsByCountryCode(countryCode);
-            countryRegion.Region = region;
+            var countryRegion = new CountryRegionViewModel
+            {
+                RegionOptions = _addressBookService.GetRegionsByCountryCode(countryCode),
+                Region = region
+            };
 
             return PartialView("~/Views/Shared/EditorTemplates/AddressRegion.cshtml", countryRegion);
         }

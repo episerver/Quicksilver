@@ -23,7 +23,7 @@
         </div>
         <div class="row section-box">
             <div class="col-xs-12 checkout-cart">
-                @for (int index = 0; index < Model.CartItems.Count(); index++)
+                @for (int index = 0; index < Model.CartItems.Length; index++)
                 {
                     @Html.HiddenFor(model => model.CartItems[index].Code);
 					@Html.HiddenFor(model => model.CartItems[index].DisplayName);

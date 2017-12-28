@@ -65,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 entry.ContentLink;
 
             FashionProduct product;
-            if (_contentLoader.TryGet<FashionProduct>(productLink, out product))
+            if (_contentLoader.TryGet(productLink, out product))
             {
                 viewModel.Brand = GetBrand(product);
             }
@@ -94,7 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 
         private string GetBrand(FashionProduct product)
         {
-            return product != null ? product.Brand : null;
+            return product?.Brand;
         }
 
         private Money? GetDiscountedPrice(ICart cart, ILineItem lineItem)

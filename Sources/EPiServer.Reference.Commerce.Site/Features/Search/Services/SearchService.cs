@@ -283,12 +283,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         private static string GetEscapedSearchPhrase(string query)
         {
             var searchPhrase = RemoveInvalidCharacters(query);
-            if (String.IsNullOrEmpty(searchPhrase))
-            {
-                return string.Empty;
-            }
-
-            return String.Concat(searchPhrase, "*");
+            return string.IsNullOrEmpty(searchPhrase) ? string.Empty : string.Concat(searchPhrase, "*");
         }
 
         private static string RemoveInvalidCharacters(string s)

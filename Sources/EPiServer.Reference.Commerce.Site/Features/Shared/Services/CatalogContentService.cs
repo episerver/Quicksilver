@@ -111,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
 
         public virtual bool TryGet<T>(string code, out T product) where T : EntryContentBase
         {
-            return _contentLoader.TryGet<T>(_referenceConverter.GetContentLink(code), out product);
+            return _contentLoader.TryGet(_referenceConverter.GetContentLink(code), out product);
         }
         
         public virtual IEnumerable<T> GetItems<T>(IEnumerable<string> codes) where T : EntryContentBase

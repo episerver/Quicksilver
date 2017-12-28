@@ -93,15 +93,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
         }
 
-        public string DefaultCartName
-        {
-            get { return "Default"; }
-        }
+        public string DefaultCartName => "Default";
 
-        public string DefaultWishListName
-        {
-            get { return "WishList"; }
-        }
+        public string DefaultWishListName => "WishList";
 
         public void RecreateLineItemsBasedOnShipments(ICart cart, IEnumerable<CartItemViewModel> cartItems, IEnumerable<AddressModel> addresses)
         {
@@ -361,7 +355,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             foreach (var validationIssue in validationIssues)
             {
                 var warning = new StringBuilder();
-                warning.Append(string.Format("Line Item with code {0} ", lineItem.Code));
+                warning.Append($"Line Item with code {lineItem.Code} ");
                 validationIssue.Value.Aggregate(warning, (current, issue) => current.Append(issue).Append(", "));
 
                 result.ValidationMessages.Add(warning.ToString().TrimEnd(',', ' '));

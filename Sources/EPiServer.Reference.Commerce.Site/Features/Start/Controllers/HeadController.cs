@@ -45,7 +45,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                 {
                     title = parentContent.Name;
                 }
-                return Content(FormatTitle(string.Format("{0} - {1}", product.SeoInformation.Title.NullIfEmpty() ?? product.DisplayName, title)));
+                return Content(FormatTitle(
+                    $"{product.SeoInformation.Title.NullIfEmpty() ?? product.DisplayName} - {title}"));
             }
 
             var category = content as NodeContent;

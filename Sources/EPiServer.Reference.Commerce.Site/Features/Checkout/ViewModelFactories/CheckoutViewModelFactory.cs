@@ -147,7 +147,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         {
             viewModel.PaymentMethodViewModels = _paymentMethodViewModelFactory().GetPaymentMethodViewModels();
 
-            var defaultPaymentMethod = viewModel.PaymentMethodViewModels.FirstOrDefault(p => p.IsDefault == true) ?? viewModel.PaymentMethodViewModels.First();
+            var defaultPaymentMethod = viewModel.PaymentMethodViewModels.FirstOrDefault(p => p.IsDefault) ?? viewModel.PaymentMethodViewModels.First();
             var selectedPaymentMethod = viewModel.Payment == null ? 
                 defaultPaymentMethod :
                 viewModel.PaymentMethodViewModels.Single(p => p.SystemKeyword == viewModel.Payment.SystemKeyword);
@@ -161,7 +161,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 
             return new AddressModel
             {
-                AddressId = preferredBillingAddress != null ? preferredBillingAddress.Name : null,
+                AddressId = preferredBillingAddress?.Name,
                 Name = preferredBillingAddress != null ? preferredBillingAddress.Name : Guid.NewGuid().ToString(),
             };
         }

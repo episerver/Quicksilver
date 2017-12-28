@@ -50,13 +50,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private Injected<IDataImporter> DataImporter = default(Injected<IDataImporter>);
         private Injected<TaxImportExport> TaxImportExport = default(Injected<TaxImportExport>);
 
-        public int Order
-        {
-            get { return 1000; }
-        }
+        public int Order => 1000;
 
-        public string Name { get { return "Quicksilver content"; } }
-        public string Description { get { return "Import catalog, assets, payment methods, shipping methods, and promotions for Quicksilver"; } }
+        public string Name => "Quicksilver content";
+        public string Description => "Import catalog, assets, payment methods, shipping methods, and promotions for Quicksilver";
 
         public bool Execute(IProgressMessenger progressMessenger)
         {
@@ -109,7 +106,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
             var defaultWarehouse = warehouseRepository.Get("default");
 
-            if (defaultWarehouse != null && defaultWarehouse.WarehouseId.HasValue)
+            if (defaultWarehouse?.WarehouseId != null)
             {
                 warehouseRepository.Delete(defaultWarehouse.WarehouseId.Value);
             }
@@ -251,9 +248,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             foreach (var currency in markets.SelectMany(m => m.Currencies).Distinct())
             {
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Express-" + currency, string.Format("Express {0} (1 day)({1})", currency, languageId), usdCostExpress, currency));
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Fast-" + currency, string.Format("Fast {0} (2-3 days)({1})", currency, languageId), usdCostFast, currency));
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Regular-" + currency, string.Format("Regular {0} (4-7 days)({1})", currency, languageId), usdCostRegular, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Express-" + currency, $"Express {currency} (1 day)({languageId})", usdCostExpress, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Fast-" + currency, $"Fast {currency} (2-3 days)({languageId})", usdCostFast, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Regular-" + currency, $"Regular {currency} (4-7 days)({languageId})", usdCostRegular, currency));
             }
 
             return shippingMethods;
@@ -342,7 +339,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     var percent = (int)Math.Round(msg.GetOverallProgress() * 100);
                     var message = msg.Exception == null
                         ? msg.Message
-                        : string.Format("{0} {1}", msg.Message, msg.ExceptionMessage);
+                        : $"{msg.Message} {msg.ExceptionMessage}";
                     _progressMessenger.AddProgressMessageText(message, isError, percent);
                 };
                 importJob.Execute(addMessage, CancellationToken.None);
@@ -379,16 +376,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private static void SyncMetaClassesToContentTypeModels()
         {
             var cachedRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>() as ICachedRepository;
-            if (cachedRepository != null)
-            {
-                cachedRepository.ClearCache();
-            }
+            cachedRepository?.ClearCache();
 
             cachedRepository = ServiceLocator.Current.GetInstance<IPropertyDefinitionRepository>() as ICachedRepository;
-            if (cachedRepository != null)
-            {
-                cachedRepository.ClearCache();
-            }
+            cachedRepository?.ClearCache();
 
             var tasks = new List<Task>();
 

@@ -7,7 +7,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
     [ServiceConfiguration(typeof(CustomerContextFacade), Lifecycle = ServiceInstanceScope.Singleton)]
     public class CustomerContextFacade
     {
-        private MapUserKey _mapUserKey;
+        private readonly MapUserKey _mapUserKey;
 
         public CustomerContextFacade(MapUserKey mapUserKey)
         {

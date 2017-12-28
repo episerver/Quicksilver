@@ -43,18 +43,20 @@
     private static string GetLocaleSettings()
     {
         var currencyService = ServiceLocator.Current.GetInstance<ICurrencyService>();
-        var currencyCultureMappings = new Dictionary<string, string>();
-        currencyCultureMappings.Add("AUD", "en-AU");
-        currencyCultureMappings.Add("BRL", "pt-BR");
-        currencyCultureMappings.Add("CAD", "en-CA");
-        currencyCultureMappings.Add("CLP", "arn-CL");
-        currencyCultureMappings.Add("EUR", "de-DE");
-        currencyCultureMappings.Add("JPY", "ja-JP");
-        currencyCultureMappings.Add("NOK", "se-NO");
-        currencyCultureMappings.Add("SAR", "ar-SA");
-        currencyCultureMappings.Add("SEK", "sv-SE");
-        currencyCultureMappings.Add("GBP", "en-GB");
-        currencyCultureMappings.Add("USD", "en-US");
+        var currencyCultureMappings = new Dictionary<string, string>
+        {
+            { "AUD", "en-AU"},
+            { "BRL", "pt-BR"},
+            { "CAD", "en-CA"},
+            { "CLP", "arn-CL"},
+            { "EUR", "de-DE"},
+            { "JPY", "ja-JP"},
+            { "NOK", "se-NO"},
+            { "SAR", "ar-SA"},
+            { "SEK", "sv-SE"},
+            { "GBP", "en-GB"},
+            { "USD", "en-US"}
+        };
 
         var currency = currencyService.GetCurrentCurrency();
         var localeSettings = new
@@ -98,7 +100,7 @@
 {
     var contextSettingsSection = page.RenderSection("RecommendationsContextSettings", false);
     var settings = contextSettingsSection == null ? null : contextSettingsSection.ToString().Trim();
-    var contextSettings = "{" + string.Join(",", (new[] { settings, GetLocaleSettings() }).Where(x => !string.IsNullOrEmpty(x))) + "}";
+    var contextSettings = "{" + string.Join(",", new[] { settings, GetLocaleSettings() }.Where(x => !string.IsNullOrEmpty(x))) + "}";
     @page.Html.Raw(contextSettings)
 }
 

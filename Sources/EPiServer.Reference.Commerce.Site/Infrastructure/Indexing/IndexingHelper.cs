@@ -6,12 +6,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
     {
         public static string GetPriceField(MarketId marketId, Currency currency)
         {
-            return string.Format("listing_price_{0}_{1}", marketId, currency).ToLower();
+            return $"listing_price_{marketId}_{currency}".ToLower();
         }
 
         public static string GetOriginalPriceField(MarketId marketId, Currency currency)
         {
-            return string.Format("original_price_{0}_{1}", marketId, currency).ToLower();
+            return $"original_price_{marketId}_{currency}".ToLower();
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.ServiceLocation;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Commerce.Catalog.Objects;
@@ -18,7 +18,6 @@ using Mediachase.Search.Extensions.Indexers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
@@ -31,27 +30,41 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         private readonly ILogger _log;
 
         public CatalogIndexer()
+            : this(
+                ServiceLocator.Current.GetInstance<ICatalogSystem>(),
+                ServiceLocator.Current.GetInstance<IPriceService>(),
+                ServiceLocator.Current.GetInstance<IPricingService>(),
+                ServiceLocator.Current.GetInstance<IInventoryService>(),
+                ServiceLocator.Current.GetInstance<MetaDataContext>(),
+                ServiceLocator.Current.GetInstance<CatalogItemChangeManager>(),
+                ServiceLocator.Current.GetInstance<NodeIdentityResolver>(),
+                ServiceLocator.Current.GetInstance<AssetUrlResolver>(),
+                ServiceLocator.Current.GetInstance<CatalogContentService>())
         {
-            _pricingService = ServiceLocator.Current.GetInstance<IPricingService>();
-            _catalogContentService = ServiceLocator.Current.GetInstance<CatalogContentService>();
-            _assetUrlResolver = ServiceLocator.Current.GetInstance<AssetUrlResolver>();
-            _log = LogManager.GetLogger(typeof(CatalogIndexer));
         }
 
-        public CatalogIndexer(ICatalogSystem catalogSystem,
+        public CatalogIndexer(
+            ICatalogSystem catalogSystem,
             IPriceService priceService,
             IPricingService pricingService,
             IInventoryService inventoryService,
             MetaDataContext metaDataContext,
+            CatalogItemChangeManager catalogItemChangeManager,
+            NodeIdentityResolver nodeIdentityResolver,
             AssetUrlResolver assetUrlResolver,
-            ILogger logger, 
             CatalogContentService catalogContentService)
-            : base(catalogSystem, priceService, inventoryService, metaDataContext)
+            : base(
+                catalogSystem,
+                priceService,
+                inventoryService,
+                metaDataContext,
+                catalogItemChangeManager,
+                nodeIdentityResolver)
         {
             _pricingService = pricingService;
             _assetUrlResolver = assetUrlResolver;
-            _log = logger;
             _catalogContentService = catalogContentService;
+            _log = LogManager.GetLogger(typeof(CatalogIndexer));
         }
 
         /// <summary>
@@ -95,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             document.Add(new SearchField("top_category_name", _catalogContentService.GetTopCategoryName(entryContent)));
 
             stopwatch.Stop();
-            _log.Debug(string.Format("Indexing of {0} for {1} took {2}", entryContent.Code, language, stopwatch.Elapsed.Milliseconds));
+            _log.Debug($"Indexing of {entryContent.Code} for {language} took {stopwatch.Elapsed.Milliseconds}");
         }
         
         private void AddSizes(ISearchDocument document, IEnumerable<FashionVariant> variants)

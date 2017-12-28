@@ -42,7 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
             var viewModel = new NavigationViewModel
             {
                 StartPage = startPage,
-                CurrentContentLink = currentContent != null ? currentContent.ContentLink : null,
+                CurrentContentLink = currentContent?.ContentLink,
                 UserLinks = new LinkItemCollection(),
                 MiniCart = _cartViewModelFactory.CreateMiniCartViewModel(cart),
                 WishListMiniCart = _cartViewModelFactory.CreateWishListMiniCartViewModel(wishlist)

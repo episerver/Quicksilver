@@ -18,9 +18,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 Factor = factor;
             }
 
-            public string Currency;
-            public string Name;
-            public decimal Factor;
+            public readonly string Currency;
+            public readonly string Name;
+            public readonly decimal Factor;
         }
 
         private readonly CurrencyConversion[] _conversionRatesToUsd = new [] {
