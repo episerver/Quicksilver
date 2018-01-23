@@ -75,7 +75,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private IEnumerable<ShippingMethodViewModel> CreateShippingMethodViewModels(IMarket market, Currency currency, IShipment shipment)
         {
             var shippingRates = GetShippingRates(market, currency, shipment);
-            return shippingRates.Select(r => new ShippingMethodViewModel { Id = r.Id, DisplayName = r.Name, Price = r.Money });
+            return shippingRates.Any()
+                ? shippingRates.Select(r => new ShippingMethodViewModel { Id = r.Id, DisplayName = r.Name, Price = r.Money })
+                : Enumerable.Empty<ShippingMethodViewModel>();
         }
 
         private IEnumerable<ShippingRate> GetShippingRates(IMarket market, Currency currency, IShipment shipment)
@@ -86,7 +88,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             return methods.Where(shippingMethodRow => currentLanguage.Equals(shippingMethodRow.LanguageId, StringComparison.OrdinalIgnoreCase)
                 && string.Equals(currency, shippingMethodRow.Currency, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(shippingMethodRow => shippingMethodRow.Ordering)
-                .Select(shippingMethodRow => _shippingManagerFacade.GetRate(shipment, shippingMethodRow, market));
+                .Select(shippingMethodRow => _shippingManagerFacade.GetRate(shipment, shippingMethodRow, market))
+                .Where(rate => rate != null);
         }
     }
 }
