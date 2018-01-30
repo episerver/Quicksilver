@@ -25,7 +25,7 @@
 				-->
 					<Column width="50" headingText="" columnType="Action" dataField="ID">
 						<Item imageUrl="~/Apps/Shell/styles/Images/edit.gif" commandName="cmdCatalogGridEdit" commandParameters="CatalogId" toolTip="Edit" permissions="catalog:ctlg:mng:edit"></Item>
-						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdCatalogGridCatalogExport" commandParameters="CatalogId,Name" ToolTip="Export" permissions="catalog:ctlg:mng:export" />
+						<Item imageUrl="~/Apps/Shell/styles/Images/toolbar/export.png" commandName="cmdCatalogGridCatalogExport" commandParameters="CatalogId" ToolTip="Export" permissions="catalog:ctlg:mng:export" />
 					</Column>
 					<Column width="400" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" id="Name" columnType="HyperLink" dataNavigateUrlFields="CatalogId" dataNavigateUrlFormatString="javascript:CSManagementClient.ChangeView('Catalog','Node-List', 'catalogid={0}&amp;catalognodeid=');" dataTextFields="Name" dataTextFormatString="{0}" dataTextEncode="true"></Column>
 					<Column width="150" columnType="DateTime" allowSorting="true" dataField="StartDate" headingText="{SharedStrings:Available_From}"></Column>
