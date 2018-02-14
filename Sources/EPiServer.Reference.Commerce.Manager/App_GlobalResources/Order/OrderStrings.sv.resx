@@ -867,6 +867,9 @@
   <data name="CancelOrderConfirmation" xml:space="preserve">
     <value>Vill du avbryta aktuell inköpsorder?</value>
   </data>
+  <data name="CancelPaymentPlanConfirmation" xml:space="preserve">
+    <value>Vill du avbryta aktuell betalningsplan?</value>
+  </data>
   <data name="CancelReturnConfirmation" xml:space="preserve">
     <value>Vill du avbryta aktuell returbegäran?</value>
   </data>

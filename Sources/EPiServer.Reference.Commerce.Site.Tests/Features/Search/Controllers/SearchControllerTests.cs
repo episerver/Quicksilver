@@ -34,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         {
             await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
-               x => x.TrackSearch(
+               x => x.TrackSearchAsync(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.Is<IEnumerable<string>>(y => y.Single() == _searchViewModel.ProductViewModels.Single().Code)
@@ -55,7 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         {
             await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 2 });
             _recommendationServiceMock.Verify(
-               x => x.TrackSearch(
+               x => x.TrackSearchAsync(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.IsAny<IEnumerable<string>>()
@@ -70,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 
             await _subject.Index(new SearchPage(), new FilterOptionViewModel() { Page = 1 });
             _recommendationServiceMock.Verify(
-               x => x.TrackSearch(
+               x => x.TrackSearchAsync(
                        It.IsAny<HttpContextBase>(),
                        It.IsAny<string>(),
                        It.IsAny<IEnumerable<string>>()
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         {
             var result = ((ViewResult)_subject.QuickSearch("test")).Model as ProductTileViewModel[];           
             _recommendationServiceMock.Verify(
-                x => x.TrackSearch(
+                x => x.TrackSearchAsync(
                     It.IsAny<HttpContextBase>(),
                     It.IsAny<string>(),
                     It.IsAny<IEnumerable<string>>()),

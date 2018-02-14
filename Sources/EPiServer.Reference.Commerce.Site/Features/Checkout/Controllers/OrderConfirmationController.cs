@@ -33,19 +33,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             IPurchaseOrder order = null;
             if (PageEditing.PageIsInEditMode)
             {
-                order = _confirmationService.CreateFakePurchaseOrder();
+                order = ConfirmationService.CreateFakePurchaseOrder();
             }
             else if (orderNumber.HasValue)
             {
-                order = _confirmationService.GetOrder(orderNumber.Value);
+                order = ConfirmationService.GetOrder(orderNumber.Value);
 
                 if (order != null)
                 {
-                    await _recommendationService.TrackOrder(HttpContext, order);
+                    await _recommendationService.TrackOrderAsync(HttpContext, order);
                 }
             }
 
-            if (order != null && order.CustomerId == _customerContext.CurrentContactId)
+            if (order != null && order.CustomerId == CustomerContext.CurrentContactId)
             {
                 var viewModel = CreateViewModel(currentPage, order);
                 viewModel.NotificationMessage = notificationMessage;

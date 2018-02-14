@@ -60,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(Cart);
-                await _recommendationService.TrackCart(HttpContext);
+                await _recommendationService.TrackCartAsync(HttpContext);
                 return MiniCartDetails();
             }
             
@@ -75,7 +75,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
             _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
             _orderRepository.Save(Cart);
-            await _recommendationService.TrackCart(HttpContext);
+            await _recommendationService.TrackCartAsync(HttpContext);
             return MiniCartDetails();
         }
 

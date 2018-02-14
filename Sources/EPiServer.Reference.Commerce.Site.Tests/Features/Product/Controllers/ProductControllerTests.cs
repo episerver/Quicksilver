@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             await CreateController().Index(fashionProduct, "notexist", false, true);
 
-            _recommendationServiceMock.Verify(x => x.TrackProduct(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             await CreateController().Index(fashionProduct, "notexist", true, false);
 
-            _recommendationServiceMock.Verify(x => x.TrackProduct(It.IsAny<HttpContextBase>(), It.IsAny<string>(), true), Times.Once);
+            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), true), Times.Once);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             await CreateController().Index(fashionProduct, "notexist", true, true);
 
-            _recommendationServiceMock.Verify(x => x.TrackProduct(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             await CreateController().Index(fashionProduct, "notexist", false, false);
 
-            _recommendationServiceMock.Verify(x => x.TrackProduct(It.IsAny<HttpContextBase>(), It.IsAny<string>(), false), Times.Once);
+            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), false), Times.Once);
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock = new Mock<CatalogEntryViewModelFactory>(null, null, null, null);
             _recommendationServiceMock = new Mock<IRecommendationService>();
             _recommendationServiceMock
-                .Setup(m => m.TrackProduct(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()))
+                .Setup(m => m.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync((TrackingResponseData) null);
 
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);

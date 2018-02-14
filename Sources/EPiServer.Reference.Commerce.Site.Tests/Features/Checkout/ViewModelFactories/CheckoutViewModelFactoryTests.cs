@@ -2,7 +2,6 @@ using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
@@ -61,16 +60,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
 
             Assert.Equal(viewModel.PaymentMethodViewModels.Count(), 2);
             Assert.Equal(viewModel.Payment.SystemKeyword, creditPaymentName);
-        }
-
-        [Fact]
-        public void CreateCheckoutViewModel_WithNonePreferredAddress_ShouldSetDefaultBillingAddressToGuid()
-        {
-            var checkoutPage = new CheckoutPage();
-            _addressBookServiceMock.Setup(x => x.GetPreferredBillingAddress()).Returns((CustomerAddress)null);
-            var viewModel = _subject.CreateCheckoutViewModel(_cart, checkoutPage);
-
-            Assert.IsType(typeof(Guid), Guid.Parse(viewModel.BillingAddress.Name));
         }
 
         [Fact]

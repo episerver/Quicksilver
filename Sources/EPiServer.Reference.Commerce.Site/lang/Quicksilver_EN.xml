@@ -235,6 +235,10 @@
       <OrderLevelDiscounts>Additional Order Level Discounts</OrderLevelDiscounts>
       <ShippingAndTax>Shipping &amp; Tax</ShippingAndTax>
       <ShippingCost>Estimated Shipping Costs</ShippingCost>
+      <ShipmentCost>Shipment Cost</ShipmentCost>
+      <ShippingItemsTotal>Shipping Items Total</ShippingItemsTotal>
+      <ShippingMethod>Shipping Method</ShippingMethod>
+      <ShippingAddress>Shipping address</ShippingAddress>
       <TaxTotal>Estimated Tax to Be Collected</TaxTotal>
       <CartTotal>Total for cart</CartTotal>
       <BillingDetails>Billing details</BillingDetails>

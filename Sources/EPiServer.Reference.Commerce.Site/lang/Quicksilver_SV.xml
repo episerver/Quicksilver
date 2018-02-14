@@ -236,6 +236,10 @@
       <ShippingCost>Beräknade fraktkostnader</ShippingCost>
       <ShippingSubtotal>Frakt Delsumma</ShippingSubtotal>
       <ShippingDiscount>Frakt Rabatt</ShippingDiscount>
+      <ShipmentCost>Frakt Kostnad</ShipmentCost>
+      <ShippingItemsTotal>Varor Totalt</ShippingItemsTotal>
+      <ShippingMethod>Fraktsätt</ShippingMethod>
+      <ShippingAddress>Fraktaddress</ShippingAddress>
       <TaxTotal>Beräknad skatt </TaxTotal>
       <CartTotal>Total för kundvagnen</CartTotal>
       <BillingDetails>Faktureringsinformation</BillingDetails>

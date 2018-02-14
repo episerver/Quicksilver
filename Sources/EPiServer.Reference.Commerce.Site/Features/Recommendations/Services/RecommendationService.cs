@@ -39,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             _trackingService = trackingService;
         }
 
-        public async Task<TrackingResponseData> TrackProduct(HttpContextBase httpContext, string productCode, bool skipRecommendations)
+        public async Task<TrackingResponseData> TrackProductAsync(HttpContextBase httpContext, string productCode, bool skipRecommendations)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -56,7 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackSearch(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes)
+        public async Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default || string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -67,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackOrder(HttpContextBase httpContext, IPurchaseOrder order)
+        public async Task<TrackingResponseData> TrackOrderAsync(HttpContextBase httpContext, IPurchaseOrder order)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -78,7 +78,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCategory(HttpContextBase httpContext, NodeContent category)
+        public async Task<TrackingResponseData> TrackCategoryAsync(HttpContextBase httpContext, NodeContent category)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -89,7 +89,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCart(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -101,7 +101,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackWishlist(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackWishlistAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -112,7 +112,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCheckout(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackCheckoutAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {

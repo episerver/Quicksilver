@@ -870,6 +870,9 @@
   <data name="CancelOrderConfirmation" xml:space="preserve">
     <value>Are you sure you want to cancel current purchase order?</value>
   </data>
+  <data name="CancelPaymentPlanConfirmation" xml:space="preserve">
+    <value>Are you sure you want to cancel current payment plan?</value>
+  </data>
   <data name="CancelReturnConfirmation" xml:space="preserve">
     <value>Are you sure you want to cancel current return request?</value>
   </data>

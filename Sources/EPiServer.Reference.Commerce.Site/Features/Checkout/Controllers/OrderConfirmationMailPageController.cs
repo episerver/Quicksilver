@@ -27,11 +27,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             IPurchaseOrder order;
             if (PageEditing.PageIsInEditMode)
             {
-                order = _confirmationService.CreateFakePurchaseOrder();
+                order = ConfirmationService.CreateFakePurchaseOrder();
             }
             else
             {
-                order = _confirmationService.GetOrder(orderNumber.Value);
+                order = ConfirmationService.GetOrder(orderNumber.Value);
                 if (order == null)
                 {
                     return Redirect(Url.ContentUrl(ContentReference.StartPage));

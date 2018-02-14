@@ -78,7 +78,7 @@
                 <asp:Label runat="server" Text="<%$ Resources:CatalogStrings, Catalog_Catalog_Name %>"></asp:Label>:
             </td>
             <td class="FormFieldCell">
-                <asp:TextBox runat="server" Width="250" ID="CatalogName"></asp:TextBox>
+                <asp:TextBox runat="server" Width="250" ID="CatalogName" MaxLength="100"></asp:TextBox>
                 <asp:RequiredFieldValidator runat="server" ID="CatalogNameRequired" ControlToValidate="CatalogName"
                     Display="Dynamic" ErrorMessage="<%$ Resources:CatalogStrings, Catalog_Catalog_Name_Required %>" />
                 <asp:CustomValidator runat="server" ID="NameUniqueCustomValidator" ControlToValidate="CatalogName"

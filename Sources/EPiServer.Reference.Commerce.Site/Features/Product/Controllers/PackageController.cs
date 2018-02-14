@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 return Request.IsAjaxRequest() ? PartialView(emptyViewName, viewModel) : (ActionResult)View(emptyViewName, viewModel);
             }
 
-            var trackingResults = await _recommendationService.TrackProduct(HttpContext, currentContent.Code, useQuickview);
+            var trackingResults = await _recommendationService.TrackProductAsync(HttpContext, currentContent.Code, useQuickview);
 
             if (useQuickview)
             {

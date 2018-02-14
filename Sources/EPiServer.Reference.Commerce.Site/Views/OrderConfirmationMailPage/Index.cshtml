@@ -26,34 +26,75 @@
                 {
                     <h2>@Html.Translate("/OrderHistory/Labels/OrderID") @Model.OrderId</h2>
                     @Html.Translate("/OrderHistory/Labels/OrderDate") @Model.Created
-                    
-                    <table style="width:100%; vertical-align: top; @fontFamily">
-                        <thead>
-                            <tr>
-                                <td style="@cellPadding">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
-                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
-                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/UnitPrice")</td>
-                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Price")</td>
-                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Discount")</td>
-                                <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Total")</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (ILineItem lineItem in Model.Items)
-                            {
+
+                    foreach (var shipment in Model.Shipments)
+                    {
+
+                        <table style="width:100%; vertical-align: top; @fontFamily">
+                            <thead>
                                 <tr>
-                                    <td style="@horizontalLineStyle @cellPadding"><a href="@lineItem.GetFullUrl()">@lineItem.GetEntryContent().DisplayName</a></td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.Quantity.ToString("0")</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice, Model.Currency)</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice * lineItem.Quantity, Model.Currency)</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.GetEntryDiscount(), Model.Currency)</td>
-                                    <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.GetDiscountedPrice(Model.Currency)</td>
+                                    <td style="@cellPadding">@Html.Translate("/OrderConfirmation/Labels/Product")</td>
+                                    <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Quantity")</td>
+                                    <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/UnitPrice")</td>
+                                    <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Price")</td>
+                                    <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmationMail/Discount")</td>
+                                    <td style="text-align: right; @cellPadding">@Html.Translate("/OrderConfirmation/Labels/Total")</td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                    
-                    <table style="width:100%; vertical-align: top; @fontFamily">                        
+                            </thead>
+                            <tbody>
+                                @foreach (ILineItem lineItem in shipment.LineItems)
+                                {
+                                    <tr>
+                                        <td style="@horizontalLineStyle @cellPadding"><a href="@lineItem.GetFullUrl()">@lineItem.GetEntryContent().DisplayName</a></td>
+                                        <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.Quantity.ToString("0")</td>
+                                        <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice, Model.Currency)</td>
+                                        <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.PlacedPrice * lineItem.Quantity, Model.Currency)</td>
+                                        <td style="text-align: right; @horizontalLineStyle @cellPadding">@Helpers.RenderMoney(lineItem.GetEntryDiscount(), Model.Currency)</td>
+                                        <td style="text-align: right; @horizontalLineStyle @cellPadding">@lineItem.GetDiscountedPrice(Model.Currency)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <br />
+
+                        <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td class="text-right col-md-10">@Html.Translate("/OrderConfirmation/ShipmentCost")</td>
+                                <td class="total-price text-right col-md-3">@shipment.ShipmentCost</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">@Html.Translate("/OrderConfirmation/ShippingItemsTotal")</td>
+                                <td class="total-price text-right col-md-3">@shipment.ShippingItemsTotal</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">@Html.Translate("/OrderConfirmation/ShippingMethod")</td>
+                                <td class="total-price text-right col-md-3">@shipment.ShippingMethodName</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="well quicksilver-well">
+
+                                    <h4>@Html.Translate("/OrderConfirmation/ShippingAddress")</h4>
+                                    @Html.Partial("_Address", shipment.Address)
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <br />
+                    <br />
+                    <br />
+
+                    <table style="width:100%; vertical-align: top; @fontFamily">
                         <tbody>
                             <tr>
                                 <td style="width:80%; text-align: right; @horizontalLineStyle @cellPadding">@Html.Translate("/OrderConfirmationMail/OrderLevelDiscounts")</td>
@@ -86,25 +127,17 @@
                         </tbody>
                     </table>
 
-
                     <table style="width:100%; @fontFamily">
                         <tr>
                             <td style="vertical-align:top; width:50%;">
                                 <h4>@Html.Translate("/OrderConfirmation/BillingDetails")</h4>
                                 @Html.Partial("_Address", Model.BillingAddress)
-
-                                <h4>@Html.Translate("/OrderConfirmation/ShippingDetails")</h4>
-                                @foreach (var shippingAddress in Model.ShippingAddresses)
-                                {
-                                    @Html.Partial("_Address", shippingAddress)
-                                }
                             </td>
                             <td style="vertical-align:top; width:50%;">
                                 @foreach (var payment in Model.Payments)
                                 {
                                     Html.RenderPartial("_" + payment.PaymentMethodName + "Confirmation", payment);
                                 }
-
                             </td>
                         </tr>
                     </table>

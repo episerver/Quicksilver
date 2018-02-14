@@ -76,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(WishList);
-                await _recommendationService.TrackWishlist(HttpContext);
+                await _recommendationService.TrackWishlistAsync(HttpContext);
                 return WishListMiniCartDetails();
             }
 
@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
             _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize);
             _orderRepository.Save(WishList);
-            await _recommendationService.TrackWishlist(HttpContext);
+            await _recommendationService.TrackWishlistAsync(HttpContext);
             return WishListMiniCartDetails();
         }
 

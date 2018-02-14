@@ -12,9 +12,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
     {
         public bool HasOrder { get; set; }
         public string OrderId { get; set; }
-        public IEnumerable<ILineItem> Items { get; set; }
         public AddressModel BillingAddress { get; set; }
-        public IList<AddressModel> ShippingAddresses { get; set; }
         public IEnumerable<IPayment> Payments { get; set; }
         public Guid ContactId { get; set; }
         public DateTime Created { get; set; }
@@ -28,5 +26,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
         public Money TaxTotal { get; set; }
         public Money CartTotal { get; set; }
         public Money OrderLevelDiscountTotal { get; set; }
+        public IEnumerable<ShipmentConfirmationViewModel> Shipments { get; set; }
     }
 }

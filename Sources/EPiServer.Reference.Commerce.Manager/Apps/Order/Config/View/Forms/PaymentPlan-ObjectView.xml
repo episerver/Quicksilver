@@ -208,7 +208,7 @@
     <Commands>
       <add>
         <Command id="btn_CancelOrderBtnPP">
-          <ConfirmationText>{OrderStrings:CancelOrderConfirmation}</ConfirmationText>
+          <ConfirmationText>{OrderStrings:CancelPaymentPlanConfirmation}</ConfirmationText>
           <CommandType>ServerAction</CommandType>
           <Handler type="Mediachase.Commerce.Manager.Order.CommandHandlers.PaymentPlanHandlers.CancelPaymentPlanHandler, Mediachase.ConsoleManager">
           </Handler>

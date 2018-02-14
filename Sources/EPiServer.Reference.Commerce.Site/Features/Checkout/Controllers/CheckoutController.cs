@@ -69,7 +69,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _cartService.ApplyDiscounts(Cart);
             _orderRepository.Save(Cart);
 
-            await _recommendationService.TrackCheckout(HttpContext);
+            await _recommendationService.TrackCheckoutAsync(HttpContext);
 
             _checkoutService.ProcessPaymentCancel(viewModel, TempData, ControllerContext);
 

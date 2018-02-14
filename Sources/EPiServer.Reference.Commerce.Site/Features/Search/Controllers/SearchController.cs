@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
                 HttpContext.Items[SearchTrackingData.TotalSearchResultsKey] = filterOptions.TotalCount;
 
                 var trackingResult =
-                    await _recommendationService.TrackSearch(HttpContext, filterOptions.Q,
+                    await _recommendationService.TrackSearchAsync(HttpContext, filterOptions.Q,
                         viewModel.ProductViewModels.Select(x => x.Code));
                 viewModel.Recommendations = trackingResult.GetSearchResultRecommendations(_referenceConverter);
             }

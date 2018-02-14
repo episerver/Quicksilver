@@ -11,13 +11,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
 {
     public interface IRecommendationService
     {
-        Task<TrackingResponseData> TrackProduct(HttpContextBase httpContext, string productCode, bool skipRecommendations);
-        Task<TrackingResponseData> TrackSearch(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes);
-        Task<TrackingResponseData> TrackOrder(HttpContextBase httpContext, IPurchaseOrder order);
-        Task<TrackingResponseData> TrackCategory(HttpContextBase httpContext, NodeContent category);
-        Task<TrackingResponseData> TrackCart(HttpContextBase httpContext);
-        Task<TrackingResponseData> TrackWishlist(HttpContextBase httpContext);
-        Task<TrackingResponseData> TrackCheckout(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackProductAsync(HttpContextBase httpContext, string productCode, bool skipRecommendations);
+        Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes);
+        Task<TrackingResponseData> TrackOrderAsync(HttpContextBase httpContext, IPurchaseOrder order);
+        Task<TrackingResponseData> TrackCategoryAsync(HttpContextBase httpContext, NodeContent category);
+        Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackWishlistAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackCheckoutAsync(HttpContextBase httpContext);
 
         IEnumerable<RecommendedProductTileViewModel> GetRecommendedProductTileViewModels(IEnumerable<Recommendation> recommendations);
     }

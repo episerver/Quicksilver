@@ -46,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             {
                 if (!skipTracking)
                 {
-                    await _recommendationService.TrackProduct(HttpContext, currentContent.Code, true);
+                    await _recommendationService.TrackProductAsync(HttpContext, currentContent.Code, true);
                 }
 
                 return PartialView("_Quickview", viewModel);
@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 
             if (!skipTracking)
             {
-                var trackingResult = await _recommendationService.TrackProduct(HttpContext, currentContent.Code, false);
+                var trackingResult = await _recommendationService.TrackProductAsync(HttpContext, currentContent.Code, false);
 
                 viewModel.AlternativeProducts =
                     trackingResult?.GetAlternativeProductsRecommendations(_referenceConverter).Take(3);
