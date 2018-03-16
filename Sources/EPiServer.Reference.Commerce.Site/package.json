@@ -6,11 +6,11 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buildless" :  "lessc Styles/style.less > Styles/style.css"
+    "buildless": "lessc Styles/style.less > Styles/style.css"
   },
   "repository": {
-  "type": "git",
-  "url": "git://github.com/episerver/quicksilver"
+    "type": "git",
+    "url": "git://github.com/episerver/quicksilver"
   },
   "author": "EPiServer",
   "license": "Apache-2.0",

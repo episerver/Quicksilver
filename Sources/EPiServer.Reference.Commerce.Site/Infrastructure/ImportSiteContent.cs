@@ -233,7 +233,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         private void ImportTaxes()
         {
-            TaxImportExport.Service.Import(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Taxes.csv"), null, ',');
+            TaxImportExport.Service.Import(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\Taxes.csv"), ',');
         }
 
         private IEnumerable<ShippingMethodDto.ShippingMethodRow> CreateShippingMethodsForLanguageAndCurrencies(ShippingMethodDto dto, IEnumerable<IMarket> markets, string languageId)
