@@ -15,6 +15,6 @@
   "author": "EPiServer",
   "license": "Apache-2.0",
   "devDependencies": {
-    "less": "^2.5.1"
+    "less": "^3.0.1"
   }
 }

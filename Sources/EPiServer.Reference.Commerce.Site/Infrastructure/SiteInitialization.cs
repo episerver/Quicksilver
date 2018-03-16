@@ -56,8 +56,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             SetupExcludePromotionEntries(context);
 #endif
 
-#if ACTIVATE_DEFAULT_RECOMMENDATION_WIDGETS_FEATURE
-            SetupRecommendationsWidgets(context);
+#if ACTIVATE_DEFAULT_PERSONALIZATION_WIDGETS_FEATURE
+            SetupPersonalizationsWidgets(context);
 #endif
         }
 
@@ -171,17 +171,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         }
 
         /// <summary>
-        /// Creates and activates the default Recommendations widgets.
+        /// Creates and activates the default Personalization widgets.
         /// </summary>
         /// <param name="context">The initialization engine.</param>
         /// <remarks>
-        /// To use this feature, define ACTIVATE_DEFAULT_RECOMMENDATION_WIDGETS_FEATURE symbol.
+        /// To use this feature, define ACTIVATE_DEFAULT_PERSONALIZATION_WIDGETS_FEATURE symbol.
         /// It only needs to run once, not upon every initialization, and only if you use the Recommendations feature.
         /// Instructions:
-        ///     Enter the configuration values for Recommendations in web.config.
-        ///     Make sure that the episerver:RecommendationsSilentMode setting is set to false, and other Recommendations settings have proper values.
+        ///     Enter the configuration values for Personalization in web.config.
+        ///     Make sure that the episerver:tracking.Enabled setting is set to true, and other personalization settings have proper values.
         /// </remarks>
-        private void SetupRecommendationsWidgets(InitializationEngine context)
+        private void SetupPersonalizationWidgets(InitializationEngine context)
         {
             var configuration = context.Locate.Advanced.GetInstance<PersonalizationClientConfiguration>();
 
