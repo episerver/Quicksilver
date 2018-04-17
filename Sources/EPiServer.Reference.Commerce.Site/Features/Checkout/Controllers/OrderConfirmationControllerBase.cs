@@ -3,15 +3,11 @@ using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
+using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -20,18 +16,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         protected readonly ConfirmationService ConfirmationService;
         protected readonly CustomerContextFacade CustomerContext;
         private readonly AddressBookService _addressBookService;
-        private readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
-       
+        private readonly IOrderGroupCalculator _orderGroupCalculator;
+        private readonly IMarketService _marketService;
+
         protected OrderConfirmationControllerBase(
             ConfirmationService confirmationService,
             AddressBookService addressBookService,
             CustomerContextFacade customerContextFacade,
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
+            IOrderGroupCalculator orderGroupCalculator,
+            IMarketService marketService)
         {
             ConfirmationService = confirmationService;
             _addressBookService = addressBookService;
             CustomerContext = customerContextFacade;
-            _orderGroupTotalsCalculator = orderGroupTotalsCalculator;
+            _orderGroupCalculator = orderGroupCalculator;
+            _marketService = marketService;
         }
 
         protected OrderConfirmationViewModel<T> CreateViewModel(T currentPage, IPurchaseOrder order)
@@ -41,7 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 return new OrderConfirmationViewModel<T> { CurrentPage = currentPage };
             }
 
-            var totals = _orderGroupTotalsCalculator.GetTotals(order);
+            var totals = order.GetOrderGroupTotals(_orderGroupCalculator);
 
             return new OrderConfirmationViewModel<T>
             {
@@ -54,7 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 ContactId = CustomerContext.CurrentContactId,
                 Payments = order.GetFirstForm().Payments.Where(c => c.TransactionType == TransactionType.Authorization.ToString() || c.TransactionType == TransactionType.Sale.ToString()),
                 OrderGroupId = order.OrderLink.OrderGroupId,
-                OrderLevelDiscountTotal = order.GetOrderDiscountTotal(order.Currency),
+                OrderLevelDiscountTotal = order.GetOrderDiscountTotal(),
                 ShippingSubTotal = order.GetShippingSubTotal(),
                 ShippingDiscountTotal = order.GetShippingDiscountTotal(),
                 ShippingTotal = totals.ShippingTotal,
@@ -65,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 {
                     Address = _addressBookService.ConvertToModel(x.ShippingAddress),
                     LineItems = x.LineItems,
-                    ShipmentCost = x.GetShippingCost(order.Market, order.Currency),
+                    ShipmentCost = x.GetShippingCost(_marketService.GetMarket(order.MarketId), order.Currency),
                     DiscountPrice = x.GetShipmentDiscountPrice(order.Currency),
                     ShippingItemsTotal = x.GetShippingItemsTotal(order.Currency),
                     ShippingMethodName = x.ShippingMethodName,

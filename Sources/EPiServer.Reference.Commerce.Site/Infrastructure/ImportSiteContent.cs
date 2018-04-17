@@ -8,6 +8,7 @@ using EPiServer.DataAbstraction.RuntimeModel;
 using EPiServer.DataAccess;
 using EPiServer.Enterprise;
 using EPiServer.Logging;
+using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
@@ -49,6 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private Injected<ReferenceConverter> _referenceConverter = default(Injected<ReferenceConverter>);
         private Injected<IDataImporter> DataImporter = default(Injected<IDataImporter>);
         private Injected<TaxImportExport> TaxImportExport = default(Injected<TaxImportExport>);
+        private Injected<IPaymentManagerFacade> PaymentManager = default(Injected<IPaymentManagerFacade>);
 
         public int Order => 1000;
 
@@ -131,15 +133,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
             var allMarkets = marketService.GetAllMarkets().Where(x => x.IsEnabled).ToList();
-            foreach (var language in allMarkets.SelectMany(x => x.Languages).Distinct())
+            var existingLanguages = allMarkets.SelectMany(x => x.Languages).Distinct();
+
+            foreach (var language in existingLanguages)
             {
-                var dto = PaymentManager.GetPaymentMethods(language.TwoLetterISOLanguageName);
-                var workingDto = (PaymentMethodDto) dto.Copy();
-                foreach (var method in workingDto.PaymentMethod)
+                var dto = Mediachase.Commerce.Orders.Managers.PaymentManager.GetPaymentMethods(language.TwoLetterISOLanguageName);
+                var workingDto = (PaymentMethodDto)dto.Copy();
+
+                foreach (var existingMethod in workingDto.PaymentMethod)
                 {
-                    method.Delete();
+                    existingMethod.Delete();
                 }
-                PaymentManager.SavePayment(workingDto);
+
+                PaymentManager.Service.SavePaymentMethod(workingDto);
 
                 AddPaymentMethod(Guid.NewGuid(),
                     "Credit card",

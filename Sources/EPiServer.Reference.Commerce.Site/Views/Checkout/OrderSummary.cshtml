@@ -8,7 +8,7 @@
         <tbody>
             <tr>
                 <td><h4>@Html.Translate("/Checkout/SubTotal")</h4></td>
-                <td class="total-price"><h4 class="pull-right">@Model.SubTotal.ToString()</h4></td>
+                <td class="total-price"><h4 class="pull-right">@Helpers.RenderMoney(Model.SubTotal)</h4></td>
             </tr>
             <tr>
                 <td>
@@ -18,11 +18,11 @@
                         @discount.DisplayName<br />
                     }
                 <td class="total-price text-right">
-                    <h4>- @Model.OrderDiscountTotal.ToString()</h4>
+                    <h4>- @Helpers.RenderMoney(Model.OrderDiscountTotal)</h4>
                     @foreach (var discount in Model.OrderDiscounts)
-            {
+                    {
                         <span>- </span>
-                        @discount.Discount.ToString()<br />
+                        @Helpers.RenderMoney(discount.Discount)<br />
                     }
                 </td>
             </tr>
@@ -35,17 +35,16 @@
                     @Html.Translate("/Checkout/TaxTotal")
                 </td>
                 <td class="total-price text-right">
-
-                    <h4>@Model.ShippingTaxTotal.ToString()</h4>
-                    @Model.ShippingSubtotal.ToString()<br />
-                    - @Model.ShippingDiscountTotal.ToString()<br />
-                    @Model.ShippingTotal.ToString()<br />
-                    @Model.TaxTotal.ToString()
+                    <h4>@Helpers.RenderMoney(Model.ShippingTaxTotal)</h4>
+                    @Helpers.RenderMoney(Model.ShippingSubtotal)<br />
+                    - @Helpers.RenderMoney(Model.ShippingDiscountTotal)<br />
+                    @Helpers.RenderMoney(Model.ShippingTotal)<br />
+                    @Helpers.RenderMoney(Model.TaxTotal)
                 </td>
             </tr>
             <tr>
                 <td><h4>@Html.Translate("/Checkout/CartTotal")</h4></td>
-                <td class="total-price"><h4 class="pull-right">@Model.CartTotal.ToString()</h4></td>
+                <td class="total-price"><h4 class="pull-right">@Helpers.RenderMoney(Model.CartTotal)</h4></td>
             </tr>
         </tbody>
     </table>

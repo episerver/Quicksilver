@@ -33,12 +33,12 @@
                 <div class="col-xs-12 col-sm-6">
                     @if (Model.DiscountedPrice < Model.ListingPrice)
                     {
-                        <h4 class="product-price">@Model.ListingPrice.ToString()</h4>
-                        <h4 class="product-price--discount">@Model.DiscountedPrice.ToString()</h4>
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
+                        <h4 class="product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
                     }
                     else
                     {
-                        <h4 class="product-price">@Model.DiscountedPrice.ToString()</h4>
+                        <h4 class="product-price">@Helpers.RenderMoney(Model.DiscountedPrice.GetValueOrDefault())</h4>
                     }
                 </div>
             </div>

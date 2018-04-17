@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>(string.Empty, ((ContentResult)result).Content);
+            Assert.Equal(string.Empty, ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Title", ((ContentResult)result).Content);
+            Assert.Equal("Title", ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(null, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Name", ((ContentResult)result).Content);
+            Assert.Equal("Name", ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(SetupContentLoader().Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Seo Tittle-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal("Seo Tittle-Quicksilver", ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(SetupContentLoader().Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Display Name-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal("Display Name-Quicksilver", ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Entry Seo Tittle - Node Seo Tittle-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal("Entry Seo Tittle - Node Seo Tittle-Quicksilver", ((ContentResult)result).Content);
         }
 
         [Fact]
@@ -135,7 +135,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var subject = new HeadController(contentLoaderMock.Object, _contentRouteHelperMock.Object);
             var result = subject.Title();
 
-            Assert.Equal<string>("Entry - Node-Quicksilver", ((ContentResult)result).Content);
+            Assert.Equal("Entry - Node-Quicksilver", ((ContentResult)result).Content);
         }
         [Fact]
         public void Title_WhenCalledWithEntryContentBaseBeneathCatalogEntry_ShouldReturnFormatContainsCatalogName()

@@ -109,8 +109,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         public void AddToCart_WhenLineItemIsRemoved_ShouldReturnWarningMessage()
         {
             _lineItemValidatorMock
-                .Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>()))
-                .Returns((ILineItem l, IMarket m, Action<ILineItem, ValidationIssue> action) => {
+                .Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>()))
+                .Returns((ILineItem l, MarketId m, Action<ILineItem, ValidationIssue> action) =>
+                {
                     action(l, ValidationIssue.AdjustedQuantityByAvailableQuantity);
                     return false;
                 });
@@ -145,7 +146,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 Parent = new ContentReference(3),
                 Quantity = 2
             };
-          
+
             var variant2 = new VariationContent
             {
                 Code = "variant2code",
@@ -284,7 +285,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _cart.AddShipment(shipment, _orderGroupFactoryMock.Object);
             _subject.ChangeCartItem(_cart, shipment.ShipmentId, code, quantity, size, newSize);
 
-           Assert.False(_cart.GetFirstForm().Shipments.Any(s => s.ShipmentId == shipment.ShipmentId && s.LineItems.Any(l => l.Code == code)));
+           Assert.DoesNotContain(_cart.GetFirstForm().Shipments, s => s.ShipmentId == shipment.ShipmentId && s.LineItems.Any(l => l.Code == code));
         }
 
         [Fact]
@@ -296,7 +297,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M");
 
-            Assert.Equal<string>("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
+            Assert.Equal("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
             Assert.Equal<decimal>(5, _cart.GetFirstShipment().LineItems.Single().Quantity);
         }
 
@@ -310,7 +311,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M");
 
-            Assert.Equal<string>("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
+            Assert.Equal("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
             Assert.Equal<decimal>(5 + 1, _cart.GetFirstShipment().LineItems.Single().Quantity);
         }
 
@@ -351,8 +352,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _cart.GetFirstShipment().LineItems.Add(lineItem2);
 
             var result = _subject.LoadCart(_subject.DefaultCartName);
-            
-            Assert.Equal(2, result.GetAllLineItems().Count()); 
+
+            Assert.Equal(2, result.GetAllLineItems().Count());
         }
 
         [Fact]
@@ -361,18 +362,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             var _validCode = "code1";
             var _inValidCode = "code2";
 
-            var lineItem = new InMemoryLineItem { Quantity = 2, Code = _validCode };            
+            var lineItem = new InMemoryLineItem { Quantity = 2, Code = _validCode };
             var lineItem2 = new InMemoryLineItem { Quantity = 2, Code = _inValidCode };
             _cart.GetFirstShipment().LineItems.Add(lineItem);
             _cart.GetFirstShipment().LineItems.Add(lineItem2);
 
-            _lineItemValidatorMock.Setup(x => x.Validate(lineItem, It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
-            _lineItemValidatorMock.Setup(x => x.Validate(lineItem2, It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(false);
+            _lineItemValidatorMock.Setup(x => x.Validate(lineItem, It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
+            _lineItemValidatorMock.Setup(x => x.Validate(lineItem2, It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(false);
 
             var result = _subject.LoadCart(_subject.DefaultCartName);
-            
-            Assert.True(result.GetAllLineItems().Any(l => l.Code == _validCode));
-            Assert.False(result.GetAllLineItems().Any(l => l.Code == _inValidCode));
+
+            Assert.Contains(result.GetAllLineItems(), l => l.Code == _validCode);
+            Assert.DoesNotContain(result.GetAllLineItems(), l => l.Code == _inValidCode);
         }
 
         [Fact]
@@ -437,7 +438,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 new AddressModel { AddressId = "2", Line1 = "Second street" }
             });
 
-            Assert.Equal<string>(displayName, _cart.GetAllLineItems().First().DisplayName);
+            Assert.Equal(displayName, _cart.GetAllLineItems().First().DisplayName);
         }
 
         [Fact]
@@ -498,7 +499,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 new AddressModel { AddressId = "2", Line1 = "Second street" }
             });
 
-            Assert.Equal<int>(1, _cart.GetAllLineItems().Where(x => x.Code == giftSkuCode && x.IsGift).Count());
+            Assert.Single(_cart.GetAllLineItems().Where(x => x.Code == giftSkuCode && x.IsGift));
             Assert.Equal<int>(2, _cart.GetAllLineItems().Where(x => x.Code == skuCode && !x.IsGift).Count());
         }
 
@@ -533,7 +534,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 new AddressModel { AddressId = "2", Line1 = "Second street" }
             });
             Assert.Equal<int>(2, _cart.GetAllLineItems().Where(x => x.Code == skuCode && !x.IsGift).Count());
-            Assert.Equal<int>(1, _cart.GetAllLineItems().Where(x => x.Code == skuCode && x.IsGift).Count());
+            Assert.Single(_cart.GetAllLineItems().Where(x => x.Code == skuCode && x.IsGift));
         }
 
         [Fact]
@@ -557,7 +558,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             Assert.Equal<Dictionary<ILineItem, List<ValidationIssue>>>(expectedResult, result);
         }
-        
+
         [Fact]
         public void AddToCart_WhenExistSameItemIsGiftInCart_ShouldAddToCart()
         {
@@ -618,9 +619,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _relationRepositoryMock = new Mock<IRelationRepository>();
             _referenceConverterMock = new Mock<ReferenceConverter>(new EntryIdentityResolver(synchronizedObjectInstanceCacheMock.Object), new NodeIdentityResolver(synchronizedObjectInstanceCacheMock.Object));
 
-            _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderGroupFactoryMock.Object, 
-                _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object, _inventoryProcessorMock.Object, 
-                _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object, 
+            _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderGroupFactoryMock.Object,
+                _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object, _inventoryProcessorMock.Object,
+                _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object,
                 _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object,
                 _referenceConverterMock.Object, _contentLoaderMock.Object, _relationRepositoryMock.Object);
             _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
@@ -630,8 +631,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _orderRepositoryMock.Setup(x => x.Load<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(new[] { _cart });
             _orderRepositoryMock.Setup(x => x.Create<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(_cart);
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
-            _lineItemValidatorMock.Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
-            _placedPriceProcessorMock.Setup(x => x.UpdatePlacedPrice(It.IsAny<ILineItem>(), It.IsAny<CustomerContact>(), It.IsAny<IMarket>(), _cart.Currency, It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
+            _lineItemValidatorMock.Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
+            _placedPriceProcessorMock.Setup(x => x.UpdatePlacedPrice(It.IsAny<ILineItem>(), It.IsAny<CustomerContact>(), It.IsAny<MarketId>(), _cart.Currency, It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
             _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(It.IsAny<ContentReference>())).Returns(_variationContent);
         }
 

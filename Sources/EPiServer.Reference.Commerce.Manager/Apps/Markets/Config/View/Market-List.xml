@@ -15,6 +15,7 @@
           <Column headingText="{SharedStrings:Default_Language}" width="200" allowSorting="true" dataField="DefaultLanguage" />
           <Column headingText="{SharedStrings:Default_Currency}" allowSorting="true" dataField="DefaultCurrency" />
 					<Column headingText="{SharedStrings:Active}" id="active" allowSorting="true" dataField="IsEnabled" />
+          <Column headingText="{SharedStrings:Prices_Include_Tax}" id="pricesIncludeTax" allowSorting="true" dataField="PricesIncludeTax" />
 				</Columns>
 			</add>
 		</Grid>

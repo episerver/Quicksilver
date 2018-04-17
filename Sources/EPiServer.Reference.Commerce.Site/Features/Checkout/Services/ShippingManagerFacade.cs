@@ -13,6 +13,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
     [ServiceConfiguration(Lifecycle = ServiceInstanceScope.Singleton)]
     public class ShippingManagerFacade
     {
+        private ServiceCollectionAccessor<IShippingPlugin> _shippingPluginsAccessor;
+        private ServiceCollectionAccessor<IShippingGateway> _shippingGatewaysAccessor;
+
+        public ShippingManagerFacade(ServiceCollectionAccessor<IShippingPlugin> shippingPluginsAccessor, ServiceCollectionAccessor<IShippingGateway> shippingGatewaysAccessor)
+        {
+            _shippingPluginsAccessor = shippingPluginsAccessor;
+            _shippingGatewaysAccessor = shippingGatewaysAccessor;
+        }
+
         public virtual IList<ShippingMethodInfoModel> GetShippingMethodsByMarket(string marketid, bool returnInactive)
         {
             var methods = ShippingManager.GetShippingMethodsByMarket(marketid, returnInactive);
@@ -33,16 +42,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             {
                 throw new TypeInitializationException(shippingMethodInfoModel.ClassName, null);
             }
-
-            string message = null;
-
-            var shippingInstance = Activator.CreateInstance(type, currentMarket);
-            var shippingPlugin = shippingInstance as IShippingPlugin;
+            string message = string.Empty;
+            var shippingPlugin = _shippingPluginsAccessor().FirstOrDefault(s => s.GetType() == type);
             if (shippingPlugin != null)
             {
-                return shippingPlugin.GetRate(shippingMethodInfoModel.MethodId, shipment, ref message);
+                return shippingPlugin.GetRate(currentMarket, shippingMethodInfoModel.MethodId, shipment, ref message);
             }
-            return ((IShippingGateway)shippingInstance).GetRate(shippingMethodInfoModel.MethodId, (Shipment)shipment, ref message);
+
+            var shippingGateway = _shippingGatewaysAccessor().FirstOrDefault(s => s.GetType() == type);
+            if (shippingGateway != null)
+            {
+                return shippingGateway.GetRate(currentMarket, shippingMethodInfoModel.MethodId, (Shipment)shipment, ref message);
+            }
+            throw new InvalidOperationException($"There is no registered {nameof(IShippingPlugin)} or {nameof(IShippingGateway)} instance.");
         }
     }
 }

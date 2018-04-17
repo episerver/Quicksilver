@@ -1,4 +1,5 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
+﻿@using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
+@using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
 @model CheckoutViewModel
 @{
     Layout = null;
@@ -96,11 +97,11 @@
             <h4>@Html.Translate("/Checkout/Shipment/Labels/ChooseDelivery")</h4>
             @foreach (var shippingMethodViewModel in Model.Shipments.First().ShippingMethods ?? Enumerable.Empty<ShippingMethodViewModel>())
             {
-                <div class="radio">
+                <div class="radio shipping-method" data-url="@Url.Action("UpdateShippingMethod", "Cart", new { ShipmentId = Model.Shipments[0].ShipmentId, ShippingMethodId = shippingMethodViewModel.Id })">
                     <label>
                         @Html.RadioButtonFor(model => model.Shipments[0].ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
                         @shippingMethodViewModel.DisplayName
-                        @shippingMethodViewModel.Price.ToString()
+                        @Helpers.RenderMoney(shippingMethodViewModel.Price)
                     </label>
                 </div>
             }

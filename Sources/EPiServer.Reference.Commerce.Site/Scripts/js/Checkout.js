@@ -2,7 +2,6 @@
     init: function () {
         $(document)
             .on('change', '.jsChangePayment', Checkout.changePayment)
-            .on('change', '.jsChangeShipment', Checkout.changeShipment)
             .on('change', '.jsChangeAddress', Checkout.changeAddress)
             .on('change', '.jsChangeTaxAddress', Checkout.changeTaxAddress)
             .on('change', '#MiniCart', Checkout.refreshView)
@@ -105,7 +104,6 @@
             }
         });
     },
-
     changeTaxAddress: function (sender) {
         if (sender.originalEvent instanceof Event) {
             sender = $(this);
@@ -129,28 +127,14 @@
             }
         });
     },
-
     changePayment: function () {
-        var form = $('.jsCheckoutForm');
         $.ajax({
             type: "POST",
-            url: form.data("updateurl"),
-            data: form.serialize(),
+            url: $(this).data('url'),
             success: function (result) {
                 $('.jsPaymentMethod').replaceWith($(result).find('.jsPaymentMethod'));
                 Checkout.updateOrderSummary();
                 Misc.updateValidation('jsCheckoutForm');
-            }
-        });
-    },
-    changeShipment: function () {
-        var form = $('.jsCheckoutForm');
-        $.ajax({
-            type: "POST",
-            url: form.data("updateurl"),
-            data: form.serialize(),
-            success: function (result) {
-                Checkout.updateOrderSummary();
             }
         });
     },

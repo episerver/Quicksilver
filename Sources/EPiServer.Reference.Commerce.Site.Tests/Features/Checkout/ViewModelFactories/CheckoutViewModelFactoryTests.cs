@@ -9,10 +9,6 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
-using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
-using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModelFactories;
-using EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
@@ -45,21 +41,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             Assert.Equal(viewModel.BillingAddress.AddressId, _preferredBillingAddress.Name);
             Assert.Equal(viewModel.CurrentPage, checkoutPage);
             Assert.Equal(viewModel.StartPage, _startPage);
-            Assert.Equal(viewModel.PaymentMethodViewModels.Count(), 2);
-            Assert.Equal(viewModel.Payment.SystemKeyword, creditPaymentName); // Select default payment method.
-            Assert.Equal(viewModel.UseBillingAddressForShipment, true);
-            Assert.True(viewModel.ReferrerUrl.Contains("http://site.com"));
+            Assert.True(viewModel.UseBillingAddressForShipment);
+            Assert.Contains("http://site.com", viewModel.ReferrerUrl);
             Assert.Equal(viewModel.ViewName, CheckoutViewModel.SingleShipmentCheckoutViewName);
-        }
-
-        [Fact]
-        public void CreateCheckoutViewModelWithPayment_ShouldReturnViewModelWithCorrectPayment()
-        {
-            var checkoutPage = new CheckoutPage();
-            var viewModel = _subject.CreateCheckoutViewModel(_cart, checkoutPage, _creditPayment);
-
-            Assert.Equal(viewModel.PaymentMethodViewModels.Count(), 2);
-            Assert.Equal(viewModel.Payment.SystemKeyword, creditPaymentName);
         }
 
         [Fact]
@@ -74,7 +58,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             Assert.Null(viewModel.BillingAddress);
             Assert.Equal(viewModel.CurrentPage, checkoutPage);
             Assert.Equal(viewModel.StartPage, _startPage);
-            Assert.Empty(viewModel.PaymentMethodViewModels);
             Assert.Null(viewModel.Payment);
             Assert.Equal(viewModel.ViewName, CheckoutViewModel.SingleShipmentCheckoutViewName);
         }
@@ -82,42 +65,21 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
         private readonly CheckoutViewModelFactory _subject;
         private readonly ICart _cart;
         private readonly CustomerAddress _preferredBillingAddress;
-        private readonly IPaymentOption _creditPayment;
         private readonly StartPage _startPage;
-        private const string cashPaymentName = "CashOnDelivery";
-        private const string creditPaymentName = "GenericCreditCard";
-        private Mock<IAddressBookService> _addressBookServiceMock;
+        private readonly Mock<IAddressBookService> _addressBookServiceMock;
 
         public CheckoutViewModelFactoryTests()
         {
-            _cart = new FakeCart(new MarketImpl(new MarketId(Currency.USD)), Currency.USD);
+            var market = new MarketImpl(new MarketId(Currency.USD));
+            _cart = new FakeCart(market, Currency.USD);
             _cart.Forms.Single().Shipments.Single().LineItems.Add(new InMemoryLineItem());
-            _cart.Forms.Single().CouponCodes.Add("couponcode");            
+            _cart.Forms.Single().CouponCodes.Add("couponcode");
 
-            var paymentServiceMock = new Mock<IPaymentService>();
-            paymentServiceMock.Setup(x => x.GetPaymentMethodsByMarketIdAndLanguageCode(It.IsAny<string>(), "en")).Returns(
-               new[]
-               {
-                    new PaymentMethodViewModel() { PaymentMethodId = Guid.NewGuid(), Description = "Lorem ipsum", FriendlyName = "payment method 1", SystemKeyword = cashPaymentName },
-                    new PaymentMethodViewModel() { PaymentMethodId = Guid.NewGuid(), Description = "Lorem ipsum", FriendlyName = "payment method 2", SystemKeyword = creditPaymentName, IsDefault = true }
-               });
-
-            var marketMock = new Mock<IMarket>();
             var currentMarketMock = new Mock<ICurrentMarket>();
             var languageServiceMock = new Mock<LanguageService>(null, null, null);
 
-            currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(marketMock.Object);
+            currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(market);
             languageServiceMock.Setup(x => x.GetCurrentLanguage()).Returns(new CultureInfo("en-US"));
-            
-            var cashOnDeliveryPaymentOption = new CashOnDeliveryPaymentOption(null, null, currentMarketMock.Object, languageServiceMock.Object, paymentServiceMock.Object);
-            var creaditPaymentOption = new GenericCreditCardPaymentOption(null, null, currentMarketMock.Object, languageServiceMock.Object, paymentServiceMock.Object);
-
-            var paymentOptions = new List<IPaymentOption>();
-            paymentOptions.Add(cashOnDeliveryPaymentOption as IPaymentOption);
-            paymentOptions.Add(creaditPaymentOption as IPaymentOption);
-            _creditPayment = creaditPaymentOption;
-
-            var paymentMethodViewModelFactory = new PaymentMethodViewModelFactory(currentMarketMock.Object, languageServiceMock.Object, paymentServiceMock.Object, paymentOptions);
             
             var orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             orderGroupFactoryMock.Setup(x => x.CreatePayment(It.IsAny<IOrderGroup>())).Returns((IOrderGroup orderGroup) => new FakePayment());
@@ -144,7 +106,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
 
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
+            var marketServiceMock = new Mock<IMarketService>();
+            marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(market);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, marketServiceMock.Object);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {
@@ -157,7 +121,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
 
             _subject = new CheckoutViewModelFactory(
                 new MemoryLocalizationService(),
-                (() => paymentMethodViewModelFactory),
                 _addressBookServiceMock.Object,
                 contentLoaderMock.Object,
                 urlResolverMock.Object,

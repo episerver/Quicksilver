@@ -21,8 +21,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         public async void Index_ShouldReturnCorrectTypes()
         {
             var result = await CreateController().Index(new FashionBundle());
-            Assert.IsAssignableFrom(typeof(ViewResultBase), result);
-            Assert.IsType(typeof(FashionBundleViewModel), ((ViewResultBase) result).Model);
+            Assert.IsAssignableFrom<ViewResultBase>(result);
+            Assert.IsType<FashionBundleViewModel>(((ViewResultBase) result).Model);
         }
 
         [Fact]

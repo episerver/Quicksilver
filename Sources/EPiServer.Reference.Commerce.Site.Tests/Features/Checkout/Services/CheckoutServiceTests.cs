@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -24,8 +18,13 @@ using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 using Xunit;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 {
@@ -39,13 +38,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             {
                 new ShipmentViewModel { ShippingMethodId = Guid.NewGuid() }
             };
-            
+
             _subject.UpdateShippingMethods(cart, viewModel);
 
             var allShippingMethodIdsInCart = cart.GetFirstForm().Shipments.Select(x => x.ShippingMethodId);
             var allShippingMethodIdsInViewModel = viewModel.Select(x => x.ShippingMethodId);
 
-            allShippingMethodIdsInCart.ShouldAllBeEquivalentTo(allShippingMethodIdsInViewModel);
+            allShippingMethodIdsInCart.Should().BeEquivalentTo(allShippingMethodIdsInViewModel);
         }
 
         [Fact]
@@ -101,14 +100,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock.Setup(x => x.GetTotal(It.IsAny<IOrderGroup>())).Returns(() => new Money(1, Currency.USD));
             
-            var paymentOptionMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
-            paymentOptionMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
+            var paymentMethodMock = new Mock<FakePaymentMethod>("PaymentMethod");
+            paymentMethodMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
                 .Returns(() => new FakePayment { Amount = 2 });
 
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel{ AddressId = "billingAddress"},
-                Payment = paymentOptionMock.Object
+                Payment = paymentMethodMock.Object
             };
 
             _subject.CreateAndAddPaymentToCart(cart, viewModel);
@@ -125,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock.Setup(x => x.GetTotal(It.IsAny<IOrderGroup>())).Returns(() => new Money(1, Currency.USD));
 
-            var paymentMethodMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
+            var paymentMethodMock = new Mock<FakePaymentMethod>("PaymentMethod");
             paymentMethodMock.Setup(x => x.CreatePayment(It.IsAny<decimal>(), It.IsAny<IOrderGroup>()))
                 .Returns(() => new FakePayment { Amount = 2 });
 
@@ -163,7 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
+                Payment = new Mock<FakePaymentMethod>("PaymentMethod").Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);
@@ -194,7 +193,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
+                Payment = new Mock<FakePaymentMethod>("PaymentMethod").Object
             };
 
             _subject.PlaceOrder(cart, modelState, viewModel);
@@ -232,7 +231,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
+                Payment = new Mock<FakePaymentMethod>("PaymentMethod").Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);
@@ -259,13 +258,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock.Setup(p => p.GetTotal(It.IsAny<IOrderGroup>())).Throws(new PaymentException("", "", ""));
 
-            var paymentOptionMock = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null);
-            paymentOptionMock.Setup(x => x.SystemKeyword).Returns(string.Empty);
+            var PaymentMethodMock = new Mock<FakePaymentMethod>(String.Empty);
 
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = paymentOptionMock.Object
+                Payment = PaymentMethodMock.Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);
@@ -296,7 +294,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = new Mock<CashOnDeliveryPaymentOption>(null, null, null, null, null).Object
+                Payment = new Mock<FakePaymentMethod>("PaymentMethod").Object
             };
 
             _paymentProcessorMock.Setup(x => x.ProcessPayment(It.IsAny<IOrderGroup>(), It.IsAny<IPayment>(), It.IsAny<IShipment>()))

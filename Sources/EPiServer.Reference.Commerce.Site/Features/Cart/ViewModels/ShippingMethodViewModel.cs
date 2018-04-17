@@ -1,7 +1,7 @@
-﻿using System;
-using Mediachase.Commerce;
+﻿using Mediachase.Commerce;
+using System;
 
-namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
+namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
 {
     public class ShippingMethodViewModel
     {

@@ -1230,8 +1230,11 @@
   <data name="Items" xml:space="preserve">
     <value>Items</value>
   </data>
-  <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
-    <value>Total Before Tax and Shipping</value>
+  <data name="Total_Excluding_Shipping_Includes_Tax" xml:space="preserve">
+    <value>Total excluding shipping (includes tax)</value>
+  </data>
+  <data name="Total_Excluding_Shipping_And_Tax" xml:space="preserve">
+    <value>Total excluding shipping and tax</value>
   </data>
   <data name="OrderNote_NewPOPattern_ViaPP" xml:space="preserve">
     <value>New purchase order placed by {0} in {1} from payment plan {2}</value>

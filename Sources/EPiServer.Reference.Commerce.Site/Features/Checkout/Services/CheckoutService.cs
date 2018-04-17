@@ -9,7 +9,6 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.Commerce.Orders;
@@ -80,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 shipment.ShippingMethodId = shipmentViewModels[index++].ShippingMethodId;
             }
         }
-        
+
         public virtual void UpdateShippingAddresses(ICart cart, CheckoutViewModel viewModel)
         {
             if (viewModel.UseBillingAddressForShipment)

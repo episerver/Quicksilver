@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
@@ -8,6 +7,8 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc.Html;
+using Mediachase.Commerce.Markets;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
@@ -19,10 +20,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         public OrderConfirmationController(
             ConfirmationService confirmationService,
             AddressBookService addressBookService,
-            IRecommendationService recommendationService,
             CustomerContextFacade customerContextFacade,
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
-            : base(confirmationService, addressBookService, customerContextFacade, orderGroupTotalsCalculator)
+            IOrderGroupCalculator orderGroupCalculator,
+            IMarketService marketService,
+            IRecommendationService recommendationService)
+            : base(confirmationService, addressBookService, customerContextFacade, orderGroupCalculator, marketService)
         {
             _recommendationService = recommendationService;
         }

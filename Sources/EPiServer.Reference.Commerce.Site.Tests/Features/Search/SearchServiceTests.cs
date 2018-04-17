@@ -45,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
 
             var result = _subject.Search(content, filterOptions);
 
-            result.SearchResult.ShouldBeEquivalentTo(_searchResultsMock.Object);
+            result.SearchResult.Should().BeEquivalentTo(_searchResultsMock.Object);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 IsAvailable = true
             };
 
-            productViewModel.ShouldBeEquivalentTo(expected);
+            productViewModel.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 }
             };
 
-            facetGroupOption.ShouldBeEquivalentTo(expected);
+            facetGroupOption.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search
                 IsAvailable = true
             };
 
-            productViewModel.ShouldBeEquivalentTo(expected);
+            productViewModel.Should().BeEquivalentTo(expected);
         }
 
         [Fact]

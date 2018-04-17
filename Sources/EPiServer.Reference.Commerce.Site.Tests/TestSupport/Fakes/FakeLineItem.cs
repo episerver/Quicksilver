@@ -38,6 +38,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes
 
         public bool IsGift { get; set; }
 
+        public int? TaxCategoryId { get; set; }
+
         public Hashtable Properties { get; private set; }
 
         decimal ILineItemDiscountAmount.EntryAmount

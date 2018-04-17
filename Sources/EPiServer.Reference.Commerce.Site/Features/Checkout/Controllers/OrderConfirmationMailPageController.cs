@@ -6,6 +6,7 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc.Html;
+using Mediachase.Commerce.Markets;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
@@ -16,8 +17,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ConfirmationService confirmationService, 
             AddressBookService addressBookService, 
             CustomerContextFacade customerContextFacade, 
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
-            : base(confirmationService, addressBookService, customerContextFacade, orderGroupTotalsCalculator)
+            IOrderGroupCalculator orderGroupCalculator,
+            IMarketService marketService)
+            : base(confirmationService, addressBookService, customerContextFacade, orderGroupCalculator, marketService)
         {
         }
 

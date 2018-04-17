@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
@@ -20,6 +14,10 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Markets;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFactories
@@ -33,8 +31,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
 
             Assert.Equal(viewModel.StartPage, _startPage);
             Assert.NotNull(viewModel.AvailableAddresses.SingleOrDefault(x => x.AddressId == "addressid"));
-            Assert.True(viewModel.ReferrerUrl.Contains("http://site.com"));
-            Assert.Equal(viewModel.CartItems.Length, 1);
+            Assert.Contains("http://site.com", viewModel.ReferrerUrl);
+            Assert.Single(viewModel.CartItems);
         }
 
         [Fact]
@@ -44,9 +42,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
 
             Assert.Equal(viewModel.StartPage, _startPage);
             Assert.NotNull(viewModel.AvailableAddresses.SingleOrDefault(x => x.AddressId == "addressid"));
-            Assert.Equal(viewModel.AvailableAddresses.Count, 2);
-            Assert.True(viewModel.ReferrerUrl.Contains("http://site.com"));
-            Assert.Equal(viewModel.CartItems.Length, 1);
+            Assert.Equal(2, viewModel.AvailableAddresses.Count);
+            Assert.Contains("http://site.com", viewModel.ReferrerUrl);
+            Assert.Single(viewModel.CartItems);
         }
 
         private readonly MultiShipmentViewModelFactory _subject;
@@ -55,7 +53,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
 
         public MultiShipmentViewModelFactoryTests()
         {
-            _cart = new FakeCart(new MarketImpl(new MarketId(Currency.USD)), Currency.USD);
+            var market = new MarketImpl(new MarketId(Currency.USD));
+            _cart = new FakeCart(market, Currency.USD);
             _cart.Forms.Single().Shipments.Single().LineItems.Add(new InMemoryLineItem ());
             _cart.Forms.Single().CouponCodes.Add("couponcode");
 
@@ -77,8 +76,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
-       
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
+
+            var marketServiceMock = new Mock<IMarketService>();
+            marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(market);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, marketServiceMock.Object);
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[]
             {
                 new ShipmentViewModel {CartItems = new[]

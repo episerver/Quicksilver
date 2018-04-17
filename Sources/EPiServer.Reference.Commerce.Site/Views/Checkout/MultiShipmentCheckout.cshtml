@@ -114,7 +114,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountedPrice.Value)</span>
+                                                            <span class="product-price xs-vertical-margin">@Helpers.RenderMoney(cartItem.PlacedPrice)</span>
                                                         }
                                                     </div>
 
@@ -129,7 +129,7 @@
                                                     </div>
 
                                                     <div class="col-xs-6 col-sm-2 product-col-price text-right">
-                                                        @cartItem.DiscountedPrice.ToString()
+                                                        @Helpers.RenderMoney(cartItem.DiscountedPrice.GetValueOrDefault())
                                                     </div>
 
                                                 </div>
@@ -142,11 +142,11 @@
                                     <strong>@Html.Translate("/Checkout/MultiShipment/DeliveryOption")</strong><br />
                                     @foreach (var shippingMethodViewModel in Model.Shipments[shipmentIndex - 1].ShippingMethods)
                                     {
-                                        <div class="radio">
+                                        <div class="radio shipping-method" data-url="@Url.Action("UpdateShippingMethod", "Cart", new { ShipmentId = Model.Shipments[shipmentIndex - 1].ShipmentId, ShippingMethodId = shippingMethodViewModel.Id })">
                                             <label>
                                                 @Html.RadioButtonFor(model => Model.Shipments[shipmentIndex - 1].ShippingMethodId, shippingMethodViewModel.Id, new { @id = shippingMethodViewModel.Id, @class = "jsChangeShipment" })
                                                 @shippingMethodViewModel.DisplayName
-                                                @shippingMethodViewModel.Price.ToString()
+                                                @Helpers.RenderMoney(shippingMethodViewModel.Price)
                                             </label>
                                         </div>
                                     }
@@ -186,7 +186,7 @@
                     @{ Html.RenderPartial("BillingAddress", Model); }
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    @{ Html.RenderPartial("Payment", Model); }
+                    @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }     
                 </div>
                 <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
             </div>

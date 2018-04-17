@@ -4,8 +4,6 @@ using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce;
-using Mediachase.Commerce.Orders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,18 +13,27 @@ using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
-    [ServiceConfiguration(typeof(IPaymentOption))]
-    public class GenericCreditCardPaymentOption : PaymentOptionBase, IDataErrorInfo
+    public abstract class CreditCardPaymentMethodBase : PaymentMethodBase, IDataErrorInfo
     {
-        static readonly string[] ValidatedProperties = 
+        public CreditCardPaymentMethodBase()
+            : this(LocalizationService.Current, 
+                  ServiceLocator.Current.GetInstance<IOrderGroupFactory>(),
+                  ServiceLocator.Current.GetInstance<LanguageService>(),
+                  ServiceLocator.Current.GetInstance<IPaymentManagerFacade>())
         {
-            "CreditCardNumber",
-            "CreditCardSecurityCode",
-            "ExpirationYear",
-            "ExpirationMonth",
-        };
+        }
 
-        public override string SystemKeyword => "GenericCreditCard";
+        public CreditCardPaymentMethodBase(LocalizationService localizationService, 
+            IOrderGroupFactory orderGroupFactory,
+            LanguageService languageService, 
+            IPaymentManagerFacade paymentManager) 
+            : base(localizationService, 
+                  orderGroupFactory,
+                  languageService, 
+                  paymentManager)
+        {
+            InitializeValues();
+        }
 
         public List<SelectListItem> Months { get; set; }
 
@@ -53,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         public int ExpirationYear { get; set; }
 
         public string CardType { get; set; }
-        
+
         string IDataErrorInfo.Error => null;
 
         string IDataErrorInfo.this[string columnName]
@@ -61,61 +68,49 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             get { return GetValidationError(columnName); }
         }
 
-        public GenericCreditCardPaymentOption()
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>(), ServiceLocator.Current.GetInstance<ICurrentMarket>(), ServiceLocator.Current.GetInstance<LanguageService>(), ServiceLocator.Current.GetInstance<IPaymentService>())
-        {
-        }
-
-        public GenericCreditCardPaymentOption(LocalizationService localizationService,
-            IOrderGroupFactory orderGroupFactory,
-            ICurrentMarket currentMarket,
-            LanguageService languageService,
-            IPaymentService paymentService)
-            : base(localizationService, orderGroupFactory, currentMarket, languageService, paymentService)
-        {
-            InitializeValues();
-
-            ExpirationMonth = DateTime.Now.Month;
-            CreditCardSecurityCode = "212";
-            CardType = "Generic";
-            CreditCardNumber = "4662519843660534";
-        }
-
-        public override IPayment CreatePayment(decimal amount, IOrderGroup orderGroup)
-        {
-            var payment = orderGroup.CreateCardPayment(OrderGroupFactory);
-            payment.CardType = "Credit card";
-            payment.PaymentMethodId = PaymentMethodId;
-            payment.PaymentMethodName = SystemKeyword;
-            payment.Amount = amount;
-            payment.CreditCardNumber = CreditCardNumber;
-            payment.CreditCardSecurityCode = CreditCardSecurityCode;
-            payment.ExpirationMonth = ExpirationMonth;
-            payment.ExpirationYear = ExpirationYear;
-            payment.Status = PaymentStatus.Pending.ToString();
-            payment.CustomerName = CreditCardName;
-            payment.TransactionType = TransactionType.Authorization.ToString();
-            return payment;
-        }
+        static readonly string[] ValidatedProperties =
+{
+            "CreditCardNumber",
+            "CreditCardSecurityCode",
+            "ExpirationYear",
+            "ExpirationMonth",
+        };
         
         public override bool ValidateData()
         {
-            return IsValid;
+            foreach (string property in ValidatedProperties)
+            {
+                if (GetValidationError(property) != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
-        private bool IsValid
+        public virtual void InitializeValues()
         {
-            get
-            {
-                foreach (string property in ValidatedProperties)
-                {
-                    if (GetValidationError(property) != null)
-                    {
-                        return false;
-                    }
-                }
+            Months = new List<SelectListItem>();
+            Years = new List<SelectListItem>();
 
-                return true;
+            for (var i = 1; i < 13; i++)
+            {
+                Months.Add(new SelectListItem
+                {
+                    Text = i.ToString(CultureInfo.InvariantCulture),
+                    Value = i.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+
+            for (var i = 0; i < 7; i++)
+            {
+                var year = (DateTime.Now.Year + i).ToString(CultureInfo.InvariantCulture);
+                Years.Add(new SelectListItem
+                {
+                    Text = year,
+                    Value = year
+                });
             }
         }
 
@@ -148,7 +143,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return error;
         }
 
-        private string ValidateExpirationMonth()
+        protected virtual string ValidateExpirationMonth()
         {
             if (ExpirationYear == DateTime.Now.Year && ExpirationMonth < DateTime.Now.Month)
             {
@@ -158,7 +153,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        private string ValidateExpirationYear()
+        protected virtual string ValidateExpirationYear()
         {
             if (ExpirationYear < DateTime.Now.Year)
             {
@@ -168,7 +163,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        private string ValidateCreditCardSecurityCode()
+        protected virtual string ValidateCreditCardSecurityCode()
         {
             if (string.IsNullOrEmpty(CreditCardSecurityCode))
             {
@@ -183,44 +178,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        private string ValidateCreditCardNumber()
+        protected virtual string ValidateCreditCardNumber()
         {
             if (string.IsNullOrEmpty(CreditCardNumber))
             {
                 return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber");
             }
 
-            if (CreditCardNumber[CreditCardNumber.Length - 1] != '4')
-            {
-                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardNumber");
-            }
-
             return null;
-        }
-
-        private void InitializeValues()
-        {
-            Months = new List<SelectListItem>();
-            Years = new List<SelectListItem>();
-
-            for (var i = 1; i < 13; i++)
-            {
-                Months.Add(new SelectListItem
-                {
-                    Text = i.ToString(CultureInfo.InvariantCulture),
-                    Value = i.ToString(CultureInfo.InvariantCulture)
-                });
-            }
-
-            for (var i = 0; i < 7; i++)
-            {
-                var year = (DateTime.Now.Year + i).ToString(CultureInfo.InvariantCulture);
-                Years.Add(new SelectListItem
-                {
-                    Text = year,
-                    Value = year
-                });
-            }
         }
     }
 }

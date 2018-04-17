@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
@@ -77,6 +78,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _orderRepository.Save(Cart);
             await _recommendationService.TrackCartAsync(HttpContext);
             return MiniCartDetails();
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult UpdateShippingMethod(UpdateShippingMethodViewModel viewModel)
+        {
+            ModelState.Clear();
+
+            _cartService.UpdateShippingMethod(Cart, viewModel.ShipmentId, viewModel.ShippingMethodId);
+            _orderRepository.Save(Cart);
+
+            return LargeCart();
         }
 
         private ICart Cart

@@ -26,7 +26,7 @@
                             @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
                         }
                         <br>
-                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @order.PurchaseOrder.GetTotal().ToString()
+                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>

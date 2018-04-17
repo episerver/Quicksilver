@@ -23,8 +23,7 @@
                             <h4 class="product-row__item__price product-price--discount">@Helpers.RenderMoney(product.DiscountedPrice.GetValueOrDefault())</h4>
                         }
                         <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(product.PlacedPrice)</h4>
-                        <span class="product-row__item__brand product-brand text-muted">Lyle &amp; Scott</span>
-                        <p class="product-row__item__description">Jacket from Lyle &amp; Scott. Rounded neckline with collar and button closure. Zipper closure and two pockets at front. Elastic at each cuff and hem. Lined. Made of 100% Cotton.</p>
+                        <span class="product-row__item__brand product-brand text-muted">@product.Brand</span>
                     </div>
                 </div>
             </a>

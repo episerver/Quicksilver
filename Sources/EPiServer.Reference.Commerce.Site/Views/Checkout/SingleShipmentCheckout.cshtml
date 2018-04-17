@@ -102,7 +102,7 @@
                     @{ Html.RenderPartial("BillingAddress", Model); }
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    @{ Html.RenderPartial("Payment", Model); }
+                 @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }     
                 </div>
             </div>
             <h2>@Html.Translate("/Checkout/Shipment/Heading")</h2>

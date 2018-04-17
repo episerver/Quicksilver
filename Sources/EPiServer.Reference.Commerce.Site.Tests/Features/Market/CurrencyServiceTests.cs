@@ -47,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
 
             var result = _subject.SetCurrentCurrency("USD");
             
-            Assert.Equal<bool>(false, result);
+            Assert.False(result);
         }
 
         [Fact]

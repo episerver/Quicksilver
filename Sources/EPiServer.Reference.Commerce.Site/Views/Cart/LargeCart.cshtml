@@ -30,7 +30,7 @@
                                         @if (cartItem.DiscountedUnitPrice.HasValue)
                                         {
                                             <span class="product-price">@Helpers.RenderMoney(cartItem.PlacedPrice)</span>
-                                            <span class="product-price product-price--discount xs-vertical-margin">@cartItem.DiscountedUnitPrice.ToString()</span>
+                                            <span class="product-price product-price--discount xs-vertical-margin">@Helpers.RenderMoney(cartItem.DiscountedUnitPrice.GetValueOrDefault())</span>
                                         }
                                         else
                                         {
@@ -73,7 +73,7 @@
                                         }
                                     </div>
                                     <div class="col-xs-6 col-sm-2 product-col-price text-right">
-                                        @cartItem.DiscountedPrice.ToString()
+                                        @Helpers.RenderMoney(cartItem.DiscountedPrice.GetValueOrDefault())
                                     </div>
                                 </div>
                             </div>
@@ -92,11 +92,11 @@
                 @Html.Translate("/Cart/Labels/DiscountsApplied")
             </span>
             @Html.Translate("/Cart/Labels/YouSave")
-            <strong>@Model.TotalDiscount.ToString()</strong>
+            <strong>@Helpers.RenderMoney(Model.TotalDiscount)</strong>
         }
     </div>
     <div class="col-xs-12 col-sm-6 text-right">
         <h4>@Html.Translate("/Cart/Labels/Total")</h4>
-        @Model.Total.ToString()
+        @Helpers.RenderMoney(Model.Total)
     </div>
 </div>

@@ -13,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         private static readonly IDictionary<Type, Type> ModelBinderTypeMappings = new Dictionary<Type, Type>
         {
             {typeof(FilterOptionViewModel), typeof(FilterOptionViewModelBinder)},
-            {typeof(IPaymentOption), typeof(PaymentOptionViewModelBinder)},
+            {typeof(IPaymentMethod), typeof(PaymentMethodViewModelBinder)},
             {typeof(decimal), typeof(DecimalModelBinder)},
             {typeof(decimal?), typeof(DecimalModelBinder)}
         };

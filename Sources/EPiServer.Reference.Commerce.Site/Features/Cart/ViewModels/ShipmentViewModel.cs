@@ -1,7 +1,6 @@
-﻿using System;
+﻿using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using System;
 using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
 {

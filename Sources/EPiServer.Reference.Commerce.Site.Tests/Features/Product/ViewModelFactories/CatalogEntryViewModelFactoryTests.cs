@@ -105,7 +105,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            Assert.Equal<string>(color, result.Color);
+            Assert.Equal(color, result.Color);
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            Assert.Equal<string>(size, result.Size);
+            Assert.Equal(size, result.Size);
         }
 
         [Fact]
@@ -133,7 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            Assert.Equal<string>(string.Empty, result.Images.Single());
+            Assert.Equal(string.Empty, result.Images.Single());
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
            
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            Assert.Equal<string>(imageLink, result.Images.Single());
+            Assert.Equal(imageLink, result.Images.Single());
         }
 
         [Fact]
@@ -188,7 +188,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
 
-            result.Colors.Select(x => x.Text).ShouldAllBeEquivalentTo(colors);
+            result.Colors.Select(x => x.Text).Should().BeEquivalentTo(colors);
         }
 
         [Fact]
@@ -208,7 +208,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
             
-            result.Colors.Select(x => x.Text).ShouldAllBeEquivalentTo(colors);
+            result.Colors.Select(x => x.Text).Should().BeEquivalentTo(colors);
         }
 
         [Fact]
@@ -226,7 +226,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant1.Code);
 
-            result.Colors.Select(x => x.Selected).ShouldAllBeEquivalentTo(new[] { false, false });
+            result.Colors.Select(x => x.Selected).Should().BeEquivalentTo(new[] { false, false });
         }
 
         [Fact]
@@ -241,7 +241,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
             
-            result.Sizes.Select(x => x.Text).ShouldAllBeEquivalentTo(sizes);
+            result.Sizes.Select(x => x.Text).Should().BeEquivalentTo(sizes);
         }
 
         [Fact]
@@ -255,7 +255,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            result.Sizes.Select(x => x.Value).ShouldAllBeEquivalentTo(sizes);
+            result.Sizes.Select(x => x.Value).Should().BeEquivalentTo(sizes);
         }
 
         [Fact]
@@ -267,7 +267,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariant.Code);
 
-            result.Sizes.Select(x => x.Selected).ShouldAllBeEquivalentTo(new[] { false });
+            result.Sizes.Select(x => x.Selected).Should().BeEquivalentTo(new[] { false });
         }
 
         [Fact]
@@ -297,7 +297,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariantSmallBlue.Code);
 
-            result.Colors.Select(x => x.Value).ShouldAllBeEquivalentTo(new[] { variationColorBlue, variationColorWhite });
+            result.Colors.Select(x => x.Value).Should().BeEquivalentTo(new[] { variationColorBlue, variationColorWhite });
         }
 
         [Fact]
@@ -327,7 +327,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().Create(fashionProduct, fashionVariantMediumRed.Code);
 
-            result.Sizes.Select(x => x.Value).ShouldAllBeEquivalentTo(new[] { variationSizeMedium, variationSizeXlarge });
+            result.Sizes.Select(x => x.Value).Should().BeEquivalentTo(new[] { variationSizeMedium, variationSizeXlarge });
         }
 
         [Fact]
@@ -349,7 +349,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().SelectVariant(fashionProduct, "red", "small");
 
-            Assert.Equal<string>("redsmall", result.Code);
+            Assert.Equal("redsmall", result.Code);
         }
 
         [Fact]
@@ -369,7 +369,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.ViewModelFact
 
             var result = CreateSubject().SelectVariant(fashionProduct, "red", "small");
 
-            Assert.Equal<string>("redmedium", result.Code);
+            Assert.Equal("redmedium", result.Code);
         }
 
         [Fact]

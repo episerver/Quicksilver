@@ -3,27 +3,28 @@ using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Payment.Services;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
-    [ServiceConfiguration(typeof(IPaymentOption))]
-    public class CashOnDeliveryPaymentOption : PaymentOptionBase
+    [ServiceConfiguration(typeof(IPaymentMethod))]
+    public class CashOnDeliveryPaymentMethod : PaymentMethodBase
     {
         public override string SystemKeyword => "CashOnDelivery";
 
-        public CashOnDeliveryPaymentOption() 
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>(), ServiceLocator.Current.GetInstance<ICurrentMarket>(), ServiceLocator.Current.GetInstance<LanguageService>(), ServiceLocator.Current.GetInstance<IPaymentService>())
+        public CashOnDeliveryPaymentMethod() 
+            : this(LocalizationService.Current, 
+                  ServiceLocator.Current.GetInstance<IOrderGroupFactory>(),
+                  ServiceLocator.Current.GetInstance<LanguageService>(),
+                  ServiceLocator.Current.GetInstance<IPaymentManagerFacade>())
         {
         }
 
-        public CashOnDeliveryPaymentOption(LocalizationService localizationService,
+        public CashOnDeliveryPaymentMethod(LocalizationService localizationService,
             IOrderGroupFactory orderGroupFactory,
-            ICurrentMarket currentMarket,
             LanguageService languageService,
-            IPaymentService paymentService)
-            : base(localizationService, orderGroupFactory, currentMarket, languageService, paymentService)
+            IPaymentManagerFacade paymentManager)
+            : base(localizationService, orderGroupFactory, languageService, paymentManager)
         {
         }
 

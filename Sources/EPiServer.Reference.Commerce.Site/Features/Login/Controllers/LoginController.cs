@@ -72,6 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterAccount(RegisterAccountViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -154,6 +155,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> InternalLogin(LoginViewModel viewModel)
         {
             var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);

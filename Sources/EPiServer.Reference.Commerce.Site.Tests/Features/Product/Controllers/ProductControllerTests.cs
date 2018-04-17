@@ -25,8 +25,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             var result = await CreateController().Index(new FashionProduct(), "code");
 
-            Assert.IsAssignableFrom(typeof(ViewResultBase), result);
-            Assert.IsType(typeof(FashionProductViewModel), (result as ViewResultBase).Model);
+            Assert.IsAssignableFrom<ViewResultBase>(result);
+            Assert.IsType<FashionProductViewModel>((result as ViewResultBase).Model);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
             var selectedCode = ((RedirectToRouteResult)result).RouteValues["entryCode"] as string;
 
-            Assert.Equal<string>("redsmall", selectedCode);
+            Assert.Equal("redsmall", selectedCode);
         }
 
         [Fact]

@@ -22,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             var result = await _subject.Index(null, null);
 
             // Assert
-            Assert.IsType(typeof(ViewResult), result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
             var result = _subject.Facet(null, null);
 
             // Assert
-            Assert.IsType(typeof(PartialViewResult), result);
+            Assert.IsType<PartialViewResult>(result);
         }
 
         [Fact]

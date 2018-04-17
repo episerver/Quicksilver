@@ -73,6 +73,14 @@
             </td>
         </tr>
         <tr>
+            <td class="FormLabelCell">
+                <asp:Label runat="server" Text="<%$ Resources:SharedStrings, Prices_Include_Tax %>"></asp:Label>:</td>
+            <td class="FormFieldCell">
+                <ecf:BooleanEditControl ID="IsPricesIncludeTax" runat="server"></ecf:BooleanEditControl>&nbsp;
+                <asp:Label runat="server" CssClass="FormFieldDescription" Text="<%$ Resources:SharedStrings, Prices_Include_Tax_Information %>"></asp:Label>
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" class="FormSpacerCell">
             </td>
         </tr>

@@ -2268,4 +2268,10 @@
   <data name="Tax_Export_Description" xml:space="preserve">
     <value>You're about to export taxes.</value>
   </data>
+  <data name="Prices_Include_Tax" xml:space="preserve">
+    <value>Prices Include Tax</value>
+  </data>
+  <data name="Prices_Include_Tax_Information" xml:space="preserve">
+    <value>This property will affect how prices in this market are calculated in orders</value>
+  </data>
 </root>

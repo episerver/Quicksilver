@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 
             var result = ContentExtensions.GetUrl(variant, _relationRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.Equal<string>(_url, result);
+            Assert.Equal(_url, result);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 
             var result = ContentExtensions.GetUrl(variant, _relationRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.Equal<string>(_url + "?variationCode=" + variant.Code, result);
+            Assert.Equal(_url + "?variationCode=" + variant.Code, result);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
 
             var result = ContentExtensions.GetUrl(variant, _relationRepositoryMock.Object, _urlResolverMock.Object);
 
-            Assert.Equal<string>(string.Empty, result);
+            Assert.Equal(string.Empty, result);
         }
 
         private Mock<IRelationRepository> _relationRepositoryMock;

@@ -26,6 +26,10 @@
           <Currency>Currency</Currency>
         </Labels>
       </Market>
+      <PricesInformation>
+        <IncludeTax>All prices include tax</IncludeTax>
+        <ExcludeTax>All prices exclude tax</ExcludeTax>
+      </PricesInformation>
     </Header>
     <Facet>
       <Choices>Products:</Choices>

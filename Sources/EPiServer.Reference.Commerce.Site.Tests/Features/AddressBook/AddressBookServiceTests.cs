@@ -188,7 +188,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
         {
             _subject.Delete(_address1.AddressId.ToString());
 
-            Assert.Equal<int>(1, _currentContact.ContactAddresses.Count());
+            Assert.Single(_currentContact.ContactAddresses);
         }
 
         [Fact]

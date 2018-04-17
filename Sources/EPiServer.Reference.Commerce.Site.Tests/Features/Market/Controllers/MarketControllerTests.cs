@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var controller = CreateController();
             var result = controller.Set(_language, _contentLink);
 
-            Assert.True(((JsonResult)result).Data.ToString().Contains(expectedUrl));
+            Assert.Contains(expectedUrl, ((JsonResult)result).Data.ToString());
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var subject = CreateController();
             var result = ((PartialViewResult)subject.Index(_contentLink)).Model as MarketViewModel;
-            result.ShouldBeEquivalentTo(expectedModel);
+            result.Should().BeEquivalentTo(expectedModel);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var subject = CreateController();
             var result = subject.Index(_contentLink);
             var model = ((ViewResultBase)result).Model as MarketViewModel;
-            model.Markets.ShouldBeEquivalentTo(new[] { _currentMarket }.Select(x => new SelectListItem { Text = x.MarketName, Value = x.MarketId.Value}));
+            model.Markets.Should().BeEquivalentTo(new[] { _currentMarket }.Select(x => new SelectListItem { Text = x.MarketName, Value = x.MarketId.Value}));
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var subject = CreateController();
             var result = subject.Index(_contentLink);
             var model = ((ViewResultBase)result).Model as MarketViewModel;
-            Assert.Equal<string>( _currentMarket.MarketId.Value, model.Markets.ToList().First().Value);
+            Assert.Equal( _currentMarket.MarketId.Value, model.Markets.ToList().First().Value);
         }
         
         [Fact]
@@ -111,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);
-            Assert.IsType(typeof(PartialViewResult), result);
+            Assert.IsType<PartialViewResult>(result);
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var contentLink = new ContentReference(11);
             var subject = CreateController();
             var result = subject.Index(contentLink);
-            Assert.IsType(typeof(MarketViewModel), (result as ViewResultBase).Model);
+            Assert.IsType<MarketViewModel>((result as ViewResultBase).Model);
         }
 
         private Mock<ICurrentMarket> _currentMarketMock;

@@ -9681,6 +9681,14 @@ fieldset[disabled] .btn-gray-light.active {
   outline: 0;
   outline-offset: 0;
 }
+.label-tax-info {
+  background-color: #337ab7;
+  bottom: -15px;
+  color: #fff;
+  margin: 3px;
+  position: relative;
+  padding: 10px;
+}
 .product-dropdown-container {
   border: 1px solid #eeeeee;
   border-radius: 4px;

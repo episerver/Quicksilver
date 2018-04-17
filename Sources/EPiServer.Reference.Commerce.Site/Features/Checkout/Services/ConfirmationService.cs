@@ -39,14 +39,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             };
 
             form.Shipments.First().ShippingAddress = new InMemoryOrderAddress();
-
+            var market = _currentMarket.GetCurrentMarket();
             var purchaseOrder = new InMemoryPurchaseOrder
             {
-                Forms = new[] { form },
                 Currency = _currentMarket.GetCurrentMarket().DefaultCurrency,
-                Market = _currentMarket.GetCurrentMarket(),
+                MarketId = market.MarketId,
+                MarketName = market.MarketName,
+                PricesIncludeTax = market.PricesIncludeTax,
                 OrderLink = new OrderReference(0, string.Empty, Guid.Empty, typeof(IPurchaseOrder))
             };
+            purchaseOrder.Forms.Add(form);
 
             return purchaseOrder;
         }

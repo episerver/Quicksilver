@@ -20,8 +20,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         {
             var result = _subject.Index();
 
-            Assert.IsAssignableFrom(typeof(ViewResultBase), result);
-            Assert.IsType(typeof(CurrencyViewModel), (result as ViewResultBase).Model);
+            Assert.IsAssignableFrom<ViewResultBase>(result);
+            Assert.IsType<CurrencyViewModel>((result as ViewResultBase).Model);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
             var model = ((ViewResultBase)result).Model as CurrencyViewModel;
 
             Assert.Equal<Currency>(new Currency("USD"), model.CurrencyCode);
-            model.Currencies.ShouldBeEquivalentTo(new[] 
+            model.Currencies.Should().BeEquivalentTo(new[] 
             { 
                 new Currency("USD"), 
                 new Currency("SEK") 

@@ -14,7 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Warehouse.ViewModelFa
         {
             var viewModel = _subject.CreateWarehouseViewModel(ExistingWarehouseCode);
 
-            Assert.Equal<string>(ExistingWarehouseCode, viewModel.Warehouse.Code);
+            Assert.Equal(ExistingWarehouseCode, viewModel.Warehouse.Code);
         }
 
         [Fact]

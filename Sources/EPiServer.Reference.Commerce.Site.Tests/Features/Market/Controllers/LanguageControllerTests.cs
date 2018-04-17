@@ -32,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var result = ((ViewResultBase)_subject.Index(null, null)).Model as LanguageViewModel;
 
-           result.Languages.ShouldBeEquivalentTo(items);
+           result.Languages.Should().BeEquivalentTo(items);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
-            Assert.Equal<string>(_currentLanguage.Name, ((LanguageViewModel)result.Model).Language);
+            Assert.Equal(_currentLanguage.Name, ((LanguageViewModel)result.Model).Language);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var result = (ViewResultBase)_subject.Index(null, languageCode);
 
-            Assert.Equal<string>(languageCode, ((LanguageViewModel)result.Model).Language);
+            Assert.Equal(languageCode, ((LanguageViewModel)result.Model).Language);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
         {
             var result = _subject.Set("en", new ContentReference(11));
 
-            Assert.IsType(typeof(JsonResult), result);
+            Assert.IsType<JsonResult>(result);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market.Controllers
 
             var result = _subject.Set(languageCode, contentLink);
 
-            Assert.True(((JsonResult)result).Data.ToString().Contains(expectedUrl));
+            Assert.Contains(expectedUrl, ((JsonResult)result).Data.ToString());
         }
 
         private Mock<UrlResolver> _urlResolverMock;

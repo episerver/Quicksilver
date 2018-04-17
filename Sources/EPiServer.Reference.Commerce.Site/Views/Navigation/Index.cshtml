@@ -1,4 +1,7 @@
 ﻿@using EPiServer.Web.Routing
+@using EPiServer.ServiceLocation
+@using Mediachase.Commerce;
+
 @model EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels.NavigationViewModel
 @{
     Layout = null;
@@ -54,6 +57,15 @@
                 <div class="col-sm-6 sm-cart-container">
                     <div class="nav navbar-right">
                         <ul class="list-inline text-right sm-row-3-2 hidden-xs shopping-btn-container">
+                            <li class="cart-dropdown">
+                                @{
+                                    var pricesIncludeTax = ServiceLocator.Current.GetInstance<ICurrentMarket>().GetCurrentMarket().PricesIncludeTax;
+                                    var taxInfo = pricesIncludeTax ?
+                                        Html.Translate("/Header/PricesInformation/IncludeTax"):
+                                        Html.Translate("/Header/PricesInformation/ExcludeTax");
+                                }
+                                <span class="label-tax-info">@taxInfo</span>
+                            </li>
                             @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
                             {
                                 <li class="cart-dropdown">

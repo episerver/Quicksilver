@@ -55,7 +55,7 @@
 	</tr>
     <tr>
 		<td valign="top" style="width: 140px; font-weight:bold; text-align:right;padding: 5px;">
-			<asp:Label runat="server" ID="Label5" Text="<%$ Resources:OrderStrings, Total_Before_Tax_And_Shipping  %>"></asp:Label>:
+			<asp:Label runat="server" ID="lblTotalExcludingShippingAndTax" Text=""></asp:Label>:
 		</td>
 		<td style="padding: 5px;">
 			<asp:Label ID="lblTotal" runat="server"></asp:Label>

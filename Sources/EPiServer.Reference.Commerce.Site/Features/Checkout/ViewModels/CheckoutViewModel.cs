@@ -26,11 +26,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
         /// </summary>
         public IEnumerable<string> AppliedCouponCodes { get; set; }
 
-        /// <summary>
-        /// Gets or sets all available payment methods that the customer can choose from.
-        /// </summary>
-        public IEnumerable<PaymentMethodViewModel> PaymentMethodViewModels { get; set; }
-
         public string ReferrerUrl { get; set; }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
         /// <summary>
         /// Gets or sets the payment method associated to the current purchase.
         /// </summary>
-        public IPaymentOption Payment { get; set; }
+        public IPaymentMethod Payment { get; set; }
 
         /// <summary>
         /// Gets or sets whether the shipping address should be the same as the billing address.

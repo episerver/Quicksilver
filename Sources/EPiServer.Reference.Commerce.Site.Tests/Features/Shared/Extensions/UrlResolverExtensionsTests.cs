@@ -16,7 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
 
             var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, null, "en");
-            Assert.Equal<string>(expectedUrlReferrer.PathAndQuery, result);
+            Assert.Equal(expectedUrlReferrer.PathAndQuery, result);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns((Uri)null);
 
             var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, null, "en");
-            Assert.Equal<string>("/", result);
+            Assert.Equal("/", result);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(expectedUrlReferrer);
 
             var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, ContentReference.EmptyReference, "en");
-            Assert.Equal<string>(expectedUrlReferrer.PathAndQuery, result);
+            Assert.Equal(expectedUrlReferrer.PathAndQuery, result);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             _urlResolverMock.Setup(x => x.GetUrl(contentLink, language)).Returns(expectedUrl);
 
             var result = Site.Features.Shared.Extensions.UrlResolverExtensions.GetUrl(_urlResolverMock.Object, _httpRequestBaseMock.Object, contentLink, language);
-            Assert.Equal<string>(expectedUrl, result);
+            Assert.Equal(expectedUrl, result);
         }
 
         private Mock<UrlResolver> _urlResolverMock;

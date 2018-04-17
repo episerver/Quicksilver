@@ -166,6 +166,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
+        public void UpdateShippingMethod(ICart cart, int shipmentId, Guid shippingMethodId)
+        {
+            var shipment = cart.GetFirstForm().Shipments.First(x => x.ShipmentId == shipmentId);
+            shipment.ShippingMethodId = shippingMethodId;
+
+            ValidateCart(cart);
+        }
+
         public AddToCartResult AddToCart(ICart cart, string code, decimal quantity)
         {
             var result = new AddToCartResult();
@@ -227,7 +235,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 // If there is an item which has no price in the new currency, a NullReference exception will be thrown.
                 // Mixing currencies in cart is not allowed.
                 // It's up to site's managers to ensure that all items have prices in allowed currency.
-                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).UnitPrice.Amount;
+                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.MarketId, currency).UnitPrice.Amount;
             }
 
             ValidateCart(cart);

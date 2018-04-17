@@ -17,6 +17,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Models
         public CultureInfo DefaultLanguage => CultureInfo.CurrentUICulture;
 
         public bool IsEnabled => true;
+        
+        public bool PricesIncludeTax => false;
+
 
         public IEnumerable<CultureInfo> Languages => Enumerable.Empty<CultureInfo>();
 

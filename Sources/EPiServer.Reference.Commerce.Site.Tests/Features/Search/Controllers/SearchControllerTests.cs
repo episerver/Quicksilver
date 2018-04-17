@@ -26,7 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         public async void Index_ShouldReturnViewModel()
         {
             var result = ((ViewResult) await _subject.Index(new SearchPage(), new FilterOptionViewModel())).Model as SearchViewModel<SearchPage>;
-            result.ShouldBeEquivalentTo(_searchViewModel);
+            result.Should().BeEquivalentTo(_searchViewModel);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                     DiscountedPrice = new Money(10, Currency.USD)
                 }
             };
-            result.ShouldAllBeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Fact]

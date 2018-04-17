@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.Equal<string>(resolvedUrl, result.Url);
+            Assert.Equal(resolvedUrl, result.Url);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.Equal<string>(_fallbackUrl, result.Url);
+            Assert.Equal(_fallbackUrl, result.Url);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.ErrorHandling.Control
             var result = (RedirectResult)_subject.PageNotFound();
 
             // Assert
-            Assert.Equal<string>(_fallbackUrl, result.Url);
+            Assert.Equal(_fallbackUrl, result.Url);
         }
 
         ErrorHandlingController _subject;

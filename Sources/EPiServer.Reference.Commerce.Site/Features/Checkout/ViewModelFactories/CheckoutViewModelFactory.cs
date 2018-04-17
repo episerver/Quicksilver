@@ -23,7 +23,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
     public class CheckoutViewModelFactory
     {
         readonly LocalizationService _localizationService;
-        readonly ServiceAccessor<PaymentMethodViewModelFactory> _paymentMethodViewModelFactory;
         readonly IAddressBookService _addressBookService;
         readonly IContentLoader _contentLoader;
         readonly UrlResolver _urlResolver;
@@ -32,7 +31,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 
         public CheckoutViewModelFactory(
             LocalizationService localizationService,
-            ServiceAccessor<PaymentMethodViewModelFactory> paymentMethodViewModelFactory,
             IAddressBookService addressBookService,
             IContentLoader contentLoader,
             UrlResolver urlResolver,
@@ -40,7 +38,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             ShipmentViewModelFactory shipmentViewModelFactory)
         {
             _localizationService = localizationService;
-            _paymentMethodViewModelFactory = paymentMethodViewModelFactory;
             _addressBookService = addressBookService;
             _contentLoader = contentLoader;
             _urlResolver = urlResolver;
@@ -48,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             _shipmentViewModelFactory = shipmentViewModelFactory;
         }
 
-        public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentOption paymentOption = null)
+        public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentMethod paymentMethod = null)
         {
             if (cart == null)
             {
@@ -71,11 +68,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AppliedCouponCodes = cart.GetFirstForm().CouponCodes.Distinct(),
                 AvailableAddresses = new List<AddressModel>(),
                 ReferrerUrl = GetReferrerUrl(),
-                Payment = paymentOption,
+                Payment = paymentMethod,
             };
 
-            UpdatePayment(viewModel);
-                        
             var availableAddresses = GetAvailableAddresses();
 
             if (availableAddresses.Any())
@@ -130,7 +125,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AppliedCouponCodes = new List<string>(),
                 StartPage = _contentLoader.Get<StartPage>(ContentReference.StartPage),
                 AvailableAddresses = new List<AddressModel>(),
-                PaymentMethodViewModels = Enumerable.Empty<PaymentMethodViewModel>(),
                 UseBillingAddressForShipment = true
             };
         }
@@ -141,18 +135,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             {
                 _addressBookService.LoadCountriesAndRegionsForAddress(shipment.Address);
             }
-        }
-
-        private void UpdatePayment(CheckoutViewModel viewModel)
-        {
-            viewModel.PaymentMethodViewModels = _paymentMethodViewModelFactory().GetPaymentMethodViewModels();
-
-            var defaultPaymentMethod = viewModel.PaymentMethodViewModels.FirstOrDefault(p => p.IsDefault) ?? viewModel.PaymentMethodViewModels.First();
-            var selectedPaymentMethod = viewModel.Payment == null ? 
-                defaultPaymentMethod :
-                viewModel.PaymentMethodViewModels.Single(p => p.SystemKeyword == viewModel.Payment.SystemKeyword);
-
-            viewModel.Payment = selectedPaymentMethod.PaymentOption;
         }
 
         private AddressModel CreateBillingAddressModel()

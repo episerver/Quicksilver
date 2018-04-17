@@ -20,8 +20,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         public async void Index_ShouldReturnCorrectTypes()
         {
             var result = await CreateController().Index(new FashionPackage());
-            Assert.IsAssignableFrom(typeof(ViewResultBase), result);
-            Assert.IsType(typeof(FashionPackageViewModel), ((ViewResultBase) result).Model);
+            Assert.IsAssignableFrom<ViewResultBase>(result);
+            Assert.IsType<FashionPackageViewModel>(((ViewResultBase) result).Model);
         }
 
         [Fact]

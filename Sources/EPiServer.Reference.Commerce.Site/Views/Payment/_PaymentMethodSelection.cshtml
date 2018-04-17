@@ -1,0 +1,28 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels.PaymentMethodSelectionViewModel
+@{
+    Layout = null;
+}
+
+<div class="payment-methods">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
+            @foreach (var viewModel in Model.PaymentMethods)
+            {
+                <div class="radio">
+                    <label>
+                        @{ string checkState = viewModel.PaymentMethod.PaymentMethodId == Model.SelectedPaymentMethod.PaymentMethod.PaymentMethodId ? "checked" : string.Empty; }
+                        <input type="radio" class="jsChangePayment" data-url="@Url.Action("SetPaymentMethod", "Payment", new { paymentMethodId = viewModel.PaymentMethod.PaymentMethodId })" name="SystemName" value="@viewModel.PaymentMethod.SystemKeyword" @checkState /> @viewModel.PaymentMethod.Name
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="jsPaymentMethod">
+                @{ Html.RenderPartial("_" + Model.SelectedPaymentMethod.PaymentMethod.SystemKeyword, Model.SelectedPaymentMethod.PaymentMethod);  }
+            </div>
+        </div>
+    </div>
+</div>

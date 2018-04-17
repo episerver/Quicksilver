@@ -1218,8 +1218,11 @@
   <data name="Items" xml:space="preserve">
     <value>Artiklar</value>
   </data>
-  <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
-    <value>Totalsumma före moms och leverans</value>
+  <data name="Total_Excluding_Shipping_Includes_Tax" xml:space="preserve">
+    <value>Summa utan frakt (inklusive moms)</value>
+  </data>
+  <data name="Total_Excluding_Shipping_And_Tax" xml:space="preserve">
+    <value>Summa utan frakt och moms</value>
   </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Inte tillgänglig</value>

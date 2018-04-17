@@ -127,10 +127,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _subject.ChangeAddress(viewModel, updateModel);
 
-            Assert.Equal(viewModel.BillingAddress.AddressId, "BillingAddId");
-            Assert.Equal(viewModel.Shipments[0].Address.AddressId, "ShipmentAddId");
+            Assert.Equal("BillingAddId", viewModel.BillingAddress.AddressId);
+            Assert.Equal("ShipmentAddId", viewModel.Shipments[0].Address.AddressId);
         }
 
+        [Fact]
         public void ChangeAddress_WhenShippingAddressIndexHasInValidValue_ShouldUpdateBillingAddressButNotUpdateShippingAddress()
         {
             var shipmentModels = new List<ShipmentViewModel>
@@ -148,12 +149,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
                 Shipments = shipmentModels,
                 ShippingAddressIndex = -1
             };
-            updateModel.Shipments[0].Address.AddressId = "ShipmentAddId";
 
             _subject.ChangeAddress(viewModel, updateModel);
 
-            Assert.Equal(viewModel.BillingAddress.AddressId, "BillingAddId");
-            Assert.NotEqual(viewModel.Shipments[0].Address.AddressId, "ShipmentAddId");
+            Assert.Equal("BillingAddId", viewModel.BillingAddress.AddressId);
+            Assert.NotEqual("ShipmentAddId", viewModel.Shipments[0].Address.AddressId);
         }
 
         private readonly CheckoutAddressHandling _subject;

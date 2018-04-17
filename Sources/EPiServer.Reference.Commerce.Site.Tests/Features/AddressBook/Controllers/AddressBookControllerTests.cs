@@ -146,7 +146,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsType(typeof(AddressViewModel), ((ViewResult)result).Model);
+            Assert.IsType<AddressViewModel>(((ViewResult)result).Model);
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
             var model = ((ViewResult)result).Model as AddressViewModel;
             Assert.Equal<AddressBookPage>(currentPage, model.CurrentPage);
 
-            Assert.IsType(typeof(EmptyResult), _exceptionContext.Result);
+            Assert.IsType<EmptyResult>(_exceptionContext.Result);
         }
 
         [Fact]
@@ -223,7 +223,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsType(typeof(AddressViewModel), ((ViewResult)result).Model);
+            Assert.IsType<AddressViewModel>(((ViewResult)result).Model);
         }
 
         [Fact]
@@ -245,7 +245,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook.Controlle
 
             var result = _subject.OnSaveException(_exceptionContext);
 
-            Assert.IsType(typeof(PartialViewResult), result);
+            Assert.IsType<PartialViewResult>(result);
         }
 
         AddressBookController _subject;

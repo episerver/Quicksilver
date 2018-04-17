@@ -38,7 +38,7 @@
                                         }
                                     </div>
                                     <div class="col-md-4 text-right product-col-price">
-                                        <h4 class="product-row__item__price product-price">@cartItem.DiscountedPrice.ToString()</h4>
+                                        <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(cartItem.DiscountedPrice.GetValueOrDefault())</h4>
                                     </div>
                                     <div class="col-md-2 product-col-remove">
                                         @if (!(bool)ViewData["IsReadOnly"])

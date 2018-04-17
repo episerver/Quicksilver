@@ -2129,4 +2129,10 @@
   <data name="Restrictions" xml:space="preserve">
     <value>Begränsningar</value>
   </data>
+  <data name="Prices_Include_Tax" xml:space="preserve">
+    <value>Priser inkluderar moms</value>
+  </data>
+  <data name="Prices_Include_Tax_Information" xml:space="preserve">
+    <value>Styr hur den här marknadens priser beräknas i ordrar</value>
+  </data>
 </root>

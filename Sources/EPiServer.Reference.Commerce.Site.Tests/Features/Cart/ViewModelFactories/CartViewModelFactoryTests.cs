@@ -3,19 +3,16 @@ using EPiServer.Commerce.Order.Internal;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using FluentAssertions;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Markets;
 using Moq;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
-using Mediachase.Commerce.Catalog;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -35,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = _totals.SubTotal
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -53,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = _totals.SubTotal
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -69,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = new Money(0, Currency.USD)
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -84,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 TotalDiscount = _orderDiscountTotal,
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -99,7 +96,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 TotalDiscount = new Money(0, Currency.USD)
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -114,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = _totals.SubTotal
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -129,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = new Money(0, Currency.USD)
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -145,7 +142,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = _totals.SubTotal
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         [Fact]
@@ -161,7 +158,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 Total = new Money(0, Currency.USD)
             };
 
-            viewModel.ShouldBeEquivalentTo(expectedViewModel);
+            viewModel.Should().BeEquivalentTo(expectedViewModel);
         }
 
         private readonly CartViewModelFactory _subject;
@@ -174,14 +171,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
 
         public CartViewModelFactoryTests()
         {
-            _cart = new FakeCart(new MarketImpl(MarketId.Default), Currency.USD);
+            var market = new MarketImpl(MarketId.Default);
+            _cart = new FakeCart(market, Currency.USD);
             _cart.Forms.Single().Shipments.Single().LineItems.Add(new InMemoryLineItem { Quantity = 1, PlacedPrice = 105, LineItemDiscountAmount = 5 });
 
             _startPage = new StartPage() { CheckoutPage = new ContentReference(1), WishListPage = new ContentReference(1) };
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(_startPage);
-         
-            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null);
+
+            var marketServiceMock = new Mock<IMarketService>();
+            marketServiceMock.Setup(x => x.GetMarket(It.IsAny<MarketId>())).Returns(market);
+            var shipmentViewModelFactoryMock = new Mock<ShipmentViewModelFactory>(null, null, null, null, null, marketServiceMock.Object);
             _cartItems = new List<CartItemViewModel> { new CartItemViewModel { DiscountedPrice = new Money(100, Currency.USD), Quantity = 1 } };
             shipmentViewModelFactoryMock.Setup(x => x.CreateShipmentsViewModel(It.IsAny<ICart>())).Returns(() => new[] { new ShipmentViewModel { CartItems = _cartItems } });
 
@@ -201,7 +201,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
 
             _orderDiscountTotal = new Money(5, Currency.USD);
             var orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();
-            orderGroupCalculatorMock.Setup(x => x.GetOrderDiscountTotal(It.IsAny<IOrderGroup>(), It.IsAny<Currency>()))
+            orderGroupCalculatorMock.Setup(x => x.GetOrderDiscountTotal(It.IsAny<IOrderGroup>()))
                 .Returns(_orderDiscountTotal);
 
             orderGroupCalculatorMock.Setup(x => x.GetSubTotal(_cart)).Returns(new Money(_cart.GetAllLineItems().Sum(x => x.PlacedPrice * x.Quantity - ((ILineItemDiscountAmount)x).EntryAmount), _cart.Currency));

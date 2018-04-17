@@ -26,6 +26,10 @@
           <Currency>Valutaslag</Currency>
         </Labels>
       </Market>
+      <PricesInformation>
+        <IncludeTax>Alla priser inklusive moms</IncludeTax>
+        <ExcludeTax>Alla priser exklusive moms</ExcludeTax>
+      </PricesInformation>
     </Header>
     <Facet>
       <Choices>Artiklar:</Choices>

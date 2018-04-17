@@ -25,6 +25,7 @@
     }
     @using (Html.BeginForm("RegisterAccount", "Login", FormMethod.Post, new { @class = "jsRegistration", @role = "form" }))
     {
+        @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.Address.Name)
 
         <div class="form-group">

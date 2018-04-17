@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Warehouse.Controllers
         {
             var viewModel = ((PartialViewResult)_subject.Index(ExistingWarehouseCode)).Model as WarehouseViewModel;
 
-            Assert.Equal<string>("default", viewModel.Warehouse.Code);
+            Assert.Equal("default", viewModel.Warehouse.Code);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Warehouse.Controllers
         {
             var viewModels = ((PartialViewResult)_subject.GetAvailability(ExistingSkuCode)).Model as IEnumerable<WarehouseInventoryViewModel>;
 
-            Assert.Equal<string>("default", viewModels.Single().WarehouseCode);
+            Assert.Equal("default", viewModels.Single().WarehouseCode);
         }
 
         [Fact]

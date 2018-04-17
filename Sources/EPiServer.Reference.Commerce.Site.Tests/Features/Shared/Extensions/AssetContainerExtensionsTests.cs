@@ -24,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = AssetContainerExtensions.GetAssets<IContentMedia>(_assetContainerMock.Object, _contentLoaderMock.Object, _urlResolverMock.Object);
 
             // Assert
-            Assert.Equal<string>(String.Empty, result.Single());
+            Assert.Equal(String.Empty, result.Single());
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = AssetContainerExtensions.GetAssets<IContentImage>(_assetContainerMock.Object, _contentLoaderMock.Object, _urlResolverMock.Object);
 
             // Assert
-            Assert.Equal<string>(String.Empty, result.Single());
+            Assert.Equal(String.Empty, result.Single());
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Extensions
             var result = AssetContainerExtensions.GetAssets<IContentImage>(_assetContainerMock.Object, _contentLoaderMock.Object, _urlResolverMock.Object);
 
             // Assert
-            Assert.Equal<string>(String.Empty, result.Single());
+            Assert.Equal(String.Empty, result.Single());
         }
 
         Mock<IAssetContainer> _assetContainerMock;

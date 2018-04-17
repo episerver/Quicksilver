@@ -1,7 +1,6 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods.GenericCreditCardPaymentOption
+﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods.GenericCreditCardPaymentMethod
 
-@Html.HiddenFor(model => model.PaymentMethodId)
-@Html.HiddenFor(model => model.CardType)
+@Html.HiddenFor(model => model.SystemKeyword)
 
 <div class="form-group">
     @Html.LabelFor(model => model.CreditCardName)
@@ -35,4 +34,3 @@
         @Html.ValidationMessageFor(model => model.ExpirationMonth)
     </div>
 </div>
-
