@@ -70,11 +70,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public async Task<ActionResult> ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
+        public async Task<ActionResult> ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize, string displayName)
         {
             ModelState.Clear();
 
-            _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
+            _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize, displayName);
             _orderRepository.Save(Cart);
             await _recommendationService.TrackCartAsync(HttpContext);
             return MiniCartDetails();

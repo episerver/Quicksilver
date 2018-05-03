@@ -62,7 +62,7 @@
                                                     @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new {@class = "form-control form-inline form-field--narrow jsChangeCartItem"})
                                                 }
                                                 @Html.Hidden("code", cartItem.Code)
-
+                                                @Html.Hidden("displayName", cartItem.DisplayName)
                                             </div>
                                         </div>
                                     </div>

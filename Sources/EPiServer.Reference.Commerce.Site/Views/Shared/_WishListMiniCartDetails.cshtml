@@ -50,6 +50,7 @@
                             </div>
                             @Html.Hidden("quantity", cartItem.Quantity.ToString("0"), new { @class = "jsChangeCartItem" })
                             @Html.Hidden("code", cartItem.Code)
+                            @Html.Hidden("displayName", cartItem.DisplayName)
                         </div>
                     }
                 </li>

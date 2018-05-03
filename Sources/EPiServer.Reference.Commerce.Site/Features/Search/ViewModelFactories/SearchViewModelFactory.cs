@@ -7,6 +7,7 @@ using Mediachase.Search;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ISearchService = EPiServer.Reference.Commerce.Site.Features.Search.Services.ISearchService;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
 {

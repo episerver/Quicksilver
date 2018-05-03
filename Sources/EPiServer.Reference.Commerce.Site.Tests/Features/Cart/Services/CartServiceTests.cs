@@ -21,6 +21,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mediachase.Commerce.Pricing;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
@@ -94,6 +95,20 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _subject.AddToCart(_cart, "code", 1);
 
             Assert.Equal("sample-name", _cart.GetAllLineItems().Single(x => x.Code == "code").DisplayName);
+        }
+
+        [Fact]
+        public void AddToCart_WhenLineItemNotInCart_ShouldSetPlacedPrice()
+        {
+            var code = "code";
+            var unitPrice = new Money(9.95m, _cart.Currency);
+
+            _pricingServiceMock
+                .Setup(m => m.GetPrice(code))
+                .Returns(new PriceValue {UnitPrice = unitPrice});
+            _subject.AddToCart(_cart, code, 1);
+
+            Assert.Equal(unitPrice.Amount, _cart.GetAllLineItems().Single(x => x.Code == code).PlacedPrice);
         }
 
         [Fact]
@@ -234,7 +249,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             _cart.GetFirstShipment().LineItems.Add(lineItem);
 
-            _subject.ChangeCartItem(_cart, shipmentId, code, quantity, size, newSize);
+            _subject.ChangeCartItem(_cart, shipmentId, code, quantity, size, newSize, "");
 
             Assert.Equal<decimal>(quantity, lineItem.Quantity);
         }
@@ -255,7 +270,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             _cart.GetFirstShipment().LineItems.Add(lineItem);
 
-            _subject.ChangeCartItem(_cart, shipmentId, code, quantity, size, newSize);
+            _subject.ChangeCartItem(_cart, shipmentId, code, quantity, size, newSize, "");
 
             Assert.Empty(_cart.GetAllLineItems());
         }
@@ -283,7 +298,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             var shipment = new FakeShipment();
             shipment.LineItems.Add(removedLineItem);
             _cart.AddShipment(shipment, _orderGroupFactoryMock.Object);
-            _subject.ChangeCartItem(_cart, shipment.ShipmentId, code, quantity, size, newSize);
+            _subject.ChangeCartItem(_cart, shipment.ShipmentId, code, quantity, size, newSize, "");
 
            Assert.DoesNotContain(_cart.GetFirstForm().Shipments, s => s.ShipmentId == shipment.ShipmentId && s.LineItems.Any(l => l.Code == code));
         }
@@ -295,7 +310,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
 
             _cart.GetFirstShipment().LineItems.Add(new InMemoryLineItem { Quantity = 1, Code = "code" });
 
-            _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M");
+            _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M", "");
 
             Assert.Equal("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
             Assert.Equal<decimal>(5, _cart.GetFirstShipment().LineItems.Single().Quantity);
@@ -309,7 +324,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _cart.GetFirstShipment().LineItems.Add(new InMemoryLineItem { Quantity = 1, Code = "newcode" });
             _cart.GetFirstShipment().LineItems.Add(new InMemoryLineItem { Quantity = 1, Code = "code" });
 
-            _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M");
+            _subject.ChangeCartItem(_cart, 0, "code", 5, "S", "M", "");
 
             Assert.Equal("newcode", _cart.GetFirstShipment().LineItems.Single().Code);
             Assert.Equal<decimal>(5 + 1, _cart.GetFirstShipment().LineItems.Single().Quantity);

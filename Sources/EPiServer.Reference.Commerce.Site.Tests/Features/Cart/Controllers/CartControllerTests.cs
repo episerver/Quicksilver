@@ -33,8 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             int quantity = 0;
             string size = null;
             string newSize = null;
-            await _subject.ChangeCartItem(shipmentId, code, quantity, size, newSize);
-            _cartServiceMock.Verify(s => s.ChangeCartItem(It.IsAny<ICart>(), shipmentId, code, quantity, size, newSize));
+            await _subject.ChangeCartItem(shipmentId, code, quantity, size, newSize, "");
+            _cartServiceMock.Verify(s => s.ChangeCartItem(It.IsAny<ICart>(), shipmentId, code, quantity, size, newSize, ""));
         }
 
         [Fact]

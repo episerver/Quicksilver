@@ -317,6 +317,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             if (PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.CommerceAdmins) ||
             PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.CatalogManagers) ||
+            PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.CustomerServiceRepresentatives) ||
             PrincipalInfo.CurrentPrincipal.IsInRole(RoleNames.MarketingManagers))
             {
                 return true;

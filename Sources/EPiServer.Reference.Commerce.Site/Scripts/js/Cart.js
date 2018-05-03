@@ -24,7 +24,7 @@
             });
 
         $('.cart-dropdown').on('show.bs.dropdown', function (e) {
-            if ($('#CartItemCount', $(this)).val() == 0) {
+            if ($('#CartItemCount', $(this)).val() === 0) {
                 e.preventDefault();
             }
         });
@@ -116,7 +116,7 @@
         });
     },
     preventSubmit: function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             e.preventDefault();
         }
     }

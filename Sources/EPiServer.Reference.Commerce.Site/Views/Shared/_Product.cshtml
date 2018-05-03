@@ -55,6 +55,7 @@
             {
                 @Html.Hidden("code", Model.Code)
                 @Html.Hidden("quantity", 0, new { @class = "jsChangeCartItem" })
+                @Html.Hidden("displayName", Model.DisplayName)
                 <button role="button" class="btn btn-gray-lighter jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
             }
         </div>

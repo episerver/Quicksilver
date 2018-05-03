@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _relationRepository = relationRepository;
         }
 
-        public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize)
+        public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize, string displayName)
         {
             if (quantity > 0)
             {
@@ -84,7 +84,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 else
                 {
                     var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-                    UpdateLineItemSku(cart, shipmentId, code, newCode, quantity);
+                    UpdateLineItemSku(cart, shipmentId, code, newCode, quantity, displayName);
                 }
             }
             else
@@ -204,10 +204,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
             if (lineItem == null)
             {
-                lineItem = cart.CreateLineItem(code, _orderGroupFactory);
-                lineItem.DisplayName = entryContent.DisplayName;
-                lineItem.Quantity = quantity;
-                cart.AddLineItem(lineItem, _orderGroupFactory);
+                lineItem = AddNewLineItem(cart, code, quantity, entryContent.DisplayName);
             }
             else
             {
@@ -375,7 +372,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
         }
 
-        private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity)
+        private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity, string displayName)
         {
             RemoveLineItem(cart, shipmentId, oldCode);
 
@@ -388,18 +385,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             }
             else
             {
-                newLineItem = cart.CreateLineItem(newCode, _orderGroupFactory);
-                newLineItem.Quantity = quantity;
-                cart.AddLineItem(newLineItem, _orderGroupFactory);
-
-                var price = _pricingService.GetPrice(newCode);
-                if (price != null)
-                {
-                    newLineItem.PlacedPrice = price.UnitPrice.Amount;
-                }
+                AddNewLineItem(cart, newCode, quantity, displayName);
             }
 
             ValidateCart(cart);
+        }
+
+        private ILineItem AddNewLineItem(ICart cart, string newCode, decimal quantity, string displayName)
+        {
+            var newLineItem = cart.CreateLineItem(newCode, _orderGroupFactory);
+            newLineItem.Quantity = quantity;
+            newLineItem.DisplayName = displayName;
+            cart.AddLineItem(newLineItem, _orderGroupFactory);
+
+            var price = _pricingService.GetPrice(newCode);
+            if (price != null)
+            {
+                newLineItem.PlacedPrice = price.UnitPrice.Amount;
+            }
+
+            return newLineItem;
         }
 
         private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)

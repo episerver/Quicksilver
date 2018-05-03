@@ -85,11 +85,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public async Task<ActionResult> ChangeCartItem(string code, decimal quantity, string size, string newSize)
+        public async Task<ActionResult> ChangeCartItem(string code, decimal quantity, string size, string newSize, string displayName)
         {
             ModelState.Clear();
 
-            _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize);
+            _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize, displayName);
             _orderRepository.Save(WishList);
             await _recommendationService.TrackWishlistAsync(HttpContext);
             return WishListMiniCartDetails();

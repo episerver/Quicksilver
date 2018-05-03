@@ -2,14 +2,14 @@
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Search.Models;
-using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
-using Mediachase.Search;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using Mediachase.Search;
 using Xunit;
+using ISearchService = EPiServer.Reference.Commerce.Site.Features.Search.Services.ISearchService;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
 {
