@@ -18,11 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
         {
             var url = _assetUrlResolver.Service.GetAssetUrl<TContentMedia>(assetContainer);
             Uri uri;
-            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
-            {
-                return uri.PathAndQuery;
-            }
-            return url;
+            return Uri.TryCreate(url, UriKind.Absolute, out uri) ? uri.PathAndQuery : url;
         }
 
         public static IList<string> GetAssets<TContentMedia>(this IAssetContainer assetContainer, IContentLoader contentLoader, UrlResolver urlResolver)

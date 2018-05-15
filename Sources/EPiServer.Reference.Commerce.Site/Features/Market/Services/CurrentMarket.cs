@@ -20,13 +20,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
 
         public IMarket GetCurrentMarket()
         {
-            var _currentMarket = _cookieService.Get(MarketCookie);
-            if (string.IsNullOrEmpty(_currentMarket))
+            var currentMarket = _cookieService.Get(MarketCookie);
+            if (string.IsNullOrEmpty(currentMarket))
             {
-                _currentMarket = DefaultMarketId.Value;
+                currentMarket = DefaultMarketId.Value;
             }
 
-            return GetMarket(new MarketId(_currentMarket));
+            return GetMarket(new MarketId(currentMarket));
         }
 
         public void SetCurrentMarket(MarketId marketId)

@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Manager
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager<SiteUser>, SiteUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => manager.GenerateUserIdentityAsync(user)),
-                    OnApplyRedirect = (context => context.Response.Redirect(context.RedirectUri))
+                    OnApplyRedirect = context => context.Response.Redirect(context.RedirectUri)
                 }
             });
         }

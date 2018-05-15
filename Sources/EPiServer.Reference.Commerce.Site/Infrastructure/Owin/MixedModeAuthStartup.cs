@@ -161,7 +161,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             {
                 map.Run(ctx =>
                 {
-                    if (OpenIdConnectUser(ctx.Authentication.User))
+                    if (IsOpenIdConnectUser(ctx.Authentication.User))
                     {
                         ctx.Authentication.SignOut();
                     }
@@ -178,21 +178,16 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
         }
 
-        private bool OpenIdConnectUser(ClaimsPrincipal user)
+        private bool IsOpenIdConnectUser(ClaimsPrincipal user)
         {
             const string openIdConnectProviderClaimType = "http://schemas.microsoft.com/identity/claims/identityprovider";
             const string aspNetIdentityProviderClaimType = "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider";
-            if (user.Claims.Any(c => c.Type == aspNetIdentityProviderClaimType))
-            {
-                return false;
-            }
-
-            return user.Claims.Any(c => c.Type == openIdConnectProviderClaimType);
+            return user.Claims.All(c => c.Type != aspNetIdentityProviderClaimType) && user.Claims.Any(c => c.Type == openIdConnectProviderClaimType);
         }
 
         private void HandleMultiSiteReturnUrl(
-                 RedirectToIdentityProviderNotification<OpenIdConnectMessage,
-                                         OpenIdConnectAuthenticationOptions> context)
+            RedirectToIdentityProviderNotification<OpenIdConnectMessage,
+            OpenIdConnectAuthenticationOptions> context)
         {
             // here you change the context.ProtocolMessage.RedirectUri to corresponding siteurl
             // this is a sample of how to change redirecturi in the multi-tenant environment

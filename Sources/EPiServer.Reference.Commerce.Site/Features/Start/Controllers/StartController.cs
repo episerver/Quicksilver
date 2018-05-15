@@ -43,11 +43,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             return View(viewModel);
         }
 
-        protected virtual ContentReference GetCampaignRoot()
-        {
-            return SalesCampaignFolder.CampaignRoot;
-        }
-
         private IEnumerable<PromotionViewModel> GetActivePromotions()
         {
             var promotions = new List<PromotionViewModel>();

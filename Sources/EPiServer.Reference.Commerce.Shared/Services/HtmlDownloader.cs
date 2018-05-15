@@ -10,20 +10,22 @@ namespace EPiServer.Reference.Commerce.Shared.Services
     {
         public string Download(string baseUrl, string relativeUrl)
         {
-            var client = new HttpClient {BaseAddress = new Uri(baseUrl)};
-            var fullUrl = client.BaseAddress + relativeUrl;
+            using (var client = new HttpClient {BaseAddress = new Uri(baseUrl)})
+            {
+                var fullUrl = client.BaseAddress + relativeUrl;
 
-            var response = client.GetAsync(fullUrl).Result;
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
+                var response = client.GetAsync(fullUrl).Result;
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException(
+                        $"Request to '{fullUrl}' was unsuccessful. Content:\n{response.Content.ReadAsStringAsync().Result}");
+                }
+                return response.Content.ReadAsStringAsync().Result;
             }
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException(
-                    $"Request to '{fullUrl}' was unsuccessful. Content:\n{response.Content.ReadAsStringAsync().Result}");
-            }
-            return response.Content.ReadAsStringAsync().Result;
         }
     }
 }

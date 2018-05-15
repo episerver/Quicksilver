@@ -23,7 +23,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             public readonly decimal Factor;
         }
 
-        private readonly CurrencyConversion[] _conversionRatesToUsd = new [] {
+        private readonly CurrencyConversion[] _conversionRatesToUsd = {
             new CurrencyConversion("USD", "US dollar", 1m),
             new CurrencyConversion("SEK", "Swedish krona", 0.12m),
             new CurrencyConversion("AUD", "Australian dollar", 0.78m),
@@ -88,6 +88,4 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             return (CurrencyDto.CurrencyRow)dto.Currency.Select("CurrencyCode = '" + currencyCode + "'").SingleOrDefault();
         }
     }
-
-
 }

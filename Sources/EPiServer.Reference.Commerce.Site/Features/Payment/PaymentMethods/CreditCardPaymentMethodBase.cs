@@ -15,7 +15,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
     public abstract class CreditCardPaymentMethodBase : PaymentMethodBase, IDataErrorInfo
     {
-        public CreditCardPaymentMethodBase()
+        protected CreditCardPaymentMethodBase()
             : this(LocalizationService.Current, 
                   ServiceLocator.Current.GetInstance<IOrderGroupFactory>(),
                   ServiceLocator.Current.GetInstance<LanguageService>(),
@@ -23,7 +23,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         {
         }
 
-        public CreditCardPaymentMethodBase(LocalizationService localizationService, 
+        protected CreditCardPaymentMethodBase(LocalizationService localizationService, 
             IOrderGroupFactory orderGroupFactory,
             LanguageService languageService, 
             IPaymentManagerFacade paymentManager) 
@@ -63,10 +63,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
         string IDataErrorInfo.Error => null;
 
-        string IDataErrorInfo.this[string columnName]
-        {
-            get { return GetValidationError(columnName); }
-        }
+        string IDataErrorInfo.this[string columnName] => GetValidationError(columnName);
 
         static readonly string[] ValidatedProperties =
 {
@@ -135,9 +132,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
                 case "ExpirationMonth":
                     error = ValidateExpirationMonth();
                     break;
-
-                default:
-                    break;
             }
 
             return error;
@@ -155,12 +149,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
         protected virtual string ValidateExpirationYear()
         {
-            if (ExpirationYear < DateTime.Now.Year)
-            {
-                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationYear");
-            }
-
-            return null;
+            return ExpirationYear < DateTime.Now.Year ? 
+                LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/ExpirationYear") : 
+                null;
         }
 
         protected virtual string ValidateCreditCardSecurityCode()
@@ -170,22 +161,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
                 return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardSecurityCode");
             }
 
-            if (!Regex.IsMatch(CreditCardSecurityCode, "^[0-9]{3}$"))
-            {
-                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardSecurityCode");
-            }
-
-            return null;
+            return !Regex.IsMatch(CreditCardSecurityCode, "^[0-9]{3}$") ? 
+                LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardSecurityCode") : 
+                null;
         }
 
         protected virtual string ValidateCreditCardNumber()
         {
-            if (string.IsNullOrEmpty(CreditCardNumber))
-            {
-                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber");
-            }
-
-            return null;
+            return string.IsNullOrEmpty(CreditCardNumber) ? 
+                LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber") : 
+                null;
         }
     }
 }

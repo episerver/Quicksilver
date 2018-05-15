@@ -40,9 +40,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             {
                 throw new ArgumentNullException(nameof(email));
             }
-
+            
             CustomerContact contact = null;
-            SiteUser user = GetUser(email);
+            var user = GetUser(email);
 
             if (user != null)
             {
@@ -50,22 +50,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             }
 
             return contact;
-        }
-
-        public virtual CustomerContact GetCustomerContact(PrimaryKeyId primaryKeyId)
-        {
-            return _customerContext.GetContactById(primaryKeyId);
-        }
-
-        public virtual PrimaryKeyId? GetCustomerContactPrimaryKeyId(string email)
-        {
-            if (email == null)
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            var contact = GetCustomerContact(email);
-            return contact?.PrimaryKeyId;
         }
 
         public virtual SiteUser GetUser(string email)
@@ -80,16 +64,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return user;
         }
 
-        public virtual async Task<SiteUser> GetUserAsync(string email)
-        {
-            if (email == null)
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            return await _userManager.FindByNameAsync(email);
-        }
-
         public virtual async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
             return await _authenticationManager.GetExternalLoginInfoAsync();
@@ -102,10 +76,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
                 throw new ArgumentNullException(nameof(user));
             }
 
-            ContactIdentityResult contactResult = null;
-            IdentityResult result = null;
-            CustomerContact contact = null;
-
             if (String.IsNullOrEmpty(user.Password))
             {
                 throw new MissingFieldException("Password");
@@ -115,6 +85,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             {
                 throw new MissingFieldException("Email");
             }
+
+            IdentityResult result;
+            CustomerContact contact = null;
 
             if (_userManager.FindByEmail(user.Email) != null)
             {
@@ -131,7 +104,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
                 }
             }
 
-            contactResult = new ContactIdentityResult(result, contact);
+            var contactResult = new ContactIdentityResult(result, contact);
 
             return contactResult;
         }

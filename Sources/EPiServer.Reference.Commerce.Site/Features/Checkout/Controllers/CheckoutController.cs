@@ -208,10 +208,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return _checkoutViewModelFactory.CreateCheckoutViewModel(Cart, currentPage, paymentMethod);
         }
 
-        private ICart Cart
-        {
-            get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName)); }
-        }
+        private ICart Cart => _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName));
 
         private bool CartIsNullOrEmpty()
         {

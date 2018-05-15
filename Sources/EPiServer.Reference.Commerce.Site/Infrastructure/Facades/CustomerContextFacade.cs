@@ -14,8 +14,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
             CurrentContact = new CurrentContactFacade();
             _mapUserKey = mapUserKey;
         }
-        public virtual CurrentContactFacade CurrentContact { get; private set; }
-        public virtual Guid CurrentContactId { get { return CustomerContext.Current.CurrentContactId;} }
+        public virtual CurrentContactFacade CurrentContact { get; }
+        public virtual Guid CurrentContactId => CustomerContext.Current.CurrentContactId;
+
         public virtual CustomerContact GetContactById(Guid contactId)
         {
             return CustomerContext.Current.GetContactById(contactId);

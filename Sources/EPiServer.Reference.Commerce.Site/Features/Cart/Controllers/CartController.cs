@@ -48,8 +48,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         [AllowDBWrite]
         public async Task<ActionResult> AddToCart(string code)
         {
-            string warningMessage = string.Empty;
-
             ModelState.Clear();
 
             if (Cart == null)

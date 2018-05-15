@@ -34,10 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
             return _searchProviderType;
         }
 
-        public virtual SearchFilter[] SearchFilters
-        {
-            get { return SearchFilterHelper.Current.SearchConfig.SearchFilters; }
-        }
+        public virtual SearchFilter[] SearchFilters => SearchFilterHelper.Current.SearchConfig.SearchFilters;
 
         public virtual StringCollection GetOutlinesForNode(string code)
         {
@@ -78,7 +75,5 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 
             return SearchProviderType.Unknown;
         }
-
-
     }
 }

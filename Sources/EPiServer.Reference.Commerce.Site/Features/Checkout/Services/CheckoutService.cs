@@ -33,13 +33,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         private readonly CustomerContextFacade _customerContext;
         private readonly LocalizationService _localizationService;
         private readonly IMailService _mailService;
-        private readonly IPromotionEngine _promotionEngine;
         private readonly ILogger _log = LogManager.GetLogger(typeof(CheckoutService));
         private readonly ICartService _cartService;
 
-        public AuthenticatedPurchaseValidation AuthenticatedPurchaseValidation { get; private set; }
-        public AnonymousPurchaseValidation AnonymousPurchaseValidation { get; private set; }
-        public CheckoutAddressHandling CheckoutAddressHandling { get; private set; }
+        public AuthenticatedPurchaseValidation AuthenticatedPurchaseValidation { get; }
+        public AnonymousPurchaseValidation AnonymousPurchaseValidation { get; }
+        public CheckoutAddressHandling CheckoutAddressHandling { get; }
 
         public CheckoutService(
             IAddressBookService addressBookService,
@@ -51,7 +50,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             CustomerContextFacade customerContext,
             LocalizationService localizationService,
             IMailService mailService, 
-            IPromotionEngine promotionEngine,
             ICartService cartService)
         {
             _addressBookService = addressBookService;
@@ -63,7 +61,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             _customerContext = customerContext;
             _localizationService = localizationService;
             _mailService = mailService;
-            _promotionEngine = promotionEngine;
             _cartService = cartService;
 
             AuthenticatedPurchaseValidation = new AuthenticatedPurchaseValidation(_localizationService);
@@ -99,7 +96,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         public virtual void CreateAndAddPaymentToCart(ICart cart, CheckoutViewModel viewModel)
         {
             // Clean up payments in cart on payment provider site.
-            foreach (IOrderForm form in cart.Forms)
+            foreach (var form in cart.Forms)
             {
                 form.Payments.Clear();
             }
@@ -114,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             try
             {
-                var paymentProcessingResults = cart.ProcessPayments(_paymentProcessor, _orderGroupCalculator);
+                var paymentProcessingResults = cart.ProcessPayments(_paymentProcessor, _orderGroupCalculator).ToList();
 
                 if (paymentProcessingResults.Any(r => !r.IsSuccessful))
                 {
@@ -129,7 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                     return null;
                 }
 
-                var processedPayments = cart.GetFirstForm().Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString()));
+                var processedPayments = cart.GetFirstForm().Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString())).ToList();
                 if (!processedPayments.Any())
                 {
                     // Return null in case there is no payment was processed.
@@ -142,7 +139,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                     throw new InvalidOperationException("Wrong amount");
                 }
 
-                PurchaseValidation validation = null;
+                PurchaseValidation validation;
                 if (checkoutViewModel.IsAuthenticated)
                 {
                     validation = AuthenticatedPurchaseValidation;
@@ -213,7 +210,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
         public virtual bool ValidateOrder(ModelStateDictionary modelState, CheckoutViewModel viewModel, Dictionary<ILineItem, List<ValidationIssue>> validationIssueCollections)
         {
-            PurchaseValidation validation = null;
+            PurchaseValidation validation;
             if (viewModel.IsAuthenticated)
             {
                 validation = AuthenticatedPurchaseValidation;

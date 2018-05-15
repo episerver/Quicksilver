@@ -9,20 +9,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
     [ServiceConfiguration(typeof(CurrentContactFacade), Lifecycle = ServiceInstanceScope.Singleton)]
     public class CurrentContactFacade
     {
-        public virtual CustomerContact CurrentContact
-        {
-            get { return CustomerContext.Current.CurrentContact; }
-        }
+        public virtual CustomerContact CurrentContact => CustomerContext.Current.CurrentContact;
 
         public virtual IEnumerable<CustomerAddress> ContactAddresses
         {
             get
             {
-                if (CustomerContext.Current.CurrentContact == null)
-                {
-                    return Enumerable.Empty<CustomerAddress>();
-                }
-                return CustomerContext.Current.CurrentContact.ContactAddresses;
+                return CustomerContext.Current.CurrentContact == null 
+                    ? Enumerable.Empty<CustomerAddress>() 
+                    : CustomerContext.Current.CurrentContact.ContactAddresses;
             }
         }
 

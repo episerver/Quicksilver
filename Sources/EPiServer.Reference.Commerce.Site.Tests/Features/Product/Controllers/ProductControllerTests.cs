@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
 
-            await CreateController().Index(fashionProduct, "notexist", false, true);
+            await CreateController().Index(fashionProduct, null, false, true);
 
             _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
         }
@@ -67,7 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
 
-            await CreateController().Index(fashionProduct, "notexist", true, false);
+            await CreateController().Index(fashionProduct, null, true, false);
 
             _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), true), Times.Once);
         }
@@ -80,7 +80,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
 
-            await CreateController().Index(fashionProduct, "notexist", true, true);
+            await CreateController().Index(fashionProduct, null, true, true);
 
             _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
         }
@@ -93,7 +93,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
 
-            await CreateController().Index(fashionProduct, "notexist", false, false);
+            await CreateController().Index(fashionProduct, null, false, false);
 
             _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), false), Times.Once);
         }

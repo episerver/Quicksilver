@@ -89,9 +89,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
             }
         }
 
-        private IMarket CurrentMarket
-        {
-            get { return _currentMarket.GetCurrentMarket(); }
-        }
+        private IMarket CurrentMarket => _currentMarket.GetCurrentMarket();
     }
 }

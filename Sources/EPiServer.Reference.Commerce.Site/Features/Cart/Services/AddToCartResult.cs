@@ -11,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         }
 
         public bool EntriesAddedToCart { get; set; }
-        public IList<string> ValidationMessages { get; private set; }
+        public IList<string> ValidationMessages { get; }
 
         /// <summary>
         /// Merges all warning messages into one string and makes sure it is not longer then 512 characters which is the maximum length to be used in an HttpStatusCodeResult.

@@ -1287,7 +1287,7 @@
   <data name="Warehouse_PickFulfillment_Already_Exist" xml:space="preserve">
     <value>Order already contains other pick-up warehouse.</value>
   </data>
-  <data name="LineItem_AdjustedQuantity" xml:space="preserve">
+   <data name="LineItem_AdjustedQuantity" xml:space="preserve">
     <value>The quantity of product {0} has changed.</value>
   </data>
   <data name="LineItem_CannotProcessDueToMissingOrderStatus" xml:space="preserve">

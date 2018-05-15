@@ -1284,6 +1284,9 @@
   <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
     <value>Artikel {0} är inte tillgänglig i butik och har därför tagits bort från din varukorg.</value>
   </data>
+  <data name="LineItem_RemovedDueToInvalidMaxQuantitySetting" xml:space="preserve">
+    <value>Artikel {0} har ingen giltig maximal kvantitet och har därför tagits bort från din varukorg.</value>
+  </data>
   <data name="Shipment_Id" xml:space="preserve">
     <value>Leverans-ID</value>
   </data>

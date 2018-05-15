@@ -34,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
         {
-            var siblingVariants = _catalogContentService.GetSiblingVariants<FashionVariant>(siblingCode);
+            var siblingVariants = _catalogContentService.GetSiblingVariants<FashionVariant>(siblingCode).ToList();
             var siblingVariant = siblingVariants.First(x => x.Code == siblingCode);
 
             foreach (var variant in siblingVariants)

@@ -8,7 +8,6 @@
     {
         bool hasDiscount = product.DiscountedPrice.GetValueOrDefault() < product.PlacedPrice;
         string productLevelClass = hasDiscount ? "list-group-item product-item has-discount" : "list-group-item product-item";
-        bool renderWishListButtons = User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true;
 
         <li class="@productLevelClass">
             <a href="@product.Url" class="link--black">

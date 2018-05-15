@@ -81,7 +81,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 return View(viewModel);
             }
 
-            ContactIdentityResult registration = null;
             viewModel.Address.BillingDefault = true;
             viewModel.Address.ShippingDefault = true;
             viewModel.Address.Email = viewModel.Email;
@@ -102,7 +101,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 IsApproved = true
             };
 
-            registration = await UserService.RegisterAccount(user);
+            var registration = await UserService.RegisterAccount(user);
 
             if (registration.Result.Succeeded)
             {
@@ -127,12 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             }
             Uri uri;
 
-            if (Uri.TryCreate(returnUrl, UriKind.Absolute, out uri))
-            {
-                return uri.PathAndQuery;
-            }
-            return returnUrl;
-
+            return Uri.TryCreate(returnUrl, UriKind.Absolute, out uri) ? uri.PathAndQuery : returnUrl;
         }
 
         protected override void OnException(ExceptionContext filterContext)
@@ -142,7 +136,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
         public ActionResult OnRegisterException(ExceptionContext filterContext)
         {
-            RegisterAccountViewModel viewModel = new RegisterAccountViewModel
+            var viewModel = new RegisterAccountViewModel
             {
                 ErrorMessage = filterContext.Exception.Message,
                 Address = new Shared.Models.AddressModel()

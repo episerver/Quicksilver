@@ -35,8 +35,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.ModelBinders
 
             try
             {
-
-
                 result = decimal.Parse(attemptedValue, NumberStyles.Any);
             }
             catch (FormatException e)

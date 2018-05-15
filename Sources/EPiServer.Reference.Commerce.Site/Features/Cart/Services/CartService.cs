@@ -255,14 +255,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             // Try to validate gift items inventory and don't catch validation issues.
             cart.UpdateInventoryOrRemoveLineItems((item, issue) =>
             {
-                if (!item.IsGift)
-                {
-                    validationIssues.AddValidationIssues(item, issue);
-                }
-                else
-                {
-                    validationIssues.AddValidationIssues(item, ValidationIssue.RemovedGiftDueToInsufficientQuantityInInventory);
-                }
+                validationIssues.AddValidationIssues(item, item.IsGift ? ValidationIssue.RemovedGiftDueToInsufficientQuantityInInventory : issue);
             }, _inventoryProcessor);
 
             return validationIssues;

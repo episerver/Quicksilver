@@ -14,8 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
 
         public virtual CountryDto.CountryRow GetCountryByCountryCode(string countryCode)
         {
-            CountryDto dataset = CountryManager.GetCountry(countryCode, false);
-            CountryDto.CountryDataTable table = dataset.Country;
+            var table = CountryManager.GetCountry(countryCode, false).Country;
 
             return table.Rows.Count == 1 ? table.Rows[0] as CountryDto.CountryRow : null;
         }

@@ -45,12 +45,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
                 return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/Empty/CreditCardNumber");
             }
 
-            if (CreditCardNumber[CreditCardNumber.Length - 1] != '4')
-            {
-                return LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardNumber");
-            }
-
-            return null;
+            return CreditCardNumber[CreditCardNumber.Length - 1] != '4' ? 
+                LocalizationService.GetString("/Checkout/Payment/Methods/CreditCard/ValidationErrors/CreditCardNumber") : 
+                null;
         }
     }
 }

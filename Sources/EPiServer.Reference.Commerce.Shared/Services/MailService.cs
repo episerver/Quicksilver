@@ -72,14 +72,13 @@ namespace EPiServer.Reference.Commerce.Shared.Services
 
         public void Send(MailMessage message)
         {
-            using (SmtpClient client = new SmtpClient())
+            using (var client = new SmtpClient())
             {
                 // The SMTP host, port and sender e-mail address are configured
                 // in the system.net section in web.config.
                 client.Send(message);
             }
         }
-
         public Task SendAsync(IdentityMessage message)
         {
             Send(message.Subject, message.Body, message.Destination);

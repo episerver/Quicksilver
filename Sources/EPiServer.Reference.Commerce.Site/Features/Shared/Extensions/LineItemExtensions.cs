@@ -43,21 +43,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
         private static string GetThumbnailUrl(string code)
         {
             var content = GetEntryContent(code);
-            if (content == null)
-            {
-                return string.Empty;
-            }
-            return _thumbnailUrlResolver.Service.GetThumbnailUrl(content, "thumbnail");
+            return content == null ? 
+                string.Empty : 
+                _thumbnailUrlResolver.Service.GetThumbnailUrl(content, "thumbnail");
         }
 
         private static EntryContentBase GetEntryContent(string code)
         {
             var entryContentLink = _referenceConverter.Service.GetContentLink(code);
-            if (ContentReference.IsNullOrEmpty(entryContentLink))
-            {
-                return null;
-            }
-            return _contentLoader.Service.Get<EntryContentBase>(entryContentLink);
+            return ContentReference.IsNullOrEmpty(entryContentLink) ? 
+                null : 
+                _contentLoader.Service.Get<EntryContentBase>(entryContentLink);
         }
     }
 }

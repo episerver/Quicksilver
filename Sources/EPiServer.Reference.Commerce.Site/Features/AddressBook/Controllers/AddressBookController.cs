@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         [HttpGet]
         public ActionResult Index(AddressBookPage currentPage)
         {
-            AddressCollectionViewModel viewModel = _addressBookService.GetAddressBookViewModel(currentPage);
+            var viewModel = _addressBookService.GetAddressBookViewModel(currentPage);
 
             return View(viewModel);
         }
@@ -46,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.AddressBook.Controllers
         [HttpGet]
         public ActionResult EditForm(AddressBookPage currentPage, string addressId)
         {
-            AddressViewModel viewModel = new AddressViewModel
+            var viewModel = new AddressViewModel
             {
                 Address = new AddressModel
                 {

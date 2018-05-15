@@ -34,19 +34,19 @@ namespace EPiServer.Reference.Commerce.Shared.Identity
                 UserName = billingAddress.Email;
                 FirstName = billingAddress.FirstName;
                 LastName = billingAddress.LastName;
-            }
 
-            var addressesToAdd = new HashSet<IOrderAddress>(purchaseOrder.GetFirstForm().Shipments.Select(x => x.ShippingAddress));
+                var addressesToAdd = new HashSet<IOrderAddress>(purchaseOrder.GetFirstForm().Shipments.Select(x => x.ShippingAddress));
 
-            foreach (var shippingAddress in addressesToAdd)
-            {
-                if (shippingAddress.Id != billingAddress.Id)
+                foreach (var shippingAddress in addressesToAdd)
                 {
-                    Addresses.Add(CreateCustomerAddress(shippingAddress, CustomerAddressTypeEnum.Shipping));
+                    if (shippingAddress.Id != billingAddress.Id)
+                    {
+                        Addresses.Add(CreateCustomerAddress(shippingAddress, CustomerAddressTypeEnum.Shipping));
+                    }
                 }
-            }
 
-            Addresses.Add(CreateCustomerAddress(billingAddress, CustomerAddressTypeEnum.Billing));
+                Addresses.Add(CreateCustomerAddress(billingAddress, CustomerAddressTypeEnum.Billing));
+            }
         }
 
         [NotMapped]

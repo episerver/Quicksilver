@@ -36,7 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                 var parentContent = _contentLoader.Get<CatalogContentBase>(content.ParentLink);
                 
                 var node = parentContent as NodeContent;
-                string title = null;
+                string title;
                 if (node != null)
                 {
                     title = node.SeoInformation.Title.NullIfEmpty() ?? node.DisplayName;
@@ -56,12 +56,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             }
 
             var startPage = content as StartPage;
-            if (startPage != null)
-            {
-                return Content(startPage.Title.NullIfEmpty() ?? startPage.Name);
-            }
-
-            return Content(content.Name);
+            return startPage != null ? 
+                Content(startPage.Title.NullIfEmpty() ?? startPage.Name) : 
+                Content(content.Name);
         }
 
         private string FormatTitle(string title)

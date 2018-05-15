@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Shell.ObjectEditing;
@@ -12,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Descriptors
     {
         public override void ModifyMetadata(ExtendedMetadata metadata, IEnumerable<Attribute> attributes)
         {
-            foreach (ExtendedMetadata property in metadata.Properties)
+            foreach (var property in metadata.Properties.OfType<ExtendedMetadata>())
             {
                 if (property.PropertyName == "icategorizable_category")
                 {

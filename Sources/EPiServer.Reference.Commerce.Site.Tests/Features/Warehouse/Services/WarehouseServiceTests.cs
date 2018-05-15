@@ -61,17 +61,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Warehouse.Services
         private readonly Mock<IInventoryService> _inventoryServiceMock;
         private readonly Mock<IWarehouseRepository> _warehouseRepositoryMock;
         private readonly IWarehouseService _subject;
-        private readonly Mock<IInventoryProcessor> _inventoryProcessorMock;
         private const string ExistingWarehouseCode = "default";
 
         public WarehouseServiceTests()
         {
             _inventoryServiceMock = new Mock<IInventoryService>();
             _warehouseRepositoryMock = new Mock<IWarehouseRepository>();
-            _inventoryProcessorMock = new Mock<IInventoryProcessor>();
+
             _subject = new WarehouseService(
                 _inventoryServiceMock.Object,
-                _inventoryProcessorMock.Object,
                 _warehouseRepositoryMock.Object);
 
             _warehouseRepositoryMock

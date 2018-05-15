@@ -22,11 +22,11 @@ namespace EPiServer.Reference.Commerce.Shared.Identity
         /// <summary>
         /// Gets the CustomerContact involved in the Identity action.
         /// </summary>
-        public CustomerContact Contact { get; private set; }
+        public CustomerContact Contact { get; }
 
         /// <summary>
         /// Gets the outcome of the related identity action.
         /// </summary>
-        public IdentityResult Result { get; private set; }
+        public IdentityResult Result { get; }
     }
 }

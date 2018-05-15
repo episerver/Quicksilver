@@ -11,17 +11,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Warehouse.Services
     [ServiceConfiguration(typeof(IWarehouseService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class WarehouseService : IWarehouseService
     {
-        private readonly IInventoryProcessor _inventoryProcessor;
         private readonly IInventoryService _inventoryService;
         private readonly IWarehouseRepository _warehouseRepository;
 
         public WarehouseService(
             IInventoryService inventoryService,
-            IInventoryProcessor inventoryProcessor,
             IWarehouseRepository warehouseRepository)
         {
             _inventoryService = inventoryService;
-            _inventoryProcessor = inventoryProcessor;
             _warehouseRepository = warehouseRepository;
         }
 

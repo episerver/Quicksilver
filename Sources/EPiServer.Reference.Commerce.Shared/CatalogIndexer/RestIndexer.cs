@@ -20,7 +20,7 @@ using System.Web;
 
 namespace EPiServer.Reference.Commerce.Shared.CatalogIndexer
 {
-    public class RestIndexer : CatalogIndexBuilder
+    public class RestIndexer : CatalogIndexBuilder, IDisposable
     {
         private readonly HttpClient _client = new HttpClient();
         private readonly string _url;
@@ -87,6 +87,11 @@ namespace EPiServer.Reference.Commerce.Shared.CatalogIndexer
             }
             var result = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<RestSearchDocument>(result);
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
         }
     }
 }

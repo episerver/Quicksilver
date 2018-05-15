@@ -80,11 +80,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
                 MarketContentLoader marketContentLoader)
                 : base(contentLoader, currentMarket, marketContentLoader)
             { }
-
-            protected override ContentReference GetCampaignRoot()
-            {
-                return new ContentReference(666);
-            }
         }
     }
 }

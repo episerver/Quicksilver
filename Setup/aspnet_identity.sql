@@ -119,75 +119,47 @@ ALTER TABLE [dbo].[AspNetUserRoles]
     ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 GO
 
+CREATE PROCEDURE AddUserAccount
+(
+	@Email AS NVARCHAR(256),
+	@RoleId AS UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	DECLARE @UserId AS UNIQUEIDENTIFIER = NEWID();
+	INSERT INTO AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+	VALUES (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, GETDATE(), 1, 0);
+	INSERT INTO AspNetUserRoles (RoleId, UserId) VALUES (@RoleId, @UserId);
+END
+GO
 
-declare @RoleId as uniqueidentifier;
-declare @UserId as uniqueidentifier;
-declare @Email as nvarchar(25);
+CREATE PROCEDURE CreateUserRole (@RoleName AS NVARCHAR(256), @RoleId AS NVARCHAR(128) OUTPUT)
+AS
+BEGIN
+    SET @RoleId = NEWID();
+    INSERT INTO AspNetRoles(Id, [Name]) VALUES(@RoleId, @RoleName);
+END
+GO
 
+DECLARE @AdministratorsRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = N'Administrators', @RoleId = @AdministratorsRoleId OUTPUT;
+DECLARE @WebAdminsRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'WebAdmins', @RoleId = @WebAdminsRoleId OUTPUT;
+DECLARE @WebEditorsRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'WebEditors', @RoleId = @WebEditorsRoleId OUTPUT;
+DECLARE @OrderManagersRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'Order Managers', @RoleId = @OrderManagersRoleId OUTPUT;
+DECLARE @ShippingManagerRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'Shipping Manager', @RoleId = @ShippingManagerRoleId OUTPUT;
+DECLARE @OrderSupervisorRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'Order Supervisor', @RoleId = @OrderSupervisorRoleId OUTPUT;
+DECLARE @ReceivingManagerRoleId AS UNIQUEIDENTIFIER; EXEC CreateUserRole @RoleName = 'Receiving Manager', @RoleId = @ReceivingManagerRoleId OUTPUT;
 
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'admin@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'Administrators');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
+EXEC AddUserAccount @Email = 'admin@example.com', @RoleId = @AdministratorsRoleId;
+EXEC AddUserAccount @Email = 'webeditor@example.com', @RoleId = @WebEditorsRoleId;
+EXEC AddUserAccount @Email = 'webadmin@example.com', @RoleId = @WebAdminsRoleId;
+EXEC AddUserAccount @Email = 'ordermanager@example.com', @RoleId = @OrderManagersRoleId;
+EXEC AddUserAccount @Email = 'shippingmanager@example.com', @RoleId = @ShippingManagerRoleId;
+EXEC AddUserAccount @Email = 'ordersupervisor@example.com', @RoleId = @OrderSupervisorRoleId;
+EXEC AddUserAccount @Email = 'receivingmanager@example.com', @RoleId = @ReceivingManagerRoleId;
+GO
 
+DROP PROCEDURE AddUserAccount;
+GO
 
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'editor@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'WebAdmins');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'webadmin@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'WebEditors');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'manager@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'Order Managers');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'shipping@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'Shipping Manager');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'supervisor@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'Order Supervisor');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-
-set @RoleId = NEWID();
-set @UserId = NEWID();
-set @Email = 'receiving@example.com';
-insert into AspNetRoles(Id, Name) Values(@RoleId, 'Receiving Manager');
-insert into AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
-values (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, getdate(), 1, 0);
-insert into AspNetUserRoles (RoleId, UserId) values (@RoleId, @UserId);
-
-
-insert into AspNetRoles(Id, Name) Values(NEWID(), 'Management Users');
-insert into AspNetRoles(Id, Name) Values(NEWID(), 'Registered');
-
+DROP PROCEDURE CreateUserRole;
 GO

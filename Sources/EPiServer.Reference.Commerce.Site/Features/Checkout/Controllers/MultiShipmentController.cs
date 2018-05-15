@@ -67,10 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return RedirectToAction("Index", new { node = currentPage.ParentLink });
         }
 
-        private ICart Cart
-        {
-            get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName)); }
-        }
+        private ICart Cart => _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName));
 
         private IList<AddressModel> GetAddresses(MultiShipmentViewModel viewModel)
         {

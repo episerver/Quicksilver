@@ -59,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModelFactories
                 PaymentMethods = availablePaymentMethods
             };
 
-            viewModel.SelectedPaymentMethod = viewModel.PaymentMethods.FirstOrDefault(x => x.IsDefault == true) 
+            viewModel.SelectedPaymentMethod = viewModel.PaymentMethods.FirstOrDefault(x => x.IsDefault) 
                 ?? viewModel.PaymentMethods.FirstOrDefault();
 
             return viewModel;
