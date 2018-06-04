@@ -76,11 +76,11 @@
                     <tbody>
                         <tr>
                             <td class="text-right col-md-10">@Html.Translate("/OrderConfirmation/ShipmentCost")</td>
-                            <td class="total-price text-right col-md-2">@shipment.ShipmentCost</td>
+                            <td class="total-price text-right col-md-2">@Helpers.RenderMoney(shipment.ShipmentCost)</td>
                         </tr>
                         <tr>
                             <td class="text-right">@Html.Translate("/OrderConfirmation/ShippingItemsTotal")</td>
-                            <td class="total-price text-right">@shipment.ShippingItemsTotal</td>
+                            <td class="total-price text-right">@Helpers.RenderMoney(shipment.ShippingItemsTotal)</td>
                         </tr>
                         <tr>
                             <td class="text-right">@Html.Translate("/OrderConfirmation/ShippingMethod")</td>
@@ -111,31 +111,31 @@
                 <tbody>
                     <tr>
                         <td class="text-right col-md-10">@Html.Translate("/OrderConfirmationMail/OrderLevelDiscounts")</td>
-                        <td class="total-price text-right col-md-2">- @Model.OrderLevelDiscountTotal.ToString()</td>
+                        <td class="total-price text-right col-md-2">- @Helpers.RenderMoney(Model.OrderLevelDiscountTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/HandlingCost")</td>
-                        <td class="total-price text-right">@Model.HandlingTotal.ToString()</td>
+                        <td class="total-price text-right">@Helpers.RenderMoney(Model.HandlingTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingSubtotal")</td>
-                        <td class="total-price text-right">@Model.ShippingSubTotal.ToString()</td>
+                        <td class="total-price text-right">@Helpers.RenderMoney(Model.ShippingSubTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingDiscount")</td>
-                        <td class="total-price text-right">- @Model.ShippingDiscountTotal.ToString()</td>
+                        <td class="total-price text-right">- @Helpers.RenderMoney(Model.ShippingDiscountTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/ShippingCost")</td>
-                        <td class="total-price text-right">@Model.ShippingTotal.ToString()</td>
+                        <td class="total-price text-right">@Helpers.RenderMoney(Model.ShippingTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right">@Html.Translate("/OrderConfirmationMail/TaxCost")</td>
-                        <td class="total-price text-right">@Model.TaxTotal.ToString()</td>
+                        <td class="total-price text-right">@Helpers.RenderMoney(Model.TaxTotal)</td>
                     </tr>
                     <tr>
                         <td class="text-right"><strong>@Html.Translate("/OrderConfirmationMail/Total")</strong></td>
-                        <td class="total-price text-right"><strong>@Model.CartTotal.ToString()</strong></td>
+                        <td class="total-price text-right"><strong>@Helpers.RenderMoney(Model.CartTotal)</strong></td>
                     </tr>
                 </tbody>
             </table>
