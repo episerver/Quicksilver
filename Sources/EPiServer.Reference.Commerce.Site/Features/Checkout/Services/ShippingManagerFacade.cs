@@ -13,8 +13,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
     [ServiceConfiguration(Lifecycle = ServiceInstanceScope.Singleton)]
     public class ShippingManagerFacade
     {
-        private ServiceCollectionAccessor<IShippingPlugin> _shippingPluginsAccessor;
-        private ServiceCollectionAccessor<IShippingGateway> _shippingGatewaysAccessor;
+        private readonly ServiceCollectionAccessor<IShippingPlugin> _shippingPluginsAccessor;
+        private readonly ServiceCollectionAccessor<IShippingGateway> _shippingGatewaysAccessor;
 
         public ShippingManagerFacade(ServiceCollectionAccessor<IShippingPlugin> shippingPluginsAccessor, ServiceCollectionAccessor<IShippingGateway> shippingGatewaysAccessor)
         {

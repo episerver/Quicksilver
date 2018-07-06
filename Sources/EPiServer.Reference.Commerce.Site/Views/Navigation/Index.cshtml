@@ -46,7 +46,7 @@
                 <div class="col-sm-6 hidden-xs text-right">
                     @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
                     {
-                        <input type="text" placeholder="@Html.Translate("/Header/Search/Placeholder")" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                        <input type="text" placeholder="@Html.Translate("/Header/Search/Placeholder")" autocomplete="off" class="form-control form-inline search-input js-search-input jsQuickSearch" id="q1" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                         <div class="jsQuickSearchResult product-dropdown-container search-dropdown"></div>
                     }
@@ -134,7 +134,7 @@
                 @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search" }))
                 {
                     <div class="form-group">
-                        <input type="text" placeholder="Search" class="form-control form-inline search-input jsQuickSearch" id="q" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                        <input type="text" placeholder="Search" class="form-control form-inline search-input jsQuickSearch" id="q2" name="q" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                         <div class="jsQuickSearchResult product-dropdown-container" style="display: none;"></div>
                     </div>

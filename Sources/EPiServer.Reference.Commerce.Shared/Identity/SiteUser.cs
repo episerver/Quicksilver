@@ -64,6 +64,9 @@ namespace EPiServer.Reference.Commerce.Shared.Identity
         [NotMapped]
         public string Password { get; set; }
 
+        [NotMapped]
+        public bool AcceptMarketingEmail { get; set; }
+
         public bool NewsLetter { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<SiteUser> manager)

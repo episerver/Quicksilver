@@ -31,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             _userManager = userManager;
             _authenticationManager = authenticationManager;
             _localizationService = localizationService;
-            _customerContext = customerContextFacade; 
+            _customerContext = customerContextFacade;
         }
 
         public virtual CustomerContact GetCustomerContact(string email)
@@ -157,6 +157,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             return contact;
         }
 
+        public void Dispose()
+        {
+            _userManager?.Dispose();
+
+            _signInManager?.Dispose();
+        }
+
+        public void SignOut()
+        {
+            _authenticationManager.SignOut();
+        }
+
         private void SetPreferredAddresses(CustomerContact contact)
         {
             var changed = false;
@@ -187,18 +199,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             {
                 contact.SaveChanges();
             }
-        }
-
-        public void SignOut()
-        {
-            _authenticationManager.SignOut();
-        }
-
-        public void Dispose()
-        {
-            _userManager?.Dispose();
-
-            _signInManager?.Dispose();
         }
     }
 }

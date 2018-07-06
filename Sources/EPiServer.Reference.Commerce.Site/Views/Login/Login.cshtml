@@ -15,12 +15,12 @@
 
             <div class="form-group">
                 @Html.LabelFor(x => x.Email)
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", autofocus = "autofocus", id = "email-login" })
                 @Html.ValidationMessageFor(x => x.Email)
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.Password)
-                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control", id = "password-login" })
                 @Html.ValidationMessageFor(x => x.Password)
             </div>
             <div class="checkbox">

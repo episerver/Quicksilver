@@ -1,10 +1,13 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+﻿using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
 {
     public class RegisterAccountViewModel
     {
+        public LoginRegistrationPage CurrentPage { get; set; }
+
         public AddressModel Address { get; set; }
 
         [LocalizedDisplay("/Registration/Form/Label/Email")]
@@ -23,7 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
         [LocalizedStringLength("/Registration/Form/Error/PasswordLength2", 5, 100)]
         public string Password2 { get; set; }
 
-        public bool Newsletter { get; set; }
+        public bool AcceptMarketingEmail { get; set; }
 
         public string ErrorMessage { get; set; }
     }

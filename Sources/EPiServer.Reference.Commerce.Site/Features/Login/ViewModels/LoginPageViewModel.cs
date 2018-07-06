@@ -15,7 +15,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
             LoginViewModel = new LoginViewModel() { ReturnUrl = returnUrl };
             RegisterAccountViewModel = new RegisterAccountViewModel
             {
-                Address = new AddressModel ()
+                Address = new AddressModel (),
+                CurrentPage = currentPage
             };
         }
     }

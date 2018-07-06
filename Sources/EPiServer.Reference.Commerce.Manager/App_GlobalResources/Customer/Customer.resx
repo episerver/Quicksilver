@@ -519,6 +519,12 @@
   <data name="Contact_mf_RegistrationSource" xml:space="preserve">
     <value>Registration Source</value>
   </data>
+  <data name="Contact_mf_AcceptMarketingEmail" xml:space="preserve">
+    <value>Accept marketing e-mail</value>
+  </data>
+  <data name="Contact_mf_ConsentUpdated" xml:space="preserve">
+    <value>Consent updated</value>
+  </data>
   <data name="CreditCard_mc" xml:space="preserve">
     <value>Credit Card</value>
   </data>

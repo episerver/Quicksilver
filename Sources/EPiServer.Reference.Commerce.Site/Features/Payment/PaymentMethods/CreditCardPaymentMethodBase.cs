@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
@@ -75,15 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         
         public override bool ValidateData()
         {
-            foreach (string property in ValidatedProperties)
-            {
-                if (GetValidationError(property) != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return ValidatedProperties.All(property => GetValidationError(property) == null);
         }
 
         public virtual void InitializeValues()

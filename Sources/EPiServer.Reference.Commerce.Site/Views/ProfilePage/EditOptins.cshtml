@@ -1,0 +1,25 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels.ProfilePageViewModel
+<div class="container-fluid">
+    <div class="row myPage">
+        @if (Model.CurrentPage != null)
+        {
+            @Html.Partial("_CmsNavigation", Model.CurrentPage)
+        }
+
+        <div class="col-xs-12 col-md-9">
+            @using (Html.BeginForm("UpdateOptins", "ProfilePage", FormMethod.Post))
+            {
+                <h2>@Html.Translate("/Consent/Header")</h2>
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(x => x.ConsentData.AcceptMarketingEmail) @Html.Translate("/Consent/AcceptMarketingEmail")
+                    </label>
+                </div>
+                if (!(bool)ViewData["IsReadOnly"])
+                {
+                    <button type="submit" class="btn btn-primary btn--blue">@Html.Translate("/Consent/Form/Submit")</button>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -1,11 +1,12 @@
 ﻿using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Data.Dynamic;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Identity;
+using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Controllers;
-using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
@@ -34,34 +35,33 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
     public class LoginControllerTests : IDisposable
     {
         [Fact]
-        public void Index_WhenCurrentPageAndReturnUrl_ShouldCreateViewModel()
+        public void Index_WhenReturnUrl_ShouldCreateViewModel()
         {
-            var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
+            var result = ((ViewResult)_subject.Index(_testUrl)).Model as LoginPageViewModel;
 
             Assert.NotNull(result);
         }
 
         [Fact]
-        public void Index_WhenCurrentPageAndReturnUrl_ShouldPassPageToViewModel()
+        public void Index_WhenReturnUrl_ShouldPassPageToViewModel()
         {
-            var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
+            var result = ((ViewResult)_subject.Index(_testUrl)).Model as LoginPageViewModel;
 
-            Assert.Equal(page, result.CurrentPage);
+            Assert.NotNull(result.CurrentPage);
         }
 
         [Fact]
-        public void Index_WhenCurrentPageAndReturnUrl_ShouldPassUrlToViewModel()
+        public void Index_WhenReturnUrl_ShouldPassUrlToViewModel()
         {
-            var page = new LoginRegistrationPage();
-            var result = ((ViewResult)_subject.Index(page, _testUrl)).Model as LoginPageViewModel;
+            var result = ((ViewResult)_subject.Index(_testUrl)).Model as LoginPageViewModel;
 
             Assert.Equal(_testUrl, result.LoginViewModel.ReturnUrl);
         }
 
-        [Fact]
-        public void RegisterAccount_WhenRegisterSuccessful_ShouldReturnJsonReturnUrl()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void RegisterAccount_WhenRegisterSuccessful_ShouldReturnJsonReturnUrl(bool acceptMarketingEmail)
         {
             var identityResult = new IdentityResult();
             typeof(IdentityResult).GetProperty("Succeeded").SetValue(identityResult, true, null);
@@ -74,10 +74,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     CustomerContact.CreateInstance()
                 )));
 
+            _optinServiceMock.Setup(
+                x => x.CreateOptinTokenData(It.IsAny<string>()))
+                .Returns(Task.FromResult("test token"));
+
             var model = new RegisterAccountViewModel
             {
                 Email = "email@email.com",
-                Newsletter = true,
+                AcceptMarketingEmail = acceptMarketingEmail,
                 Password = "Passwors@124#212",
                 Password2 = "Passwors@124#212",
             };
@@ -102,6 +106,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             };
 
             result.Should().BeEquivalentTo(expectedResult);
+            _subject.CallToSendMarketingEmailConfirmationMailMethod.Should().Be(acceptMarketingEmail);
         }
 
         [Fact]
@@ -118,7 +123,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             var model = new RegisterAccountViewModel
             {
                 Email = "email@email.com",
-                Newsletter = true,
+                AcceptMarketingEmail = true,
                 Password = "Passwors@124#212",
                 Password2 = "Passwors@124#212",
             };
@@ -317,12 +322,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
         private readonly Mock<ApplicationUserManager<SiteUser>> _userManagerMock;
         private readonly Mock<UserService> _userServiceMock;
+        private readonly Mock<OptinService> _optinServiceMock;
         private readonly Mock<ApplicationSignInManager<SiteUser>> _signinManagerMock;
         private readonly Mock<HttpContextBase> _httpContextMock;
         private readonly Mock<ControllerExceptionHandler> _controllerExceptionHandler;
         private readonly Mock<RequestContext> _requestContext;
         private readonly ExceptionContext _exceptionContext;
         private readonly CultureInfo _cultureInfo;
+        private readonly Mock<IMailService> _mailServiceMock;
         private const string _testUrl = "http://test.com";
 
         public LoginControllerTests()
@@ -370,7 +377,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<ContentReference>())).Returns(startPageMock.Object);
 
-            _subject = new LoginControllerForTest(_signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, localizationService, _contentLoaderMock.Object, addressBookService, _controllerExceptionHandler.Object);
+            _mailServiceMock = new Mock<IMailService>();
+            _optinServiceMock = new Mock<OptinService>(new Mock<DynamicDataStoreFactory>().Object, _userManagerMock.Object, customercontextFacadeMock.Object);
+
+            _subject = new LoginControllerForTest(_signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, addressBookService, _contentLoaderMock.Object, _mailServiceMock.Object, localizationService, _controllerExceptionHandler.Object, _optinServiceMock.Object);
             _subject.ControllerContext = new ControllerContext(_httpContextMock.Object, new RouteData(), _subject);
 
             _exceptionContext = new ExceptionContext
@@ -400,20 +410,29 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
         private class LoginControllerForTest : LoginController
         {
+            public bool CallToSendMarketingEmailConfirmationMailMethod { get; set; }
+
             public LoginControllerForTest(ApplicationSignInManager<SiteUser> signInManager,
                 ApplicationUserManager<SiteUser> userManager,
                 UserService userService,
-                LocalizationService localizationService,
-                IContentLoader contentLoader,
                 IAddressBookService addressBookService,
-                ControllerExceptionHandler controllerExceptionHandler)
-                : base(signInManager, userManager, userService, localizationService, contentLoader, addressBookService, controllerExceptionHandler)
+                IContentLoader contentLoader,
+                IMailService mailService,
+                LocalizationService localizationService,
+                ControllerExceptionHandler controllerExceptionHandler,
+                OptinService optinService)
+                : base(signInManager, userManager, userService, addressBookService, contentLoader, mailService, localizationService, controllerExceptionHandler, optinService)
             {
             }
 
             public void CallOnException(ExceptionContext filterContext)
             {
                 OnException(filterContext);
+            }
+
+            protected override void SendMarketingEmailConfirmationMail(string userId, CustomerContact contact, string token)
+            {
+                CallToSendMarketingEmailConfirmationMailMethod = true;
             }
         }
     }

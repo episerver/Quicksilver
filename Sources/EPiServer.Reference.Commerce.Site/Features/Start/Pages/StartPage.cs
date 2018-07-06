@@ -47,12 +47,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 5)]
         public virtual LinkItemCollection RightMenu { get; set; }
 
+        [Display(
+            Name = "Footer page links",
+            GroupName = SystemTabNames.Content,
+            Order = 6)]
+        public virtual LinkItemCollection FooterLinks { get; set; }
+
         [CultureSpecific]
         [Display(
             Name = "Main body",
             Description = "",
             GroupName = SystemTabNames.Content,
-            Order = 6)]
+            Order = 7)]
         public virtual XhtmlString MainBody { get; set; }
 
         [Display(
@@ -96,6 +102,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
         public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
+            Name = "Resource not found page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 10)]
+        public virtual ContentReference PageNotFound { get; set; }
+
+        [Display(
+            Name = "Login registration page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 11)]
+        public virtual ContentReference LoginRegistrationPage { get; set; }
+
+        [Display(
+            Name = "Opt-In email confirm success page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 12)]
+        public virtual ContentReference OptinConfirmSuccessPage { get; set; }
+
+        [Display(
             Name = "Order confirmation mail",
             Description = "",
             GroupName = SiteTabs.MailTemplates,
@@ -111,11 +138,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
         public virtual ContentReference ResetPasswordMail { get; set; }
 
         [Display(
-            Name = "Resource not found page",
+            Name = "Registration confirmation mail",
             Description = "",
-            GroupName = SiteTabs.SiteStructure,
-            Order = 10)]
-        public virtual ContentReference PageNotFound { get; set; }
-
+            GroupName = SiteTabs.MailTemplates,
+            Order = 3)]
+        public virtual ContentReference RegistrationConfirmationMail { get; set; }
     }
 }

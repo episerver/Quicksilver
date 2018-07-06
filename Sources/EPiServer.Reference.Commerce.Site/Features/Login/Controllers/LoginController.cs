@@ -2,7 +2,10 @@ using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Commerce.Security;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
+using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Shared.Identity;
+using EPiServer.Reference.Commerce.Shared.Models;
+using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Login.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Login.Services;
@@ -16,6 +19,7 @@ using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -25,49 +29,55 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 {
     public class LoginController : IdentityControllerBase<LoginRegistrationPage>
     {
-        private readonly IContentLoader _contentLoader;
         private readonly IAddressBookService _addressBookService;
+        private readonly IContentLoader _contentLoader;
+        private readonly ILogger _logger = LogManager.GetLogger(typeof(LoginController));
+        private readonly IMailService _mailService;
         private readonly LocalizationService _localizationService;
         private readonly ControllerExceptionHandler _controllerExceptionHandler;
+        private readonly OptinService _optinService;
+
+        private StartPage StartPage => _contentLoader.Get<StartPage>(ContentReference.StartPage);
 
         public LoginController(
             ApplicationSignInManager<SiteUser> signinManager,
             ApplicationUserManager<SiteUser> userManager,
             UserService userService,
-            LocalizationService localizationService,
-            IContentLoader contentLoader,
             IAddressBookService addressBookService,
-            ControllerExceptionHandler controllerExceptionHandler)
+            IContentLoader contentLoader,
+            IMailService mailService,
+            LocalizationService localizationService,
+            ControllerExceptionHandler controllerExceptionHandler,
+            OptinService optinService)
             : base(signinManager, userManager, userService)
         {
-            _localizationService = localizationService;
-            _contentLoader = contentLoader;
-            _controllerExceptionHandler = controllerExceptionHandler;
             _addressBookService = addressBookService;
+            _contentLoader = contentLoader;
+            _mailService = mailService;
+            _localizationService = localizationService;
+            _controllerExceptionHandler = controllerExceptionHandler;
+            _optinService = optinService;
         }
 
         /// <summary>
         /// Renders the default login page in which a user can both register a new account or log in
         /// to an existing one.
         /// </summary>
-        /// <param name="currentPage">An instance of the PageData object for the view.</param>
-        /// <param name="returnUrl">The user´s previous URL location. When logging in the user will be redirected back to this URL.</param>
+        /// <param name="returnUrl">The user's previous URL location. When logging in the user will be redirected back to this URL.</param>
         /// <returns>The default login and user account registration view.</returns>
         [HttpGet]
-        public ActionResult Index(LoginRegistrationPage currentPage, string returnUrl)
+        public ActionResult Index(string returnUrl)
         {
-            var viewModel = new LoginPageViewModel(currentPage, returnUrl ?? "/");
-            InitializeLoginViewModel(viewModel.LoginViewModel);
+            var registrationPage = ContentReference.IsNullOrEmpty(StartPage.LoginRegistrationPage)
+                ? new LoginRegistrationPage()
+                : _contentLoader.Get<LoginRegistrationPage>(StartPage.LoginRegistrationPage);
+            var viewModel = new LoginPageViewModel(registrationPage, returnUrl ?? "/");
+            viewModel.LoginViewModel.ResetPasswordPage = StartPage.ResetPasswordPage;
+
             _addressBookService.LoadAddress(viewModel.RegisterAccountViewModel.Address);
             viewModel.RegisterAccountViewModel.Address.Name = _localizationService.GetString("/Shared/Address/DefaultAddressName");
-
+            
             return View(viewModel);
-        }
-
-        private void InitializeLoginViewModel(LoginViewModel viewModel)
-        {
-            StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
-            viewModel.ResetPasswordPage = startPage.ResetPasswordPage;
         }
 
         [HttpPost]
@@ -75,6 +85,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterAccount(RegisterAccountViewModel viewModel)
         {
+            if (viewModel.CurrentPage == null)
+            {
+                viewModel.CurrentPage = ContentReference.IsNullOrEmpty(StartPage.LoginRegistrationPage)
+                ? new LoginRegistrationPage()
+                : _contentLoader.Get<LoginRegistrationPage>(StartPage.LoginRegistrationPage);
+            }
+
             if (!ModelState.IsValid)
             {
                 _addressBookService.LoadAddress(viewModel.Address);
@@ -96,7 +113,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                 FirstName = viewModel.Address.FirstName,
                 LastName = viewModel.Address.LastName,
                 RegistrationSource = "Registration page",
-                NewsLetter = viewModel.Newsletter,
+                AcceptMarketingEmail = viewModel.AcceptMarketingEmail,
                 Addresses = new List<CustomerAddress>(new[] { customerAddress }),
                 IsApproved = true
             };
@@ -105,6 +122,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             if (registration.Result.Succeeded)
             {
+                if (user.AcceptMarketingEmail)
+                {
+                    var token = await _optinService.CreateOptinTokenData(user.Id);
+                    SendMarketingEmailConfirmationMail(user.Id, registration.Contact, token);
+                }
+
                 var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
                 return Json(new { ReturnUrl = returnUrl }, JsonRequestBehavior.DenyGet);
             }
@@ -156,7 +179,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             if (!ModelState.IsValid)
             {
-                InitializeLoginViewModel(viewModel);
+                viewModel.ResetPasswordPage = StartPage.ResetPasswordPage;
                 return PartialView("Login", viewModel);
             }
 
@@ -275,7 +298,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     FirstName = firstName,
                     LastName = lastName,
                     RegistrationSource = "Social login",
-                    NewsLetter = viewModel.Newsletter,
+                    AcceptMarketingEmail = viewModel.AcceptMarketingEmail,
                     IsApproved = true
                 };
 
@@ -286,7 +309,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     {
                         customerAddress
                     });
-                    UserService.CreateCustomerContact(user);
+                    var contact = UserService.CreateCustomerContact(user);
+                    if (user.AcceptMarketingEmail)
+                    {
+                        var token = await _optinService.CreateOptinTokenData(user.Id);
+                        SendMarketingEmailConfirmationMail(user.Id, contact, token);
+                    }
+
                     result = await UserManager.AddLoginAsync(user.Id, socialLoginDetails.Login);
                     if (result.Succeeded)
                     {
@@ -298,6 +327,36 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmOptinToken(string userId, string token)
+        {
+            var confirmResult = await _optinService.ConfirmOptinToken(userId, token);
+            if (confirmResult)
+            {
+                return RedirectToAction("SuccessOptinConfirmation", "StandardPage");
+            }
+
+            return RedirectToAction("PageNotFound", "ErrorHandling");
+        }
+
+        protected virtual void SendMarketingEmailConfirmationMail(string userId, CustomerContact contact, string token)
+        {
+            var optinConfirmEmailUrl = Url.Action("ConfirmOptinToken", "Login", new { userId, token }, protocol: Request.Url.Scheme);
+            try
+            {
+                var confirmationMailTitle = _contentLoader.Get<MailBasePage>(StartPage.RegistrationConfirmationMail).MailTitle;
+                var confirmationMailBody = _mailService.GetHtmlBodyForMail(StartPage.RegistrationConfirmationMail, new NameValueCollection(), StartPage.Language.Name);
+                confirmationMailBody = confirmationMailBody.Replace("[OptinConfirmEmailUrl]", optinConfirmEmailUrl);
+                confirmationMailBody = confirmationMailBody.Replace("[Customer]", contact.LastName ?? contact.Email);
+                _mailService.Send(confirmationMailTitle, confirmationMailBody, contact.Email);
+            }
+            catch (Exception e)
+            {
+                _logger.Warning($"Unable to send marketing email confirmation to '{contact.Email}'.", e);
+            }
         }
 
         private async Task<bool> LoginIfExternalProviderAlreadyAssignedAsync()

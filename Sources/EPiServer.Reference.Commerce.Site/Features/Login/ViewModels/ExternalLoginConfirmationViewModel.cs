@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.ViewModels
         [LocalizedDisplay("/Registration/Form/Label/PostalCode")]
         public string PostalCode { get; set; }
 
-        public bool Newsletter { get; set; }
+        public bool AcceptMarketingEmail { get; set; }
 
         public string ReturnUrl { get; set; }
 

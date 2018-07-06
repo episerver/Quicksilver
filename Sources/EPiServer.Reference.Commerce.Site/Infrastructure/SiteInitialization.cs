@@ -1,7 +1,6 @@
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Marketing.Promotions;
 using EPiServer.Commerce.Routing;
-using EPiServer.Commerce.UI.CustomerService.Features;
 using EPiServer.Editor;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
@@ -20,7 +19,6 @@ using EPiServer.Web;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Core.Features;
 using Newtonsoft.Json;
 using System;
 using System.Linq;

@@ -1,6 +1,5 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
-using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;

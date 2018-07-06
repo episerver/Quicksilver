@@ -4,8 +4,32 @@
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
 
         <div class="col-xs-12 col-md-9">
-            <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-            @Html.PropertyFor(x => x.CurrentPage.MainBody)
+            <div class="row">
+                <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
+                @Html.PropertyFor(x => x.CurrentPage.MainBody)
+            </div>
+            <div class="row">
+                <h2>@Html.Translate("/Consent/Header")</h2>
+                @if (Model.ConsentData != null && Model.ConsentData.ConsentUpdated != null)
+                {
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(x => x.ConsentData.AcceptMarketingEmail, new { @type = "checkbox", disabled = "disabled" }) @Html.Translate("/Consent/AcceptMarketingEmail")
+                        </label>
+                    </div>
+                    <div>
+                        @Html.Translate("/Consent/Updated") @Html.PropertyFor(x => x.ConsentData.ConsentUpdated)
+                    </div>
+                    if (!(bool)ViewData["IsReadOnly"])
+                    {
+                        <a class="btn btn-default btn-xs btn--blue" href="@Url.Action("EditForm", "ProfilePage")">@Html.Translate("/Consent/Form/Edit")</a>
+                    }
+                }
+                else
+                {
+                    @Html.Translate("/Consent/NotConfirm")
+                }
+            </div>
         </div>
     </div>
 </div>

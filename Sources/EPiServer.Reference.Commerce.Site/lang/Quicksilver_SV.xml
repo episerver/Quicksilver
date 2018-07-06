@@ -45,6 +45,9 @@
         <Button>Anmäl mig</Button>
       </Newsletter>
       <Social>Var Social</Social>
+      <Legal>
+        <Header>Villkor</Header>
+      </Legal>
     </Footer>
     <Product>
       <Quickview>Snabbtitt</Quickview>
@@ -314,7 +317,7 @@
           <PostalCode>Postal code:</PostalCode>
           <ZipCode>Postnummer:</ZipCode>
           <Submit>Skapa ett konto</Submit>
-          <Newsletter>Skicka mig e-postuppdateringar om de senaste produkterna och kampanjer.</Newsletter>
+          <AcceptMarketingEmail>Skicka mig e-postuppdateringar om de senaste produkterna och kampanjer.</AcceptMarketingEmail>
         </Label>
         <Empty>
           <Address>En adress krävs</Address>
@@ -374,6 +377,16 @@
         </LoginMessage>
       </BackendLogin>
     </Login>
+    <Consent>
+      <Header>Integritet</Header>
+      <AcceptMarketingEmail>Skicka mig e-postuppdateringar om de senaste produkterna och kampanjer.</AcceptMarketingEmail>
+      <Updated>Senast uppdaterad:</Updated>
+      <NotConfirm>Du har inte godkänt dina integritetsinställningar än.</NotConfirm>
+      <Form>
+        <Edit>Ändra</Edit>
+        <Submit>Spara</Submit>
+      </Form>
+    </Consent>
     <ResetPassword>
       <Mail>
         <Text>Återställ ditt lösenord genom att klicka på den här </Text>

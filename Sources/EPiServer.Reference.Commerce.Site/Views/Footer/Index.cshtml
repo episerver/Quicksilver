@@ -1,15 +1,16 @@
-﻿@{
+﻿@model EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels.FooterViewModel
+@{
     Layout = null;
 }
 
 <footer class="footer">
     <div class="site-wrapper container-fluid">
         <div class="row">
-            <div class="column  col-xs-12  col-sm-4  col--leading">
+            <div class="column  col-xs-12  col-sm-3  col--leading">
                 <h3>@Html.Translate("/Footer/CompanyInformation/Header")</h3>
                 <p>@Html.Translate("/Footer/CompanyInformation/Text")</p>
             </div>
-            <div class="column  col-xs-12  col-sm-4  col--center">
+            <div class="column  col-xs-12  col-sm-3  col--center">
                 <h3>@Html.Translate("/Footer/Newsletter/Header")</h3>
                 <div class="input-group">
                     <input type="text" placeholder="name@example.com" class="form-control  form--grey" />
@@ -21,7 +22,7 @@
                     </span>
                 </div>
             </div>
-            <div class="column  col-xs-12  col-sm-4  col--trailing">
+            <div class="column  col-xs-12  col-sm-3  col--trailing">
                 <h3>@Html.Translate("/Footer/Social")</h3>
                 <a class="btn-social"><i class="fa fa-facebook"></i></a>
                 <a class="btn-social"><i class="fa fa-google"></i></a>
@@ -29,6 +30,10 @@
                 <a class="btn-social"><i class="fa fa-instagram"></i></a>
                 <a class="btn-social"><i class="fa fa-youtube"></i></a>
                 <a class="btn-social"><i class="fa fa-envelope"></i></a>
+            </div>
+            <div class="column  col-xs-12  col-sm-3  col--leading">
+                <h3>@Html.Translate("/Footer/Legal/Header")</h3>
+                @Html.PropertyFor(model => model.FooterLinks)
             </div>
         </div>
     </div>

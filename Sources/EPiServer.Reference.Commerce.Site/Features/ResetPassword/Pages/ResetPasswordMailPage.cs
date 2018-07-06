@@ -15,7 +15,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages
             Name = "Main body",
             Description = "The main body will be shown in the main content area of the page, using the XHTML-editor you can insert for example text, images and tables.",
             GroupName = SystemTabNames.Content,
-            Order = 1)]
+            Order = 10)]
         public virtual XhtmlString MailBody { get; set; }
     }
 }

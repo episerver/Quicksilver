@@ -24,10 +24,12 @@ using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.ImportExport;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Shared;
+using Mediachase.Data.Provider;
 using Mediachase.Search;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -50,6 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
         private Injected<IDataImporter> _dataImporter = default(Injected<IDataImporter>);
         private Injected<TaxImportExport> _taxImportExport = default(Injected<TaxImportExport>);
         private Injected<IPaymentManagerFacade> _paymentManager = default(Injected<IPaymentManagerFacade>);
+        private Injected<IConnectionStringHandler> _connectionStringHandler = default(Injected<IConnectionStringHandler>);
 
         public int Order => 1000;
 
@@ -93,6 +96,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 _progressMessenger.AddProgressMessageText("Rebuilding index...", false, 0);
                 BuildIndex(AppContext.Current.ApplicationName, true);
                 _progressMessenger.AddProgressMessageText("Done rebuilding index", false, 0);
+
+                _progressMessenger.AddProgressMessageText("Updating consent data for existing contacts...", false, 0);
+                UpdateConsentDataForExistingContacts();
+                _progressMessenger.AddProgressMessageText("Done updating consent data for existing contacts", false, 0);
 
                 return true;
             }
@@ -309,9 +316,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
 
         private void ImportAssets(string path)
         {
-            var destinationRoot = ContentReference.GlobalBlockFolder;
-            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
             var keys = new List<string>();
             foreach (DictionaryEntry entry in HttpRuntime.Cache)
@@ -323,13 +327,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 HttpRuntime.Cache.Remove(key);
             }
 
-            var options = new ImportOptions { KeepIdentity = true };
-
-            var log = _dataImporter.Service.Import(stream, destinationRoot, options);
-
-            if (log.Errors.Any())
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                throw new Exception("Content could not be imported. " + GetStatus(log));
+                var destinationRoot = ContentReference.GlobalBlockFolder;
+                var options = new ImportOptions { KeepIdentity = true };
+
+                var log = _dataImporter.Service.Import(stream, destinationRoot, options);
+
+                if (log.Errors.Any())
+                {
+                    throw new Exception("Content could not be imported. " + GetStatus(log));
+                }
             }
         }
 
@@ -533,6 +541,36 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 _contentRepository.Service.GetChildren<T>(contentLink)
                     .FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return match != null ? match.ContentLink : null;
+        }
+
+        /// <summary>
+        /// Updates consent data for existing contacts.
+        /// </summary>
+        /// <remarks>
+        ///     There're some built-in and sample contacts in Quicksilver such as admin@example.com, editor@example.com and so on.
+        ///     However in the real world, you might need to send e-mails to existing contacts to get their consent confirmation.
+        /// </remarks>
+        private void UpdateConsentDataForExistingContacts()
+        {
+            var connectionString = _connectionStringHandler.Service.Commerce.ConnectionString;
+            using (var scope = new TransactionScope())
+            {
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    var query = $@"UPDATE c 
+                                   SET c.AcceptMarketingEmail = 1,
+                                       c.ConsentUpdated = '{DateTime.Now}' 
+                                   FROM  dbo.cls_Contact c 
+                                   WHERE c.ConsentUpdated IS NULL";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+                scope.Complete();
+            }
         }
     }
 }

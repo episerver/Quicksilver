@@ -1,0 +1,9 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels.StandardPageViewModel
+<div class="container-fluid">
+    <div class="row myPage">
+        <div class="col-xs-12 col-md-9">
+            <h2>@Html.PropertyFor(x => x.CurrentPage.Title)</h2>
+            @Html.PropertyFor(x => x.CurrentPage.MainBody)
+        </div>
+    </div>
+</div>

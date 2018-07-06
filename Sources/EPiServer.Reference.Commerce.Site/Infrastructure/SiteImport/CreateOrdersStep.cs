@@ -69,6 +69,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 contact.LastName = customer.LastName;
                 contact.FullName = $"{contact.FirstName} {contact.LastName}";
                 contact.RegistrationSource = "Imported customer";
+                contact.AcceptMarketingEmail = true;
+                contact.ConsentUpdated = DateTime.Now;
 
                 contact.SaveChanges();
 

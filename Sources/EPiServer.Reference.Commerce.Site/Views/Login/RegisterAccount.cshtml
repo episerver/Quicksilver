@@ -30,12 +30,12 @@
 
         <div class="form-group">
             @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = "email-registration" })
             @Html.ValidationMessageFor(x => x.Email)
         </div>
         <div class="form-group">
             @Html.LabelFor(x => x.Password)
-            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", id = "password-registration" })
             @Html.ValidationMessageFor(x => x.Password)
         </div>
         <div class="form-group">
@@ -80,9 +80,12 @@
             @Html.ValidationMessageFor(x => x.Address.CountryCode)
             @Html.Hidden("address-htmlfieldprefix", "Address")
         </div>
+        
+        @Html.PropertyFor(model => model.CurrentPage.MainArea)
+        
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(x => x.Newsletter, new { @type = "checkbox" }) @Html.Translate("/Registration/Form/Label/Newsletter")
+                @Html.CheckBoxFor(x => x.AcceptMarketingEmail, new { @type = "checkbox" }) @Html.Translate("/Registration/Form/Label/AcceptMarketingEmail")
             </label>
         </div>
         <button type="submit" class="btn btn-primary btn--blue">@Html.Translate("/Registration/Form/Label/Submit")</button>
