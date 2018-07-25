@@ -1287,7 +1287,7 @@
   <data name="Warehouse_PickFulfillment_Already_Exist" xml:space="preserve">
     <value>Order already contains other pick-up warehouse.</value>
   </data>
-   <data name="LineItem_AdjustedQuantity" xml:space="preserve">
+  <data name="LineItem_AdjustedQuantity" xml:space="preserve">
     <value>The quantity of product {0} has changed.</value>
   </data>
   <data name="LineItem_CannotProcessDueToMissingOrderStatus" xml:space="preserve">
@@ -1322,5 +1322,23 @@
   </data>
   <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
     <value>The gift {0} has not enough quantity in stock and was removed from your cart.</value>
+  </data>
+  <data name="Awaiting_Exchange" xml:space="preserve">
+    <value>Awaiting exchange.</value>
+  </data>
+  <data name="Inventory_Insuffient" xml:space="preserve">
+    <value>One or more items do not have enough inventory.</value>
+  </data>
+  <data name="Order_Not_Fully_Paid" xml:space="preserve">
+    <value>Order is not fully paid.</value>
+  </data>
+  <data name="Shipment_Cannot_Be_Released" xml:space="preserve">
+    <value>Shipment cannot be released: </value>
+  </data>
+  <data name="Shipping_Address_Not_Set" xml:space="preserve">
+    <value>Shipping address is not set.</value>
+  </data>
+  <data name="Shipping_Method_Not_Set" xml:space="preserve">
+    <value>Shipping method is not set.</value>
   </data>
 </root>

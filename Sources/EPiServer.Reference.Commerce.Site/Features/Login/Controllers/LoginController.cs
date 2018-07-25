@@ -71,7 +71,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
             var registrationPage = ContentReference.IsNullOrEmpty(StartPage.LoginRegistrationPage)
                 ? new LoginRegistrationPage()
                 : _contentLoader.Get<LoginRegistrationPage>(StartPage.LoginRegistrationPage);
-            var viewModel = new LoginPageViewModel(registrationPage, returnUrl ?? "/");
+
+            // Prevent open redirection attacks. Refer to: https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/preventing-open-redirection-attacks
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            {
+                returnUrl = "/";
+            }
+
+            var viewModel = new LoginPageViewModel(registrationPage, returnUrl);
             viewModel.LoginViewModel.ResetPasswordPage = StartPage.ResetPasswordPage;
 
             _addressBookService.LoadAddress(viewModel.RegisterAccountViewModel.Address);
@@ -143,10 +150,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         {
             //Make sure we only return to relative url.
             var returnUrl = HttpUtility.ParseQueryString(referrer.Query)["returnUrl"];
-            if (string.IsNullOrEmpty(returnUrl))
+
+            // Prevent open redirection attacks. Refer to: https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/preventing-open-redirection-attacks
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
             {
                 return "/";
             }
+
             Uri uri;
 
             return Uri.TryCreate(returnUrl, UriKind.Absolute, out uri) ? uri.PathAndQuery : returnUrl;

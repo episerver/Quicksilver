@@ -28,6 +28,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
+using EPiServer.Personalization.Common;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -190,30 +191,33 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 return;
             }
 
-            var widgetService = context.Locate.Advanced.GetInstance<WidgetService>();
-            var response = widgetService.CreateWidgets();
-
-            if (response.Status != "OK")
+            foreach (var scope in configuration.GetScopes())
             {
-                var error = response.Errors.First();
-                var message = new StringBuilder($"Code: {error.Code}, Message: {error.Error}");
+                var widgetService = context.Locate.Advanced.GetInstance<WidgetService>();
+                var response = widgetService.CreateWidgets(scope);
 
-                if (error.Field != null)
+                if (response.Status != "OK")
                 {
-                    message.Append($", Field: {error.Field}");
+                    var error = response.Errors.First();
+                    var message = new StringBuilder($"Code: {error.Code}, Message: {error.Error}");
+
+                    if (error.Field != null)
+                    {
+                        message.Append($", Field: {error.Field}");
+                    }
+
+                    throw new Exception(message.ToString());
                 }
 
-                throw new Exception(message.ToString());
-            }
-
-            foreach (var widget in response.EpiPerPage.Pages.SelectMany(x => x.Widgets))
-            {
-                widget.Active = true;
-                var success = widgetService.UpdateWidget(widget);
-
-                if (!success)
+                foreach (var widget in response.EpiPerPage.Pages.SelectMany(x => x.Widgets))
                 {
-                    throw new Exception($"Failed to activate widget {widget.WidgetName}");
+                    widget.Active = true;
+                    var success = widgetService.UpdateWidget(widget, scope);
+
+                    if (!success)
+                    {
+                        throw new Exception($"Failed to activate widget {widget.WidgetName}");
+                    }
                 }
             }
         }

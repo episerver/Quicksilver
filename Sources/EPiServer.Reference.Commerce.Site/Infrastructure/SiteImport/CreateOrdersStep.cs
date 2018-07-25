@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Hosting;
+using Mediachase.Commerce.Orders.Managers;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
 {
@@ -99,10 +100,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
         /// <param name="cart">The cart to be processed and saved.</param>
         private void ProcessAndSaveAsPurchaseOrder(CustomerContact contact, ICart cart)
         {
-            var payment = CreatePayment(contact, cart);
+            var dto = ShippingManager.GetShippingMethodsByMarket(cart.MarketId.Value, false);
             var contactAddress = contact.ContactAddresses.First();
             var orderAddress = CreateOrderAddress(cart, contactAddress);
             cart.GetFirstShipment().ShippingAddress = orderAddress;
+            cart.GetFirstShipment().ShippingMethodId = dto.ShippingMethod[0].ShippingMethodId;
+            var payment = CreatePayment(contact, cart);
             cart.AddPayment(payment);
             payment.BillingAddress = orderAddress;
             payment.Status = PaymentStatus.Processed.ToString();

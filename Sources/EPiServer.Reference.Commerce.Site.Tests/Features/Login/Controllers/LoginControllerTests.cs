@@ -58,6 +58,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             Assert.Equal(_testUrl, result.LoginViewModel.ReturnUrl);
         }
 
+        [Fact]
+        public void Index_WhenMaliciousReturnUrl_ShouldNotPassUrlToViewModel()
+        {
+            _urlHelperMock.Setup(x => x.IsLocalUrl(It.IsAny<string>())).Returns(false);
+            var result = ((ViewResult)_subject.Index(_testUrl)).Model as LoginPageViewModel;
+
+            Assert.Equal("/", result.LoginViewModel.ReturnUrl);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -330,6 +339,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
         private readonly ExceptionContext _exceptionContext;
         private readonly CultureInfo _cultureInfo;
         private readonly Mock<IMailService> _mailServiceMock;
+        private readonly Mock<UrlHelper> _urlHelperMock;
         private const string _testUrl = "http://test.com";
 
         public LoginControllerTests()
@@ -382,6 +392,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
 
             _subject = new LoginControllerForTest(_signinManagerMock.Object, _userManagerMock.Object, _userServiceMock.Object, addressBookService, _contentLoaderMock.Object, _mailServiceMock.Object, localizationService, _controllerExceptionHandler.Object, _optinServiceMock.Object);
             _subject.ControllerContext = new ControllerContext(_httpContextMock.Object, new RouteData(), _subject);
+
+            _urlHelperMock = new Mock<UrlHelper>();
+            _urlHelperMock.Setup(x => x.IsLocalUrl(It.IsAny<string>())).Returns(true);
+            _subject.Url = _urlHelperMock.Object;
 
             _exceptionContext = new ExceptionContext
             {

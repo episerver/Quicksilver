@@ -17,7 +17,6 @@ namespace EPiServer.Reference.Commerce.Site
               name: "Default",
               url: "{controller}/{action}/{id}",
               defaults: new { action = "Index", id = UrlParameter.Optional });
-
         }
 
         protected void Application_Start()
