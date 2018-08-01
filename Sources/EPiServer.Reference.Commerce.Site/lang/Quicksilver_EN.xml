@@ -372,6 +372,10 @@
         <Heading>Your account has been locked</Heading>
         <Message>As a precaution your account has temporarely been locked due to too many recent login failures. Please come back and try again later.</Message>
       </Lockout>
+      <Unapproved>
+        <Heading>Your account has not been approved by administrators.</Heading>
+        <Message>Please contact administrators for more information.</Message>
+      </Unapproved>
       <BackendLogin>
         <Heading>Edit view</Heading>
         <LoginMessage>

@@ -370,6 +370,10 @@
         <Heading>Ditt användarkonto är låst</Heading>
         <Message>Som en säkerhetsåtgärd har ditt konto låsts på grund av för många felaktiga inloggningsförsök. Vänligen återkom och försök igen lite senare.</Message>
       </Lockout>
+      <Unapproved>
+        <Heading>Ditt konto har inte blivit godkänt av en administratör.</Heading>
+        <Message>Var god kontakta en administratör för mer information.</Message>
+      </Unapproved>
       <BackendLogin>
         <Heading>Redigerarvy</Heading>
         <LoginMessage>

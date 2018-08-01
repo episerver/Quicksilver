@@ -184,6 +184,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInStatus.Success));
 
+            _userServiceMock.Setup(
+                x => x.GetUser(It.IsAny<string>()))
+                .Returns(new SiteUser { IsApproved = true, IsLockedOut = false });
+
             var model = new LoginViewModel
             {
                 Email = "email@email.com",
@@ -213,6 +217,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                     It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInStatus.LockedOut));
+
+            _userServiceMock.Setup(
+                x => x.GetUser(It.IsAny<string>()))
+                .Returns(new SiteUser { IsApproved = true, IsLockedOut = false });
 
             var model = new LoginViewModel
             {
@@ -270,6 +278,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
                 x => x.GetExternalLoginInfoAsync())
                 .Returns(Task.FromResult(new ExternalLoginInfo()));
 
+            _userServiceMock.Setup(
+                x => x.GetUser(It.IsAny<string>()))
+                .Returns(new SiteUser { IsApproved = true, IsLockedOut = false });
+
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))
                 .Returns(Task.FromResult(new SiteUser()));
@@ -277,7 +289,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _userManagerMock.Setup(
                 x => x.IsLockedOutAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(false));
-
+            
             var result = _subject.ExternalLoginCallback("http://test.com/redirect").Result as RedirectResult;
 
             result.Url.Should().Be("http://test.com/redirect");
@@ -289,6 +301,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Login.Controllers
             _userServiceMock.Setup(
                x => x.GetExternalLoginInfoAsync())
                .Returns(Task.FromResult(new ExternalLoginInfo()));
+
+            _userServiceMock.Setup(
+                x => x.GetUser(It.IsAny<string>()))
+                .Returns(new SiteUser { IsApproved = true, IsLockedOut = false });
 
             _userManagerMock.Setup(
                 x => x.FindAsync(It.IsAny<UserLoginInfo>()))

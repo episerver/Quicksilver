@@ -185,15 +185,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> InternalLogin(LoginViewModel viewModel)
         {
-            var returnUrl = GetSafeReturnUrl(Request.UrlReferrer);
-
             if (!ModelState.IsValid)
             {
                 viewModel.ResetPasswordPage = StartPage.ResetPasswordPage;
                 return PartialView("Login", viewModel);
             }
 
+            var user = UserService.GetUser(viewModel.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("Password", _localizationService.GetString("/Login/Form/Error/WrongPasswordOrEmail"));
+                viewModel.Password = null;
+
+                return PartialView("Login", viewModel);
+            }
+
+            if (!user.IsApproved)
+            {
+                return PartialView("Unapproved", viewModel);
+            }
+
             var result = await SignInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, viewModel.RememberMe, shouldLockout: true);
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -212,7 +225,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
                     return PartialView("Login", viewModel);
             }
 
-            return Json(new { Success = true, ReturnUrl = returnUrl }, JsonRequestBehavior.DenyGet);
+            return Json(new { Success = true, ReturnUrl = GetSafeReturnUrl(Request.UrlReferrer) }, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
@@ -228,8 +241,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await UserService.GetExternalLoginInfoAsync();
-
-
             if (loginInfo == null)
             {
                 return RedirectToAction("Index");
@@ -242,7 +253,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Controllers
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-
+            var user = UserService.GetUser(loginInfo.Email);
+            if (user == null || !user.IsApproved)
+            {
+                result = SignInStatus.Failure;
+            }
+            else if (user.IsLockedOut)
+            {
+                result = SignInStatus.LockedOut;
+            }
             switch (result)
             {
                 case SignInStatus.Success:
