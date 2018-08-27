@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)\..\..\MSBuild\CommonImports.targets" Condition="'$(CommonImports_targets)' == ''" />
+  <PropertyGroup>
+    <WebPublishMethod>MSDeploy</WebPublishMethod>
+    <LaunchSiteAfterPublish>False</LaunchSiteAfterPublish>
+    <SiteUrlToLaunchAfterPublish />
+    <ExcludeApp_Data>False</ExcludeApp_Data>
+    <MSDeployServiceURL>dailyqs.ep.se</MSDeployServiceURL>
+    <DeployIisAppPath>Quicksilver/[branch-site-name]</DeployIisAppPath>
+    <RemoteSitePhysicalPath />
+    <SkipExtraFilesOnServer>True</SkipExtraFilesOnServer>
+    <MSDeployPublishMethod>WMSVC</MSDeployPublishMethod>
+    <EnableMSDeployBackup>True</EnableMSDeployBackup>
+    <UserName>BranchLister</UserName>
+  </PropertyGroup>
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <_AppsFiles Include="$(RootPath)\Sources\EPiServer.Reference.Commerce.Manager\Apps\**\*" />
+      <_GlobalResourceFiles Include="$(RootPath)\Sources\EPiServer.Reference.Commerce.Manager\App_GlobalResources\**\*" />
+      <_NotificationTemplateFiles Include="$(RootPath)\Sources\EPiServer.Reference.Commerce.Manager\NotificationTemplates\**\*" />
+      <FilesForPackagingFromProject Include="%(_AppsFiles.Identity)">
+        <DestinationRelativePath>Apps\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <FilesForPackagingFromProject Include="%(_GlobalResourceFiles.Identity)">
+        <DestinationRelativePath>App_GlobalResources\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <FilesForPackagingFromProject Include="%(_NotificationTemplateFiles.Identity)">
+        <DestinationRelativePath>NotificationTemplates\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+</Project>

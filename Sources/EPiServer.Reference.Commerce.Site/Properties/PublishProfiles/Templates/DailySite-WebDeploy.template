@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)\..\..\MSBuild\CommonImports.targets" Condition="'$(CommonImports_targets)' == ''" />
+  <PropertyGroup>
+    <WebPublishMethod>MSDeploy</WebPublishMethod>
+    <LaunchSiteAfterPublish>False</LaunchSiteAfterPublish>
+    <SiteUrlToLaunchAfterPublish />
+    <ExcludeApp_Data>False</ExcludeApp_Data>
+    <MSDeployServiceURL>dailyqs.ep.se</MSDeployServiceURL>
+    <DeployIisAppPath>Quicksilver/[branch-site-name]</DeployIisAppPath>
+    <RemoteSitePhysicalPath />
+    <SkipExtraFilesOnServer>True</SkipExtraFilesOnServer>
+    <MSDeployPublishMethod>WMSVC</MSDeployPublishMethod>
+    <EnableMSDeployBackup>True</EnableMSDeployBackup>
+    <UserName>BranchLister</UserName>
+  </PropertyGroup>
+  <Target Name="CustomCollectFiles">
+    <PropertyGroup>
+      <_FrameworkConfigTargetPath>$(RootPath)\Sources\EPiServer.Reference.Commerce.Site\EPiServerFramework.config</_FrameworkConfigTargetPath>
+      <_FrameworkConfigTransform>$(RootPath)\MSBuild\ReferenceSite\Daily\xdt\Site\EPiServerFramework.config.xdt</_FrameworkConfigTransform>
+    </PropertyGroup>
+    <TransformXml Source="$(_FrameworkConfigTargetPath)" Transform="$(_FrameworkConfigTransform)" Destination="$(_FrameworkConfigTargetPath)" />
+    <ItemGroup>    
+      <_CommerceShellFiles Include="$(RootPath)\MSBuild\DtkBuild\ZipOutput\EPiServer.Commerce.Shell.zip" />
+      <_CommerceFiles Include="$(RootPath)\MSBuild\DtkBuild\ZipOutput\Commerce.zip" />
+      <_CustomerServiceFiles Include="$(RootPath)\MSBuild\DtkBuild\ZipOutput\EPiServer.Commerce.UI.CustomerService.zip" />
+      <_CommerceManagerIntegrationFiles Include="$(RootPath)\MSBuild\DtkBuild\ZipOutput\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+      <FilesForPackagingFromProject Include="%(_CommerceShellFiles.Identity)">
+        <DestinationRelativePath>modules\_protected\EPiServer.Commerce.Shell\%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <FilesForPackagingFromProject Include="%(_CommerceFiles.Identity)">
+        <DestinationRelativePath>modules\_protected\Commerce\%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <FilesForPackagingFromProject Include="%(_CustomerServiceFiles.Identity)">
+        <DestinationRelativePath>modules\_protected\EPiServer.Commerce.UI.CustomerService\%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <FilesForPackagingFromProject Include="%(_CommerceManagerIntegrationFiles.Identity)">
+        <DestinationRelativePath>modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+</Project>
