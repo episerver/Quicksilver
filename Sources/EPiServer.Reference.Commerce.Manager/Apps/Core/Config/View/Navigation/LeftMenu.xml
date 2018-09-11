@@ -109,12 +109,6 @@
           <EnableHandler type="Mediachase.Commerce.Manager.Apps.Core.CommandHandlers.CoreBusinessFoundationEnableHandler, Mediachase.ConsoleManager" />
           <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
         </Command>
-        <!--Workflow Command-->
-        <Command id="cmdContentWorkflow">
-          <CommandType>ClientAction</CommandType>
-          <ClientScript>CSManagementClient.ChangeView('Content', 'Workflow-List')</ClientScript>
-          <EnableHandler type="Mediachase.Commerce.Manager.CommandHandlers.PermissionEnableHandler, Mediachase.ConsoleManager" />
-        </Command>
         <!-- Search commands -->
         <Command id="cmdSearch">
           <CommandType>ClientAction</CommandType>
