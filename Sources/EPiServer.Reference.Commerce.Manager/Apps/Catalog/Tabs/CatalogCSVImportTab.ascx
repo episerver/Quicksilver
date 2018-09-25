@@ -66,7 +66,7 @@
 </style>
 <script type="text/javascript">
     //The query string "dndUpload=true" is essential to bypass the Mediachase File Upload HTTP Module.
-    var uploadHandler = '<%= Page.ResolveUrl("~/Apps/Core/Uploader/DnDUploadHandler.ashx?dndUpload=true") %>';
+    var uploadHandler = '<%= Page.ResolveUrl("~/Apps/Core/Uploader/DnDUploadHandler.ashx?dndUpload=true&datatype=catalog") %>';
     var initialized = false;
 
     function CheckDragAndDropPanel() {      

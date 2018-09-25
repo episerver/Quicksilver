@@ -1341,4 +1341,7 @@
   <data name="Shipping_Method_Not_Set" xml:space="preserve">
     <value>Shipping method is not set.</value>
   </data>
+  <data name="SerializableCart_Limitations" xml:space="preserve">
+    <value>SerializableCart mode is enabled. Filtering by Email and Phone Number is not supported</value>
+  </data>
 </root>
