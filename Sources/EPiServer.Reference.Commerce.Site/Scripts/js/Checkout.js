@@ -33,14 +33,14 @@
                 url: $(this).data("url"),
                 data: { couponCode: couponCode },
                 success: function (result) {
-                    if (!result) {
-                        $('.couponcode-errormessage').show();
-                        return;
-                    }
                     $('.couponcode-errormessage').hide();
                     $("#CheckoutView").replaceWith($(result));
                     Checkout.initializeAddressAreas();
                 }
+
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $('.couponcode-errormessage').show();
             });
         }
     },

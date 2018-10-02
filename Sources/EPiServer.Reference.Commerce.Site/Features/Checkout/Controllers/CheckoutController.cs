@@ -120,6 +120,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 _orderRepository.Save(Cart);
             }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "The coupon code you entered is invalid");
+            }
+
             var viewModel = CreateCheckoutViewModel(currentPage);
             return View(viewModel.ViewName, viewModel);
         }
