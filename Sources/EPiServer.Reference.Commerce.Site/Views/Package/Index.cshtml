@@ -1,4 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionPackageViewModel
+
 <div class="row jsProductDetails">
     <div class="col-xs-12 col-sm-4 col--leading">
         <div id="product-carousel" class="carousel slide" data-ride="carousel">
@@ -102,12 +103,19 @@
     }
 }
 
-@if (@Functions.UseClientSideTracking())
+@if (Functions.ShouldRenderTrackingSection())
 {
-    @section RecommendationsContextSettings { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 2 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom"}] }
-}
-else
-{
-    @section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.AlternativeProducts}); }}
-    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.CrossSellProducts}); }}
+    @section Tracking{
+        <script>
+            $(document).ready(function () {
+                var refCode = '@Model.Package.Code';
+                var productName = '@Model.Package.Name';
+                var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
+
+                productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
+
+                epiRecommendations.track(productTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 2 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] });
+            });
+        </script>
+    }
 }

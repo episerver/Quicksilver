@@ -9,6 +9,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModels
     public class SearchViewModel<T> where T : IContent
     {
         public IEnumerable<ProductTileViewModel> ProductViewModels { get; set; }
+        public int TotalResultCount { get; set; }
         public IEnumerable<Recommendation> Recommendations { get; set; }
         public T CurrentContent { get; set; }
         public FilterOptionViewModel FilterOption { get; set; }

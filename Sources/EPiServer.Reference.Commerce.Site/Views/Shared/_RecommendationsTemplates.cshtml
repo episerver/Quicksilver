@@ -4,22 +4,22 @@
 <script id="epiRecommendationItemTemplate" type="x-tmpl-mustache">
     {{#hasDiscount}}<div class="product has-discount">{{/hasDiscount}}
     {{^hasDiscount}}<div class="product">{{/hasDiscount}}
-        <a href="{{#getRelativeUrl}}url{{/getRelativeUrl}}" class="link--black">
+        <a href="{{#attributes}}{{url}}{{/attributes}}&recommendationId={{id}}" class="link--black">
             <div class="view-details"></div>
-            <img src="{{#getRelativeUrl}}img{{/getRelativeUrl}}" alt="{{refCode}}" class="img-responsive" />
-            <h3 class="product-title">{{title}}</h3>
+            <img src="{{#attributes}}{{img}}{{/attributes}}" alt="{{refCode}}" class="img-responsive" />
+            <h3 class="product-title">{{#attributes}}{{title}}{{/attributes}}</h3>
             <div>
                 {{#hasDiscount}}
-                <h4 class="product-price">{{#formatPrice}}unitPrice{{/formatPrice}}</h4>
-                <h4 class="product-price product-price--discount">{{#formatPrice}}salePrice{{/formatPrice}}</h4>
+                <h4 class="product-price">{{#attributes}}{{unitPrice}}{{/attributes}}</h4>
+                <h4 class="product-price product-price--discount">{{#attributes}}{{salePrice}}{{/attributes}}</h4>
                 {{/hasDiscount}}
                 {{^hasDiscount}}
-                <h4 class="product-price">{{#formatPrice}}salePrice{{/formatPrice}}</h4>
+                <h4 class="product-price">{{#attributes}}{{salePrice}}{{/attributes}}</h4>
                 {{/hasDiscount}}
             </div>
         </a>
     </div>
     <div class="quick-view-btn-container">
-        <button type="button" data-toggle="modal" data-target="#ModalDialog" data-url="{{#getRelativeUrl}}url{{/getRelativeUrl}}" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
+        <button type="button" data-toggle="modal" data-target="#ModalDialog" data-url="{{#attributes}}{{url}}{{/attributes}}&recommendationId={{id}}" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
     </div>
 </script>

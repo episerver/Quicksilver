@@ -46,18 +46,9 @@
         Mustache.parse(listTemplate);
         Mustache.parse(itemTemplate);
 
-        // Gets selected currency.
-        var selectedCurrency = Market.getSelectedCurrency(),
-            setDisplayPrice = function (recs) {
+        var setHasDiscount = function (recs) {
                 for (var i = 0, length = recs.length; i < length; i++) {
-                    var selectedPrice = recs[i].prices[selectedCurrency];
-                    if (!selectedPrice) {
-                        continue;
-                    }
-
-                    recs[i].hasDiscount = selectedPrice.unitPrice > selectedPrice.salePrice;
-                    recs[i].unitPrice = selectedPrice.unitPrice;
-                    recs[i].salePrice = selectedPrice.salePrice;
+                    recs[i].hasDiscount = recs[i].attributes.unitPrice > recs[i].attributes.salePrice;
                 }
 
                 return recs;
@@ -82,7 +73,7 @@
                         } else {
                             return text;
                         }
-                    }
+                    };
                 },
                 formatPrice: function () {
                     return function (text, render) {
@@ -109,14 +100,18 @@
                         }
 
                         return "<span>" + formattedPrice + "</span>";
-                    }
+                    };
                 }
             };
-            for (var i = 0, length = data.smartRecs.length; i < length; i++) {
-                if (data.smartRecs[i].position === targetArea) {
-                    recommendations.recs = recommendations.recs.concat(setDisplayPrice(data.smartRecs[i].recs));
+
+            if (!!data && !!data.smartRecs) {
+                for (var i = 0, length = data.smartRecs.length; i < length; i++) {
+                    if (data.smartRecs[i].position === targetArea) {
+                        recommendations.recs = recommendations.recs.concat(setHasDiscount(data.smartRecs[i].recs));
+                    }
                 }
             }
+
             if (numberOfItemsToRender > 0) {
                 recommendations.recs = recommendations.recs.slice(0, numberOfItemsToRender);
             }

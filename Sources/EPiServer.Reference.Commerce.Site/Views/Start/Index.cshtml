@@ -43,11 +43,14 @@
     </div>
 }
 
-@if (@Functions.UseClientSideTracking())
+@if (Functions.ShouldRenderTrackingSection())
 {
-    @section RecommendationsContextSettings { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] }
-}
-else
-{
-    @section RightMarginRecommendations {@{Html.RenderAction("Index", "Recommendations", new { recommendations = Model.Recommendations });}}
+    @section Tracking{
+        <script>
+            $(document).ready(function () {
+                var homeTrackingData = TrackingDataFactory.createHomeTrackingData();
+                epiRecommendations.track(homeTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] })
+            });
+        </script>
+    }
 }

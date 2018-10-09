@@ -38,7 +38,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
 
             var customSearchResult = _searchService.Search(currentContent, viewModel);
 
-            viewModel.TotalCount = customSearchResult.SearchResult?.TotalCount ?? 0;
+            var totalResultCount = customSearchResult.SearchResult?.TotalCount ?? 0;
+
+            viewModel.TotalCount = totalResultCount;
             viewModel.FacetGroups = customSearchResult.FacetGroups.ToList();
 
             viewModel.Sorting = _searchService.GetSortOrder().Select(x => new SelectListItem
@@ -52,6 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
             {
                 CurrentContent = currentContent,
                 ProductViewModels = customSearchResult.ProductViewModels,
+                TotalResultCount = totalResultCount,
                 Facets = customSearchResult.SearchResult != null ? customSearchResult.SearchResult.FacetGroups : new ISearchFacetGroup[0],
                 FilterOption = viewModel,
                 Recommendations = new List<Recommendation>()

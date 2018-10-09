@@ -84,9 +84,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
         {
             var searchTerm = "foo";
             var codes = new[] {"productCode"};
-            await _subject.TrackSearchAsync(_httpContextMock.Object, searchTerm, codes);
+            await _subject.TrackSearchAsync(_httpContextMock.Object, searchTerm, codes, 20);
 
-            _trackingDataFactoryMock.Verify(m => m.CreateSearchTrackingData(searchTerm, codes, _httpContextMock.Object));
+            _trackingDataFactoryMock.Verify(m => m.CreateSearchTrackingData(searchTerm, codes, 20, _httpContextMock.Object));
 
             Assert.NotNull(_trackedData);
             Assert.IsType<SearchTrackingData>(_trackedData.Payload);
@@ -159,9 +159,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
                 .Returns<IPurchaseOrder, HttpContextBase>(
                     (code, context) => new OrderTrackingData(null, null, 0, 0, 0, null, null, context, null));
             _trackingDataFactoryMock
-                .Setup(m => m.CreateSearchTrackingData(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<HttpContextBase>()))
-                .Returns<string, IEnumerable<string>, HttpContextBase>(
-                    (term, codes, context) => new SearchTrackingData(term, codes, null, context, null));
+                .Setup(m => m.CreateSearchTrackingData(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<HttpContextBase>()))
+                .Returns<string, IEnumerable<string>, int, HttpContextBase>(
+                    (term, codes, count, context) => new SearchTrackingData(term, codes, count, null, context, null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateWishListTrackingData(It.IsAny<HttpContextBase>()))
                 .Returns<HttpContextBase>(

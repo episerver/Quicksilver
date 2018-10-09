@@ -8,5 +8,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.ViewModels
         public IList<string> Images { get; set; }
         public IEnumerable<Recommendation> AlternativeProducts { get; set; }
         public IEnumerable<Recommendation> CrossSellProducts { get; set; }
+        public bool SkipTracking { get; set; }
     }
 }

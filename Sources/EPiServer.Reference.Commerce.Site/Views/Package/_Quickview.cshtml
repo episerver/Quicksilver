@@ -1,6 +1,4 @@
-﻿@using EPiServer.Personalization.Commerce.Extensions
-@using EPiServer.Tracking.Commerce
-@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionPackageViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionPackageViewModel
 
 <div class="modal-content jsProductDetails">
 
@@ -59,7 +57,22 @@
                                 <button type="submit" role="button" class="btn btn-default btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
                             }
                         }
-                        @Html.SetupOnLoadTracking()
+
+                        if (Functions.ShouldRenderTrackingSection())
+                        {
+                            <script>
+                                $(document).ready(function () {
+                                    var refCode = '@Model.Package.Code';
+                                    var productName = '@Model.Package.Name';
+                                    var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
+                                    
+                                    productTrackingData["SkipRecommendations"] = true;
+                                    productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
+
+                                    epiRecommendations.track(productTrackingData);
+                                });
+                            </script>
+                        }
                     }
                 </div>
                 <div id="CartWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>

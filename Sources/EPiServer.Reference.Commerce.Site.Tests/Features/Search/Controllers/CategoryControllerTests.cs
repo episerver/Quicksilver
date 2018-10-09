@@ -16,10 +16,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
     public class CategoryControllerTests
     {
         [Fact]
-        public async void Index_ShouldReturnViewResult()
+        public void Index_ShouldReturnViewResult()
         {
             // Act
-            var result = await _subject.Index(null, null);
+            var result = _subject.Index(null, null);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -36,26 +36,26 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         }
 
         [Fact]
-        public async void Index_WhenPassingFashionNode_ShouldPassItOnToFactory()
+        public void Index_WhenPassingFashionNode_ShouldPassItOnToFactory()
         {
             // Arrange
             var fashionNode = new FashionNode();
 
             // Act
-            await _subject.Index(fashionNode, null);
+            _subject.Index(fashionNode, null);
 
             // Assert
             _viewModelFactoryMock.Verify(v => v.Create(fashionNode, It.IsAny<FilterOptionViewModel>()));
         }
 
         [Fact]
-        public async void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
+        public void Index_WhenPassingFormModel_ShouldPassItOnToFactory()
         {
             // Arrange
             var formModel = new FilterOptionViewModel();
 
             // Act
-            await _subject.Index(null, formModel);
+            _subject.Index(null, formModel);
 
             // Assert
             _viewModelFactoryMock.Verify(v => v.Create(It.IsAny<FashionNode>(), formModel));
@@ -77,11 +77,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
 
             var context = new Mock<HttpContextBase>();
             context.SetupGet(x => x.Request).Returns(_httpRequestMock.Object);
-            
+
             _subject = new CategoryController(
-                _viewModelFactoryMock.Object,
-                _recommendationServiceMock.Object,
-                referenceConverterMock.Object);
+                _viewModelFactoryMock.Object);
             _subject.ControllerContext = new ControllerContext(context.Object, new RouteData(), _subject);
         }
     }

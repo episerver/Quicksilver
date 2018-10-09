@@ -1,5 +1,3 @@
-@using EPiServer.Personalization.Commerce.Extensions
-@using EPiServer.Tracking.Commerce
 @model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
 @{
     if (Request.IsAjaxRequest())
@@ -186,7 +184,7 @@
                     @{ Html.RenderPartial("BillingAddress", Model); }
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }     
+                    @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }
                 </div>
                 <input type="hidden" name="shippingAddressIndex" id="ShippingAddressIndex" />
             </div>
@@ -201,10 +199,5 @@
                 }
             </div>
         </div>
-
-        if (Request.IsAjaxRequest())
-        {
-            @Html.SetupOnLoadTracking()
-        }
     }
 </div>

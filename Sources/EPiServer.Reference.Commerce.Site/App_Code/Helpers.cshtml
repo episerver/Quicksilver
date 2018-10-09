@@ -96,14 +96,6 @@
     @page.Html.Raw(CreateAlternateLinkWithHrefLang(GetAbsoluteUrl(requestContentLink, defaultLanguage), "x-default"));
 }
 
-@helper RenderContextSettings()
-{
-    var contextSettingsSection = page.RenderSection("RecommendationsContextSettings", false);
-    var settings = contextSettingsSection == null ? null : contextSettingsSection.ToString().Trim();
-    var contextSettings = "{" + string.Join(",", new[] { settings, GetLocaleSettings() }.Where(x => !string.IsNullOrEmpty(x))) + "}";
-    @page.Html.Raw(contextSettings)
-}
-
 @helper RenderMoney(decimal amount, Currency currency)
 {
     Money money = new Money(amount, currency);

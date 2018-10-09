@@ -1,4 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionNode>
+
 @{
     if (Request.IsAjaxRequest())
     {
@@ -20,17 +21,23 @@
                 </div>
                 @Html.Partial("_ProductList", Model.ProductViewModels)
             </div>
-            <input class="jsSearchPage" hidden id="FilterOption_Page" name="FilterOption.Page" type="text" value="@(Model.FilterOption.Page + 1)"/>
+            <input class="jsSearchPage" hidden id="FilterOption_Page" name="FilterOption.Page" type="text" value="@(Model.FilterOption.Page + 1)" />
             <input class="jsSelectedFacet" hidden id="FilterOption_SelectedFacet" name="FilterOption.SelectedFacet" type="text" />
         }
     </div>
 </div>
 
-@if (@Functions.UseClientSideTracking())
+@if (Functions.ShouldRenderTrackingSection())
 {
-    @section RecommendationsContextSettings { sectionMappings: [{ area: "categoryWidget", selector: ".recommendations-bottom" }] }
-}
-else
-{
-    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.Recommendations}); }}
+    @section Tracking{
+        <script>
+        $(document).ready(function () {
+            var categoryCode = '@Model.CurrentContent.Code';
+            var categoryTrackingData = TrackingDataFactory.createCategoryTrackingData(categoryCode);
+            categoryTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
+
+            epiRecommendations.track(categoryTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "categoryWidget", selector: ".recommendations-bottom" }] });
+        });
+        </script>
+    }
 }

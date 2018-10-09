@@ -1,6 +1,6 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListViewModel
 @{ ViewBag.IsWishList = true;
-   string displayNoItemMsg = Model.CartItems.Any() ? "none" : string.Empty; 
+    string displayNoItemMsg = Model.CartItems.Any() ? "none" : string.Empty;
 }
 
 <div class="container-fluid">
@@ -29,12 +29,11 @@
 
             @if (Model.CartItems.Any())
             {
-
                 <div class="action-buttons delete-wishlist">
                     @using (Html.BeginForm("DeleteWishList", "WishList"))
-                {
-                    if (!(bool)ViewData["IsReadOnly"])
                     {
+                        if (!(bool)ViewData["IsReadOnly"])
+                        {
                             <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
                         }
                     }

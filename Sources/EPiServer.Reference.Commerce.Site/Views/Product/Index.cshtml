@@ -101,7 +101,7 @@
                 <span class="warning-message"></span>
             </div>
         </div>
-        <div class="warehouse-availability-container" 
+        <div class="warehouse-availability-container"
              data-url="@Url.Action("GetAvailability", "Warehouse")"
              data-sku-code="@Model.Variant.Code"></div>
     </div>
@@ -124,12 +124,22 @@
     }
 }
 
-@if (@Functions.UseClientSideTracking())
+@if (Functions.ShouldRenderTrackingSection() && !Model.SkipTracking)
 {
-    @section RecommendationsContextSettings { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 3 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom"}] }
-}
-else
-{
-    @section RightMarginRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.AlternativeProducts}); }}
-    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new {recommendations = Model.CrossSellProducts}); }}
+    @section Tracking{
+    <script>
+        $(document).ready(function () {
+            var refCode = '@Model.Product.Code';
+            var productName = '@Model.Product.Name';
+            var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
+            var recommendationId =  parseInt(isNaN('@Request.QueryString["recommendationId"]')? '0': '@Request.QueryString["recommendationId"]');
+            if (recommendationId > 0) {
+                productTrackingData["recommendationId"] = recommendationId;
+            }
+            productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
+
+            epiRecommendations.track(productTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 3 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] })
+        });
+    </script>
+    }
 }

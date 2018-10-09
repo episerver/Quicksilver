@@ -17,30 +17,30 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
     public class PackageControllerTests
     {
         [Fact]
-        public async void Index_ShouldReturnCorrectTypes()
+        public void Index_ShouldReturnCorrectTypes()
         {
-            var result = await CreateController().Index(new FashionPackage());
+            var result = CreateController().Index(new FashionPackage());
             Assert.IsAssignableFrom<ViewResultBase>(result);
             Assert.IsType<FashionPackageViewModel>(((ViewResultBase) result).Model);
         }
 
         [Fact]
-        public async void Index_WhenInEditModeAndHasNoEntries_ShouldReturnViewModelWithNoEntries()
+        public void Index_WhenInEditModeAndHasNoEntries_ShouldReturnViewModelWithNoEntries()
         {
             _isInEditMode = true;
-            var result = await CreateController().Index(new FashionPackage());
+            var result = CreateController().Index(new FashionPackage());
             var viewModel = (FashionPackageViewModel)((ViewResultBase)result).Model;
             Assert.Empty(viewModel.Entries);
         }
 
         [Fact]
-        public async void Index_WhenInEditModeAndHasEntries_ShouldReturnViewModelWithEntries()
+        public void Index_WhenInEditModeAndHasEntries_ShouldReturnViewModelWithEntries()
         {
             _catalogEntryViewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionPackage>()))
                .Returns(() => new FashionPackageViewModel { Entries = new [] {new VariationContent(), } });
 
             _isInEditMode = true;
-            var result = await CreateController().Index(new FashionPackage());
+            var result = CreateController().Index(new FashionPackage());
             var viewModel = (FashionPackageViewModel)((ViewResultBase)result).Model;
             Assert.NotEmpty(viewModel.Entries);
         }
@@ -62,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             var _httpContextBaseMock = new Mock<HttpContextBase>();
             _httpContextBaseMock.SetupGet(x => x.Request).Returns(request.Object);
 
-            var controller = new PackageController(() => _isInEditMode, _catalogEntryViewModelFactoryMock.Object, _recomendationserviceMock.Object, new ReferenceConverter(null, null));
+            var controller = new PackageController(() => _isInEditMode, _catalogEntryViewModelFactoryMock.Object);
             controller.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), controller);
 
             return controller;

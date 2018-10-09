@@ -40,5 +40,8 @@
     },
     getSelectedCurrency: function () {
         return $("#CurrencyCode").val() || "USD";
+    },
+    getSelectedMarketId: function () {
+        return $("#MarketId").val() || "US";
     }
 }

@@ -18,19 +18,19 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
     public class ProductControllerTests : IDisposable
     {
         [Fact]
-        public async void Index_ShouldReturnCorrectTypes()
+        public void Index_ShouldReturnCorrectTypes()
         {
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = new FashionVariant() });
 
-            var result = await CreateController().Index(new FashionProduct(), "code");
+            var result = CreateController().Index(new FashionProduct(), "code");
 
             Assert.IsAssignableFrom<ViewResultBase>(result);
             Assert.IsType<FashionProductViewModel>((result as ViewResultBase).Model);
         }
 
         [Fact]
-        public async void Index_WhenIsInEditModeAndHasNoVariation_ShouldReturnProductWithoutVariationView()
+        public void Index_WhenIsInEditModeAndHasNoVariation_ShouldReturnProductWithoutVariationView()
         {
             _isInEditMode = true;
             var fashionProduct = new FashionProduct();
@@ -38,64 +38,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
                 .Returns(new FashionProductViewModel { Variant = null, Product = fashionProduct });
 
-            var actionResult = await CreateController().Index(fashionProduct, "notexist");
+            var actionResult = CreateController().Index(fashionProduct, "notexist");
 
             var viewModel = (FashionProductViewModel)((ViewResultBase)actionResult).Model;
 
             Assert.Equal<FashionProduct>(fashionProduct, viewModel.Product);
             Assert.Null(viewModel.Variant);
-        }
-
-        [Fact]
-        public async void Index_WhenSkipTrackingIsTrue_ShouldNotSendTracking()
-        {
-            var fashionProduct = new FashionProduct();
-
-            _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
-                .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
-
-            await CreateController().Index(fashionProduct, null, false, true);
-
-            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
-        }
-
-        [Fact]
-        public async void Index_WhenQuickViewIsTrue_And_SkipTrackingIsFalse_ShouldSendTrackingWithoutRetrieveRecommendations()
-        {
-            var fashionProduct = new FashionProduct();
-
-            _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
-                .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
-
-            await CreateController().Index(fashionProduct, null, true, false);
-
-            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), true), Times.Once);
-        }
-
-        [Fact]
-        public async void Index_WhenQuickViewIsTrue_And_SkipTrackingIsTrue_ShouldNotSendTracking()
-        {
-            var fashionProduct = new FashionProduct();
-
-            _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
-                .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
-
-            await CreateController().Index(fashionProduct, null, true, true);
-
-            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
-        }
-
-        [Fact]
-        public async void Index_WhenQuickViewIsFalse_ShouldSendTrackingWithRetrieveRecommendations()
-        {
-            var fashionProduct = new FashionProduct();
-
-            _viewModelFactoryMock.Setup(x => x.Create(It.IsAny<FashionProduct>(), It.IsAny<string>()))
-                .Returns(new FashionProductViewModel { Variant = new FashionVariant(), Product = fashionProduct });
-
-            await CreateController().Index(fashionProduct, null, false, false);
-
-            _recommendationServiceMock.Verify(x => x.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), false), Times.Once);
         }
 
         [Fact]
@@ -156,7 +104,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _recommendationServiceMock = new Mock<IRecommendationService>();
             _recommendationServiceMock
                 .Setup(m => m.TrackProductAsync(It.IsAny<HttpContextBase>(), It.IsAny<string>(), It.IsAny<bool>()))
-                .ReturnsAsync((TrackingResponseData) null);
+                .ReturnsAsync((TrackingResponseData)null);
 
             _referenceConverterMock = new Mock<ReferenceConverter>(null, null);
             _referenceConverterMock.Setup(x => x.GetContentLink(It.IsAny<string>()))
@@ -170,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
 
         private ProductController CreateController()
         {
-            var controller = new ProductController(() => _isInEditMode, _viewModelFactoryMock.Object, _recommendationServiceMock.Object, _referenceConverterMock.Object);
+            var controller = new ProductController(() => _isInEditMode, _viewModelFactoryMock.Object);
             controller.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), controller);
 
             return controller;

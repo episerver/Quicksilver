@@ -1,4 +1,5 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
+﻿@using Newtonsoft.Json
+@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
 @{
     if (Request.IsAjaxRequest())
     {
@@ -24,11 +25,20 @@
     }
 </div>
 
-@if (@Functions.UseClientSideTracking())
+@if (Functions.ShouldRenderTrackingSection())
 {
-    @section RecommendationsContextSettings { sectionMappings: [{ area: "searchWidget", selector: ".recommendations-bottom" }] }
-}
-else
-{
-    @section BottomRecommendations {@{ Html.RenderAction("Index", "Recommendations", new { recommendations = Model.Recommendations });}}
+    @section Tracking{
+        <script>
+                $(document).ready(function () {
+                    var term = '@Model.FilterOption.Q';
+                    var productCodes = @Html.Raw(JsonConvert.SerializeObject(Model.ProductViewModels.Select(x => x.Code)));
+                    var totalResultCount = @Html.Raw(Model.TotalResultCount);
+                    var searchResultTrackingData = TrackingDataFactory.createSearchResultTrackingData(term, productCodes, totalResultCount);
+
+                    searchResultTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
+
+                    epiRecommendations.track(searchResultTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "searchWidget", selector: ".recommendations-bottom" }] });
+                });
+        </script>
+    }
 }

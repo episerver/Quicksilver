@@ -62,14 +62,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes)
+        public async Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm, IEnumerable<string> productCodes, int totalRecordsCount)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default || string.IsNullOrWhiteSpace(searchTerm))
             {
                 return null;
             }
 
-            var trackingData = _trackingDataFactory.CreateSearchTrackingData(searchTerm, productCodes, httpContext);
+            var trackingData = _trackingDataFactory.CreateSearchTrackingData(searchTerm, productCodes, totalRecordsCount, httpContext);
             AddMarketAttribute(trackingData);
 
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);

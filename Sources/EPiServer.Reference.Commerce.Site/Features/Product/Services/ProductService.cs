@@ -69,7 +69,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             if (entry is ProductContent)
             {
                 var product = (ProductContent)entry;
-                var variant = _catalogContentService.GetVariants<FashionVariant>(product).FirstOrDefault(); 
+                var variant = _catalogContentService.GetFirstVariant<FashionVariant>(product); 
 
                 return CreateProductViewModelForVariant(product, variant);
             }
