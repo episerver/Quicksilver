@@ -149,7 +149,7 @@
         </asp:TableRow>
         <asp:TableRow>
             <asp:TableCell Width="100%">
-                <mc:FileUploadControl ID="FileUpCtrl" runat="server" ModeType="IFrame" BlockHeight="100px">
+                <mc:FileUploadControl ID="FileUpCtrl" runat="server" ModeType="IFrame" BlockHeight="100px" AllowedFileTypes="csv,zip">
                 </mc:FileUploadControl>
                 <mc:FileUploadProgress ID="fuProgress" runat="server" FileUploadControlID="FileUpCtrl" 
                     ProgressBarBoundaryStyle-BorderColor="DarkGoldenrod" ProgressBarBoundaryStyle-BorderStyle="Solid" 
