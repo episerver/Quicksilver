@@ -122,7 +122,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         
         public virtual IEnumerable<T> GetItems<T>(IEnumerable<string> codes) where T : EntryContentBase
         {
-            return _contentLoader.GetItems(codes.Select(x => _referenceConverter.GetContentLink(x)), _languageResolver.GetPreferredCulture()).OfType<T>();
+            return _contentLoader.GetItems(
+                codes
+                    .Select(x => _referenceConverter.GetContentLink(x))
+                    .Where(r => !ContentReference.IsNullOrEmpty(r)), 
+                _languageResolver.GetPreferredCulture()).OfType<T>();
         }
 
         public virtual IEnumerable<FashionProduct> GetProducts(EntryContentBase entryContent, string language)

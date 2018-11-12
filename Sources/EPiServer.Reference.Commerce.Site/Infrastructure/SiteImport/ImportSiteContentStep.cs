@@ -560,7 +560,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                     conn.Open();
                     var query = $@"UPDATE c 
                                    SET c.AcceptMarketingEmail = 1,
-                                       c.ConsentUpdated = '{DateTime.Now}' 
+                                       c.ConsentUpdated = '{DateTime.UtcNow:s}' 
                                    FROM  dbo.cls_Contact c 
                                    WHERE c.ConsentUpdated IS NULL";
                     using (var cmd = new SqlCommand(query, conn))
