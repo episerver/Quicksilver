@@ -27,6 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly ICartService _cartService;
         private readonly IRecommendationService _recommendationService;
+        private readonly OrderValidationService _orderValidationService;
         private ICart _cart;
         private readonly CheckoutService _checkoutService;
 
@@ -38,7 +39,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ICartService cartService,
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
             IRecommendationService recommendationService,
-            CheckoutService checkoutService)
+            CheckoutService checkoutService, 
+            OrderValidationService orderValidationService)
         {
             _currencyService = currencyService;
             _controllerExceptionHandler = controllerExceptionHandler;
@@ -48,6 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _orderSummaryViewModelFactory = orderSummaryViewModelFactory;
             _recommendationService = recommendationService;
             _checkoutService = checkoutService;
+            _orderValidationService = orderValidationService;
         }
 
         [HttpGet]
@@ -149,7 +152,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             _checkoutService.CheckoutAddressHandling.UpdateUserAddresses(viewModel);
 
-            if (!_checkoutService.ValidateOrder(ModelState, viewModel, _cartService.ValidateCart(Cart)))
+            if (!_checkoutService.ValidateOrder(ModelState, viewModel, _orderValidationService.ValidateOrder(Cart)))
             {
                 return View(viewModel);
             }

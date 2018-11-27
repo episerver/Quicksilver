@@ -16,7 +16,6 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Tests.TestSupport.Fakes;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Customers;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -76,7 +75,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             var code = "EAN";
             _subject.AddToCart(_cart, code, 1);
 
-            _promotionEngineMock.Verify(x => x.Run(_cart, It.IsAny<PromotionEngineSettings>()), Times.Once);
+            _orderValidationServiceMock.Verify(x => x.ValidateOrder(_cart), Times.Once);
         }
 
         [Fact]
@@ -123,13 +122,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         [Fact]
         public void AddToCart_WhenLineItemIsRemoved_ShouldReturnWarningMessage()
         {
-            _lineItemValidatorMock
-                .Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>()))
-                .Returns((ILineItem l, MarketId m, Action<ILineItem, ValidationIssue> action) =>
+            var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>
+            {
                 {
-                    action(l, ValidationIssue.AdjustedQuantityByAvailableQuantity);
-                    return false;
-                });
+                    new Mock<ILineItem>().Object, new List<ValidationIssue>()
+                    {
+                        ValidationIssue.AdjustedQuantityByAvailableQuantity
+                    }
+                }
+            };
+            _orderValidationServiceMock
+                .Setup(x => x.ValidateOrder(_cart))
+                .Returns(validationIssues);
 
             var result = _subject.AddToCart(_cart, "SKU1234", 1);
             Assert.Equal<int>(1, result.ValidationMessages.Count);
@@ -372,26 +376,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         }
 
         [Fact]
-        public void LoadCart_WhenExistInvalidItems_ShouldReturnCartWithOnlyValidItems()
-        {
-            var _validCode = "code1";
-            var _inValidCode = "code2";
-
-            var lineItem = new InMemoryLineItem { Quantity = 2, Code = _validCode };
-            var lineItem2 = new InMemoryLineItem { Quantity = 2, Code = _inValidCode };
-            _cart.GetFirstShipment().LineItems.Add(lineItem);
-            _cart.GetFirstShipment().LineItems.Add(lineItem2);
-
-            _lineItemValidatorMock.Setup(x => x.Validate(lineItem, It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
-            _lineItemValidatorMock.Setup(x => x.Validate(lineItem2, It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(false);
-
-            var result = _subject.LoadCart(_subject.DefaultCartName);
-
-            Assert.Contains(result.GetAllLineItems(), l => l.Code == _validCode);
-            Assert.DoesNotContain(result.GetAllLineItems(), l => l.Code == _inValidCode);
-        }
-
-        [Fact]
         public void LoadOrCreateCart_WhenExist_ShouldReturnInstanceOfCart()
         {
             var result = _subject.LoadOrCreateCart(_subject.DefaultCartName);
@@ -515,7 +499,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             });
 
             Assert.Single(_cart.GetAllLineItems().Where(x => x.Code == giftSkuCode && x.IsGift));
-            Assert.Equal<int>(2, _cart.GetAllLineItems().Where(x => x.Code == skuCode && !x.IsGift).Count());
+            Assert.Equal<int>(2, _cart.GetAllLineItems().Count(x => x.Code == skuCode && !x.IsGift));
         }
 
         [Fact]
@@ -548,7 +532,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 new AddressModel { AddressId = "1", Line1 = "First street" },
                 new AddressModel { AddressId = "2", Line1 = "Second street" }
             });
-            Assert.Equal<int>(2, _cart.GetAllLineItems().Where(x => x.Code == skuCode && !x.IsGift).Count());
+            Assert.Equal<int>(2, _cart.GetAllLineItems().Count(x => x.Code == skuCode && !x.IsGift));
             Assert.Single(_cart.GetAllLineItems().Where(x => x.Code == skuCode && x.IsGift));
         }
 
@@ -568,10 +552,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         public void ValidateCart_WhenIsWishList_ShouldReturnEmptyDictionary()
         {
             _cart.Name = _subject.DefaultWishListName;
-            var expectedResult = new Dictionary<ILineItem, List<ValidationIssue>>();
+            var expectedResult = new Dictionary<ILineItem, IList<ValidationIssue>>();
             var result = _subject.ValidateCart(_cart);
 
-            Assert.Equal<Dictionary<ILineItem, List<ValidationIssue>>>(expectedResult, result);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -596,9 +580,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         private readonly Mock<CustomerContextFacade> _customerContextFacaceMock;
         private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
         private readonly Mock<IInventoryProcessor> _inventoryProcessorMock;
-        private readonly Mock<ILineItemValidator> _lineItemValidatorMock;
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
-        private readonly Mock<IPlacedPriceProcessor> _placedPriceProcessorMock;
         private readonly Mock<IPricingService> _pricingServiceMock;
         private readonly Mock<IProductService> _productServiceMock;
         private readonly Mock<IPromotionEngine> _promotionEngineMock;
@@ -611,6 +593,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         private readonly CartService _subject;
         private readonly ICart _cart;
         private readonly VariationContent _variationContent;
+        private readonly Mock<OrderValidationService> _orderValidationServiceMock;
 
         public CartServiceTests()
         {
@@ -619,9 +602,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _customerContextFacaceMock = new Mock<CustomerContextFacade>(null);
             _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             _inventoryProcessorMock = new Mock<IInventoryProcessor>();
-            _lineItemValidatorMock = new Mock<ILineItemValidator>();
             _orderRepositoryMock = new Mock<IOrderRepository>();
-            _placedPriceProcessorMock = new Mock<IPlacedPriceProcessor>();
             _pricingServiceMock = new Mock<IPricingService>();
             _productServiceMock = new Mock<IProductService>();
             _productServiceMock = new Mock<IProductService>();
@@ -632,13 +613,18 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _contentLoaderMock = new Mock<IContentLoader>();
             _variationContent = new VariationContent();
             _relationRepositoryMock = new Mock<IRelationRepository>();
+            _orderValidationServiceMock =
+                new Mock<OrderValidationService>(null, null, null, null);
             _referenceConverterMock = new Mock<ReferenceConverter>(new EntryIdentityResolver(synchronizedObjectInstanceCacheMock.Object), new NodeIdentityResolver(synchronizedObjectInstanceCacheMock.Object));
 
+            _orderValidationServiceMock.Setup(x => x.ValidateOrder(It.IsAny<IOrderGroup>()))
+                .Returns(new Dictionary<ILineItem, IList<ValidationIssue>>());
+
             _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderGroupFactoryMock.Object,
-                _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object, _inventoryProcessorMock.Object,
-                _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object,
+                _customerContextFacaceMock.Object, _inventoryProcessorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object,
                 _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object,
-                _referenceConverterMock.Object, _contentLoaderMock.Object, _relationRepositoryMock.Object);
+                _referenceConverterMock.Object, _contentLoaderMock.Object, _relationRepositoryMock.Object,
+                _orderValidationServiceMock.Object);
             _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
 
             _orderGroupFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>(), It.IsAny<IOrderGroup>())).Returns((string code, IOrderGroup group) => new FakeLineItem() { Code = code });
@@ -646,8 +632,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _orderRepositoryMock.Setup(x => x.Load<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(new[] { _cart });
             _orderRepositoryMock.Setup(x => x.Create<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(_cart);
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
-            _lineItemValidatorMock.Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<MarketId>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
-            _placedPriceProcessorMock.Setup(x => x.UpdatePlacedPrice(It.IsAny<ILineItem>(), It.IsAny<CustomerContact>(), It.IsAny<MarketId>(), _cart.Currency, It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
             _contentLoaderMock.Setup(x => x.Get<EntryContentBase>(It.IsAny<ContentReference>())).Returns(_variationContent);
         }
 

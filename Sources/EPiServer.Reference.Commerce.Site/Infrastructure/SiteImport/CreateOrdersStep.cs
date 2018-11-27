@@ -24,10 +24,24 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
     public class CreateOrdersStep : IMigrationStep
     {
         private IProgressMessenger _progressMessenger;
-        private Injected<ICartService> _cartService = default(Injected<ICartService>);
-        private Injected<IOrderGroupCalculator> _orderGroupCalculator = default(Injected<IOrderGroupCalculator>);
-        private Injected<IOrderGroupFactory> _orderGroupFactory = default(Injected<IOrderGroupFactory>);
-        private Injected<IOrderRepository> _orderRepository = default(Injected<IOrderRepository>);
+        private readonly ICartService _cartService;
+        private readonly IOrderGroupCalculator _orderGroupCalculator;
+        private readonly IOrderGroupFactory _orderGroupFactory;
+        private readonly IOrderRepository _orderRepository;
+        private readonly OrderValidationService _orderValidationService;
+
+        public CreateOrdersStep(ICartService cartService, 
+            IOrderGroupCalculator orderGroupCalculator,
+            IOrderGroupFactory orderGroupFactory, 
+            IOrderRepository orderRepository, 
+            OrderValidationService orderValidationService)
+        {
+            _cartService = cartService;
+            _orderGroupCalculator = orderGroupCalculator;
+            _orderGroupFactory = orderGroupFactory;
+            _orderRepository = orderRepository;
+            _orderValidationService = orderValidationService;
+        }
 
         public int Order => 1100;
 
@@ -82,7 +96,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 foreach (var cart in customer.Carts)
                 {
                     var order = CreateOrder(contact, cart);
-                    _orderRepository.Service.Save(order);
+                    _orderRepository.Save(order);
                 }
 
                 foreach (var purchaseOrder in customer.PurchaseOrders)
@@ -110,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
             payment.BillingAddress = orderAddress;
             payment.Status = PaymentStatus.Processed.ToString();
 
-            _orderRepository.Service.SaveAsPurchaseOrder(cart);
+            _orderRepository.SaveAsPurchaseOrder(cart);
         }
 
         /// <summary>
@@ -122,7 +136,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
         private IPayment CreatePayment(CustomerContact contact, ICart cart)
         {
             var paymentMethod = new GenericCreditCardPaymentMethod();
-            var payment = paymentMethod.CreatePayment(cart.GetTotal(_orderGroupCalculator.Service), cart);
+            var payment = paymentMethod.CreatePayment(cart.GetTotal(_orderGroupCalculator), cart);
             payment.CustomerName = contact.FullName;
 
             return payment;
@@ -136,7 +150,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
         /// <returns>An instance of a new <see cref="IOrderAddress"/>.</returns>
         private IOrderAddress CreateOrderAddress(IOrderGroup orderGroup, CustomerAddress contactAddress)
         {
-            var orderAddress = orderGroup.CreateOrderAddress(_orderGroupFactory.Service, contactAddress.Name);
+            var orderAddress = orderGroup.CreateOrderAddress(_orderGroupFactory, contactAddress.Name);
 
             orderAddress.Id = contactAddress.Name;
             orderAddress.City = contactAddress.City;
@@ -165,15 +179,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
         /// <returns>An <see cref="ICart"/> with line items as stated in the order group template.</returns>
         private ICart CreateOrder(CustomerContact customer, OrderGroupTemplate orderGroup)
         {
-            var order = _cartService.Service.LoadOrCreateCart(_cartService.Service.DefaultCartName);
+            var order = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
             order.CustomerId = customer.PrimaryKeyId.Value;
 
             foreach (var item in orderGroup.Details)
             {
-                _cartService.Service.AddToCart(order, item.SKU, item.Quantity);
+                _cartService.AddToCart(order, item.SKU, item.Quantity);
             }
 
-            _cartService.Service.ValidateCart(order);
+            _orderValidationService.ValidateOrder(order);
 
             return order;
         }

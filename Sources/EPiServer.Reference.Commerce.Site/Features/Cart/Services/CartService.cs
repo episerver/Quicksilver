@@ -27,9 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly IPricingService _pricingService;
         private readonly IOrderGroupFactory _orderGroupFactory;
         private readonly CustomerContextFacade _customerContext;
-        private readonly IPlacedPriceProcessor _placedPriceProcessor;
         private readonly IInventoryProcessor _inventoryProcessor;
-        private readonly ILineItemValidator _lineItemValidator;
         private readonly IPromotionEngine _promotionEngine;
         private readonly IOrderRepository _orderRepository;
         private readonly IAddressBookService _addressBookService;
@@ -38,15 +36,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly ReferenceConverter _referenceConverter;
         private readonly IContentLoader _contentLoader;
         private readonly IRelationRepository _relationRepository;
+        private readonly OrderValidationService _orderValidationService;
 
         public CartService(
             IProductService productService,
             IPricingService pricingService,
             IOrderGroupFactory orderGroupFactory,
             CustomerContextFacade customerContext,
-            IPlacedPriceProcessor placedPriceProcessor,
             IInventoryProcessor inventoryProcessor,
-            ILineItemValidator lineItemValidator,
             IOrderRepository orderRepository,
             IPromotionEngine promotionEngine,
             IAddressBookService addressBookService,
@@ -54,15 +51,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ICurrencyService currencyService,
             ReferenceConverter referenceConverter,
             IContentLoader contentLoader,
-            IRelationRepository relationRepository)
+            IRelationRepository relationRepository,
+            OrderValidationService orderValidationService)
         {
             _productService = productService;
             _pricingService = pricingService;
             _orderGroupFactory = orderGroupFactory;
             _customerContext = customerContext;
-            _placedPriceProcessor = placedPriceProcessor;
             _inventoryProcessor = inventoryProcessor;
-            _lineItemValidator = lineItemValidator;
             _promotionEngine = promotionEngine;
             _orderRepository = orderRepository;
             _addressBookService = addressBookService;
@@ -71,6 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _referenceConverter = referenceConverter;
             _contentLoader = contentLoader;
             _relationRepository = relationRepository;
+            _orderValidationService = orderValidationService;
         }
 
         public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize, string displayName)
@@ -91,6 +88,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             {
                 RemoveLineItem(cart, shipmentId, code);
             }
+        }
+
+        public IDictionary<ILineItem, IList<ValidationIssue>> ValidateCart(ICart cart)
+        {
+            return _orderValidationService.ValidateOrder(cart);
         }
 
         public string DefaultCartName => "Default";
@@ -238,32 +240,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-        public Dictionary<ILineItem, List<ValidationIssue>> ValidateCart(ICart cart)
+        public IDictionary<ILineItem, IList<ValidationIssue>> RequestInventory(ICart cart)
         {
-            if (cart.Name.Equals(DefaultWishListName))
-            {
-                return new Dictionary<ILineItem, List<ValidationIssue>>();
-            }
-
-            var validationIssues = new Dictionary<ILineItem, List<ValidationIssue>>();
-            cart.ValidateOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _lineItemValidator);
-            cart.UpdatePlacedPriceOrRemoveLineItems(_customerContext.GetContactById(cart.CustomerId), (item, issue) => validationIssues.AddValidationIssues(item, issue), _placedPriceProcessor);
-            cart.UpdateInventoryOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _inventoryProcessor);
-
-            ApplyDiscounts(cart);
-
-            // Try to validate gift items inventory and don't catch validation issues.
-            cart.UpdateInventoryOrRemoveLineItems((item, issue) =>
-            {
-                validationIssues.AddValidationIssues(item, item.IsGift ? ValidationIssue.RemovedGiftDueToInsufficientQuantityInInventory : issue);
-            }, _inventoryProcessor);
-
-            return validationIssues;
-        }
-
-        public Dictionary<ILineItem, List<ValidationIssue>> RequestInventory(ICart cart)
-        {
-            var validationIssues = new Dictionary<ILineItem, List<ValidationIssue>>();
+            var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
             cart.AdjustInventoryOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _inventoryProcessor);
             return validationIssues;
         }
@@ -348,7 +327,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-        private static void AddValidationMessagesToResult(AddToCartResult result, ILineItem lineItem, Dictionary<ILineItem, List<ValidationIssue>> validationIssues)
+        private static void AddValidationMessagesToResult(AddToCartResult result, ILineItem lineItem, IDictionary<ILineItem, IList<ValidationIssue>> validationIssues)
         {
             foreach (var validationIssue in validationIssues)
             {

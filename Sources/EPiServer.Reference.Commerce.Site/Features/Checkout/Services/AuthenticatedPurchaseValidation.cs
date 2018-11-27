@@ -7,7 +7,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
     public class AuthenticatedPurchaseValidation : PurchaseValidation
     {
-        public AuthenticatedPurchaseValidation(LocalizationService localizationService) : base(localizationService)
+        public AuthenticatedPurchaseValidation(LocalizationService localizationService) 
+            : base(localizationService)
         {
         }
 

@@ -6,7 +6,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Extensions
 {
     public static class CartExtensions
     {
-        public static void AddValidationIssues(this Dictionary<ILineItem, List<ValidationIssue>> issues, ILineItem lineItem, ValidationIssue issue)
+        public static void AddValidationIssues(this IDictionary<ILineItem, IList<ValidationIssue>> issues, ILineItem lineItem, ValidationIssue issue)
         {
             if (!issues.ContainsKey(lineItem))
             {
@@ -19,9 +19,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Extensions
             }
         }
 
-        public static bool HasItemBeenRemoved(this Dictionary<ILineItem, List<ValidationIssue>> issuesPerLineItem, ILineItem lineItem)
+        public static bool HasItemBeenRemoved(this IDictionary<ILineItem, IList<ValidationIssue>> issuesPerLineItem, ILineItem lineItem)
         {
-            List<ValidationIssue> issues;
+            IList<ValidationIssue> issues;
             if (issuesPerLineItem.TryGetValue(lineItem, out issues))
             {
                 return issues.Any(x => x == ValidationIssue.RemovedDueToInactiveWarehouse ||

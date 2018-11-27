@@ -208,7 +208,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             return new UrlBuilder(confirmationPage.LinkURL) {QueryCollection = queryCollection}.ToString();
         }
 
-        public virtual bool ValidateOrder(ModelStateDictionary modelState, CheckoutViewModel viewModel, Dictionary<ILineItem, List<ValidationIssue>> validationIssueCollections)
+        public virtual bool ValidateOrder(ModelStateDictionary modelState, CheckoutViewModel viewModel, IDictionary<ILineItem, IList<ValidationIssue>> validationMessages)
         {
             PurchaseValidation validation;
             if (viewModel.IsAuthenticated)
@@ -220,7 +220,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 validation = AnonymousPurchaseValidation;
             }
 
-            return validation.ValidateModel(modelState, viewModel) && validation.ValidateOrderOperation(modelState, validationIssueCollections);
+            return validation.ValidateModel(modelState, viewModel) && validation.ValidateOrderOperation(modelState, validationMessages);
         }
 
         public void ProcessPaymentCancel(CheckoutViewModel viewModel, TempDataDictionary tempData, ControllerContext controlerContext)

@@ -7,7 +7,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 {
     public class AnonymousPurchaseValidation : PurchaseValidation
     {
-        public AnonymousPurchaseValidation(LocalizationService localizationService) : base(localizationService)
+        public AnonymousPurchaseValidation(LocalizationService localizationService) 
+            : base(localizationService)
         {
         }
 
