@@ -17,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var systemKeyword = bindingContext.ValueProvider.GetValue("SystemKeyword")?.AttemptedValue;
-            var selectedPaymentMethod = _paymentMethods.FirstOrDefault(p => p.SystemKeyword.ToString() == systemKeyword);
+            var selectedPaymentMethod = _paymentMethods.FirstOrDefault(p => !string.IsNullOrEmpty(p.SystemKeyword) && p.SystemKeyword.ToString() == systemKeyword);
             if (selectedPaymentMethod == null)
             {
                 return null;
