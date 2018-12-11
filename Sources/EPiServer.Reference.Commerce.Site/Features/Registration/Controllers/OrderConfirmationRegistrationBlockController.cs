@@ -97,7 +97,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Registration.Controllers
             ContactIdentityResult registration = await UserService.RegisterAccount(new SiteUser(purchaseOrder)
             { 
                 Password = viewModel.Password, 
-                RegistrationSource = "Order confirmation page"
+                RegistrationSource = "Order confirmation page",
+                IsApproved = true
             });
 
             if (registration.Result.Succeeded)
