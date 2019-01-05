@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web;
-using EPiServer.Commerce.Catalog.ContentTypes;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
@@ -15,6 +10,10 @@ using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using Moq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Services
@@ -83,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
         public async void TrackSearchAsync_ShouldSendSearchTrackingData()
         {
             var searchTerm = "foo";
-            var codes = new[] {"productCode"};
+            var codes = new[] { "productCode" };
             await _subject.TrackSearchAsync(_httpContextMock.Object, searchTerm, codes, 20);
 
             _trackingDataFactoryMock.Verify(m => m.CreateSearchTrackingData(searchTerm, codes, 20, _httpContextMock.Object));
@@ -137,35 +136,37 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
 
             _currentMarketServiceMock = new Mock<ICurrentMarket>();
 
-            _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null, null);
+            var requestTrackingDataServiceMock = new Mock<IRequestTrackingDataService>();
+
+            _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null, requestTrackingDataServiceMock.Object);
             _trackingDataFactoryMock
                 .Setup(m => m.CreateCartTrackingData(It.IsAny<HttpContextBase>()))
                 .Returns<HttpContextBase>(
-                    context => new CartTrackingData(null, null, null, context, null));
+                    context => new CartTrackingData(null, null, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateCategoryTrackingData(It.IsAny<NodeContent>(), It.IsAny<HttpContextBase>()))
                 .Returns<NodeContent, HttpContextBase>(
-                    (content, context) => new CategoryTrackingData(null, null, context, null));
+                    (content, context) => new CategoryTrackingData(null, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateCheckoutTrackingData(It.IsAny<HttpContextBase>()))
                 .Returns<HttpContextBase>(
-                    context => new CheckoutTrackingData(null, null, 0, 0, 0, null, context, null));
+                    context => new CheckoutTrackingData(null, null, 0, 0, 0, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateProductTrackingData(It.IsAny<string>(), It.IsAny<HttpContextBase>()))
                 .Returns<string, HttpContextBase>(
-                    (code, context) => new ProductTrackingData(code, null, context, null));
+                    (code, context) => new ProductTrackingData(code, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateOrderTrackingData(It.IsAny<IPurchaseOrder>(), It.IsAny<HttpContextBase>()))
                 .Returns<IPurchaseOrder, HttpContextBase>(
-                    (code, context) => new OrderTrackingData(null, null, 0, 0, 0, null, null, context, null));
+                    (code, context) => new OrderTrackingData(null, null, 0, 0, 0, null, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateSearchTrackingData(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<HttpContextBase>()))
                 .Returns<string, IEnumerable<string>, int, HttpContextBase>(
-                    (term, codes, count, context) => new SearchTrackingData(term, codes, count, null, context, null));
+                    (term, codes, count, context) => new SearchTrackingData(term, codes, count, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateWishListTrackingData(It.IsAny<HttpContextBase>()))
                 .Returns<HttpContextBase>(
-                    context => new WishListTrackingData(null, null, context, null));
+                    context => new WishListTrackingData(null, null, new RequestData(), null));
 
             var trackingServiceMock = new Mock<ITrackingService>();
             trackingServiceMock
@@ -178,7 +179,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
                 () => contentRouteHelperMock.Object,
                 contextModeResolverMock.Object,
                 productServiceMock.Object,
-                _currentMarketServiceMock.Object, 
+                _currentMarketServiceMock.Object,
                 _trackingDataFactoryMock.Object,
                 trackingServiceMock.Object);
         }
