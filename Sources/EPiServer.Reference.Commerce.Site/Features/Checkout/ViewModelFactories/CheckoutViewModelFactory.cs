@@ -99,8 +99,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         {
             if (viewModel.Shipments.Count == 1)
             {
-                viewModel.Shipments[0].Address = viewModel.AvailableAddresses.SingleOrDefault(x => x.AddressId == shippingAddressId) ??
-                                                 viewModel.AvailableAddresses.SingleOrDefault(x => x.ShippingDefault) ?? 
+                viewModel.Shipments[0].Address = viewModel.AvailableAddresses.SingleOrDefault(x => x.AddressId != null && x.AddressId == shippingAddressId) ??
+                                                 viewModel.AvailableAddresses.SingleOrDefault(x => x.ShippingDefault) ??
                                                  viewModel.BillingAddress;
             }
         }

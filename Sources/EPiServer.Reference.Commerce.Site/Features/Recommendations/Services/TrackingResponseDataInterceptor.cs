@@ -81,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             }
 
             recommendation.Attributes.Add(Title, entry.DisplayName);
-            recommendation.Attributes.Add(Url, entry.GetUrl());
+            recommendation.Attributes.Add(Url, entry.GetUrl(recommendation.Lang));
             recommendation.Attributes.Add(Image, imageUrl);
             recommendation.Attributes.Add(UnitPrice, originalPrice?.UnitPrice.ToString());
             recommendation.Attributes.Add(SalePrice, salePrice?.UnitPrice.ToString());

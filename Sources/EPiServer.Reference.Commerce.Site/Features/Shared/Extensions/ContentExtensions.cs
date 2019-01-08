@@ -26,15 +26,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             return contentLoader.GetChildren<PageData>(pageData.ParentLink).Where(page => !filter.ShouldFilter(page));
         }
 
+        public static string GetUrl(this EntryContentBase entry, string language)
+        {
+            return GetUrl(entry, _relationRepository.Service, _urlResolver.Service, language);
+        }
+
         public static string GetUrl(this EntryContentBase entry)
         {
             return GetUrl(entry, _relationRepository.Service, _urlResolver.Service);
         }
 
-        public static string GetUrl(this EntryContentBase entry, IRelationRepository relationRepository, UrlResolver urlResolver)
+        public static string GetUrl(this EntryContentBase entry, IRelationRepository relationRepository, UrlResolver urlResolver) => GetUrl(entry, relationRepository, urlResolver, null);
+
+        public static string GetUrl(this EntryContentBase entry, IRelationRepository relationRepository, UrlResolver urlResolver, string language)
         {
             var productLink = entry is VariationContent ?
-                entry.GetParentProducts(relationRepository).FirstOrDefault() : 
+                entry.GetParentProducts(relationRepository).FirstOrDefault() :
                 entry.ContentLink;
 
             if (productLink == null)
@@ -42,13 +49,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
                 return string.Empty;
             }
 
-            var urlBuilder = new UrlBuilder(urlResolver.GetUrl(productLink));
+            var urlBuilder = string.IsNullOrEmpty(language) ? new UrlBuilder(urlResolver.GetUrl(productLink)) : new UrlBuilder(urlResolver.GetUrl(productLink, language));
 
             if (entry.Code != null)
             {
                 urlBuilder.QueryCollection.Add("variationCode", entry.Code);
             }
-            
+
             return urlBuilder.ToString();
         }
     }
