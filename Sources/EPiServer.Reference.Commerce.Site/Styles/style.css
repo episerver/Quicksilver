@@ -9258,19 +9258,19 @@ fieldset[disabled] .btn-yahoo.active {
   font-family: 'Arapey';
   font-style: italic;
   font-weight: 400;
-  src: local('Arapey Italic'), local('Arapey-Italic'), url(http://fonts.gstatic.com/s/arapey/v6/-W_9XJn-UDDA2RCKZeofTkM.ttf) format('truetype');
+  src: local('Arapey Italic'), local('Arapey-Italic'), url(http://fonts.gstatic.com/s/arapey/v7/-W_9XJn-UDDA2RCKZeofTkM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Arapey';
   font-style: normal;
   font-weight: 400;
-  src: local('Arapey Regular'), local('Arapey-Regular'), url(http://fonts.gstatic.com/s/arapey/v6/-W__XJn-UDDA2RCKYNoY.ttf) format('truetype');
+  src: local('Arapey Regular'), local('Arapey-Regular'), url(http://fonts.gstatic.com/s/arapey/v7/-W__XJn-UDDA2RCKYNoY.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cookie';
   font-style: normal;
   font-weight: 400;
-  src: local('Cookie-Regular'), url(http://fonts.gstatic.com/s/cookie/v9/syky-y18lb0tSbf9kgqX.ttf) format('truetype');
+  src: local('Cookie-Regular'), url(http://fonts.gstatic.com/s/cookie/v10/syky-y18lb0tSbf9kgqX.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Raleway';
