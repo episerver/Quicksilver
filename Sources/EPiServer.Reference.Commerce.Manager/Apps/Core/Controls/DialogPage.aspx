@@ -32,6 +32,10 @@
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/LoginStyle.css") %>" type="text/css" rel="stylesheet" />
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/styles/ToolbarStyle.css") %>" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/MetaDataBase/Scripts/jquery-1.2.1.min.js")%>"></script>
+
+    <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/Shell/EPiServerManagementClient2.js") %>"></script>
+    <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/Scripts/Shell/ManagementClientProxy.js") %>"></script>
+
     <!-- EPi Style-->
     <link href="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.css") %>" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%# CommerceHelper.GetAbsolutePath("~/Apps/Shell/EPi/Shell/Light/Shell-ext.js")%>"></script>

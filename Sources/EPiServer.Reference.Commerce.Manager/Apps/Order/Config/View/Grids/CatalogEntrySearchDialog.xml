@@ -11,7 +11,7 @@
 					<Column width="100" allowSorting="false" headingText="{SharedStrings:Catalog}" columnType="CustomTemplate">
 						<Template id="CatalogTemplate" controlUrl="GridTemplates/CatalogTemplate.ascx"></Template>
 					</Column>
-					<Column width="70" visible="true" allowSorting="false" dataField="EntryType" headingText="{SharedStrings:Type}"></Column>
+					<Column width="70" visible="true" allowSorting="false" dataField="ClassTypeId" headingText="{SharedStrings:Type}"></Column>
 					<Column width="60" allowSorting="false" headingText="{SharedStrings:Price}" columnType="CustomTemplate">
 						<Template id="ListPriceTemplate" controlUrl="GridTemplates/ListPriceTemplate.ascx"></Template>
 					</Column>

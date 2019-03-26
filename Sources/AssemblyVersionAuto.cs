@@ -3,6 +3,6 @@ using System.Reflection;
 
 
 [assembly: AssemblyCopyright("Copyright ? 2019 Episerver")]
-[assembly: AssemblyVersion("12.17.2.0")]
-[assembly: AssemblyInformationalVersion("12.17.2")]
-[assembly: AssemblyFileVersion("12.17.2.3575")]
+[assembly: AssemblyVersion("13.0.0.0")]
+[assembly: AssemblyInformationalVersion("13.0.0")]
+[assembly: AssemblyFileVersion("13.0.0.3587")]

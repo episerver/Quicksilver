@@ -16,7 +16,7 @@
 					<Column width="450" allowSorting="true" dataField="Name" headingText="{SharedStrings:Name}" columnType="CustomTemplate">
 						<Template id="LinkTemplate" controlUrl="GridTemplates/NodeHyperlinkTemplateSearch.ascx"></Template>
 					</Column>
-					<Column width="150" allowSorting="true" dataField="ID" headingText="{SharedStrings:Code}" sortExpression="ID"></Column>
+					<Column width="150" allowSorting="true" dataField="Code" headingText="{SharedStrings:Code}" sortExpression="Code"></Column>
 					<Column width="150" columnType="DateTime" allowSorting="true" dataField="StartDate" headingText="{SharedStrings:Available_From}"></Column>
 					<Column width="150" columnType="DateTime" allowSorting="true" dataField="EndDate" headingText="{SharedStrings:Expires}"></Column>
 					<Column width="50" allowSorting="true" dataField="IsActive" headingText="{SharedStrings:Status}"></Column>

@@ -299,7 +299,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             };
 
             _cart.GetFirstShipment().LineItems.Add(lineItem);
-            var shipment = new FakeShipment();
+            var shipment = new FakeShipment { ParentOrderGroup = _cart};
             shipment.LineItems.Add(removedLineItem);
             _cart.AddShipment(shipment, _orderGroupFactoryMock.Object);
             _subject.ChangeCartItem(_cart, shipment.ShipmentId, code, quantity, size, newSize, "");
@@ -625,10 +625,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
                 _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object,
                 _referenceConverterMock.Object, _contentLoaderMock.Object, _relationRepositoryMock.Object,
                 _orderValidationServiceMock.Object);
-            _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
+            _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD"))
+            {
+                Name = _subject.DefaultCartName,
+                OrderLink = new OrderReference(1, "Default", Guid.NewGuid(), typeof(FakeCart))
+            };
 
-            _orderGroupFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>(), It.IsAny<IOrderGroup>())).Returns((string code, IOrderGroup group) => new FakeLineItem() { Code = code });
-            _orderGroupFactoryMock.Setup(x => x.CreateShipment(It.IsAny<IOrderGroup>())).Returns((IOrderGroup orderGroup) => new FakeShipment());
+            _orderGroupFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>(), It.IsAny<IOrderGroup>())).Returns((string code, IOrderGroup orderGroup) => new FakeLineItem { Code = code, ParentOrderGroup = orderGroup });
+            _orderGroupFactoryMock.Setup(x => x.CreateShipment(It.IsAny<IOrderGroup>())).Returns((IOrderGroup orderGroup) => new FakeShipment { ParentOrderGroup = orderGroup });
             _orderRepositoryMock.Setup(x => x.Load<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(new[] { _cart });
             _orderRepositoryMock.Setup(x => x.Create<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(_cart);
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
