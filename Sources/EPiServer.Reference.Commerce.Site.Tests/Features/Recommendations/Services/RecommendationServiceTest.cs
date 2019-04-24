@@ -12,6 +12,7 @@ using Mediachase.Commerce.Markets;
 using Moq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
@@ -25,7 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
         {
             await _subject.TrackCartAsync(_httpContextMock.Object);
 
-            _trackingDataFactoryMock.Verify(m => m.CreateCartTrackingData(_httpContextMock.Object));
+            _trackingDataFactoryMock.Verify(m => m.CreateCartTrackingData(_httpContextMock.Object, Enumerable.Empty<CartChangeData>()));
 
             Assert.NotNull(_trackedData);
             Assert.IsType<CartTrackingData>(_trackedData.Payload);
@@ -140,9 +141,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Recommendations.Servi
 
             _trackingDataFactoryMock = new Mock<TrackingDataFactory>(null, null, null, null, null, null, null, null, null, requestTrackingDataServiceMock.Object);
             _trackingDataFactoryMock
-                .Setup(m => m.CreateCartTrackingData(It.IsAny<HttpContextBase>()))
-                .Returns<HttpContextBase>(
-                    context => new CartTrackingData(null, null, null, new RequestData(), null));
+                .Setup(m => m.CreateCartTrackingData(It.IsAny<HttpContextBase>(), It.IsAny<IEnumerable<CartChangeData>>()))
+                .Returns<HttpContextBase, IEnumerable<CartChangeData>>(
+                    (context, changes) => new CartTrackingData(null, null, null, new RequestData(), null));
             _trackingDataFactoryMock
                 .Setup(m => m.CreateCategoryTrackingData(It.IsAny<NodeContent>(), It.IsAny<HttpContextBase>()))
                 .Returns<NodeContent, HttpContextBase>(

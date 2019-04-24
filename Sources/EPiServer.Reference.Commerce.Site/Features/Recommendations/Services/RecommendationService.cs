@@ -101,14 +101,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext) =>
+            await TrackCartAsync(httpContext, Enumerable.Empty<CartChangeData>());
+
+        public async Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext, IEnumerable<CartChangeData> cartChanges)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
                 return null;
             }
 
-            var trackingData = _trackingDataFactory.CreateCartTrackingData(httpContext);
+            var trackingData = _trackingDataFactory.CreateCartTrackingData(httpContext, cartChanges);
             AddMarketAttribute(trackingData);
             trackingData.SkipRecommendations();
 

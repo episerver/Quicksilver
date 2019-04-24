@@ -11,6 +11,8 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.ServiceLocation;
+using EPiServer.Tracking.Commerce;
+using EPiServer.Tracking.Commerce.Data;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using System;
@@ -70,24 +72,38 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _orderValidationService = orderValidationService;
         }
 
-        public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize, string displayName)
+        public CartChangeData ChangeCartItem(ICart cart, int shipmentId, string code, 
+            decimal quantity, string size, string newSize, string displayName)
         {
+            CartChangeData cartChange = null;
             if (quantity > 0)
             {
                 if (size == newSize)
                 {
+                    // Custom cart change type: quantityChanged.
+                    cartChange = new CartChangeData("quantityChanged", code);
+                    cartChange.SetChange("oldQuantity", cart.GetAllLineItems().FirstOrDefault(x => x.Code == code).Quantity);
+
                     ChangeQuantity(cart, shipmentId, code, quantity);
+
+                    return cartChange;
                 }
-                else
-                {
-                    var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
-                    UpdateLineItemSku(cart, shipmentId, code, newCode, quantity, displayName);
-                }
+
+                // Custom cart change type: variantChanged.
+                cartChange = new CartChangeData("variantChanged", code);
+                cartChange.SetChange("oldSize", size);
+                cartChange.SetChange("oldCode", code);
+                cartChange.SetChange("oldPrice", cart.GetAllLineItems().FirstOrDefault(x => x.Code == code).PlacedPrice);
+
+                var newCode = _productService.GetSiblingVariantCodeBySize(code, newSize);
+                UpdateLineItemSku(cart, shipmentId, code, newCode, quantity, displayName);
+
+                return cartChange;
             }
-            else
-            {
-                RemoveLineItem(cart, shipmentId, code);
-            }
+
+            RemoveLineItem(cart, shipmentId, code);
+            cartChange = new CartChangeData(CartChangeType.ItemRemoved, code);
+            return cartChange;
         }
 
         public IDictionary<ILineItem, IList<ValidationIssue>> ValidateCart(ICart cart)
@@ -310,7 +326,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         private void RemoveLineItem(ICart cart, int shipmentId, string code)
         {
-            //gets  the shipment for shipment id or for wish list shipment id as a parameter is always equal zero( wish list).
+            // Gets the shipment for shipment id or for wish list shipment id as a parameter is always equal zero (wish list).
             var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId == 0);
 
             var lineItem = shipment.LineItems.FirstOrDefault(l => l.Code == code);
@@ -348,7 +364,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         {
             RemoveLineItem(cart, shipmentId, oldCode);
 
-            //merge same sku's
+            // Merge same sku's.
             var newLineItem = GetFirstLineItem(cart, newCode);
             if (newLineItem != null)
             {
@@ -381,10 +397,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 
         private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
         {
-            if (quantity == 0)
-            {
-                RemoveLineItem(cart, shipmentId, code);
-            }
             var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId);
             var lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code);
             if (lineItem == null)

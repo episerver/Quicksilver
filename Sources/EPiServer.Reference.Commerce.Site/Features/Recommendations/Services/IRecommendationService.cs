@@ -16,6 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Recommendations.Services
         Task<TrackingResponseData> TrackOrderAsync(HttpContextBase httpContext, IPurchaseOrder order);
         Task<TrackingResponseData> TrackCategoryAsync(HttpContextBase httpContext, NodeContent category);
         Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext, IEnumerable<CartChangeData> cartChanges);
         Task<TrackingResponseData> TrackWishlistAsync(HttpContextBase httpContext);
         Task<TrackingResponseData> TrackCheckoutAsync(HttpContextBase httpContext);
 
