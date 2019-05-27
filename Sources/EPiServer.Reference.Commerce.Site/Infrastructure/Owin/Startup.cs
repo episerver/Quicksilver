@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.MicrosoftAccount;
+using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using System;
@@ -66,6 +67,16 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                     OnResponseSignOut = context => context.Response.Redirect(UrlResolver.Current.GetUrl(ContentReference.StartPage))
                 }
             });
+
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new AuthorizationServerProvider(),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+                AllowInsecureHttp = true,
+
+            });
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

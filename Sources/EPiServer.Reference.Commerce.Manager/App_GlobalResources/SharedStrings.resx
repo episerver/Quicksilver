@@ -2217,9 +2217,6 @@
   <data name="Market_Description" xml:space="preserve">
     <value>Market Description</value>
   </data>
-  <data name="Market_Description_Invalid" xml:space="preserve">
-    <value>Invalid Market Description. Use letters or numbers.</value>
-  </data>
   <data name="Market_Name_Already_Exists" xml:space="preserve">
     <value>A Market with that name already exists</value>
   </data>

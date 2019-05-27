@@ -57,8 +57,6 @@
                 <asp:Label  runat="server" Text="<%$ Resources:SharedStrings, Market_Description %>"></asp:Label>:</td>
             <td class="FormFieldCell">
                 <asp:TextBox runat="server" TextMode="MultiLine" Width="250" MaxLength="255" ID="MarketDescription"></asp:TextBox>
-                <asp:RegularExpressionValidator runat="server" id="MarketDescriptionValidator" ControlToValidate="MarketDescription" 
-                        ErrorMessage="<%$ Resources:SharedStrings, Market_Description_Invalid %>" Display="Dynamic" ValidationExpression="^[- \w]*$" />
             </td>
         </tr>
         <tr>

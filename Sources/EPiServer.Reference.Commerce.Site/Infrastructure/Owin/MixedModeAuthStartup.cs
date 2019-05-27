@@ -13,6 +13,7 @@ using Microsoft.Owin.Extensions;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Notifications;
+using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using System;
@@ -155,6 +156,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                     OnResponseSignOut = context => context.Response.Redirect(UrlResolver.Current.GetUrl(ContentReference.StartPage))
                 }
             });
+
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new AuthorizationServerProvider(),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+                AllowInsecureHttp = true,
+
+            });
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
 
             app.UseStageMarker(PipelineStage.Authenticate);
             app.Map(LogoutPath, map =>
