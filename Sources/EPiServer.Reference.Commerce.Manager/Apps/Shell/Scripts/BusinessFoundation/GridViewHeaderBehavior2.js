@@ -364,18 +364,41 @@ Mediachase.GridViewHeaderBehavior2.prototype = {
             if (this.divResizeProxy.parentNode.offsetWidth - 1 >= 0)
                 this.divResizeProxy.style.width = this.divResizeProxy.parentNode.offsetWidth - 2 + 'px';
 
+            var parentMaxHeight = this.divResizeProxy.parentNode.style.maxHeight;
+            var maxHeight = 0;
+            if (parentMaxHeight) {
+                maxHeight = parseInt(parentMaxHeight, 10);
+            }
+            var newHeight = 600;
+
             if (this._layoutHandler == null && !this.dashboardMode) {
                 this.divResizeProxy.style.height = document.body.offsetHeight - this.divResizeProxy.offsetTop - 4 + 'px';
             }
             else {
                 if (!this.layoutResizeEnable)
                 {
-					if (this.divWrapper)
-						this.divResizeProxy.style.height = this.get_element().offsetHeight + this.bottomDiv.offsetHeight + this.headDiv.offsetHeight - this.get_element().offsetTop + 17 + 'px';;//this.get_element().offsetHeight + this.bottomDiv.offsetHeight + this.headDiv.offsetHeight - this.get_element().offsetTop + 17 + 'px'; //16 - eto zapas dla horizontal scrolla
+                    if (this.divWrapper) {
+                        newHeight = this.get_element().offsetHeight +
+                            this.bottomDiv.offsetHeight +
+                            this.headDiv.offsetHeight -
+                            this.get_element().offsetTop +
+                            17;
+                        if (maxHeight > 0 && newHeight > maxHeight) {
+                            newHeight = maxHeight;
+                        }
+
+                        this.divResizeProxy.style.height =
+                            newHeight +
+                            'px'; //this.get_element().offsetHeight + this.bottomDiv.offsetHeight + this.headDiv.offsetHeight - this.get_element().offsetTop + 17 + 'px'; //16 - eto zapas dla horizontal scrolla
+                    }
                 }
                 else
                 {
-                    this.divResizeProxy.style.height = document.body.offsetHeight - this.divResizeProxy.offsetTop - 4 + 'px';
+                    newHeight = document.body.offsetHeight - this.divResizeProxy.offsetTop - 4;
+                    if (maxHeight > 0 && newHeight > maxHeight) {
+                        newHeight = maxHeight;
+                    }
+                    this.divResizeProxy.style.height =newHeight + 'px';
                 }
                     
             }

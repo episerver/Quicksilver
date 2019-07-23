@@ -14,8 +14,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td >
-			<mc:EntityGrid ID="grdMain" runat="server" ShowPaging="false" LayoutResizeEnable="false" />	
+		<td style="max-height: 600px">
+			<mc:EntityGrid ID="grdMain" runat="server" ShowPaging="true" LayoutResizeEnable="false" />	
 			<mc:MCGridAction runat="server" ID="ctrlGridEventUpdater" />
 			<asp:LinkButton ID="lbAddItems" runat="server" Visible="false" OnClick="lbAddItems_Click"></asp:LinkButton>
 		</td>
