@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" Inherits="Mediachase.Commerce.Manager.Login" CodeBehind="Login.aspx.cs" %>
+<%@ Page Language="C#" AutoEventWireup="true" Inherits="EPiServer.Reference.Commerce.Manager.Login" CodeBehind="~/Login.aspx.cs" %>
 
 <%@ Import Namespace="Mediachase.Commerce.Shared" %>
 <script runat="server">
