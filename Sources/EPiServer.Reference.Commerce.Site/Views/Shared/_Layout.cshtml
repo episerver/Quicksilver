@@ -3,71 +3,97 @@
 @using EPiServer.Personalization.Commerce.Extensions
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using EPiServer.Security
+@using Newtonsoft.Json;
 @using EPiServer.Web.Routing
 @using System.Web.Optimization
+
+@model  object
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width initial-scale=1.0">
-        <title> @{ Html.RenderAction("Title", "Head"); }</title>
-        @RenderSection("Meta", false)
-        @Styles.Render("~/styles/bundled")
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"> </script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"> </script>
-        <![endif]-->
-        <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
-        @{
-            var requestLang = ViewContext.RequestContext.GetLanguage();
-            if (!string.IsNullOrEmpty(requestLang))
-            {
-                //ChangeThis - Using language annotations. You should update defaultLanguage below according your site.
-                //Refer to: https://support.google.com/webmasters/answer/189077?hl=en for detail guide.
-                var defaultLanguage = "en";
-                var requestContentLink = ViewContext.RequestContext.GetContentLink();
-                @Helpers.RenderHrefLangs(requestContentLink, defaultLanguage);
-            }
-        }
-        @Html.RequiredClientResources("Header")
-        @Html.LoadTrackingAPI()
-    </head>
-    <body>
-        @Html.RenderEPiServerQuickNavigator()
-        @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
-        {
-            // Add element to make room for quick navigator.
-            <div class="container-fluid"><div class="container"><p>&nbsp;</p></div></div>
-        }
-        @Html.RenderReadonlyMessage()
-        <div id="ModalDialog" class="modal fade" role="dialog"><div class="modal-dialog modal-lg"></div></div>
-        <div class="cookies jsCookies" style="display: none">
-            @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
-        </div>
-        @{ Html.RenderAction("Index", "Navigation"); }
-        <div class="quicksilver site-wrapper">
-            <div class="main-area">@RenderBody()</div>
-            <div class="recommendations recommendations-upper">@RenderSection("UpperRecommendations", false)</div>
-            <div class="recommendations recommendations-left">@RenderSection("LeftMarginRecommendations", false)</div>
-            <div class="recommendations recommendations-right">@RenderSection("RightMarginRecommendations", false)</div>
-            <div class="recommendations recommendations-bottom">@RenderSection("BottomRecommendations", false)</div>
-        </div>
-        @{ Html.RenderAction("Index", "Footer"); }
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/mustache")
-        @Scripts.Render("~/bundles/js")
-        @Html.RequiredClientResources("Footer")
-        
-        @if (Functions.ShouldRenderTrackingSection())
-        {
-            @Html.Partial("_RecommendationsTemplates")
-            @RenderSection("Tracking", false)
-        }
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title> @{ Html.RenderAction("Title", "Head"); }</title>
+    @RenderSection("Meta", false)
+    @Styles.Render("~/styles/bundled")
 
-    </body>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"> </script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"> </script>
+    <![endif]-->
+    <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
+    <script src="~/scripts/assets/main.bundle.css"></script>
+    @{
+        var requestLang = ViewContext.RequestContext.GetLanguage();
+        if (!string.IsNullOrEmpty(requestLang))
+        {
+            //ChangeThis - Using language annotations. You should update defaultLanguage below according your site.
+            //Refer to: https://support.google.com/webmasters/answer/189077?hl=en for detail guide.
+            var defaultLanguage = "en";
+            var requestContentLink = ViewContext.RequestContext.GetContentLink();
+            @Helpers.RenderHrefLangs(requestContentLink, defaultLanguage);
+        }
+    }
+    @Html.RequiredClientResources("Header")
+    @Html.LoadTrackingAPI()
+    <script>
+        var CURRENT_PAGE = @Html.Raw(Model.ToJson());
+    </script>
+    @{ 
+        var currentTypeFullName = Model.GetType().FullName;
+    }
+    @if (Model.GetType().IsGenericType)
+    {
+        <script>
+            var CURRENT_TYPE = "@currentTypeFullName.Substring(0,currentTypeFullName.IndexOf("`"))";
+        </script>
+    }
+    else
+    {
+        <script>
+            var CURRENT_TYPE = "@currentTypeFullName";
+        </script>
+    }
+</head>
+<body>
+    @Html.RenderEPiServerQuickNavigator()
+    <div id="main-content"></div>
+    @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
+    {
+        // Add element to make room for quick navigator.
+        <div class="container-fluid"><div class="container"><p>&nbsp;</p></div></div>
+    }
+    @Html.RenderReadonlyMessage()
+    <div id="ModalDialog" class="modal fade" role="dialog"><div class="modal-dialog modal-lg"></div></div>
+    <div class="cookies jsCookies" style="display: none">
+        @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
+    </div>
+    @{ Html.RenderAction("Index", "Navigation"); }
+    <div class="quicksilver site-wrapper">
+        <div class="main-area">@RenderBody()</div>
+        <div class="recommendations recommendations-upper">@RenderSection("UpperRecommendations", false)</div>
+        <div class="recommendations recommendations-left">@RenderSection("LeftMarginRecommendations", false)</div>
+        <div class="recommendations recommendations-right">@RenderSection("RightMarginRecommendations", false)</div>
+        <div class="recommendations recommendations-bottom">@RenderSection("BottomRecommendations", false)</div>
+    </div>
+    @{ Html.RenderAction("Index", "Footer"); }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/mustache")
+    @Scripts.Render("~/bundles/js")
+    <script src="~/scripts/assets/vendor.bundle.js"></script>
+    <script src="~/scripts/assets/main.bundle.js"></script>
+    @Html.RequiredClientResources("Footer")
+
+    @if (Functions.ShouldRenderTrackingSection())
+    {
+        @Html.Partial("_RecommendationsTemplates")
+        @RenderSection("Tracking", false)
+    }
+
+</body>
 </html>

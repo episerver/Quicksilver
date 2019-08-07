@@ -1,0 +1,54 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "checkJs": true, 
+    "jsx": "react" ,
+    "sourceMap": true,
+    "outDir": "./wwwroot/assets",
+    "removeComments": false,
+    "noEmit": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "features/*": [
+        "./Sources/EPiServer.Reference.Commerce.Site/Features/*"
+      ]
+    },
+    "typeRoots": [ "node_modules/@types", "types" ], 
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true ,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "Sources"
+  ]
+}
