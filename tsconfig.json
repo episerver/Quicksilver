@@ -12,7 +12,7 @@
     "checkJs": true, 
     "jsx": "react" ,
     "sourceMap": true,
-    "outDir": "./wwwroot/assets",
+    "outDir": "./scripts/assets",
     "removeComments": false,
     "noEmit": true,
     "noImplicitAny": true,

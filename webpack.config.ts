@@ -3,6 +3,7 @@ import * as OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import * as path from 'path';
 import * as TerserPlugin from 'terser-webpack-plugin';
 import * as webpack from 'webpack';
+import * as webpackDevServer from 'webpack-dev-server';
 
 interface IEnv {
   production: boolean;
@@ -11,6 +12,7 @@ interface IEnv {
 const sitePath = path.resolve(__dirname, 'Sources', 'EPiServer.Reference.Commerce.Site');
 const featurePath = path.resolve(sitePath, 'Features');
 const outputPath = path.resolve(sitePath, 'Scripts', 'assets');
+const devUrl = 'http://localhost:50244/';
 
 const resolve: webpack.Resolve = {
   extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -161,12 +163,36 @@ const module = (env: IEnv): webpack.Module => ({
   ],
 });
 
+const devServer: webpackDevServer.Configuration = {
+  publicPath: output.publicPath,
+  headers: { 'Access-Control-Allow-Origin': '*' },
+  contentBase: outputPath,
+  port: 9000,
+  open: true,
+  // https: true,
+  compress: true,
+  inline: true,
+  hot: true,
+  overlay: {
+    warnings: true,
+    errors: true,
+  },
+  proxy: {
+    '**': {
+      target: devUrl,
+      secure: false,
+    },
+  },
+};
+
 
 const stats: webpack.Stats.ToJsonOptionsObject = {
   errorDetails: true,
   errors: true,
   chunks: true,
 };
+
+
 
 const config = (env: IEnv): webpack.Configuration => {
   env = env || { production: false };
@@ -179,6 +205,8 @@ const config = (env: IEnv): webpack.Configuration => {
     module: module(env),
     output,
     stats,
+    // @ts-ignore:
+    devServer,
   };
 };
 

@@ -6,6 +6,7 @@
     "fe:clean": "rimraf Sources/EPiServer.Reference.Commerce.Site/Scripts/assets",
     "fe:setup": "npm install && npm rebuild node-sass && npm install -g  webpack-dev-server rimraf webpack typescript",
     "fe:cfg": "npm run fe:clean && tsc webpack.config.ts",
+    "fe:server": "npm run fe:cfg && webpack-dev-server",
     "fe:build": "npm run fe:cfg && webpack",
     "fe:build-prod": "npm run fe:cfg && webpack --env.production",
     "fe:watch": "npm run fe:cfg && webpack --watch",
