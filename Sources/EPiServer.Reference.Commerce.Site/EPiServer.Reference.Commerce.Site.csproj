@@ -322,6 +322,7 @@
   <ItemGroup>
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
+    <Content Include="Scripts\assets\*" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -804,6 +805,18 @@
     <Content Include="Views\RegistrationConfirmationMail\Index.cshtml" />
     <Content Include="Views\ProfilePage\EditOptins.cshtml" />
     <Content Include="Views\Login\Unapproved.cshtml" />
+    <Content Include="Scripts\assets\4154c77a2ba53534fa83.hot-update.json" />
+    <Content Include="Scripts\assets\437164fff1622533b184.hot-update.json" />
+    <Content Include="Scripts\assets\464ab626c3bdec3000c7.hot-update.json" />
+    <Content Include="Scripts\assets\4d1f85b4fe50eeb9e988.hot-update.json" />
+    <Content Include="Scripts\assets\51693911675198f7a3d0.hot-update.json" />
+    <Content Include="Scripts\assets\5291ec2ad925579c251d.hot-update.json" />
+    <Content Include="Scripts\assets\5ab627b35488012b3075.hot-update.json" />
+    <Content Include="Scripts\assets\6057c497c94d59714c18.hot-update.json" />
+    <Content Include="Scripts\assets\d531aa0504801336b4da.hot-update.json" />
+    <Content Include="Scripts\assets\dcba55885d6d6db1e3bf.hot-update.json" />
+    <Content Include="Scripts\assets\e24c4c423812051a382e.hot-update.json" />
+    <Content Include="Scripts\assets\e9047ed14103cec870e5.hot-update.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -932,9 +945,7 @@
       <Name>EPiServer.Reference.Commerce.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\assets\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
