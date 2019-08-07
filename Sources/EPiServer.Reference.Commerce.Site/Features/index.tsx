@@ -1,4 +1,4 @@
-import AvailableTypes from 'features/Components/avaialableTypes';
+import AvailableTypes from 'features/Components/availableTypes';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 

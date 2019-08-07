@@ -40,7 +40,7 @@
     @Html.RequiredClientResources("Header")
     @Html.LoadTrackingAPI()
     <script>
-        var CURRENT_PAGE = @Html.Raw(Model.ToJson());
+        var CURRENT_PAGE = {};
     </script>
     @{ 
         var currentTypeFullName = Model.GetType().FullName;
