@@ -1,6 +1,7 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
 using EPiServer.Web.Mvc;
@@ -34,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                 StartPage = currentPage,
                 Promotions = GetActivePromotions()
             };
-
+            ViewData["CURRENT_PAGE"] = viewModel.ToJson(); // Todo: Transfer this to component.for Rendering
             return View(viewModel);
         }
 
