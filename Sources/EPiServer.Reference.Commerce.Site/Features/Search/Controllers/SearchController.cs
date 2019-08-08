@@ -2,6 +2,7 @@
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
 
@@ -25,6 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult Index(SearchPage currentPage, FilterOptionViewModel filterOptions)
         {
             var viewModel = _viewModelFactory.Create(currentPage, filterOptions);
+            ViewData["CURRENT_PAGE"] = viewModel.ToJson(); // Todo: Transfer this to component.for Rendering
 
             return View(viewModel);
         }

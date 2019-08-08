@@ -9,7 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.ViewModels
 {
     public class StartPageViewModel
     {
-        [JsonIgnore]
         public StartPage StartPage { get; set; }
         public IEnumerable<PromotionViewModel> Promotions { get; set; }
         public IEnumerable<Recommendation> Recommendations { get; set; }
