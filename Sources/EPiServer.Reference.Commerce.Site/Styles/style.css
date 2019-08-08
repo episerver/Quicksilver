@@ -9258,37 +9258,37 @@ fieldset[disabled] .btn-yahoo.active {
   font-family: 'Arapey';
   font-style: italic;
   font-weight: 400;
-  src: local('Arapey Italic'), local('Arapey-Italic'), url(http://fonts.gstatic.com/s/arapey/v7/-W_9XJn-UDDA2RCKZeofTkM.ttf) format('truetype');
+  src: local('Arapey Italic'), local('Arapey-Italic'), url(http://fonts.gstatic.com/s/arapey/v8/-W_9XJn-UDDA2RCKZeofTkM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Arapey';
   font-style: normal;
   font-weight: 400;
-  src: local('Arapey Regular'), local('Arapey-Regular'), url(http://fonts.gstatic.com/s/arapey/v7/-W__XJn-UDDA2RCKYNoY.ttf) format('truetype');
+  src: local('Arapey Regular'), local('Arapey-Regular'), url(http://fonts.gstatic.com/s/arapey/v8/-W__XJn-UDDA2RCKYNoY.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cookie';
   font-style: normal;
   font-weight: 400;
-  src: local('Cookie-Regular'), url(http://fonts.gstatic.com/s/cookie/v10/syky-y18lb0tSbf9kgqX.ttf) format('truetype');
+  src: local('Cookie-Regular'), url(http://fonts.gstatic.com/s/cookie/v11/syky-y18lb0tSbf9kgqX.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 400;
-  src: local('Raleway'), local('Raleway-Regular'), url(http://fonts.gstatic.com/s/raleway/v13/1Ptug8zYS_SKggPNyC0ISg.ttf) format('truetype');
+  src: local('Raleway'), local('Raleway-Regular'), url(http://fonts.gstatic.com/s/raleway/v14/1Ptug8zYS_SKggPNyC0ISg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 500;
-  src: local('Raleway Medium'), local('Raleway-Medium'), url(http://fonts.gstatic.com/s/raleway/v13/1Ptrg8zYS_SKggPNwN4rWqZPBQ.ttf) format('truetype');
+  src: local('Raleway Medium'), local('Raleway-Medium'), url(http://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwN4rWqZPBQ.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 700;
-  src: local('Raleway Bold'), local('Raleway-Bold'), url(http://fonts.gstatic.com/s/raleway/v13/1Ptrg8zYS_SKggPNwJYtWqZPBQ.ttf) format('truetype');
+  src: local('Raleway Bold'), local('Raleway-Bold'), url(http://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwJYtWqZPBQ.ttf) format('truetype');
 }
 html {
   min-height: 100%;
