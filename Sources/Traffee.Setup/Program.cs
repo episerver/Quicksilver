@@ -67,7 +67,11 @@ namespace Traffee.Setup
 
             ServerManager manager = new ServerManager();
 
-            if (manager.Sites.FirstOrDefault(site => site.Name.Equals(name)) != null) return true;
+            if (manager.Sites.FirstOrDefault(site => site.Name.Equals(name)) != null)
+            {
+                WriteLine($"Site '{name}' already present in IIS.");
+                return true;
+            }
 
             Site defaultSite = manager.Sites.Add(
                 name: name,
