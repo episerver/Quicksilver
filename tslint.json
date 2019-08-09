@@ -13,7 +13,13 @@
     }
   },
   "rules": {
-    "prettier": true,
+    "prettier": [
+      true,
+      {
+        "singleQuote": true,
+        "tabWidth": 2
+      }
+    ],
     "indent": [ true, "spaces", 2 ],
     "no-unused-expression": true,
     "max-line-length": {

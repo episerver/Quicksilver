@@ -427,6 +427,7 @@
     <Compile Include="Features\Recommendations\ViewModels\RecommendationsViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Shared\Controllers\StandardPageController.cs" />
+    <Compile Include="Features\Shared\Extensions\ContentAreaExtensions.cs" />
     <Compile Include="Features\Shared\Extensions\JsonSerializerExtensions.cs" />
     <Compile Include="Features\Shared\Services\CatalogContentService.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryRegionViewModel.cs" />
@@ -558,10 +559,11 @@
     <Compile Include="Infrastructure\Facades\SearchFacade.cs" />
     <Compile Include="Infrastructure\Facades\UrlAuthorizationFacade.cs" />
     <Compile Include="Features\Shared\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\JsonConverters\XhtmlStringJsonConverter.cs" />
     <Compile Include="Infrastructure\JsonConverters\TempConverter.cs" />
     <Compile Include="Infrastructure\OrderEventListener.cs" />
     <Compile Include="Infrastructure\Owin\AuthorizationServerProvider.cs" />
-    <Compile Include="Infrastructure\React\ReactComponent.cs" />
+    <Compile Include="Infrastructure\React\Component.cs" />
     <Compile Include="Infrastructure\SiteImport\CreateOrdersStep.cs" />
     <Compile Include="Infrastructure\SiteImport\Templates.cs" />
     <Compile Include="Infrastructure\SiteImport\ImportSiteContentStep.cs" />
@@ -807,6 +809,7 @@
     <Content Include="Views\RegistrationConfirmationMail\Index.cshtml" />
     <Content Include="Views\ProfilePage\EditOptins.cshtml" />
     <Content Include="Views\Login\Unapproved.cshtml" />
+    <Content Include="Views\Shared\_Empty.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

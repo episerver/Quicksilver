@@ -7,7 +7,6 @@
 @using EPiServer.Web.Routing
 @using System.Web.Optimization
 
-@model  object
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"> </script>
     <![endif]-->
     <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
-    <script src="~/scripts/assets/main.bundle.css"></script>
+    <link src="~/scripts/assets/main.bundle.css" rel="stylesheet" />
     @{
         var requestLang = ViewContext.RequestContext.GetLanguage();
         if (!string.IsNullOrEmpty(requestLang))
@@ -39,28 +38,9 @@
     }
     @Html.RequiredClientResources("Header")
     @Html.LoadTrackingAPI()
-    <script>
-         var CURRENT_PAGE = @Html.Raw(ViewData["CURRENT_PAGE"]);
-    </script>
-    @{ 
-        var currentTypeFullName = Model.GetType().FullName;
-    }
-    @if (Model.GetType().IsGenericType)
-    {
-        <script>
-            var CURRENT_TYPE = "@currentTypeFullName.Substring(0,currentTypeFullName.IndexOf("`"))";
-        </script>
-    }
-    else
-    {
-        <script>
-            var CURRENT_TYPE = "@currentTypeFullName";
-        </script>
-    }
 </head>
 <body>
     @Html.RenderEPiServerQuickNavigator()
-    <div id="main-content"></div>
     @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
     {
         // Add element to make room for quick navigator.
@@ -73,6 +53,7 @@
     </div>
     @{ Html.RenderAction("Index", "Navigation"); }
     <div class="quicksilver site-wrapper">
+        <div id="main-content"></div>
         <div class="main-area">@RenderBody()</div>
         <div class="recommendations recommendations-upper">@RenderSection("UpperRecommendations", false)</div>
         <div class="recommendations recommendations-left">@RenderSection("LeftMarginRecommendations", false)</div>

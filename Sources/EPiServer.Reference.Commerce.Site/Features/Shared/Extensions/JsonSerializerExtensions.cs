@@ -16,23 +16,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             NullValueHandling = NullValueHandling.Ignore,
             Converters = new List<JsonConverter> {
+                new XhtmlStringJsonConverter(),
                 new TempConverter<ContentReference>(),
                 new TempConverter<PageReference>(),
                 new TempConverter<LinkItemCollection>(),
-                new TempConverter<BlockData>(),
-                new TempConverter<XhtmlString>(),
-                new TempConverter<ContentArea>(),
                 new TempConverter<PropertyContentReference>(),
                 new TempConverter<Url>(),
             }
         };
-
-        public static string ToJson<T>(this T @object) where T : class
-        => JsonConvert.SerializeObject(
-            @object,
-            @object.GetType(),
-            Formatting.None,
-            JsonSerializerSettings
-        );
+        public static readonly JsonSerializer JsonSerializer = JsonSerializer.Create(JsonSerializerSettings);
     }
 }

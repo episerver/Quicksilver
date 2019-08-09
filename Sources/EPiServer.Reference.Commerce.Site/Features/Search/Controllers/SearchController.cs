@@ -26,8 +26,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult Index(SearchPage currentPage, FilterOptionViewModel filterOptions)
         {
             var viewModel = _viewModelFactory.Create(currentPage, filterOptions);
-            ViewData["CURRENT_PAGE"] = viewModel.ToJson(); // Todo: Transfer this to component.for Rendering
-
             return View(viewModel);
         }
 
