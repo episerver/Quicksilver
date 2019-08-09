@@ -1,4 +1,5 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Folder.Editorial.Blocks;
+using EPiServer.Reference.Commerce.Site.Infrastructure.React;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
 
@@ -9,7 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Folder.Editorial.Controller
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public override ActionResult Index(FreeTextBlock currentBlock)
         {
-            return PartialView(currentBlock);
+            return Component.RenderBlock(currentBlock);
         }
     }
 }

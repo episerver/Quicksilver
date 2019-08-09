@@ -1,8 +1,10 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
+using EPiServer.Reference.Commerce.Site.Infrastructure.React;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
 using System.Collections.Generic;
@@ -27,15 +29,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             _marketContentFilter = marketContentFilter;
         }
 
-        public ViewResult Index(StartPage currentPage)
+        public ActionResult Index(StartPage currentPage)
         {
             var viewModel = new StartPageViewModel()
             {
                 StartPage = currentPage,
                 Promotions = GetActivePromotions()
             };
-
-            return View(viewModel);
+            //ViewData["CURRENT_PAGE"] = viewModel.ToJson(); // Todo: Transfer this to component.for Rendering
+            return Component.RenderPage(viewModel);
         }
 
         private IEnumerable<PromotionViewModel> GetActivePromotions()

@@ -143,5 +143,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.MailTemplates,
             Order = 3)]
         public virtual ContentReference RegistrationConfirmationMail { get; set; }
+
+        [Display(
+            Name = "TestContentArea",
+            Description = "",
+            Order = 20)]
+        public virtual ContentArea TestContentArea { get; set; }
     }
 }

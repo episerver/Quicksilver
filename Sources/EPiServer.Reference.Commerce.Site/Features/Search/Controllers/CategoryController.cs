@@ -1,6 +1,7 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
 
@@ -20,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ViewResult Index(FashionNode currentContent, FilterOptionViewModel viewModel)
         {
             var model = _viewModelFactory.Create(currentContent, viewModel);
-         
+           
             return View(model);
         }
 

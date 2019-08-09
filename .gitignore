@@ -184,3 +184,5 @@ FakesAssemblies/
 # VS2015 settings folder
 .vs
 
+/webpack.config.js
+/Sources/EPiServer.Reference.Commerce.Site/Scripts/assets

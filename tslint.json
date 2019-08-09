@@ -1,0 +1,80 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react-hooks",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {
+    "max-line-length": {
+      "options": [
+        500
+      ]
+    }
+  },
+  "rules": {
+    "prettier": [
+      true,
+      {
+        "singleQuote": true,
+        "tabWidth": 2
+      }
+    ],
+    "indent": [ true, "spaces", 2 ],
+    "no-unused-expression": true,
+    "max-line-length": {
+      "options": [
+        500
+      ]
+    },
+    "interface-name": [
+      false
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+    "no-unused-variable": [
+      true,
+      {
+        "ignore-pattern": "^React$"
+      }
+    ],
+    "max-classes-per-file": false,
+    "member-access": false,
+    "interface-over-type-literal": false,
+    "no-shadowed-variable": false,
+    "no-string-literal": false,
+    "space-before-function-paren": false,
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
+    "no-bitwise": true,
+    "no-conditional-assignment": false,
+    "no-consecutive-blank-lines": false,
+    "no-namespace": false,
+    "no-reference": false,
+    "no-return-await": true,
+    "no-console": {
+      "options": [
+        "debug",
+        "info",
+        "log",
+        "time",
+        "timeEnd",
+        "trace"
+      ]
+    },
+    "react-hooks-nesting": "error"
+  },
+  "linterOptions": {
+    "exclude": [
+      "Client/Generated",
+      "wwwroot"
+    ]
+  }
+}
