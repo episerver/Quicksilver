@@ -12,7 +12,14 @@ const AvailableTypes: { [key: string]: React.LazyExoticComponent<any> } = {
       import(
         /* webpackChunkName: "SearchViewModel" */ 'features/Search/ViewModels/SearchViewModel'
       )
+  ),
+  'EPiServer.Reference.Commerce.Site.Features.Folder.Editorial.Blocks.FreeTextBlock': React.lazy(
+    () =>
+      import(
+        /* webpackChunkName: "SearchViewModel" */ 'features/Folder/Editorial/Blocks/FreeTextBlock'
+      )
   )
+
 };
 
 export default AvailableTypes;

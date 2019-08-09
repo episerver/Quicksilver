@@ -8,6 +8,7 @@ using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
 using Mediachase.Commerce;
 using Moq;
 using System.Linq;
+using System.Web.Mvc;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
@@ -20,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             var controller = CreateController();
             var currentPage = new StartPage();
 
-            var result = controller.Index(currentPage);
+            var result = controller.Index(currentPage) as ViewResult;
 
             Assert.Equal(currentPage, ((StartPageViewModel)result.Model).StartPage);
         }
@@ -30,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
         {
             var controller = CreateController();
 
-            var result = controller.Index(new StartPage());
+            var result = controller.Index(new StartPage()) as ViewResult;
 
             Assert.Equal(Enumerable.Empty<PromotionViewModel>(), ((StartPageViewModel)result.Model).Promotions);
         }
@@ -49,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
                     new PromotionItems(firstPromotion, catalogItemSelectionMock.Object, catalogItemSelectionMock.Object),
                     new PromotionItems(secondPromotion, catalogItemSelectionMock.Object, catalogItemSelectionMock.Object) });
 
-            var result = controller.Index(new StartPage());
+            var result = controller.Index(new StartPage()) as ViewResult;
 
             Assert.Equal(firstPromotion.Name, ((StartPageViewModel)result.Model).Promotions.First().Name);
             Assert.Equal(secondPromotion.Name, ((StartPageViewModel)result.Model).Promotions.Last().Name);
