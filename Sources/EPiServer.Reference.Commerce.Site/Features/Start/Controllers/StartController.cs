@@ -36,7 +36,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                 StartPage = currentPage,
                 Promotions = GetActivePromotions()
             };
-            //ViewData["CURRENT_PAGE"] = viewModel.ToJson(); // Todo: Transfer this to component.for Rendering
             return Component.RenderPage(viewModel);
         }
 

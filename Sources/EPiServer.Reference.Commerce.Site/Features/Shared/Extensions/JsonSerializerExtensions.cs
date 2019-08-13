@@ -17,11 +17,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             NullValueHandling = NullValueHandling.Ignore,
             Converters = new List<JsonConverter> {
                 new XhtmlStringJsonConverter(),
-                new TempConverter<ContentReference>(),
-                new TempConverter<PageReference>(),
-                new TempConverter<LinkItemCollection>(),
-                new TempConverter<PropertyContentReference>(),
-                new TempConverter<Url>(),
+                new ContentReferenceJsonConverter(),
+                new LinkItemCollectionJsonConverter(),
+                new ExcludeJsonConverter<PropertyContentReference>(),
+                new ExcludeJsonConverter<PropertyDataCollection>()
             }
         };
         public static readonly JsonSerializer JsonSerializer = JsonSerializer.Create(JsonSerializerSettings);

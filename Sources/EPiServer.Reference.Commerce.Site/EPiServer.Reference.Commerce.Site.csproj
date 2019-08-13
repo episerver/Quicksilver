@@ -445,6 +445,7 @@
     <Compile Include="Features\Shared\Services\ControllerExceptionHandler.cs" />
     <Compile Include="Features\ResetPassword\Controllers\ResetPasswordController.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryViewModel.cs" />
+    <Compile Include="Features\Shared\ViewModels\LinkItemViewModel.cs" />
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\Shared\ViewModels\StandardPageViewModel.cs" />
     <Compile Include="Features\Shared\Pages\StandardPage.cs" />
@@ -559,8 +560,10 @@
     <Compile Include="Infrastructure\Facades\SearchFacade.cs" />
     <Compile Include="Infrastructure\Facades\UrlAuthorizationFacade.cs" />
     <Compile Include="Features\Shared\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\JsonConverters\ContentReferenceJsonConverter.cs" />
+    <Compile Include="Infrastructure\JsonConverters\LinkItemCollectionJsonConverter.cs" />
     <Compile Include="Infrastructure\JsonConverters\XhtmlStringJsonConverter.cs" />
-    <Compile Include="Infrastructure\JsonConverters\TempConverter.cs" />
+    <Compile Include="Infrastructure\JsonConverters\ExcludeJsonConverter.cs" />
     <Compile Include="Infrastructure\OrderEventListener.cs" />
     <Compile Include="Infrastructure\Owin\AuthorizationServerProvider.cs" />
     <Compile Include="Infrastructure\React\Component.cs" />
