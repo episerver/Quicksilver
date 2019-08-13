@@ -28,6 +28,8 @@ namespace Traffee.Setup
              *      - or any combination
              *      - otherwise, all setup will be run.
              */
+            RunNodeSetup();
+            return;
             bool runAll = args is null || args.Length.Equals(0);
 
             if (runAll)
@@ -157,7 +159,7 @@ namespace Traffee.Setup
         }
         static bool SetupNodeJS()
         {
-            RunProcess("SetupNode.cmd");
+            RunProcess("SetupNode.cmd", true);
             WriteLine("");
             WriteLine("Node.js installed!");
             return true;
@@ -189,20 +191,27 @@ namespace Traffee.Setup
                     process.StartInfo.WorkingDirectory = appdirectory;
                     process.StartInfo.FileName = $"{appdirectory}{command}";
 
-                    if (readOutput) process.StartInfo.RedirectStandardOutput = true;
+                    if (readOutput)
+                    {
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
+                        {
+                            output += $"Error: {e.Data}";
+                        };
+                        process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => 
+                        {
+                            WriteLine(e.Data);
+                            output += $"{e.Data}";
+                        };
+                    }
 
                     process.Start();
+                    process.BeginOutputReadLine();
                     process.WaitForExit();
-
-                    if (readOutput) output = process.StandardOutput.ReadToEnd();
                 }
 
-                if (readOutput && !string.IsNullOrWhiteSpace(output))
-                {
-                    WriteLine(output);
-
-                    if (!output.ToLower().Contains("done installing databases.")) return false;
-                }
+                if (readOutput && !string.IsNullOrWhiteSpace(output) && !output.ToLower().Contains("done installing databases."))
+                    return false;
             }
             catch (Exception ex)
             {
@@ -210,6 +219,11 @@ namespace Traffee.Setup
             }
 
             return true;
+        }
+
+        private static void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
