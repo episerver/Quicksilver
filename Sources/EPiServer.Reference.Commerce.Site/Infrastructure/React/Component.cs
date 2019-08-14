@@ -15,14 +15,20 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.React
             var jObject = JObject.FromObject(content, JsonSerializerExtensions.JsonSerializer);
             if (!jObject.ContainsKey("$component"))
             {
-                if(content is ContentData)
+                var fullname = string.Empty;
+                if (content is ContentData)
                 {
-                    jObject.AddFirst(new JProperty("$component", (content as ContentData).GetOriginalType().FullName));
+                    fullname = (content as ContentData).GetOriginalType().FullName;
                 }
                 else
                 {
-                    jObject.AddFirst(new JProperty("$component", content.GetType().FullName));
+                    fullname = content.GetType().FullName;
                 }
+                if (fullname.Contains("`"))
+                {
+                    fullname = fullname.Substring(0, fullname.IndexOf('`'));
+                }
+                jObject.AddFirst(new JProperty("$component", fullname));
             }
             return jObject;
         }
