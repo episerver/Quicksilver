@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Infrastructure.JsonConverters;
-using EPiServer.SpecializedProperties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -14,7 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             Formatting = Formatting.None,
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
             Converters = new List<JsonConverter> {
                 new XhtmlStringJsonConverter(),
                 new ContentReferenceJsonConverter(),

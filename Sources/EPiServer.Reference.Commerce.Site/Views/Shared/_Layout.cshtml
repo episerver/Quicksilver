@@ -51,7 +51,6 @@
     <div class="cookies jsCookies" style="display: none">
         @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
     </div>
-    @{ Html.RenderAction("Index", "Navigation"); }
     <div class="quicksilver site-wrapper">
         <div id="main-content"></div>
         <div class="main-area">@RenderBody()</div>

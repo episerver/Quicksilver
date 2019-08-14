@@ -1,6 +1,5 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using Newtonsoft.Json.Linq;
-using System.Text;
 using System.Web;
 using System.Linq;
 using System.Web.Mvc;
@@ -55,12 +54,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.React
             };
         }
 
-        public static ActionResult RenderBlock<TContent>(TContent content) where TContent : class
+        public static ActionResult RenderJson<TContent>(TContent content) where TContent : class
         {
-            return new JsonResult
+            return new ContentResult
             {
-                Data = SerializeContent(content),
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Content = SerializeContent(content).ToString(),
+                ContentType = "application/json",
             };
         }
     }

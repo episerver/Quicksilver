@@ -58,9 +58,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.JsonConverters
 
                 var controller = ServiceLocator.Current.GetInstance(typeOfController) as ActionControllerBase;
                 var indexMethod = typeOfController.GetMethod("Index");
-                var indexResult = indexMethod.Invoke(controller, new[] { block }) as JsonResult;
+                var indexResult = indexMethod.Invoke(controller, new[] { block }) as ContentResult;
 
-                items.Add(indexResult.Data);
+                items.Add(JsonConvert.DeserializeObject(indexResult.Content));
             }
 
             result.Add(new JProperty("items", JArray.FromObject(items, serializer)));

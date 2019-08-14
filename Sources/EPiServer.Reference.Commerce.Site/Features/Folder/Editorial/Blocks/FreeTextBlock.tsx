@@ -7,7 +7,6 @@ export interface IXhtmlString extends IEpiProperty {
 }
 
 export default (props) => {
-    console.log('THE BLOCK', props);
   return <div>
       The Free Text
         <EpiProperty for={props.mainBody} />

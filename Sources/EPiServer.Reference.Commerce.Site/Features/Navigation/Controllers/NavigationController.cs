@@ -4,6 +4,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Reference.Commerce.Site.Infrastructure.React;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web.Mvc.Html;
 using System.Web.Mvc;
@@ -71,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
                 });
             }
 
-            return PartialView(viewModel);
+            return Component.RenderJson(viewModel);
         }
     }
 }
