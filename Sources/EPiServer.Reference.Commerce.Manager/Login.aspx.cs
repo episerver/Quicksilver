@@ -1,6 +1,5 @@
 ﻿using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Reference.Commerce.Shared.Identity;
-using Mediachase.Commerce.Core;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Web;
