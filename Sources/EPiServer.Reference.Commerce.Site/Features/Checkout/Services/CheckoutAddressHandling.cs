@@ -96,9 +96,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             LoadBillingAddressFromAddressBook(viewModel);
             LoadShippingAddressesFromAddressBook(viewModel);
-            if (viewModel.UseBillingAddressForShipment)
+            if (viewModel.UseBillingAddressForShipment || viewModel.Shipments.Any(s => string.IsNullOrEmpty(s.Address?.Name)))
             {
-                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
+                foreach (var item in viewModel.Shipments)
+                {
+                    item.Address = viewModel.BillingAddress;
+                }
             }
         }
 
@@ -106,10 +109,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             SetDefaultBillingAddressName(viewModel);
 
-            if (viewModel.UseBillingAddressForShipment)
+            if (viewModel.UseBillingAddressForShipment || viewModel.Shipments.Any(s => string.IsNullOrEmpty(s.Address?.Name)))
             {
                 SetDefaultShippingAddressesNames(viewModel);
-                viewModel.Shipments.Single().Address = viewModel.BillingAddress;
+                foreach (var item in viewModel.Shipments)
+                {
+                    item.Address = viewModel.BillingAddress;
+                }
+                
             }
         }
     }

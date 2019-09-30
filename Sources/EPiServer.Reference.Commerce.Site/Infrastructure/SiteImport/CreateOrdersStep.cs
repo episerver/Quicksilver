@@ -184,7 +184,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
 
             foreach (var item in orderGroup.Details)
             {
-                _cartService.AddToCart(order, item.SKU, item.Quantity);
+                _cartService.AddToCart(order, item.SKU, null, item.Quantity);
             }
 
             _orderValidationService.ValidateOrder(order);

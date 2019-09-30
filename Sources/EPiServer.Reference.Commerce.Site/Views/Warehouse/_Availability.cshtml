@@ -10,7 +10,7 @@
             using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "warehouse", data_container = "MiniCart" }))
             {
 
-                <div class="btn-group btn-group-sm">
+                <div class="btn-group btn-group-sm btn-group-vertical">
                     <button type="button"
                             class="btn btn-sm btn-default warehouse-quickview-button"
                             data-target="#ModalDialog"
@@ -23,6 +23,13 @@
                     </button>
                     <input type="hidden" class="skuCode" value="@warehouse.SkuCode" />
                     <input type="hidden" class="warehouseCode" value="@warehouse.WarehouseCode" />
+
+                    @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
+                    {
+                        @Html.Hidden("code", @warehouse.SkuCode)
+                        @Html.Hidden("warehouseCode", @warehouse.WarehouseCode)
+                        <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                    }
                 </div>
             }
         }

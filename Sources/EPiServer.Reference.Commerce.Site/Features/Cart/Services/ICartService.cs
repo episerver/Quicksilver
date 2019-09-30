@@ -11,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
     public interface ICartService
     {
-        AddToCartResult AddToCart(ICart cart, string code, decimal quantity);
+        AddToCartResult AddToCart(ICart cart, string code, string warehouseCode, decimal quantity);
         CartChangeData ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize, string displayName);
         void SetCartCurrency(ICart cart, Currency currency);
         IDictionary<ILineItem, IList<ValidationIssue>> RequestInventory(ICart cart);

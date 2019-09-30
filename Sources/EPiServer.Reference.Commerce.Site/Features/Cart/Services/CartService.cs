@@ -192,7 +192,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-        public AddToCartResult AddToCart(ICart cart, string code, decimal quantity)
+        public AddToCartResult AddToCart(ICart cart, string code, string warehouseCode, decimal quantity)
         {
             var result = new AddToCartResult();
             var contentLink = _referenceConverter.GetContentLink(code);
@@ -203,7 +203,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 foreach (var relation in _relationRepository.GetChildren<BundleEntry>(contentLink))
                 {
                     var entry = _contentLoader.Get<EntryContentBase>(relation.Child);
-                    var recursiveResult = AddToCart(cart, entry.Code, relation.Quantity ?? 1);
+                    var recursiveResult = AddToCart(cart, entry.Code, warehouseCode, relation.Quantity ?? 1);
                     if (recursiveResult.EntriesAddedToCart)
                     {
                         result.EntriesAddedToCart = true;
@@ -218,16 +218,65 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 return result;
             }
 
-            var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code && !x.IsGift);
+            ILineItem lineItem = null;
 
-            if (lineItem == null)
+            if (!string.IsNullOrEmpty(warehouseCode))
             {
-                lineItem = AddNewLineItem(cart, code, quantity, entryContent.DisplayName);
+                IShipment shipment = null;
+                if (cart.GetFirstForm().Shipments.Count == 1 && string.IsNullOrEmpty(cart.GetFirstForm().Shipments.First().WarehouseCode))
+                {
+                    shipment = cart.GetFirstForm().Shipments.First();
+                    shipment.WarehouseCode = warehouseCode;
+                }
+                else
+                {
+                    shipment = cart.GetFirstForm().Shipments.FirstOrDefault(s => s.WarehouseCode.Equals(warehouseCode, StringComparison.CurrentCultureIgnoreCase));
+                }
+                if (shipment == null)
+                {
+                    shipment = cart.CreateShipment(_orderGroupFactory);
+                    shipment.WarehouseCode = warehouseCode;
+                    cart.AddShipment(shipment);
+                }
+
+                lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code && !x.IsGift);
+
+                if (lineItem == null)
+                {
+                    //this is just like AddNewLineItem but doesn't add there - adds to shipment instead
+                    lineItem = cart.CreateLineItem(code, _orderGroupFactory);
+                    lineItem.Quantity = quantity;
+                    lineItem.DisplayName = entryContent.DisplayName;
+                    //cart.AddLineItem(newLineItem, _orderGroupFactory);
+
+                    var price = _pricingService.GetPrice(code);
+                    if (price != null)
+                    {
+                        lineItem.PlacedPrice = price.UnitPrice.Amount;
+                    }
+
+                    cart.AddLineItem(shipment, lineItem);
+
+                }
+                else
+                {
+                    cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
+                }
+
             }
             else
             {
-                var shipment = cart.GetFirstShipment();
-                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
+                lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code && !x.IsGift);
+
+                if (lineItem == null)
+                {
+                    lineItem = AddNewLineItem(cart, code, quantity, entryContent.DisplayName);
+                }
+                else
+                {
+                    var shipment = cart.GetFirstShipment();
+                    cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
+                }
             }
 
             var validationIssues = ValidateCart(cart);
