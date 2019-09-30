@@ -93,14 +93,14 @@
         var form = $(this).closest("form");
         var formContainer = $("#" + form.data("container"));
         var skuCode = $("#code", form).val();
-
+        var warehouseCode = $("#warehouseCode", form).val();
         $("#CartWarningMessage").hide()
         $(".warning-message", $("#CartWarningMessage")).html("");
 
         $.ajax({
             type: "POST",
             url: form[0].action,
-            data: { code: skuCode },
+            data: { code: skuCode, warehouseCode: warehouseCode },
             success: function (result) {
 
                 formContainer.html($(result));

@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        public async Task<ActionResult> AddToCart(string code)
+        public async Task<ActionResult> AddToCart(string code, string warehouseCode)
         {
             ModelState.Clear();
 
@@ -58,7 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
             }
 
-            var result = _cartService.AddToCart(Cart, code, 1);
+            var result = _cartService.AddToCart(Cart, code, warehouseCode, 1);
             if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(Cart);

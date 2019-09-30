@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
         private bool ValidateBillingAddress(ModelStateDictionary modelState, CheckoutViewModel viewModel)
         {
-            if (viewModel.UseBillingAddressForShipment)
+            if (viewModel.UseBillingAddressForShipment || viewModel.Shipments.Count > 1)
             {
                 foreach (var state in modelState.Where(x => x.Key.StartsWith("Shipments")).ToArray())
                 {
