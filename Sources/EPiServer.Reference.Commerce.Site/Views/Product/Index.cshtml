@@ -138,7 +138,7 @@
             }
             productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
-            epiRecommendations.track(productTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 3 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] })
+            epiRecommendations.track(productTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 3 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] })
         });
     </script>
     }

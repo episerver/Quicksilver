@@ -37,7 +37,7 @@
 
                     searchResultTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
-                    epiRecommendations.track(searchResultTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "searchWidget", selector: ".recommendations-bottom" }] });
+                    epiRecommendations.track(searchResultTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "searchWidget", selector: ".recommendations-bottom" }] });
                 });
         </script>
     }

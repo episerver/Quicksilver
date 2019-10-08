@@ -49,7 +49,7 @@
         <script>
             $(document).ready(function () {
                 var homeTrackingData = TrackingDataFactory.createHomeTrackingData();
-                epiRecommendations.track(homeTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] })
+                epiRecommendations.track(homeTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] })
             });
         </script>
     }

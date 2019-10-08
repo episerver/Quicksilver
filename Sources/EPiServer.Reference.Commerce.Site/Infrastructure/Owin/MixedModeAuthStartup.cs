@@ -165,6 +165,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
                 AllowInsecureHttp = true,
 
             });
+
+            // In case the site uses ServiceAPI, replace the below config with app.UseServiceApiIdentityTokenAuthorization<ApplicationUserManager<SiteUser>, SiteUser>(); 
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
 

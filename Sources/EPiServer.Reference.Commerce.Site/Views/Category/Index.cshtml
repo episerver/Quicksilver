@@ -36,7 +36,7 @@
             var categoryTrackingData = TrackingDataFactory.createCategoryTrackingData(categoryCode);
             categoryTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
-            epiRecommendations.track(categoryTrackingData, null, Recommendations.render, { sectionMappings: [{ area: "categoryWidget", selector: ".recommendations-bottom" }] });
+            epiRecommendations.track(categoryTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "categoryWidget", selector: ".recommendations-bottom" }] });
         });
         </script>
     }

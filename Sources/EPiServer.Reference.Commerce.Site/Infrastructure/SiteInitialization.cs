@@ -28,7 +28,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
-using EPiServer.Personalization.Common;
 using EPiServer.Personalization.Commerce.Tracking;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure

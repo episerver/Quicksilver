@@ -227,7 +227,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             else
             {
                 var shipment = cart.GetFirstShipment();
-                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
+                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity, _referenceConverter, _contentLoader);
             }
 
             var validationIssues = ValidateCart(cart);
@@ -369,7 +369,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             if (newLineItem != null)
             {
                 var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId == 0);
-                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
+                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity, _referenceConverter, _contentLoader);
             }
             else
             {
@@ -404,25 +404,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 return;
             }
 
-            var entry = lineItem.GetEntryContent(_referenceConverter, _contentLoader);
-            var stock = entry as IStockPlacement;
-            var adjustQuantity = quantity;
-
-            if (!lineItem.IsInventoryAllocated && stock != null)
-            {
-                var usingQuantityInOtherShipment = lineItem.ParentOrderGroup.Forms
-                    .SelectMany(form => form.Shipments.Where(x => x.ShipmentId != shipmentId)
-                    .SelectMany(s => s.LineItems)
-                    .Where(i => i.Code == lineItem.Code && i.LineItemId != lineItem.LineItemId && !i.IsGift))
-                    .Sum(l => l.Quantity);
-
-                if (stock.MaxQuantity.HasValue && (adjustQuantity + usingQuantityInOtherShipment > stock.MaxQuantity.Value))
-                {
-                    adjustQuantity = stock.MaxQuantity.Value - usingQuantityInOtherShipment;
-                }
-            }
-
-            cart.UpdateLineItemQuantity(shipment, lineItem, adjustQuantity);
+            cart.UpdateLineItemQuantity(shipment, lineItem, quantity, _referenceConverter, _contentLoader);
             ValidateCart(cart);
         }
 
