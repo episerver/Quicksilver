@@ -33,5 +33,15 @@ namespace EPiServer.Reference.Commerce.Site
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_EndRequest()
+        {
+            if (Context.Response.StatusCode == 302
+                && (Context.User == null || !Context.User.Identity.IsAuthenticated)
+                && Context.Request.Path.ToString().ToLower().Contains("/api/"))
+            {
+                Context.Response.StatusCode = 401;
+            }
+        }
     }
 }
