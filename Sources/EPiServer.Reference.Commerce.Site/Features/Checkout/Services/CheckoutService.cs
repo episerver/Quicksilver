@@ -1,6 +1,6 @@
-﻿using EPiServer.Commerce.Marketing;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Data;
 using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Shared.Services;
@@ -35,6 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         private readonly IMailService _mailService;
         private readonly ILogger _log = LogManager.GetLogger(typeof(CheckoutService));
         private readonly ICartService _cartService;
+        private readonly IDatabaseMode _databaseMode;
 
         public AuthenticatedPurchaseValidation AuthenticatedPurchaseValidation { get; }
         public AnonymousPurchaseValidation AnonymousPurchaseValidation { get; }
@@ -50,7 +51,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             CustomerContextFacade customerContext,
             LocalizationService localizationService,
             IMailService mailService, 
-            ICartService cartService)
+            ICartService cartService,
+            IDatabaseMode databaseMode)
         {
             _addressBookService = addressBookService;
             _orderGroupFactory = orderGroupFactory;
@@ -62,10 +64,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             _localizationService = localizationService;
             _mailService = mailService;
             _cartService = cartService;
+            _databaseMode = databaseMode;
 
             AuthenticatedPurchaseValidation = new AuthenticatedPurchaseValidation(_localizationService);
             AnonymousPurchaseValidation = new AnonymousPurchaseValidation(_localizationService);
-            CheckoutAddressHandling = new CheckoutAddressHandling(_addressBookService);
+            CheckoutAddressHandling = new CheckoutAddressHandling(_addressBookService, databaseMode);
         }
 
         public virtual void UpdateShippingMethods(ICart cart, IList<ShipmentViewModel> shipmentViewModels)
@@ -139,19 +142,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                     throw new InvalidOperationException("Wrong amount");
                 }
 
-                PurchaseValidation validation;
-                if (checkoutViewModel.IsAuthenticated)
+                if (!IsInReadOnlyMode())
                 {
-                    validation = AuthenticatedPurchaseValidation;
-                }
-                else
-                {
-                    validation = AnonymousPurchaseValidation;
-                }
-
-                if (!validation.ValidateOrderOperation(modelState,  _cartService.RequestInventory(cart)))
-                {
-                    return null;
+                    var validation = checkoutViewModel.IsAuthenticated ? AuthenticatedPurchaseValidation : (PurchaseValidation)AnonymousPurchaseValidation;
+                    if (!validation.ValidateOrderOperation(modelState, _cartService.RequestInventory(cart)))
+                    {
+                        return null;
+                    }
                 }
 
                 var orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
@@ -231,5 +228,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 viewModel.Message = message;
             }
         }
+
+        private bool IsInReadOnlyMode() => _databaseMode.DatabaseMode == DatabaseMode.ReadOnly;
     }
 }

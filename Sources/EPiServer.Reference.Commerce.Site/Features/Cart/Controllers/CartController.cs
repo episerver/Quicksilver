@@ -48,7 +48,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
-        [AllowDBWrite]
         public async Task<ActionResult> AddToCart(string code)
         {
             ModelState.Clear();
@@ -71,7 +70,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
-        [AllowDBWrite]
         public async Task<ActionResult> ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize, string displayName)
         {
             ModelState.Clear();
@@ -90,7 +88,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
-        [AllowDBWrite]
         public ActionResult UpdateShippingMethod(UpdateShippingMethodViewModel viewModel)
         {
             ModelState.Clear();

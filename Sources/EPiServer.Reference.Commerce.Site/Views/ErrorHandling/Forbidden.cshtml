@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Forbidden";
+}
+
+<h2>Forbidden</h2>
+<div class="alert alert-danger">
+    <p><strong>Whoops...</strong></p>
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p>
+    }
+    else
+    {
+        <p>There was an error</p>
+    }
+</div>

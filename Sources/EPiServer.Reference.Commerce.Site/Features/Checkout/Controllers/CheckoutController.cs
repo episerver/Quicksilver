@@ -1,5 +1,6 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Data;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
@@ -7,11 +8,13 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Recommendations.Services;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -30,6 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly OrderValidationService _orderValidationService;
         private ICart _cart;
         private readonly CheckoutService _checkoutService;
+        private readonly IDatabaseMode _databaseMode;
 
         public CheckoutController(
             ICurrencyService currencyService,
@@ -39,8 +43,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ICartService cartService,
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
             IRecommendationService recommendationService,
-            CheckoutService checkoutService, 
-            OrderValidationService orderValidationService)
+            CheckoutService checkoutService,
+            OrderValidationService orderValidationService,
+            IDatabaseMode databaseMode)
         {
             _currencyService = currencyService;
             _controllerExceptionHandler = controllerExceptionHandler;
@@ -51,6 +56,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _recommendationService = recommendationService;
             _checkoutService = checkoutService;
             _orderValidationService = orderValidationService;
+            _databaseMode = databaseMode;
         }
 
         [HttpGet]
@@ -92,11 +98,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         [HttpPost]
-        [AllowDBWrite]
         public ActionResult ChangeAddress(UpdateAddressViewModel addressViewModel)
         {
             ModelState.Clear();
+
             var viewModel = CreateCheckoutViewModel(addressViewModel.CurrentPage);
+
+            // Set random value for Name/Id if null.
+            if (addressViewModel.BillingAddress.AddressId == null)
+            {
+                addressViewModel.BillingAddress.Name = addressViewModel.BillingAddress.AddressId = Guid.NewGuid().ToString();
+            }
+
+            foreach (var shipment in addressViewModel.Shipments.Where(x => x.Address.AddressId == null))
+            {
+                shipment.Address.Name = shipment.Address.AddressId = Guid.NewGuid().ToString();
+            }
+
             _checkoutService.CheckoutAddressHandling.ChangeAddress(viewModel, addressViewModel);
 
             _checkoutService.UpdateShippingAddresses(Cart, viewModel);
@@ -136,9 +154,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var viewModel = CreateCheckoutViewModel(currentPage);
             return View(viewModel.ViewName, viewModel);
         }
-        
+
         [HttpPost]
-        [AllowDBWrite]
         public ActionResult Purchase(CheckoutViewModel viewModel, IPaymentMethod paymentMethod)
         {
             if (CartIsNullOrEmpty())
@@ -150,20 +167,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             viewModel.IsAuthenticated = User.Identity.IsAuthenticated;
 
+
+
             _checkoutService.CheckoutAddressHandling.UpdateUserAddresses(viewModel);
 
             if (!_checkoutService.ValidateOrder(ModelState, viewModel, _orderValidationService.ValidateOrder(Cart)))
             {
                 return View(viewModel);
             }
-            
+
             if (!paymentMethod.ValidateData())
             {
                 return View(viewModel);
             }
 
             _checkoutService.UpdateShippingAddresses(Cart, viewModel);
-            
+
             _checkoutService.CreateAndAddPaymentToCart(Cart, viewModel);
 
             var purchaseOrder = _checkoutService.PlaceOrder(Cart, ModelState, viewModel);
@@ -176,7 +195,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 return View(viewModel);
             }
-            
+
             var confirmationSentSuccessfully = _checkoutService.SendConfirmation(viewModel, purchaseOrder);
 
             return Redirect(_checkoutService.BuildRedirectionUrl(viewModel, purchaseOrder, confirmationSentSuccessfully));
@@ -208,7 +227,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         private CheckoutViewModel CreateCheckoutViewModel(CheckoutPage currentPage, IPaymentMethod paymentMethod = null)
         {
-            return _checkoutViewModelFactory.CreateCheckoutViewModel(Cart, currentPage, paymentMethod);
+            var checkoutViewModel = _checkoutViewModelFactory.CreateCheckoutViewModel(Cart, currentPage, paymentMethod);
+            return checkoutViewModel;
         }
 
         private ICart Cart => _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName));

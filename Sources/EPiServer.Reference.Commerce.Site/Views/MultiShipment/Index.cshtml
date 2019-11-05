@@ -26,7 +26,7 @@
                 @for (int index = 0; index < Model.CartItems.Length; index++)
                 {
                     @Html.HiddenFor(model => model.CartItems[index].Code);
-					@Html.HiddenFor(model => model.CartItems[index].DisplayName);
+                    @Html.HiddenFor(model => model.CartItems[index].DisplayName);
                     @Html.HiddenFor(model => model.CartItems[index].Quantity);
                     @Html.HiddenFor(model => model.CartItems[index].IsGift);
 
@@ -72,10 +72,14 @@
                                                dropDownPlaceholder,
                                                new { @class = "form-control address-dropdown" })
                                                 <br />
-                                                <button class="btn jsNewAddress" data-url="@Url.Action("EditForm", "AddressBook")" data-toggle="modal" data-target="#AddressDialog">@Html.Translate("/Checkout/MultiShipment/AddNewAddress")</button>
+                                                if (!(bool)ViewData["IsReadOnly"])
+                                                {
+                                                    <button class="btn jsNewAddress" data-url="@Url.Action("EditForm", "AddressBook")" data-toggle="modal" data-target="#AddressDialog">@Html.Translate("/Checkout/MultiShipment/AddNewAddress")</button>
+                                                }
                                                 @Html.ValidationMessageFor(model => Model.CartItems[index].AddressId)
                                             }
-                                            else {
+                                            else
+                                            {
 
                                                 @Html.HiddenFor(model => Model.CartItems[index].AddressId, new { @value = Model.CartItems[index].AddressId })
                                                 @Html.HiddenFor(model => Model.AvailableAddresses[index].AddressId, new { @value = Model.AvailableAddresses[index].AddressId })
@@ -101,19 +105,19 @@
                                                     @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].Line1)
                                                 </div>
 
-                                                    <div class="row">
-                                                        <div class="form-group col-md-4">
-                                                            @Html.LabelFor(model => Model.AvailableAddresses[index].PostalCode)
-                                                            @Html.TextBoxFor(model => Model.AvailableAddresses[index].PostalCode, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].PostalCode)
-                                                        </div>
-
-                                                        <div class="form-group col-md-8">
-                                                            @Html.LabelFor(model => Model.AvailableAddresses[index].City)
-                                                            @Html.TextBoxFor(model => Model.AvailableAddresses[index].City, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].City)
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        @Html.LabelFor(model => Model.AvailableAddresses[index].PostalCode)
+                                                        @Html.TextBoxFor(model => Model.AvailableAddresses[index].PostalCode, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].PostalCode)
                                                     </div>
+
+                                                    <div class="form-group col-md-8">
+                                                        @Html.LabelFor(model => Model.AvailableAddresses[index].City)
+                                                        @Html.TextBoxFor(model => Model.AvailableAddresses[index].City, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => Model.AvailableAddresses[index].City)
+                                                    </div>
+                                                </div>
 
                                                 @Html.EditorFor(model => model.AvailableAddresses[index].CountryRegion, Model.AvailableAddresses[index].CountryRegion)
 
@@ -136,10 +140,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                @if (!(bool)ViewData["IsReadOnly"])
-                {
-                    <input type="submit" class="btn btn-primary" value="@Html.Translate("/Checkout/MultiShipment/Continue")" />
-                }
+                <input type="submit" class="btn btn-primary" value="@Html.Translate("/Checkout/MultiShipment/Continue")" />
                 <a href="@Model.ReferrerUrl" class="btn btn-default">@Html.Translate("/AddressBook/Form/Label/Cancel")</a>
             </div>
         </div>

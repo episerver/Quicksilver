@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using EPiServer.Data;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
 
@@ -8,10 +9,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
     public class CheckoutAddressHandling
     {
         private readonly IAddressBookService _addressBookService;
+        private readonly IDatabaseMode _databaseMode;
 
-        public CheckoutAddressHandling(IAddressBookService addressBookService)
+        public CheckoutAddressHandling(IAddressBookService addressBookService, IDatabaseMode databaseMode)
         {
             _addressBookService = addressBookService;
+            _databaseMode = databaseMode;
         }
 
         public virtual void UpdateUserAddresses(CheckoutViewModel viewModel)
@@ -30,8 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             var isShippingAddressUpdated = updateViewModel.ShippingAddressIndex > -1;
 
-            var updatedAddress = isShippingAddressUpdated ? 
-                updateViewModel.Shipments[updateViewModel.ShippingAddressIndex].Address : 
+            var updatedAddress = isShippingAddressUpdated ?
+                updateViewModel.Shipments[updateViewModel.ShippingAddressIndex].Address :
                 updateViewModel.BillingAddress;
 
             if (updatedAddress.AddressId != null)
@@ -60,21 +63,41 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
         private void SetDefaultBillingAddressName(CheckoutViewModel viewModel)
         {
-            Guid guid;
-            if (Guid.TryParse(viewModel.BillingAddress.Name, out guid))
+            if (IsInReadOnlyMode())
             {
-                viewModel.BillingAddress.Name = "Billing address (" + viewModel.BillingAddress.Line1 + ")";
+                if (viewModel.BillingAddress.AddressId == null)
+                {
+                    viewModel.BillingAddress.Name = viewModel.BillingAddress.AddressId = Guid.NewGuid().ToString();
+                }
+            }
+            else
+            {
+                Guid guid;
+                if (Guid.TryParse(viewModel.BillingAddress.Name, out guid))
+                {
+                    viewModel.BillingAddress.Name = "Billing address (" + viewModel.BillingAddress.Line1 + ")";
+                }
             }
         }
 
         private void SetDefaultShippingAddressesNames(CheckoutViewModel viewModel)
         {
-            foreach (var address in viewModel.Shipments.Select(x => x.Address))
+            if (IsInReadOnlyMode())
             {
-                Guid guid;
-                if (Guid.TryParse(address.Name, out guid))
+                foreach (var shipment in viewModel.Shipments.Where(x => x.Address.AddressId == null))
                 {
-                    address.Name = "Shipping address (" + address.Line1 + ")";
+                    shipment.Address.Name = shipment.Address.AddressId = Guid.NewGuid().ToString();
+                }
+            }
+            else
+            {
+                foreach (var address in viewModel.Shipments.Select(x => x.Address))
+                {
+                    Guid guid;
+                    if (Guid.TryParse(address.Name, out guid))
+                    {
+                        address.Name = "Shipping address (" + address.Line1 + ")";
+                    }
                 }
             }
         }
@@ -96,6 +119,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
         {
             LoadBillingAddressFromAddressBook(viewModel);
             LoadShippingAddressesFromAddressBook(viewModel);
+
+            if (IsInReadOnlyMode())
+            {
+                if (viewModel.BillingAddress.AddressId == null)
+                {
+                    viewModel.BillingAddress.AddressId = Guid.NewGuid().ToString();
+                }
+
+                foreach (var shipment in viewModel.Shipments.Where(x => x.Address.AddressId == null))
+                {
+                    shipment.Address.Name = shipment.Address.AddressId = Guid.NewGuid().ToString();
+                }
+            }
+
             if (viewModel.UseBillingAddressForShipment)
             {
                 viewModel.Shipments.Single().Address = viewModel.BillingAddress;
@@ -112,5 +149,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 viewModel.Shipments.Single().Address = viewModel.BillingAddress;
             }
         }
+
+        private bool IsInReadOnlyMode() => _databaseMode.DatabaseMode == DatabaseMode.ReadOnly;
     }
 }

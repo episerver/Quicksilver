@@ -25,22 +25,19 @@
             <p class="small">@Html.Translate("/Checkout/Coupons/CouponCode/Info")</p>
             <div class="row">
                 <div class="col-xs-12 col-md-6">
-                    @if (!(bool)ViewData["IsReadOnly"])
-                    {
-                        <div class="form-inline discount">
-                            <div class="input-group">
-                                <input type="text" class="form-control form--blue" id="inputCouponCode">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default btn--blue js-add-couponcode" data-url="@Url.Action("AddCouponCode", "Checkout", null)">
-                                        @Html.Translate("/Checkout/Coupons/CouponCode/Button")
-                                    </button>
-                                </span>
-                            </div>
+                    <div class="form-inline discount">
+                        <div class="input-group">
+                            <input type="text" class="form-control form--blue" id="inputCouponCode">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default btn--blue js-add-couponcode" data-url="@Url.Action("AddCouponCode", "Checkout", null)">
+                                    @Html.Translate("/Checkout/Coupons/CouponCode/Button")
+                                </button>
+                            </span>
                         </div>
-                        <div class="alert alert-danger couponcode-errormessage" style="display: none">
-                            <p>@Html.Translate("/Checkout/Coupons/CouponCode/ErrorMessage")</p>
-                        </div>
-                    }
+                    </div>
+                    <div class="alert alert-danger couponcode-errormessage" style="display: none">
+                        <p>@Html.Translate("/Checkout/Coupons/CouponCode/ErrorMessage")</p>
+                    </div>
                     @if (Model.AppliedCouponCodes != null && Model.AppliedCouponCodes.Any())
                     {
                         <div class="col-xs-12">
@@ -92,32 +89,26 @@
 
     <form class="jsCheckoutForm" action="@Url.Action("Purchase", "Checkout")" method="post" novalidate data-updateurl="@Url.Action("Update", null, null)">
 
-        @if (!(bool)ViewData["IsReadOnly"])
-        {
-            <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
-            <div class="row section-box">
-                <div id="billingAddressContainer" class="col-md-6 col-xs-12">
-                    @{ Html.RenderPartial("BillingAddress", Model); }
-                </div>
-                <div class="col-md-6 col-xs-12">
-                    @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }
-                </div>
+        <h2>@Html.Translate("/Checkout/Payment/Heading")</h2>
+        <div class="row section-box">
+            <div id="billingAddressContainer" class="col-md-6 col-xs-12">
+                @{ Html.RenderPartial("BillingAddress", Model); }
             </div>
-            <h2>@Html.Translate("/Checkout/Shipment/Heading")</h2>
-            <div class="row section-box">
-                <div class="col-xs-12">
-                    @{ Html.RenderPartial("SingleShippingAddress", Model); }
-                </div>
+            <div class="col-md-6 col-xs-12">
+                @{ Html.RenderAction("PaymentMethodSelection", "Payment"); }
             </div>
-        }
+        </div>
+        <h2>@Html.Translate("/Checkout/Shipment/Heading")</h2>
+        <div class="row section-box">
+            <div class="col-xs-12">
+                @{ Html.RenderPartial("SingleShippingAddress", Model); }
+            </div>
+        </div>
 
         <div class="row section-box">
             <div class="col-xs-12">
                 @{ Html.RenderAction("OrderSummary"); }
-                @if (!(bool)ViewData["IsReadOnly"])
-                {
-                    <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
-                }
+                <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
             </div>
         </div>
     </form>

@@ -1,48 +1,55 @@
-﻿using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Pages;
-using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Web.Mvc;
-using EPiServer.Web.Routing;
-using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Controllers
 {
-    public class ErrorHandlingController : PageController<ErrorPage>
-    {
-        private readonly IContentLoader _contentLoader;
-        private readonly UrlResolver _urlResolver;
-
-        public ErrorHandlingController(IContentLoader contentLoader, UrlResolver urlResolver)
-        {
-
-            _contentLoader = contentLoader;
-            _urlResolver = urlResolver;
-        }
-
-        [HttpGet]
-        public ActionResult Index(ErrorPage currentPage)
-        {
-            var model = new ErrorViewModel
-            {
-                CurrentPage = currentPage
-            };
-            return View(model);
-        }
-
+    public class ErrorHandlingController : Controller
+    {        
         [HttpGet]
         public ActionResult PageNotFound()
+        {                        
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = 404;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult InternalError(string message = null)
         {
-            try
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = 500;
+            ViewBag.Message = message;
+            return View();
+        }
+
+        [HttpGet]
+        [PreventDirectAccess]
+        public ActionResult Forbidden(string message = null)
+        {
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = 403;
+            ViewBag.Message = message;
+            return View();
+        }
+
+        [HttpGet]
+        [PreventDirectAccess]
+        public ActionResult OtherHttpStatusCode(int httpStatusCode)
+        {
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = httpStatusCode;
+            ViewBag.StatusCode = httpStatusCode;
+            return View(httpStatusCode);
+        }
+
+        private class PreventDirectAccessAttribute : FilterAttribute, IAuthorizationFilter
+        {
+            public void OnAuthorization(AuthorizationContext filterContext)
             {
-                var startpage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
-                var url = _urlResolver.GetUrl(startpage.PageNotFound);
-                return Redirect(url ?? "~/Features/ErrorHandling/Pages/ErrorFallback.html");
-            }
-            catch (Exception)
-            {
-                return Redirect("~/Features/ErrorHandling/Pages/ErrorFallback.html");
+                object value = filterContext.RouteData.Values["fromAppErrorEvent"];
+                if (!(value is bool && (bool)value))
+                {
+                    filterContext.Result = new ViewResult { ViewName = "PageNotFound" };
+                }
             }
         }
     }

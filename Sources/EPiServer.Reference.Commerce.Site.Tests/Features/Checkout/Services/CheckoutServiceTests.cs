@@ -1,5 +1,6 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Data;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
@@ -259,12 +260,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock.Setup(p => p.GetTotal(It.IsAny<IOrderGroup>())).Throws(new PaymentException("", "", ""));
 
-            var PaymentMethodMock = new Mock<FakePaymentMethod>(String.Empty);
+            var paymentMethodMock = new Mock<FakePaymentMethod>(string.Empty);
 
             var viewModel = new CheckoutViewModel
             {
                 BillingAddress = new AddressModel { AddressId = "billingAddress" },
-                Payment = PaymentMethodMock.Object
+                Payment = paymentMethodMock.Object
             };
 
             var result = _subject.PlaceOrder(cart, modelState, viewModel);
@@ -380,6 +381,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
         private readonly Mock<CustomerContextFacade> _customerContextFacadeMock;
         private readonly Mock<IPaymentProcessor> _paymentProcessorMock;
         private readonly Mock<OrderValidationService> _localizedOrderValidationServiceMock;
+        private readonly Mock<IDatabaseMode> _databaseModeMock;
+
         public CheckoutServiceTests()
         {
             var addressBookServiceMock = new Mock<IAddressBookService>();
@@ -388,6 +391,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
             _orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();
             _orderRepositoryMock = new Mock<IOrderRepository>();
+            _databaseModeMock = new Mock<IDatabaseMode>();
 
             _mailServiceMock = new Mock<IMailService>();
             _contentRepositoryMock = new Mock<IContentRepository>();
@@ -414,7 +418,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
               _customerContextFacadeMock.Object,
               new MemoryLocalizationService(),
               _mailServiceMock.Object,
-              _cartServiceMock.Object);
+              _cartServiceMock.Object,
+              _databaseModeMock.Object);
         }
     }
 }
