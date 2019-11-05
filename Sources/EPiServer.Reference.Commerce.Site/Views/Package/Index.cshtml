@@ -58,14 +58,14 @@
 
         <div class="row">
             <div class="col-md-7">
-                @if (Model.IsAvailable && !(bool)ViewData["IsReadOnly"])
+                @if (Model.IsAvailable)
                 {
                     using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
                     {
                         @Html.Hidden("code", Model.Package.Code)
                         <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
                     }
-                    if (User.Identity.IsAuthenticated)
+                    if (User.Identity.IsAuthenticated && !(bool)ViewData["IsReadOnly"])
                     {
                         using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
                         {

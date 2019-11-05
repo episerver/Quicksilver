@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Data;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
@@ -158,11 +159,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Services
 
         private readonly CheckoutAddressHandling _subject;
         private readonly Mock<IAddressBookService> _addressBookServiceMock;
+        private readonly Mock<IDatabaseMode> _databaseModeMock;
 
         public CheckoutAddressHandlingTests()
         {
             _addressBookServiceMock = new Mock<IAddressBookService>();
-            _subject = new CheckoutAddressHandling(_addressBookServiceMock.Object);
+            _databaseModeMock = new Mock<IDatabaseMode>();
+            _subject = new CheckoutAddressHandling(_addressBookServiceMock.Object, _databaseModeMock.Object);
         }
     }
 }

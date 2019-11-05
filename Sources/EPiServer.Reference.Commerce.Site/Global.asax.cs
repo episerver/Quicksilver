@@ -1,5 +1,8 @@
-﻿using EPiServer.Reference.Commerce.Site.Infrastructure;
+﻿using EPiServer.Reference.Commerce.Site.Features.ErrorHandling.Controllers;
+using EPiServer.Reference.Commerce.Site.Infrastructure;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
+using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -32,6 +35,53 @@ namespace EPiServer.Reference.Commerce.Site
             });
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            if (Context.IsCustomErrorEnabled)
+            {
+                ShowCustomErrorPage(Server.GetLastError());
+            }
+        }
+
+        private void ShowCustomErrorPage(Exception exception)
+        {
+            var httpException = exception as HttpException;
+            if (httpException == null)
+            {
+                httpException = new HttpException(500, "Internal Server Error", exception);
+            }
+
+            Response.Clear();
+            var routeData = new RouteData();
+            routeData.Values.Add("controller", "ErrorHandling");
+            routeData.Values.Add("fromAppErrorEvent", true);
+
+            switch (httpException.GetHttpCode())
+            {
+                case 403:
+                    routeData.Values.Add("action", "Forbidden");
+                    break;
+
+                case 404:
+                    routeData.Values.Add("action", "PageNotFound");
+                    break;
+
+                case 500:
+                    routeData.Values.Add("action", "InternalError");
+                    break;
+
+                default:
+                    routeData.Values.Add("action", "OtherHttpStatusCode");
+                    routeData.Values.Add("httpStatusCode", httpException.GetHttpCode());
+                    break;
+            }
+
+            Server.ClearError();
+
+            IController controller = new ErrorHandlingController();
+            controller.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
         }
 
         protected void Application_EndRequest()

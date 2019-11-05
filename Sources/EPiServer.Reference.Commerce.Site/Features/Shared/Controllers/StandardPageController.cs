@@ -33,17 +33,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Controllers
 
         [HttpGet]
         public ActionResult SuccessOptinConfirmation()
-        {
-            try
+        {           
+            var startpage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+            var url = _urlResolver.GetUrl(startpage.OptinConfirmSuccessPage);
+            if (string.IsNullOrEmpty(url))
             {
-                var startpage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
-                var url = _urlResolver.GetUrl(startpage.OptinConfirmSuccessPage);
-                return Redirect(url ?? "~/Features/ErrorHandling/Pages/ErrorFallback.html");
+                throw new Exception();
             }
-            catch (Exception)
-            {
-                return Redirect("~/Features/ErrorHandling/Pages/ErrorFallback.html");
-            }
+            return Redirect(url);            
         }
     }
 }

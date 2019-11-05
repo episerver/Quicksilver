@@ -99,14 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
-        public virtual ContentReference ResetPasswordPage { get; set; }
-
-        [Display(
-            Name = "Resource not found page",
-            Description = "",
-            GroupName = SiteTabs.SiteStructure,
-            Order = 10)]
-        public virtual ContentReference PageNotFound { get; set; }
+        public virtual ContentReference ResetPasswordPage { get; set; }        
 
         [Display(
             Name = "Login registration page",

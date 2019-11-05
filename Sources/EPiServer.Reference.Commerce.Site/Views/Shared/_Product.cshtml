@@ -43,7 +43,7 @@
         </div>
     </a>
 
-    @if (renderWishListButtons && !(bool)ViewData["IsReadOnly"])
+    @if (renderWishListButtons)
     {
         <div class="action-buttons wishlist-actions">
             @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))

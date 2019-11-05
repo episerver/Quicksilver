@@ -33,7 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             {
                 StartPage = currentPage,
                 Promotions = GetActivePromotions()
-            };
+            };            
 
             return View(viewModel);
         }
