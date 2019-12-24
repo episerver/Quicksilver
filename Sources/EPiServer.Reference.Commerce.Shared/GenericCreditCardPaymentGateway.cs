@@ -1,7 +1,6 @@
 ﻿using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Plugins.Payment;
-using System;
 
 namespace EPiServer.Reference.Commerce.Shared
 {
@@ -24,12 +23,6 @@ namespace EPiServer.Reference.Commerce.Shared
         public PaymentProcessingResult ProcessPayment(IOrderGroup orderGroup, IPayment payment)
         {
             var creditCardPayment = (ICreditCardPayment)payment;
-
-            if (creditCardPayment.ExpirationYear < DateTime.Now.Year || 
-                (creditCardPayment.ExpirationYear == DateTime.Now.Year && creditCardPayment.ExpirationMonth < DateTime.Now.Month))
-            {
-                return PaymentProcessingResult.CreateUnsuccessfulResult("Credit card was expired.");
-            }
 
             return creditCardPayment.CreditCardNumber.EndsWith("4")
                 ? PaymentProcessingResult.CreateSuccessfulResult(string.Empty)

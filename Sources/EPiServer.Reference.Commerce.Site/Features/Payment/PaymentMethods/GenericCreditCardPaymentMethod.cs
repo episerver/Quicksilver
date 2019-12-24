@@ -15,7 +15,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
         {
             base.InitializeValues();
 
-            ExpirationMonth = DateTime.Now.Month;
+            ExpirationMonth = DateTime.Now.AddMonths(1).Month;
+            ExpirationYear = DateTime.Now.AddMonths(1).Year;
             CreditCardSecurityCode = "212";
             CardType = "Generic";
             CreditCardNumber = "4662519843660534";
