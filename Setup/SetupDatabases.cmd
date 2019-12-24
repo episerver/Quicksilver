@@ -8,7 +8,8 @@ set password=Episerver15
 
 :: Determine package folders
 for /F " tokens=*" %%i in ('dir "..\Packages\EPiServer.CMS.Core*" /b /o:d') do (set cms_core=%%i) 
-for /F " tokens=*" %%i in ('dir "..\Packages\EPiServer.Commerce.Core*" /b /o:d') do (set commerce_core=%%i) 
+for /F " tokens=*" %%i in ('dir "..\Packages\EPiServer.Commerce.Core*" /b /o:d') do (set commerce_core=%%i)
+for /F " tokens=*" %%i in ('dir "..\Packages\EPiServer.Personalization.Commerce*" /b /o:d') do (set personalization_commerce=%%i) 
 
 if "%cms_core%"=="" (
 	echo CMS Core package is missing. Please build the project before running the setup.
@@ -16,6 +17,11 @@ if "%cms_core%"=="" (
 )
 if "%commerce_core%"=="" (
 	echo Commerce Core package is missing. Please build the project before running the setup.
+	exit /b
+)
+
+if "%personalization_commerce%"=="" (
+	echo Personalization Commerce package is missing. Please build the project before running the setup.
 	exit /b
 )
 
@@ -48,6 +54,9 @@ echo Installing CMS database...
 
 echo Installing Commerce database...
 %sql% -d %commerce_db% -b -i "..\packages\%commerce_core%\tools\EPiServer.Commerce.Core.sql" > SetupCommerceDb.log
+
+echo Installing Commerce database...
+%sql% -d %commerce_db% -b -i "..\packages\%personalization_commerce%\tools\epiupdates_commerce\sql\1.0.0.sql" > SetupPersonalizationCommerce.log
 
 echo Installing ASP.NET Identity...
 %sql% -d %commerce_db% -b -i ".\aspnet_identity.sql" > SetupIdentity.log

@@ -16,6 +16,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
             ExpirationMonth = DateTime.Now.AddMonths(1).Month;
             ExpirationYear = DateTime.Now.AddMonths(1).Year;
+            CreditCardSecurityCode = "027";
+            CreditCardNumber = "4007000000027";
         }
 
         public override IPayment CreatePayment(decimal amount, IOrderGroup orderGroup)
