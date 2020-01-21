@@ -127,7 +127,7 @@ CREATE PROCEDURE AddUserAccount
 AS
 BEGIN
 	DECLARE @UserId AS UNIQUEIDENTIFIER = NEWID();
-	INSERT INTO AspNetUsers (ID, email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
+	INSERT INTO AspNetUsers (Id, Email, EmailConfirmed, PasswordHash, SecurityStamp, UserName, LockoutEnabled, AccessFailedCount, PhoneNumberConfirmed, TwoFactorEnabled, NewsLetter, CreationDate, IsApproved, IsLockedOut)
 	VALUES (@UserId, @Email, 0, 'AAwsxpbbay95Ig5UUtJfqrz5QQZDWbbJShgza2BVP9sZAEaDvoC+UZ6HP1ER3b94FQ==', '989acc4f-30bd-425d-9b20-7c7f85bee15b', @Email, 0, 0, 0, 0, 0, GETDATE(), 1, 0);
 	INSERT INTO AspNetUserRoles (RoleId, UserId) VALUES (@RoleId, @UserId);
 END

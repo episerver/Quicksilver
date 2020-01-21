@@ -79,11 +79,13 @@
                                     var refCode = '@Model.Product.Code';
                                     var productName = '@Model.Product.Name';
                                     var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
-                                    productTrackingData["SkipRecommendations"] = true;
-                                    var recommendationId =  parseInt(isNaN('@Request.QueryString["recommendationId"]')? '0': '@Request.QueryString["recommendationId"]');
+
+                                    var recommendationId = parseInt(isNaN('@Request.QueryString["recommendationId"]') ? '0' : '@Request.QueryString["recommendationId"]');
                                     if (recommendationId > 0) {
                                         productTrackingData["recommendationId"] = recommendationId;
                                     }
+
+                                    productTrackingData["SkipRecommendations"] = true;
                                     productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
                                     epiRecommendations.track(productTrackingData);

@@ -52,6 +52,11 @@
                                     var productName = '@Model.Bundle.Name';
                                     var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
 
+                                    var recommendationId = parseInt(isNaN('@Request.QueryString["recommendationId"]') ? '0' : '@Request.QueryString["recommendationId"]');
+                                    if (recommendationId > 0) {
+                                        productTrackingData["recommendationId"] = recommendationId;
+                                    }
+
                                     productTrackingData["SkipRecommendations"] = true;
                                     productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
