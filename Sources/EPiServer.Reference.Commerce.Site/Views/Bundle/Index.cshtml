@@ -90,10 +90,12 @@
                 var refCode = '@Model.Bundle.Code';
                 var productName = '@Model.Bundle.Name';
                 var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
-                var recommendationId =  parseInt(isNaN('@Request.QueryString["recommendationId"]')? '0': '@Request.QueryString["recommendationId"]');
+
+                var recommendationId = parseInt(isNaN('@Request.QueryString["recommendationId"]') ? '0' : '@Request.QueryString["recommendationId"]');
                 if (recommendationId > 0) {
                      productTrackingData["recommendationId"] = recommendationId;
                 }
+
                 productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
 
                 epiRecommendations.track(productTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 2 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] });
