@@ -1,9 +1,11 @@
 ﻿using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Framework.Localization;
+using EPiServer.Personalization;
 using EPiServer.Reference.Commerce.Shared.Identity;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -20,9 +22,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         private readonly IAuthenticationManager _authenticationManager;
         private readonly LocalizationService _localizationService;
         private readonly CustomerContextFacade _customerContext;
-        
-        public UserService(ApplicationUserManager<SiteUser> userManager, 
-            ApplicationSignInManager<SiteUser> signInManager, 
+
+        public UserService(ApplicationUserManager<SiteUser> userManager,
+            ApplicationSignInManager<SiteUser> signInManager,
             IAuthenticationManager authenticationManager,
             LocalizationService localizationService,
             CustomerContextFacade customerContextFacade)
@@ -40,7 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             {
                 throw new ArgumentNullException(nameof(email));
             }
-            
+
             CustomerContact contact = null;
             var user = GetUser(email);
 
@@ -100,6 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    UpdateEpiProfile(user);
                     contact = CreateCustomerContact(user);
                 }
             }
@@ -107,6 +110,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
             var contactResult = new ContactIdentityResult(result, contact);
 
             return contactResult;
+        }
+
+        private void UpdateEpiProfile(SiteUser user)
+        {
+            var profile = EPiServerProfile.Get(user.Username);
+            profile["Email"] = user.Email;
+            profile.Save();
         }
 
         public CustomerContact CreateCustomerContact(SiteUser user)

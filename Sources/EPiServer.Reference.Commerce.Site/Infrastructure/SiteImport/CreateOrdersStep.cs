@@ -215,6 +215,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
                 address.RegionName = importedAddress.RegionName;
                 address.State = importedAddress.State;
                 address.AddressType = CustomerAddressTypeEnum.Public | CustomerAddressTypeEnum.Shipping | CustomerAddressTypeEnum.Billing;
+                address.Email = customer.Email;
 
                 contact.AddContactAddress(address);
             }

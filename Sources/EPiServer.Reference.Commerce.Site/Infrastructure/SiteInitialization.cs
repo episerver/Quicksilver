@@ -41,6 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
             GlobalFilters.Filters.Add(new ReadOnlyFilter());
+            GlobalFilters.Filters.Add(new AJAXLocalizationFilterAttribute());
 
             context.Locate.Advanced.GetInstance<IDisplayChannelService>().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
             {
