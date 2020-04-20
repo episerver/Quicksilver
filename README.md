@@ -5,14 +5,8 @@
 
 This repository is the starter site for the EPiServer Commerce reference implementation, aka "Quicksilver".
 
-Roadmap
--------------
-
-More features will be added over time.
-The following is a list of features to be added in the future:
-
-* In-store pickup.
-* Multi-payment support.
+We also offer "Foundation", a starting point that is intuitive, well-structured and modular allowing developers to select Episerver products as projects to include or exclude from their solution. Including as of now projects for CMS, Commerce, Personalization, Find and Social, with the rest to follow.
+You can refer to the Foundation project here: https://github.com/episerver/Foundation
 
 Installation
 ------------
