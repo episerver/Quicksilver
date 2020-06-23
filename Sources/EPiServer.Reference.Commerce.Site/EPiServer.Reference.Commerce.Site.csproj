@@ -88,6 +88,12 @@
     <Reference Include="EPiServer.Commerce.Internal.Migration, Version=13.18.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Commerce.Core.13.18.1\lib\net461\EPiServer.Commerce.Internal.Migration.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.Commerce.Orders.Cloud.Client, Version=0.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Orders.Cloud.Client.0.2.0-feature-2007-os-and-ss-integration-000072\lib\net461\EPiServer.Commerce.Orders.Cloud.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Commerce.OrderStore, Version=0.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Orders.Cloud.Client.0.2.0-feature-2007-os-and-ss-integration-000072\lib\net461\EPiServer.Commerce.OrderStore.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Commerce.Reporting, Version=13.18.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Commerce.Core.13.18.1\lib\net461\EPiServer.Commerce.Reporting.dll</HintPath>
     </Reference>
@@ -160,8 +166,8 @@
     <Reference Include="EPiServer.Tracking.Core, Version=1.9.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Tracking.Core.1.9.1\lib\net461\EPiServer.Tracking.Core.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Turnstile.Contracts.Hmac, Version=3.9.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Turnstile.Contracts.Hmac.3.9.0\lib\net461\EPiServer.Turnstile.Contracts.Hmac.dll</HintPath>
+    <Reference Include="EPiServer.Turnstile.Contracts.Hmac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Orders.Cloud.Client.0.2.0-feature-2007-os-and-ss-integration-000072\lib\net461\EPiServer.Turnstile.Contracts.Hmac.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.UI, Version=11.23.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.UI.Core.11.23.3\lib\net461\EPiServer.UI.dll</HintPath>
@@ -277,6 +283,9 @@
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.ReportViewer.WebForms.10.0.40219.1\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Orders.Cloud.Client.0.2.0-feature-2007-os-and-ss-integration-000072\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
