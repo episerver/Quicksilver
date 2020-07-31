@@ -13,17 +13,25 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
     public class CustomCurrencySiteContext : DefaultSiteContext
     {
         private Lazy<Currency> _lazyCurrency;
+        private Lazy<string> _lazyLanguageName;
 
-        public CustomCurrencySiteContext(ICurrencyService currencyService, ICurrentMarket currentMarket) 
+        public CustomCurrencySiteContext(ICurrencyService currencyService, ICurrentMarket currentMarket, LanguageService languageService) 
             : base(currentMarket)
         {
             _lazyCurrency = new Lazy<Currency>(() => currencyService.GetCurrentCurrency());
+            _lazyLanguageName = new Lazy<string>(() => languageService.GetCurrentLanguage().TwoLetterISOLanguageName);
         }
 
         public override Currency Currency
         {
             get { return _lazyCurrency.Value; }
             set { _lazyCurrency = new Lazy<Currency>(() => value); }
+        }
+
+        public override string LanguageName
+        {
+            get { return _lazyLanguageName.Value; }
+            set { _lazyLanguageName = new Lazy<string>(() => value); }
         }
     }
 }

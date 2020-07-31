@@ -262,9 +262,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.SiteImport
 
             foreach (var currency in markets.SelectMany(m => m.Currencies).Distinct())
             {
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Express-" + currency, $"Express {currency} (1 day)({languageId})", usdCostExpress, currency));
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Fast-" + currency, $"Fast {currency} (2-3 days)({languageId})", usdCostFast, currency));
-                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Regular-" + currency, $"Regular {currency} (4-7 days)({languageId})", usdCostRegular, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Express_" + currency, $"Express {currency} (1 day)({languageId})", usdCostExpress, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Fast_" + currency, $"Fast {currency} (2-3 days)({languageId})", usdCostFast, currency));
+                shippingMethods.Add(CreateShippingMethod(dto, shippingOption, languageId, sortOrder++, "Regular_" + currency, $"Regular {currency} (4-7 days)({languageId})", usdCostRegular, currency));
             }
 
             return shippingMethods;

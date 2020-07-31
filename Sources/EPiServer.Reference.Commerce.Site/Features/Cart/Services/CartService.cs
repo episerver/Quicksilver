@@ -227,7 +227,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             else
             {
                 var shipment = cart.GetFirstShipment();
-                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity, _referenceConverter, _contentLoader);
+                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
             }
 
             var validationIssues = ValidateCart(cart);
@@ -369,7 +369,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             if (newLineItem != null)
             {
                 var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId == 0);
-                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity, _referenceConverter, _contentLoader);
+                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
             }
             else
             {
@@ -404,7 +404,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 return;
             }
 
-            cart.UpdateLineItemQuantity(shipment, lineItem, quantity, _referenceConverter, _contentLoader);
+            cart.UpdateLineItemQuantity(shipment, lineItem, quantity);
             ValidateCart(cart);
         }
 
