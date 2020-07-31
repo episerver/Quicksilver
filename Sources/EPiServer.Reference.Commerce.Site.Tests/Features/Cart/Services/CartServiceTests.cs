@@ -615,7 +615,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _relationRepositoryMock = new Mock<IRelationRepository>();
             _orderValidationServiceMock =
                 new Mock<OrderValidationService>(null, null, null, null);
-            _referenceConverterMock = new Mock<ReferenceConverter>(new EntryIdentityResolver(synchronizedObjectInstanceCacheMock.Object), new NodeIdentityResolver(synchronizedObjectInstanceCacheMock.Object));
+            _referenceConverterMock = new Mock<ReferenceConverter>(
+                new EntryIdentityResolver(synchronizedObjectInstanceCacheMock.Object, new CatalogOptions()), 
+                new NodeIdentityResolver(synchronizedObjectInstanceCacheMock.Object, new CatalogOptions()));
 
             _orderValidationServiceMock.Setup(x => x.ValidateOrder(It.IsAny<IOrderGroup>()))
                 .Returns(new Dictionary<ILineItem, IList<ValidationIssue>>());
