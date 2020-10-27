@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -22,6 +23,8 @@
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
+    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -340,6 +343,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSRExtensibility\react-app\config\env.js" />
+    <Content Include="CSRExtensibility\react-app\config\getHttpsConfig.js" />
+    <Content Include="CSRExtensibility\react-app\config\jest\fileTransform.js" />
+    <Content Include="CSRExtensibility\react-app\config\modules.js" />
+    <Content Include="CSRExtensibility\react-app\config\paths.js" />
+    <Content Include="CSRExtensibility\react-app\config\pnpTs.js" />
+    <Content Include="CSRExtensibility\react-app\config\webpack.config.js" />
+    <Content Include="CSRExtensibility\react-app\config\webpack.extension.config.js" />
+    <Content Include="CSRExtensibility\react-app\config\webpackDevServer.config.js" />
+    <Content Include="CSRExtensibility\react-app\dist\customized-csr-bundle.min.js" />
+    <Content Include="CSRExtensibility\react-app\internal-npm-packages\csr-app\bundle.css" />
+    <Content Include="CSRExtensibility\react-app\internal-npm-packages\csr-app\bundle.esm.js" />
+    <Content Include="CSRExtensibility\react-app\internal-npm-packages\csr-app\bundle.js" />
+    <Content Include="CSRExtensibility\react-app\public\favicon.ico" />
+    <Content Include="CSRExtensibility\react-app\public\index.html" />
+    <Content Include="CSRExtensibility\react-app\public\logo192.png" />
+    <Content Include="CSRExtensibility\react-app\public\logo512.png" />
+    <Content Include="CSRExtensibility\react-app\scripts\build-extension.js" />
+    <Content Include="CSRExtensibility\react-app\scripts\build.js" />
+    <Content Include="CSRExtensibility\react-app\scripts\start.js" />
+    <Content Include="CSRExtensibility\react-app\scripts\test.js" />
+    <Content Include="CSRExtensibility\react-app\src\setupProxy.js" />
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
     <Content Include="Scripts\jquery-1.11.1.js" />
@@ -383,6 +408,8 @@
     <Compile Include="..\AssemblyVersionAuto.cs">
       <Link>AssemblyVersionAuto.cs</Link>
     </Compile>
+    <Compile Include="CSRExtensibility\Controllers\DemoApiController.cs" />
+    <Compile Include="CSRExtensibility\CSRCustomUI.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressCollectionViewModel.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressViewModel.cs" />
     <Compile Include="Features\Cart\Services\AddToCartResult.cs" />
@@ -812,6 +839,13 @@
     <Content Include="modules\_protected\Shell\Shell.zip" />
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
+    <Content Include="CSRExtensibility\react-app\.env" />
+    <Content Include="CSRExtensibility\react-app\.gitignore" />
+    <Content Include="CSRExtensibility\react-app\internal-npm-packages\csr-app\package.json" />
+    <Content Include="CSRExtensibility\react-app\package.json" />
+    <Content Include="CSRExtensibility\react-app\public\manifest.json" />
+    <Content Include="CSRExtensibility\react-app\README.md" />
+    <Content Include="CSRExtensibility\react-app\tsconfig.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -953,7 +987,27 @@
       <Name>EPiServer.Reference.Commerce.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="CSRExtensibility\react-app\internal-npm-packages\csr-app\types.d.ts" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\configuration\csr-extension.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\configuration\demo-setting.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\demo\class-component.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\demo\react-hook-component.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\demo\redux-container-component.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\index.tsx" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\react-app-env.d.ts" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\store\actions.ts" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\store\index.ts" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\store\reducer.ts" />
+    <TypeScriptCompile Include="CSRExtensibility\react-app\src\store\state.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CSRExtensibility\react-app\build\" />
+    <Folder Include="CSRExtensibility\react-app\static\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -991,6 +1045,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
@@ -1030,107 +1085,107 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EPiServer.Business.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\EPiServer.Business.Commerce.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\EPiServer.Business.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.Internal.Migration, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\EPiServer.Commerce.Internal.Migration.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\EPiServer.Commerce.Internal.Migration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.BusinessFoundation, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.BusinessFoundation.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.BusinessFoundation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.BusinessFoundation.Data, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.BusinessFoundation.Data.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.BusinessFoundation.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce.Marketing.Validators, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce.Plugins.Payment, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce.Plugins.Shipping, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce.Website, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.Website.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.Website.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Commerce.Workflow, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Commerce.Workflow.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Commerce.Workflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.DataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.DataProvider.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.DataProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.FileUploader, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.FileUploader.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.FileUploader.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.MetaDataPlus, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.MetaDataPlus.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.MetaDataPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Search, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Search.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Search.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Search.Extensions, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Search.Extensions.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Search.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.Search.LuceneSearchProvider, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.SqlDataProvider, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.SqlDataProvider.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.SqlDataProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mediachase.WebConsoleLib, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\Mediachase.WebConsoleLib.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\Mediachase.WebConsoleLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.Shell, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.UI.13.22.0\lib\net461\EPiServer.Commerce.Shell.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.13.26.0\lib\net461\EPiServer.Commerce.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.Shell.ManagerIntegration, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.UI.ManagerIntegration.13.22.0\lib\net461\EPiServer.Commerce.Shell.ManagerIntegration.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.ManagerIntegration.13.26.0\lib\net461\EPiServer.Commerce.Shell.ManagerIntegration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.UI, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.UI.13.22.0\lib\net461\EPiServer.Commerce.UI.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.13.26.0\lib\net461\EPiServer.Commerce.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.UI.CustomerService, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.UI.CustomerService.13.22.0\lib\net461\EPiServer.Commerce.UI.CustomerService.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.UI.CustomerService.13.26.0\lib\net461\EPiServer.Commerce.UI.CustomerService.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Commerce.Reporting, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\EPiServer.Commerce.Reporting.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\EPiServer.Commerce.Reporting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Tracking.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Tracking.Commerce.3.2.18\lib\net461\EPiServer.Tracking.Commerce.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Tracking.Commerce.3.2.23\lib\net461\EPiServer.Tracking.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Personalization.Commerce, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Personalization.Commerce.3.2.18\lib\net461\EPiServer.Personalization.Commerce.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Personalization.Commerce.3.2.23\lib\net461\EPiServer.Personalization.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.22.0\lib\net461\AjaxControlToolkit.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.13.26.0\lib\net461\AjaxControlToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

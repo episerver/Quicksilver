@@ -1,0 +1,12 @@
+{
+  "name": "@episerver/csr-extension",
+  "version": "0.1.0",
+  "main": "bundle.js",
+  "types": "types.d.ts",
+  "module": "bundle.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "react": "^16.13.1"
+  }
+}
